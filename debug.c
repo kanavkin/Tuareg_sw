@@ -4,10 +4,10 @@ that should never be integrated to a
 production version
 */
 
-#include "stm32f10x.h"
-#include "stm32_libs/boctok/stm32_gpio.h"
+#include "stm32_libs/stm32f10x/stm32f10x.h"
+#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/boctok_types.h"
 
-#include "types.h"
 #include "debug.h"
 #include "decoder.h"
 #include "ignition.h"

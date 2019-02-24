@@ -1,6 +1,8 @@
 #ifndef SERIAL_MONITOR_H_INCLUDED
 #define SERIAL_MONITOR_H_INCLUDED
 
+#include "stm32_libs/boctok_types.h"
+
 /**
 use the serial monitor to debug TunerStudio communication
 */

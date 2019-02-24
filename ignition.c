@@ -3,10 +3,9 @@
 
 
 */
-#include "stm32f10x.h"
-#include "stm32_libs/boctok/stm32_gpio.h"
-
-#include "types.h"
+#include "stm32_libs/stm32f10x/stm32f10x.h"
+#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/boctok_types.h"
 #include "ignition.h"
 #include "decoder.h"
 #include "scheduler.h"

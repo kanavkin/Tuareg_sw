@@ -1,10 +1,9 @@
 #include <math.h>
 
-#include "stm32f10x.h"
-#include "stm32_libs/boctok/stm32_gpio.h"
-#include "stm32_libs/boctok/stm32_adc.h"
-
-#include "types.h"
+#include "stm32_libs/stm32f10x/stm32f10x.h"
+#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h"
+#include "stm32_libs/boctok_types.h"
 #include "sensors.h"
 #include "uart.h"
 #include "conversion.h"

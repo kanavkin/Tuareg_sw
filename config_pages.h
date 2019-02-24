@@ -1,8 +1,7 @@
 #ifndef CONFIG_PAGES_H_INCLUDED
 #define CONFIG_PAGES_H_INCLUDED
 
-#include "types.h"
-
+#include "stm32_libs/boctok_types.h"
 
 #define INJ_PAIRED          0
 #define INJ_SEMISEQUENTIAL  1

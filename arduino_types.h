@@ -7,21 +7,6 @@
 
 
 // Standard data types
-typedef uint8_t     U8;     /// Generic 8 bit unsigned data type
-typedef uint16_t    U16;    /// Generic 16 bit unsigned data type
-typedef uint32_t    U32;    /// Generic 32 bit unsigned data type
-typedef uint64_t    U64;    /// Generic 64 bit unsigned data type
-
-typedef int8_t     S8;     /// Generic 8 bit signed data type
-typedef int16_t    S16;    /// Generic 16 bit signed data type
-typedef int32_t    S32;    /// Generic 32 bit signed data type
-
-typedef volatile uint8_t     VU8;
-typedef volatile uint16_t    VU16;
-typedef volatile int8_t     VS8;
-typedef volatile int16_t    VS16;
-typedef volatile uint32_t    VU32;
-typedef volatile int32_t    VS32;
 
 /**
 BUG in <avr/pgmspace.h>
@@ -37,16 +22,6 @@ typedef int16_t    ardint;
 typedef uint8_t     ardbool;
 
 
-typedef enum {
-
-    ON,
-    OFF,
-    TOGGLE
-
-} output_pin_t;
-
-#define FALSE 0
-#define TRUE 0x01
 
 
 #endif // TYPES_H_INCLUDED

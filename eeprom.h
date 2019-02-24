@@ -1,6 +1,8 @@
 #ifndef EEPROM_H_INCLUDED
 #define EEPROM_H_INCLUDED
 
+#include "stm32_libs/boctok_types.h"
+
 void init_eeprom(void);
 void eeprom_i2c_deinit(void);
 U32 eeprom_read_byte(U32 Address, U8 * Data_read);

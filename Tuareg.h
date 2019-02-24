@@ -1,9 +1,12 @@
 #ifndef SPEED_H_INCLUDED
 #define SPEED_H_INCLUDED
 
-#include "types.h"
+#include "stm32_libs/boctok_types.h"
 #include "ignition.h"
 #include "sensors.h"
+
+//TODO: remove deprecated arduino type definitions in Tuareg_t
+#include "arduino_types.h"
 
 #define CRANK_ANGLE_MAX  720
 #define CRANK_ANGLE_MAX_IGN  360

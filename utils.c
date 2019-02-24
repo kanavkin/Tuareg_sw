@@ -12,11 +12,12 @@
 
 
 
-#include "types.h"
 
+#include "stm32_libs/boctok_types.h"
 
+//TODO: remove deprecated arduino types: the only module where they are needed
+#include "arduino_types.h"
 #include "utils.h"
-
 #include "config.h"
 
 

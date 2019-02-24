@@ -1,7 +1,8 @@
 #ifndef SENSORS_H_INCLUDED
 #define SENSORS_H_INCLUDED
 
-#include "types.h"
+
+#include "stm32_libs/boctok_types.h"
 #include "decoder.h"
 
 

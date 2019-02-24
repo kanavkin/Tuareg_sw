@@ -1,6 +1,7 @@
 #ifndef DECODER_H_INCLUDED
 #define DECODER_H_INCLUDED
 
+#include "stm32_libs/boctok_types.h"
 
 #define POSITION_A1_ANGLE 100
 #define POSITION_A2_ANGLE 60

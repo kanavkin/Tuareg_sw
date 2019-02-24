@@ -4,8 +4,7 @@ TODO
     (ts_commandButtons)
 */
 
-
-
+#include "stm32_libs/boctok_types.h"
 
 #include "utils.h"
 #include "table.h"
