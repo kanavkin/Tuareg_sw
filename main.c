@@ -22,6 +22,10 @@ a little performance analysis:
     In STM32F103 @ 72 MHz:
         -ignition set up time (delay from pickup signal trigger to transistor signal change) is about 4us
         -accuracy: measured 37,6° advance @ 8500 rpm when 38° was set up (7,4us off)
+
+TODO: find out at which clock speed this program was actually running;
+        an experiment revealed shortly, that SYSCLK= 8MHz
+
 */
 
 
@@ -209,6 +213,15 @@ int main(void)
     {
         Tuareg.Runmode= TMODE_RUN;
     }
+
+
+    /*
+    an experiment with MCO revealed:
+    SYSCLK= 8MHz
+
+    GPIO_configure(GPIOA, 8, GPIO_AF_PP_50MHZ);
+    RCC->CFGR |= RCC_CFGR_MCO_SYSCLK;
+    */
 
 
     while(1)
