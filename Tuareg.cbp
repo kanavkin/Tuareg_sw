@@ -114,7 +114,7 @@
 		<Unit filename="stm32_libs/stm32f10x/cmsis/core_cm3.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="stm32_libs/stm32f10x/cmsis/system_hse72_stm32f10x.c">
+		<Unit filename="stm32_libs/stm32f10x/cmsis/system_hsi64_stm32f10x.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/misc.c">
