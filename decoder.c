@@ -4,6 +4,9 @@
 
 #include "decoder.h"
 #include "uart.h"
+#include "Tuareg.h"
+
+#include "debug.h"
 
 volatile decoder_t Decoder;
 
@@ -28,10 +31,6 @@ how the decoder works:
 
 /**
 use 16 bit TIM2 for crank pickup signal decoding
-
-TODO:
-is 50 the right prescaler? this gives update events every 45 ms.
-will this disturb cranking?
 */
 void start_decoder_timer()
 {
@@ -39,7 +38,7 @@ void start_decoder_timer()
     TIM2->SR= (U16) 0;
 
     //set prescaler
-    TIM2->PSC= (U16) 49;
+    TIM2->PSC= (U16) (DECODER_TIMER_PSC -1);
 
     //enable output compare for exti
     TIM2->CCR1= (U16) CRANK_NOISE_FILTER;
@@ -149,7 +148,10 @@ U32 check_for_key_a()
         return (U32) 0;
     }
 
-    //fixed point maths -> ratio in percent
+    /*
+    fixed point maths -> ratio in percent
+    sync_buffer_xx is within a 1..65535 range, U32 is wide enough
+    */
     sync_ratio= (Decoder.sync_buffer_key * 100) / Decoder.sync_buffer_gap;
 
     if( (sync_ratio >= SYNC_RATIO_MIN) && (sync_ratio <= SYNC_RATIO_MAX) )
@@ -246,6 +248,9 @@ void EXTI0_IRQHandler(void)
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
 
+    //DEBUG
+    set_debug_led(ON);
+
     switch(Decoder.sync_mode) {
 
         case INIT:
@@ -323,7 +328,11 @@ void EXTI0_IRQHandler(void)
             // update crank sensing
             set_crank_pickup_sensing(INVERT);
 
-            //collect data for engine rpm calculation (in every crank 360° revolution we collect 8 timer values)
+            /*
+            collect data for engine rpm calculation
+            (in every crank 360° revolution we collect 8 timer values)
+            range check: 2^3*2^16=2^19 -> 2^19 < 2^32 -> fits to 32 bit variable
+            */
             Decoder.cycle_timing_buffer += timer_buffer;
             Decoder.cycle_timing_counter++;
 
@@ -331,7 +340,7 @@ void EXTI0_IRQHandler(void)
             if(Decoder.cycle_timing_counter == 16)
             {
                 //this is for 720 deg
-                Decoder.engine_rpm= 172800000UL / Decoder.cycle_timing_buffer;
+                Decoder.engine_rpm= (120UL * SystemCoreClock) / (DECODER_TIMER_PSC * Decoder.cycle_timing_buffer);
 
                 //reset calculation
                 Decoder.cycle_timing_buffer= 0;
@@ -475,7 +484,7 @@ void TIM2_IRQHandler(void)
     {
         TIM2->SR = (U16) ~TIM_IT_Update;
 
-        //timer update occurs every 45.5 ms
+        //timer update occurs every 200 ms
         if(Decoder.timeout_count >= DECODER_TIMEOUT)
         {
             //reset decoder

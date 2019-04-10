@@ -214,12 +214,12 @@ void set_ign_ch1(output_pin_t level)
 {
     if(level == ON)
     {
-        GPIOB->BSRR= GPIO_BSRR_BS0;
+        GPIOC->BSRR= GPIO_BSRR_BS6;
     }
     else
     {
         // OFF
-        GPIOB->BRR= GPIO_BRR_BR0;
+        GPIOC->BRR= GPIO_BRR_BR6;
 
         /**
         trigger sw irq
@@ -240,7 +240,7 @@ void set_ign_ch2(output_pin_t level)
 
 /**
     using
-    -GPIOB-0 for ignition coil 1
+    -GPIOC6 for ignition coil 1
 
     -use EXTI IRQ 2 for ignition timing
      recalculation after spark has fired
@@ -249,10 +249,10 @@ void set_ign_ch2(output_pin_t level)
 void init_ignition(volatile ignition_timing_t * initial_timing)
 {
     //clock
-    RCC->APB2ENR |= RCC_APB2Periph_GPIOB;
+    RCC->APB2ENR |= RCC_APB2Periph_GPIOC;
 
     //coil
-    GPIO_configure(GPIOB, 0, GPIO_OUT_PP_2MHZ);
+    GPIO_configure(GPIOC, 6, GPIO_OUT_PP_2MHZ);
     set_ign_ch1(OFF);
 
     //sw irq on exti line 3

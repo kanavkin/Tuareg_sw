@@ -1,8 +1,3 @@
-/*
-Speeduino - Simple engine management for the Arduino Mega 2560 platform
-Copyright (C) Josh Stewart
-A full copy of the license may be found in the projects root directory
-*/
 #include "stm32_libs/stm32f10x/stm32f10x.h"
 #include "stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h"
 #include "stm32_libs/boctok_types.h"

@@ -5,6 +5,10 @@
 #include "ignition.h"
 #include "sensors.h"
 
+
+
+//#define CYLINDER_SENSOR_POSITION POSITION_D2
+
 //TODO: remove deprecated arduino type definitions in Tuareg_t
 #include "arduino_types.h"
 

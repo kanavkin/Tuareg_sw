@@ -19,14 +19,43 @@ a little performance analysis:
         -the ignition timer is set up after about 22,2 us after POSITION_A2
             trigger signal edge, this is about 1,13 deq @ 8500 rpm (0.7 deg at average rpms)
 
-    In STM32F103 @ 72 MHz:
+    In STM32F103 @ 8 MHz:
         -ignition set up time (delay from pickup signal trigger to transistor signal change) is about 4us
         -accuracy: measured 37,6° advance @ 8500 rpm when 38° was set up (7,4us off)
 
-TODO: find out at which clock speed this program was actually running;
-        an experiment revealed shortly, that SYSCLK= 8MHz
+    In STM32F103 @ 64 MHz
+        -decoder EXTI triggers around 1,2 us after crank signal edge
+        -decoder SW IRQ triggers around 9,2 us after crank signal edge
+        ->decoder IRQ consumes around 8 us
 
 */
+
+/*
+TODO:
+transition to 64 MHz clock speed
+
+affected:
+
+UARTs
+-> not affected, baudrate setting through spl init function (takes care of cpu clock)
+
+EEPROM
+-> not affected, i2c clock speed setting through spl function
+
+ADC (sensors)
+-> possibly affected, adc clock prescaler set to 6 (fits 64 and 72 MHz)
+
+DECODER
+-> rpm calculation based on DECODER_CPU_CLK_MHZ value from decoder.h
+-> timer prescaler setting affected
+-> decoder timeout configuration (update event) affected
+-> crank noise filter configuration (compare event) affected
+
+SCHEDULER (ignition)
+-> now self aligning to target scheduler period
+
+*/
+
 
 
 #include "stm32_libs/stm32f10x/stm32f10x.h"
@@ -50,17 +79,14 @@ TODO: find out at which clock speed this program was actually running;
 #include "debug.h"
 #include "Tuareg.h"
 
-#define DIAG_MSG_POSITION POSITION_D2
-#define CYLINDER_SENSOR_POSITION POSITION_D2
+
 
 /**
 global status object
 */
 volatile Tuareg_t Tuareg;
 
-//volatile decoder_t * main_decoder = NULL;
-//volatile ignition_timing_t ignition_timing;
-//volatile sensor_interface_t * hw_sensors = NULL;
+
 
 /**
 Tuareg IRQ priorities:
@@ -131,7 +157,7 @@ int main(void)
     UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
     UART_Send(DEBUG_PORT, "RC 0001");
     UART_Send(DEBUG_PORT, "\r \n config: \r \n");
-    UART_Send(DEBUG_PORT, "XTZ 660 digital crank signal on GPIOD-0 \r \n");
+    UART_Send(DEBUG_PORT, "XTZ 660 digital crank signal on GPIOB-0 \r \n");
     UART_Send(DEBUG_PORT, "-GPIOD-0 is A1 on Nucleo-F103RB- \r \n");
     UART_Send(DEBUG_PORT, "\r \n XTZ 660 ignition coil signal on GPIOB-0 \r \n");
     UART_Send(DEBUG_PORT, "-GPIOB-0 is A3 on Nucleo-F103RB- \r \n \r \n");
@@ -173,7 +199,6 @@ int main(void)
     */
     Tuareg.sensor_interface= init_sensors();
     Tuareg.decoder= init_decoder();
-    //Tuareg.ignition_timing= &ignition_timing;
     init_ignition(&Tuareg.ignition_timing);
     init_scheduler();
     init_lowspeed_timers();
@@ -267,6 +292,9 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
+    //DEBUG
+    set_debug_led(OFF);
+
     /**
     check if this is a decoder timeout (engine has stalled)
     -> shut down coils, injectors and fuel pump
@@ -305,6 +333,8 @@ void EXTI2_IRQHandler(void)
     cylinder identification sensor handling inside decoder module!
     */
 
+
+
 }
 
 /******************************************************************************************************************************
@@ -323,7 +353,7 @@ void EXTI3_IRQHandler(void)
 
 
     //DEBUG
-    set_debug_led(TOGGLE);
+    //set_debug_led(TOGGLE);
 }
 
 

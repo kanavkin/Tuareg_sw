@@ -31,7 +31,7 @@ volatile sensor_interface_t * init_sensors()
 {
     DMA_InitTypeDef DMA_InitStructure;
 
-    //set ADC prescaler to 6 (12 MHz)
+    //set ADC prescaler to 6 (10,6 MHz)
     RCC->CFGR |= RCC_CFGR_ADCPRE_1;
     RCC->CFGR &= ~ RCC_CFGR_ADCPRE_0;
 

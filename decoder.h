@@ -3,6 +3,11 @@
 
 #include "stm32_libs/boctok_types.h"
 
+//decoder timer prescaler
+#define DECODER_TIMER_PSC 196
+
+
+
 #define POSITION_A1_ANGLE 100
 #define POSITION_A2_ANGLE 60
 #define POSITION_B1_ANGLE 10
@@ -23,10 +28,10 @@ RISE/FALL
 
 /**
 the amount of timer 2 ticks until we re enable the crank pickup irq
-timer 2 prescaler := 50
-T_timer2 := 694 ns
+adjusted to about 1° crank shaft at 9500 rpm
+(setting: ps 196 at 64 MHz)
 */
-#define CRANK_NOISE_FILTER 100
+#define CRANK_NOISE_FILTER 7
 
 
 /**
@@ -36,10 +41,11 @@ segment 1 has a key/gap ratio of 0.8
 #define SYNC_RATIO_MAX 95
 
 /**
-resulting time out:
- 45.5 ms * DECODER_TIMEOUT
+the amount of timer 2 update events until we detect a stalled engine
+adjusted to 5 s
+(setting: ps 196 at 64 MHz)
 */
-#define DECODER_TIMEOUT 100
+#define DECODER_TIMEOUT 25
 
 
 /**

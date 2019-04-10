@@ -43,7 +43,7 @@ void init_scheduler()
     TIM3->SR= (U16) 0;
 
     //set prescaler
-    TIM3->PSC= (U16) (SCHEDULER_PS - 1);
+    TIM3->PSC= (U16) SCHEDULER_PERIOD_US * (SystemCoreClock / 1000000) - 1;
 
     //start timer counter
     TIM3->CR1 |= TIM_CR1_CEN;
