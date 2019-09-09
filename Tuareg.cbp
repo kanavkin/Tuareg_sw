@@ -34,7 +34,7 @@
 			<Add option="-mthumb" />
 			<Add option="-fomit-frame-pointer" />
 			<Add option="-Wall" />
-			<Add option="-march=armv7-m -mfloat-abi=soft  -mcpu=cortex-m3" />
+			<Add option="-march=armv7-m -mfloat-abi=hard  -mcpu=cortex-m4" />
 			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
 			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
 			<Add option="-DSTM32F10X_MD" />

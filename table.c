@@ -109,8 +109,9 @@ This function pulls a 1D linear interpolated value from a 2D table
 */
 U32 table2D_getValue(volatile table2D *fromTable, U32 X)
 {
-    S32 xMin, xMax, xMax_index, i;
-    S32 yMin, yMax, m, y;
+    S32 xMin, xMax, yMin, yMax, xMax_index, i;
+    //S32  m, y;
+    float m, y;
 
     /**
     clip the requested X to fit the interval covered by this table
@@ -185,11 +186,15 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     /**
     y= ( k_m * (dY/dX) * (X - xMin) + k_m * yMin ) / k_m
     scaling factor k := 10000
-    */
     m= (10000 * (yMax - yMin)) / (xMax - xMin);
     y= m * (X - xMin) + (yMin * 10000);
 
     return (y / 10000);
+    */
+    m=  (yMax - yMin) / (xMax - xMin);
+    y= m * (X - xMin) + yMin;
+
+    return (U32) y;
 }
 
 
