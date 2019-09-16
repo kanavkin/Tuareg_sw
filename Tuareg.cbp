@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
-					<Add option="-mcpu=cortex-m3" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -30,19 +29,26 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
 			<Add option="-fomit-frame-pointer" />
+			<Add option="-Wfloat-equal" />
+			<Add option="-Winline" />
+			<Add option="-Wunreachable-code" />
 			<Add option="-Wall" />
-			<Add option="-march=armv7-m -mfloat-abi=hard  -mcpu=cortex-m4" />
+			<Add option="-march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16" />
+			<Add option="-Wdouble-promotion -fsingle-precision-constant" />
 			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
 			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
-			<Add option="-DSTM32F10X_MD" />
+			<Add option="-DSTM32F410xx" />
+			<Add option='-DHSE_VALUE=&quot;((uint32_t)8000000)&quot;' />
 			<Add option="-DUSE_STDPERIPH_DRIVER" />
+			<Add directory="stm32_libs/stm32f4xx" />
+			<Add directory="stm32_libs/stm32f4xx/cmsis" />
+			<Add directory="stm32_libs/stm32f4xx/spl" />
 		</Compiler>
 		<Linker>
-			<Add option="-Wl,--gc-sections -nostartfiles -T$(PROJECT_DIR)stm32_libs/stm32f10x/linker_scripts/stm32f10x_f128_r20.ld  -specs=nano.specs" />
-			<Add option="-I$(PROJECT_DIR)stm32_libs/stm32f10x/cmsis -I$(PROJECT_DIR)stm32_libs/stm32f10x/spl -I$(PROJECT_DIR)stm32_libs/stm32f10x/boctok" />
+			<Add option="-Wl,--gc-sections -nostartfiles -T$(PROJECT_DIR)stm32_libs/stm32f10x/linker_scripts/stm32f10x_f128_r20.ld -specs=nano.specs" />
+			<Add option="-I$(PROJECT_DIR)stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)stm32_libs/stm32f4xx/boctok" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />
@@ -103,115 +109,210 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="serial_monitor.h" />
-		<Unit filename="stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h" />
-		<Unit filename="stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h" />
-		<Unit filename="stm32_libs/stm32f10x/cmsis/core_cm3.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="stm32_libs/stm32f10x/cmsis/system_hsi64_stm32f10x.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="stm32_libs/stm32f10x/spl/misc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/misc.h" />
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_adc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_adc.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_bkp.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_bkp.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_can.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_can.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_cec.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_cec.h" />
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_conf.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_crc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_crc.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dac.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dac.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dbgmcu.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dbgmcu.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dma.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_dma.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_exti.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_exti.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_flash.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_flash.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_fsmc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_fsmc.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_gpio.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_gpio.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_i2c.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_i2c.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_iwdg.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_iwdg.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_pwr.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_pwr.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_rcc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_rcc.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_rtc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_rtc.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_sdio.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_sdio.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_spi.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_spi.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_tim.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_tim.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_usart.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_usart.h" />
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_wwdg.c">
+		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_wwdg.h" />
+		<Unit filename="stm32_libs/stm32f4xx/boctok/boctok_types.h" />
+		<Unit filename="stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="stm32_libs/stm32f10x/spl/stm32f10x_wwdg.h" />
-		<Unit filename="stm32_libs/stm32f10x/startup_files/startup_stm32f10x_md.s" />
+		<Unit filename="stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h" />
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/arm_math.h" />
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s" />
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" />
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/misc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_adc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_adc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_can.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_can.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cec.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_crc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cryp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cryp.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cryp_aes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cryp_des.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_cryp_tdes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dac.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dac.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dbgmcu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dbgmcu.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dcmi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dcmi.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dfsdm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dfsdm.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dma.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dma2d.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dma2d.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dsi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_dsi.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_exti.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_exti.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_flash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_flash.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_flash_ramfunc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_flash_ramfunc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_fmc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_fmpi2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_fmpi2c.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_fsmc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_gpio.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_hash.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_hash_md5.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_hash_sha1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_iwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_iwdg.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_lptim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_lptim.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_ltdc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_ltdc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_pwr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_pwr.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_qspi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_qspi.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rng.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rtc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_rtc.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_sai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_sai.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_sdio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_sdio.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_spdifrx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_spdifrx.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_spi.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_syscfg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_syscfg.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_tim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_tim.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_usart.h" />
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_wwdg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_wwdg.h" />
 		<Unit filename="storage.c">
 			<Option compilerVar="CC" />
 		</Unit>

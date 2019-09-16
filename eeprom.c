@@ -1,5 +1,5 @@
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "eeprom.h"
 
@@ -27,8 +27,7 @@ void init_eeprom(void)
     I2C_InitTypeDef  I2C_InitStructure;
 
     //clock
-    RCC->APB2ENR |= RCC_APB2Periph_GPIOB;
-    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_APB1ENR_I2C1EN;
 
     //SCL and SDA
     GPIO_configure(GPIOB, 6, GPIO_AF_OD_50MHZ);

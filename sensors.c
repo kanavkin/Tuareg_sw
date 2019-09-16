@@ -1,8 +1,8 @@
 #include <math.h>
 
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 #include "sensors.h"
 #include "uart.h"
@@ -30,14 +30,15 @@ bring up analog and digital sensors
 volatile sensor_interface_t * init_sensors()
 {
     DMA_InitTypeDef DMA_InitStructure;
-
+/* TODO fix prescaler
     //set ADC prescaler to 6 (10,6 MHz)
     RCC->CFGR |= RCC_CFGR_ADCPRE_1;
     RCC->CFGR &= ~ RCC_CFGR_ADCPRE_0;
-
+*/
     //clock
-    RCC->APB2ENR |= RCC_APB2ENR_ADC1EN | RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;
-    RCC->AHBENR  |= RCC_AHBENR_DMA1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN | RCC_AHB1ENR_GPIODEN;
+    RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
 
     //GPIO ADC CH0..7
     GPIO_configure(GPIOA, 0, GPIO_ANALOG);
@@ -63,6 +64,7 @@ volatile sensor_interface_t * init_sensors()
             use DMA for regular group, data align right, independent mode,
             no continuous conversion
     */
+    /* todo fix
     ADC1->CR1= ADC_CR1_SCAN | ADC_CR1_JEOCIE;
     ADC1->CR2= ADC_CR2_EXTTRIG | ADC_CR2_JEXTTRIG | ADC_CR2_EXTSEL | ADC_CR2_JEXTSEL | ADC_CR2_DMA | ADC_CR2_ADON;
 
@@ -71,7 +73,7 @@ volatile sensor_interface_t * init_sensors()
     while(ADC1->CR2 & ADC_CR2_RSTCAL);
     ADC1->CR2 |= ADC_CR2_CAL;
     while(ADC1->CR2 & ADC_CR2_CAL);
-
+*/
     /**
     ADC channels setup
 
@@ -126,7 +128,7 @@ volatile sensor_interface_t * init_sensors()
     */
     ADC1->JSQR= (U32) (ASENSOR_MAP_CH << 15);
 
-
+/* todo fix adc
     //DMA for ADC
     DMA_InitStructure.DMA_BufferSize= REGULAR_GROUP_LENGTH;
     DMA_InitStructure.DMA_Priority= DMA_Priority_High;
@@ -144,12 +146,12 @@ volatile sensor_interface_t * init_sensors()
     //enable DMA1_Channel1 and its irq
     DMA1_Channel1->CCR |= DMA_CCR1_EN;
     DMA1_Channel1->CCR |= DMA_IT_TC;
-
+*/
 
     /**
     NVIC
     */
-
+/* todo fix irqs
     //DMA1 channel (prio 7)
     NVIC_SetPriority(DMA1_Channel1_IRQn, 7UL);
     NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
@@ -159,7 +161,7 @@ volatile sensor_interface_t * init_sensors()
     NVIC_SetPriority(ADC1_2_IRQn, 6UL);
     NVIC_ClearPendingIRQ(ADC1_2_IRQn);
     NVIC_EnableIRQ(ADC1_2_IRQn);
-
+*/
     return &Sensors;
 }
 
@@ -348,10 +350,12 @@ void DMA1_Channel1_IRQHandler()
     S16 delta_TPS;
 
     //DMA1 Channel1 Transfer Complete interrupt
-    if(DMA1->ISR & DMA1_IT_TC1)
+    //todo fix irq
+//    if(DMA1->ISR & DMA1_IT_TC1)
+    if(1)
     {
         //Clear all DMA1 interrupt pending bits
-        DMA1->IFCR= DMA1_IT_GL1;
+//        DMA1->IFCR= DMA1_IT_GL1;
 
         Sensors.loop_count++;
 

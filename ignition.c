@@ -3,8 +3,8 @@
 
 
 */
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "ignition.h"
 #include "decoder.h"
@@ -219,7 +219,7 @@ void set_ign_ch1(output_pin_t level)
     else
     {
         // OFF
-        GPIOC->BRR= GPIO_BRR_BR6;
+        GPIOC->BSRR= GPIO_BSRR_BR6;
 
         /**
         trigger sw irq
@@ -249,7 +249,7 @@ void set_ign_ch2(output_pin_t level)
 void init_ignition(volatile ignition_timing_t * initial_timing)
 {
     //clock
-    RCC->APB2ENR |= RCC_APB2Periph_GPIOC;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
     //coil
     GPIO_configure(GPIOC, 6, GPIO_OUT_PP_2MHZ);

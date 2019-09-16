@@ -1,5 +1,5 @@
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 #include "lowspeed_timers.h"
 #include "Tuareg.h"

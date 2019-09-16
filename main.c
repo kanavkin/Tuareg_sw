@@ -58,9 +58,9 @@ SCHEDULER (ignition)
 
 
 
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_adc_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 
 
@@ -93,7 +93,7 @@ Tuareg IRQ priorities:
 
 1    decoder:
     crank pickup (EXTI) -> EXTI0_IRQn
-    crank pickup filter (timer 2) -> TIM2_IRQn
+    crank pickup filter (timer 2) -> TIM2_IRQn NEW: TIM1_BRK_TIM9_IRQn
 
 2   scheduler (timer 3) -> TIM3_IRQn
 
@@ -132,7 +132,17 @@ EXTI4: ?
 
 
 /**
-how to use platform ressources:
+allocated timers:
+
+lowspeed_timers: derived from SysTick
+
+decoder: timer2 (16 bit general-purpose timer) --> new: TIM9 (16 bit general-purpose timer)
+
+scheduler: timer 3  (16 bit general-purpose timer) --> new: TIM5 (32 bit general-purpose timer)
+
+sensors: no timers
+
+
 
 
 

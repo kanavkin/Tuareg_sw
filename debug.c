@@ -4,8 +4,8 @@ that should never be integrated to a
 production version
 */
 
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
 #include "debug.h"
@@ -34,7 +34,7 @@ void set_debug_led(volatile output_pin_t level)
         if(GPIOA->ODR & GPIO_ODR_ODR11)
         {
             // OFF
-            GPIOA->BRR= GPIO_BRR_BR11;
+            GPIOA->BSRR= GPIO_BSRR_BR11;
         }
         else
         {
@@ -45,7 +45,7 @@ void set_debug_led(volatile output_pin_t level)
     else
     {
         // OFF
-        GPIOA->BRR= GPIO_BRR_BR11;
+        GPIOA->BSRR= GPIO_BSRR_BR11;
     }
 }
 
@@ -67,7 +67,7 @@ void set_debug_pin(output_pin_t level)
         if(GPIOA->ODR & GPIO_ODR_ODR12)
         {
             // OFF
-            GPIOA->BRR= GPIO_BRR_BR12;
+            GPIOA->BSRR= GPIO_BSRR_BR12;
         }
         else
         {
@@ -78,7 +78,7 @@ void set_debug_pin(output_pin_t level)
     else
     {
         // OFF
-        GPIOA->BRR= GPIO_BRR_BR12;
+        GPIOA->BSRR= GPIO_BSRR_BR12;
     }
 }
 
@@ -87,7 +87,7 @@ void set_debug_pin(output_pin_t level)
 void init_debug_pins()
 {
     //Enable PORT A clock
-    RCC->APB2ENR |= RCC_APB2Periph_GPIOA;
+    RCC->APB1ENR |= RCC_AHB1Periph_GPIOA;
 
     //set output mode
     GPIO_configure(GPIOA, 11, GPIO_OUT_PP_2MHZ);
@@ -219,7 +219,6 @@ void delay_us(U32 delay)
 
     while( DWT->CYCCNT < target);
 }
-
 
 
 

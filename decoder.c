@@ -1,5 +1,5 @@
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
 #include "decoder.h"
@@ -30,33 +30,33 @@ how the decoder works:
 
 
 /**
-use 16 bit TIM2 for crank pickup signal decoding
+use 16 bit TIM9 for crank pickup signal decoding
 */
 void start_decoder_timer()
 {
     // clear flags
-    TIM2->SR= (U16) 0;
+    TIM9->SR= (U16) 0;
 
     //set prescaler
-    TIM2->PSC= (U16) (DECODER_TIMER_PSC -1);
+    TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
 
     //enable output compare for exti
-    TIM2->CCR1= (U16) CRANK_NOISE_FILTER;
+    TIM9->CCR1= (U16) CRANK_NOISE_FILTER;
 
     //enable overflow interrupt
-    TIM2->DIER |= TIM_DIER_UIE;
+    TIM9->DIER |= TIM_DIER_UIE;
 
     //enable compare 1 event
-    TIM2->DIER |= TIM_DIER_CC1IE;
+    TIM9->DIER |= TIM_DIER_CC1IE;
 
     //start timer counter
-    TIM2->CR1 |= TIM_CR1_CEN;
+    TIM9->CR1 |= TIM_CR1_CEN;
 }
 
 
 void stop_decoder_timer()
 {
-    TIM2->CR1 &= ~TIM_CR1_CEN;
+    TIM9->CR1 &= ~TIM_CR1_CEN;
 }
 
 
@@ -184,18 +184,17 @@ volatile decoder_t * init_decoder()
     Decoder.diag_positions_crank_async =0;
     Decoder.diag_positions_crank_synced =0;
 
-
     //clock tree setup
-    RCC->APB2ENR |= RCC_APB2ENR_AFIOEN | RCC_APB2ENR_IOPBEN;
-    RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
 
     //set input mode for crank pickup and cylinder identification sensor
     GPIO_configure(GPIOB, 0, GPIO_IN_PUD);
     GPIO_configure(GPIOB, 1, GPIO_IN_PUD);
 
     //map GPIOB0 to EXTI line 0 (crank) and GPIOB1 to EXTI line 1 (cam)
-    AFIO_map_EXTI(0, EXTI_MAP_GPIOB);
-    AFIO_map_EXTI(1, EXTI_MAP_GPIOB);
+    SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
+    SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
 
     //configure crank pickup sensor EXTI
     set_crank_pickup_sensing(SENSING_KEY_BEGIN);
@@ -219,10 +218,10 @@ volatile decoder_t * init_decoder()
     NVIC_ClearPendingIRQ(EXTI1_IRQn);
     NVIC_EnableIRQ(EXTI1_IRQn);
 
-    //enable timer 2 compare 1 irq (prio 1)
-    NVIC_SetPriority(TIM2_IRQn, 1UL );
-    NVIC_ClearPendingIRQ(TIM2_IRQn);
-    NVIC_EnableIRQ(TIM2_IRQn);
+    //enable timer 9 compare 1 irq (prio 1)
+    NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, 1UL );
+    NVIC_ClearPendingIRQ(TIM1_BRK_TIM9_IRQn);
+    NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
 
     //enable sw exti irq (prio 4)
     NVIC_SetPriority(EXTI2_IRQn, 4UL);
@@ -242,8 +241,8 @@ void EXTI0_IRQHandler(void)
     VU32 timer_buffer;
 
     //save timer value and start over
-    timer_buffer= TIM2->CNT;
-    TIM2->CNT= (U16) 0;
+    timer_buffer= TIM9->CNT;
+    TIM9->CNT= (U16) 0;
 
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
@@ -462,16 +461,16 @@ void EXTI0_IRQHandler(void)
 
 
 /******************************************************************************************************************************
-Timer 2 - decoder control:
-    -timer 1 compare event 1 --> enable external interrupt for pickup sensor
-    -timer 1 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
+Timer 9 - decoder control:
+    -timer 9 compare event 1 --> enable external interrupt for pickup sensor
+    -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
  ******************************************************************************************************************************/
-void TIM2_IRQHandler(void)
+void TIM9_IRQHandler(void)
 {
     //compare event
-    if( TIM2->SR & TIM_IT_CC1)
+    if( TIM9->SR & TIM_IT_CC1)
     {
-        TIM2->SR = (U16) ~TIM_IT_CC1;
+        TIM9->SR = (U16) ~TIM_IT_CC1;
 
         //crank noise filter expired -> re enable crank pickup interrupt
         unmask_crank_pickup_irq();
@@ -480,9 +479,9 @@ void TIM2_IRQHandler(void)
 
 
     //update event
-    if( TIM2->SR & TIM_IT_Update)
+    if( TIM9->SR & TIM_IT_Update)
     {
-        TIM2->SR = (U16) ~TIM_IT_Update;
+        TIM9->SR = (U16) ~TIM_IT_Update;
 
         //timer update occurs every 200 ms
         if(Decoder.timeout_count >= DECODER_TIMEOUT)

@@ -3,8 +3,8 @@
 #include <string.h>
 
 
-#include "stm32_libs/stm32f10x/stm32f10x.h"
-#include "stm32_libs/stm32f10x/boctok/stm32f10x_gpio_boctok.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "uart.h"
 #include "lowspeed_timers.h"
@@ -44,11 +44,15 @@ void UART1_Init()
 {
     USART_InitTypeDef usart_conf;
 
-    RCC->APB2ENR |= RCC_APB2ENR_USART1EN | RCC_APB2ENR_IOPAEN | RCC_APB2ENR_AFIOEN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+    /* todo fix uart
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN | RCC_APB2ENR_AFIOEN;
+
 
     //GPIOA alternative functions 9 > Tx, 10 > Rx
     GPIO_configure(GPIOA, 9, GPIO_AF_PP_50MHZ);
     GPIO_configure(GPIOA, 10, GPIO_IN_FLOAT);
+    */
 
     /**
     8-bit data, one stop bit, no parity,
@@ -87,12 +91,13 @@ void UART3_Init()
 
     //clock
     RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+    /* todo fix uart
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN | RCC_APB2ENR_AFIOEN;
 
     // GPIOB alternative functions 10 > Tx, 11 > Rx
     GPIO_configure(GPIOB, 10, GPIO_AF_PP_50MHZ);
     GPIO_configure(GPIOB, 11, GPIO_IN_FLOAT);
-
+*/
     /**
     8-bit data, one stop bit, no parity,
     do both Rx and Tx, no HW flow control
@@ -108,9 +113,11 @@ void UART3_Init()
     USART_Init(USART3, &usart_conf);
     USART_Cmd(USART3, ENABLE);
 
+    /* todo fix uart
     //Enable USART3 global interrupt (prio 15)
     NVIC_SetPriority(USART3_IRQn, 15UL);
     NVIC_EnableIRQ(USART3_IRQn);
+    */
 }
 
 

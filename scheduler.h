@@ -4,9 +4,10 @@
 #include "Tuareg.h"
 
 
-#define SCHEDULER_PERIOD_US 10
+#define SCHEDULER_PERIOD_US 1
 
-#define SCHEDULER_MAX_PERIOD_US (U32) 0xFFFF * SCHEDULER_PERIOD_US -1
+//we are using a 32 bit timer now
+#define SCHEDULER_MAX_PERIOD_US (U32) 0xFFFFFFFF * SCHEDULER_PERIOD_US -1
 
 
 
