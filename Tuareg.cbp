@@ -29,13 +29,14 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mthumb" />
+			<Add option="-mthumb-interwork" />
+			<Add option="-mlittle-endian" />
 			<Add option="-fomit-frame-pointer" />
 			<Add option="-Wfloat-equal" />
 			<Add option="-Winline" />
 			<Add option="-Wunreachable-code" />
 			<Add option="-Wall" />
-			<Add option="-march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16" />
+			<Add option="-march=armv7e-m -mfloat-abi=softfp  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
 			<Add option="-Wdouble-promotion -fsingle-precision-constant" />
 			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
 			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
@@ -47,8 +48,9 @@
 			<Add directory="stm32_libs/stm32f4xx/spl" />
 		</Compiler>
 		<Linker>
-			<Add option="-Wl,--gc-sections -nostartfiles -T$(PROJECT_DIR)stm32_libs/stm32f10x/linker_scripts/stm32f10x_f128_r20.ld -specs=nano.specs" />
+			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
 			<Add option="-I$(PROJECT_DIR)stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)stm32_libs/stm32f4xx/boctok" />
+			<Add option="-march=armv7e-m -nostdlib /opt/gcc-arm/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a -nostartfiles" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />
@@ -148,7 +150,7 @@
 		<Unit filename="stm32_libs/stm32f4xx/cmsis/arm_math.h" />
 		<Unit filename="stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s" />
 		<Unit filename="stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" />
-		<Unit filename="stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.c">
+		<Unit filename="stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.h" />

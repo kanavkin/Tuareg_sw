@@ -109,7 +109,7 @@ This function pulls a 1D linear interpolated value from a 2D table
 */
 U32 table2D_getValue(volatile table2D *fromTable, U32 X)
 {
-    S32 xMin, xMax, yMin, yMax, xMax_index, i;
+    S32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
     //S32  m, y;
     float m, y;
 
@@ -205,9 +205,9 @@ It performs a bilinear interpolation
 */
 U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
 {
-    S32 A, B, C, D;
-    S32 xMin, xMax, yMin, yMax;
-    S32 xMin_index, xMax_index, yMin_index, yMax_index;
+    S32 A =0, B =0, C =0, D =0;
+    S32 xMin =0, xMax =0, yMin =0, yMax =0;
+    S32 xMin_index =0, xMax_index =0, yMin_index =0, yMax_index =0;
     S32 i;
 
     /**

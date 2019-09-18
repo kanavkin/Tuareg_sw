@@ -694,9 +694,9 @@ TunerStudio expects data as raw values, if you want human readable output - use 
 */
 void ts_sendPage()
 {
-    volatile void* pnt_configPage;
-    U32 configPage_size;
-    volatile table3D * currentTable;
+    volatile void* pnt_configPage =NULL;
+    U32 configPage_size =0;
+    volatile table3D * currentTable =NULL;
     U8 response[MAP_PAGE_SIZE];
     U32 i, l;
 
