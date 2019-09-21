@@ -252,7 +252,7 @@ void init_ignition(volatile ignition_timing_t * initial_timing)
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
     //coil
-    GPIO_configure(GPIOC, 6, GPIO_OUT_PP_2MHZ);
+    GPIO_configure(GPIOC, 6, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     set_ign_ch1(OFF);
 
     //sw irq on exti line 3

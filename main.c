@@ -111,7 +111,7 @@ Tuareg IRQ priorities:
 
 14  tunerstudio (usart 1) -> USART1_IRQn
 
-15  debug com  (usart 3) -> USART3_IRQn
+15  debug com  (usart 6) -> USART6_IRQn -> not active
 
 */
 
@@ -162,15 +162,13 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
     UART1_Init();
-    UART3_Init();
+    UART6_Init();
 
     UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
     UART_Send(DEBUG_PORT, "RC 0001");
     UART_Send(DEBUG_PORT, "\r \n config: \r \n");
     UART_Send(DEBUG_PORT, "XTZ 660 digital crank signal on GPIOB-0 \r \n");
-    UART_Send(DEBUG_PORT, "-GPIOD-0 is A1 on Nucleo-F103RB- \r \n");
-    UART_Send(DEBUG_PORT, "\r \n XTZ 660 ignition coil signal on GPIOB-0 \r \n");
-    UART_Send(DEBUG_PORT, "-GPIOB-0 is A3 on Nucleo-F103RB- \r \n \r \n");
+    UART_Send(DEBUG_PORT, "\r \n XTZ 660 ignition coil signal on GPIOC-6 \r \n");
 
     //DEBUG
     UART_Send(DEBUG_PORT, "TunerStudio interface ready \r\n");
@@ -207,11 +205,11 @@ int main(void)
     /**
     initialize core components and register interface access pointers
     */
-    Tuareg.sensor_interface= init_sensors();
-    Tuareg.decoder= init_decoder();
-    init_ignition(&Tuareg.ignition_timing);
-    init_scheduler();
-    init_lowspeed_timers();
+    //Tuareg.sensor_interface= init_sensors();
+   // Tuareg.decoder= init_decoder();
+   // init_ignition(&Tuareg.ignition_timing);
+   // init_scheduler();
+  //  init_lowspeed_timers();
 
     //ready to carry out system migration
     Tuareg.Runmode= TMODE_MIGRATION;
@@ -220,11 +218,11 @@ int main(void)
     Check if any data items need updating
     (Occurs with firmware updates)
     */
-    migrate_configData();
+  //  migrate_configData();
 
 
     //DEBUG
-    init_debug_pins();
+//    init_debug_pins();
 
     //serial monitor
     #ifdef SERIAL_MONITOR
@@ -265,6 +263,7 @@ int main(void)
         /**
         handle TS communication
         */
+        /*
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
             ls_timer &= ~BIT_TIMER_10HZ;
@@ -282,6 +281,7 @@ int main(void)
                 ts_communication();
             }
         }
+        */
 
     }
 

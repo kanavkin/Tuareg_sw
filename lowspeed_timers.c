@@ -24,12 +24,16 @@ VU32 system_time;
 void init_lowspeed_timers()
 {
     /**
-    use SysTick as 1ms time base
+    using AHPB/8
+    SysTick provides a 1ms time base
     irq priority 5
     */
-    SysTick->LOAD = ((SystemCoreClock / 1000) & SysTick_LOAD_RELOAD_Msk) - 1;
+
+    //TODO try reading the tenms calib value
+
+    SysTick->LOAD = ((SystemCoreClock / 12500) & SysTick_LOAD_RELOAD_Msk) - 1;
     SysTick->VAL  = 0;
-    SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
+    SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 
     NVIC_SetPriority(SysTick_IRQn, 5);
 }
@@ -49,11 +53,12 @@ void SysTick_Handler(void)
     if (loop20ms == 20)
     {
         /**
+        TODO
         trigger ADC conversion for
         analog sensors
-        */
-        adc_start_regular_group(SENSOR_ADC);
 
+        adc_start_regular_group(SENSOR_ADC);
+*/
         loop20ms = 0;
         ls_timer |= BIT_TIMER_50HZ;
     }
@@ -82,8 +87,9 @@ void SysTick_Handler(void)
     //4Hz loop
     if (loop250ms == 250)
     {
+        //TODO
         //update digital sensor values
-        read_digital_sensors();
+        //read_digital_sensors();
 
         //Reset watchdog timer (Not active currently)
         //wdt_reset();
@@ -107,11 +113,14 @@ void SysTick_Handler(void)
             Tuareg.secl= 0;
         }
 
+        /*
+        TODO
         //keep tunerstudio from freezing
         if(TS_cli.command_duration)
         {
             TS_cli.command_duration--;
         }
+        */
 
         loopSec = 0;
         ls_timer |= BIT_TIMER_1HZ;

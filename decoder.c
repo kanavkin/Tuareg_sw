@@ -189,8 +189,8 @@ volatile decoder_t * init_decoder()
     RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
 
     //set input mode for crank pickup and cylinder identification sensor
-    GPIO_configure(GPIOB, 0, GPIO_IN_PUD);
-    GPIO_configure(GPIOB, 1, GPIO_IN_PUD);
+    GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
+    GPIO_configure(GPIOB, 1, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
 
     //map GPIOB0 to EXTI line 0 (crank) and GPIOB1 to EXTI line 1 (cam)
     SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);

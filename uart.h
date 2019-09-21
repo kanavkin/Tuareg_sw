@@ -6,7 +6,7 @@
 
 
 #define TS_PORT USART1
-#define DEBUG_PORT USART3
+#define DEBUG_PORT USART6
 
 #define TS_RX_BUFFER_SIZE 24
 //#define DEBUG_TX_BUFFER_SIZE 128
@@ -52,7 +52,7 @@ U32 UART_write(USART_TypeDef * Port, char * msg);
 
 //init functions
 void UART1_Init();
-void UART3_Init();
+void UART6_Init();
 
 //legacy direct hw access
 void UART_Tx(USART_TypeDef * Port, char msg);

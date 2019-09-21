@@ -13,8 +13,8 @@ void eeprom_i2c_deinit(void)
     RCC->APB1ENR &= ~RCC_APB1ENR_I2C1EN;
 
     //SCL and SDA
-    GPIO_configure(GPIOB, 6, GPIO_IN_FLOAT);
-    GPIO_configure(GPIOB, 7, GPIO_IN_FLOAT);
+    GPIO_configure(GPIOB, 6, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOB, 7, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 }
 
 
@@ -30,9 +30,13 @@ void init_eeprom(void)
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_APB1ENR_I2C1EN;
 
     //SCL and SDA
-    GPIO_configure(GPIOB, 6, GPIO_AF_OD_50MHZ);
-    GPIO_configure(GPIOB, 7, GPIO_AF_OD_50MHZ);
+    GPIO_configure(GPIOB, 6, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+    GPIO_configure(GPIOB, 7, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
 
+
+    //enable port alternate function 4
+    GPIO_SetAF(GPIOB, 6, 4);
+    GPIO_SetAF(GPIOB, 7, 4);
 
     //I2C configuration
     I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;

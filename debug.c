@@ -90,8 +90,8 @@ void init_debug_pins()
     RCC->APB1ENR |= RCC_AHB1Periph_GPIOA;
 
     //set output mode
-    GPIO_configure(GPIOA, 11, GPIO_OUT_PP_2MHZ);
-    GPIO_configure(GPIOA, 12, GPIO_OUT_PP_2MHZ);
+    GPIO_configure(GPIOA, 11, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOA, 12, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     //clear
     set_debug_led(OFF);

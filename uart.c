@@ -45,14 +45,15 @@ void UART1_Init()
     USART_InitTypeDef usart_conf;
 
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-    /* todo fix uart
-    RCC->APB2ENR |= RCC_APB2ENR_USART1EN | RCC_APB2ENR_AFIOEN;
-
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 
     //GPIOA alternative functions 9 > Tx, 10 > Rx
-    GPIO_configure(GPIOA, 9, GPIO_AF_PP_50MHZ);
-    GPIO_configure(GPIOA, 10, GPIO_IN_FLOAT);
-    */
+    GPIO_configure(GPIOA, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+    GPIO_configure(GPIOA, 10, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+
+    //connect USART1 to PA9/10 and USART6 to PA11
+    GPIO_SetAF(GPIOA, 9, 7);
+    GPIO_SetAF(GPIOA, 10, 7);
 
     /**
     8-bit data, one stop bit, no parity,
@@ -74,9 +75,6 @@ void UART1_Init()
     NVIC_SetPriority(USART1_IRQn, 14UL);
     NVIC_EnableIRQ(USART1_IRQn);
 
-
-
-
 	#ifdef SERIAL_MONITOR
     //monitor buffer
 	mrx_ptr =0;
@@ -85,19 +83,21 @@ void UART1_Init()
 }
 
 
-void UART3_Init()
+void UART6_Init()
 {
     USART_InitTypeDef usart_conf;
 
-    //clock
-    RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
-    /* todo fix uart
-    RCC->APB2ENR |= RCC_APB2ENR_IOPBEN | RCC_APB2ENR_AFIOEN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+    RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
 
-    // GPIOB alternative functions 10 > Tx, 11 > Rx
-    GPIO_configure(GPIOB, 10, GPIO_AF_PP_50MHZ);
-    GPIO_configure(GPIOB, 11, GPIO_IN_FLOAT);
-*/
+    //GPIOA alternative functions 11 > Tx, RX not connected
+    GPIO_configure(GPIOA, 11, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+    //GPIO_configure(GPIOA, 12, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+
+    //connect USART1 to PA9/10 and USART6 to PA11
+    GPIO_SetAF(GPIOA, 11, 8);
+    //GPIO_SetAF(GPIOA, 12, 8);
+
     /**
     8-bit data, one stop bit, no parity,
     do both Rx and Tx, no HW flow control
@@ -110,14 +110,13 @@ void UART3_Init()
     usart_conf.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 
     //configure and start
-    USART_Init(USART3, &usart_conf);
-    USART_Cmd(USART3, ENABLE);
+    USART_Init(USART6, &usart_conf);
+    USART_Cmd(USART6, ENABLE);
 
-    /* todo fix uart
-    //Enable USART3 global interrupt (prio 15)
-    NVIC_SetPriority(USART3_IRQn, 15UL);
-    NVIC_EnableIRQ(USART3_IRQn);
-    */
+    //do not enable irq -> this usart will send debug messages
+    //Enable USART6 global interrupt (prio 15)
+    //NVIC_SetPriority(USART6_IRQn, 15UL);
+    //NVIC_EnableIRQ(USART6_IRQn);
 }
 
 
