@@ -27,7 +27,8 @@ void init_eeprom(void)
     I2C_InitTypeDef  I2C_InitStructure;
 
     //clock
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_APB1ENR_I2C1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
 
     //SCL and SDA
     GPIO_configure(GPIOB, 6, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);

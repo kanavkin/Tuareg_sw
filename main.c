@@ -209,7 +209,7 @@ int main(void)
    // Tuareg.decoder= init_decoder();
    // init_ignition(&Tuareg.ignition_timing);
    // init_scheduler();
-  //  init_lowspeed_timers();
+    init_lowspeed_timers();
 
     //ready to carry out system migration
     Tuareg.Runmode= TMODE_MIGRATION;
@@ -222,7 +222,7 @@ int main(void)
 
 
     //DEBUG
-//    init_debug_pins();
+    init_debug_pins();
 
     //serial monitor
     #ifdef SERIAL_MONITOR
@@ -250,11 +250,19 @@ int main(void)
 
 
     /*
-    an experiment with MCO revealed:
-    SYSCLK= 8MHz
+    MCO_2 is AF0 on GPIOC-9 -> Sysclock
+    an experiment with MCO_2 revealed:
+    SYSCLK= ?MHz
 
-    GPIO_configure(GPIOA, 8, GPIO_AF_PP_50MHZ);
-    RCC->CFGR |= RCC_CFGR_MCO_SYSCLK;
+    -> no output signal received
+
+    -> p/t RCC->CFGR showed sane values
+
+
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+    GPIO_SetAF(GPIOC, 9, 0);
+    GPIO_configure(GPIOC, 9, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_VERY_HIGH, GPIO_PULL_NONE);
+    RCC->CFGR |= RCC_CFGR_MCO2EN;
     */
 
 
@@ -283,6 +291,13 @@ int main(void)
         }
         */
 
+        //DEBUG
+         if( (ls_timer & BIT_TIMER_50HZ) )
+        {
+            ls_timer &= ~BIT_TIMER_50HZ;
+
+            set_debug_led(TOGGLE);
+        }
     }
 
     return 0;

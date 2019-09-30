@@ -23,6 +23,8 @@ VU32 system_time;
 
 void init_lowspeed_timers()
 {
+    VU32 calib_10ms;
+
     /**
     using AHPB/8
     SysTick provides a 1ms time base
@@ -30,8 +32,9 @@ void init_lowspeed_timers()
     */
 
     //TODO try reading the tenms calib value
+    calib_10ms= SysTick->CALIB & SysTick_CALIB_TENMS_Msk;
 
-    SysTick->LOAD = ((SystemCoreClock / 12500) & SysTick_LOAD_RELOAD_Msk) - 1;
+    SysTick->LOAD = (calib_10ms & SysTick_LOAD_RELOAD_Msk);
     SysTick->VAL  = 0;
     SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 

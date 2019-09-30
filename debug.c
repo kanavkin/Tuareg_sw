@@ -19,67 +19,22 @@ volatile char print_buffer[10];
 
 
 /**
-dbug led on GPIOA-11
-(this is led2 on nucleo f103rb)
+dbug led on GPIOC-1
+(this is led2 on nucleo64)
 */
 void set_debug_led(volatile output_pin_t level)
 {
-    if(level == ON)
-    {
-        //on
-        GPIOA->BSRR= GPIO_BSRR_BS11;
-    }
-    else if(level == TOGGLE)
-    {
-        if(GPIOA->ODR & GPIO_ODR_ODR11)
-        {
-            // OFF
-            GPIOA->BSRR= GPIO_BSRR_BR11;
-        }
-        else
-        {
-            //on
-            GPIOA->BSRR= GPIO_BSRR_BS11;
-        }
-    }
-    else
-    {
-        // OFF
-        GPIOA->BSRR= GPIO_BSRR_BR11;
-    }
+    gpio_set_pin(GPIOC, 1, level);
 }
 
 
 
 /**
-dbug pin on GPIOA-12
-(this is D12 on nucleo f103rb)
+dbug pin on GPIOA-8
 */
 void set_debug_pin(output_pin_t level)
 {
-    if(level == ON)
-    {
-        //on
-        GPIOA->BSRR= GPIO_BSRR_BS12;
-    }
-    else if(level == TOGGLE)
-    {
-        if(GPIOA->ODR & GPIO_ODR_ODR12)
-        {
-            // OFF
-            GPIOA->BSRR= GPIO_BSRR_BR12;
-        }
-        else
-        {
-            //on
-            GPIOA->BSRR= GPIO_BSRR_BS12;
-        }
-    }
-    else
-    {
-        // OFF
-        GPIOA->BSRR= GPIO_BSRR_BR12;
-    }
+    gpio_set_pin(GPIOA, 8, level);
 }
 
 
@@ -87,11 +42,11 @@ void set_debug_pin(output_pin_t level)
 void init_debug_pins()
 {
     //Enable PORT A clock
-    RCC->APB1ENR |= RCC_AHB1Periph_GPIOA;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
 
     //set output mode
-    GPIO_configure(GPIOA, 11, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    GPIO_configure(GPIOA, 12, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOC, 1, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOA, 8, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     //clear
     set_debug_led(OFF);

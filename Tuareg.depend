@@ -308,3 +308,412 @@
 	"ignition.h"
 	"sensors.h"
 
+1547855139 source:/home/oli/tenere/efi/Tuareg_sw/config.c
+	"utils.h"
+	"table.h"
+	"storage.h"
+	"eeprom.h"
+	"eeprom_layout.h"
+	"config_pages.h"
+	"config.h"
+	"eeprom_layout.h"
+	"uart.h"
+	"conversion.h"
+
+1551035339 /home/oli/tenere/efi/Tuareg_sw/utils.h
+	"stm32_libs/boctok_types.h"
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/boctok_types.h
+	<stdlib.h>
+	<stdint.h>
+
+1551035788 /home/oli/tenere/efi/Tuareg_sw/table.h
+	"stm32_libs/boctok_types.h"
+
+1547855139 /home/oli/tenere/efi/Tuareg_sw/storage.h
+
+1551036875 /home/oli/tenere/efi/Tuareg_sw/eeprom.h
+	"stm32_libs/boctok_types.h"
+
+1551036916 /home/oli/tenere/efi/Tuareg_sw/eeprom_layout.h
+
+1551036780 /home/oli/tenere/efi/Tuareg_sw/config_pages.h
+	"stm32_libs/boctok_types.h"
+
+1547855139 /home/oli/tenere/efi/Tuareg_sw/config.h
+	"config_pages.h"
+
+1569101967 /home/oli/tenere/efi/Tuareg_sw/uart.h
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/boctok_types.h"
+
+1568670655 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/stm32f4xx.h
+	"core_cm4.h"
+	"system_stm32f4xx.h"
+	<stdint.h>
+	"stm32f4xx_adc.h"
+	"stm32f4xx_crc.h"
+	"stm32f4xx_dbgmcu.h"
+	"stm32f4xx_dma.h"
+	"stm32f4xx_exti.h"
+	"stm32f4xx_flash.h"
+	"stm32f4xx_gpio.h"
+	"stm32f4xx_i2c.h"
+	"stm32f4xx_iwdg.h"
+	"stm32f4xx_pwr.h"
+	"stm32f4xx_rcc.h"
+	"stm32f4xx_rtc.h"
+	"stm32f4xx_sdio.h"
+	"stm32f4xx_spi.h"
+	"stm32f4xx_syscfg.h"
+	"stm32f4xx_tim.h"
+	"stm32f4xx_usart.h"
+	"stm32f4xx_wwdg.h"
+	"misc.h"
+	"stm32f4xx_cryp.h"
+	"stm32f4xx_hash.h"
+	"stm32f4xx_rng.h"
+	"stm32f4xx_can.h"
+	"stm32f4xx_dac.h"
+	"stm32f4xx_dcmi.h"
+	"stm32f4xx_fsmc.h"
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/core_cm4.h
+	<stdint.h>
+	<core_cmInstr.h>
+	<core_cmFunc.h>
+	<core_cmSimd.h>
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/core_cmInstr.h
+	<cmsis_iar.h>
+	<cmsis_ccs.h>
+	<cmsis_csm.h>
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/core_cmFunc.h
+	<cmsis_iar.h>
+	<cmsis_ccs.h>
+	<cmsis_csm.h>
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/core_cmSimd.h
+	<cmsis_iar.h>
+	<cmsis_ccs.h>
+	<cmsis_csm.h>
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.h
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_adc.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_crc.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dbgmcu.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_exti.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_flash.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_gpio.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_iwdg.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_pwr.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_rtc.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_sdio.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_spi.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_syscfg.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_tim.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_wwdg.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/misc.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_cryp.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_hash.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_rng.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_can.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dac.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dcmi.h
+	"stm32f4xx.h"
+
+1551033872 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_fsmc.h
+	"stm32f4xx.h"
+
+1568236350 /home/oli/tenere/efi/Tuareg_sw/conversion.h
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+
+1551035218 source:/home/oli/tenere/efi/Tuareg_sw/conversion.c
+	"stm32_libs/boctok_types.h"
+	"conversion.h"
+	"uart.h"
+
+1569800033 source:/home/oli/tenere/efi/Tuareg_sw/debug.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"debug.h"
+	"decoder.h"
+	"ignition.h"
+	"uart.h"
+	"conversion.h"
+
+1569100275 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h
+	"boctok_types.h"
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/boctok_types.h
+	<stdlib.h>
+	<stdint.h>
+
+1568667710 /home/oli/tenere/efi/Tuareg_sw/debug.h
+	"stm32_libs/boctok_types.h"
+	"ignition.h"
+
+1568237267 /home/oli/tenere/efi/Tuareg_sw/ignition.h
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"decoder.h"
+
+1554909232 /home/oli/tenere/efi/Tuareg_sw/decoder.h
+	"stm32_libs/boctok_types.h"
+
+1569800391 source:/home/oli/tenere/efi/Tuareg_sw/decoder.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"decoder.h"
+	"uart.h"
+	"Tuareg.h"
+	"debug.h"
+
+1554909526 /home/oli/tenere/efi/Tuareg_sw/Tuareg.h
+	"stm32_libs/boctok_types.h"
+	"ignition.h"
+	"sensors.h"
+	"arduino_types.h"
+
+1551036949 /home/oli/tenere/efi/Tuareg_sw/sensors.h
+	"stm32_libs/boctok_types.h"
+	"decoder.h"
+
+1551035317 /home/oli/tenere/efi/Tuareg_sw/arduino_types.h
+	<stdlib.h>
+	<stdint.h>
+	"../inttypes.h"
+
+1569800209 source:/home/oli/tenere/efi/Tuareg_sw/eeprom.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"eeprom.h"
+
+1569100904 source:/home/oli/tenere/efi/Tuareg_sw/ignition.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"ignition.h"
+	"decoder.h"
+	"scheduler.h"
+	"Tuareg.h"
+	"uart.h"
+	"table.h"
+
+1568666336 /home/oli/tenere/efi/Tuareg_sw/scheduler.h
+	"Tuareg.h"
+
+1569095628 source:/home/oli/tenere/efi/Tuareg_sw/lowspeed_timers.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
+	"stm32_libs/boctok_types.h"
+	"lowspeed_timers.h"
+	"Tuareg.h"
+	"sensors.h"
+	"TunerStudio.h"
+
+1551033871 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h
+
+1551036928 /home/oli/tenere/efi/Tuareg_sw/lowspeed_timers.h
+	"stm32_libs/boctok_types.h"
+
+1547855139 /home/oli/tenere/efi/Tuareg_sw/TunerStudio.h
+
+1569802314 source:/home/oli/tenere/efi/Tuareg_sw/main.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
+	"stm32_libs/boctok_types.h"
+	"decoder.h"
+	"ignition.h"
+	"scheduler.h"
+	"uart.h"
+	"conversion.h"
+	"lowspeed_timers.h"
+	"TunerStudio.h"
+	"config.h"
+	"table.h"
+	"eeprom.h"
+	"sensors.h"
+	"debug.h"
+	"Tuareg.h"
+
+1568667453 source:/home/oli/tenere/efi/Tuareg_sw/scheduler.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"scheduler.h"
+	"ignition.h"
+
+1569800596 source:/home/oli/tenere/efi/Tuareg_sw/sensors.c
+	<math.h>
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
+	"stm32_libs/boctok_types.h"
+	"sensors.h"
+	"uart.h"
+	"conversion.h"
+	"table.h"
+	"config.h"
+	"decoder.h"
+
+1547855139 source:/home/oli/tenere/efi/Tuareg_sw/serial_monitor.c
+
+1568582853 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c
+	"stm32f4xx.h"
+	"stm32f4xx_adc.h"
+
+1569797785 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c
+	"stm32f4xx.h"
+	"boctok_types.h"
+	"stm32f4xx_gpio.h"
+
+1568842149 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s
+
+1569093798 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.c
+	"stm32f4xx.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/misc.c
+	"misc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_adc.c
+	"stm32f4xx_adc.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dbgmcu.c
+	"stm32f4xx_dbgmcu.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.c
+	"stm32f4xx_dma.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.c
+	"stm32f4xx_i2c.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.c
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_spi.c
+	"stm32f4xx_spi.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_syscfg.c
+	"stm32f4xx_syscfg.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_tim.c
+	"stm32f4xx_tim.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.c
+	"stm32f4xx_usart.h"
+	"stm32f4xx_rcc.h"
+
+1551033872 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_wwdg.c
+	"stm32f4xx_wwdg.h"
+	"stm32f4xx_rcc.h"
+
+1547855139 source:/home/oli/tenere/efi/Tuareg_sw/storage.c
+
+1568842440 source:/home/oli/tenere/efi/Tuareg_sw/table.c
+	<stdlib.h>
+	"table.h"
+	"config.h"
+	"uart.h"
+	"conversion.h"
+	<math.h>
+
+1547855139 source:/home/oli/tenere/efi/Tuareg_sw/Tuareg.c
+
+1568842508 source:/home/oli/tenere/efi/Tuareg_sw/TunerStudio.c
+	"stm32_libs/boctok_types.h"
+	"utils.h"
+	"table.h"
+	"uart.h"
+	"conversion.h"
+	"TunerStudio.h"
+	"config_pages.h"
+	"config.h"
+	"Tuareg.h"
+	"eeprom.h"
+	"eeprom_layout.h"
+	"sensors.h"
+
+1569102105 source:/home/oli/tenere/efi/Tuareg_sw/uart.c
+	<stdint.h>
+	<stdlib.h>
+	<string.h>
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"uart.h"
+	"lowspeed_timers.h"
+	"conversion.h"
+	"debug.h"
+
+1551037252 source:/home/oli/tenere/efi/Tuareg_sw/utils.c
+	"stm32_libs/boctok_types.h"
+	"arduino_types.h"
+	"utils.h"
+	"config.h"
+

@@ -186,7 +186,7 @@ volatile decoder_t * init_decoder()
 
     //clock tree setup
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
+    RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
 
     //set input mode for crank pickup and cylinder identification sensor
     GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
