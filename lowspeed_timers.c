@@ -7,6 +7,7 @@
 
 #include "TunerStudio.h"
 
+
 VU32 loop20ms;
 VU32 loop33ms;
 VU32 loop66ms;
@@ -23,18 +24,12 @@ VU32 system_time;
 
 void init_lowspeed_timers()
 {
-    VU32 calib_10ms;
-
     /**
     using AHPB/8
     SysTick provides a 1ms time base
     irq priority 5
     */
-
-    //TODO try reading the tenms calib value
-    calib_10ms= SysTick->CALIB & SysTick_CALIB_TENMS_Msk;
-
-    SysTick->LOAD = (calib_10ms & SysTick_LOAD_RELOAD_Msk);
+    SysTick->LOAD = (12500UL & SysTick_LOAD_RELOAD_Msk);
     SysTick->VAL  = 0;
     SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 
@@ -51,6 +46,7 @@ void SysTick_Handler(void)
     loop100ms++;
     loop250ms++;
     loopSec++;
+
 
     //50Hz loop
     if (loop20ms == 20)

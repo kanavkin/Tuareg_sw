@@ -194,6 +194,9 @@ int main(void)
 
         //as we can hardly save some error logs in this system condition, print some debug messages only
         UART_Send(DEBUG_PORT, "\r \n *** FAILED to load config data !");
+
+        //TODO provide default values to ensure limp home operation even without eeprom
+
     }
 
     //set 2D table dimension and link table data to config pages
@@ -206,9 +209,9 @@ int main(void)
     initialize core components and register interface access pointers
     */
     //Tuareg.sensor_interface= init_sensors();
-   // Tuareg.decoder= init_decoder();
-   // init_ignition(&Tuareg.ignition_timing);
-   // init_scheduler();
+    Tuareg.decoder= init_decoder();
+    init_ignition(&Tuareg.ignition_timing);
+    init_scheduler();
     init_lowspeed_timers();
 
     //ready to carry out system migration
@@ -249,23 +252,6 @@ int main(void)
     }
 
 
-    /*
-    MCO_2 is AF0 on GPIOC-9 -> Sysclock
-    an experiment with MCO_2 revealed:
-    SYSCLK= ?MHz
-
-    -> no output signal received
-
-    -> p/t RCC->CFGR showed sane values
-
-
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
-    GPIO_SetAF(GPIOC, 9, 0);
-    GPIO_configure(GPIOC, 9, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_VERY_HIGH, GPIO_PULL_NONE);
-    RCC->CFGR |= RCC_CFGR_MCO2EN;
-    */
-
-
     while(1)
     {
         /**
@@ -291,13 +277,6 @@ int main(void)
         }
         */
 
-        //DEBUG
-         if( (ls_timer & BIT_TIMER_50HZ) )
-        {
-            ls_timer &= ~BIT_TIMER_50HZ;
-
-            set_debug_led(TOGGLE);
-        }
     }
 
     return 0;
@@ -318,7 +297,8 @@ void EXTI2_IRQHandler(void)
     EXTI->PR= EXTI_Line2;
 
     //DEBUG
-    set_debug_led(OFF);
+    //set_debug_led(TOGGLE);
+
 
     /**
     check if this is a decoder timeout (engine has stalled)
@@ -352,7 +332,7 @@ void EXTI2_IRQHandler(void)
     /**
     read the MAP sensor
     */
-    adc_start_injected_group(SENSOR_ADC);
+    //adc_start_injected_group(SENSOR_ADC);
 
     /**
     cylinder identification sensor handling inside decoder module!
@@ -378,7 +358,7 @@ void EXTI3_IRQHandler(void)
 
 
     //DEBUG
-    //set_debug_led(TOGGLE);
+    set_debug_led(TOGGLE);
 }
 
 

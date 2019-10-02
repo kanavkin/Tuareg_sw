@@ -6,8 +6,6 @@
 #include "uart.h"
 #include "Tuareg.h"
 
-#include "debug.h"
-
 volatile decoder_t Decoder;
 
 /**
@@ -60,7 +58,10 @@ void stop_decoder_timer()
 }
 
 
-
+/**
+crank pickup irq helper functions
+(hardware dependent)
+*/
 void mask_crank_pickup_irq()
 {
     EXTI->IMR &= ~EXTI_IMR_MR0;
@@ -71,6 +72,11 @@ void unmask_crank_pickup_irq()
     EXTI->IMR |= EXTI_IMR_MR0;
 }
 
+
+/**
+cylinder sensor irq helper functions
+(hardware dependent)
+*/
 void mask_cis_irq()
 {
     EXTI->IMR &= ~EXTI_IMR_MR1;
@@ -82,9 +88,36 @@ void unmask_cis_irq()
 }
 
 
+/**
+pickup sensing helper functions
+(the hardware dependent part)
+*/
+inline void set_crank_pickup_sensing_rise()
+{
+    EXTI->RTSR |= EXTI_RTSR_TR0;
+    EXTI->FTSR &= ~EXTI_FTSR_TR0;
+    Decoder.crank_pickup_sensing= RISE;
+}
+
+inline void set_crank_pickup_sensing_fall()
+{
+    EXTI->FTSR |= EXTI_FTSR_TR0;
+    EXTI->RTSR &= ~EXTI_RTSR_TR0;
+    Decoder.crank_pickup_sensing= FALL;
+}
+
+inline void set_crank_pickup_sensing_disabled()
+{
+    EXTI->RTSR &= ~EXTI_RTSR_TR0;
+    EXTI->FTSR &= ~EXTI_FTSR_TR0;
+    Decoder.crank_pickup_sensing= DISABLED;
+}
+
 
 /**
-pickup sensing at GPIOB-0
+select the signal edge that will trigger the decoder (pickup sensing)
+(now hardware independent)
+masks the crank pickup irq!
 */
 void set_crank_pickup_sensing(sensing_t sensing)
 {
@@ -94,40 +127,30 @@ void set_crank_pickup_sensing(sensing_t sensing)
     switch(sensing)
     {
     case RISE:
-                EXTI->RTSR |= EXTI_RTSR_TR0;
-                EXTI->FTSR &= ~EXTI_FTSR_TR0;
-                Decoder.crank_pickup_sensing= RISE;
+                set_crank_pickup_sensing_rise();
                 break;
 
     case FALL:
-                EXTI->FTSR |= EXTI_FTSR_TR0;
-                EXTI->RTSR &= ~EXTI_RTSR_TR0;
-                Decoder.crank_pickup_sensing= FALL;
+                set_crank_pickup_sensing_fall();
                 break;
 
     case INVERT:
                 if(Decoder.crank_pickup_sensing == RISE)
                 {
-                    //switch to fall
-                    EXTI->FTSR |= EXTI_FTSR_TR0;
-                    EXTI->RTSR &= ~EXTI_RTSR_TR0;
-                    Decoder.crank_pickup_sensing= FALL;
+                    set_crank_pickup_sensing_fall();
                 }
                 else
                 {
-                    //to rise
-                    EXTI->RTSR |= EXTI_RTSR_TR0;
-                    EXTI->FTSR &= ~EXTI_FTSR_TR0;
-                    Decoder.crank_pickup_sensing= RISE;
+                    /*
+                    inverting from disabled state will enable trigger on rising edge, too
+                    */
+                    set_crank_pickup_sensing_rise();
                 }
 
                 break;
 
     default:
-                //disabled
-                EXTI->RTSR &= ~EXTI_RTSR_TR0;
-                EXTI->FTSR &= ~EXTI_FTSR_TR0;
-                Decoder.crank_pickup_sensing= DISABLED;
+                set_crank_pickup_sensing_disabled();
                 break;
     }
 
@@ -163,6 +186,7 @@ U32 check_for_key_a()
     {
         return (U32) 0;
     }
+
 }
 
 
@@ -187,6 +211,7 @@ volatile decoder_t * init_decoder()
     //clock tree setup
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
     RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
+
 
     //set input mode for crank pickup and cylinder identification sensor
     GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
@@ -247,8 +272,6 @@ void EXTI0_IRQHandler(void)
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
 
-    //DEBUG
-    set_debug_led(ON);
 
     switch(Decoder.sync_mode) {
 
@@ -388,7 +411,7 @@ void EXTI0_IRQHandler(void)
                 //any other position
                 break;
 
-            }
+            } //switch Decoder.crank_position
 
 
             /**
@@ -445,14 +468,14 @@ void EXTI0_IRQHandler(void)
             EXTI->SWIER= EXTI_SWIER_SWIER2;
             break;
 
-        }
+        } //switch Decoder.sync_mode
 
         //reset timeout counter, we just saw a trigger condition
         Decoder.timeout_count= 0UL;
 
         /**
         noise filter
-        mask crank pickup irq, timer 2 compare will enable it again
+        mask crank pickup irq, timer 9 compare will enable it again
         crank pickup irq is disabled after each set_crank_pickup_sensing() call
         */
         mask_crank_pickup_irq();
@@ -465,9 +488,10 @@ Timer 9 - decoder control:
     -timer 9 compare event 1 --> enable external interrupt for pickup sensor
     -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
  ******************************************************************************************************************************/
-void TIM9_IRQHandler(void)
+void TIM1_BRK_TIM9_IRQHandler(void)
 {
-    //compare event
+
+    //TIM9 compare event
     if( TIM9->SR & TIM_IT_CC1)
     {
         TIM9->SR = (U16) ~TIM_IT_CC1;
@@ -477,8 +501,7 @@ void TIM9_IRQHandler(void)
     }
 
 
-
-    //update event
+    //TIM9 update event
     if( TIM9->SR & TIM_IT_Update)
     {
         TIM9->SR = (U16) ~TIM_IT_Update;

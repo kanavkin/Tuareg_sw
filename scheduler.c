@@ -48,7 +48,7 @@ void init_scheduler()
     //start timer counter
     TIM5->CR1 |= TIM_CR1_CEN;
 
-    //enable timer 3 irq (prio 2)
+    //enable timer 5 irq (prio 2)
     NVIC_SetPriority(TIM5_IRQn, 2UL );
     NVIC_ClearPendingIRQ(TIM5_IRQn);
     NVIC_EnableIRQ(TIM5_IRQn);

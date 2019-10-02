@@ -55,6 +55,22 @@ void init_debug_pins()
 
 
 
+void enable_sysclk_check()
+{
+    /*
+    MCO_2 is AF0 on GPIOC-9
+    set to output SysClock / 5
+    revealed:
+    SYSCLK= 100 MHz
+
+    show in gdb: p/t RCC->CFGR
+    */
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+    GPIO_SetAF(GPIOC, 9, 0);
+    GPIO_configure(GPIOC, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_VERY_HIGH, GPIO_PULL_NONE);
+    RCC->CFGR |= RCC_MCO2Div_5 | RCC_CFGR_MCO2EN;
+}
+
 
 
 

@@ -27,7 +27,7 @@ RISE/FALL
 
 
 /**
-the amount of timer 2 ticks until we re enable the crank pickup irq
+the amount of timer 9 ticks until we re enable the crank pickup irq
 adjusted to about 1° crank shaft at 9500 rpm
 (setting: ps 196 at 64 MHz)
 */

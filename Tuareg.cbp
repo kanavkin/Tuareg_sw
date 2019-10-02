@@ -225,9 +225,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="stm32_libs/stm32f4xx/spl/stm32f4xx_wwdg.h" />
-		<Unit filename="storage.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="table.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -214,12 +214,14 @@ void set_ign_ch1(output_pin_t level)
 {
     if(level == ON)
     {
-        GPIOC->BSRR= GPIO_BSRR_BS6;
+        //GPIOC->BSRR= GPIO_BSRR_BS6;
+        gpio_set_pin(GPIOC, 6, ON);
     }
     else
     {
         // OFF
-        GPIOC->BSRR= GPIO_BSRR_BR6;
+        //GPIOC->BSRR= GPIO_BSRR_BR6;
+        gpio_set_pin(GPIOC, 6, OFF);
 
         /**
         trigger sw irq
