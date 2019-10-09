@@ -51,13 +51,9 @@ void SysTick_Handler(void)
     //50Hz loop
     if (loop20ms == 20)
     {
-        /**
-        TODO
-        trigger ADC conversion for
-        analog sensors
-
+        //trigger ADC conversion for analog sensors
         adc_start_regular_group(SENSOR_ADC);
-*/
+
         loop20ms = 0;
         ls_timer |= BIT_TIMER_50HZ;
     }
@@ -86,10 +82,6 @@ void SysTick_Handler(void)
     //4Hz loop
     if (loop250ms == 250)
     {
-        //TODO
-        //update digital sensor values
-        //read_digital_sensors();
-
         //Reset watchdog timer (Not active currently)
         //wdt_reset();
 
@@ -112,14 +104,11 @@ void SysTick_Handler(void)
             Tuareg.secl= 0;
         }
 
-        /*
-        TODO
         //keep tunerstudio from freezing
         if(TS_cli.command_duration)
         {
             TS_cli.command_duration--;
         }
-        */
 
         loopSec = 0;
         ls_timer |= BIT_TIMER_1HZ;

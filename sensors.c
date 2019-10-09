@@ -30,14 +30,14 @@ bring up analog and digital sensors
 volatile sensor_interface_t * init_sensors()
 {
     DMA_InitTypeDef DMA_InitStructure;
-/* TODO fix prescaler
-    //set ADC prescaler to 6 (10,6 MHz)
-    RCC->CFGR |= RCC_CFGR_ADCPRE_1;
-    RCC->CFGR &= ~ RCC_CFGR_ADCPRE_0;
-*/
+
+    //set ADC prescaler to 2 (source: APB2/PCLK2 @ 50 MHz) -> 25 MHz
+    ADC->CCR &= ~ADC_CCR_ADCPRE;
+
     //clock
-    RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN | RCC_AHB1ENR_GPIODEN;
     RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
 
     //GPIO ADC CH0..7 + Port C4
     GPIO_configure(GPIOA, 0, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
@@ -65,16 +65,12 @@ volatile sensor_interface_t * init_sensors()
             use DMA for regular group, data align right, independent mode,
             no continuous conversion
     */
-    /* todo fix
     ADC1->CR1= ADC_CR1_SCAN | ADC_CR1_JEOCIE;
-    ADC1->CR2= ADC_CR2_EXTTRIG | ADC_CR2_JEXTTRIG | ADC_CR2_EXTSEL | ADC_CR2_JEXTSEL | ADC_CR2_DMA | ADC_CR2_ADON;
+    ADC1->CR2= ADC_CR2_DMA | ADC_CR2_DDS | ADC_CR2_ADON;
 
-    //perform ADC calibration
-    ADC1->CR2 |= ADC_CR2_RSTCAL;
-    while(ADC1->CR2 & ADC_CR2_RSTCAL);
-    ADC1->CR2 |= ADC_CR2_CAL;
-    while(ADC1->CR2 & ADC_CR2_CAL);
-*/
+    /* ADC calibration will be performed by hw at startup */
+
+
     /**
     ADC channels setup
 
@@ -129,40 +125,52 @@ volatile sensor_interface_t * init_sensors()
     */
     ADC1->JSQR= (U32) (ASENSOR_MAP_CH << 15);
 
-/* todo fix adc
-    //DMA for ADC
+    /*
+    configure DMA2 CH0 Stream0 for ADC
+    */
+
+    //preset struct elements with default values -> lines commented out means that we keep the defaults
+    DMA_StructInit(&DMA_InitStructure);
+
+    //DMA_InitStructure.DMA_Channel= DMA_Channel_0;
+    DMA_InitStructure.DMA_PeripheralBaseAddr= (U32)&ADC1->DR;
+    DMA_InitStructure.DMA_Memory0BaseAddr= (U32)ADCBuffer;
+    //DMA_InitStructure.DMA_DIR= DMA_DIR_PeripheralToMemory;
     DMA_InitStructure.DMA_BufferSize= REGULAR_GROUP_LENGTH;
-    DMA_InitStructure.DMA_Priority= DMA_Priority_High;
-    DMA_InitStructure.DMA_M2M= DMA_M2M_Disable;
-    DMA_InitStructure.DMA_DIR= DMA_DIR_PeripheralSRC;
-    DMA_InitStructure.DMA_PeripheralInc= DMA_PeripheralInc_Disable;
+    //DMA_InitStructure.DMA_PeripheralInc= DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_MemoryInc= DMA_MemoryInc_Enable;
-    DMA_InitStructure.DMA_Mode= DMA_Mode_Circular;
     DMA_InitStructure.DMA_PeripheralDataSize= DMA_PeripheralDataSize_HalfWord;
     DMA_InitStructure.DMA_MemoryDataSize= DMA_MemoryDataSize_HalfWord;
-    DMA_InitStructure.DMA_PeripheralBaseAddr= (U32)&ADC1->DR;
-    DMA_InitStructure.DMA_MemoryBaseAddr= (U32)ADCBuffer;
-    DMA_Init(DMA1_Channel1, &DMA_InitStructure);
+    DMA_InitStructure.DMA_Mode= DMA_Mode_Circular;
+    DMA_InitStructure.DMA_Priority= DMA_Priority_High;
+    //DMA_InitStructure.DMA_FIFOMode= DMA_FIFOMode_Disable;
+    //DMA_InitStructure.DMA_FIFOThreshold= DMA_FIFOThreshold_1QuarterFull;
+    //DMA_InitStructure.DMA_MemoryBurst= DMA_MemoryBurst_Single;
+    //DMA_InitStructure.DMA_PeripheralBurst= DMA_PeripheralBurst_Single;
+
+    //fire up config
+    DMA_Init(DMA2_Stream0, &DMA_InitStructure);
 
     //enable DMA1_Channel1 and its irq
-    DMA1_Channel1->CCR |= DMA_CCR1_EN;
-    DMA1_Channel1->CCR |= DMA_IT_TC;
-*/
+    DMA2_Stream0->CR |= (U32) (DMA_SxCR_EN | DMA_SxCR_TCIE);
+
+    //Clear all DMA2 stream0 interrupt pending bits
+    DMA2->LIFCR |= DMA_LIFCR_CTCIF0 | DMA_LIFCR_CHTIF0 | DMA_LIFCR_CTEIF0 | DMA_LIFCR_CDMEIF0 | DMA_LIFCR_CFEIF0;
 
     /**
     NVIC
     */
-/* todo fix irqs
-    //DMA1 channel (prio 7)
-    NVIC_SetPriority(DMA1_Channel1_IRQn, 7UL);
-    NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
-    NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+
+    //DMA2 stream0 (prio 7)
+    NVIC_SetPriority(DMA2_Stream0_IRQn, 7UL);
+    NVIC_ClearPendingIRQ(DMA2_Stream0_IRQn);
+    NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
     //ADC1-2 irq (prio 6)
-    NVIC_SetPriority(ADC1_2_IRQn, 6UL);
-    NVIC_ClearPendingIRQ(ADC1_2_IRQn);
-    NVIC_EnableIRQ(ADC1_2_IRQn);
-*/
+    NVIC_SetPriority(ADC_IRQn, 6UL);
+    NVIC_ClearPendingIRQ(ADC_IRQn);
+    NVIC_EnableIRQ(ADC_IRQn);
+
     return &Sensors;
 }
 
@@ -231,7 +239,7 @@ void read_digital_sensors()
 MAP sensor readout as injected conversion
 (can be triggered synchronous to crank movement)
 */
-void ADC1_2_IRQHandler()
+void ADC_IRQHandler()
 {
     U32 map_calc;
 
@@ -345,18 +353,16 @@ void ADC1_2_IRQHandler()
 The regular group conversion is triggered by lowspeed_timer
 every 20 ms (50Hz)
 */
-void DMA1_Channel1_IRQHandler()
+void DMA2_Stream0_IRQHandler()
 {
     U32 lin_calc;
     S16 delta_TPS;
 
     //DMA1 Channel1 Transfer Complete interrupt
-    //todo fix irq
-//    if(DMA1->ISR & DMA1_IT_TC1)
-    if(1)
+    if(DMA2->LISR & DMA_LISR_TCIF0)
     {
-        //Clear all DMA1 interrupt pending bits
-//        DMA1->IFCR= DMA1_IT_GL1;
+        //Clear all DMA2 stream0 interrupt pending bits
+        DMA2->LIFCR |= DMA_LIFCR_CTCIF0 | DMA_LIFCR_CHTIF0 | DMA_LIFCR_CTEIF0 | DMA_LIFCR_CDMEIF0 | DMA_LIFCR_CFEIF0;
 
         Sensors.loop_count++;
 

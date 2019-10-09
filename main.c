@@ -172,6 +172,7 @@ int main(void)
 
     //DEBUG
     UART_Send(DEBUG_PORT, "TunerStudio interface ready \r\n");
+    UART_Send(TS_PORT, "TunerStudio interface ready \r\n");
 
     /**
     set up eeprom for loading configuration data
@@ -208,7 +209,7 @@ int main(void)
     /**
     initialize core components and register interface access pointers
     */
-    //Tuareg.sensor_interface= init_sensors();
+    Tuareg.sensor_interface= init_sensors();
     Tuareg.decoder= init_decoder();
     init_ignition(&Tuareg.ignition_timing);
     init_scheduler();
@@ -254,10 +255,20 @@ int main(void)
 
     while(1)
     {
+        if(ls_timer & BIT_TIMER_4HZ)
+        {
+            ls_timer &= ~BIT_TIMER_4HZ;
+
+            //update digital sensor values
+            read_digital_sensors();
+        }
+
+
+
+
         /**
         handle TS communication
         */
-        /*
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
             ls_timer &= ~BIT_TIMER_10HZ;
@@ -275,7 +286,7 @@ int main(void)
                 ts_communication();
             }
         }
-        */
+
 
     }
 
@@ -332,7 +343,7 @@ void EXTI2_IRQHandler(void)
     /**
     read the MAP sensor
     */
-    //adc_start_injected_group(SENSOR_ADC);
+    adc_start_injected_group(SENSOR_ADC);
 
     /**
     cylinder identification sensor handling inside decoder module!

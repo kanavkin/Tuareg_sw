@@ -121,7 +121,7 @@ T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
 
 /**
 choose the ASENSOR_yy values so that they can address array elements in ADCBuffer[]: 0 ... (REGULAR_GROUP_LENGTH -1)
-channels from injected group do not reserve space in the ADCBuffer[] -> they get the highest numbers
+channels from injected group do not reserve space in the ADCBuffer[] but in error_counter[]
 */
 typedef enum {
 
@@ -137,12 +137,13 @@ typedef enum {
     ASENSOR_BARO         =0x06,
     ASENSOR_SPARE        =0x07,
 
-    //internal ADC channels
-    ASENSOR_ITEMP        =0x08,
-    ASENSOR_IVREF        =0x09,
-
     //injected group
-    ASENSOR_MAP          =0x10
+    ASENSOR_MAP          =0x08,
+
+    //internal ADC channels
+    ASENSOR_ITEMP        =0x09,
+    ASENSOR_IVREF        =0x10
+
 
 } asensors_t;
 
