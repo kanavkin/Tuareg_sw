@@ -19,6 +19,8 @@ TODO
 #include "eeprom.h"
 #include "eeprom_layout.h"
 #include "sensors.h"
+#include "debug.h"
+
 
 
 volatile tuners_cli_t TS_cli;
@@ -536,146 +538,51 @@ void ts_sendValues(U32 offset, U32 length)
 /**
 this seems to be a nice diag mode feature
 
+FeatureID is a 16 Bit 0x00 .. 0xFFFF
+
+
 TODO
 implement it!
 */
-void ts_debug_features(U32 feature)
+void ts_debug_features(U32 FeatureID)
 {
-    switch (feature)
+    U8 u8_data =0;
+    U32 data_1 =0;
+    U32 data_2 =0;
+
+    switch (FeatureID)
     {
-        case 256:
-            /**
-            cmd is stop
-            */
+        case 'de':
 
             /**
-            TODO
-            fill in something pretty here
+            dump eeprom content in binary form
             */
 
-            /**
-            dump eeprom
-            U8 eeprom_data;
-            for(data_1=0; data_1 < 4000; data_1++)
+            UART_Send(DEBUG_PORT, "EEprom data:\r\n");
+
+            for(data_1=0; data_1 < EEPROM_STORAGE_END; data_1++)
             {
-                data_2= eeprom_read_byte(data_1, &eeprom_data);
+                data_2= eeprom_read_byte(data_1, &u8_data);
 
-                UART_Send(TS_PORT, "\r\n");
-                UART_Print_U(TS_PORT, data_1, TYPE_U32, NO_PAD);
-
-                if(data_2 == 0)
+                if(data_2 != 0)
                 {
-                    UART_Print_U8Hex_new(TS_PORT, eeprom_data);
-                }
-                else
-                {
-                    UART_Tx(TS_PORT, '-');
+                    //read error - terminate
+                    UART_Send(DEBUG_PORT, "ERROR!");
+                    return;
                 }
 
-            }
-            */
-
-            /**
-            //DEBUG timed sensor printout
-        if( ls_timer & BIT_TIMER_1HZ)
-        {
-            ls_timer &= ~BIT_TIMER_1HZ;
-
-
-            //intro
-            UART_Send(DEBUG_PORT, "\r\nsensors:");
-
-            if(hw_sensors->active_sensors & ASENSOR_MAP_ACT)
-            {
-                //injected conversion complete
-                UART_Send(DEBUG_PORT, "\r\nMAP:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->MAP, TYPE_U16, NO_PAD);
+                UART_Tx(DEBUG_PORT, u8_data);
             }
 
-            if(hw_sensors->Intake_Vacuum)
-            {
-                UART_Send(DEBUG_PORT, "\r\nIntake vacuum:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->Intake_Vacuum, TYPE_U16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_BARO_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nBARO:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->BARO, TYPE_U16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_O2_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nO2:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->O2, TYPE_U16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_TPS_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nTPS:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->TPS, TYPE_U16, NO_PAD);
-
-                UART_Send(DEBUG_PORT, "\r\nddt_TPS:");
-                UART_Print_S(DEBUG_PORT, hw_sensors->ddt_TPS, TYPE_S16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_IAT_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nIAT:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->IAT, TYPE_U16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_CLT_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nCLT:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->CLT, TYPE_U16, NO_PAD);
-            }
-
-            if(hw_sensors->active_sensors & ASENSOR_VBAT_ACT)
-            {
-                UART_Send(DEBUG_PORT, "\r\nVBAT:");
-                UART_Print_U(DEBUG_PORT, hw_sensors->VBAT, TYPE_U16, NO_PAD);
-            }
-
-            //digital sensors
-            UART_Send(DEBUG_PORT, "\r\nRUN, CRASH, SIDEST: ");
-
-            if(hw_sensors->digital_sensors & DSENSOR_RUN)
-            {
-                UART_Tx(DEBUG_PORT, '1');
-            }
-            else
-            {
-                UART_Tx(DEBUG_PORT, '0');
-            }
-
-            UART_Tx(DEBUG_PORT, '-');
-
-            if(hw_sensors->digital_sensors & DSENSOR_CRASH)
-            {
-                UART_Tx(DEBUG_PORT, '1');
-            }
-            else
-            {
-                UART_Tx(DEBUG_PORT, '0');
-            }
-
-            UART_Tx(DEBUG_PORT, '-');
-
-            if(hw_sensors->digital_sensors & DSENSOR_SIDESTAND)
-            {
-                UART_Tx(DEBUG_PORT, '1');
-            }
-            else
-            {
-                UART_Tx(DEBUG_PORT, '0');
-            }
-
-        }
-        */
+            UART_Send(DEBUG_PORT, "Transmission complete.\r\n");
 
             break;
 
+        case 'ds':
+
+            //show analog and digital sensor values
+            print_sensor_data();
+            break;
 
 
     default:

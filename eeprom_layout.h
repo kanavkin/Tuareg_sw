@@ -148,6 +148,10 @@ all calibration data is 16 Bit long
 #define EEPROM_CALIBRATION_VBAT_M (EEPROM_CALIBRATION_O2_L + EEPROM_CALIB_DATA_WIDTH)
 #define EEPROM_CALIBRATION_VBAT_L (EEPROM_CALIBRATION_VBAT_M + EEPROM_CALIB_DATA_WIDTH)
 
+/**
+This is the last used eeprom address -> memory dump will be read until here
+*/
+#define EEPROM_STORAGE_END (EEPROM_CALIBRATION_VBAT_L + EEPROM_CALIB_DATA_WIDTH)
 
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

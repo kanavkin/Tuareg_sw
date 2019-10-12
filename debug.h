@@ -28,5 +28,7 @@ void print_minimal_state(USART_TypeDef * Port, volatile ignition_timing_t * inti
 void dwt_init();
 void delay_us(U32 delay);
 
+void print_sensor_data();
+
 
 #endif // DEBUG_H_INCLUDED

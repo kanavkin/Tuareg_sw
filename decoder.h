@@ -4,7 +4,7 @@
 #include "stm32_libs/boctok_types.h"
 
 //decoder timer prescaler
-#define DECODER_TIMER_PSC 196
+#define DECODER_TIMER_PSC 196UL
 
 
 
@@ -130,5 +130,6 @@ typedef struct _decoder_t {
 } decoder_t;
 
 volatile decoder_t * init_decoder();
+
 
 #endif // DECODER_H_INCLUDED

@@ -49,7 +49,8 @@ void UART1_Init()
 
     //GPIOA alternative functions 9 > Tx, 10 > Rx
     GPIO_configure(GPIOA, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
-    GPIO_configure(GPIOA, 10, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+#warning TODO (oli#1#): observe sporadic uart errors: GPIOA 10 GPIO_MODE_IN / GPIO_MODE_AF config dependant
+    GPIO_configure(GPIOA, 10, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
 
     //connect USART1 to PA9/10 and USART6 to PA11
     GPIO_SetAF(GPIOA, 9, 7);

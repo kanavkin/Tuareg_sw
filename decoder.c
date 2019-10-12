@@ -92,21 +92,21 @@ void unmask_cis_irq()
 pickup sensing helper functions
 (the hardware dependent part)
 */
-inline void set_crank_pickup_sensing_rise()
+void set_crank_pickup_sensing_rise()
 {
     EXTI->RTSR |= EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
     Decoder.crank_pickup_sensing= RISE;
 }
 
-inline void set_crank_pickup_sensing_fall()
+void set_crank_pickup_sensing_fall()
 {
     EXTI->FTSR |= EXTI_FTSR_TR0;
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     Decoder.crank_pickup_sensing= FALL;
 }
 
-inline void set_crank_pickup_sensing_disabled()
+void set_crank_pickup_sensing_disabled()
 {
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
@@ -273,6 +273,11 @@ void EXTI0_IRQHandler(void)
     EXTI->PR= EXTI_Line0;
 
 
+    //DEBUG
+    #warning TODO (oli#9#): Debug LED
+    set_debug_led(TOGGLE);
+
+
     switch(Decoder.sync_mode) {
 
         case INIT:
@@ -352,8 +357,8 @@ void EXTI0_IRQHandler(void)
 
             /*
             collect data for engine rpm calculation
-            (in every crank 360° revolution we collect 8 timer values)
-            range check: 2^3*2^16=2^19 -> 2^19 < 2^32 -> fits to 32 bit variable
+            (in every crank 360° revolution we collect 8 timer values -> 16 captures in 720°)
+            range check: 2^4*2^16=2^20 -> fits to 32 bit variable
             */
             Decoder.cycle_timing_buffer += timer_buffer;
             Decoder.cycle_timing_counter++;
@@ -361,7 +366,19 @@ void EXTI0_IRQHandler(void)
             //2 full crank revolutions captured?
             if(Decoder.cycle_timing_counter == 16)
             {
+                /**
+                rpm calculation:
+                n = 60 / T.360 = 120 / T.720
+                (T.720 is the time for 2 revolutions)
+                Decoder.cycle_timing_buffer holds T.720 in timer ticks -> #T.720
+                T.720 = #T.720 * T.timer
+                (T.timer is the timer increment)
+                T.timer = ps / f.cpu
+                gives
+                n = (120 * f.cpu) / ( #T.720 * ps)
+                */
                 //this is for 720 deg
+#warning TODO (oli#3#):  rpm calculation broken, when using 120ull we get vfp error
                 Decoder.engine_rpm= (120UL * SystemCoreClock) / (DECODER_TIMER_PSC * Decoder.cycle_timing_buffer);
 
                 //reset calculation

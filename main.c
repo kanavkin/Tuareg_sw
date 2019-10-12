@@ -172,7 +172,6 @@ int main(void)
 
     //DEBUG
     UART_Send(DEBUG_PORT, "TunerStudio interface ready \r\n");
-    UART_Send(TS_PORT, "TunerStudio interface ready \r\n");
 
     /**
     set up eeprom for loading configuration data
@@ -255,6 +254,15 @@ int main(void)
 
     while(1)
     {
+        //print analog and digital sensor data
+        if( ls_timer & BIT_TIMER_1HZ)
+        {
+            ls_timer &= ~BIT_TIMER_1HZ;
+
+            print_sensor_data();
+        }
+
+
         if(ls_timer & BIT_TIMER_4HZ)
         {
             ls_timer &= ~BIT_TIMER_4HZ;
@@ -262,9 +270,6 @@ int main(void)
             //update digital sensor values
             read_digital_sensors();
         }
-
-
-
 
         /**
         handle TS communication
@@ -367,9 +372,11 @@ void EXTI3_IRQHandler(void)
     */
     calc_ignition_timings(&Tuareg.ignition_timing);
 
-
+/*
     //DEBUG
+    #warning TODO (oli#9#): Debug LED
     set_debug_led(TOGGLE);
+    */
 }
 
 

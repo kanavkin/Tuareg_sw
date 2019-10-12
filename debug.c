@@ -13,6 +13,9 @@ production version
 #include "ignition.h"
 #include "uart.h"
 #include "conversion.h"
+#include "sensors.h"
+#include "Tuareg.h"
+
 
 
 volatile char print_buffer[10];
@@ -192,6 +195,146 @@ void delay_us(U32 delay)
 }
 
 
+void print_sensor_data()
+{
+    //can be called cyclic by adding a lowspeed action
+
+    //intro
+    UART_Send(DEBUG_PORT, "\r\nsensors:");
+
+
+    UART_Send(DEBUG_PORT, "\r\nMAP:");
+
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_MAP_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->MAP, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nIntake vacuum:");
+    if(Tuareg.sensor_interface->Intake_Vacuum)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->Intake_Vacuum, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nBARO:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_BARO_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->BARO, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nO2:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_O2_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->O2, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nTPS:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_TPS_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->TPS, TYPE_U16, NO_PAD);
+
+        UART_Send(DEBUG_PORT, "\r\nddt_TPS:");
+        UART_Print_S(DEBUG_PORT, Tuareg.sensor_interface->ddt_TPS, TYPE_S16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+        UART_Send(DEBUG_PORT, "\r\nddt_TPS:");
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nIAT:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_IAT_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->IAT, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nCLT:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_CLT_ACT)
+    {
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->CLT, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nVBAT:");
+    if(Tuareg.sensor_interface->active_sensors & ASENSOR_VBAT_ACT)
+    {
+
+        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->VBAT, TYPE_U16, NO_PAD);
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '-');
+    }
+
+    //digital sensors
+    UART_Send(DEBUG_PORT, "\r\nRUN, CRASH, SIDEST: ");
+
+    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_RUN)
+    {
+        UART_Tx(DEBUG_PORT, '1');
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '0');
+    }
+
+    UART_Tx(DEBUG_PORT, '-');
+
+    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_CRASH)
+    {
+        UART_Tx(DEBUG_PORT, '1');
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '0');
+    }
+
+    UART_Tx(DEBUG_PORT, '-');
+
+#warning TODO (oli#4#): adjust to current sensor list
+
+    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_DEBUG)
+    {
+        UART_Tx(DEBUG_PORT, '1');
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '0');
+    }
+
+
+}
 
 
 

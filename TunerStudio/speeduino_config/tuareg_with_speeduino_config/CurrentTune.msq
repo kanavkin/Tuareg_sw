@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Thu Oct 10 00:47:31 CEST 2019"/>
+    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Sun Oct 13 01:42:25 CEST 2019"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
     <page>
         <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
@@ -95,7 +95,7 @@
         <constant name="displayB1">"RPM"</constant>
         <constant name="displayB2">"RPM"</constant>
         <constant digits="1" name="reqFuel" units="ms">0.0</constant>
-        <constant digits="0" name="divider">1.0</constant>
+        <constant digits="0" name="divider">0.0</constant>
         <constant name="alternate">"Simultaneous"</constant>
         <constant name="multiplyMAP">"No"</constant>
         <constant name="includeAFR">"No"</constant>
@@ -112,7 +112,7 @@
         <constant name="mapSample">"Instantaneous"</constant>
         <constant name="twoStroke">"Four-stroke"</constant>
         <constant name="injType">"Port"</constant>
-        <constant name="nCylinders">"1"</constant>
+        <constant name="nCylinders">"2"</constant>
         <constant name="cltType">"GM"</constant>
         <constant name="matType">"GM"</constant>
         <constant name="nInjectors">"2"</constant>
