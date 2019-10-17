@@ -1,13 +1,10 @@
-#ifndef DECODER_H_INCLUDED
-#define DECODER_H_INCLUDED
+#ifndef DECODERLOGIC_H_INCLUDED
+#define DECODERLOGIC_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
 
-//decoder timer prescaler
-#define DECODER_TIMER_PSC 196UL
-
-
-
+/*
+deprecated?
 #define POSITION_A1_ANGLE 100
 #define POSITION_A2_ANGLE 60
 #define POSITION_B1_ANGLE 10
@@ -16,14 +13,7 @@
 #define POSITION_C2_ANGLE 90
 #define POSITION_D1_ANGLE 170
 #define POSITION_D2_ANGLE 180
-
-
-/**
-set up the trigger edge detection mode required to detect a key begin or end event
-RISE/FALL
 */
-#define SENSING_KEY_BEGIN FALL
-#define SENSING_KEY_END RISE
 
 
 /**
@@ -66,17 +56,6 @@ typedef enum {
 
 typedef enum {
 
-    DISABLED,
-    RISE,
-    FALL,
-    EDGE,
-    INVERT
-
-} sensing_t;
-
-
-typedef enum {
-
     INIT= 0,
     ASYNC_KEY= 0xAA,
     ASYNC_GAP= 0xAB,
@@ -100,9 +79,8 @@ typedef enum {
 } engine_position_t;
 
 
-typedef struct _decoder_t {
+typedef struct {
 
-    sensing_t crank_pickup_sensing;
     decoder_state_t sync_mode;
 
     U32 sync_buffer_key;
@@ -116,8 +94,10 @@ typedef struct _decoder_t {
     engine_position_t crank_position;
 
     U32 engine_rpm;
+    U32 rpm_calc_constant;
 
     engine_phase_t phase;
+
 
     //decoder statistics
     U32 diag_positions_crank_synced;
@@ -127,9 +107,14 @@ typedef struct _decoder_t {
     U32 diag_positions_cis_undefined;
     U32 diag_phase_lost_events;
 
-} decoder_t;
+} decoder_logic_t;
 
-volatile decoder_t * init_decoder();
+volatile decoder_logic_t * init_decoder_logic();
+
+void decoder_logic_crank_handler(VU32 Timestamp);
+void decoder_logic_cam_handler();
+void decoder_logic_timer_compare_handler();
+void decoder_logic_timer_update_handler();
 
 
-#endif // DECODER_H_INCLUDED
+#endif // DECODERLOGIC_H_INCLUDED

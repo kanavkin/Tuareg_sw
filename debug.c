@@ -9,8 +9,8 @@ production version
 #include "stm32_libs/boctok_types.h"
 
 #include "debug.h"
-#include "decoder.h"
-#include "ignition.h"
+#include "decoder_logic.h"
+#include "ignition_logic.h"
 #include "uart.h"
 #include "conversion.h"
 #include "sensors.h"

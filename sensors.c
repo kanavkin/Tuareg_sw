@@ -9,7 +9,7 @@
 #include "conversion.h"
 #include "table.h"
 #include "config.h"
-#include "decoder.h"
+#include "decoder_logic.h"
 
 volatile sensor_interface_t Sensors;
 

@@ -79,19 +79,27 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="debug.h" />
-		<Unit filename="decoder.c">
+		<Unit filename="decoder_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="decoder.h" />
+		<Unit filename="decoder_hw.h" />
+		<Unit filename="decoder_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="decoder_logic.h" />
 		<Unit filename="eeprom.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="eeprom.h" />
 		<Unit filename="eeprom_layout.h" />
-		<Unit filename="ignition.c">
+		<Unit filename="ignition_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="ignition.h" />
+		<Unit filename="ignition_hw.h" />
+		<Unit filename="ignition_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ignition_logic.h" />
 		<Unit filename="lowspeed_timers.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -1,10 +1,10 @@
-#ifndef SIMULATOR_H_INCLUDED
-#define SIMULATOR_H_INCLUDED
+#ifndef IGNITIONCALC_H_INCLUDED
+#define IGNITIONCALC_H_INCLUDED
 
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
-
+#include "decoder_logic.h"
 
 /**
 trigger wheel geometry
@@ -20,12 +20,13 @@ trigger wheel geometry
 
 
 /**
+deprecated?
 crank sensor setup
 logical state when a key triggers the sensor
-*/
+
 #define KEY_SIGNAL_POLARITY OFF
 #define IDLE_SIGNAL ON
-
+*/
 
 /**
 ignition timing setup
@@ -51,8 +52,6 @@ desired idle rpm if you want fixed ignition operation there
 #define DYNAMIC_DWELL_US 5000
 
 
-#include "decoder.h"
-
 
 typedef struct _ignition_timing_t {
 
@@ -72,18 +71,14 @@ U32 get_advance(U32 rpm);
 U32 calc_rot_duration(U32 angle, U32 rpm);
 U32 calc_rot_angle(U32 period_us, U32 rpm);
 
-void init_ignition(volatile ignition_timing_t * initial_timing);
+void init_ignition_logic(volatile ignition_timing_t * initial_timing);
 
 void fit_position( U32 rpm, U32 advance, volatile engine_position_t * to_position, VU32 * to_delay);
 void calc_ignition_timings(volatile ignition_timing_t * target_timing);
-
-void set_ign_ch1(output_pin_t level);
-void set_ign_ch2(output_pin_t level);
-
 void trigger_coil_by_timer(U32 delay_us, output_pin_t level);
 
 
 
 
 
-#endif // SIMULATOR_H_INCLUDED
+#endif // IGNITIONCALC_H_INCLUDED

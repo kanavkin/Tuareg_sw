@@ -64,8 +64,10 @@ SCHEDULER (ignition)
 #include "stm32_libs/boctok_types.h"
 
 
-#include "decoder.h"
-#include "ignition.h"
+#include "decoder_hw.h"
+#include "decoder_logic.h"
+#include "ignition_logic.h"
+#include "ignition_hw.h"
 #include "scheduler.h"
 #include "uart.h"
 #include "conversion.h"
@@ -209,8 +211,10 @@ int main(void)
     initialize core components and register interface access pointers
     */
     Tuareg.sensor_interface= init_sensors();
-    Tuareg.decoder= init_decoder();
-    init_ignition(&Tuareg.ignition_timing);
+    init_decoder_hw();
+    Tuareg.decoder= init_decoder_logic();
+    init_ignition_hw();
+    init_ignition_logic(&Tuareg.ignition_timing);
     init_scheduler();
     init_lowspeed_timers();
 

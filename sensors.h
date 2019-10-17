@@ -3,7 +3,7 @@
 
 
 #include "stm32_libs/boctok_types.h"
-#include "decoder.h"
+#include "decoder_logic.h"
 
 
 /**

@@ -2,7 +2,7 @@
 #define DEBUG_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
-#include "ignition.h"
+#include "ignition_logic.h"
 /*
 typedef struct
 {

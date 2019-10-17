@@ -14,24 +14,34 @@ timer resources:
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "scheduler.h"
-#include "ignition.h"
+#include "ignition_hw.h"
 
 volatile scheduler_t Scheduler;
 
 
-/**
-TODO
-implement dummy functions!
-*/
-void set_fuel_ch1(output_pin_t level)
+
+#warning TODO (oli#4#): implement dummy functions!
+
+inline void set_fuel_ch1(output_pin_t level)
 {
 
 }
 
-void set_fuel_ch2()
+inline void set_fuel_ch2()
 {
 
 }
+
+inline void set_ign_ch1(output_pin_t level)
+{
+    set_ignition_ch1(level);
+}
+
+inline void set_ign_ch2(output_pin_t level)
+{
+    set_ignition_ch2(level);
+}
+
 
 
 void init_scheduler()

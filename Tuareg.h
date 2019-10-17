@@ -2,7 +2,7 @@
 #define SPEED_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
-#include "ignition.h"
+#include "ignition_logic.h"
 #include "sensors.h"
 
 
@@ -141,7 +141,7 @@ typedef struct _Tuareg_t {
     /**
     access to core components
     */
-    volatile decoder_t * decoder;
+    volatile decoder_logic_t * decoder;
     volatile sensor_interface_t * sensor_interface;
     volatile ignition_timing_t ignition_timing;
 

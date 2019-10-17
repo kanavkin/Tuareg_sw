@@ -6,12 +6,19 @@
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
-#include "ignition.h"
-#include "decoder.h"
+#include "ignition_hw.h"
+#include "ignition_logic.h"
+#include "decoder_logic.h"
 #include "scheduler.h"
 #include "Tuareg.h"
 #include "uart.h"
 #include "table.h"
+
+
+
+
+#warning TODO (oli#5#): add ignition table lookup
+
 
 /**
 characteristics hard coded to this tables!
@@ -210,35 +217,6 @@ void calc_ignition_timings(volatile ignition_timing_t * target_timing)
 
 
 
-void set_ign_ch1(output_pin_t level)
-{
-    if(level == ON)
-    {
-        //GPIOC->BSRR= GPIO_BSRR_BS6;
-        gpio_set_pin(GPIOC, 6, ON);
-    }
-    else
-    {
-        // OFF
-        //GPIOC->BSRR= GPIO_BSRR_BR6;
-        gpio_set_pin(GPIOC, 6, OFF);
-
-        /**
-        trigger sw irq
-        for ignition timing recalculation
-        */
-        EXTI->SWIER= EXTI_SWIER_SWIER3;
-    }
-}
-
-
-//DEBUG dummy
-void set_ign_ch2(output_pin_t level)
-{
-
-}
-
-
 
 /**
     using
@@ -248,23 +226,8 @@ void set_ign_ch2(output_pin_t level)
      recalculation after spark has fired
 
 */
-void init_ignition(volatile ignition_timing_t * initial_timing)
+void init_ignition_logic(volatile ignition_timing_t * initial_timing)
 {
-    //clock
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
-
-    //coil
-    GPIO_configure(GPIOC, 6, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    set_ign_ch1(OFF);
-
-    //sw irq on exti line 3
-    EXTI->IMR |= EXTI_IMR_MR3;
-
-    //enable sw exti irq (prio 10)
-    NVIC_SetPriority(EXTI3_IRQn, 10UL);
-    NVIC_ClearPendingIRQ(EXTI3_IRQn);
-    NVIC_EnableIRQ(EXTI3_IRQn);
-
     /**
     provide initial ignition timing
     */
@@ -279,7 +242,7 @@ void trigger_coil_by_timer(U32 delay_us, output_pin_t level)
     if(delay_us == 0)
     {
         // immediate trigger
-        set_ign_ch1(level);
+        set_ignition_ch1(level);
     }
     else
     {
