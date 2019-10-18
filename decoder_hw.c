@@ -32,7 +32,7 @@ how the decoder works:
 /**
 use 16 bit TIM9 for crank pickup signal decoding
 */
-void decoder_start_timer()
+inline void decoder_start_timer()
 {
     // clear flags
     TIM9->SR= (U16) 0;
@@ -54,7 +54,7 @@ void decoder_start_timer()
 }
 
 
-void decoder_stop_timer()
+inline void decoder_stop_timer()
 {
     TIM9->CR1 &= ~TIM_CR1_CEN;
 }
@@ -64,12 +64,12 @@ void decoder_stop_timer()
 crank pickup irq helper functions
 (hardware dependent)
 */
-void decoder_mask_crank_irq()
+inline void decoder_mask_crank_irq()
 {
     EXTI->IMR &= ~EXTI_IMR_MR0;
 }
 
-void decoder_unmask_crank_irq()
+inline void decoder_unmask_crank_irq()
 {
     EXTI->IMR |= EXTI_IMR_MR0;
 }
@@ -79,12 +79,12 @@ void decoder_unmask_crank_irq()
 cylinder sensor irq helper functions
 (hardware dependent)
 */
-void decoder_mask_cis_irq()
+inline void decoder_mask_cis_irq()
 {
     EXTI->IMR &= ~EXTI_IMR_MR1;
 }
 
-void decoder_unmask_cis_irq()
+inline void decoder_unmask_cis_irq()
 {
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
@@ -97,21 +97,21 @@ void decoder_unmask_cis_irq()
 pickup sensing helper functions
 (the hardware dependent part)
 */
-void set_crank_pickup_sensing_rise()
+static inline void set_crank_pickup_sensing_rise()
 {
     EXTI->RTSR |= EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
     Decoder_hw.crank_pickup_sensing= RISE;
 }
 
-void set_crank_pickup_sensing_fall()
+static inline void set_crank_pickup_sensing_fall()
 {
     EXTI->FTSR |= EXTI_FTSR_TR0;
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     Decoder_hw.crank_pickup_sensing= FALL;
 }
 
-void set_crank_pickup_sensing_disabled()
+static inline void set_crank_pickup_sensing_disabled()
 {
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
@@ -162,7 +162,7 @@ void decoder_set_crank_pickup_sensing(sensing_t sensing)
 }
 
 
-void trigger_decoder_irq()
+inline void trigger_decoder_irq()
 {
     EXTI->SWIER= EXTI_SWIER_SWIER2;
 }
@@ -191,7 +191,7 @@ void trigger_decoder_irq()
 
 
 */
-void init_decoder_hw()
+inline void init_decoder_hw()
 {
     //interface variables
     //only variable will be set by decoder_set_crank_pickup_sensing()

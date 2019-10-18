@@ -9,7 +9,7 @@ this module covers the ignition HAL
 #include "ignition_hw.h"
 
 
-void set_ignition_ch1(output_pin_t level)
+inline void set_ignition_ch1(output_pin_t level)
 {
     if(level == ON)
     {
@@ -29,7 +29,7 @@ void set_ignition_ch1(output_pin_t level)
 }
 
 
-void set_ignition_ch2(output_pin_t level)
+inline void set_ignition_ch2(output_pin_t level)
 {
     if(level == ON)
     {
@@ -52,7 +52,7 @@ void set_ignition_ch2(output_pin_t level)
      recalculation after spark has fired
 
 */
-void init_ignition_hw()
+inline void init_ignition_hw()
 {
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;

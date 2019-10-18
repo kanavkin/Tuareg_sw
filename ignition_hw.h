@@ -6,9 +6,9 @@
 #include "stm32_libs/boctok_types.h"
 
 
-void init_ignition_hw();
+extern void init_ignition_hw();
 
-void set_ignition_ch1(output_pin_t level);
-void set_ignition_ch2(output_pin_t level);
+extern void set_ignition_ch1(output_pin_t level);
+extern void set_ignition_ch2(output_pin_t level);
 
 #endif // IGNITIONHW_H_INCLUDED

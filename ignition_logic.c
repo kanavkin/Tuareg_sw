@@ -52,6 +52,7 @@ U32 get_advance(U32 rpm)
 }
 
 
+#warning TODO (oli#3#): use the more accurate crank_rotation_period_us for calculations
 
 /**
 calculate the duration (in us) corresponding to an rotation angle

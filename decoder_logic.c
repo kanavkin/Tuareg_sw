@@ -7,8 +7,6 @@
 #include "uart.h"
 #include "Tuareg.h"
 
-#include "debug.h"
-
 volatile decoder_logic_t Decoder_internals;
 
 /**
@@ -97,13 +95,12 @@ volatile decoder_logic_t * init_decoder_logic()
 
 /******************************************************************************************************************************
 crankshaft position sensor
- ******************************************************************************************************************************/
-void decoder_logic_crank_handler(VU32 Timestamp)
-{
-     //DEBUG
-    #warning TODO (oli#9#): Debug LED
-    set_debug_led(TOGGLE);
 
+performance analysis revealed:
+handler entry happens about 1 us after the trigger signal edge had occurred
+ ******************************************************************************************************************************/
+inline void decoder_logic_crank_handler(VU32 Timestamp)
+{
 
     switch(Decoder_internals.sync_mode) {
 
@@ -152,6 +149,7 @@ void decoder_logic_crank_handler(VU32 Timestamp)
                 Decoder_internals.cycle_timing_counter= 0UL;
                 Decoder_internals.cycle_timing_buffer= 0UL;
                 Decoder_internals.engine_rpm= 0UL;
+                Decoder_internals.crank_rotation_period_us= 0UL;
             }
             else
             {
@@ -194,6 +192,8 @@ void decoder_logic_crank_handler(VU32 Timestamp)
             if(Decoder_internals.cycle_timing_counter == 16)
             {
                 /**
+                engine_rpm is mainly for user display and table lookup
+
                 rpm calculation:
                 n = 60 / T.360 = 120 / T.720
                 (T.720 is the time for 2 revolutions)
@@ -207,6 +207,14 @@ void decoder_logic_crank_handler(VU32 Timestamp)
                 as 120, f.cpu and ps are constant, we calculate the constant part in init code
                 */
                 Decoder_internals.engine_rpm= Decoder_internals.rpm_calc_constant / Decoder_internals.cycle_timing_buffer;
+
+                /**
+                crank_rotation_period_us acts as an accurate time base for following calculations
+
+                the timer is adjusted to deliver a 4us timer interval (by its ps 400 @ 100 MHz)
+                cycle_timing_buffer holds the duration for 2 full crank turns in timer ticks (#T.720)
+                */
+                Decoder_internals.crank_rotation_period_us= 2* Decoder_internals.cycle_timing_buffer;
 
                 //reset calculation
                 Decoder_internals.cycle_timing_buffer= 0;
@@ -327,7 +335,7 @@ void decoder_logic_crank_handler(VU32 Timestamp)
 /******************************************************************************************************************************
 Timer for decoder control: compare event --> enable external interrupt for pickup sensor
  ******************************************************************************************************************************/
-void decoder_logic_timer_compare_handler()
+inline void decoder_logic_timer_compare_handler()
 {
     decoder_unmask_crank_irq();
 }
@@ -336,7 +344,7 @@ void decoder_logic_timer_compare_handler()
 /******************************************************************************************************************************
 Timer for decoder control: update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
  ******************************************************************************************************************************/
-void decoder_logic_timer_update_handler()
+inline void decoder_logic_timer_update_handler()
 {
     //timer update occurs every 200 ms
     if(Decoder_internals.timeout_count >= DECODER_TIMEOUT)
@@ -349,6 +357,7 @@ void decoder_logic_timer_update_handler()
         Decoder_internals.cycle_timing_buffer= 0UL;
         Decoder_internals.cycle_timing_counter= 0UL;
         Decoder_internals.engine_rpm= 0UL;
+        Decoder_internals.crank_rotation_period_us= 0UL;
 
         //trigger sw irq for decoder output processing (ca. 3.2us behind trigger edge)
         trigger_decoder_irq();
@@ -373,7 +382,7 @@ void decoder_logic_timer_update_handler()
 /******************************************************************************************************************************
 cylinder identification sensor
  ******************************************************************************************************************************/
-void decoder_logic_cam_handler()
+inline void decoder_logic_cam_handler()
 {
     /**
     a trigger condition has been seen on c.i.s -> cylinder #1 working or sensor error

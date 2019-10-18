@@ -3,8 +3,14 @@
 
 #include "stm32_libs/boctok_types.h"
 
-//decoder timer prescaler
-#define DECODER_TIMER_PSC 196UL
+/**
+decoder timer prescaler
+T.timer := 4 us @ 100 MHz
+
+WARNING:
+when changing, adjust the crank_rotation_period_us calculation in decoder_logic module accordingly!
+*/
+#define DECODER_TIMER_PSC 400UL
 
 
 typedef enum {
@@ -31,15 +37,15 @@ typedef struct {
 
 } decoder_hw_t;
 
-void init_decoder_hw();
-void decoder_start_timer();
-void decoder_stop_timer();
-void decoder_mask_crank_irq();
-void decoder_unmask_crank_irq();
-void decoder_mask_cis_irq();
-void decoder_unmask_cis_irq();
+extern void init_decoder_hw();
+extern void decoder_start_timer();
+extern void decoder_stop_timer();
+extern void decoder_mask_crank_irq();
+extern void decoder_unmask_crank_irq();
+extern void decoder_mask_cis_irq();
+extern void decoder_unmask_cis_irq();
 void decoder_set_crank_pickup_sensing(sensing_t sensing);
-void trigger_decoder_irq();
+extern void trigger_decoder_irq();
 
 
 #endif // DECODERHW_H_INCLUDED

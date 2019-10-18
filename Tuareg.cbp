@@ -36,7 +36,8 @@
 			<Add option="-Winline" />
 			<Add option="-Wunreachable-code" />
 			<Add option="-Wall" />
-			<Add option="-march=armv7e-m -mfloat-abi=softfp  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
+			<Add option="-std=c99" />
+			<Add option="-march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
 			<Add option="-Wdouble-promotion -fsingle-precision-constant" />
 			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
 			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
@@ -50,7 +51,7 @@
 		<Linker>
 			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
 			<Add option="-I$(PROJECT_DIR)stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)stm32_libs/stm32f4xx/boctok" />
-			<Add option="-march=armv7e-m -nostdlib /opt/gcc-arm/lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m/fpv4-sp/hard/libgcc.a -nostartfiles" />
+			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />

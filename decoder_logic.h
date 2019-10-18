@@ -3,25 +3,14 @@
 
 #include "stm32_libs/boctok_types.h"
 
-/*
-deprecated?
-#define POSITION_A1_ANGLE 100
-#define POSITION_A2_ANGLE 60
-#define POSITION_B1_ANGLE 10
-#define POSITION_B2_ANGLE 0
-#define POSITION_C1_ANGLE 80
-#define POSITION_C2_ANGLE 90
-#define POSITION_D1_ANGLE 170
-#define POSITION_D2_ANGLE 180
-*/
-
 
 /**
 the amount of timer 9 ticks until we re enable the crank pickup irq
-adjusted to about 1° crank shaft at 9500 rpm
-(setting: ps 196 at 64 MHz)
+adjusted to about 2° crank shaft at 9500 rpm
+(smallest segment is about 5° in length)
+(setting: ps 400 at 100 MHz)
 */
-#define CRANK_NOISE_FILTER 7
+#define CRANK_NOISE_FILTER 8
 
 
 /**
@@ -33,9 +22,9 @@ segment 1 has a key/gap ratio of 0.8
 /**
 the amount of timer 2 update events until we detect a stalled engine
 adjusted to 5 s
-(setting: ps 196 at 64 MHz)
+(setting: ps 400 at 100 MHz)
 */
-#define DECODER_TIMEOUT 25
+#define DECODER_TIMEOUT 19
 
 
 /**
@@ -95,6 +84,7 @@ typedef struct {
 
     U32 engine_rpm;
     U32 rpm_calc_constant;
+    U32 crank_rotation_period_us;
 
     engine_phase_t phase;
 
@@ -111,10 +101,10 @@ typedef struct {
 
 volatile decoder_logic_t * init_decoder_logic();
 
-void decoder_logic_crank_handler(VU32 Timestamp);
-void decoder_logic_cam_handler();
-void decoder_logic_timer_compare_handler();
-void decoder_logic_timer_update_handler();
+extern void decoder_logic_crank_handler(VU32 Timestamp);
+extern void decoder_logic_cam_handler();
+extern void decoder_logic_timer_compare_handler();
+extern void decoder_logic_timer_update_handler();
 
 
 #endif // DECODERLOGIC_H_INCLUDED

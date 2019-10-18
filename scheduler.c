@@ -22,22 +22,22 @@ volatile scheduler_t Scheduler;
 
 #warning TODO (oli#4#): implement dummy functions!
 
-inline void set_fuel_ch1(output_pin_t level)
+static inline void set_fuel_ch1(output_pin_t level)
 {
 
 }
 
-inline void set_fuel_ch2()
+static inline void set_fuel_ch2()
 {
 
 }
 
-inline void set_ign_ch1(output_pin_t level)
+static inline void set_ign_ch1(output_pin_t level)
 {
     set_ignition_ch1(level);
 }
 
-inline void set_ign_ch2(output_pin_t level)
+static inline void set_ign_ch2(output_pin_t level)
 {
     set_ignition_ch2(level);
 }
@@ -111,6 +111,7 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
                 if(remain < now)
                 {
                     //compare already behind, hits after update
+                    //preload function will load new compare value after update event
                     TIM5->CCMR1 &= ~TIM_CCMR1_OC1PE;
                 }
                 else
@@ -136,6 +137,9 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
             TIM5->DIER |= (U16) TIM_DIER_CC1IE;
+
+#warning TODO (oli#1#): get scheduler to work, 11,8 - 12,6 us when 10us was commanded
+
             break;
 
 

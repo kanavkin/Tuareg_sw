@@ -258,12 +258,23 @@ int main(void)
 
     while(1)
     {
+
+
+        //debug
+
         //print analog and digital sensor data
         if( ls_timer & BIT_TIMER_1HZ)
         {
             ls_timer &= ~BIT_TIMER_1HZ;
 
             print_sensor_data();
+
+
+            set_ignition_ch1(ON);
+
+            scheduler_set_channel(IGN_CH1, OFF, 10);
+
+
         }
 
 
@@ -310,14 +321,20 @@ int main(void)
 sw generated irq when decoder has
 updated crank_position based on crank pickup signal
 or decoder timeout occurred!
+
+performance analysis revealed:
+handler entry happens about 3 us after the trigger signal edge had occurred
  ******************************************************************************************************************************/
 void EXTI2_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
+
     //DEBUG
-    //set_debug_led(TOGGLE);
+    #warning TODO (oli#9#): Debug LED
+    set_debug_led(TOGGLE);
+
 
 
     /**
@@ -330,6 +347,7 @@ void EXTI2_IRQHandler(void)
     or
     decoder has lost sync
     */
+    /*
     if((Tuareg.decoder->engine_rpm == 0) && (Tuareg.decoder->crank_position == UNDEFINED_POSITION))
     {
         //decoder timeout
@@ -348,6 +366,8 @@ void EXTI2_IRQHandler(void)
     {
         trigger_coil_by_timer(Tuareg.ignition_timing.coil_off_timing, OFF);
     }
+    */
+
 
     /**
     read the MAP sensor
