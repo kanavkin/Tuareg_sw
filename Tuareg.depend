@@ -487,7 +487,7 @@
 	"conversion.h"
 	"uart.h"
 
-1571349000 source:/home/oli/tenere/efi/Tuareg_sw/debug.c
+1571611072 source:/home/oli/tenere/efi/Tuareg_sw/debug.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
@@ -506,7 +506,7 @@
 	<stdlib.h>
 	<stdint.h>
 
-1571348994 /home/oli/tenere/efi/Tuareg_sw/debug.h
+1571610977 /home/oli/tenere/efi/Tuareg_sw/debug.h
 	"stm32_libs/boctok_types.h"
 	"ignition_logic.h"
 
@@ -578,7 +578,7 @@
 
 1547855139 /home/oli/tenere/efi/Tuareg_sw/TunerStudio.h
 
-1571436243 source:/home/oli/tenere/efi/Tuareg_sw/main.c
+1571612748 source:/home/oli/tenere/efi/Tuareg_sw/main.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
@@ -599,12 +599,13 @@
 	"debug.h"
 	"Tuareg.h"
 
-1571437710 source:/home/oli/tenere/efi/Tuareg_sw/scheduler.c
+1571613091 source:/home/oli/tenere/efi/Tuareg_sw/scheduler.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
 	"scheduler.h"
 	"ignition_hw.h"
+	"debug.h"
 
 1571348288 source:/home/oli/tenere/efi/Tuareg_sw/sensors.c
 	<math.h>
@@ -751,7 +752,7 @@
 	"uart.h"
 	"Tuareg.h"
 
-1571435710 source:/home/oli/tenere/efi/Tuareg_sw/ignition_hw.c
+1571605724 source:/home/oli/tenere/efi/Tuareg_sw/ignition_hw.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"

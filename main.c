@@ -153,6 +153,7 @@ sensors: no timers
 
 
 
+
 int main(void)
 {
     U32 config_load_status;
@@ -230,6 +231,7 @@ int main(void)
 
     //DEBUG
     init_debug_pins();
+    dwt_init();
 
     //serial monitor
     #ifdef SERIAL_MONITOR
@@ -258,21 +260,24 @@ int main(void)
 
     while(1)
     {
-
-
         //debug
+        poll_dwt_printout();
+
 
         //print analog and digital sensor data
         if( ls_timer & BIT_TIMER_1HZ)
         {
             ls_timer &= ~BIT_TIMER_1HZ;
 
-            print_sensor_data();
+            //print_sensor_data();
 
+
+            //print_dwt_delay();
 
             set_ignition_ch1(ON);
 
-            scheduler_set_channel(IGN_CH1, OFF, 10);
+            scheduler_set_channel(IGN_CH1, OFF, 9000);
+
 
 
         }

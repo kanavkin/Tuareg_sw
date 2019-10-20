@@ -3,19 +3,11 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "ignition_logic.h"
-/*
-typedef struct
-{
-  __IO uint32_t CTRL;                        // Offset: 0x00  Control Register
-  __IO uint32_t CYCCNT;                        // Offset: 0x04  Cycle counter Register
 
-} SWT_Type;
 
- Core Debug registers (defined in core header)
-#define DWT_BASE    (0xE0001000)
-#define DWT         ((SWT_Type *) DWT_BASE)
-*/
-
+extern VU32 Debug_DWT_Timestamp_1;
+extern VU32 Debug_DWT_Timestamp_2;
+extern VU32 Debug_DWT_End;
 
 void init_debug_pins();
 void set_debug_pin( output_pin_t level);
@@ -26,6 +18,14 @@ void print_minimal_state(USART_TypeDef * Port, volatile ignition_timing_t * inti
 
 
 void dwt_init();
+extern void dwt_stop_cyclecounter();
+
+extern U32 dwt_get_cyclecounter();
+extern void dwt_set_begin();
+extern void dwt_set_end();
+void print_dwt_delay();
+extern void poll_dwt_printout();
+
 void delay_us(U32 delay);
 
 void print_sensor_data();

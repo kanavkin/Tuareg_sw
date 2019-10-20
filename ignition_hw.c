@@ -8,7 +8,13 @@ this module covers the ignition HAL
 #include "stm32_libs/boctok_types.h"
 #include "ignition_hw.h"
 
+/******************************************************************************************************************************
+ignition actuator control
 
+performance analysis revealed:
+one set_ignition_ch1(ON) + set_ignition_ch1(OFF) cycle generates a pulse of about 1 us +/- 50ns
+execution time about 120 cycles
+ ******************************************************************************************************************************/
 inline void set_ignition_ch1(output_pin_t level)
 {
     if(level == ON)

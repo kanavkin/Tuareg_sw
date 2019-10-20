@@ -18,6 +18,8 @@ timer resources:
 
 volatile scheduler_t Scheduler;
 
+#include "debug.h"
+
 
 
 #warning TODO (oli#4#): implement dummy functions!
@@ -58,6 +60,8 @@ void init_scheduler()
     //start timer counter
     TIM5->CR1 |= TIM_CR1_CEN;
 
+    TIM5->EGR |= TIM_EGR_UG;
+
     //enable timer 5 irq (prio 2)
     NVIC_SetPriority(TIM5_IRQn, 2UL );
     NVIC_ClearPendingIRQ(TIM5_IRQn);
@@ -68,10 +72,12 @@ void init_scheduler()
 void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U32 delay_us)
 {
 
-    U64 compare;
-    U64 delay_ticks;
-    U32 now;
-    U64 remain;
+    volatile U64 compare;
+    VU32 now;
+    volatile U64 remain;
+
+    //get current timer value -> crucial part
+    now= TIM5->CNT;
 
     //safety check - clip delay
     if(delay_us > SCHEDULER_MAX_PERIOD_US)
@@ -81,14 +87,11 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
         //TODO log a warning
     }
 
-    //actual timer value
-    now= TIM5->CNT;
+    //DEBUG
+    dwt_set_begin();
 
-    //little correction to fit the desired delay better
-    delay_ticks= delay_us / SCHEDULER_PERIOD_US +1;
-
-    //compare value at delay end
-    compare= now  + delay_ticks;
+    //compare value at delay end in ticks
+    compare= now  + (delay_us / SCHEDULER_PERIOD_US);
 
     switch(target_ch)
     {
@@ -108,15 +111,22 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
                 //amount of ticks after update event
                 remain= compare - 0xFFFFFFFF;
 
+
+                /**
+                we can not set the new compare value right now, if we will see it in this timer cycle
+                */
                 if(remain < now)
                 {
                     //compare already behind, hits after update
-                    //preload function will load new compare value after update event
+                    //preload function not needed
                     TIM5->CCMR1 &= ~TIM_CCMR1_OC1PE;
                 }
                 else
                 {
-                    //set new compare after update event
+                    //set new compare after update event, use a default value by now
+                    TIM5->CCR1= (U32) 0x00;
+
+                    //preload function will load new compare value after update event
                     TIM5->CCMR1 |= TIM_CCMR1_OC1PE;
                 }
 
@@ -138,7 +148,14 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
             TIM5->DIER |= (U16) TIM_DIER_CC1IE;
 
-#warning TODO (oli#1#): get scheduler to work, 11,8 - 12,6 us when 10us was commanded
+#warning TODO (oli#1#): get scheduler to work, 11.5 +/- 0.5 us when 10us was commanded
+/*
+
+11.5 +/- 0.5 us @ 10us
+21.5 +/- 0.5 us @ 20us
+
+
+*/
 
             break;
 
@@ -322,13 +339,18 @@ void TIM5_IRQHandler(void)
 {
     if( TIM5->SR & TIM_SR_CC1IF)
     {
+        //clear irq pending bit
+        TIM5->SR= (U16) ~TIM_SR_CC1IF;
+
+        //debug
+        dwt_set_end();
+
         /**
         ignition channel 1
         */
         set_ign_ch1(Scheduler.ign_ch1_action);
 
-        //clear irq pending bit
-        TIM5->SR= (U16) ~TIM_SR_CC1IF;
+
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
