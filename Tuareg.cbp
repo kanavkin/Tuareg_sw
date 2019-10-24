@@ -76,6 +76,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="conversion.h" />
+		<Unit filename="dash_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dash_hw.h" />
+		<Unit filename="dash_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dash_logic.h" />
 		<Unit filename="debug.c">
 			<Option compilerVar="CC" />
 		</Unit>

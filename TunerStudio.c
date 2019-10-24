@@ -426,7 +426,7 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[0] = Tuareg.secl; //secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
     fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
     fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
-    fullStatus[3] = (U8)(Tuareg.ignition_timing.dwell_advance - Tuareg.ignition_timing.ignition_advance); //Dwell in ms * 10
+    fullStatus[3] = (U8)(Tuareg.ignition_timing.dwell_advance_deg - Tuareg.ignition_timing.ignition_advance_deg); //Dwell in ms * 10
     fullStatus[4] = lowByte(Tuareg.sensor_interface->MAP / 10); //2 U8s for MAP
     fullStatus[5] = highByte(Tuareg.sensor_interface->MAP / 10);
     fullStatus[6] = (U8)(Tuareg.sensor_interface->IAT + IAT_OFFSET); //mat
@@ -445,7 +445,7 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[19] = Tuareg.afrTarget;
     fullStatus[20] = (U8)(Tuareg.PW1 / 100); //Pulsewidth 1 multiplied by 10 in ms. Have to convert from uS to mS.
     fullStatus[21] = (U8) Tuareg.sensor_interface->ddt_TPS; //TPS DOT
-    fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance;
+    fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance_deg;
     fullStatus[23] = (U8) Tuareg.sensor_interface->TPS; // TPS (0% to 100%)
 
     //Need to split the int loopsPerSecond value into 2 bytes

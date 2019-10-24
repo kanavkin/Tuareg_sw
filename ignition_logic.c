@@ -16,16 +16,6 @@
 
 
 
-
-#warning TODO (oli#5#): add ignition table lookup
-
-
-/**
-characteristics hard coded to this tables!
-*/
-const U8 adv_table[]={0, 3, 3, 10, 12, 12, 12, 12, 12, 12, 14, 17, 24, 25, 26, 27, 28, \
-29, 30, 35, 35, 36, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38};
-
 /**
 return the advance (in deg) to a given rpm
 TODO
@@ -38,38 +28,32 @@ U32 get_advance(U32 rpm)
     {
         return table3D_getValue(&ignitionTable, Tuareg.decoder->engine_rpm, Tuareg.sensor_interface->MAP);
     }
-    else if(rpm <= 8500)
-    {
-        return (U32) adv_table[rpm >> 8];
-    }
     else
     {
-        //spark advance for very high revs
-        //TODO make configurable (config page)
-        //TODO handle over revs
-        return 3;
+#warning TODO (oli#9#): add config value for fallback advance
+
+        //default spark advance when no eeprom data could be loaded
+        return 12;
     }
 }
 
-
-#warning TODO (oli#3#): use the more accurate crank_rotation_period_us for calculations
 
 /**
 calculate the duration (in us) corresponding to an rotation angle
 e.g. how long will it take the crank shaft to rotate by xx deg?
 */
-U32 calc_rot_duration(U32 angle, U32 rpm)
+U32 calc_rot_duration(U32 Angle_deg, U32 Period_us)
 {
-    return (angle * 500000) / (rpm * 3);
+    return (Angle_deg * Period_us) / 360;
 }
 
 /**
 calculate the angle (in deg) that the crank shaft will rotate in
-a given period at a given rpm
+a given interval at a given rpm
 */
-U32 calc_rot_angle(U32 period_us, U32 rpm)
+U32 calc_rot_angle(U32 Interval_us, U32 Period_us)
 {
-    return (3 * rpm * period_us) / 500000;
+    return (360 * Interval_us) / Period_us;
 }
 
 
@@ -78,61 +62,61 @@ U32 calc_rot_angle(U32 period_us, U32 rpm)
 calculates the position with the minimal possible delay time to fit
 the advance for e.g. dwell and ignition
 */
-void fit_position( U32 rpm, U32 advance, volatile engine_position_t * to_position, VU32 * to_delay)
+void fit_position( U32 Period_us, U32 Advance_deg, volatile engine_position_t * to_position, VU32 * to_delay)
 {
-    if(advance == POSITION_B2_ADVANCE)
+    if(Advance_deg == POSITION_B2_ADVANCE)
     {
         // 0°
         * to_position= POSITION_B2;
         * to_delay= 0;
     }
-    else if(advance <= POSITION_B1_ADVANCE)
+    else if(Advance_deg <= POSITION_B1_ADVANCE)
     {
         // 1° - 10°
         * to_position= POSITION_B1;
-        * to_delay= calc_rot_duration((POSITION_B1_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_B1_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_B1_ADVANCE) && (advance <= POSITION_A2_ADVANCE))
+    else if((Advance_deg > POSITION_B1_ADVANCE) && (Advance_deg <= POSITION_A2_ADVANCE))
     {
         // 11° - 60°
         * to_position= POSITION_A2;
-        * to_delay= calc_rot_duration((POSITION_A2_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_A2_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_A2_ADVANCE) && (advance <= POSITION_A1_ADVANCE))
+    else if((Advance_deg > POSITION_A2_ADVANCE) && (Advance_deg <= POSITION_A1_ADVANCE))
     {
         // 61° - 100°
         * to_position= POSITION_A1;
-        * to_delay= calc_rot_duration((POSITION_A1_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_A1_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_A1_ADVANCE) && (advance <= POSITION_D2_ADVANCE))
+    else if((Advance_deg > POSITION_A1_ADVANCE) && (Advance_deg <= POSITION_D2_ADVANCE))
     {
         // 101° - 185°
         * to_position= POSITION_D2;
-        * to_delay= calc_rot_duration((POSITION_D2_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_D2_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_D2_ADVANCE) && (advance <= POSITION_D1_ADVANCE))
+    else if((Advance_deg > POSITION_D2_ADVANCE) && (Advance_deg <= POSITION_D1_ADVANCE))
     {
         // 186° - 190°
         * to_position= POSITION_D1;
-        * to_delay= calc_rot_duration((POSITION_D1_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_D1_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_D1_ADVANCE) && (advance <= POSITION_C2_ADVANCE))
+    else if((Advance_deg > POSITION_D1_ADVANCE) && (Advance_deg <= POSITION_C2_ADVANCE))
     {
         // 191° - 275°
         * to_position= POSITION_C2;
-        * to_delay= calc_rot_duration((POSITION_C2_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_C2_ADVANCE - Advance_deg), Period_us);
     }
-    else if((advance > POSITION_C2_ADVANCE) && (advance <= POSITION_C1_ADVANCE))
+    else if((Advance_deg > POSITION_C2_ADVANCE) && (Advance_deg <= POSITION_C1_ADVANCE))
     {
         // 276° - 280°
         * to_position= POSITION_C1;
-        * to_delay= calc_rot_duration((POSITION_C1_ADVANCE - advance), rpm);
+        * to_delay= calc_rot_duration((POSITION_C1_ADVANCE - Advance_deg), Period_us);
     }
-    else if(advance > POSITION_C1_ADVANCE)
+    else if(Advance_deg > POSITION_C1_ADVANCE)
     {
         // 280° - 360°
         * to_position= POSITION_B2;
-        * to_delay= calc_rot_duration((360 - advance), rpm);
+        * to_delay= calc_rot_duration((360 - Advance_deg), Period_us);
     }
 }
 
@@ -165,30 +149,30 @@ void calc_ignition_timings(volatile ignition_timing_t * target_timing)
         /**
         calculate advance (off timing)
         */
-        target_timing->ignition_advance= get_advance(target_timing->rpm);
-        fit_position(target_timing->rpm, target_timing->ignition_advance, &target_timing->coil_off_pos, &target_timing->coil_off_timing );
+        target_timing->ignition_advance_deg= get_advance(target_timing->rpm);
+        fit_position(target_timing->crank_period_us, target_timing->ignition_advance_deg, &target_timing->coil_off_pos, &target_timing->coil_off_timing_us );
 
         /**
         calculate dwell (on timing)
         */
-        target_timing->dwell_advance= target_timing->ignition_advance + calc_rot_angle(DYNAMIC_DWELL_US, target_timing->rpm);
+        target_timing->dwell_advance_deg= target_timing->ignition_advance_deg + calc_rot_angle(DYNAMIC_DWELL_US, target_timing->crank_period_us);
 
         /**
         clip dwell to crank cycle
         */
-        if(target_timing->dwell_advance > 360)
+        if(target_timing->dwell_advance_deg > 360)
         {
-            target_timing->dwell_advance= 360;
+            target_timing->dwell_advance_deg= 360;
         }
 
-        fit_position(target_timing->rpm, target_timing->dwell_advance, &target_timing->coil_on_pos, &target_timing->coil_on_timing );
+        fit_position(target_timing->crank_period_us, target_timing->dwell_advance_deg, &target_timing->coil_on_pos, &target_timing->coil_on_timing_us );
 
         /**
         account for scheduler allocation
         */
         if(target_timing->coil_on_pos == target_timing->coil_off_pos)
         {
-            target_timing->coil_on_timing=0;
+            target_timing->coil_on_timing_us=0;
         }
 
     }
@@ -199,9 +183,9 @@ void calc_ignition_timings(volatile ignition_timing_t * target_timing)
         */
         target_timing->coil_on_pos= LOWREV_DWELL_POSITION;
         target_timing->coil_off_pos= LOWREV_IGNITION_POSITION;
-        target_timing->ignition_advance= LOWREV_IGNITION_ADVANCE;
-        target_timing->coil_on_timing= 0;
-        target_timing->coil_off_timing= 0;
+        target_timing->ignition_advance_deg= LOWREV_IGNITION_ADVANCE;
+        target_timing->coil_on_timing_us= 0;
+        target_timing->coil_off_timing_us= 0;
     }
     else
     {
@@ -210,9 +194,9 @@ void calc_ignition_timings(volatile ignition_timing_t * target_timing)
         */
         target_timing->coil_on_pos= CRANKING_DWELL_POSITION;
         target_timing->coil_off_pos= CRANKING_IGNITION_POSITION;
-        target_timing->ignition_advance= CRANKING_IGNITION_ADVANCE;
-        target_timing->coil_on_timing= 0;
-        target_timing->coil_off_timing= 0;
+        target_timing->ignition_advance_deg= CRANKING_IGNITION_ADVANCE;
+        target_timing->coil_on_timing_us= 0;
+        target_timing->coil_off_timing_us= 0;
     }
 }
 

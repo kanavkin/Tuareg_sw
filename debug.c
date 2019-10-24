@@ -175,7 +175,7 @@ void print_minimal_state(USART_TypeDef * Port, volatile ignition_timing_t * inti
     UART_transmit(Port,'\r');
     UART_Print_U(Port, intime->rpm, TYPE_U32, NO_PAD);
     UART_write(Port, "rpm, advance ");
-    UART_Print_U(Port, intime->ignition_advance, TYPE_U32, NO_PAD);
+    UART_Print_U(Port, intime->ignition_advance_deg, TYPE_U32, NO_PAD);
     UART_write(Port, "deg");
 }
 
@@ -276,18 +276,6 @@ void print_sensor_data()
     {
         UART_Tx(DEBUG_PORT, '-');
     }
-
-
-    UART_Send(DEBUG_PORT, "\r\nIntake vacuum:");
-    if(Tuareg.sensor_interface->Intake_Vacuum)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->Intake_Vacuum, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
 
     UART_Send(DEBUG_PORT, "\r\nBARO:");
     if(Tuareg.sensor_interface->active_sensors & ASENSOR_BARO_ACT)

@@ -56,10 +56,11 @@ desired idle rpm if you want fixed ignition operation there
 typedef struct _ignition_timing_t {
 
     U32 rpm;
-    U32 ignition_advance;
-    U32 dwell_advance;
-    U32 coil_on_timing;
-    U32 coil_off_timing;
+    U32 crank_period_us;
+    U32 ignition_advance_deg;
+    U32 dwell_advance_deg;
+    U32 coil_on_timing_us;
+    U32 coil_off_timing_us;
     engine_position_t coil_on_pos;
     engine_position_t coil_off_pos;
 
@@ -68,8 +69,8 @@ typedef struct _ignition_timing_t {
 
 
 U32 get_advance(U32 rpm);
-U32 calc_rot_duration(U32 angle, U32 rpm);
-U32 calc_rot_angle(U32 period_us, U32 rpm);
+U32 calc_rot_duration(U32 Angle_deg, U32 Period_us);
+U32 calc_rot_angle(U32 Interval_us, U32 Period_us);
 
 void init_ignition_logic(volatile ignition_timing_t * initial_timing);
 

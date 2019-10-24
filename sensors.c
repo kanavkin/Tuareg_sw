@@ -47,6 +47,7 @@ volatile sensor_interface_t * init_sensors()
     GPIO_configure(GPIOA, 4, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOA, 5, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOA, 6, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOA, 7, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 4, GPIO_MODE_ANALOG, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     //GPIO run + crash + spare 1/2 + debug
@@ -55,7 +56,7 @@ volatile sensor_interface_t * init_sensors()
     GPIO_configure(GPIOC, 3, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
     GPIO_configure(GPIOC, 5, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
     GPIO_configure(GPIOB, 1, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
-    GPIO_configure(GPIOC, 4, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
+    GPIO_configure(GPIOB, 4, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
 
 
     /**
@@ -296,17 +297,6 @@ void ADC_IRQHandler()
                     */
                     Sensors.MAP= map_calc / configPage9.MAP_calib_M;
 
-                    /**
-                    provide intake vacuum figure if possible
-                    */
-                    if( (Sensors.active_sensors & ASENSOR_BARO_ACT) && (Sensors.BARO > Sensors.MAP) )
-                    {
-                        Sensors.Intake_Vacuum= Sensors.BARO - Sensors.MAP;
-                    }
-                    else
-                    {
-                        Sensors.Intake_Vacuum =0;
-                    }
                 }
 
                 //reset average buffer
@@ -336,7 +326,6 @@ void ADC_IRQHandler()
                 mark sensor inactive
                 */
                 Sensors.MAP =0;
-                Sensors.Intake_Vacuum =0;
                 Sensors.map_integrator =0;
                 Sensors.map_integrator_count =0;
                 Sensors.active_sensors &= ~ASENSOR_MAP_ACT;
@@ -741,7 +730,6 @@ void DMA2_Stream0_IRQHandler()
                     mark sensor inactive
                     */
                     Sensors.BARO =0;
-                    Sensors.Intake_Vacuum =0;
                     Sensors.average[ASENSOR_BARO] =0;
                     Sensors.average_count[ASENSOR_BARO] =0;
                     Sensors.active_sensors &= ~ASENSOR_BARO_ACT;

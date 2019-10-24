@@ -80,6 +80,9 @@ SCHEDULER (ignition)
 #include "fuel_hw.h"
 #include "fuel_logic.h"
 
+#include "dash_hw.h"
+#include "dash_logic.h"
+
 #include "debug.h"
 #include "Tuareg.h"
 
@@ -222,6 +225,8 @@ int main(void)
     init_lowspeed_timers();
     init_fuel_hw();
     init_fuel_logic();
+    init_dash_hw();
+    init_dash_logic();
 
     //ready to carry out system migration
     Tuareg.Runmode= TMODE_MIGRATION;
@@ -351,11 +356,11 @@ void EXTI2_IRQHandler(void)
     }
     else if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_on_pos)
     {
-        trigger_coil_by_timer(Tuareg.ignition_timing.coil_on_timing, ON);
+        trigger_coil_by_timer(Tuareg.ignition_timing.coil_on_timing_us, ON);
     }
     else if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_off_pos)
     {
-        trigger_coil_by_timer(Tuareg.ignition_timing.coil_off_timing, OFF);
+        trigger_coil_by_timer(Tuareg.ignition_timing.coil_off_timing_us, OFF);
     }
 
 

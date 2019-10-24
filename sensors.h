@@ -147,7 +147,6 @@ typedef enum {
 
 } asensors_t;
 
-#warning TODO (oli#1#): Adjust sensor channels to new hw
 
 /**
 choose DSENSOR_xx values so that they can act as flags in a U8 (sensors.digital_sensors)
@@ -200,8 +199,7 @@ typedef struct _sensor_interface_t {
     U16 IAT;
     U16 CLT;
     U16 VBAT;
-#warning TODO (oli#9#): why do we need intake vacuum and where will data come from?
-    U16 Intake_Vacuum;
+
     U16 aSPARE;
 
     U8 digital_sensors;
