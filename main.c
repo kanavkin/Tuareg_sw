@@ -77,6 +77,8 @@ SCHEDULER (ignition)
 #include "table.h"
 #include "eeprom.h"
 #include "sensors.h"
+#include "fuel_hw.h"
+#include "fuel_logic.h"
 
 #include "debug.h"
 #include "Tuareg.h"
@@ -218,6 +220,8 @@ int main(void)
     init_ignition_logic(&Tuareg.ignition_timing);
     init_scheduler();
     init_lowspeed_timers();
+    init_fuel_hw();
+    init_fuel_logic();
 
     //ready to carry out system migration
     Tuareg.Runmode= TMODE_MIGRATION;
@@ -231,7 +235,7 @@ int main(void)
 
     //DEBUG
     init_debug_pins();
-    dwt_init();
+    //dwt_init();
 
     //serial monitor
     #ifdef SERIAL_MONITOR
@@ -261,7 +265,7 @@ int main(void)
     while(1)
     {
         //debug
-        poll_dwt_printout();
+        //poll_dwt_printout();
 
 
         //print analog and digital sensor data
@@ -269,17 +273,7 @@ int main(void)
         {
             ls_timer &= ~BIT_TIMER_1HZ;
 
-            //print_sensor_data();
-
-
-            //print_dwt_delay();
-
-            set_ignition_ch1(ON);
-
-            scheduler_set_channel(IGN_CH1, OFF, 9000);
-
-
-
+            print_sensor_data();
         }
 
 
@@ -335,13 +329,6 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
-
-    //DEBUG
-    #warning TODO (oli#9#): Debug LED
-    set_debug_led(TOGGLE);
-
-
-
     /**
     check if this is a decoder timeout (engine has stalled)
     -> shut down coils, injectors and fuel pump
@@ -352,7 +339,6 @@ void EXTI2_IRQHandler(void)
     or
     decoder has lost sync
     */
-    /*
     if((Tuareg.decoder->engine_rpm == 0) && (Tuareg.decoder->crank_position == UNDEFINED_POSITION))
     {
         //decoder timeout
@@ -371,7 +357,6 @@ void EXTI2_IRQHandler(void)
     {
         trigger_coil_by_timer(Tuareg.ignition_timing.coil_off_timing, OFF);
     }
-    */
 
 
     /**
@@ -401,11 +386,10 @@ void EXTI3_IRQHandler(void)
     */
     calc_ignition_timings(&Tuareg.ignition_timing);
 
-/*
     //DEBUG
     #warning TODO (oli#9#): Debug LED
     set_debug_led(TOGGLE);
-    */
+
 }
 
 

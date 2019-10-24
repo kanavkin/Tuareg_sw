@@ -93,6 +93,14 @@
 		</Unit>
 		<Unit filename="eeprom.h" />
 		<Unit filename="eeprom_layout.h" />
+		<Unit filename="fuel_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fuel_hw.h" />
+		<Unit filename="fuel_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fuel_logic.h" />
 		<Unit filename="ignition_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>

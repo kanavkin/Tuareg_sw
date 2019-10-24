@@ -15,23 +15,19 @@ timer resources:
 #include "stm32_libs/boctok_types.h"
 #include "scheduler.h"
 #include "ignition_hw.h"
+#include "fuel_hw.h"
 
 volatile scheduler_t Scheduler;
 
-#include "debug.h"
-
-
-
-#warning TODO (oli#4#): implement dummy functions!
 
 static inline void set_fuel_ch1(output_pin_t level)
 {
-
+    set_injector_ch1(level);
 }
 
-static inline void set_fuel_ch2()
+static inline void set_fuel_ch2(output_pin_t level)
 {
-
+    set_injector_ch2(level);
 }
 
 static inline void set_ign_ch1(output_pin_t level)
@@ -59,7 +55,6 @@ void init_scheduler()
 
     //start timer counter
     TIM5->CR1 |= TIM_CR1_CEN;
-
     TIM5->EGR |= TIM_EGR_UG;
 
     //enable timer 5 irq (prio 2)
@@ -86,9 +81,6 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
 
         //TODO log a warning
     }
-
-    //DEBUG
-    dwt_set_begin();
 
     //compare value at delay end in ticks
     compare= now  + (delay_us / SCHEDULER_PERIOD_US);
@@ -147,15 +139,6 @@ void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
             TIM5->DIER |= (U16) TIM_DIER_CC1IE;
-
-#warning TODO (oli#1#): get scheduler to work, 11.5 +/- 0.5 us when 10us was commanded
-/*
-
-11.5 +/- 0.5 us @ 10us
-21.5 +/- 0.5 us @ 20us
-
-
-*/
 
             break;
 
@@ -342,15 +325,10 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC1IF;
 
-        //debug
-        dwt_set_end();
-
         /**
         ignition channel 1
         */
         set_ign_ch1(Scheduler.ign_ch1_action);
-
-
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
