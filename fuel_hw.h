@@ -10,5 +10,6 @@ extern void init_fuel_hw();
 
 extern void set_injector_ch1(output_pin_t level);
 extern void set_injector_ch2(output_pin_t level);
+extern void set_fuelpump(output_pin_t level);
 
 #endif // FUELHW_H_INCLUDED

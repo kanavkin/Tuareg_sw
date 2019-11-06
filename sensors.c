@@ -176,6 +176,46 @@ volatile sensor_interface_t * init_sensors()
 }
 
 
+/**
+digital sensors wiring dependent part
+*/
+VU8 read_dsensors()
+{
+    VU8 readout =0;
+
+    //DSENSOR_SPARE2
+    if(GPIOB->IDR & GPIO_IDR_IDR4)
+    {
+        readout |= DSENSOR_SPARE2;
+    }
+
+    //DSENSOR_NEUTRAL
+    if(GPIOC->IDR & GPIO_IDR_IDR0)
+    {
+        readout |= DSENSOR_NEUTRAL;
+    }
+
+    //DSENSOR_RUN
+    if(GPIOC->IDR & GPIO_IDR_IDR2)
+    {
+        readout |= DSENSOR_RUN;
+    }
+
+    //DSENSOR_CRASH
+    if(GPIOC->IDR & GPIO_IDR_IDR3)
+    {
+        readout |= DSENSOR_CRASH;
+    }
+
+    //DSENSOR_DEBUG
+    if(GPIOC->IDR & GPIO_IDR_IDR5)
+    {
+        readout |= DSENSOR_DEBUG;
+    }
+
+    return readout;
+}
+
 
 /**
 handling digital sensors seems so easy
@@ -183,56 +223,150 @@ compared to analog ones ;)
 */
 void read_digital_sensors()
 {
-    //DSENSOR_SPARE2
-    if(GPIOB->IDR & GPIO_IDR_IDR4)
-    {
-        Sensors.digital_sensors |= DSENSOR_SPARE2;
-    }
-    else
-    {
-        Sensors.digital_sensors &= ~DSENSOR_SPARE2;
-    }
+    VU32 cnt =0;
+    VU32 level =0;
 
-    //DSENSOR_SPARE1
-    if(GPIOC->IDR & GPIO_IDR_IDR0)
+    //have post fence check
+    if(Sensors.dsensor_cycle < DSENSOR_CYCLE_LEN)
     {
-        Sensors.digital_sensors |= DSENSOR_SPARE1;
-    }
-    else
-    {
-        Sensors.digital_sensors &= ~DSENSOR_SPARE1;
-    }
+        //save digital sensors state to history
+        Sensors.dsensor_history[Sensors.dsensor_cycle]= read_dsensors();
 
-    //DSENSOR_RUN
-    if(GPIOC->IDR & GPIO_IDR_IDR2)
-    {
-        Sensors.digital_sensors |= DSENSOR_RUN;
-    }
-    else
-    {
-        Sensors.digital_sensors &= ~DSENSOR_RUN;
-    }
+        if(Sensors.dsensor_cycle == (DSENSOR_CYCLE_LEN -1))
+        {
+            //cycle end -> do evaluation
 
-    //DSENSOR_CRASH
-    if(GPIOC->IDR & GPIO_IDR_IDR3)
-    {
-        Sensors.digital_sensors |= DSENSOR_CRASH;
-    }
-    else
-    {
-        Sensors.digital_sensors &= ~DSENSOR_CRASH;
-    }
+            /**
+            DSENSOR_SPARE2
+            */
 
-    //DSENSOR_DEBUG
-    if(GPIOC->IDR & GPIO_IDR_IDR5)
-    {
-        Sensors.digital_sensors |= DSENSOR_DEBUG;
-    }
-    else
-    {
-        Sensors.digital_sensors &= ~DSENSOR_DEBUG;
-    }
+            //reset counter
+            level =0;
 
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                //loop through history and count the number of samples with logic "1" state
+                if(Sensors.dsensor_history[cnt] & DSENSOR_SPARE2)
+                {
+                    level++;
+                }
+
+                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
+                if(level >= DSENSOR_HIGH_THRES)
+                {
+                    Sensors.digital_sensors |= DSENSOR_SPARE2;
+                }
+                else
+                {
+                    Sensors.digital_sensors &= ~DSENSOR_SPARE2;
+                }
+            }
+
+            /**
+            DSENSOR_NEUTRAL
+            */
+
+            //reset counter
+            level =0;
+
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                //loop through history and count the number of samples with logic "1" state
+                if(Sensors.dsensor_history[cnt] & DSENSOR_NEUTRAL)
+                {
+                    level++;
+                }
+
+                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
+                if(level >= DSENSOR_HIGH_THRES)
+                {
+                    Sensors.digital_sensors |= DSENSOR_NEUTRAL;
+                }
+                else
+                {
+                    Sensors.digital_sensors &= ~DSENSOR_NEUTRAL;
+                }
+            }
+
+            /**
+            DSENSOR_RUN
+            */
+
+            //reset counter
+            level =0;
+
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                //loop through history and count the number of samples with logic "1" state
+                if(Sensors.dsensor_history[cnt] & DSENSOR_RUN)
+                {
+                    level++;
+                }
+
+                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
+                if(level >= DSENSOR_HIGH_THRES)
+                {
+                    Sensors.digital_sensors |= DSENSOR_RUN;
+                }
+                else
+                {
+                    Sensors.digital_sensors &= ~DSENSOR_RUN;
+                }
+            }
+
+            /**
+            DSENSOR_CRASH
+            */
+
+            //reset counter
+            level =0;
+
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                //loop through history and count the number of samples with logic "1" state
+                if(Sensors.dsensor_history[cnt] & DSENSOR_CRASH)
+                {
+                    level++;
+                }
+
+                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
+                if(level >= DSENSOR_HIGH_THRES)
+                {
+                    Sensors.digital_sensors |= DSENSOR_CRASH;
+                }
+                else
+                {
+                    Sensors.digital_sensors &= ~DSENSOR_CRASH;
+                }
+            }
+
+            /**
+            DSENSOR_DEBUG
+            */
+
+            //reset counter
+            level =0;
+
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                //loop through history and count the number of samples with logic "1" state
+                if(Sensors.dsensor_history[cnt] & DSENSOR_DEBUG)
+                {
+                    level++;
+                }
+
+                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
+                if(level >= DSENSOR_HIGH_THRES)
+                {
+                    Sensors.digital_sensors |= DSENSOR_DEBUG;
+                }
+                else
+                {
+                    Sensors.digital_sensors &= ~DSENSOR_DEBUG;
+                }
+            }
+        }
+    }
 }
 
 

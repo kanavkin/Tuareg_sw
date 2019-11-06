@@ -117,6 +117,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ignition_logic.h" />
+		<Unit filename="lowprio_scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lowprio_scheduler.h" />
 		<Unit filename="lowspeed_timers.c">
 			<Option compilerVar="CC" />
 		</Unit>

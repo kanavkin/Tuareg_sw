@@ -10,12 +10,17 @@
 digital sensor channels:
 
 PORTB4 -> DSENSOR_SPARE2
-PORTC0 -> DSENSOR_SPARE1
+PORTC0 -> DSENSOR_NEUTRAL
 PORTC2 -> DSENSOR_RUN
 PORTC3 -> DESNSOR_CRASH
 PORTC5 -> DSENSOR_DEBUG
 */
 
+/**
+with a sensor readout rate of 4HZ it will report a logic "1" after 1 s
+*/
+#define DSENSOR_CYCLE_LEN 6
+#define DSENSOR_HIGH_THRES 4
 
 
 //use ADC1 for analog sensors
@@ -155,7 +160,7 @@ typedef enum {
 
     //digital sensors
     DSENSOR_SPARE2       =0x01,
-    DSENSOR_SPARE1       =0x02,
+    DSENSOR_NEUTRAL      =0x02,
     DSENSOR_RUN          =0x04,
     DSENSOR_CRASH        =0x08,
     DSENSOR_DEBUG        =0x10
@@ -203,6 +208,8 @@ typedef struct _sensor_interface_t {
     U16 aSPARE;
 
     U8 digital_sensors;
+    U8 dsensor_cycle;
+    U8 dsensor_history[DSENSOR_CYCLE_LEN];
 
     //working variables:
 
@@ -222,6 +229,7 @@ typedef struct _sensor_interface_t {
 
 
 volatile sensor_interface_t * init_sensors();
+VU8 read_dsensors();
 void read_digital_sensors();
 
 

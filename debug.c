@@ -348,8 +348,26 @@ void print_sensor_data()
         UART_Tx(DEBUG_PORT, '-');
     }
 
-    //digital sensors
-    UART_Send(DEBUG_PORT, "\r\nRUN, CRASH, SIDEST: ");
+
+    UART_Send(DEBUG_PORT, "\r\nSPARE2, NEUTRAL, RUN, CRASH, DEBUG: ");
+
+    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_SPARE2)
+    {
+        UART_Tx(DEBUG_PORT, '1');
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '0');
+    }
+
+    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_NEUTRAL)
+    {
+        UART_Tx(DEBUG_PORT, '1');
+    }
+    else
+    {
+        UART_Tx(DEBUG_PORT, '0');
+    }
 
     if(Tuareg.sensor_interface->digital_sensors & DSENSOR_RUN)
     {
@@ -372,8 +390,6 @@ void print_sensor_data()
     }
 
     UART_Tx(DEBUG_PORT, '-');
-
-#warning TODO (oli#4#): adjust to current sensor list
 
     if(Tuareg.sensor_interface->digital_sensors & DSENSOR_DEBUG)
     {

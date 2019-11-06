@@ -6,6 +6,16 @@
 #include "sensors.h"
 
 
+//level at which the crash sensor reports a crash event
+#define CRASH_SENSOR_ENGAGE_LEVEL 1
+
+//level at which the run sensor reports a run permission
+#define RUN_SENSOR_ENGAGE_LEVEL 0
+
+
+
+
+
 
 //#define CYLINDER_SENSOR_POSITION POSITION_D2
 
@@ -92,30 +102,25 @@ for the currentStatus
 
 typedef enum {
 
-    TMODE_INIT,
+    //system init
+    TMODE_HWINIT,
+    TMODE_CONFIGLOAD,
+    TMODE_MODULEINIT,
 
-    TMODE_LOWLEVEL      =0x00,
-    TMODE_CONFIGLOAD    =0x01,
-    TMODE_HWINIT        =0x02,
-    TMODE_MIGRATION     =0x03,
+    //control engine with minimum sensor input available
+    //TMODE_LIMP,
 
-    TMODE_LIMP          =0x30,
-    TMODE_DIAG          =0x40,
+    //perform diagnostic functions triggered by user, no engine operation
+    TMODE_DIAG,
 
+    //engine operation prohibited due to kill switch or crash sensor
+    TMODE_HALT,
 
-    TMODE_CRASH         =0x50,
-    TMODE_EMERGENCY     =0x51,
+    //normal engine operation
+    TMODE_RUNNING,
 
-    TMODE_KILLED        =0xF0,
-
-    TMODE_RUN,
-
-    TMODE_STALLED,
-    TMODE_CRANKING,
-    TMODE_PERFORMING,
-    TMODE_RUNNING           =0xFF,
-    TMODE_WARMUP,
-    TMODE_PRIMING
+    //engine stalled, system ready for start
+    TMODE_STB,
 
 } tuareg_runmode_t;
 
@@ -234,6 +239,7 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+void Tuareg_stop_engine();
 
 
 #endif // SPEED_H_INCLUDED

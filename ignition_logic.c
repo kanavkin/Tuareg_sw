@@ -24,7 +24,7 @@ handle configload error
 */
 U32 get_advance(U32 rpm)
 {
-    if(Tuareg.Runmode == TMODE_RUN)
+    if( !(Tuareg.Errors & TERROR_CONFIG))
     {
         return table3D_getValue(&ignitionTable, Tuareg.decoder->engine_rpm, Tuareg.sensor_interface->MAP);
     }
