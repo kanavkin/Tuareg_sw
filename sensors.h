@@ -229,7 +229,7 @@ typedef struct _sensor_interface_t {
 
 
 volatile sensor_interface_t * init_sensors();
-VU8 read_dsensors();
+VU32 read_dsensors();
 void read_digital_sensors();
 
 

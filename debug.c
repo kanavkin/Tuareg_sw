@@ -360,6 +360,8 @@ void print_sensor_data()
         UART_Tx(DEBUG_PORT, '0');
     }
 
+    UART_Tx(DEBUG_PORT, '-');
+
     if(Tuareg.sensor_interface->digital_sensors & DSENSOR_NEUTRAL)
     {
         UART_Tx(DEBUG_PORT, '1');
@@ -368,6 +370,8 @@ void print_sensor_data()
     {
         UART_Tx(DEBUG_PORT, '0');
     }
+
+    UART_Tx(DEBUG_PORT, '-');
 
     if(Tuareg.sensor_interface->digital_sensors & DSENSOR_RUN)
     {

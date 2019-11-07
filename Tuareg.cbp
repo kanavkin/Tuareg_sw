@@ -66,6 +66,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="TunerStudio.h" />
+		<Unit filename="act_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="act_hw.h" />
+		<Unit filename="act_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="act_logic.h" />
 		<Unit filename="arduino_types.h" />
 		<Unit filename="config.c">
 			<Option compilerVar="CC" />

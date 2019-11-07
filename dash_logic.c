@@ -21,10 +21,12 @@
 void init_dash_logic()
 {
     //turn the engine lamp on if a system failure was detected at CONFIG_LOAD
+    /*
     if(Tuareg.Errors & TERROR_CONFIG)
     {
         dash_set_lamp(USERLAMP_PERMANENT);
     }
+    */
 
     dash_set_tachometer(TACHOCTRL_0RPM);
 

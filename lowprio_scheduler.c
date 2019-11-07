@@ -59,6 +59,8 @@ activates sequence mode on the commanded lowprio_scheduler channel (CH1/CH2 only
 the lowprio_scheduler will automatically reload with alternating delay1/delay_2 seq_len times and request toggling the desired pin
 
 invoke lowprio_scheduler_reset_channel() to end toggle mode
+
+the callback function must support "TOGGLE" as parameter
 */
 void lowprio_scheduler_seqmode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us, U32 delay3_us, U32 seq_length)
 {
@@ -141,6 +143,8 @@ activates toggle mode on the commanded lowprio_scheduler channel (free running f
 the lowprio_scheduler will automatically reload with alternating delay1/delay_2 and request toggling the desired pin
 
 invoke lowprio_scheduler_reset_channel() to end toggle mode
+
+the callback function must support "TOGGLE" as parameter
 */
 void lowprio_scheduler_togglemode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us)
 {
@@ -503,6 +507,9 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
                 //select "pause" interval
                 toggle_delay= Lowprio_Scheduler.ch1_delay3_us;
 
+                //continue with delay1 after delay3
+                Lowprio_Scheduler.toggle_ctrl |= (1 << TOGGLE_CH1_CYCLE_MASK);
+
                 //reset counter
                 Lowprio_Scheduler.ch1_toggle_counter= Lowprio_Scheduler.ch1_sequence_length;
             }
@@ -563,6 +570,9 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             {
                 //select "pause" interval
                 toggle_delay= Lowprio_Scheduler.ch2_delay3_us;
+
+                //continue with delay1 after delay3
+                Lowprio_Scheduler.toggle_ctrl |= (1 << TOGGLE_CH2_CYCLE_MASK);
 
                 //reset counter
                 Lowprio_Scheduler.ch2_toggle_counter= Lowprio_Scheduler.ch2_sequence_length;

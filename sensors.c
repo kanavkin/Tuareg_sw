@@ -179,7 +179,7 @@ volatile sensor_interface_t * init_sensors()
 /**
 digital sensors wiring dependent part
 */
-VU8 read_dsensors()
+VU32 read_dsensors()
 {
     VU8 readout =0;
 
@@ -365,6 +365,13 @@ void read_digital_sensors()
                     Sensors.digital_sensors &= ~DSENSOR_DEBUG;
                 }
             }
+
+            //cycle end reached
+            Sensors.dsensor_cycle =0;
+        }
+        else
+        {
+            Sensors.dsensor_cycle++;
         }
     }
 }

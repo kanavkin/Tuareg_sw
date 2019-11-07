@@ -78,6 +78,7 @@ typedef struct _lowprio_scheduler_t {
 void init_lowprio_scheduler();
 void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), output_pin_t action, U32 delay_us);
 void lowprio_scheduler_togglemode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us);
+void lowprio_scheduler_seqmode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us, U32 delay3_us, U32 seq_length);
 void lowprio_scheduler_reset_channel(lowprio_scheduler_channel_t target_ch);
 
 #endif // LOWPRIOSCHEDULER_H_INCLUDED
