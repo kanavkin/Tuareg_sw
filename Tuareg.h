@@ -1,16 +1,21 @@
-#ifndef SPEED_H_INCLUDED
-#define SPEED_H_INCLUDED
+#ifndef TUAREG_H_INCLUDED
+#define TUAREG_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
 #include "ignition_logic.h"
 #include "sensors.h"
 
+#define RETURN_OK 0
+#define RETURN_FAIL 0xFF
+
+
+#warning TODO (oli#8#): find elegant solution for configuration values
 
 //level at which the crash sensor reports a crash event
-#define CRASH_SENSOR_ENGAGE_LEVEL 1
+#define CRASH_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_CRASH)
 
 //level at which the run sensor reports a run permission
-#define RUN_SENSOR_ENGAGE_LEVEL 0
+#define RUN_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_RUN)
 
 
 
@@ -35,11 +40,16 @@ Lower number gives better performance
 #define MAX_RPM 9000
 
 
-
 /**
-When the serial buffer is filled to greater than this threshold value, the serial processing operations will be performed more urgently in order to avoid it overflowing.
-Serial buffer is 64 bytes long, so the threshold is set at half this as a reasonable figure
+default sensor values
+
+if an analog sensor is not available, use these defaults
 */
+#define MAP_DEFAULT_KPA 1000
+
+
+
+
 
 
 //**************************************************************************************************
@@ -108,7 +118,7 @@ typedef enum {
     TMODE_MODULEINIT,
 
     //control engine with minimum sensor input available
-    //TMODE_LIMP,
+    TMODE_LIMP,
 
     //perform diagnostic functions triggered by user, no engine operation
     TMODE_DIAG,
@@ -128,13 +138,32 @@ typedef enum {
 
 typedef enum {
 
-    TERROR_CONFIG       =0x01
+    TERROR_NONE,
+    TERROR_CONFIGLOAD,
+    TERROR_CNT
+
 
 } tuareg_error_t;
 
 
+typedef enum {
 
+    TDIAG_DECODER_IRQ,
+    TDIAG_IGNITION_IRQ,
 
+    TDIAG_MAINLOOP_MODECTRL,
+
+    TDIAG_INIT_HALT_TR,
+    TDIAG_RUNNING_HALT_TR,
+    TDIAG_RUNNING_STB_TR,
+    TDIAG_STB_RUNNING_TR,
+    TDIAG_STB_HALT_TR,
+    TDIAG_HALT_RUNNING_TR,
+    TDIAG_HALT_STB_TR,
+
+    TDIAG_COUNT
+
+} Tuareg_diag_t;
 
 
 /**
@@ -146,17 +175,20 @@ typedef struct _Tuareg_t {
     /**
     access to core components
     */
-    volatile decoder_logic_t * decoder;
-    volatile sensor_interface_t * sensor_interface;
+    volatile decoder_interface_t * decoder;
+    volatile sensor_interface_t * sensors;
     volatile ignition_timing_t ignition_timing;
 
     //statemachine and health status
-    tuareg_runmode_t Runmode;
-    tuareg_error_t Errors;
+    volatile tuareg_runmode_t Runmode;
+    volatile tuareg_error_t Errors;
 
     //sidestand, crash and run switch counter
-    U8 run_switch_counter;
-    U8 crash_switch_counter;
+    VU8 run_switch_counter;
+    VU8 crash_switch_counter;
+
+    //diagnostics
+    VU32 diag[TDIAG_COUNT];
 
 
 
@@ -240,6 +272,8 @@ access to global Tuareg data
 extern volatile Tuareg_t Tuareg;
 
 void Tuareg_stop_engine();
+void Tuareg_trigger_ignition();
+U32 Tuareg_get_MAP();
 
 
-#endif // SPEED_H_INCLUDED
+#endif // TUAREG_H_INCLUDED

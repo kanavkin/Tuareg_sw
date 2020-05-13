@@ -40,7 +40,7 @@ volatile serial_buffer_t Debug_Tx_Buffer= {
 /**
 UART initialisation functions
 */
-void UART1_Init()
+void UART_TS_PORT_Init()
 {
     USART_InitTypeDef usart_conf;
 
@@ -50,7 +50,7 @@ void UART1_Init()
     //GPIOA alternative functions 9 > Tx, 10 > Rx
     GPIO_configure(GPIOA, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
 #warning TODO (oli#1#): observe sporadic uart errors: GPIOA 10 GPIO_MODE_IN / GPIO_MODE_AF config dependant
-    GPIO_configure(GPIOA, 10, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
+    GPIO_configure(GPIOA, 10, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_DOWN);
 
     //connect USART1 to PA9/10 and USART6 to PA11
     GPIO_SetAF(GPIOA, 9, 7);
@@ -84,7 +84,10 @@ void UART1_Init()
 }
 
 
-void UART6_Init()
+/**
+using USART6 for debugging
+*/
+void UART_DEBUG_PORT_Init()
 {
     USART_InitTypeDef usart_conf;
 
@@ -113,11 +116,6 @@ void UART6_Init()
     //configure and start
     USART_Init(USART6, &usart_conf);
     USART_Cmd(USART6, ENABLE);
-
-    //do not enable irq -> this usart will send debug messages
-    //Enable USART6 global interrupt (prio 15)
-    //NVIC_SetPriority(USART6_IRQn, 15UL);
-    //NVIC_EnableIRQ(USART6_IRQn);
 }
 
 

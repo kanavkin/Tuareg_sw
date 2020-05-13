@@ -26,15 +26,15 @@ typedef enum {
 
 typedef struct _scheduler_t {
 
-    output_pin_t ign_ch1_action;
-    output_pin_t ign_ch2_action;
-    output_pin_t fuel_ch1_action;
-    output_pin_t fuel_ch2_action;
+    U32 ign_ch1_action;
+    U32 ign_ch2_action;
+    U32 fuel_ch1_action;
+    U32 fuel_ch2_action;
 
 } scheduler_t;
 
 void init_scheduler();
-void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U32 delay_us);
+void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_us);
 void scheduler_reset_channel(scheduler_channel_t target_ch);
 
 #endif // SCHEDULER_H_INCLUDED

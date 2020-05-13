@@ -172,11 +172,11 @@ void print_full_state(volatile ignition_timing_t * intime)
 
 void print_minimal_state(USART_TypeDef * Port, volatile ignition_timing_t * intime)
 {
-    UART_transmit(Port,'\r');
+/*
     UART_Print_U(Port, intime->rpm, TYPE_U32, NO_PAD);
-    UART_write(Port, "rpm, advance ");
+    UART_Send(Port, " rpm, advance  ");
     UART_Print_U(Port, intime->ignition_advance_deg, TYPE_U32, NO_PAD);
-    UART_write(Port, "deg");
+    */
 }
 
 
@@ -261,154 +261,80 @@ void delay_us(U32 delay)
 void print_sensor_data()
 {
     //can be called cyclic by adding a lowspeed action
+    U32 sensor;
 
     //intro
     UART_Send(DEBUG_PORT, "\r\nsensors:");
 
 
-    UART_Send(DEBUG_PORT, "\r\nMAP:");
+    UART_Send(DEBUG_PORT, "\r\nSYNC: MAP");
 
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_MAP_ACT)
+    for(sensor=0; sensor < ASENSOR_SYNC_COUNT; sensor++)
     {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->MAP, TYPE_U16, NO_PAD);
+        if(Tuareg.sensors->asensors_sync_health & (1<< sensor))
+        {
+            UART_Print_U(DEBUG_PORT, Tuareg.sensors->asensors_sync[sensor], TYPE_U16, NO_PAD);
+        }
+        else
+        {
+            UART_Tx(DEBUG_PORT, '-');
+        }
+
+        UART_Send(DEBUG_PORT, "\r\n");
     }
-    else
+
+    UART_Send(DEBUG_PORT, "\r\nASYNC: O2 TPS IAT CLT VBAT KNOCK BARO SPARE");
+
+    for(sensor=0; sensor < ASENSOR_ASYNC_COUNT; sensor++)
     {
+        if(Tuareg.sensors->asensors_async_health & (1<< sensor))
+        {
+            UART_Print_U(DEBUG_PORT, Tuareg.sensors->asensors_async[sensor], TYPE_U16, NO_PAD);
+        }
+        else
+        {
+            UART_Tx(DEBUG_PORT, '-');
+        }
+
+        UART_Send(DEBUG_PORT, "\r\n");
+    }
+
+
+    UART_Send(DEBUG_PORT, "\r\nDIGITAL: SPARE2 NEUTRAL RUN CRASH DEBUG");
+
+    for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
+    {
+        if(Tuareg.sensors->dsensors & (1<< sensor))
+        {
+            UART_Tx(DEBUG_PORT, '1');
+        }
+        else
+        {
+            UART_Tx(DEBUG_PORT, '0');
+        }
+
         UART_Tx(DEBUG_PORT, '-');
     }
-
-    UART_Send(DEBUG_PORT, "\r\nBARO:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_BARO_ACT)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->BARO, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nO2:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_O2_ACT)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->O2, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nTPS:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_TPS_ACT)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->TPS, TYPE_U16, NO_PAD);
-
-        UART_Send(DEBUG_PORT, "\r\nddt_TPS:");
-        UART_Print_S(DEBUG_PORT, Tuareg.sensor_interface->ddt_TPS, TYPE_S16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-        UART_Send(DEBUG_PORT, "\r\nddt_TPS:");
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nIAT:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_IAT_ACT)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->IAT, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nCLT:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_CLT_ACT)
-    {
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->CLT, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nVBAT:");
-    if(Tuareg.sensor_interface->active_sensors & ASENSOR_VBAT_ACT)
-    {
-
-        UART_Print_U(DEBUG_PORT, Tuareg.sensor_interface->VBAT, TYPE_U16, NO_PAD);
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '-');
-    }
-
-
-    UART_Send(DEBUG_PORT, "\r\nSPARE2, NEUTRAL, RUN, CRASH, DEBUG: ");
-
-    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_SPARE2)
-    {
-        UART_Tx(DEBUG_PORT, '1');
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '0');
-    }
-
-    UART_Tx(DEBUG_PORT, '-');
-
-    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_NEUTRAL)
-    {
-        UART_Tx(DEBUG_PORT, '1');
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '0');
-    }
-
-    UART_Tx(DEBUG_PORT, '-');
-
-    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_RUN)
-    {
-        UART_Tx(DEBUG_PORT, '1');
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '0');
-    }
-
-    UART_Tx(DEBUG_PORT, '-');
-
-    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_CRASH)
-    {
-        UART_Tx(DEBUG_PORT, '1');
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '0');
-    }
-
-    UART_Tx(DEBUG_PORT, '-');
-
-    if(Tuareg.sensor_interface->digital_sensors & DSENSOR_DEBUG)
-    {
-        UART_Tx(DEBUG_PORT, '1');
-    }
-    else
-    {
-        UART_Tx(DEBUG_PORT, '0');
-    }
-
 
 }
 
 
-
+void print_decoder_statistics()
+{
+    /*
+    UART_Send(DEBUG_PORT,  "synced: ");
+    UART_Print_U(DEBUG_PORT, Tuareg.decoder_internals->diag_positions_crank_synced, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT,  "async: ");
+    UART_Print_U(DEBUG_PORT, Tuareg.decoder_internals->diag_positions_crank_async, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT,  "sync lost events: ");
+    UART_Print_U(DEBUG_PORT, Tuareg.decoder_internals->diag_sync_lost_events, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT,  "timeout: ");
+    UART_Print_U(DEBUG_PORT, Tuareg.decoder_internals->timeout_count, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT,  "rpm: ");
+    UART_Print_U(DEBUG_PORT, Tuareg.decoder->engine_rpm, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT,  "\r\n");
+    */
+}
 
 
 

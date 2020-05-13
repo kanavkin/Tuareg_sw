@@ -29,6 +29,6 @@ extern void poll_dwt_printout();
 void delay_us(U32 delay);
 
 void print_sensor_data();
-
+void print_decoder_statistics();
 
 #endif // DEBUG_H_INCLUDED

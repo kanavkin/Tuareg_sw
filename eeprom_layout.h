@@ -117,7 +117,7 @@ Current layout of EEPROM data (Version 3) is as follows (All sizes are in bytes)
 /**
 Calibration data is stored at the end of the EEPROM
 (This is in case any further calibration tables are needed as they are large blocks)
-all calibration data is 16 Bit long
+most calibration data is 16 Bit long
 */
 #define EEPROM_LAST_BARO      2558
 
@@ -148,10 +148,13 @@ all calibration data is 16 Bit long
 #define EEPROM_CALIBRATION_VBAT_M (EEPROM_CALIBRATION_O2_L + EEPROM_CALIB_DATA_WIDTH)
 #define EEPROM_CALIBRATION_VBAT_L (EEPROM_CALIBRATION_VBAT_M + EEPROM_CALIB_DATA_WIDTH)
 
+#define EEPROM_CALIBRATION_DECODER_OFFSET (EEPROM_CALIBRATION_VBAT_L + EEPROM_CALIB_DATA_WIDTH)
+#define EEPROM_CALIBRATION_DECODER_DELAY (EEPROM_CALIBRATION_DECODER_OFFSET + 2)
+
 /**
 This is the last used eeprom address -> memory dump will be read until here
 */
-#define EEPROM_STORAGE_END (EEPROM_CALIBRATION_VBAT_L + EEPROM_CALIB_DATA_WIDTH)
+#define EEPROM_STORAGE_END (EEPROM_CALIBRATION_DECODER_DELAY + 1)
 
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

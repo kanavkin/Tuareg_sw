@@ -11,13 +11,8 @@
 #include "config.h"
 #include "decoder_logic.h"
 
-volatile sensor_interface_t Sensors;
-
-/**
-where DMA will drop ADC data from regular group
-*/
-VU16 ADCBuffer[REGULAR_GROUP_LENGTH];
-
+volatile sensor_interface_t SInterface;
+volatile sensor_internals_t SInternals;
 
 /**
 see sensors.h for sensor layout!
@@ -95,28 +90,30 @@ volatile sensor_interface_t * init_sensors()
     ADC clock is 12MHz, conversion time will be 12.5 + sample_time * T_adc
     so total regular conversion time should be ~9us
     */
-    adc_set_sample_time(ADC1, ASENSOR_O2_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_TPS_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_MAP_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_IAT_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_CLT_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_VBAT_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_KNOCK_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_BARO_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ASENSOR_SPARE_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_O2_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_TPS_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_MAP_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_IAT_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_CLT_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_VBAT_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_KNOCK_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_BARO_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_SPARE_CH, SAMPLE_TIME_7_5);
 
-    adc_set_regular_group(ADC1, 1, ASENSOR_O2_CH);
-    adc_set_regular_group(ADC1, 2, ASENSOR_TPS_CH);
-    adc_set_regular_group(ADC1, 3, ASENSOR_IAT_CH);
-    adc_set_regular_group(ADC1, 4, ASENSOR_CLT_CH);
-    adc_set_regular_group(ADC1, 5, ASENSOR_VBAT_CH);
-    adc_set_regular_group(ADC1, 6, ASENSOR_KNOCK_CH);
-    adc_set_regular_group(ADC1, 7, ASENSOR_BARO_CH);
-    adc_set_regular_group(ADC1, 8, ASENSOR_SPARE_CH);
+    /**
+    the order specified here shall match the enumerator order in asensors_async_t !
+    */
+    adc_set_regular_group(ADC1, 1, ADC_O2_CH);
+    adc_set_regular_group(ADC1, 2, ADC_TPS_CH);
+    adc_set_regular_group(ADC1, 3, ADC_IAT_CH);
+    adc_set_regular_group(ADC1, 4, ADC_CLT_CH);
+    adc_set_regular_group(ADC1, 5, ADC_VBAT_CH);
+    adc_set_regular_group(ADC1, 6, ADC_KNOCK_CH);
+    adc_set_regular_group(ADC1, 7, ADC_BARO_CH);
+    adc_set_regular_group(ADC1, 8, ADC_SPARE_CH);
 
     //set the number of channels in the regular group in sensors.h!
-    adc_set_regular_group_length(ADC1, REGULAR_GROUP_LENGTH);
-
+    adc_set_regular_group_length(ADC1, ASENSOR_ASYNC_COUNT);
 
     /**
     setting up the injected group is a bit tricky:
@@ -124,7 +121,7 @@ volatile sensor_interface_t * init_sensors()
     define which channel to convert.
     Conversion result will be in ADC1->JDR1 !
     */
-    ADC1->JSQR= (U32) (ASENSOR_MAP_CH << 15);
+    ADC1->JSQR= (U32) (ADC_MAP_CH << 15);
 
     /*
     configure DMA2 CH0 Stream0 for ADC
@@ -135,9 +132,9 @@ volatile sensor_interface_t * init_sensors()
 
     //DMA_InitStructure.DMA_Channel= DMA_Channel_0;
     DMA_InitStructure.DMA_PeripheralBaseAddr= (U32)&ADC1->DR;
-    DMA_InitStructure.DMA_Memory0BaseAddr= (U32)ADCBuffer;
+    DMA_InitStructure.DMA_Memory0BaseAddr= (U32)SInternals.asensors_async_buffer;
     //DMA_InitStructure.DMA_DIR= DMA_DIR_PeripheralToMemory;
-    DMA_InitStructure.DMA_BufferSize= REGULAR_GROUP_LENGTH;
+    DMA_InitStructure.DMA_BufferSize= ASENSOR_ASYNC_COUNT;
     //DMA_InitStructure.DMA_PeripheralInc= DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_MemoryInc= DMA_MemoryInc_Enable;
     DMA_InitStructure.DMA_PeripheralDataSize= DMA_PeripheralDataSize_HalfWord;
@@ -172,8 +169,89 @@ volatile sensor_interface_t * init_sensors()
     NVIC_ClearPendingIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_IRQn);
 
-    return &Sensors;
+    return &SInterface;
 }
+
+
+
+/**
+sensor data conversion by inverse linear function
+x = ( #_adc * (phi*l) - (phi*n) ) / (phi*m)
+scaling factor phi is for maximum calculation precision
+phi = 4095 * beta
+constant l reflects the analogue input scaling and 12 bit adc resolution:
+l = u_ref/ (k * 4095)
+k = u_sensor / u_adc = R_in/R_ges
+map_calib_xxx is the actual calibration value multiplied by phi:
+configPage9.MAP_calib_L := (phi*l)
+...and so on...
+*/
+U32 calculate_inverse_lin(U16 Figure, U16 M, U16 N, U16 L)
+{
+    U32 calc;
+#warning TODO (oli#2#): check if calculation is correct
+
+    //scale with L
+    calc= L * Figure;
+
+    //subtract N
+    if( N <= calc)
+    {
+        calc -= N;
+    }
+    else
+    {
+        //clip result
+        return 0;
+    }
+
+    //divide by M
+    if(M != 0)
+    {
+        /**
+        do not ever delete by zero
+        so we test if calib_M is set to something usable
+        -> calibration loading success should be monitored and
+        there should be default values if an error occurred while loading
+        ... but who can be sure for sure... ;9
+        */
+        return (calc / M);
+    }
+    else
+    {
+        //clip result
+        return 0;
+    }
+
+}
+
+
+
+/**
+throttle transient calculation
+as the change in airflow restriction past the throttle is a inverse logarithmic curve
+we use a weighted measure:
+ddt_TPS= (tps_new - tps_old) * (101 - tps_old)
+but suppress little spikes
+
+calculation relies on the converted TPS value (0..100)!
+*/
+S16 calculate_ddt_TPS(U16 Last_TPS, U16 Current_TPS)
+{
+    S16 delta_TPS;
+
+    delta_TPS= ((S16) Current_TPS - (S16) Last_TPS);
+
+    if( ((delta_TPS < 0) && (-delta_TPS < DELTA_TPS_THRES)) || ((delta_TPS >= 0) && (delta_TPS < DELTA_TPS_THRES)) )
+    {
+        return 0;
+    }
+    else
+    {
+        return (delta_TPS * ((S16)(101 - (S16) Last_TPS)));
+    }
+}
+
 
 
 /**
@@ -186,31 +264,31 @@ VU32 read_dsensors()
     //DSENSOR_SPARE2
     if(GPIOB->IDR & GPIO_IDR_IDR4)
     {
-        readout |= DSENSOR_SPARE2;
+        readout |= (1 << DSENSOR_SPARE2);
     }
 
     //DSENSOR_NEUTRAL
     if(GPIOC->IDR & GPIO_IDR_IDR0)
     {
-        readout |= DSENSOR_NEUTRAL;
+        readout |= (1 << DSENSOR_NEUTRAL);
     }
 
     //DSENSOR_RUN
     if(GPIOC->IDR & GPIO_IDR_IDR2)
     {
-        readout |= DSENSOR_RUN;
+        readout |= (1 << DSENSOR_RUN);
     }
 
     //DSENSOR_CRASH
     if(GPIOC->IDR & GPIO_IDR_IDR3)
     {
-        readout |= DSENSOR_CRASH;
+        readout |= (1 << DSENSOR_CRASH);
     }
 
     //DSENSOR_DEBUG
     if(GPIOC->IDR & GPIO_IDR_IDR5)
     {
-        readout |= DSENSOR_DEBUG;
+        readout |= (1 << DSENSOR_DEBUG);
     }
 
     return readout;
@@ -223,157 +301,72 @@ compared to analog ones ;)
 */
 void read_digital_sensors()
 {
-    VU32 cnt =0;
-    VU32 level =0;
+    U32 cnt, level, sensor =0;
 
-    //have post fence check
-    if(Sensors.dsensor_cycle < DSENSOR_CYCLE_LEN)
+    //collect diagnostic data
+    SInternals.diag[SDIAG_READ_DSENSORS_CALLS] += 1;
+
+    if(SInternals.dsensor_cycle < DSENSOR_CYCLE_LEN)
     {
         //save digital sensors state to history
-        Sensors.dsensor_history[Sensors.dsensor_cycle]= read_dsensors();
+        SInternals.dsensor_history[SInternals.dsensor_cycle]= read_dsensors();
 
-        if(Sensors.dsensor_cycle == (DSENSOR_CYCLE_LEN -1))
-        {
-            //cycle end -> do evaluation
-
-            /**
-            DSENSOR_SPARE2
-            */
-
-            //reset counter
-            level =0;
-
-            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
-            {
-                //loop through history and count the number of samples with logic "1" state
-                if(Sensors.dsensor_history[cnt] & DSENSOR_SPARE2)
-                {
-                    level++;
-                }
-
-                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
-                if(level >= DSENSOR_HIGH_THRES)
-                {
-                    Sensors.digital_sensors |= DSENSOR_SPARE2;
-                }
-                else
-                {
-                    Sensors.digital_sensors &= ~DSENSOR_SPARE2;
-                }
-            }
-
-            /**
-            DSENSOR_NEUTRAL
-            */
-
-            //reset counter
-            level =0;
-
-            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
-            {
-                //loop through history and count the number of samples with logic "1" state
-                if(Sensors.dsensor_history[cnt] & DSENSOR_NEUTRAL)
-                {
-                    level++;
-                }
-
-                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
-                if(level >= DSENSOR_HIGH_THRES)
-                {
-                    Sensors.digital_sensors |= DSENSOR_NEUTRAL;
-                }
-                else
-                {
-                    Sensors.digital_sensors &= ~DSENSOR_NEUTRAL;
-                }
-            }
-
-            /**
-            DSENSOR_RUN
-            */
-
-            //reset counter
-            level =0;
-
-            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
-            {
-                //loop through history and count the number of samples with logic "1" state
-                if(Sensors.dsensor_history[cnt] & DSENSOR_RUN)
-                {
-                    level++;
-                }
-
-                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
-                if(level >= DSENSOR_HIGH_THRES)
-                {
-                    Sensors.digital_sensors |= DSENSOR_RUN;
-                }
-                else
-                {
-                    Sensors.digital_sensors &= ~DSENSOR_RUN;
-                }
-            }
-
-            /**
-            DSENSOR_CRASH
-            */
-
-            //reset counter
-            level =0;
-
-            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
-            {
-                //loop through history and count the number of samples with logic "1" state
-                if(Sensors.dsensor_history[cnt] & DSENSOR_CRASH)
-                {
-                    level++;
-                }
-
-                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
-                if(level >= DSENSOR_HIGH_THRES)
-                {
-                    Sensors.digital_sensors |= DSENSOR_CRASH;
-                }
-                else
-                {
-                    Sensors.digital_sensors &= ~DSENSOR_CRASH;
-                }
-            }
-
-            /**
-            DSENSOR_DEBUG
-            */
-
-            //reset counter
-            level =0;
-
-            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
-            {
-                //loop through history and count the number of samples with logic "1" state
-                if(Sensors.dsensor_history[cnt] & DSENSOR_DEBUG)
-                {
-                    level++;
-                }
-
-                //we must see at least DSENSOR_HIGH_THRES samples with logic "1" state
-                if(level >= DSENSOR_HIGH_THRES)
-                {
-                    Sensors.digital_sensors |= DSENSOR_DEBUG;
-                }
-                else
-                {
-                    Sensors.digital_sensors &= ~DSENSOR_DEBUG;
-                }
-            }
-
-            //cycle end reached
-            Sensors.dsensor_cycle =0;
-        }
-        else
-        {
-            Sensors.dsensor_cycle++;
-        }
+        SInternals.dsensor_cycle++;
     }
+    else
+    {
+        /**
+        cycle end -> do evaluation
+        */
+
+        //for every sensor in list
+        for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
+        {
+            //start counting with an empty counter
+            level =0;
+
+            //process every sample in history
+            for(cnt =0; cnt < DSENSOR_CYCLE_LEN; cnt++)
+            {
+                /**
+                count the number of samples with logic "1" state
+                */
+                if( ((U32) SInternals.dsensor_history[cnt]) & (1 << sensor) )
+                {
+                    level++;
+                }
+
+            }
+
+            /**
+            do evaluation
+            high level shall be detected if at least DSENSOR_HIGH_THRES samples with logic "1" state have been collected
+            */
+            if(level >= DSENSOR_HIGH_THRES)
+            {
+                SInterface.dsensors |= (1 << sensor);
+            }
+            else
+            {
+                SInterface.dsensors &= ~(1 << sensor);
+            }
+
+        }
+
+        //cycle end reached
+        SInternals.dsensor_cycle =0;
+
+    }
+}
+
+
+/**
+this function can be used to reset the captured data from synchronous sensors e.g. in case of a sync lost event
+*/
+void reset_asensor_sync_integrator(asensors_sync_t Sensor)
+{
+    SInternals.asensors_sync_integrator[Sensor]= 0;
+    SInternals.asensors_sync_integrator_count[Sensor]= 0;
 }
 
 
@@ -383,70 +376,56 @@ MAP sensor readout as injected conversion
 */
 void ADC_IRQHandler()
 {
-    U32 map_calc;
+    U32 average, sample;
+    U32 * pIntegr= NULL;
+    U8 * pCount= NULL;
+
+    //collect diagnostic data
+    SInternals.diag[SDIAG_ADCIRQ_CALLS] += 1;
 
     //MAP sensor handled by injected group
     if(ADC1->SR & ADC_SR_JEOC)
     {
+        //collect diagnostic data
+        SInternals.diag[SDIAG_ADCIRQ_INJECTEDGR_CALLS] += 1;
+
         //clear JEOC by write 0
         ADC1->SR &= ~(U32) ADC_SR_JEOC;
 
-        /**
-        MAP sensor shall be read synchronous to crank rotation,
-        (measuring across the entire engine cycle of 720 deg)
-        its averages value according to ASENSOR_MAP_AVG_THRES ->
-        T_upd= ASENSOR_MAP_AVG_THRES * 1ms
+        //read ADC value
+        sample= ADC1->JDR1;
 
-        TODO:
-        handle sync lost events from decoder (reset integrator)
-        */
-        if( (ADC1->JDR1 >= ASENSOR_MAP_MIN_THRES) && (ADC1->JDR1 <= ASENSOR_MAP_MAX_THRES) )
+        //access to sensor data
+        pIntegr= &(SInternals.asensors_sync_integrator[ASENSOR_SYNC_MAP]);
+        pCount= &(SInternals.asensors_sync_integrator_count[ASENSOR_SYNC_MAP]);
+
+        //validate sample
+        if( (sample >= ASENSOR_MIN_VALID) && (sample <= ASENSOR_MAX_VALID) )
         {
             /**
-            valid reading
+            valid sample
             */
 
             //store to average buffer
-            Sensors.map_integrator += ADC1->JDR1;
-            Sensors.map_integrator_count++;
+            *pIntegr += sample;
+            *pCount += 1;
 
-            //calculate the MAP from sensor reading
-            if(Sensors.map_integrator_count >= ASENSOR_MAP_AVG_THRES)
+            //enough samples read?
+            if(*pCount >= ASENSOR_SYNC_SAMPLE_LEN)
             {
-                /**
-                MAP sensor data conversion by inverse linear function
-                x = ( #_adc * (phi*l) - (phi*n) ) / (phi*m)
-                scaling factor phi is for maximum calculation precision
-                phi = 4095 * beta
-                constant l reflects the analogue input scaling and 12 bit adc resolution:
-                l = u_ref/ (k * 4095)
-                k = u_sensor / u_adc = R_in/R_ges
-                map_calib_xxx is the actual calibration value multiplied by phi:
-                configPage9.MAP_calib_L := (phi*l)
-                ...and so on...
-                */
-                map_calc= (Sensors.map_integrator / Sensors.map_integrator_count) * configPage9.MAP_calib_L;
+                //calculate the average map value
+                average= *pIntegr / *pCount;
 
-                if(configPage9.MAP_calib_M)
-                {
-                    /**
-                    do not ever delete by zero
-                    so we test if MAP_calib_M is set to something usable
-                    -> calibration loading success should be monitored and
-                    there should be default values if an error occurred while loading
-                    ... but who can be sure for sure... ;9
-                    */
-                    Sensors.MAP= map_calc / configPage9.MAP_calib_M;
-
-                }
+                //calculate MAP and export to interface
+                SInterface.asensors_sync[ASENSOR_SYNC_MAP]= calculate_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N, configPage9.MAP_calib_L);
 
                 //reset average buffer
-                Sensors.map_integrator =0;
-                Sensors.map_integrator_count =0;
+                *pIntegr= 0;
+                *pCount= 0;
 
                 //mark sensor as active, reset error counter
-                Sensors.active_sensors |= ASENSOR_MAP_ACT;
-                Sensors.error_counter[ASENSOR_MAP] =0;
+                SInterface.asensors_sync_health |= (1<< ASENSOR_SYNC_MAP);
+                SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] =0;
             }
 
         }
@@ -455,21 +434,25 @@ void ADC_IRQHandler()
             /**
             invalid reading, do error handling
             */
-            if(Sensors.error_counter[ASENSOR_MAP] < ASENSOR_MAP_ERROR_THRES)
+
+            if(SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] < ASENSOR_ERROR_THRES)
             {
-                Sensors.error_counter[ASENSOR_MAP]++;
+                SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP]++;
             }
             else
             {
                 /**
                 sensor temporarily disturbed!
-                reset average buffer
-                mark sensor inactive
                 */
-                Sensors.MAP =0;
-                Sensors.map_integrator =0;
-                Sensors.map_integrator_count =0;
-                Sensors.active_sensors &= ~ASENSOR_MAP_ACT;
+
+                //report to interface
+                SInterface.asensors_sync[ASENSOR_SYNC_MAP] =0;
+                SInterface.asensors_sync_health &= ~(1<< ASENSOR_SYNC_MAP);
+
+                //reset average buffer
+                *pIntegr= 0;
+                *pCount= 0;
+
             }
 
         }
@@ -485,404 +468,148 @@ every 20 ms (50Hz)
 */
 void DMA2_Stream0_IRQHandler()
 {
-    U32 lin_calc;
-    S16 delta_TPS;
+
+    U32 average, sample, sensor, result;
+    U16 * pIntegr= NULL;
+    U8 * pCount= NULL;
+
+    //collect diagnostic data
+    SInternals.diag[SDIAG_DMAIRQ_CALLS] += 1;
 
     //DMA1 Channel1 Transfer Complete interrupt
     if(DMA2->LISR & DMA_LISR_TCIF0)
     {
+        //collect diagnostic data
+        SInternals.diag[SDIAG_DMAIRQ_CH1_CALLS] += 1;
+
         //Clear all DMA2 stream0 interrupt pending bits
         DMA2->LIFCR |= DMA_LIFCR_CTCIF0 | DMA_LIFCR_CHTIF0 | DMA_LIFCR_CTEIF0 | DMA_LIFCR_CDMEIF0 | DMA_LIFCR_CFEIF0;
 
-        Sensors.loop_count++;
-
         /**
-        TPS and O2 sensors have to be read every loop
+        update frequency shall be equal for every asensor_async -> every loop
         */
 
-        /**
-        TPS sensor shall be read every 100ms,
-        its averages value according to ASENSOR_TPS_AVG_THRES ->
-        T_upd= ASENSOR_TPS_AVG_THRES * 20ms
-        */
-        if( (ADCBuffer[ASENSOR_TPS] >= ASENSOR_TPS_MIN_THRES) && (ADCBuffer[ASENSOR_TPS] <= ASENSOR_TPS_MAX_THRES) )
+        //for every async asensor
+        for(sensor =0; sensor < ASENSOR_ASYNC_COUNT; sensor++)
         {
-            /**
-            valid reading
-            */
+            //read ADC input value
+            sample= SInternals.asensors_async_buffer[sensor];
 
-            //store to average buffer
-            Sensors.average[ASENSOR_TPS] += ADCBuffer[ASENSOR_TPS];
-            Sensors.average_count[ASENSOR_TPS]++;
+            //get easy access to sensor data
+            pIntegr= &(SInternals.asensors_async_integrator[sensor]);
+            pCount= &(SInternals.asensors_async_integrator_count[sensor]);
 
-            //calculate the TP from sensor reading
-            if(Sensors.average_count[ASENSOR_TPS] >= ASENSOR_TPS_AVG_THRES)
-            {
-                /**
-                save last value
-                and
-                calculate throttle opening by table interpolation
-                */
-                Sensors.last_TPS= Sensors.TPS;
-                Sensors.TPS= table2D_getValue(&TPS_calib_table, Sensors.average[ASENSOR_TPS] / Sensors.average_count[ASENSOR_TPS]);
-
-                /**
-                throttle transient calculation
-                as the change in airflow restriction past the throttle is a inverse logarithmic curve
-                we use a weighted measure:
-                ddt_TPS= (tps_new - tps_old) * (101 - tps_old)
-                but suppress little spikes
-                */
-                delta_TPS= ((S16) Sensors.TPS - (S16) Sensors.last_TPS);
-
-                if( ((delta_TPS < 0) && (-delta_TPS < DELTA_TPS_THRES)) || ((delta_TPS >= 0) && (delta_TPS < DELTA_TPS_THRES)) )
-                {
-                    Sensors.ddt_TPS =0;
-                }
-                else
-                {
-                    Sensors.ddt_TPS= delta_TPS * ((S16)(101 - (S16) Sensors.last_TPS));
-                }
-
-                //reset average buffer
-                Sensors.average[ASENSOR_TPS] =0;
-                Sensors.average_count[ASENSOR_TPS] =0;
-
-                //mark sensor as active, reset error counter
-                Sensors.active_sensors |= ASENSOR_TPS_ACT;
-                Sensors.error_counter[ASENSOR_TPS] =0;
-            }
-        }
-        else
-        {
-            /**
-            invalid reading, do error handling
-            */
-            if(Sensors.error_counter[ASENSOR_TPS] < ASENSOR_TPS_ERROR_THRES)
-            {
-                Sensors.error_counter[ASENSOR_TPS]++;
-            }
-            else
-            {
-                /**
-                sensor temporarily disturbed!
-                reset average buffer
-                mark sensor inactive
-                */
-                Sensors.TPS =0;
-                Sensors.ddt_TPS =0;
-                Sensors.last_TPS =0;
-                Sensors.average[ASENSOR_TPS] =0;
-                Sensors.average_count[ASENSOR_TPS] =0;
-                Sensors.active_sensors &= ~ASENSOR_TPS_ACT;
-            }
-
-        }
-
-
-        /**
-        O2 sensor shall be read every 100ms,
-        its averages value according to ASENSOR_O2_AVG_THRES ->
-        T_upd= ASENSOR_O2_AVG_THRES * 20ms
-        */
-        if( (ADCBuffer[ASENSOR_O2] >= ASENSOR_O2_MIN_THRES) && (ADCBuffer[ASENSOR_O2] <= ASENSOR_O2_MAX_THRES) )
-        {
-            /**
-            valid reading
-            */
-
-            //store to average buffer
-            Sensors.average[ASENSOR_O2] += ADCBuffer[ASENSOR_O2];
-            Sensors.average_count[ASENSOR_O2]++;
-
-            //calculate the TP from sensor reading
-            if(Sensors.average_count[ASENSOR_O2] >= ASENSOR_O2_AVG_THRES)
-            {
-                /**
-                O2 sensor data conversion by inverse linear function
-                see MAP sensor handling for explanation!
-                */
-                lin_calc= (Sensors.average[ASENSOR_O2] / Sensors.average_count[ASENSOR_O2]) * configPage9.O2_calib_L;
-
-                if(configPage9.O2_calib_M)
-                {
-                    Sensors.O2= lin_calc / configPage9.O2_calib_M;
-                }
-
-                //reset average buffer
-                Sensors.average[ASENSOR_O2] =0;
-                Sensors.average_count[ASENSOR_O2] =0;
-
-                //mark sensor as active, reset error counter
-                Sensors.active_sensors |= ASENSOR_O2_ACT;
-                Sensors.error_counter[ASENSOR_O2] =0;
-            }
-        }
-        else
-        {
-            /**
-            invalid reading, do error handling
-            */
-            if(Sensors.error_counter[ASENSOR_O2] < ASENSOR_O2_ERROR_THRES)
-            {
-                Sensors.error_counter[ASENSOR_O2]++;
-            }
-            else
-            {
-                /**
-                sensor temporarily disturbed!
-                reset average buffer
-                mark sensor inactive
-                */
-                Sensors.O2 =0;
-                Sensors.average[ASENSOR_O2] =0;
-                Sensors.average_count[ASENSOR_O2] =0;
-                Sensors.active_sensors &= ~ASENSOR_O2_ACT;
-            }
-
-        }
-
-
-
-        /**
-        VBAT sensor shall be updated every 500ms,
-        its averages value according to ASENSOR_VBAT_AVG_THRES ->
-        T_upd= ASENSOR_VBAT_AVG_THRES * 20ms * loop_count
-        */
-         if(Sensors.loop_count == 5)
-        {
-            if( (ADCBuffer[ASENSOR_VBAT] >= ASENSOR_VBAT_MIN_THRES) && (ADCBuffer[ASENSOR_VBAT] <= ASENSOR_VBAT_MAX_THRES) )
+            if( (sample >= ASENSOR_MIN_VALID) && (sample <= ASENSOR_MAX_VALID) )
             {
                 /**
                 valid reading
                 */
 
-                //store to average buffer
-                Sensors.average[ASENSOR_VBAT] += ADCBuffer[ASENSOR_VBAT];
-                Sensors.average_count[ASENSOR_VBAT]++;
+                //store to integrator
+                *pIntegr += sample;
+                *pCount += 1;
 
-                //calculate battery voltage from sensor reading
-                if(Sensors.average_count[ASENSOR_VBAT] >= ASENSOR_VBAT_AVG_THRES)
+                //enough samples read?
+                if(*pCount >= ASENSOR_ASYNC_SAMPLE_LEN)
                 {
-                    /**
-                    VBAT sensor data conversion by inverse linear function
-                    see MAP sensor handling for explanation!
-                    */
-                    lin_calc= (Sensors.average[ASENSOR_VBAT] / Sensors.average_count[ASENSOR_VBAT]) * configPage9.VBAT_calib_L;
+                    //calculate the average map value
+                    average= *pIntegr / *pCount;
 
-                    if(configPage9.VBAT_calib_M)
+                    /**
+                    ADC value to process data conversion
+                    */
+                    switch(sensor)
                     {
-                        Sensors.VBAT= lin_calc / configPage9.VBAT_calib_M;
+                        case ASENSOR_ASYNC_O2:
+
+                            result= calculate_inverse_lin(average, configPage9.O2_calib_M, configPage9.O2_calib_N, configPage9.O2_calib_L);
+                            break;
+
+                        case ASENSOR_ASYNC_TPS:
+
+                            result= table2D_getValue(&TPS_calib_table, average);
+
+                            //save old TPS value for ddt_TPS calculation
+                            SInternals.last_TPS= SInterface.asensors_async[ASENSOR_ASYNC_TPS];
+
+                            //throttle transient calculation
+                            SInterface.ddt_TPS= calculate_ddt_TPS(SInternals.last_TPS, result);
+
+                            break;
+
+                        case ASENSOR_ASYNC_IAT:
+
+                            result= table2D_getValue(&IAT_calib_table, average);
+                            break;
+
+                        case ASENSOR_ASYNC_CLT:
+
+                            result= table2D_getValue(&CLT_calib_table, average);
+                            break;
+
+                        case ASENSOR_ASYNC_VBAT:
+
+                            result= calculate_inverse_lin(average, configPage9.VBAT_calib_M, configPage9.VBAT_calib_N, configPage9.VBAT_calib_L);
+                            break;
+
+                        case ASENSOR_ASYNC_KNOCK:
+
+                            result= calculate_inverse_lin(average, configPage9.KNOCK_calib_M, configPage9.KNOCK_calib_N, configPage9.KNOCK_calib_L);
+                            break;
+
+                        case ASENSOR_ASYNC_BARO:
+
+                            result= calculate_inverse_lin(average, configPage9.BARO_calib_M, configPage9.BARO_calib_N, configPage9.BARO_calib_L);
+                            break;
+
+                        default:
+
+                            //e.g. ASENSOR_ASYNC_SPARE
+                            result= average;
+                            break;
+
                     }
 
                     //reset average buffer
-                    Sensors.average[ASENSOR_VBAT] =0;
-                    Sensors.average_count[ASENSOR_VBAT] =0;
+                    *pIntegr= 0;
+                    *pCount= 0;
+
+                    //export calculated value to interface
+                    SInterface.asensors_async[sensor]= result;
 
                     //mark sensor as active, reset error counter
-                    Sensors.active_sensors |= ASENSOR_VBAT_ACT;
-                    Sensors.error_counter[ASENSOR_VBAT] =0;
+                    SInterface.asensors_async_health |= (1<< sensor);
+                    SInternals.asensors_async_error_counter[sensor] =0;
                 }
+
             }
             else
             {
                 /**
                 invalid reading, do error handling
                 */
-                if(Sensors.error_counter[ASENSOR_VBAT] < ASENSOR_VBAT_ERROR_THRES)
+
+                if(SInternals.asensors_async_error_counter[sensor] < ASENSOR_ERROR_THRES)
                 {
-                    Sensors.error_counter[ASENSOR_VBAT]++;
+                    SInternals.asensors_async_error_counter[sensor]++;
                 }
                 else
                 {
                     /**
                     sensor temporarily disturbed!
-                    reset average buffer
-                    mark sensor inactive
                     */
-                    Sensors.VBAT =0;
-                    Sensors.average[ASENSOR_VBAT] =0;
-                    Sensors.average_count[ASENSOR_VBAT] =0;
-                    Sensors.active_sensors &= ~ASENSOR_VBAT_ACT;
-                }
 
-            }
-
-        }
-
-
-        /**
-        BARO, IAT and CLT sensors shall be updated every second,
-        its averages value according to ASENSOR_x_AVG_THRES ->
-        T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
-        */
-        if(Sensors.loop_count == 10)
-        {
-            //IAT
-            if( (ADCBuffer[ASENSOR_IAT] >= ASENSOR_IAT_MIN_THRES) && (ADCBuffer[ASENSOR_IAT] <= ASENSOR_IAT_MAX_THRES) )
-            {
-                /**
-                valid reading
-                */
-
-                //store to average buffer
-                Sensors.average[ASENSOR_IAT] += ADCBuffer[ASENSOR_IAT];
-                Sensors.average_count[ASENSOR_IAT]++;
-
-                if(Sensors.average_count[ASENSOR_IAT] >= ASENSOR_IAT_AVG_THRES)
-                {
-                    /**
-                    IAT sensor data conversion by table interpolation
-                    */
-                    Sensors.IAT= table2D_getValue(&IAT_calib_table, Sensors.average[ASENSOR_IAT] / Sensors.average_count[ASENSOR_IAT]);
+                    //report to interface
+                    SInterface.asensors_async[sensor] =0;
+                    SInterface.asensors_async_health &= ~(1<< sensor);
 
                     //reset average buffer
-                    Sensors.average[ASENSOR_IAT] =0;
-                    Sensors.average_count[ASENSOR_IAT] =0;
+                    *pIntegr= 0;
+                    *pCount= 0;
 
-                    //mark sensor as active, reset error counter
-                    Sensors.active_sensors |= ASENSOR_IAT_ACT;
-                    Sensors.error_counter[ASENSOR_IAT] =0;
-                }
-            }
-            else
-            {
-                /**
-                invalid reading, do error handling
-                */
-                if(Sensors.error_counter[ASENSOR_IAT] < ASENSOR_IAT_ERROR_THRES)
-                {
-                    Sensors.error_counter[ASENSOR_IAT]++;
-                }
-                else
-                {
-                    /**
-                    sensor temporarily disturbed!
-                    reset average buffer
-                    mark sensor inactive
-                    */
-                    Sensors.IAT =0;
-                    Sensors.average[ASENSOR_IAT] =0;
-                    Sensors.average_count[ASENSOR_IAT] =0;
-                    Sensors.active_sensors &= ~ASENSOR_IAT_ACT;
                 }
 
             }
-
-            //CLT
-            if( (ADCBuffer[ASENSOR_CLT] >= ASENSOR_CLT_MIN_THRES) && (ADCBuffer[ASENSOR_CLT] <= ASENSOR_CLT_MAX_THRES) )
-            {
-                /**
-                valid reading
-                */
-
-                //store to average buffer
-                Sensors.average[ASENSOR_CLT] += ADCBuffer[ASENSOR_CLT];
-                Sensors.average_count[ASENSOR_CLT]++;
-
-                //calculate the TP from sensor reading
-                if(Sensors.average_count[ASENSOR_CLT] >= ASENSOR_CLT_AVG_THRES)
-                {
-                    /**
-                    CLT sensor data conversion by table interpolation
-                    */
-                    Sensors.CLT= table2D_getValue(&CLT_calib_table, Sensors.average[ASENSOR_CLT] / Sensors.average_count[ASENSOR_CLT]);
-
-                    //reset average buffer
-                    Sensors.average[ASENSOR_CLT] =0;
-                    Sensors.average_count[ASENSOR_CLT] =0;
-
-                    //mark sensor as active, reset error counter
-                    Sensors.active_sensors |= ASENSOR_CLT_ACT;
-                    Sensors.error_counter[ASENSOR_CLT] =0;
-                }
-            }
-            else
-            {
-                /**
-                invalid reading, do error handling
-                */
-                if(Sensors.error_counter[ASENSOR_CLT] < ASENSOR_CLT_ERROR_THRES)
-                {
-                    Sensors.error_counter[ASENSOR_CLT]++;
-                }
-                else
-                {
-                    /**
-                    sensor temporarily disturbed!
-                    reset average buffer
-                    mark sensor inactive
-                    */
-                    Sensors.CLT =0;
-                    Sensors.average[ASENSOR_CLT] =0;
-                    Sensors.average_count[ASENSOR_CLT] =0;
-                    Sensors.active_sensors &= ~ASENSOR_CLT_ACT;
-                }
-
-            }
-
-            //BARO
-            if( (ADCBuffer[ASENSOR_BARO] >= ASENSOR_BARO_MIN_THRES) && (ADCBuffer[ASENSOR_BARO] <= ASENSOR_BARO_MAX_THRES) )
-            {
-                /**
-                valid reading
-                */
-
-                //store to average buffer
-                Sensors.average[ASENSOR_BARO] += ADCBuffer[ASENSOR_BARO];
-                Sensors.average_count[ASENSOR_BARO]++;
-
-                if(Sensors.average_count[ASENSOR_BARO] >= ASENSOR_BARO_AVG_THRES)
-                {
-                    /**
-                    BARO sensor data conversion by inverse linear function
-                    see MAP sensor handling for explanation!
-                    */
-                    lin_calc= (Sensors.average[ASENSOR_BARO] / Sensors.average_count[ASENSOR_BARO]) * configPage9.BARO_calib_L;
-
-                    if(configPage9.BARO_calib_M)
-                    {
-                        Sensors.BARO= lin_calc / configPage9.BARO_calib_M;
-                    }
-
-                    //reset average buffer
-                    Sensors.average[ASENSOR_BARO] =0;
-                    Sensors.average_count[ASENSOR_BARO] =0;
-
-                    //mark sensor as active, reset error counter
-                    Sensors.active_sensors |= ASENSOR_BARO_ACT;
-                    Sensors.error_counter[ASENSOR_BARO] =0;
-                }
-            }
-            else
-            {
-                /**
-                invalid reading, do error handling
-                */
-                if(Sensors.error_counter[ASENSOR_BARO] < ASENSOR_BARO_ERROR_THRES)
-                {
-                    Sensors.error_counter[ASENSOR_BARO]++;
-                }
-                else
-                {
-                    /**
-                    sensor temporarily disturbed!
-                    reset average buffer
-                    mark sensor inactive
-                    */
-                    Sensors.BARO =0;
-                    Sensors.average[ASENSOR_BARO] =0;
-                    Sensors.average_count[ASENSOR_BARO] =0;
-                    Sensors.active_sensors &= ~ASENSOR_BARO_ACT;
-                }
-
-            }
-
-
-            /**
-            all sensors read - reset loop count
-            */
-            Sensors.loop_count =0;
 
         }
 

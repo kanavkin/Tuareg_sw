@@ -20,6 +20,7 @@ TODO
 #include "eeprom_layout.h"
 #include "sensors.h"
 #include "debug.h"
+#include "rotation_calc.h"
 
 
 
@@ -426,14 +427,14 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[0] = Tuareg.secl; //secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
     fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
     fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
-    fullStatus[3] = (U8)(Tuareg.ignition_timing.dwell_advance_deg - Tuareg.ignition_timing.ignition_advance_deg); //Dwell in ms * 10
-    fullStatus[4] = lowByte(Tuareg.sensor_interface->MAP / 10); //2 U8s for MAP
-    fullStatus[5] = highByte(Tuareg.sensor_interface->MAP / 10);
-    fullStatus[6] = (U8)(Tuareg.sensor_interface->IAT + IAT_OFFSET); //mat
-    fullStatus[7] = (U8)(Tuareg.sensor_interface->CLT + CLT_OFFSET); //Coolant ADC
-    fullStatus[8] = (U8) Tuareg.sensor_interface->VBAT; //Battery voltage correction (%)
-    fullStatus[9] = (U8) Tuareg.sensor_interface->VBAT; //battery voltage
-    fullStatus[10] = (U8) Tuareg.sensor_interface->O2; //O2
+    fullStatus[3] = (U8)(calc_rot_duration_us(Tuareg.ignition_timing.dwell_deg, Tuareg.decoder->crank_deltaT_us) /100); //Dwell in ms * 10
+    fullStatus[4] = lowByte(Tuareg.sensors->asensors_sync[ASENSOR_SYNC_MAP] / 10); //2 U8s for MAP
+    fullStatus[5] = highByte(Tuareg.sensors->asensors_sync[ASENSOR_SYNC_MAP] / 10);
+    fullStatus[6] = (U8)Tuareg.sensors->asensors_async[ASENSOR_ASYNC_IAT]; //mat
+    fullStatus[7] = (U8)Tuareg.sensors->asensors_async[ASENSOR_ASYNC_CLT]; //Coolant ADC
+    fullStatus[8] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_VBAT]; //Battery voltage correction (%)
+    fullStatus[9] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_VBAT]; //battery voltage
+    fullStatus[10] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_O2]; //O2
     fullStatus[11] = Tuareg.egoCorrection; //Exhaust gas correction (%)
     fullStatus[12] = Tuareg.iatCorrection; //Air temperature Correction (%)
     fullStatus[13] = Tuareg.wueCorrection; //Warmup enrichment (%)
@@ -444,9 +445,9 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[18] = Tuareg.VE; //Current VE 1 (%)
     fullStatus[19] = Tuareg.afrTarget;
     fullStatus[20] = (U8)(Tuareg.PW1 / 100); //Pulsewidth 1 multiplied by 10 in ms. Have to convert from uS to mS.
-    fullStatus[21] = (U8) Tuareg.sensor_interface->ddt_TPS; //TPS DOT
+    fullStatus[21] = (U8) Tuareg.sensors->ddt_TPS; //TPS DOT
     fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance_deg;
-    fullStatus[23] = (U8) Tuareg.sensor_interface->TPS; // TPS (0% to 100%)
+    fullStatus[23] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_TPS]; // TPS (0% to 100%)
 
     //Need to split the int loopsPerSecond value into 2 bytes
     fullStatus[24] = lowByte(Tuareg.loopsPerSecond);
@@ -475,8 +476,8 @@ void ts_sendValues(U32 offset, U32 length)
         fullStatus[37] = 0x42; //Tuareg.idleLoad;
         fullStatus[38] = 0x42; //Tuareg.testOutputs;
 
-        fullStatus[39] = (U8) Tuareg.sensor_interface->O2; //O2
-        fullStatus[40] = (U8) Tuareg.sensor_interface->BARO; //Barometer value
+        fullStatus[39] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_O2]; //O2
+        fullStatus[40] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_BARO]; //Barometer value
 
         /**
         we do not use CAN
@@ -485,7 +486,7 @@ void ts_sendValues(U32 offset, U32 length)
         by now
         */
 
-        fullStatus[41] = (U8) Tuareg.sensor_interface->TPS;
+        fullStatus[41] = (U8) Tuareg.sensors->asensors_async[ASENSOR_ASYNC_TPS];;
     }
 
     /**
@@ -539,6 +540,9 @@ void ts_sendValues(U32 offset, U32 length)
 this seems to be a nice diag mode feature
 
 FeatureID is a 16 Bit 0x00 .. 0xFFFF
+
+#warning TODO (oli#3#): Implement debug features\
+check feature id width (16 vs. 32 bit)
 
 
 TODO
@@ -1173,9 +1177,10 @@ void ts_diagPage()
                 */
                 UART_Send(TS_PORT, "\r \n Sensor calibration: \r \n");
 
-                /**
+                /*
                 IAT
-                */
+
+
                 UART_Send(TS_PORT, "IAT: \r \nx: ");
 
                 for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
@@ -1191,9 +1196,9 @@ void ts_diagPage()
                 }
 
 
-                /**
+
                 CLT
-                */
+
                 UART_Send(TS_PORT, "\r\n CLT: \r\nx: ");
 
                 for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
@@ -1209,9 +1214,9 @@ void ts_diagPage()
                 }
 
 
-                /**
+
                 TPS
-                */
+
                 UART_Send(TS_PORT, "\r\n TPS: \r\nx: ");
 
                 for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
@@ -1226,9 +1231,9 @@ void ts_diagPage()
                     UART_Print_U(TS_PORT, configPage9.TPS_calib_data_y[i], TYPE_U16, PAD);
                 }
 
-                /**
+
                 MAP
-                */
+
                 UART_Send(TS_PORT, "\r \n MAP: \r\nM: ");
                 UART_Print_U(TS_PORT, configPage9.MAP_calib_M, TYPE_U16, NO_PAD);
                 UART_Send(TS_PORT, "N: ");
@@ -1236,9 +1241,9 @@ void ts_diagPage()
                 UART_Send(TS_PORT, "L: ");
                 UART_Print_U(TS_PORT, configPage9.MAP_calib_L, TYPE_U16, NO_PAD);
 
-                /**
+
                 BARO
-                */
+
                 UART_Send(TS_PORT, "\r \n BARO: \r\nM: ");
                 UART_Print_U(TS_PORT, configPage9.BARO_calib_M, TYPE_U16, NO_PAD);
                 UART_Send(TS_PORT, "N: ");
@@ -1246,9 +1251,9 @@ void ts_diagPage()
                 UART_Send(TS_PORT, "L: ");
                 UART_Print_U(TS_PORT, configPage9.BARO_calib_L, TYPE_U16, NO_PAD);
 
-                /**
+
                 O2
-                */
+
                 UART_Send(TS_PORT, "\r \n O2: \r\nM: ");
                 UART_Print_U(TS_PORT, configPage9.O2_calib_M, TYPE_U16, NO_PAD);
                 UART_Send(TS_PORT, "N: ");
@@ -1256,14 +1261,15 @@ void ts_diagPage()
                 UART_Send(TS_PORT, "L: ");
                 UART_Print_U(TS_PORT, configPage9.O2_calib_L, TYPE_U16, NO_PAD);
 
-                /**
+
                 VBAT
-                */
+
                 UART_Send(TS_PORT, "\r \n VBAT: \r\nM: ");
                 UART_Print_U(TS_PORT, configPage9.VBAT_calib_M, TYPE_U16, NO_PAD);
                 UART_Send(TS_PORT, "L: ");
                 UART_Print_U(TS_PORT, configPage9.VBAT_calib_L, TYPE_U16, NO_PAD);
 
+                */
                 sendComplete = TRUE;
                 break;
 
@@ -1639,7 +1645,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
                 m
                 n
                 l
-            */
+
             if(valueOffset < CALIBRATION_TABLE_DIMENSION)
             {
                 configPage9.IAT_calib_data_x[valueOffset]= newValue;
@@ -1712,7 +1718,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             {
                 configPage9.VBAT_calib_L= newValue;
             }
-
+*/
 
             break;
 

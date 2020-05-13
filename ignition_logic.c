@@ -1,6 +1,9 @@
 /**
 
-
+assumption:
+- there shall be 1 ignition event every crank revolution
+- this ignition event will light up cylinder #1 or #2
+- ignition system shall work independently from fuel injection
 
 */
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
@@ -13,118 +16,95 @@
 #include "Tuareg.h"
 #include "uart.h"
 #include "table.h"
+#include "rotation_calc.h"
 
 
 
 /**
-return the advance (in deg) to a given rpm
-TODO
-handle spark advance table readout with all run and limp modes
-handle configload error
+calculates the position from which the delay, the scheduler has to provide, will be minimal
+e.g. for dwell and ignition timing
 */
-U32 get_advance(U32 rpm)
+void fit_position( U32 Period_us, U32 Crank_angle_deg, engine_position_t * pTarget_position, U32 * pTarget_delay_us)
 {
-    if( !(Tuareg.Errors & TERROR_CONFIG))
+    engine_position_t closest;
+    U32 smallest_delta_deg = 0xFFFFFFFF;
+    U32 position, margin_deg, corresp_angle_deg, corresp_delta_deg;
+
+    //get the safety margin in deg
+    margin_deg= calc_rot_angle_deg(MARGIN_US, Period_us);
+
+    //processing delay makes the required trigger position "earlier"
+    if(margin_deg > Crank_angle_deg)
     {
-        return table3D_getValue(&ignitionTable, Tuareg.decoder->engine_rpm, Tuareg.sensor_interface->MAP);
+        //for small positions trigger is before TDC
+        Crank_angle_deg= 360 - (margin_deg - Crank_angle_deg);
     }
     else
     {
-#warning TODO (oli#9#): add config value for fallback advance
-
-        //default spark advance when no eeprom data could be loaded
-        return 12;
+        Crank_angle_deg -= margin_deg;
     }
-}
 
+    //for all possible positions
+    for(position=0; position < POSITION_COUNT; position++)
+    {
+        corresp_angle_deg= Tuareg.decoder->crank_position_table_deg[position];
+
+        //if position is "earlier"
+        if(Crank_angle_deg > corresp_angle_deg)
+        {
+            //get the angular difference
+            corresp_delta_deg= Crank_angle_deg - corresp_angle_deg;
+
+            //check if this is the minimal angular difference seen
+            if(corresp_delta_deg < smallest_delta_deg)
+            {
+                /**
+                bingo!
+                */
+                smallest_delta_deg= corresp_delta_deg;
+                closest= position;
+            }
+        }
+    }
+
+    //export data
+    * pTarget_position= closest;
+    * pTarget_delay_us= calc_rot_duration_us(smallest_delta_deg, Period_us);
+}
 
 /**
-calculate the duration (in us) corresponding to an rotation angle
-e.g. how long will it take the crank shaft to rotate by xx deg?
+provides an ignition timing which will allow engine operation
+e.g. while LIMP HOME
 */
-U32 calc_rot_duration(U32 Angle_deg, U32 Period_us)
+void default_ignition_timing(volatile ignition_timing_t * pTarget)
 {
-    return (Angle_deg * Period_us) / 360;
+    /**
+    late ignition
+    */
+    pTarget->coil_dwell_pos= DEFAULT_DWELL_POSITION;
+    pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
+    pTarget->coil_dwell_timing_us= 0;
+    pTarget->coil_ignition_timing_us= 0;
+
+    pTarget->dwell_deg= DEFAULT_DWELL_DEG;
+    pTarget->ignition_advance_deg= DEFAULT_ADVANCE_DEG;
+
 }
-
-/**
-calculate the angle (in deg) that the crank shaft will rotate in
-a given interval at a given rpm
-*/
-U32 calc_rot_angle(U32 Interval_us, U32 Period_us)
-{
-    return (360 * Interval_us) / Period_us;
-}
-
-
-
-/**
-calculates the position with the minimal possible delay time to fit
-the advance for e.g. dwell and ignition
-*/
-void fit_position( U32 Period_us, U32 Advance_deg, volatile engine_position_t * to_position, VU32 * to_delay)
-{
-    if(Advance_deg == POSITION_B2_ADVANCE)
-    {
-        // 0°
-        * to_position= POSITION_B2;
-        * to_delay= 0;
-    }
-    else if(Advance_deg <= POSITION_B1_ADVANCE)
-    {
-        // 1° - 10°
-        * to_position= POSITION_B1;
-        * to_delay= calc_rot_duration((POSITION_B1_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_B1_ADVANCE) && (Advance_deg <= POSITION_A2_ADVANCE))
-    {
-        // 11° - 60°
-        * to_position= POSITION_A2;
-        * to_delay= calc_rot_duration((POSITION_A2_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_A2_ADVANCE) && (Advance_deg <= POSITION_A1_ADVANCE))
-    {
-        // 61° - 100°
-        * to_position= POSITION_A1;
-        * to_delay= calc_rot_duration((POSITION_A1_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_A1_ADVANCE) && (Advance_deg <= POSITION_D2_ADVANCE))
-    {
-        // 101° - 185°
-        * to_position= POSITION_D2;
-        * to_delay= calc_rot_duration((POSITION_D2_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_D2_ADVANCE) && (Advance_deg <= POSITION_D1_ADVANCE))
-    {
-        // 186° - 190°
-        * to_position= POSITION_D1;
-        * to_delay= calc_rot_duration((POSITION_D1_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_D1_ADVANCE) && (Advance_deg <= POSITION_C2_ADVANCE))
-    {
-        // 191° - 275°
-        * to_position= POSITION_C2;
-        * to_delay= calc_rot_duration((POSITION_C2_ADVANCE - Advance_deg), Period_us);
-    }
-    else if((Advance_deg > POSITION_C2_ADVANCE) && (Advance_deg <= POSITION_C1_ADVANCE))
-    {
-        // 276° - 280°
-        * to_position= POSITION_C1;
-        * to_delay= calc_rot_duration((POSITION_C1_ADVANCE - Advance_deg), Period_us);
-    }
-    else if(Advance_deg > POSITION_C1_ADVANCE)
-    {
-        // 280° - 360°
-        * to_position= POSITION_B2;
-        * to_delay= calc_rot_duration((360 - Advance_deg), Period_us);
-    }
-}
-
-
 
 /**
 calculates the ignition timing for the next engine cycle
 at a given rpm (from ignition_timing_t) and writes it there
+
+input:
+- engine rpm
+- crank rotational period
+- error states
+- MAP
+
+
+uses the more accurate rotation period value crank_T_us for calculations
+
+this function shall never be called in LIMP Mode
 
 problem on low rpms:    if coil_on and coil_off trigger on the same engine_position AND
                         dwell < segment_duration no spark will be generated
@@ -142,61 +122,61 @@ problem on high rpms:   with a large dwell AND large ignition advance
                         (cutting dwell)
 
 */
-void calc_ignition_timings(volatile ignition_timing_t * target_timing)
+void calc_ignition_timing(volatile ignition_timing_t * pTarget, U32 Period_us, U32 Rpm)
 {
-    if(target_timing->rpm > DYNAMIC_MIN_RPM)
+    #warning TODO (oli#1#):check ignition calculation
+
+    U32 position_deg, timing, advance_deg;
+    engine_position_t position;
+
+    if(Rpm > DYNAMIC_MIN_RPM)
     {
         /**
         calculate advance (off timing)
         */
-        target_timing->ignition_advance_deg= get_advance(target_timing->rpm);
-        fit_position(target_timing->crank_period_us, target_timing->ignition_advance_deg, &target_timing->coil_off_pos, &target_timing->coil_off_timing_us );
+        advance_deg= table3D_getValue(&ignitionTable, Rpm, Tuareg_get_MAP() );
+        position_deg= 360 - advance_deg;
+
+        pTarget->ignition_advance_deg= advance_deg;
+
+        fit_position(Period_us, position_deg, &(pTarget->coil_ignition_pos), &(pTarget->coil_ignition_timing_us));
+
 
         /**
         calculate dwell (on timing)
         */
-        target_timing->dwell_advance_deg= target_timing->ignition_advance_deg + calc_rot_angle(DYNAMIC_DWELL_US, target_timing->crank_period_us);
+        advance_deg += calc_rot_angle_deg(DYNAMIC_DWELL_US, Period_us);
 
         /**
         clip dwell to crank cycle
         */
-        if(target_timing->dwell_advance_deg > 360)
+        if(advance_deg > 360)
         {
-            target_timing->dwell_advance_deg= 360;
+            advance_deg= 360;
         }
 
-        fit_position(target_timing->crank_period_us, target_timing->dwell_advance_deg, &target_timing->coil_on_pos, &target_timing->coil_on_timing_us );
+
+       // position_deg= target_timing->ignition_advance_deg +
+       // target_timing->dwell_advance_deg=
+
+        //fit_position(target_timing->crank_period_us, target_timing->dwell_advance_deg, &target_timing->coil_on_pos, &target_timing->coil_on_timing_us );
 
         /**
         account for scheduler allocation
         */
-        if(target_timing->coil_on_pos == target_timing->coil_off_pos)
-        {
-            target_timing->coil_on_timing_us=0;
-        }
+       // if(target_timing->coil_on_pos == target_timing->coil_off_pos)
+      //  {
+        //    target_timing->coil_on_timing_us=0;
+       // }
 
-    }
-    else if(target_timing->rpm > LOWREV_MIN_RPM)
-    {
-        /**
-        use fixed ignition triggers while idle
-        */
-        target_timing->coil_on_pos= LOWREV_DWELL_POSITION;
-        target_timing->coil_off_pos= LOWREV_IGNITION_POSITION;
-        target_timing->ignition_advance_deg= LOWREV_IGNITION_ADVANCE;
-        target_timing->coil_on_timing_us= 0;
-        target_timing->coil_off_timing_us= 0;
     }
     else
     {
         /**
         use fixed ignition triggers while cranking
+        late ignition
         */
-        target_timing->coil_on_pos= CRANKING_DWELL_POSITION;
-        target_timing->coil_off_pos= CRANKING_IGNITION_POSITION;
-        target_timing->ignition_advance_deg= CRANKING_IGNITION_ADVANCE;
-        target_timing->coil_on_timing_us= 0;
-        target_timing->coil_off_timing_us= 0;
+        default_ignition_timing(pTarget);
     }
 }
 
@@ -211,18 +191,18 @@ void calc_ignition_timings(volatile ignition_timing_t * target_timing)
      recalculation after spark has fired
 
 */
+/*
 void init_ignition_logic(volatile ignition_timing_t * initial_timing)
 {
-    /**
-    provide initial ignition timing
-    */
+    //provide initial ignition timing
     initial_timing->rpm= 0;
     calc_ignition_timings(initial_timing);
 }
+*/
 
 
 
-void trigger_coil_by_timer(U32 delay_us, output_pin_t level)
+void trigger_coil_by_timer(U32 delay_us, U32 level)
 {
     if(delay_us == 0)
     {
@@ -234,5 +214,4 @@ void trigger_coil_by_timer(U32 delay_us, output_pin_t level)
         scheduler_set_channel(IGN_CH1, level, delay_us);
     }
 }
-
 

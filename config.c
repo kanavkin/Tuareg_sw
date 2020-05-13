@@ -9,6 +9,9 @@
 #include "config.h"
 #include "eeprom_layout.h"
 
+#include "Tuareg.h"
+#include "trigger_wheel_layout.h"
+
 //DEBUG
 #include "uart.h"
 #include "conversion.h"
@@ -23,6 +26,7 @@ volatile configPage4_t configPage4;
 volatile configPage9_t configPage9;
 volatile configPage10_t configPage10;
 volatile configPage11_t configPage11;
+volatile configPage12_t configPage12;
 
 
 
@@ -31,7 +35,7 @@ volatile configPage11_t configPage11;
 * Load configuration data from EEPROM
 *
 ****************************************************************************************************************************************************/
-U32 load_ConfigData()
+U32 config_load()
 {
     U32 data, offset, x, y, z, i;
     U8 * pnt_configPage;
@@ -591,10 +595,58 @@ U32 load_ConfigData()
         }
     }
 
+
+    /*******************
+    * CONFIG PAGE (12) *
+    *******************/
+
+
+#warning TODO (oli#1#): implement trigger position layout read from eeprom
+
+    configPage12.trigger_position_map[POSITION_A1]= POSITION_A1_ANGLE;
+    configPage12.trigger_position_map[POSITION_A2]= POSITION_A2_ANGLE;
+    configPage12.trigger_position_map[POSITION_B1]= POSITION_B1_ANGLE;
+    configPage12.trigger_position_map[POSITION_B2]= POSITION_B2_ANGLE;
+    configPage12.trigger_position_map[POSITION_C1]= POSITION_C1_ANGLE;
+    configPage12.trigger_position_map[POSITION_C2]= POSITION_C2_ANGLE;
+    configPage12.trigger_position_map[POSITION_D1]= POSITION_D1_ANGLE;
+    configPage12.trigger_position_map[POSITION_D2]= POSITION_D2_ANGLE;
+
+    configPage12.decoder_offset_deg= 260;
+    configPage12.decoder_delay_us= 320;
+
+    /**
+    crank decoder
+    */
+    /*
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_DECODER_OFFSET, &data, 2);
+
+    //exit here if eeprom read failed
+        if(eeprom_code)
+        {
+            return eeprom_code;
+        }
+
+        configPage12.decoder_offset_deg= (S16) data;
+
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_DECODER_DELAY, &data, 2);
+
+        //exit here if eeprom read failed
+        if(eeprom_code)
+        {
+            return eeprom_code;
+        }
+
+        configPage12.decoder_delay_us= (U16) data;
+
+
+*/
+
     /*******************
     * CONFIG PAGE 9    *
     * (CALIBRATION)    *
     *******************/
+#warning TODO (oli#3#): Implement calibration value readout from eeprom
 
     //all calibration tables have the same size
     for(i=0; i < CALIBRATION_TABLE_DIMENSION; i++)
@@ -648,7 +700,6 @@ U32 load_ConfigData()
 
         configPage9.IAT_calib_data_y[i]= (U16) data;
 
-
         /**
         TPS
         */
@@ -673,144 +724,142 @@ U32 load_ConfigData()
 
         configPage9.TPS_calib_data_y[i]= (U16) data;
 
-
-        /**
-        MAP
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_M, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.MAP_calib_M= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_N, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.MAP_calib_N= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_L, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.MAP_calib_L= (U16) data;
-
-
-        /**
-        BARO
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_M, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.BARO_calib_M= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_N, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.BARO_calib_N= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_L, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.BARO_calib_L= (U16) data;
-
-
-        /**
-        O2 sensor
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_M, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.O2_calib_M= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_N, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.O2_calib_N= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_L, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.O2_calib_L= (U16) data;
-
-
-        /**
-        battery voltage sensor
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_M, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.VBAT_calib_M= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_L, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.VBAT_calib_L= (U16) data;
-
     }
 
+    /**
+    MAP
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_M, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.MAP_calib_M= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_N, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.MAP_calib_N= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_L, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.MAP_calib_L= (U16) data;
+
+
+    /**
+    BARO
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_M, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.BARO_calib_M= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_N, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.BARO_calib_N= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_L, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.BARO_calib_L= (U16) data;
+
+
+    /**
+    O2
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_M, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.O2_calib_M= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_N, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.O2_calib_N= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_L, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.O2_calib_L= (U16) data;
+
+
+    /**
+    VBAT
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_M, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.VBAT_calib_M= (U16) data;
+
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_L, &data, 2);
+
+    //exit here if eeprom read failed
+    if(eeprom_code)
+    {
+        return eeprom_code;
+    }
+
+    configPage9.VBAT_calib_L= (U16) data;
 
     //success
-    return 0;
+    return RETURN_OK;
 
 }
 
@@ -1462,8 +1511,6 @@ U32 write_ConfigData()
         {
             return eeprom_code;
         }
-
-
     }
 
     /**
@@ -1503,7 +1550,7 @@ U32 write_ConfigData()
     }
 
     /**
-    battery voltage sensor
+    VBAT
     */
     eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_M, configPage9.VBAT_calib_M, 2);
     eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_L, configPage9.VBAT_calib_L, 2);
@@ -1512,8 +1559,6 @@ U32 write_ConfigData()
     {
         return eeprom_code;
     }
-
-
 
     return 0;
 }

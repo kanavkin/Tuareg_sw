@@ -11,41 +11,67 @@ this module covers the ignition HAL
 /******************************************************************************************************************************
 ignition actuator control
 
+to trigger the ignition irq use COIL_IGNITION!
+(prevent triggering the irq when turning system to stand by)
+
 performance analysis revealed:
 one set_ignition_ch1(ON) + set_ignition_ch1(OFF) cycle generates a pulse of about 1 us +/- 50ns
 execution time about 120 cycles
  ******************************************************************************************************************************/
-inline void set_ignition_ch1(output_pin_t level)
+inline void set_ignition_ch1(coil_ctrl_t level)
 {
-    if(level == ON)
+    if(level == COIL_DWELL)
     {
+        //ON
         gpio_set_pin(GPIOC, 6, ON);
+    }
+    else if(level == COIL_IGNITION)
+    {
+        // OFF
+        gpio_set_pin(GPIOC, 6, OFF);
+
+        trigger_ignition_irq();
     }
     else
     {
         // OFF
         gpio_set_pin(GPIOC, 6, OFF);
-
-        /**
-        trigger sw irq
-        for ignition timing recalculation
-        */
-        EXTI->SWIER= EXTI_SWIER_SWIER3;
     }
 }
 
 
-inline void set_ignition_ch2(output_pin_t level)
+inline void set_ignition_ch2(coil_ctrl_t level)
 {
-    if(level == ON)
+   if(level == COIL_DWELL)
     {
+        //ON
         gpio_set_pin(GPIOC, 7, ON);
+    }
+    else if(level == COIL_IGNITION)
+    {
+        // OFF
+        gpio_set_pin(GPIOC, 7, OFF);
+
+        trigger_ignition_irq();
     }
     else
     {
         // OFF
         gpio_set_pin(GPIOC, 7, OFF);
     }
+}
+
+/******************************************************************************************************************************
+ignition irq control
+
+ ******************************************************************************************************************************/
+inline void trigger_ignition_irq()
+{
+    /**
+    trigger sw irq
+    for ignition timing recalculation
+    */
+    EXTI->SWIER= EXTI_SWIER_SWIER3;
 }
 
 

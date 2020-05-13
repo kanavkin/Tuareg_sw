@@ -6,18 +6,26 @@
 #include "decoder_logic.h"
 #include "uart.h"
 #include "Tuareg.h"
+#include "trigger_wheel_layout.h"
+#include "config.h"
 
-volatile decoder_logic_t Decoder_internals;
+#include "rotation_calc.h"
+#include "conversion.h"
+
+volatile decoder_internals_t DInternals;
+volatile decoder_interface_t DInterface;
+
 
 /**
 how the decoder works:
 
--   on initialisation we enable crankpickup irq
+-   on initialisation we enable crank pickup irq
 -   with first crank pickup irq execution we start crank timer to measure time delay between
     crank pickup events
+-   the timer keeps on counting till the next irq, providing a stable time base for processing delay measurement
 -   because we know sensing (rising or falling edge), we can tell if a gap or a key on trigger wheel
     has been detected
--   syncronisation we get when a certain time ratio (key/gap ratio) - thats the cycle beginning
+-   syncronisation we get when a certain time ratio (key/gap ratio) is detected - thats the cycle beginning
 -   from cycle beginning every rise/fall event takes us further in engine cycle - decoder keeps track of engine
     position and expects synchronization events after position D2
 -   after each sensing event the timer gets a reset
@@ -28,30 +36,28 @@ how the decoder works:
 */
 
 
-
 /**
-evaluate sync_buffer_key / sync_buffer_gap ratio
-to get trigger wheel sync
+evaluate key/gap ratio to get trigger wheel sync
 */
-U32 check_for_key_a()
+VU32 check_sync_ratio()
 {
-    U32 sync_ratio;
+    VU32 sync_ratio;
 
-    if(Decoder_internals.sync_buffer_gap == 0)
+    //collect diagnostic data
+    DInternals.diag[DDIAG_SYNCCHECK_CALLS] += 1;
+
+    if(DInternals.sync_buffer_key + DInternals.sync_buffer_gap == 0)
     {
         return (U32) 0;
     }
 
-    /*
-    fixed point maths -> ratio in percent
-    sync_buffer_xx is within a 1..65535 range, U32 is wide enough
-    */
-    sync_ratio= (Decoder_internals.sync_buffer_key * 100) / Decoder_internals.sync_buffer_gap;
+    //calculate key/gap ratio in percent
+    sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
     if( (sync_ratio >= SYNC_RATIO_MIN) && (sync_ratio <= SYNC_RATIO_MAX) )
     {
         //its key A!
-        return 0xFFFFFFFF;
+        return sync_ratio;
     }
     else
     {
@@ -61,24 +67,145 @@ U32 check_for_key_a()
 }
 
 
+
+/**
+calculate the angle at which the crankshaft will be, when the corresponding engine position will be detected be the decoder at the current
+
+-> the angle the crank shaft is actually at significantly differs from the trigger wheel key position angle
+-> the VR interface hw introduces a delay of about 300 us from the key edge passing the sensor until the CRANK signal is triggered
+
+-> the crank angle wraps around at 360°
+*/
+void calculate_crank_position_table(U32 Period, U16 * Table)
+{
+    U32 position, angle;
+
+    //collect diagnostic data
+    DInternals.diag[DDIAG_CRANKTABLE_CALLS] += 1;
+
+    for(position=0; position < POSITION_COUNT; position++)
+    {
+        //calculate angle
+        angle= configPage12.trigger_position_map[position] + configPage12.decoder_offset_deg;
+
+        //account for VR delay
+        if(Period != 0)
+        {
+            angle += calc_rot_angle_deg(configPage12.decoder_delay_us, Period);
+        }
+
+        //wrap around crank angle
+        if(angle >= 360)
+        {
+            angle -= 360;
+        }
+
+        //save to table
+        Table[position]= angle;
+    }
+}
+
+/**
+crank rotational speed calculation
+-> captures the key and gap duration from 2 full crank revolutions (1 engine cycle)
+*/
+void update_engine_speed(VU32 Interval)
+{
+    U32 period;
+
+    //collect diagnostic data
+    DInternals.diag[DDIAG_ROTSPEED_CALLS] += 1;
+
+    /*
+    collect data for engine rpm calculation
+    (in every crank 360° revolution we collect 8 timer values -> 16 captures in 720°)
+    range check: 2^4*2^16=2^20 -> fits to 32 bit variable
+    */
+    DInternals.cycle_timing_buffer += Interval;
+    DInternals.cycle_timing_counter++;
+
+
+    if(DInternals.cycle_timing_counter == 16)
+    {
+        /**
+        crank_T_us acts as an accurate time base for following calculations
+
+        the timer is adjusted to DECODER_TIMER_PERIOD_US interval
+        cycle_timing_buffer holds the duration for 2 full crank turns in timer ticks (#T.720)
+        */
+        period= DInternals.cycle_timing_buffer * (DECODER_TIMER_PERIOD_US / 2);
+
+        /**
+        export engine_rpm
+        rpm figure is mainly for user display and table lookup
+        */
+        DInterface.engine_rpm= calc_rpm(period);
+
+        /**
+        crank acceleration
+        reflects the absolute change in rotational period since last cycle
+        */
+        if( (period != 0) && (DInterface.crank_T_us != 0) )
+        {
+            DInterface.crank_deltaT_us= period - DInterface.crank_T_us;
+        }
+
+        //export speed data to interface
+        DInterface.crank_T_us= period;
+
+        //reset calculation
+        DInternals.cycle_timing_buffer= 0;
+        DInternals.cycle_timing_counter= 0;
+
+        //update engine position data
+        calculate_crank_position_table(period, DInterface.crank_position_table_deg);
+    }
+
+}
+
+inline void reset_position_data()
+{
+    DInternals.crank_position= UNDEFINED_POSITION;
+    DInterface.crank_position= UNDEFINED_POSITION;
+    DInternals.phase= PHASE_UNDEFINED;
+    DInterface.phase= PHASE_UNDEFINED;
+}
+
+inline void reset_crank_timing_data()
+{
+    DInternals.cycle_timing_buffer= 0UL;
+    DInternals.cycle_timing_counter= 0UL;
+
+    DInterface.crank_T_us= 0UL;
+    DInterface.crank_deltaT_us= 0UL;
+
+    DInterface.engine_rpm= 0UL;
+}
+
+inline void reset_statistics_data()
+{
+    VU32 item;
+
+    for(item= 0; item < DDIAG_COUNT; item++)
+    {
+        DInternals.diag[item]=0;
+    }
+}
+
+
+
 /**
     using hw layer
     enables pickup sensor interrupt
 */
-volatile decoder_logic_t * init_decoder_logic()
+volatile decoder_interface_t * init_decoder_logic()
 {
     //interface variables
-    Decoder_internals.sync_mode= INIT;
-    Decoder_internals.crank_position= UNDEFINED_POSITION;
-    Decoder_internals.phase= PHASE_UNDEFINED;
+    DInternals.sync_mode= INIT;
 
-    Decoder_internals.diag_positions_cis_phased =0;
-    Decoder_internals.diag_positions_cis_undefined =0;
-    Decoder_internals.diag_positions_crank_async =0;
-    Decoder_internals.diag_positions_crank_synced =0;
-
-    //see explanation below
-    Decoder_internals.rpm_calc_constant= 120UL * (SystemCoreClock / DECODER_TIMER_PSC);
+    reset_position_data();
+    reset_crank_timing_data();
+    reset_statistics_data();
 
 
     /**
@@ -88,32 +215,51 @@ volatile decoder_logic_t * init_decoder_logic()
     //react to crank irq
     decoder_unmask_crank_irq();
 
-    return &Decoder_internals;
+    return &DInterface;
 }
+
+
+
+
 
 
 
 /******************************************************************************************************************************
 crankshaft position sensor
 
+as the decoder timer was reset to 0x00 when the interrupt handler has been called,
+its value reveals the over all delay of the following operations
+
+
 performance analysis revealed:
 handler entry happens about 1 us after the trigger signal edge had occurred
  ******************************************************************************************************************************/
-inline void decoder_logic_crank_handler(VU32 Timestamp)
+inline void decoder_logic_crank_handler(VU32 Interval)
 {
+    VU32 ratio;
 
-    switch(Decoder_internals.sync_mode) {
+    //reset timeout counter, we just saw a trigger condition
+    DInternals.timeout_count= 0UL;
+
+    //collect diagnostic data
+    DInternals.diag[DDIAG_CRANKHANDLER_CALLS] += 1;
+
+    switch(DInternals.sync_mode) {
 
         case INIT:
 
             // this is the first impulse ever captured -> no timing info available
             decoder_start_timer();
             decoder_set_crank_pickup_sensing(SENSING_KEY_END);
-            Decoder_internals.sync_mode= ASYNC_KEY;
-            Decoder_internals.crank_position= UNDEFINED_POSITION;
-            Decoder_internals.phase= PHASE_UNDEFINED;
-            Decoder_internals.cycle_timing_buffer= 0UL;
-            Decoder_internals.cycle_timing_counter= 0UL;
+
+            DInternals.sync_mode= ASYNC_KEY;
+
+            reset_position_data();
+            reset_crank_timing_data();
+
+            //collect diagnostic data
+            DInternals.diag[DDIAG_CRANKPOS_INIT] += 1;
+
             break;
 
 
@@ -121,13 +267,15 @@ inline void decoder_logic_crank_handler(VU32 Timestamp)
 
             /* we are at the end of a key -> key duration captured
             in ASYNC mode we try to find segment A */
-            Decoder_internals.sync_buffer_key= Timestamp;
+            reset_crank_timing_data();
+            reset_position_data();
+
+            DInternals.sync_buffer_key= Interval;
             decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
-            Decoder_internals.sync_mode= ASYNC_GAP;
-            Decoder_internals.crank_position= UNDEFINED_POSITION;
+            DInternals.sync_mode= ASYNC_GAP;
 
             //collect diagnostic data
-            Decoder_internals.diag_positions_crank_async++;
+            DInternals.diag[DDIAG_CRANKPOS_ASYNC_KEY] += 1;
 
             break;
 
@@ -135,31 +283,33 @@ inline void decoder_logic_crank_handler(VU32 Timestamp)
         case ASYNC_GAP:
 
             // we are at the beginning of a key -> timer captured gap duration, next int will be on key end anyways
-            Decoder_internals.sync_buffer_gap= Timestamp;
+            DInternals.sync_buffer_gap= Interval;
             decoder_set_crank_pickup_sensing(SENSING_KEY_END);
 
-            if( check_for_key_a() )
+            reset_crank_timing_data();
+            reset_position_data();
+
+            ratio= check_sync_ratio();
+
+
+            if( ratio )
             {
                 // it was key A -> we have SYNC now!
-                Decoder_internals.sync_mode= SYNC;
-                Decoder_internals.crank_position= POSITION_B1;
-                Decoder_internals.phase= PHASE_UNDEFINED;
+                DInternals.sync_mode= SYNC;
+                DInternals.crank_position= POSITION_B1;
+                DInterface.crank_position= DInternals.crank_position;
 
-                //prepare rpm calculation
-                Decoder_internals.cycle_timing_counter= 0UL;
-                Decoder_internals.cycle_timing_buffer= 0UL;
-                Decoder_internals.engine_rpm= 0UL;
-                Decoder_internals.crank_rotation_period_us= 0UL;
+                //collect diagnostic data
+                DInternals.diag[DDIAG_ASYNC_SYNC_TR] += 1;
             }
             else
             {
                 //any other key
-                Decoder_internals.sync_mode= ASYNC_KEY;
-                Decoder_internals.crank_position= UNDEFINED_POSITION;
+                DInternals.sync_mode= ASYNC_KEY;
             }
 
             //collect diagnostic data
-            Decoder_internals.diag_positions_crank_async++;
+            DInternals.diag[DDIAG_CRANKPOS_ASYNC_GAP] += 1;
 
             break;
 
@@ -167,95 +317,66 @@ inline void decoder_logic_crank_handler(VU32 Timestamp)
         case SYNC:
 
             //update crank_position
-            if(Decoder_internals.crank_position == POSITION_D2)
+            DInternals.crank_position++;
+
+            //wrap around
+            if(DInternals.crank_position == POSITION_COUNT)
             {
-                //crank cycle end -> turn around
-                Decoder_internals.crank_position= POSITION_A1;
+                DInternals.crank_position= 0;
             }
-            else
-            {
-                Decoder_internals.crank_position++;
-            }
+
+            //export to interface
+            DInterface.crank_position= DInternals.crank_position;
 
             // update crank sensing
             decoder_set_crank_pickup_sensing(INVERT);
 
             /*
-            collect data for engine rpm calculation
-            (in every crank 360° revolution we collect 8 timer values -> 16 captures in 720°)
-            range check: 2^4*2^16=2^20 -> fits to 32 bit variable
+            update rotational speed if necessary
+            and update the crank position table
             */
-            Decoder_internals.cycle_timing_buffer += Timestamp;
-            Decoder_internals.cycle_timing_counter++;
-
-            //2 full crank revolutions captured?
-            if(Decoder_internals.cycle_timing_counter == 16)
-            {
-                /**
-                engine_rpm is mainly for user display and table lookup
-
-                rpm calculation:
-                n = 60 / T.360 = 120 / T.720
-                (T.720 is the time for 2 revolutions)
-                Decoder_internals.cycle_timing_buffer holds T.720 in timer ticks -> #T.720
-                T.720 = #T.720 * T.timer
-                (T.timer is the timer increment)
-                T.timer = ps / f.cpu
-                gives
-                n = (120 * f.cpu) / ( #T.720 * ps)
-
-                as 120, f.cpu and ps are constant, we calculate the constant part in init code
-                */
-                Decoder_internals.engine_rpm= Decoder_internals.rpm_calc_constant / Decoder_internals.cycle_timing_buffer;
-
-                /**
-                crank_rotation_period_us acts as an accurate time base for following calculations
-
-                the timer is adjusted to deliver a 4us timer interval (by its ps 400 @ 100 MHz)
-                cycle_timing_buffer holds the duration for 2 full crank turns in timer ticks (#T.720)
-                */
-                Decoder_internals.crank_rotation_period_us= 2* Decoder_internals.cycle_timing_buffer;
-
-                //reset calculation
-                Decoder_internals.cycle_timing_buffer= 0;
-                Decoder_internals.cycle_timing_counter= 0;
-            }
+            update_engine_speed(Interval);
 
             //collect diagnostic data
-            Decoder_internals.diag_positions_crank_synced++;
+            DInternals.diag[DDIAG_CRANKPOS_SYNC] += 1;
 
 
             /**
             per-position decoder housekeeping actions:
             crank_position is the crank position that was reached at the beginning of this interrupt
             */
-            switch(Decoder_internals.crank_position) {
+            switch(DInternals.crank_position) {
 
             case POSITION_A2:
 
                 // store key length for sync check
-                Decoder_internals.sync_buffer_key= Timestamp;
+                DInternals.sync_buffer_key= Interval;
                 break;
 
 
             case POSITION_B1:
 
                 //do sync check
-                Decoder_internals.sync_buffer_gap= Timestamp;
+                DInternals.sync_buffer_gap= Interval;
 
-                if( !check_for_key_a() )
+                ratio= check_sync_ratio();
+
+
+                if( ratio == 0 )
                 {
                     //sync check failed! -> prepare for the next trigger condition
-                    Decoder_internals.crank_position= UNDEFINED_POSITION;
-                    Decoder_internals.sync_mode= ASYNC_KEY;
+                    DInternals.crank_position= UNDEFINED_POSITION;
+                    DInternals.sync_mode= ASYNC_KEY;
                     decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
 
                     //engine phase measurement is upset too
-                    Decoder_internals.phase= PHASE_UNDEFINED;
+                    reset_position_data();
+                    reset_crank_timing_data();
+
                     decoder_mask_cis_irq();
 
                     //collect diagnostic data
-                    Decoder_internals.diag_sync_lost_events++;
+                    DInternals.diag[DDIAG_SYNC_ASYNC_TR] += 1;
                 }
                 break;
 
@@ -263,7 +384,7 @@ inline void decoder_logic_crank_handler(VU32 Timestamp)
                 //any other position
                 break;
 
-            } //switch Decoder_internals.crank_position
+            } //switch DInternals.crank_position
 
 
             /**
@@ -272,62 +393,65 @@ inline void decoder_logic_crank_handler(VU32 Timestamp)
             -> the irq enable/disable branches will not be executed as crank_position defaults to UNDEFINED
             -> the c.i.s. irq is masked already
             */
-            if(Decoder_internals.crank_position == CYLINDER_SENSOR_ENA_POSITION)
+            if(DInternals.crank_position == CYLINDER_SENSOR_ENA_POSITION)
             {
+               // #warning TODO (oli#1#): DEBUG
                 //enabling c.i.s irq will clear its pending flag
                 decoder_unmask_cis_irq();
             }
-            else if(Decoder_internals.crank_position == CYLINDER_SENSOR_DISA_POSITION)
+            else if(DInternals.crank_position == CYLINDER_SENSOR_DISA_POSITION)
             {
                 //disable c.i.s irq
                 decoder_mask_cis_irq();
 
                 //no c.i.s trigger event has been detected -> cylinder #2 working or broken sensor
-                if(Decoder_internals.phase == CYL1_WORK)
+                if(DInternals.phase == CYL1_WORK)
                 {
                     //sensor gives valid data
-                    Decoder_internals.phase= CYL2_WORK;
+                    DInternals.phase= CYL2_WORK;
                 }
-                else if(Decoder_internals.phase == CYL2_WORK)
+                else if(DInternals.phase == CYL2_WORK)
                 {
                     //no alternating signal -> sensor error
-                    Decoder_internals.phase= PHASE_UNDEFINED;
+                    DInternals.phase= PHASE_UNDEFINED;
 
                     //collect diagnostic data
-                    Decoder_internals.diag_phase_lost_events++;
+                    DInternals.diag[DDIAG_PHASED_UNDEFINED_TR] += 1;
                 }
             }
 
             //collect diagnostic data
-            if(Decoder_internals.phase == PHASE_UNDEFINED)
+            if(DInternals.phase == PHASE_UNDEFINED)
             {
-                Decoder_internals.diag_positions_cis_undefined++;
+                DInternals.diag[DDIAG_CRANKPOS_CIS_UNDEFINED] += 1;
             }
             else
             {
-                Decoder_internals.diag_positions_cis_phased++;
+                DInternals.diag[DDIAG_CRANKPOS_CIS_PHASED] += 1;
             }
 
+            //collect diagnostic data
+            DInternals.diag[DDIAG_TRIGGER_IRQ_SYNC] += 1;
 
             /**
             finally trigger the sw irq 2 for decoder output processing
             (ca. 3.2us after trigger event)
             the irq will be triggered anyways to react on sync failures!
+
+            shall be the last action in irq!
             */
             trigger_decoder_irq();
             break;
 
-        } //switch Decoder_internals.sync_mode
+        } //switch DInternals.sync_mode
 
-        //reset timeout counter, we just saw a trigger condition
-        Decoder_internals.timeout_count= 0UL;
+
 
         /**
         noise filter
         mask crank pickup irq, timer 9 compare will enable it again
         crank pickup irq is disabled after each set_crank_pickup_sensing() call
         */
-        decoder_mask_crank_irq();
 
 }
 
@@ -346,21 +470,13 @@ Timer for decoder control: update event --> overflow interrupt occurs when no si
  ******************************************************************************************************************************/
 inline void decoder_logic_timer_update_handler()
 {
-    //timer update occurs every 200 ms
-    if(Decoder_internals.timeout_count >= DECODER_TIMEOUT)
+    if(DInternals.timeout_count >= DECODER_TIMEOUT)
     {
         //reset decoder
-        Decoder_internals.sync_mode= INIT;
-        Decoder_internals.crank_position= UNDEFINED_POSITION;
+        DInternals.sync_mode= INIT;
 
-        //reset rpm calculation
-        Decoder_internals.cycle_timing_buffer= 0UL;
-        Decoder_internals.cycle_timing_counter= 0UL;
-        Decoder_internals.engine_rpm= 0UL;
-        Decoder_internals.crank_rotation_period_us= 0UL;
-
-        //trigger sw irq for decoder output processing (ca. 3.2us behind trigger edge)
-        trigger_decoder_irq();
+        reset_position_data();
+        reset_crank_timing_data();
 
         //prepare for the next trigger condition
         decoder_stop_timer();
@@ -369,11 +485,20 @@ inline void decoder_logic_timer_update_handler()
 
         //shut down c.i.s. irq
         decoder_mask_cis_irq();
-        Decoder_internals.phase= PHASE_UNDEFINED;
+        DInternals.phase= PHASE_UNDEFINED;
+
+        //collect diagnostic data
+        DInternals.diag[DDIAG_TIMEOUT_EVENTS] += 1;
+
+        //DEBUG
+        UART_Send(DEBUG_PORT, "\r \n decoder timeout");
+
+        //trigger sw irq for decoder output processing (ca. 3.2us behind trigger edge)
+        trigger_decoder_irq();
     }
     else
     {
-        Decoder_internals.timeout_count++;
+        DInternals.timeout_count++;
     }
 
 }
@@ -384,22 +509,26 @@ cylinder identification sensor
  ******************************************************************************************************************************/
 inline void decoder_logic_cam_handler()
 {
+
+    //collect diagnostic data
+    DInternals.diag[DDIAG_CISHANDLER_CALLS] += 1;
+
     /**
     a trigger condition has been seen on c.i.s -> cylinder #1 working or sensor error
     first trigger condition allows us to leave UNDEFINED state
     */
-    if((Decoder_internals.phase == CYL2_WORK) || (Decoder_internals.phase == PHASE_UNDEFINED))
+    if((DInternals.phase == CYL2_WORK) || (DInternals.phase == PHASE_UNDEFINED))
     {
         //alternating signal -> valid
-        Decoder_internals.phase= CYL1_WORK;
+        DInternals.phase= CYL1_WORK;
     }
-    else if(Decoder_internals.phase == CYL1_WORK)
+    else if(DInternals.phase == CYL1_WORK)
     {
         //invalid signal
-        Decoder_internals.phase= PHASE_UNDEFINED;
+        DInternals.phase= PHASE_UNDEFINED;
 
         //collect diagnostic data
-        Decoder_internals.diag_phase_lost_events++;
+        DInternals.diag[DDIAG_PHASED_UNDEFINED_TR] += 1;
     }
 
     //disable c.i.s irq until next turn

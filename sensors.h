@@ -51,21 +51,18 @@ ADC channels vs analog sensors
 15  -> PORTC5   (used for debug switch)
 */
 
-#define ASENSOR_O2_CH       ADC_Channel_0
-#define ASENSOR_TPS_CH      ADC_Channel_1
-#define ASENSOR_MAP_CH      ADC_Channel_2
-#define ASENSOR_IAT_CH      ADC_Channel_3
-#define ASENSOR_CLT_CH      ADC_Channel_4
-#define ASENSOR_VBAT_CH     ADC_Channel_5
-#define ASENSOR_KNOCK_CH    ADC_Channel_6
-#define ASENSOR_BARO_CH     ADC_Channel_7
-#define ASENSOR_SPARE_CH    ADC_Channel_14
 
-// number of channels in the regular group for periodic conversion: O2, TPS, IAT, CLT, VBAT, KNOCK, BARO, SPARE
-#define REGULAR_GROUP_LENGTH 8
+#define ADC_O2_CH       ADC_Channel_0
+#define ADC_TPS_CH      ADC_Channel_1
+#define ADC_MAP_CH      ADC_Channel_2
+#define ADC_IAT_CH      ADC_Channel_3
+#define ADC_CLT_CH      ADC_Channel_4
+#define ADC_VBAT_CH     ADC_Channel_5
+#define ADC_KNOCK_CH    ADC_Channel_6
+#define ADC_BARO_CH     ADC_Channel_7
+#define ADC_SPARE_CH    ADC_Channel_14
 
-//injected group for conversion on demand (in sync with engine process): MAP
-#define INJECTED_GROUP_LENGTH 1
+
 
 /**
 generic values
@@ -122,65 +119,94 @@ T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
 #define ASENSOR_SPARE_ERROR_THRES 0xFF
 #define ASENSOR_SPARE_AVG_THRES 5
 
+//------- new generic structure:
+
+#define ASENSOR_MIN_VALID 1
+#define ASENSOR_MAX_VALID 4095
+
+#define ASENSOR_ASYNC_SAMPLE_LEN 5
+#define ASENSOR_SYNC_SAMPLE_LEN 16
+
+#define ASENSOR_ERROR_THRES 0xFF
 
 
 /**
 choose the ASENSOR_yy values so that they can address array elements in ADCBuffer[]: 0 ... (REGULAR_GROUP_LENGTH -1)
 channels from injected group do not reserve space in the ADCBuffer[] but in error_counter[]
+order is important!
 */
 typedef enum {
 
-    //ADC based sensors
+    //ADC based sensors in regular group:
+    ASENSOR_ASYNC_O2,
+    ASENSOR_ASYNC_TPS,
+    ASENSOR_ASYNC_IAT,
+    ASENSOR_ASYNC_CLT,
+    ASENSOR_ASYNC_VBAT,
+    ASENSOR_ASYNC_KNOCK,
+    ASENSOR_ASYNC_BARO,
+    ASENSOR_ASYNC_SPARE,
+    ASENSOR_ASYNC_COUNT
 
-    //in regular group:
-    ASENSOR_O2           =0x00,
-    ASENSOR_TPS          =0x01,
-    ASENSOR_IAT          =0x02,
-    ASENSOR_CLT          =0x03,
-    ASENSOR_VBAT         =0x04,
-    ASENSOR_KNOCK        =0x05,
-    ASENSOR_BARO         =0x06,
-    ASENSOR_SPARE        =0x07,
 
-    //injected group
-    ASENSOR_MAP          =0x08,
+} asensors_async_t;
+
+/**
+choose the ASENSOR_yy values so that they can address array elements in ADCBuffer[]: 0 ... (REGULAR_GROUP_LENGTH -1)
+channels from injected group do not reserve space in the ADCBuffer[] but in error_counter[]
+order is important!
+*/
+typedef enum {
+
+    //ADC based sensors in injected group:
+    ASENSOR_SYNC_MAP,
+    ASENSOR_SYNC_COUNT
+
+
+} asensors_sync_t;
+
+
+/**
+
+*/
+typedef enum {
 
     //internal ADC channels
-    ASENSOR_ITEMP        =0x09,
-    ASENSOR_IVREF        =0x10
+    ASENSOR_INTERNAL_TEMP,
+    ASENSOR_INTERNAL_VREF,
+    ASENSOR_INTERNAL_COUNT
 
-
-} asensors_t;
+} asensors_internal_t;
 
 
 /**
 choose DSENSOR_xx values so that they can act as flags in a U8 (sensors.digital_sensors)
+their order shall be consistent, absolute position not important
 */
 typedef enum {
 
     //digital sensors
-    DSENSOR_SPARE2       =0x01,
-    DSENSOR_NEUTRAL      =0x02,
-    DSENSOR_RUN          =0x04,
-    DSENSOR_CRASH        =0x08,
-    DSENSOR_DEBUG        =0x10
+    DSENSOR_SPARE2,
+    DSENSOR_NEUTRAL,
+    DSENSOR_RUN,
+    DSENSOR_CRASH,
+    DSENSOR_DEBUG,
+    DSENSOR_COUNT
 
 } dsensors_t;
 
 
 typedef enum {
 
-    //ADC based sensors
-    ASENSOR_O2_ACT          =0x01,
-    ASENSOR_TPS_ACT         =0x02,
-    ASENSOR_IAT_ACT         =0x04,
-    ASENSOR_CLT_ACT         =0x08,
-    ASENSOR_VBAT_ACT        =0x10,
-    ASENSOR_MAP_ACT         =0x20,
-    ASENSOR_KNOCK_ACT       =0x40,
-    ASENSOR_BARO_ACT        =0x80
+    SDIAG_READ_DSENSORS_CALLS,
+    SDIAG_ADCIRQ_CALLS,
+    SDIAG_ADCIRQ_INJECTEDGR_CALLS,
+    SDIAG_DMAIRQ_CALLS,
+    SDIAG_DMAIRQ_CH1_CALLS,
 
-} sensor_activity_t;
+    SDIAG_COUNT
+
+} sensors_diag_t;
 
 
 /**
@@ -191,49 +217,54 @@ only MAP sensor uses map_integrator and map_integrator_count for averaging.
 
 when modifying sensors keep all indexes of regular group sensors below index of asensor_map
 */
-typedef struct _sensor_interface_t {
+typedef struct {
 
-    S16 ddt_TPS;
+    VU8 dsensor_cycle;
+    VU8 dsensor_history[DSENSOR_CYCLE_LEN];
 
-    sensor_activity_t active_sensors;
+    VU8 asensors_async_error_counter[ASENSOR_ASYNC_COUNT];
+    VU8 asensors_sync_error_counter[ASENSOR_SYNC_COUNT];
 
-    U16 MAP;
-    U16 BARO;
-    U16 O2;
-    U16 TPS;
-    U16 IAT;
-    U16 CLT;
-    U16 VBAT;
+    VU16 asensors_async_integrator[ASENSOR_ASYNC_COUNT];
+    VU8 asensors_async_integrator_count[ASENSOR_ASYNC_COUNT];
 
-    U16 aSPARE;
+    //MAP sensor holds 16 samples -> U32
+    VU32 asensors_sync_integrator[ASENSOR_SYNC_COUNT];
+    VU8 asensors_sync_integrator_count[ASENSOR_SYNC_COUNT];
 
-    U8 digital_sensors;
-    U8 dsensor_cycle;
-    U8 dsensor_history[DSENSOR_CYCLE_LEN];
 
-    //working variables:
+    VU16 last_TPS;
 
-    U8 error_counter[REGULAR_GROUP_LENGTH + INJECTED_GROUP_LENGTH];
+    VU8 async_loop_count;
 
-    U16 average[REGULAR_GROUP_LENGTH];
-    U8 average_count[REGULAR_GROUP_LENGTH];
+    VU32 diag[SDIAG_COUNT];
 
-    U32 map_integrator;
-    U8 map_integrator_count;
+    /**
+    where DMA will drop ADC data from regular group
+    */
+    VU16 asensors_async_buffer[ASENSOR_ASYNC_COUNT];
 
-    U16 last_TPS;
+} sensor_internals_t;
 
-    U8 loop_count;
 
-} sensor_interface_t ;
+typedef struct {
 
+    VS16 ddt_TPS;
+
+    VU8 asensors_async_health;
+    VU8 asensors_sync_health;
+
+    VU16 asensors_async[ASENSOR_ASYNC_COUNT];
+    VU16 asensors_sync[ASENSOR_SYNC_COUNT];
+    VU8 dsensors;
+
+} sensor_interface_t;
 
 volatile sensor_interface_t * init_sensors();
 VU32 read_dsensors();
 void read_digital_sensors();
-
-
-//extern volatile sensor_interface_t Sensors;
-
+U32 calculate_inverse_lin(U16 Figure, U16 M, U16 N, U16 L);
+S16 calculate_ddt_TPS(U16 Last_TPS, U16 Current_TPS);
+void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
 #endif // SENSORS_H_INCLUDED

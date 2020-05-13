@@ -5,12 +5,20 @@
 
 /**
 decoder timer prescaler
+
+decoder timer resolution affects the timestamp accuracy and the key/gap ratio and rotational speed calculation
+its absolute accuracy has no effect on ignition/fuel timing!
+
+for example: t_1° @ 9000 rpm := ~16 us
+
 T.timer := 4 us @ 100 MHz
 
 WARNING:
-when changing, adjust the crank_rotation_period_us calculation in decoder_logic module accordingly!
+when changing, adjust CRANK_NOISE_FILTER accordingly!
 */
 #define DECODER_TIMER_PSC 400UL
+#define DECODER_TIMER_PERIOD_US 4
+#define DECODER_TIMER_OVERFLOW_MS 262
 
 
 typedef enum {
@@ -46,6 +54,7 @@ extern void decoder_mask_cis_irq();
 extern void decoder_unmask_cis_irq();
 void decoder_set_crank_pickup_sensing(sensing_t sensing);
 extern void trigger_decoder_irq();
+U32 decoder_get_data_age_us();
 
 
 #endif // DECODERHW_H_INCLUDED

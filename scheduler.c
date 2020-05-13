@@ -30,16 +30,6 @@ static inline void set_fuel_ch2(output_pin_t level)
     set_injector_ch2(level);
 }
 
-static inline void set_ign_ch1(output_pin_t level)
-{
-    set_ignition_ch1(level);
-}
-
-static inline void set_ign_ch2(output_pin_t level)
-{
-    set_ignition_ch2(level);
-}
-
 
 
 void init_scheduler()
@@ -63,8 +53,11 @@ void init_scheduler()
     NVIC_EnableIRQ(TIM5_IRQn);
 }
 
-
-void scheduler_set_channel(scheduler_channel_t target_ch, output_pin_t action, U32 delay_us)
+/**
+the scheduler stores the desired action to take
+to fit the coil_ctrl_t and level_t it takes U32 parameter as action
+*/
+void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_us)
 {
 
     volatile U64 compare;
@@ -328,7 +321,7 @@ void TIM5_IRQHandler(void)
         /**
         ignition channel 1
         */
-        set_ign_ch1(Scheduler.ign_ch1_action);
+        set_ignition_ch1(Scheduler.ign_ch1_action);
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
@@ -340,7 +333,7 @@ void TIM5_IRQHandler(void)
         /**
         ignition channel 2
         */
-        set_ign_ch2(Scheduler.ign_ch2_action);
+        set_ignition_ch2(Scheduler.ign_ch2_action);
 
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC2IF;

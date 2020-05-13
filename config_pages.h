@@ -2,6 +2,7 @@
 #define CONFIG_PAGES_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "sensors.h"
 
 #define INJ_PAIRED          0
 #define INJ_SEMISEQUENTIAL  1
@@ -362,12 +363,30 @@ typedef struct _configPage11_t_ {
 } configPage11_t;
 
 
+/**
+Page 12 - trigger wheel layout
+*/
+typedef struct _configPage12_t_ {
+
+    U16 trigger_position_map[8];
+
+    //static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and crank angle
+    S16 decoder_offset_deg;
+
+    //dynamic delay introduced by VR interface schematics (between key passing sensor and signal edge generation)
+    U16 decoder_delay_us;
+
+} configPage12_t;
+
+
+
 #define CALIBRATION_TABLE_DIMENSION 6
+
 
 /**
 analog sensor calibration page
 */
-typedef struct _configPage9_t_ {
+typedef struct {
 
     U16 IAT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
     U16 IAT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
@@ -391,9 +410,14 @@ typedef struct _configPage9_t_ {
     U16 O2_calib_L;
 
     U16 VBAT_calib_M;
+    U16 VBAT_calib_N;
     U16 VBAT_calib_L;
 
-} configPage9_t ;
+    U16 KNOCK_calib_M;
+    U16 KNOCK_calib_N;
+    U16 KNOCK_calib_L;
+
+} configPage9_t;
 
 
 #endif // CONFIG_PAGES_H_INCLUDED

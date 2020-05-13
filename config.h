@@ -17,6 +17,7 @@ extern volatile configPage4_t configPage4;
 extern volatile configPage9_t configPage9;
 extern volatile configPage10_t configPage10;
 extern volatile configPage11_t configPage11;
+extern volatile configPage12_t configPage12;
 
 extern const U16 configPage_size[12];
 
@@ -27,7 +28,7 @@ extern const U16 configPage_size[12];
 config handling
 */
 U32 write_ConfigData();
-U32 load_ConfigData();
+U32 config_load();
 U32 migrate_configData();
 
 

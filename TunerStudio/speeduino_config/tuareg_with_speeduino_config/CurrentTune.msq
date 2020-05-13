@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Thu Oct 31 22:26:27 CET 2019"/>
+    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Fri Apr 17 16:03:44 CEST 2020"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
     <page>
         <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
@@ -364,6 +364,7 @@
         <constant digits="0" name="ego_sdelay" units="sec">255.0</constant>
         <constant digits="0" name="egoRPM" units="rpm">25500.0</constant>
         <constant digits="0" name="egoTPSMax" units="%">255.0</constant>
+        <constant name="vvtPin">"Board Default"</constant>
         <constant name="useExtBaro">"Yes"</constant>
         <constant name="boostMode">"Full"</constant>
         <constant cols="1" digits="1" name="brvBins" rows="6" units="V">
@@ -815,6 +816,7 @@
          115.0 
          255.0 
       </constant>
+        <constant name="rotaryType">"FC"</constant>
         <constant name="unused11-8c">"On"</constant>
         <constant name="unused11-8d">"On"</constant>
         <constant name="unused11-8e">"On"</constant>

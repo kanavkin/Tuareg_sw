@@ -1,10 +1,12 @@
-#ifndef IGNITIONCALC_H_INCLUDED
-#define IGNITIONCALC_H_INCLUDED
+#ifndef IGNITIONLOGIC_H_INCLUDED
+#define IGNITIONLOGIC_H_INCLUDED
 
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "decoder_logic.h"
+#include "trigger_wheel_layout.h"
+
 
 /**
 trigger wheel geometry
@@ -39,47 +41,51 @@ adjust DYNAMIC_MIN_RPM to a value higher than your
 desired idle rpm if you want fixed ignition operation there
 (rough idling, ...)
 */
-#define CRANKING_DWELL_POSITION POSITION_D2
-#define CRANKING_IGNITION_POSITION POSITION_B2
-#define CRANKING_IGNITION_ADVANCE POSITION_B2_ADVANCE
+#define DEFAULT_DWELL_POSITION POSITION_D1
+#define DEFAULT_IGNITION_POSITION POSITION_B1
+#define DEFAULT_DWELL_DEG 180
+#define DEFAULT_ADVANCE_DEG 10
 
-#define LOWREV_DWELL_POSITION POSITION_A2
-#define LOWREV_IGNITION_POSITION POSITION_B1
-#define LOWREV_IGNITION_ADVANCE POSITION_B1_ADVANCE
-#define LOWREV_MIN_RPM 700
 
-#define DYNAMIC_MIN_RPM 1000
-#define DYNAMIC_DWELL_US 5000
+//#define DYNAMIC_MIN_RPM 1000
+#define DYNAMIC_MIN_RPM 10000
+#define DYNAMIC_DWELL_US 4000
 
+/**
+safety margin for positioning
+*/
+#define MARGIN_US 15
 
 
 typedef struct _ignition_timing_t {
 
-    U32 rpm;
-    U32 crank_period_us;
-    U32 ignition_advance_deg;
-    U32 dwell_advance_deg;
-    U32 coil_on_timing_us;
-    U32 coil_off_timing_us;
-    engine_position_t coil_on_pos;
-    engine_position_t coil_off_pos;
+    //status data
+    U16 ignition_advance_deg;
+    U16 dwell_deg;
+
+    //timing
+    U32 coil_dwell_timing_us;
+    U32 coil_ignition_timing_us;
+    engine_position_t coil_dwell_pos;
+    engine_position_t coil_ignition_pos;
 
 } ignition_timing_t;
 
 
 
-U32 get_advance(U32 rpm);
-U32 calc_rot_duration(U32 Angle_deg, U32 Period_us);
-U32 calc_rot_angle(U32 Interval_us, U32 Period_us);
+//U32 get_advance(U32 Rpm);
+//U32 calc_rot_duration(U32 Angle_deg, U32 Period_us);
+//U32 calc_rot_angle(U32 Interval_us, U32 Period_us);
 
-void init_ignition_logic(volatile ignition_timing_t * initial_timing);
+//void init_ignition_logic(volatile ignition_timing_t * initial_timing);
 
-void fit_position( U32 rpm, U32 advance, volatile engine_position_t * to_position, VU32 * to_delay);
-void calc_ignition_timings(volatile ignition_timing_t * target_timing);
-void trigger_coil_by_timer(U32 delay_us, output_pin_t level);
-
-
-
+void fit_position( U32 Period_us, U32 Crank_angle_deg, engine_position_t * pTarget_position, U32 * pTarget_delay_us);
+void calc_ignition_timing(volatile ignition_timing_t * pTarget, U32 Period_us, U32 Rpm);
+void default_ignition_timing(volatile ignition_timing_t * pTarget);
+void trigger_coil_by_timer(U32 delay_us, U32 level);
 
 
-#endif // IGNITIONCALC_H_INCLUDED
+
+
+
+#endif // IGNITIONLOGIC_H_INCLUDED

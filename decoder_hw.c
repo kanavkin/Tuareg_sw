@@ -7,6 +7,11 @@
 
 #include "uart.h"
 #include "Tuareg.h"
+#include "dwt.h"
+
+#warning TODO (oli#9#): DEBUG
+VU32 debug_state;
+#include "ignition_hw.h"
 
 volatile decoder_hw_t Decoder_hw;
 
@@ -66,6 +71,7 @@ crank pickup irq helper functions
 */
 inline void decoder_mask_crank_irq()
 {
+    //Bit in IMR reset -> masked (disabled!)
     EXTI->IMR &= ~EXTI_IMR_MR0;
 }
 
@@ -121,13 +127,12 @@ static inline void set_crank_pickup_sensing_disabled()
 
 /**
 select the signal edge that will trigger the decoder (pickup sensing)
-(now hardware independent)
 masks the crank pickup irq!
 */
 void decoder_set_crank_pickup_sensing(sensing_t sensing)
 {
     //disable irq for setup
-    decoder_unmask_crank_irq();
+    decoder_mask_crank_irq();
 
     switch(sensing)
     {
@@ -169,10 +174,6 @@ inline void trigger_decoder_irq()
 
 
 
-
-
-
-
 /**
     using
     - GPIOB0 for pickup sensing
@@ -201,7 +202,7 @@ inline void init_decoder_hw()
     RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
 
     //set input mode for crank pickup and cylinder identification sensor
-    GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
+    GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_MID, GPIO_PULL_UP);
     GPIO_configure(GPIOB, 1, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
 
     //map GPIOB0 to EXTI line 0 (crank) and GPIOB1 to EXTI line 1 (cam)
@@ -241,6 +242,16 @@ inline void init_decoder_hw()
 
 }
 
+
+//returns the current decoder timer value
+U32 decoder_get_data_age_us()
+{
+    VU32 timestamp;
+
+    timestamp=  TIM9->CNT;
+
+    return DECODER_TIMER_PERIOD_US * timestamp;
+}
 
 
 /******************************************************************************************************************************

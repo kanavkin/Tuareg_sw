@@ -51,8 +51,8 @@ U32 UART_transmit(USART_TypeDef * Port, char data);
 U32 UART_write(USART_TypeDef * Port, char * msg);
 
 //init functions
-void UART1_Init();
-void UART6_Init();
+void UART_TS_PORT_Init();
+void UART_DEBUG_PORT_Init();
 
 //legacy direct hw access
 void UART_Tx(USART_TypeDef * Port, char msg);

@@ -55,6 +55,7 @@ void init_3Dtables()
 */
 void init_2Dtables()
 {
+
     IAT_calib_table.dimension= CALIBRATION_TABLE_DIMENSION;
     IAT_calib_table.axisX= configPage9.IAT_calib_data_x;
     IAT_calib_table.axisY= configPage9.IAT_calib_data_y;
@@ -66,8 +67,6 @@ void init_2Dtables()
     TPS_calib_table.dimension= CALIBRATION_TABLE_DIMENSION;
     TPS_calib_table.axisX= configPage9.TPS_calib_data_x;
     TPS_calib_table.axisY= configPage9.TPS_calib_data_y;
-
-
 
     taeTable.dimension = 4;
     taeTable.axisY = (U16 *) configPage2.taeValues;

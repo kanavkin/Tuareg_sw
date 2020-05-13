@@ -2,10 +2,11 @@
 #define DECODERLOGIC_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "trigger_wheel_layout.h"
 
 
 /**
-the amount of timer 9 ticks until we re enable the crank pickup irq
+the amount of timer  ticks until we re enable the crank pickup irq
 adjusted to about 2° crank shaft at 9500 rpm
 (smallest segment is about 5° in length)
 (setting: ps 400 at 100 MHz)
@@ -14,17 +15,18 @@ adjusted to about 2° crank shaft at 9500 rpm
 
 
 /**
-segment 1 has a key/gap ratio of 0.8
+segment 1 has a sync ratio of 0.4
 */
-#define SYNC_RATIO_MIN 65
-#define SYNC_RATIO_MAX 95
+#define SYNC_RATIO_MIN 30
+#define SYNC_RATIO_MAX 60
 
 /**
-the amount of timer 2 update events until we detect a stalled engine
-adjusted to 5 s
-(setting: ps 400 at 100 MHz)
+the amount of seconds until we detect a stalled engine
 */
-#define DECODER_TIMEOUT 19
+#define DECODER_TIMEOUT_MS 3000UL
+
+
+#define DECODER_TIMEOUT (DECODER_TIMEOUT_MS / DECODER_TIMER_OVERFLOW_MS)
 
 
 /**
@@ -55,56 +57,111 @@ typedef enum {
 
 typedef enum {
 
-    POSITION_A1= 0,
-    POSITION_A2= 1,
-    POSITION_B1= 2,
-    POSITION_B2= 3,
-    POSITION_C1= 4,
-    POSITION_C2= 5,
-    POSITION_D1= 6,
-    POSITION_D2= 7,
-    UNDEFINED_POSITION= 0xFF
+    DDIAG_CRANKHANDLER_CALLS,
+    DDIAG_CISHANDLER_CALLS,
 
-} engine_position_t;
+    DDIAG_SYNCCHECK_CALLS,
+    DDIAG_CRANKTABLE_CALLS,
+    DDIAG_ROTSPEED_CALLS,
+
+    DDIAG_ASYNC_SYNC_TR,
+    DDIAG_SYNC_ASYNC_TR,
+
+    DDIAG_CRANKPOS_INIT,
+    DDIAG_CRANKPOS_SYNC,
+    DDIAG_CRANKPOS_ASYNC_KEY,
+    DDIAG_CRANKPOS_ASYNC_GAP,
+
+    DDIAG_TRIGGER_IRQ_SYNC,
+    DDIAG_TIMEOUT_EVENTS,
+
+    DDIAG_CRANKPOS_CIS_PHASED,
+    DDIAG_CRANKPOS_CIS_UNDEFINED,
+    DDIAG_PHASED_UNDEFINED_TR,
+
+    DDIAG_COUNT
+
+} decoder_diag_t;
 
 
 typedef struct {
 
-    decoder_state_t sync_mode;
+    /*
+    decoder syncronisation
+    */
+    volatile decoder_state_t sync_mode;
 
-    U32 sync_buffer_key;
-    U32 sync_buffer_gap;
+    VU32 sync_buffer_key;
+    VU32 sync_buffer_gap;
 
-    U32 cycle_timing_buffer;
-    U32 cycle_timing_counter;
+    /*
+    engine dynamics
+    */
+    VU32 cycle_timing_buffer;
+    VU32 cycle_timing_counter;
 
-    U32 timeout_count;
+    /*
+    crank position
+    */
+    volatile engine_position_t crank_position;
 
-    engine_position_t crank_position;
+    /*
+    stalled engine detection
+    */
+    VU32 timeout_count;
 
-    U32 engine_rpm;
-    U32 rpm_calc_constant;
-    U32 crank_rotation_period_us;
-
-    engine_phase_t phase;
-
+    /*
+    camshaft
+    */
+    volatile engine_phase_t phase;
 
     //decoder statistics
-    U32 diag_positions_crank_synced;
-    U32 diag_positions_crank_async;
-    U32 diag_sync_lost_events;
-    U32 diag_positions_cis_phased;
-    U32 diag_positions_cis_undefined;
-    U32 diag_phase_lost_events;
+    VU32 diag[DDIAG_COUNT];
 
-} decoder_logic_t;
+} decoder_internals_t;
 
-volatile decoder_logic_t * init_decoder_logic();
 
-extern void decoder_logic_crank_handler(VU32 Timestamp);
+typedef struct {
+
+
+    //rotational period of crankshaft
+    VU32 crank_T_us;
+    VS32 crank_deltaT_us;
+
+    VU32 engine_rpm;
+
+    /*
+    crank position
+    */
+    volatile engine_position_t crank_position;
+
+
+    /*
+    calculated crank angles for the next positions
+    at the current engine speed
+    */
+    VU16 crank_position_table_deg[POSITION_COUNT];
+
+    /*
+    camshaft
+    */
+    volatile engine_phase_t phase;
+
+} decoder_interface_t;
+
+
+volatile decoder_interface_t * init_decoder_logic();
+
+extern void decoder_logic_crank_handler(VU32 timer_buffer);
 extern void decoder_logic_cam_handler();
 extern void decoder_logic_timer_compare_handler();
 extern void decoder_logic_timer_update_handler();
 
+extern void reset_position_data();
+extern void reset_crank_timing_data();
+extern void reset_statistics_data();
+
+void calculate_crank_position_table(U32 Period, U16 * Table);
+void update_engine_speed(VU32 Interval);
 
 #endif // DECODERLOGIC_H_INCLUDED

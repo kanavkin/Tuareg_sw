@@ -21,7 +21,7 @@
 				<Option type="1" />
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-Os" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -136,6 +136,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="rotation_calc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rotation_calc.h" />
 		<Unit filename="scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -266,6 +270,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="table.h" />
+		<Unit filename="trigger_wheel_layout.h" />
 		<Unit filename="uart.c">
 			<Option compilerVar="CC" />
 		</Unit>
