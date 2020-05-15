@@ -432,6 +432,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
 
             //collect diagnostic data
             DInternals.diag[DDIAG_TRIGGER_IRQ_SYNC] += 1;
+            DInternals.diag[DDIAG_TRIGGER_IRQ_DELAY]= decoder_get_data_age_us();
 
             /**
             finally trigger the sw irq 2 for decoder output processing

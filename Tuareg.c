@@ -1,3 +1,8 @@
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
+#include "stm32_libs/boctok_types.h"
+
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "ignition_logic.h"
@@ -37,13 +42,22 @@ void Tuareg_stop_engine()
 
 void Tuareg_trigger_ignition()
 {
+    //collect diagnostic information
+    Tuareg.diag[TDIAG_TRIG_IGN_CALLS] += 1;
+
     //ignition control
     if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_dwell_pos)
     {
+        //collect diagnostic information
+        Tuareg.diag[TDIAG_TRIG_COIL_DWELL] += 1;
+
         trigger_coil_by_timer(Tuareg.ignition_timing.coil_dwell_timing_us, COIL_DWELL);
     }
     else if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_ignition_pos)
     {
+        //collect diagnostic information
+        Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
+
         trigger_coil_by_timer(Tuareg.ignition_timing.coil_ignition_timing_us, COIL_IGNITION);
     }
 }

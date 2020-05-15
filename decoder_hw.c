@@ -244,7 +244,7 @@ inline void init_decoder_hw()
 
 
 //returns the current decoder timer value
-U32 decoder_get_data_age_us()
+inline U32 decoder_get_data_age_us()
 {
     VU32 timestamp;
 

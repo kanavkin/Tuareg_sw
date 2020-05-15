@@ -323,6 +323,9 @@ config_load_status= RETURN_FAIL;
         //debug
         //poll_dwt_printout();
 
+        //collect diagnostic information
+        Tuareg.diag[TDIAG_MAINLOOP_ENTRY] += 1;
+
         /**
         15 Hz actions
         */
@@ -469,9 +472,6 @@ config_load_status= RETURN_FAIL;
 
             }
 
-            #warning TODO (oli#9#): debug message enabled
-            //print analog and digital sensor data
-           // print_sensor_data();
         }
 
 
@@ -495,6 +495,10 @@ config_load_status= RETURN_FAIL;
             if (UART_available() > 0)
             {
                 ts_communication();
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_TSTUDIO_CALLS] += 1;
+
             }
         }
 
@@ -513,6 +517,8 @@ sw generated irq when decoder has
 updated crank_position based on crank pickup signal
 or decoder timeout occurred!
 
+The irq can be entered in HALT Mode when the crank is already spinning but the RUN switch has not yet been evaluated
+
 performance analysis revealed:
 handler entry happens about 3 us after the trigger signal edge had occurred
  ******************************************************************************************************************************/
@@ -523,6 +529,8 @@ void EXTI2_IRQHandler(void)
 
     //collect diagnostic information
     Tuareg.diag[TDIAG_DECODER_IRQ] += 1;
+    Tuareg.diag[TDIAG_DECODER_AGE]= decoder_get_data_age_us();
+
 
     /**
     check if this is a decoder timeout (engine has stalled)
@@ -544,6 +552,10 @@ void EXTI2_IRQHandler(void)
             /**
             decoder timeout
             */
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
+
             Tuareg.Runmode= TMODE_STB;
 
             #warning TODO (oli#9#): debug message enabled
@@ -578,6 +590,11 @@ void EXTI2_IRQHandler(void)
         //trigger dwell or spark
         Tuareg_trigger_ignition();
     }
+    else
+    {
+        //collect diagnostic information
+        Tuareg.diag[TDIAG_DECODER_PASSIVE] += 1;
+    }
 
     //in DIAG mode we will benefit from the updated crank data...
 
@@ -597,8 +614,6 @@ void EXTI3_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line3;
-
-#warning TODO (oli#1#): irq not triggered regularily
 
     //collect diagnostic information
     Tuareg.diag[TDIAG_IGNITION_IRQ] += 1;

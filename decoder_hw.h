@@ -54,7 +54,7 @@ extern void decoder_mask_cis_irq();
 extern void decoder_unmask_cis_irq();
 void decoder_set_crank_pickup_sensing(sensing_t sensing);
 extern void trigger_decoder_irq();
-U32 decoder_get_data_age_us();
+extern U32 decoder_get_data_age_us();
 
 
 #endif // DECODERHW_H_INCLUDED
