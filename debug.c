@@ -258,62 +258,55 @@ void delay_us(U32 delay)
 }
 
 
-void print_sensor_data()
+void print_sensor_data(USART_TypeDef * Port)
 {
     //can be called cyclic by adding a lowspeed action
     U32 sensor;
 
-    //intro
-    UART_Send(DEBUG_PORT, "\r\nsensors:");
+    UART_Send(Port, "\r\n\r\nANALOG: O2 TPS IAT CLT VBAT KNOCK BARO SPARE MAP\r\n");
 
-
-    UART_Send(DEBUG_PORT, "\r\nSYNC: MAP");
-
-    for(sensor=0; sensor < ASENSOR_SYNC_COUNT; sensor++)
+    for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.sensors->asensors_sync_health & (1<< sensor))
+        if(Tuareg.sensors->asensors_health & (1<< sensor))
         {
-            UART_Print_U(DEBUG_PORT, Tuareg.sensors->asensors_sync[sensor], TYPE_U16, NO_PAD);
+            UART_Print_U(Port, Tuareg.sensors->asensors[sensor], TYPE_U16, NO_PAD);
         }
         else
         {
-            UART_Tx(DEBUG_PORT, '-');
+            UART_Send(Port, " - ");
         }
-
-        UART_Send(DEBUG_PORT, "\r\n");
     }
 
-    UART_Send(DEBUG_PORT, "\r\nASYNC: O2 TPS IAT CLT VBAT KNOCK BARO SPARE");
+    UART_Send(Port, "\r\n\r\n (raw values)\r\n");
 
-    for(sensor=0; sensor < ASENSOR_ASYNC_COUNT; sensor++)
+    for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.sensors->asensors_async_health & (1<< sensor))
+        if(Tuareg.sensors->asensors_health & (1<< sensor))
         {
-            UART_Print_U(DEBUG_PORT, Tuareg.sensors->asensors_async[sensor], TYPE_U16, NO_PAD);
+            UART_Print_U(Port, Tuareg.sensors->asensors_raw[sensor], TYPE_U16, NO_PAD);
         }
         else
         {
-            UART_Tx(DEBUG_PORT, '-');
+            UART_Send(Port, " - ");
         }
-
-        UART_Send(DEBUG_PORT, "\r\n");
     }
 
 
-    UART_Send(DEBUG_PORT, "\r\nDIGITAL: SPARE2 NEUTRAL RUN CRASH DEBUG");
+    UART_Send(Port, "\r\n");
+    UART_Send(Port, "\r\nDIGITAL: SPARE2 NEUTRAL RUN CRASH DEBUG\r\n");
 
     for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
     {
         if(Tuareg.sensors->dsensors & (1<< sensor))
         {
-            UART_Tx(DEBUG_PORT, '1');
+            UART_Tx(Port, '1');
         }
         else
         {
-            UART_Tx(DEBUG_PORT, '0');
+            UART_Tx(Port, '0');
         }
 
-        UART_Tx(DEBUG_PORT, '-');
+        UART_Tx(Port, ' ');
     }
 
 }

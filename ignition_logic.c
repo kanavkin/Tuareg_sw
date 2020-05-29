@@ -134,7 +134,7 @@ void calc_ignition_timing(volatile ignition_timing_t * pTarget, U32 Period_us, U
         /**
         calculate advance (off timing)
         */
-        advance_deg= table3D_getValue(&ignitionTable, Rpm, Tuareg_get_MAP() );
+        advance_deg= table3D_getValue(&ignitionTable, Rpm, Tuareg_get_asensor(ASENSOR_MAP) );
         position_deg= 360 - advance_deg;
 
         pTarget->ignition_advance_deg= advance_deg;

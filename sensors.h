@@ -131,9 +131,10 @@ T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
 
 
 /**
-choose the ASENSOR_yy values so that they can address array elements in ADCBuffer[]: 0 ... (REGULAR_GROUP_LENGTH -1)
-channels from injected group do not reserve space in the ADCBuffer[] but in error_counter[]
-order is important!
+sensor module internal type
+the enumerators ASENSOR_ASYNC_yy address array elements in the internals struct: asensors_async_error_counter, asensors_async_integrator, asensors_async_integrator_count
+
+their order is important and shall match the regular ADC group configuration!
 */
 typedef enum {
 
@@ -152,9 +153,10 @@ typedef enum {
 } asensors_async_t;
 
 /**
-choose the ASENSOR_yy values so that they can address array elements in ADCBuffer[]: 0 ... (REGULAR_GROUP_LENGTH -1)
-channels from injected group do not reserve space in the ADCBuffer[] but in error_counter[]
-order is important!
+sensor module internal type
+the enumerators ASENSOR_SYNC_yy address array elements in the internals struct: asensors_sync_error_counter, asensors_sync_integrator, asensors_sync_integrator_count
+
+their order is important and shall match the injected ADC group configuration!
 */
 typedef enum {
 
@@ -167,7 +169,7 @@ typedef enum {
 
 
 /**
-
+sensor module internal type
 */
 typedef enum {
 
@@ -178,10 +180,34 @@ typedef enum {
 
 } asensors_internal_t;
 
+/**
+interface type
+
+provides unified access to analog sensor values and hides the technical details (internal separation into synchronous and asynchronous sensors / regular and injected ADC channels) from the user
+
+the enumerators address array elements in the interface struct: asensors_async_error_counter, asensors_async_integrator, asensors_async_integrator_count
+
+their order is important and shall match asensors_async_t and asensors_sync_t layout!
+*/
+typedef enum {
+
+    ASENSOR_O2,
+    ASENSOR_TPS,
+    ASENSOR_IAT,
+    ASENSOR_CLT,
+    ASENSOR_VBAT,
+    ASENSOR_KNOCK,
+    ASENSOR_BARO,
+    ASENSOR_SPARE,
+    ASENSOR_MAP,
+    ASENSOR_COUNT
+
+} asensors_t;
 
 /**
+internal and interface type
 choose DSENSOR_xx values so that they can act as flags in a U8 (sensors.digital_sensors)
-their order shall be consistent, absolute position not important
+their order is not important
 */
 typedef enum {
 
@@ -251,11 +277,12 @@ typedef struct {
 
     VS16 ddt_TPS;
 
-    VU8 asensors_async_health;
-    VU8 asensors_sync_health;
+    VU16 asensors_health;
 
-    VU16 asensors_async[ASENSOR_ASYNC_COUNT];
-    VU16 asensors_sync[ASENSOR_SYNC_COUNT];
+    VU16 asensors[ASENSOR_COUNT];
+    VU16 asensors_raw[ASENSOR_COUNT];
+    VU16 asensors_valid[ASENSOR_COUNT];
+
     VU8 dsensors;
 
 } sensor_interface_t;

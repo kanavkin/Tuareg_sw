@@ -64,27 +64,36 @@ void Tuareg_trigger_ignition()
 
 
 
-void Tuareg_check_health()
+
+U32 Tuareg_get_asensor(asensors_t sensor)
 {
-
-
-
-
-
-
-}
-
-
-U32 Tuareg_get_MAP()
-{
-    //if sensor is available
-    if(Tuareg.sensors->asensors_sync_health & (1<< ASENSOR_SYNC_MAP))
+    //if sensor has already been validated and is still healthy
+    if( (Tuareg.asensor_validity & (1<< sensor)) && (Tuareg.sensors->asensors_health & (1<< sensor)) )
     {
-        return Tuareg.sensors->asensors_sync[ASENSOR_SYNC_MAP];
+        //use live value
+        return Tuareg.sensors->asensors[sensor];
     }
     else
     {
-        //sensor possibly disturbed
-        return MAP_DEFAULT_KPA;
+        //maybe sensor can be validated in this cycle?
+        if( (Tuareg.sensors->asensors_health & (1<< sensor)) && (Tuareg.sensors->asensors_valid[sensor] > ASENSOR_VALIDITY_THRES) )
+        {
+            //sensor successfully validated
+            Tuareg.asensor_validity |= (1<< sensor);
+
+            //use live value
+            return Tuareg.sensors->asensors[sensor];
+        }
+        else
+        {
+            //sensor temporarily disturbed
+            Tuareg.asensor_validity &= ~(1<< sensor);
+
+            //use default value
+            return Tuareg.asensor_defaults[sensor];
+        }
+
+
+
     }
 }

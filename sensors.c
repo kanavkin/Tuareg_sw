@@ -417,15 +417,21 @@ void ADC_IRQHandler()
                 average= *pIntegr / *pCount;
 
                 //calculate MAP and export to interface
-                SInterface.asensors_sync[ASENSOR_SYNC_MAP]= calculate_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N, configPage9.MAP_calib_L);
+                SInterface.asensors[ASENSOR_MAP]= calculate_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N, configPage9.MAP_calib_L);
 
                 //reset average buffer
                 *pIntegr= 0;
                 *pCount= 0;
 
                 //mark sensor as active, reset error counter
-                SInterface.asensors_sync_health |= (1<< ASENSOR_SYNC_MAP);
+                SInterface.asensors_health |= (1<< ASENSOR_MAP);
                 SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] =0;
+
+                //export raw value
+                SInterface.asensors_raw[ASENSOR_MAP]= average;
+
+                //count the amount of consecutive valid readings
+                SInterface.asensors_valid[ASENSOR_MAP]++;
             }
 
         }
@@ -446,12 +452,18 @@ void ADC_IRQHandler()
                 */
 
                 //report to interface
-                SInterface.asensors_sync[ASENSOR_SYNC_MAP] =0;
-                SInterface.asensors_sync_health &= ~(1<< ASENSOR_SYNC_MAP);
+                SInterface.asensors[ASENSOR_MAP] =0;
+                SInterface.asensors_health &= ~(1<< ASENSOR_MAP);
 
                 //reset average buffer
                 *pIntegr= 0;
                 *pCount= 0;
+
+                //delete raw value
+                SInterface.asensors_raw[ASENSOR_MAP]= 0;
+
+                //no more consecutive valid readings
+                SInterface.asensors_valid[ASENSOR_MAP] =0;
 
             }
 
@@ -530,7 +542,7 @@ void DMA2_Stream0_IRQHandler()
                             result= table2D_getValue(&TPS_calib_table, average);
 
                             //save old TPS value for ddt_TPS calculation
-                            SInternals.last_TPS= SInterface.asensors_async[ASENSOR_ASYNC_TPS];
+                            SInternals.last_TPS= SInterface.asensors[ASENSOR_TPS];
 
                             //throttle transient calculation
                             SInterface.ddt_TPS= calculate_ddt_TPS(SInternals.last_TPS, result);
@@ -575,11 +587,17 @@ void DMA2_Stream0_IRQHandler()
                     *pCount= 0;
 
                     //export calculated value to interface
-                    SInterface.asensors_async[sensor]= result;
+                    SInterface.asensors[sensor]= result;
 
                     //mark sensor as active, reset error counter
-                    SInterface.asensors_async_health |= (1<< sensor);
+                    SInterface.asensors_health |= (1<< sensor);
                     SInternals.asensors_async_error_counter[sensor] =0;
+
+                    //count the amount of consecutive valid readings
+                    SInterface.asensors_valid[sensor]++;
+
+                    //export raw value
+                    SInterface.asensors_raw[sensor]= average;
                 }
 
             }
@@ -600,12 +618,18 @@ void DMA2_Stream0_IRQHandler()
                     */
 
                     //report to interface
-                    SInterface.asensors_async[sensor] =0;
-                    SInterface.asensors_async_health &= ~(1<< sensor);
+                    SInterface.asensors[sensor] =0;
+                    SInterface.asensors_health &= ~(1<< sensor);
 
                     //reset average buffer
                     *pIntegr= 0;
                     *pCount= 0;
+
+                    //delete raw value
+                    SInterface.asensors_raw[sensor]= 0;
+
+                    //no more consecutive valid readings
+                    SInterface.asensors_valid[sensor] =0;
 
                 }
 

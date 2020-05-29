@@ -17,8 +17,8 @@
 //level at which the run sensor reports a run permission
 #define RUN_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_RUN)
 
-
-
+//amount of consecutive valid captures an analog senor has to provide until he is considered valid
+#define ASENSOR_VALIDITY_THRES 150
 
 
 
@@ -45,6 +45,8 @@ default sensor values
 
 if an analog sensor is not available, use these defaults
 */
+#warning TODO (oli#4#): provide default values to Tuareg.asensor_defaults[]
+
 #define MAP_DEFAULT_KPA 1000
 
 
@@ -190,6 +192,10 @@ typedef struct _Tuareg_t {
     volatile sensor_interface_t * sensors;
     volatile ignition_timing_t ignition_timing;
 
+    //analog sensors validity state
+    VU16 asensor_validity;
+    U32 asensor_defaults[ASENSOR_COUNT];
+
     //statemachine and health status
     volatile tuareg_runmode_t Runmode;
     volatile tuareg_error_t Errors;
@@ -284,7 +290,7 @@ extern volatile Tuareg_t Tuareg;
 
 void Tuareg_stop_engine();
 void Tuareg_trigger_ignition();
-U32 Tuareg_get_MAP();
+U32 Tuareg_get_asensor(asensors_t sensor);
 
 
 #endif // TUAREG_H_INCLUDED
