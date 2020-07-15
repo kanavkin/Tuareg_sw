@@ -405,7 +405,7 @@ U32 eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
 
 
 /**
-* Write to the EEPROM only where needed to save write cycles
+* Write ONE BYTE to the EEPROM only where needed to save write cycles
 */
 U32 eeprom_update(U32 Address, U32 Data)
 {
@@ -464,6 +464,9 @@ U32 eeprom_update(U32 Address, U32 Data)
 }
 
 
+/**
+update Length (1 to 4) eeprom bytes, beginning from Address, with the data contained in Data
+*/
 U32 eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
 {
     U32 eeprom_code =0, i;

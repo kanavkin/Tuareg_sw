@@ -1,7 +1,7 @@
 #ifndef TUNERSTUDIO_H_INCLUDED
 #define TUNERSTUDIO_H_INCLUDED
 
-
+/*
 #define VEMAPPAGE_NR    1
 #define VESETPAGE_NR    2 //Config Page 1
 #define IGNMAPPAGE_NR   3
@@ -14,6 +14,7 @@
 #define CANBUSPAGE_NR   10 //Config Page 10
 #define WARMUPPAGE_NR   11
 #define CALIBPAGE_NR    12 // echo -ne \\x50\\x3c > /dev/ttyACM0
+*/
 
 #define COOLANT_TABLE_NR 0
 #define IAT_TABLE_NR 1
@@ -36,20 +37,62 @@ this must reflect the current configuration data layout!!!
 #define MAP_PAGE_SIZE 288
 
 
+#define TS_IGNITION_ADVANCE_OFFSET 40
+
+
+
+/*
+TS pages
+*/
+typedef enum {
+
+    TS_ZERO_PAGE, // 0
+    VEMAPPAGE, // 1
+    VESETPAGE, // 2 -> Config Page 1
+    IGNMAPPAGE, // 3
+    IGNSETPAGE, // 4 -> Config Page 2
+    AFRMAPPAGE, // 5
+    AFRSETPAGE, // 6 -> Config Page 3
+    IACPAGE,    // 7 -> Config Page 4
+    BOOSTVVCPAGE, // 8
+    SEQFUELPAGE, // 9
+    CANBUSPAGE, // 10 -> Config Page 10
+    WARMUPPAGE, // 11
+    CALIBPAGE,  // 12 '<' 60
+
+    DECODERPAGE, // 13 '=' 61
+    IGNITIONPAGE, // 14 '>' 62
+    IGNITIONMAP1PAGE, // 15 '?' 63
+
+    TSPAGE_COUNT
+
+} TS_page_t;
+
+
+typedef struct
+{
+    //further rx data is required
+    U8 cmd_pending :1;
+
+    U8 mod_permission :1;
+    U8 burn_permission :1;
+
+} TS_state_t ;
+
 #define SENDVALUE_BUFFERSIZE 42
 #define SENDVALUE_FAKE_PACKETSIZE 74
 
-#define COMMAND_DURATION 5
+#define COMMAND_MAX_DURATION_S 3
 
 typedef struct _tuners_cli_t
 {
-    U32 currentPage_Nr :8 ;
-    U32 currentCommand :8 ;
-    U32 cmdPending :1 ;
-    U32 mod_permission :1 ;
-    U32 burn_permission :1 ;
+    TS_page_t currentPage;
 
-    U32 command_duration;
+    U8 currentCommand;
+
+    TS_state_t State;
+
+    U8 command_duration;
     U32 A_cmd_requests;
 
 } tuners_cli_t ;

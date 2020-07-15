@@ -2,6 +2,7 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
+#include "config.h"
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 
@@ -46,7 +47,7 @@ inline void decoder_start_timer()
     TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
 
     //enable output compare for exti
-    TIM9->CCR1= (U16) CRANK_NOISE_FILTER;
+    TIM9->CCR1= (U16) configPage12.crank_noise_filter;
 
     //enable overflow interrupt
     TIM9->DIER |= TIM_DIER_UIE;

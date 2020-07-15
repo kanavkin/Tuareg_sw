@@ -3,6 +3,7 @@
 
 #include "config_pages.h"
 
+
 #define CURRENT_DATA_VERSION    5
 #define PAGE_SIZE 64
 
@@ -18,18 +19,33 @@ extern volatile configPage9_t configPage9;
 extern volatile configPage10_t configPage10;
 extern volatile configPage11_t configPage11;
 extern volatile configPage12_t configPage12;
+extern volatile configPage13_t configPage13;
 
-extern const U16 configPage_size[12];
 
+//extern const U16 configPage_size[12];
 
 
 
 /**
 config handling
 */
-U32 write_ConfigData();
+U32 config_write();
 U32 config_load();
+
 U32 migrate_configData();
+
+U32 load_DecoderConfig();
+void load_essential_DecoderConfig();
+U32 write_DecoderConfig();
+
+U32 load_IgnitionConfig();
+void load_essential_IgnitionConfig();
+U32 write_IgnitionConfig();
+
+U32 load_SensorCalibration();
+U32 write_SensorCalibration();
+
+void config_load_essentials();
 
 
 #endif // CONFIG_H_INCLUDED

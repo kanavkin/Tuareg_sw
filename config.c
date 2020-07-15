@@ -27,6 +27,7 @@ volatile configPage9_t configPage9;
 volatile configPage10_t configPage10;
 volatile configPage11_t configPage11;
 volatile configPage12_t configPage12;
+volatile configPage13_t configPage13;
 
 
 
@@ -37,7 +38,7 @@ volatile configPage12_t configPage12;
 ****************************************************************************************************************************************************/
 U32 config_load()
 {
-    U32 data, offset, x, y, z, i;
+    U32 offset, x, y, z, i;
     U8 * pnt_configPage;
     U8 eeprom_data;
     U32 eeprom_code;
@@ -113,6 +114,7 @@ U32 config_load()
     * IGNITION CONFIG PAGE (2) *
     ***************************/
 
+    /*
     for(x=EEPROM_CONFIG3_MAP; x<EEPROM_CONFIG3_XBINS; x++)
     {
         offset = x - EEPROM_CONFIG3_MAP;
@@ -161,6 +163,13 @@ U32 config_load()
             return eeprom_code;
         }
     }
+
+    */
+
+
+    //ignition table loaded by table module
+    eeprom_code= load_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+
 
 
     pnt_configPage = (U8 *)&configPage2;
@@ -596,272 +605,32 @@ U32 config_load()
     }
 
 
-    /*******************
-    * CONFIG PAGE (12) *
-    *******************/
+    /********************
+    * Tuareg config     *
+    ********************/
+    eeprom_code= load_DecoderConfig();
 
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-#warning TODO (oli#1#): implement trigger position layout read from eeprom
+    eeprom_code= load_IgnitionConfig();
 
-    configPage12.trigger_position_map[POSITION_A1]= POSITION_A1_ANGLE;
-    configPage12.trigger_position_map[POSITION_A2]= POSITION_A2_ANGLE;
-    configPage12.trigger_position_map[POSITION_B1]= POSITION_B1_ANGLE;
-    configPage12.trigger_position_map[POSITION_B2]= POSITION_B2_ANGLE;
-    configPage12.trigger_position_map[POSITION_C1]= POSITION_C1_ANGLE;
-    configPage12.trigger_position_map[POSITION_C2]= POSITION_C2_ANGLE;
-    configPage12.trigger_position_map[POSITION_D1]= POSITION_D1_ANGLE;
-    configPage12.trigger_position_map[POSITION_D2]= POSITION_D2_ANGLE;
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    configPage12.decoder_offset_deg= 260;
-    configPage12.decoder_delay_us= 320;
+    eeprom_code= load_SensorCalibration();
 
-    /**
-    crank decoder
-    */
-    /*
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_DECODER_OFFSET, &data, 2);
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage12.decoder_offset_deg= (S16) data;
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_DECODER_DELAY, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage12.decoder_delay_us= (U16) data;
-
-
-*/
-
-    /*******************
-    * CONFIG PAGE 9    *
-    * (CALIBRATION)    *
-    *******************/
-#warning TODO (oli#3#): Implement calibration value readout from eeprom
-
-    //all calibration tables have the same size
-    for(i=0; i < CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        /**
-        CLT
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_CLT_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.CLT_calib_data_x[i]= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_CLT_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.CLT_calib_data_y[i]= (U16) data;
-
-
-        /**
-        IAT
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_IAT_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.IAT_calib_data_x[i]= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_IAT_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.IAT_calib_data_y[i]= (U16) data;
-
-        /**
-        TPS
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.TPS_calib_data_x[i]= (U16) data;
-
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        //exit here if eeprom read failed
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-
-        configPage9.TPS_calib_data_y[i]= (U16) data;
-
-    }
-
-    /**
-    MAP
-    */
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_M, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.MAP_calib_M= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_N, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.MAP_calib_N= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_L, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.MAP_calib_L= (U16) data;
-
-
-    /**
-    BARO
-    */
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_M, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.BARO_calib_M= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_N, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.BARO_calib_N= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_L, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.BARO_calib_L= (U16) data;
-
-
-    /**
-    O2
-    */
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_M, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.O2_calib_M= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_N, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.O2_calib_N= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_L, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.O2_calib_L= (U16) data;
-
-
-    /**
-    VBAT
-    */
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_M, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.VBAT_calib_M= (U16) data;
-
-
-    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_L, &data, 2);
-
-    //exit here if eeprom read failed
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    configPage9.VBAT_calib_L= (U16) data;
 
     //success
     return RETURN_OK;
 
 }
+
+
+
+
+
+
 
 
 
@@ -872,7 +641,7 @@ U32 config_load()
 *
 TODO remove map dimensions from eeprom
 ****************************************************************************************************************************************************/
-U32 write_ConfigData()
+U32 config_write()
 {
 
     U16 offset, x, y, z, i;
@@ -884,7 +653,7 @@ U32 write_ConfigData()
     * Fuel table *
     *************/
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG1_XSIZE, fuelTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG1_XSIZE, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
@@ -951,8 +720,8 @@ U32 write_ConfigData()
     /*****************
     * Ignition table *
     *****************/
-
-    eeprom_code= eeprom_update(EEPROM_CONFIG3_XSIZE, ignitionTable.dimension);
+/*
+    eeprom_code= eeprom_update(EEPROM_CONFIG3_XSIZE, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
@@ -997,7 +766,10 @@ U32 write_ConfigData()
             return eeprom_code;
         }
     }
+*/
 
+    //ignition table handled by table module
+    eeprom_code= write_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
 
 
     /*******************
@@ -1021,14 +793,14 @@ U32 write_ConfigData()
     * AFR TABLE  *
     *************/
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG5_XSIZE, afrTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG5_XSIZE, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
         return eeprom_code;
     }
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG5_YSIZE, afrTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG5_YSIZE, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
@@ -1112,28 +884,28 @@ U32 write_ConfigData()
     * Boost and vvt tables load *
     ****************************/
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG8_XSIZE1, boostTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG8_XSIZE1, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
         return eeprom_code;
     }
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG8_YSIZE1, boostTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG8_YSIZE1, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
         return eeprom_code;
     }
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG8_XSIZE2, vvtTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG8_XSIZE2, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
         return eeprom_code;
     }
 
-    eeprom_code= eeprom_update(EEPROM_CONFIG8_YSIZE2, vvtTable.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG8_YSIZE2, TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
     {
@@ -1226,7 +998,7 @@ U32 write_ConfigData()
     *******************/
 
     //Write the boost Table RPM dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE1,trim1Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE1,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1234,7 +1006,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table MAP/TPS dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE1,trim1Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE1,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1242,7 +1014,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table RPM dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE2,trim2Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE2,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1250,7 +1022,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table MAP/TPS dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE2,trim2Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE2,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1258,7 +1030,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table RPM dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE3,trim3Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE3,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1266,7 +1038,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table MAP/TPS dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE3,trim3Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE3,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1274,7 +1046,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table RPM dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE4,trim4Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_XSIZE4,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1282,7 +1054,7 @@ U32 write_ConfigData()
         }
 
     //Write the boost Table MAP/TPS dimension size
-    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE4,trim4Table.dimension);
+    eeprom_code= eeprom_update(EEPROM_CONFIG9_YSIZE4,TABLE3D_DIMENSION);
 
     if(eeprom_code != 0)
         {
@@ -1471,95 +1243,29 @@ U32 write_ConfigData()
     }
 
 
-    /*******************
-    * CONFIG PAGE 9    *
-    * (CALIBRATION)    *
-    *******************/
+    /********************
+    * Tuareg config     *
+    ********************/
+    eeprom_code= write_DecoderConfig();
 
-    //all calibration tables have the same size
-    for(i=0; i < CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        /**
-        IAT
-        */
-        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.IAT_calib_data_x[i], 2);
-        eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_IAT_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.IAT_calib_data_y[i], 2);
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
+    eeprom_code= write_IgnitionConfig();
 
-        /**
-        CLT
-        */
-        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.CLT_calib_data_x[i], 2);
-        eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_CLT_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.CLT_calib_data_y[i], 2);
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
+    eeprom_code= write_SensorCalibration();
 
-        /**
-        TPS
-        */
-        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_x[i], 2);
-        eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_y[i], 2);
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        if(eeprom_code)
-        {
-            return eeprom_code;
-        }
-    }
 
-    /**
-    MAP
-    */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_M, configPage9.MAP_calib_M, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_MAP_N, configPage9.MAP_calib_N, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_MAP_L, configPage9.MAP_calib_L, 2);
 
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
 
-    /**
-    BARO
-    */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_M, configPage9.BARO_calib_M, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_BARO_N, configPage9.BARO_calib_N, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_BARO_L, configPage9.BARO_calib_L, 2);
 
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
 
-    /**
-    O2
-    */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_M, configPage9.O2_calib_M, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_O2_N, configPage9.O2_calib_N, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_O2_L, configPage9.O2_calib_L, 2);
-
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
-    /**
-    VBAT
-    */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_M, configPage9.VBAT_calib_M, 2);
-    eeprom_code += eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_L, configPage9.VBAT_calib_L, 2);
-
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
-
+    /******************************************************
+    * THE END                                             *
+    *******************************************************/
     return 0;
 }
 
@@ -1587,6 +1293,7 @@ U32 migrate_configData()
     {
         return eeprom_code;
     }
+#warning TODO (oli#4#): Add an eeprom layout and config version check (at config load)
 
     if( (eeprom_data == 0) || (eeprom_data == 255) )
     {
@@ -1597,3 +1304,524 @@ U32 migrate_configData()
 }
 
 
+/**
+*
+* reads decoder config data from eeprom
+*
+*/
+U32 load_DecoderConfig()
+{
+    U32 data, x;
+    U8 eeprom_data;
+    U32 eeprom_code;
+
+
+    //U16 trigger_position_map[POSITION_COUNT]
+    for(x=0; x < CRK_POSITION_COUNT; x++)
+    {
+        //every config item is 2 bytes in width
+        eeprom_code= eeprom_read_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage12.trigger_position_map[x]= (U16) data;
+    }
+
+
+    //S16 decoder_offset_deg
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG12_DECODER_OFFSET, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.decoder_offset_deg= (S16) data;
+
+
+    //U16 decoder_delay_us
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG12_DECODER_DELAY, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.decoder_delay_us= (U16) data;
+
+
+    //U8 crank_noise_filter
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_CRANK_NOISE_FILTER, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.crank_noise_filter= eeprom_data;
+
+
+    //U8 sync_ratio_min_pct
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_SYNC_RATIO_MIN, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.sync_ratio_min_pct= eeprom_data;
+
+
+    //U8 sync_ratio_max_pct
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_SYNC_RATIO_MAX, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.sync_ratio_max_pct= eeprom_data;
+
+
+    //U8 decoder_timeout_s
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_DECODER_TIMEOUT, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.decoder_timeout_s= eeprom_data;
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/**
+*
+* provides sane defaults if config data from eeprom is not available (limp home mode)
+*
+*/
+void load_essential_DecoderConfig()
+{
+
+    /**
+    config page 12 - crank decoder
+    */
+    configPage12.trigger_position_map[CRK_POSITION_A1]= DEFAULT_CONFIG12_POSITION_A1_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_A2]= DEFAULT_CONFIG12_POSITION_A2_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_B1]= DEFAULT_CONFIG12_POSITION_B1_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_B2]= DEFAULT_CONFIG12_POSITION_B2_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_C1]= DEFAULT_CONFIG12_POSITION_C1_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_C2]= DEFAULT_CONFIG12_POSITION_C2_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_D1]= DEFAULT_CONFIG12_POSITION_D1_ANGLE;
+    configPage12.trigger_position_map[CRK_POSITION_D2]= DEFAULT_CONFIG12_POSITION_D2_ANGLE;
+
+    configPage12.decoder_offset_deg= DEFAULT_CONFIG12_DECODER_OFFSET;
+    configPage12.decoder_delay_us= DEFAULT_CONFIG12_DECODER_DELAY;
+    configPage12.crank_noise_filter= DEFAULT_CONFIG12_CRANK_NOISE_FILTER;
+    configPage12.sync_ratio_min_pct= DEFAULT_CONFIG12_SYNC_RATIO_MIN;
+    configPage12.sync_ratio_max_pct= DEFAULT_CONFIG12_SYNC_RATIO_MAX;
+    configPage12.decoder_timeout_s= DEFAULT_CONFIG12_DECODER_TIMEOUT_S;
+
+}
+
+/**
+*
+* writes decoder config data to eeprom
+*
+*/
+U32 write_DecoderConfig()
+{
+    U32 eeprom_code, x;
+
+
+    //U16 trigger_position_map[CRK_POSITION_COUNT]
+    for(x=0; x < CRK_POSITION_COUNT; x++)
+    {
+        //every config item is 2 bytes in width
+        eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, configPage12.trigger_position_map[x], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+    }
+
+
+    //S16 decoder_offset_deg
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_DECODER_OFFSET, configPage12.decoder_offset_deg, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //U16 decoder_delay_us
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_DECODER_DELAY, configPage12.decoder_delay_us, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //U8 crank_noise_filter
+    eeprom_code= eeprom_update(EEPROM_CONFIG12_CRANK_NOISE_FILTER, configPage12.crank_noise_filter);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //U8 sync_ratio_min_pct
+    eeprom_code= eeprom_update(EEPROM_CONFIG12_SYNC_RATIO_MIN, configPage12.sync_ratio_min_pct);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //U8 sync_ratio_max_pct
+    eeprom_code= eeprom_update(EEPROM_CONFIG12_SYNC_RATIO_MAX, configPage12.sync_ratio_max_pct);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //U8 decoder_timeout_s
+    eeprom_code= eeprom_update(EEPROM_CONFIG12_DECODER_TIMEOUT, configPage12.decoder_timeout_s);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //all done
+    return RETURN_OK;
+}
+
+
+
+
+/**
+*
+* reads ignition config data from eeprom
+*
+*/
+U32 load_IgnitionConfig()
+{
+    U32 data;
+    U8 eeprom_data;
+    U32 eeprom_code;
+
+
+    //U16 dynamic_min_rpm
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYNAMIC_MIN, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.dynamic_min_rpm= (U16) data;
+
+
+    //U16 dynamic_dwell_us
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYNAMIC_DWELL, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.dynamic_dwell_us= (U16) data;
+
+
+    //U8 safety_margin_us
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_SAFETY_MARGIN, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.safety_margin_us= eeprom_data;
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/**
+*
+* provides sane defaults if config data from eeprom is not available (limp home mode)
+*
+*/
+void load_essential_IgnitionConfig()
+{
+
+
+
+}
+
+
+/**
+*
+* writes ignition config data to eeprom
+*
+*/
+U32 write_IgnitionConfig()
+{
+    U32 eeprom_code;
+
+    //U16 dynamic_min_rpm
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYNAMIC_MIN, configPage13.dynamic_min_rpm, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //U16 dynamic_dwell_us
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYNAMIC_DWELL, configPage13.dynamic_dwell_us, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //U8 safety_margin_us
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_SAFETY_MARGIN, configPage13.safety_margin_us);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //all done
+    return RETURN_OK;
+}
+
+
+
+/**
+*
+* reads sensor calibration data from eeprom
+*
+*/
+U32 load_SensorCalibration()
+{
+    U32 data, i;
+    U32 eeprom_code;
+
+
+    //all calibration tables have the same size
+    for(i=0; i < CALIBRATION_TABLE_DIMENSION; i++)
+    {
+        /**
+        CLT
+        */
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_CLT_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.CLT_calib_data_x[i]= (U16) data;
+
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_CLT_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.CLT_calib_data_y[i]= (U16) data;
+
+
+        /**
+        IAT
+        */
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_IAT_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.IAT_calib_data_x[i]= (U16) data;
+
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_IAT_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.IAT_calib_data_y[i]= (U16) data;
+
+
+        /**
+        TPS
+        */
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.TPS_calib_data_x[i]= (U16) data;
+
+        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        configPage9.TPS_calib_data_y[i]= (U16) data;
+    }
+
+
+    /**
+    MAP
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_M, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.MAP_calib_M= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_N, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.MAP_calib_N= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_MAP_L, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.MAP_calib_L= (U16) data;
+
+
+    /**
+    BARO
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_M, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.BARO_calib_M= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_N, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.BARO_calib_N= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_BARO_L, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.BARO_calib_L= (U16) data;
+
+
+    /**
+    O2
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_M, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.O2_calib_M= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_N, &data, 2);
+
+    configPage9.O2_calib_N= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_O2_L, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.O2_calib_L= (U16) data;
+
+
+    /**
+    VBAT
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_M, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.VBAT_calib_M= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_VBAT_L, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.VBAT_calib_L= (U16) data;
+
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/**
+*
+* writes sensor calibration data to eeprom
+*
+*/
+U32 write_SensorCalibration()
+{
+    U32 eeprom_code, i;
+
+    //all calibration tables have the same size
+    for(i=0; i < CALIBRATION_TABLE_DIMENSION; i++)
+    {
+        /**
+        IAT
+        */
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.IAT_calib_data_x[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.IAT_calib_data_y[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        /**
+        CLT
+        */
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.CLT_calib_data_x[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.CLT_calib_data_y[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        /**
+        TPS
+        */
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_x[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_y[i], 2);
+
+        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+    }
+
+    /**
+    MAP
+    */
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_M, configPage9.MAP_calib_M, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_N, configPage9.MAP_calib_N, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_L, configPage9.MAP_calib_L, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    /**
+    BARO
+    */
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_M, configPage9.BARO_calib_M, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_N, configPage9.BARO_calib_N, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_L, configPage9.BARO_calib_L, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    /**
+    O2
+    */
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_M, configPage9.O2_calib_M, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_N, configPage9.O2_calib_N, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_L, configPage9.O2_calib_L, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    /**
+    VBAT
+    */
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_M, configPage9.VBAT_calib_M, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_L, configPage9.VBAT_calib_L, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //all done
+    return RETURN_OK;
+}
+
+
+
+
+
+/**
+*
+* provides sane defaults if config data from eeprom is not available (limp home mode)
+*
+*/
+void config_load_essentials()
+{
+
+    // crank decoder
+    load_essential_DecoderConfig();
+
+}

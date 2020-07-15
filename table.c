@@ -14,21 +14,40 @@ A full copy of the license may be found in the projects root directory
 #include "conversion.h"
 #include <math.h>
 
+#include "Tuareg.h"
+#include "eeprom.h"
+#include "eeprom_layout.h"
+
 
 /**
-table structs
+tables
 */
-volatile table3D fuelTable, ignitionTable, afrTable;
-volatile table3D boostTable, vvtTable;
-volatile table3D trim1Table, trim2Table, trim3Table, trim4Table;
+volatile table3D_t ignitionTable;
+volatile table3D_t fuelTable, afrTable;
+volatile table3D_t boostTable, vvtTable;
+volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
 volatile table2D taeTable, WUETable, crankingEnrichTable, dwellVCorrectionTable;
 volatile table2D injectorVCorrectionTable, IATDensityCorrectionTable, IATRetardTable, rotarySplitTable;
 volatile table2D IAT_calib_table, CLT_calib_table, TPS_calib_table;
 
 
+/**
+helper constants
+
+const U32 cTable3D_dim= TABLE3D_DIMENSION;
+const U32 cTable3D_dimsq= TABLE3D_DIMENSION * TABLE3D_DIMENSION;
+const U32 cTable3D_dimsqdim= TABLE3D_DIMENSION * TABLE3D_DIMENSION;
+const U32 cTable3D_dimension= TABLE3D_DIMENSION;
+const U32 cTable3D_dimension= TABLE3D_DIMENSION;
+const U32 cTable3D_Z_end= cTable3D_dimension ^2 -1;
+const U32 cTable3D_Y_end= ;
+const U32 cTable3D_X_end= ;
+*/
 
 
-
+/****************************************************************************************************************************************************
+ *
+ ****************************************************************************************************************************************************/
 /**
 TODO
 to be removed soon
@@ -36,15 +55,9 @@ as we can make sure that all array is used
 */
 void init_3Dtables()
 {
-    fuelTable.dimension= TABLE_3D_ARRAYSIZE;
-    ignitionTable.dimension= TABLE_3D_ARRAYSIZE;
-    afrTable.dimension= TABLE_3D_ARRAYSIZE;
-    boostTable.dimension= BOOST_TABLE_DIMENSION;
-    vvtTable.dimension= VVT_TABLE_DIMENSION;
-    trim1Table.dimension= TRIM1_TABLE_DIMENSION;
-    trim2Table.dimension= TRIM2_TABLE_DIMENSION;
-    trim3Table.dimension= TRIM3_TABLE_DIMENSION;
-    trim4Table.dimension= TRIM4_TABLE_DIMENSION;
+
+
+
 }
 
 
@@ -103,13 +116,17 @@ void init_2Dtables()
 
 
 
+
+
+
+
+
 /**
 This function pulls a 1D linear interpolated value from a 2D table
 */
 U32 table2D_getValue(volatile table2D *fromTable, U32 X)
 {
     S32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
-    //S32  m, y;
     float m, y;
 
     /**
@@ -135,40 +152,44 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     else
     {
         /**
-        Loop from the end to find a suitable x interval
+        Loop from the table end to find a suitable x interval
         */
         for(i = fromTable->dimension-1; i >= 0; i--)
         {
             /**
             quick exit: direct fit
-            the requested X value has been found among the X values
-            -> take Y from the defined values
+            the requested X value has been found among the X values -> take Y from the defined values
 
             or
 
-            Last exit:
-            looping through the values from high to low has not revealed
-            a suitable X interval
+            Last available element:
+            looping through the values from high to low has not revealed a suitable X interval
             -> take the minimum defined Y value
 
             */
-            if ( (X == fromTable->axisX[i]) || (i == 0) )
+            if( (X == fromTable->axisX[i]) || (i == 0) )
             {
+                //exit here taking the Y value from table
                 return fromTable->axisY[i];
             }
 
             /**
             interval fit approach:
-            as X is not a direct fit it could be
-            between axisX[i] and axisX[i-1]
+            as X is not a direct fit it could be between axisX[i] and axisX[i-1]
+
+            axisX[i] > axisX[i-1]
+
+            because of the quick exit for (i==0) above this code is reached only for [1 < i < dimension -1]
             */
-            if ( (X < fromTable->axisX[i]) && (X > fromTable->axisX[i-1]) )
+            if( (X < fromTable->axisX[i]) && (X > fromTable->axisX[i-1]) )
             {
                 //found!
                 xMax_index= i;
 
-                //store for next time
+                //store X value for next time
                 fromTable->last_Xmax_index= xMax_index;
+
+                //exit the search loop
                 break;
             }
         }
@@ -183,12 +204,9 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     yMin= fromTable->axisY[xMax_index -1];
 
     /**
-    y= ( k_m * (dY/dX) * (X - xMin) + k_m * yMin ) / k_m
-    scaling factor k := 10000
-    m= (10000 * (yMax - yMin)) / (xMax - xMin);
-    y= m * (X - xMin) + (yMin * 10000);
-
-    return (y / 10000);
+    y=  m * X + n
+    y= ( (dY/dX) * (X - xMin) * yMin )
+    y= yMin + mDx
     */
     m=  (yMax - yMin) / (xMax - xMin);
     y= m * (X - xMin) + yMin;
@@ -196,18 +214,21 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     return (U32) y;
 }
 
+#warning TODO (oli#1#): check if we can convert to U8 3D tables
 
 
 /**
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
+U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
 {
-    S32 A =0, B =0, C =0, D =0;
-    S32 xMin =0, xMax =0, yMin =0, yMax =0;
-    S32 xMin_index =0, xMax_index =0, yMin_index =0, yMax_index =0;
-    S32 i;
+#warning TODO (oli#1#): convert to floatingpoint numbers
+
+    float A =0, B =0, C =0, D =0;
+    U32 xMin =0, xMax =0, yMin =0, yMax =0;
+    U32 xMin_index =0, xMax_index =0, yMin_index =0, yMax_index =0;
+    U32 i;
 
     /**
     X handling
@@ -218,7 +239,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
     (borrowing xM variables)
     */
     xMin = fromTable->axisX[0];
-    xMax = fromTable->axisX[ fromTable->dimension -1 ];
+    xMax = fromTable->axisX[ TABLE3D_DIMENSION -1 ];
     if(X > xMax) { X = xMax; }
     if(X < xMin) { X = xMin; }
 
@@ -242,7 +263,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
         //last_xMax_index remains valid
 
     }
-    else if ( ((fromTable->last_Xmax_index + 1) < fromTable->dimension ) && (X > xMax) && (X < fromTable->axisX[fromTable->last_Xmax_index +1 ])  )
+    else if ( ((fromTable->last_Xmax_index + 1) < TABLE3D_DIMENSION ) && (X > xMax) && (X < fromTable->axisX[fromTable->last_Xmax_index +1 ])  )
     {
         //x is in right neighbor interval
         xMax_index= fromTable->last_Xmax_index + 1;
@@ -269,7 +290,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
         /**
         Loop from the end to find a suitable x interval
         */
-        for(i = fromTable->dimension-1; i >= 0; i--)
+        for(i = TABLE3D_DIMENSION -1; i >= 0; i--)
         {
             /**
             If the requested X value has been directly found on the x axis
@@ -326,7 +347,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
     (borrowing yM variables)
     */
     yMin = fromTable->axisY[0];
-    yMax = fromTable->axisY[ fromTable->dimension -1 ];
+    yMax = fromTable->axisY[ TABLE3D_DIMENSION -1 ];
     if(Y > yMax) { Y = yMax; }
     if(Y < yMin) { Y = yMin; }
 
@@ -350,7 +371,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
         //last_yMax_index remains valid
 
     }
-    else if ( ((fromTable->last_Ymax_index + 1) < fromTable->dimension ) && (Y > yMax) && (Y < fromTable->axisY[fromTable->last_Ymax_index +1 ])  )
+    else if ( ((fromTable->last_Ymax_index + 1) < TABLE3D_DIMENSION ) && (Y > yMax) && (Y < fromTable->axisY[fromTable->last_Ymax_index +1 ])  )
     {
         //y is in right neighbor interval
         yMax_index= fromTable->last_Ymax_index + 1;
@@ -377,7 +398,7 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
         /**
         Loop from the end to find a suitable y interval
         */
-        for(i = fromTable->dimension-1; i >= 0; i--)
+        for(i = TABLE3D_DIMENSION -1; i >= 0; i--)
         {
             /**
             If the requested Y value has been directly found on the y axis
@@ -441,6 +462,8 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
     Check that all values aren't just the same
     (This regularly happens with things like the fuel trim maps)
     */
+#warning TODO (oli#4#): improve float equality check
+
     if( (A == B) && (A == C) && (A == D) )
     {
         return A;
@@ -448,12 +471,282 @@ U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y)
 
     /**
     RESULTS finally
-
     */
     A *= (xMax - X) * (yMax - Y);
     B *= (X -xMin)  * (yMax - Y);
     C *= (xMax - X) * (Y - yMin);
     D *= (X - xMin) * (Y -yMin);
 
-    return (A + B + C +D) / ((xMax - xMin) * (yMax - yMin));
+    return (U32) ( (A + B + C +D) / ((xMax - xMin) * (yMax - yMin)) );
 }
+
+
+/****************************************************************************************************************************************************
+*
+* Load 3D table data from EEPROM
+*
+* table dimension is fixed to TABLE3D_DIMENSION
+* every item is represented by 1 Byte of eeprom data
+* x and y axis are scaled by their scaling factors
+****************************************************************************************************************************************************/
+U32 load_3D_table(volatile table3D_t * pTarget, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y)
+{
+    U32 data;
+    U8 eeprom_data;
+    U32 eeprom_code;
+
+
+    U32 offset, address;
+
+    //Z-axis -> U8 from U8
+    for(offset=0; offset < (TABLE3D_DIMENSION * TABLE3D_DIMENSION); offset++)
+    {
+        //resulting eeprom memory address
+        address= offset + BaseAddress;
+
+        //read 1 byte from eeprom
+        eeprom_code= eeprom_read_byte(address, &eeprom_data);
+
+        if(eeprom_code == 0)
+        {
+            pTarget->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] = eeprom_data;
+        }
+        else
+        {
+            return eeprom_code;
+        }
+    }
+
+    //X-axis -> U16 from U8
+    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
+    {
+        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
+
+        //read 1 byte from eeprom
+        eeprom_code= eeprom_read_bytes(address, &data, 1);
+
+        if(eeprom_code == 0)
+        {
+            //scale data read with Scaling_X
+            pTarget->axisX[offset]= (U16) (data * Scaling_X);
+        }
+        else
+        {
+            return eeprom_code;
+        }
+    }
+
+
+    //Y-axis -> U16 from U8
+    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
+    {
+        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
+
+        //read 1 byte from eeprom
+        eeprom_code= eeprom_read_bytes(address, &data, 1);
+
+        if(eeprom_code == 0)
+        {
+            //scale data read with Scaling_Y
+            pTarget->axisY[offset]= (U16) (data * Scaling_Y);
+        }
+        else
+        {
+            return eeprom_code;
+        }
+    }
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/****************************************************************************************************************************************************
+*
+* Save 3D table data to EEPROM
+*
+* table dimension is fixed to TABLE3D_DIMENSION
+* every item is represented by 1 Byte of eeprom data
+* x and y axis are scaled by their scaling factors
+****************************************************************************************************************************************************/
+U32 write_3D_table(volatile table3D_t * pTable, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y)
+{
+    U32 offset, address, eeprom_code;
+
+    //Z-axis -> U8 from U8
+    for(offset=0; offset < (TABLE3D_DIMENSION * TABLE3D_DIMENSION); offset++)
+    {
+        //resulting eeprom memory address
+        address= offset + BaseAddress;
+
+        //update 1 byte in eeprom
+        eeprom_code= eeprom_update(address, pTable->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] );
+
+        if(eeprom_code != 0)
+        {
+            return eeprom_code;
+        }
+    }
+
+    //X-axis -> U16 from U8
+    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
+    {
+        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
+
+        //update 1 byte in eeprom scaled by Scaling_X
+        eeprom_code= eeprom_update(address, pTable->axisX[offset] / Scaling_X);
+
+        if(eeprom_code != 0)
+        {
+            return eeprom_code;
+        }
+    }
+
+
+    //Y-axis -> U16 from U8
+    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
+    {
+        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
+
+        //read 1 byte from eeprom scaled by Scaling_Y
+        eeprom_code= eeprom_update(address, pTable->axisY[offset] / Scaling_Y);
+
+        if(eeprom_code != 0)
+        {
+            return eeprom_code;
+        }
+    }
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/****************************************************************************************************************************************************
+*
+* Load 3D tables from EEPROM
+*
+****************************************************************************************************************************************************/
+U32 load_tables()
+{
+    U32 status;
+
+    //ignition table
+    status= load_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+
+    if(status) return status; //exit on eeprom read failure
+
+
+    //init all 2d tables
+    init_2Dtables();
+
+    //all done
+    return RETURN_OK;
+}
+
+
+/****************************************************************************************************************************************************
+*
+* save 3D tables to EEPROM
+*
+****************************************************************************************************************************************************/
+U32 write_tables()
+{
+    U32 status;
+
+    //ignition table
+    status= write_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+
+    if(status) return status; //exit on eeprom read failure
+
+    //all done
+    return RETURN_OK;
+}
+
+
+
+/****************************************************************************************************************************************************
+*
+* print 3D table in human readable form
+*
+* assuming that the title has already been printed
+* assuming fixed table dimension of TABLE3D_DIMENSION
+* layout:
+* left column: Y-Axis
+* row below: X-Axis
+* orientation (order from low to high) of Y-axis: bottom to top
+* orientation (order from low to high) of X-axis: left to right
+****************************************************************************************************************************************************/
+void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
+{
+    U32 row, column;
+
+    // for every row, printing the top row first (highest value)
+    for (row= 0; row < TABLE3D_DIMENSION; row++)
+    {
+        // Y value for this row
+        UART_Print_U(pPort, pTable->axisY[TABLE3D_DIMENSION -1 - row], TYPE_U16, PAD);
+
+        //separator
+        UART_Send(pPort, " . ");
+
+        // Z values of this row, printing from left to right
+        for (column = 0; column < TABLE3D_DIMENSION; column++)
+        {
+            UART_Print_U(pPort, pTable->axisZ[column][row], TYPE_U8, PAD);
+        }
+
+        UART_Send(pPort, "\r\n");
+    }
+
+    //separator
+    UART_Send(pPort, "       ................................................................................................\r\n");
+    UART_Send(pPort, "       ");
+
+    // X-axis
+    for (column = 0; column < TABLE3D_DIMENSION; column++)
+    {
+        UART_Print_U(pPort, pTable->axisX[column], TYPE_U16, PAD);
+    }
+
+    UART_Send(pPort, "\r\n");
+
+}
+
+
+/****************************************************************************************************************************************************
+*
+* replace one item in 3D table
+*
+* offsets:
+* 0 .. TABLE3D_DIMENSION² -> z-axis (U8)
+* TABLE3D_DIMENSION² .. TABLE3D_DIMENSION² + TABLE3D_DIMENSION -> X-axis (U16)
+* TABLE3D_DIMENSION² + TABLE3D_DIMENSION .. TABLE3D_DIMENSION² + 2* TABLE3D_DIMENSION  -> Y-axis (U16)
+*
+*
+****************************************************************************************************************************************************/
+void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
+{
+
+    if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
+    {
+        //New value is part of the ignition map
+        pTable->axisZ[Offset / TABLE3D_DIMENSION][Offset % TABLE3D_DIMENSION] = (U8) Value;
+    }
+    else if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
+    {
+        // X-axis
+        pTable->axisX[Offset - TABLE3D_DIMENSION * TABLE3D_DIMENSION] = (U16) Value;
+    }
+    else if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION )
+    {
+        // Y-axis
+        pTable->axisY[Offset - (TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION)] = (U16) Value;
+    }
+
+#warning TODO (oli#8#): check if we need to log invalid offsets
+
+}
+
+
+

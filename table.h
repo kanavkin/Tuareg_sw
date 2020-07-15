@@ -5,6 +5,7 @@ This file is used for everything related to maps/tables including their definiti
 #define TABLE_H
 
 #include "stm32_libs/boctok_types.h"
+#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 
 #define TABLE_RPM_MULTIPLIER  100
 #define TABLE_LOAD_MULTIPLIER 2
@@ -40,10 +41,16 @@ Ignition values from the main spark table are offset 40 degrees downards to allo
 
 
 /**
+common size for 3D tables
+*/
+#define TABLE3D_DIMENSION 16
+
+
+
+/**
 This 2D table handles 16-bit unsigned values
 
-It actually does not store any configuration data
-(config data lives in the configpages),
+It actually does not store any configuration data (config data lives in the configpages),
 but provide quick access to them
 */
 typedef struct _table2D_t {
@@ -66,53 +73,37 @@ typedef struct _table2D_t {
 } table2D ;
 
 
+#warning TODO (oli#8#): check if we need different 3D table dimensions
 
 /**
 This 3D table "contains" 8-bit unsigned values in Z,
 16-bit signed values in X and Y
 
-It actually does not store any configuration data
-(config data lives in the configpages),
-but provide quick access to them
-
 Z = f(X, Y)
 
-TODO
-check if we really need S16 values in X,Y
-axisX is mostly RPM
-//RPM bins are divided by 100 and converted to U8 at eeprom write
+for simplicity all 3D tables have the same dimension (TABLE3D_DIMENSION)
 */
 typedef struct _table3D_t {
-
-    //number of tripels
-    //to be removed soon
-    U32 dimension;
 
     /**
     Store the X and Y interval from the last
     request to make the next access faster
     */
-    U32 last_Xmax_index :8;
-    U32 last_Xmin_index :8;
-    U32 last_Ymax_index :8;
-    U32 last_Ymin_index :8;
+    VU8 last_Xmax_index;
+    VU8 last_Xmin_index;
+    VU8 last_Ymax_index;
+    VU8 last_Ymin_index;
 
-    U8 axisZ[TABLE_3D_ARRAYSIZE] [TABLE_3D_ARRAYSIZE];
-    U16 axisX[TABLE_3D_ARRAYSIZE];
-    U16 axisY[TABLE_3D_ARRAYSIZE];
+    VU8 axisZ[TABLE3D_DIMENSION] [TABLE3D_DIMENSION];
+    VU16 axisX[TABLE3D_DIMENSION];
+    VU16 axisY[TABLE3D_DIMENSION];
 
-} table3D ;
-
-
-void init_3Dtables();
-void init_2Dtables();
-U32 table2D_getValue(volatile table2D *fromTable, U32 X);
-U32 table3D_getValue(volatile table3D * fromTable, S32 X, S32 Y);
+} table3D_t;
 
 
-extern volatile table3D fuelTable, ignitionTable, afrTable;
-extern volatile table3D boostTable, vvtTable;
-extern volatile table3D trim1Table, trim2Table, trim3Table, trim4Table;
+extern volatile table3D_t ignitionTable, fuelTable, afrTable;
+extern volatile table3D_t boostTable, vvtTable;
+extern volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
 
 extern volatile table2D taeTable;
 extern volatile table2D WUETable;
@@ -125,6 +116,26 @@ extern volatile table2D rotarySplitTable;
 extern volatile table2D IAT_calib_table;
 extern volatile table2D CLT_calib_table;
 extern volatile table2D TPS_calib_table;
+
+
+
+
+void init_3Dtables();
+void init_2Dtables();
+
+U32 table2D_getValue(volatile table2D *fromTable, U32 X);
+U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y);
+
+U32 load_3D_table(volatile table3D_t * pTarget, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y);
+U32 write_3D_table(volatile table3D_t * pTable, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y);
+
+U32 load_tables();
+U32 write_tables();
+
+void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable);
+void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value);
+
+
 
 
 

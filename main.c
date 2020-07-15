@@ -98,6 +98,8 @@ global status object
 volatile Tuareg_t Tuareg;
 
 
+#warning TODO (oli#1#): implement memset function
+
 
 
 /**
@@ -230,7 +232,8 @@ config_load_status= RETURN_FAIL;
 
         Tuareg.Runmode= TMODE_LIMP;
 
-        #warning TODO (oli#6#): provide default values to ensure limp home operation even without eeprom
+        //provide default values to ensure limp home operation even without eeprom
+        config_load_essentials();
     }
     else
     {
@@ -481,6 +484,7 @@ config_load_status= RETURN_FAIL;
         handle TS communication
         */
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
+        //if(ls_timer & BIT_TIMER_4HZ)
         {
             ls_timer &= ~BIT_TIMER_10HZ;
 
@@ -492,14 +496,14 @@ config_load_status= RETURN_FAIL;
             }
             #endif // SERIAL_MONITOR
 
-            if (UART_available() > 0)
-            {
+            //if (UART_available() > 0)
+           // {
                 ts_communication();
 
                 //collect diagnostic information
                 Tuareg.diag[TDIAG_TSTUDIO_CALLS] += 1;
 
-            }
+           // }
         }
 
 
@@ -531,6 +535,10 @@ void EXTI2_IRQHandler(void)
     Tuareg.diag[TDIAG_DECODER_IRQ] += 1;
     Tuareg.diag[TDIAG_DECODER_AGE]= decoder_get_data_age_us();
 
+     #warning TODO (oli#9#): debug action enabled
+     set_user_lamp(TOGGLE);
+
+
 
     /**
     check if this is a decoder timeout (engine has stalled)
@@ -547,7 +555,7 @@ void EXTI2_IRQHandler(void)
         /**
         in STB or RUNNING mode
         */
-        if((Tuareg.decoder->engine_rpm == 0) && (Tuareg.decoder->crank_position == UNDEFINED_POSITION))
+        if((Tuareg.decoder->engine_rpm == 0) && (Tuareg.decoder->crank_position == CRK_POSITION_UNDEFINED))
         {
             /**
             decoder timeout

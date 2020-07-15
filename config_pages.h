@@ -364,11 +364,12 @@ typedef struct _configPage11_t_ {
 
 
 /**
-Page 12 - trigger wheel layout
+Page 12 - decoder config
 */
 typedef struct _configPage12_t_ {
 
-    U16 trigger_position_map[8];
+    //contains the trigger wheel layout (angles corresp. to positions A1 .. D2)
+    U16 trigger_position_map[CRK_POSITION_COUNT];
 
     //static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and crank angle
     S16 decoder_offset_deg;
@@ -376,8 +377,38 @@ typedef struct _configPage12_t_ {
     //dynamic delay introduced by VR interface schematics (between key passing sensor and signal edge generation)
     U16 decoder_delay_us;
 
+    //minimal amount of timer ticks between two crankshaft sensor irq can be detected
+    U8 crank_noise_filter;
+
+    // valid key/90° ratio interval for detecting positions A2/B1
+    U8 sync_ratio_min_pct;
+    U8 sync_ratio_max_pct;
+
+    //amount of seconds until a decoder timeout will be detected, when no trigger event has occurred
+    U8 decoder_timeout_s;
+
 } configPage12_t;
 
+
+
+/**
+Page 13 - ignition config
+*/
+typedef struct _configPage13_t_ {
+
+    // minimal engine rpm to enable dynamic ignition adjustment
+    U16 dynamic_min_rpm;
+
+    //target dwell for dynamic ignition
+    U16 dynamic_dwell_us;
+
+    //safety margin for positioning
+    U8 safety_margin_us;
+
+#warning TODO (oli#3#): add default and idle setup to config
+
+
+} configPage13_t;
 
 
 #define CALIBRATION_TABLE_DIMENSION 6

@@ -2,8 +2,29 @@
 #define TUAREG_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "config.h"
+#include "table.h"
 #include "ignition_logic.h"
 #include "sensors.h"
+
+/**
+
+REQ_UNITS_DEF:
+every variable shall provide the name of the corresponding physical unit, if applicable
+e.g. timeout_us, map_kPa, ...
+
+REQ_CONFIGVALUE_DEF:
+every module that uses config in eeprom storage shall provide default values for all essential items
+to allow limp home operation if eeprom has ben corrupted
+
+
+
+
+*/
+
+
+
+
 
 #define RETURN_OK 0
 #define RETURN_FAIL 0xFF
@@ -204,6 +225,7 @@ typedef struct _Tuareg_t {
     VU8 run_switch_counter;
     VU8 crash_switch_counter;
 
+#warning TODO (oli#7#): turn diagnostics on/off per compiler switch
     //diagnostics
     VU32 diag[TDIAG_COUNT];
 
@@ -211,7 +233,7 @@ typedef struct _Tuareg_t {
 
 
   //volatile ardbool hasSync;
-  U16 RPM;
+  //U16 RPM;
   //S32 longRPM;
   //S16 mapADC;
   //S16 baroADC;
@@ -223,7 +245,7 @@ typedef struct _Tuareg_t {
   //U32 TPSlast_time; //The time the previous TPS sample was taken
   //U8 tpsADC; //0-255 byte representation of the TPS
   //U8 tpsDOT;
-  VS16 rpmDOT;
+  //VS16 rpmDOT;
   U8 VE;
   //U8 O2;
   //U8 O2_2;
@@ -237,7 +259,7 @@ typedef struct _Tuareg_t {
   //S16 dwell;
   U8 dwellCorrection; //The amount of correction being applied to the dwell time.
   U8 battery10; //The current BRV in volts (multiplied by 10. Eg 12.5V = 125)
-  S8 advance; //Signed 8 bit as advance can now go negative (ATDC)
+  //S8 advance; //Signed 8 bit as advance can now go negative (ATDC)
   U8 corrections;
   U8 TAEamount; //The amount of accleration enrichment currently being applied
   U8 egoCorrection; //The amount of closed loop AFR enrichment currently being applied
@@ -249,29 +271,29 @@ typedef struct _Tuareg_t {
   U8 flexIgnCorrection; //Amount of additional advance being applied based on flex
   U8 afrTarget;
   U8 idleDuty;
-  ardbool fanOn; //Whether or not the fan is turned on
-  VU8 ethanolPct; //Ethanol reading (if enabled). 0 = No ethanol, 100 = pure ethanol. Eg E85 = 85.
-  U32 TAEEndTime; //The target end time used whenever TAE is turned on
+  //ardbool fanOn; //Whether or not the fan is turned on
+  //VU8 ethanolPct; //Ethanol reading (if enabled). 0 = No ethanol, 100 = pure ethanol. Eg E85 = 85.
+  //U32 TAEEndTime; //The target end time used whenever TAE is turned on
   VU8 squirt;
   VU8 spark;
   VU8 spark2;
   U8 engine;
   U16 PW1; //In uS
-  U16 PW2; //In uS
-  U16 PW3; //In uS
-  U16 PW4; //In uS
-  VU8 runSecs; //Counter of seconds since cranking commenced (overflows at 255 obviously)
+  //U16 PW2; //In uS
+  //U16 PW3; //In uS
+  //U16 PW4; //In uS
+  //VU8 runSecs; //Counter of seconds since cranking commenced (overflows at 255 obviously)
   VU8 secl; //Continous
-  VU16 loopsPerSecond;
-  ardbool launchingSoft; //True when in launch control soft limit mode
-  ardbool launchingHard; //True when in launch control hard limit mode
-  U16 freeRAM;
-  U16 clutchEngagedRPM;
-  ardbool flatShiftingHard;
-  VU16 startRevolutions; //A counter for how many revolutions have been completed since sync was achieved.
-  U16 boostTarget;
-  U8 testOutputs;
-  ardbool testActive;
+  //VU16 loopsPerSecond;
+  //ardbool launchingSoft; //True when in launch control soft limit mode
+  //ardbool launchingHard; //True when in launch control hard limit mode
+  //U16 freeRAM;
+  //U16 clutchEngagedRPM;
+  //ardbool flatShiftingHard;
+  //VU16 startRevolutions; //A counter for how many revolutions have been completed since sync was achieved.
+  //U16 boostTarget;
+  //U8 testOutputs;
+  //ardbool testActive;
   //U16 boostDuty; //Percentage value * 100 to give 2 points of precision
   //U8 idleLoad; //Either the current steps or current duty cycle for the idle control.
 
@@ -291,6 +313,6 @@ extern volatile Tuareg_t Tuareg;
 void Tuareg_stop_engine();
 void Tuareg_trigger_ignition();
 U32 Tuareg_get_asensor(asensors_t sensor);
-
+void Tuareg_export_diag(VU32 * pTarget);
 
 #endif // TUAREG_H_INCLUDED

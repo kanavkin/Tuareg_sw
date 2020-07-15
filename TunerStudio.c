@@ -30,26 +30,46 @@ volatile tuners_cli_t TS_cli;
 This is called when a command is received over serial from TunerStudio / Megatune
 It parses the command and calls the relevant function
 A detailed description of each call can be found at: http://www.msextra.com/doc/ms1extra/COM_RS232.htm
+
+All commands that require more than one byte of rx data shall set the TS_cli.State.cmd_pending flag to true, until the command has been processed properly.
+-> The ts_communication function can be entered many times for the same active command
 */
 void ts_communication()
 {
     VU32 data_1, data_2, data_3, data_4;
 
 
-
-    /**
-    get a new command when ts_command_duration has expired
-    */
-    if(TS_cli.command_duration == 0)
+    // reset cmd pending when timeout occurred
+    if((TS_cli.State.cmd_pending == TRUE) && (TS_cli.command_duration == 0))
     {
-        TS_cli.cmdPending= 0;
+        TS_cli.State.cmd_pending = FALSE;
+
+        #ifdef TS_DEBUG
+        #warning TODO (oli#1#): debug action enabled
+        UART_Tx(DEBUG_PORT, '!');
+        #endif // TS_DEBUG
+
     }
 
-    if( !TS_cli.cmdPending )
+    //nothing to do if no new rx data is available
+    if( UART_available() == 0)
+    {
+        return;
+    }
+
+    //if we have no currently active command the received byte shall be a command
+    if(TS_cli.State.cmd_pending == FALSE)
     {
         TS_cli.currentCommand= UART_getRX();
-        TS_cli.command_duration= COMMAND_DURATION;
+        TS_cli.command_duration= COMMAND_MAX_DURATION_S;
+
+        #ifdef TS_DEBUG
+        #warning TODO (oli#1#): debug action enabled
+        UART_Tx(DEBUG_PORT, '*');
+        #endif // TS_DEBUG
+
     }
+#warning TODO (oli#4#): export diagnostics
 
 
     switch(TS_cli.currentCommand)
@@ -57,25 +77,27 @@ void ts_communication()
 
         case 'A':
             /**
-            send 74 bytes of realtime values
-            actually CAN part is fake
+            send 74 bytes of realtime values actually CAN part is fake
             */
             ts_sendValues(0, SENDVALUE_FAKE_PACKETSIZE);
+
             break;
 
 
         case 'B':
             /**
-            Burn current configuration data to eeprom
-            if you have permission to do so ;)
+            Burn current configuration data to eeprom if permission has been given
             */
-            if(TS_cli.burn_permission == 0)
+            if( TS_cli.State.burn_permission == FALSE )
             {
                 UART_Send(DEBUG_PORT, "\r\n*** config write rejected ***\r\n");
             }
             else
             {
-                write_ConfigData();
+                #warning TODO (oli#8#): evaluate return value!
+                UART_Send(DEBUG_PORT, "\r\n*** writing config to eeprom ***\r\n");
+                config_write();
+                UART_Send(DEBUG_PORT, "\r\n*** config has been written ***\r\n");
             }
 
             break;
@@ -84,10 +106,10 @@ void ts_communication()
         case 'C':
             /**
             test communication
-            This is used by Tunerstudio to see whether
-            there is an ECU on a given serial port
+            This is used by Tunerstudio to see whether there is an ECU on a given serial port
             */
             UART_Tx(TS_PORT, '1');
+
             break;
 
 
@@ -96,7 +118,9 @@ void ts_communication()
             /**
             received debug feature command
             */
-            TS_cli.cmdPending = TRUE;
+            TS_cli.State.cmd_pending = TRUE;
+
+            //taking 2 bytes of input data
 
             if(UART_available() >= 2)
             {
@@ -110,7 +134,7 @@ void ts_communication()
                 //run the desired feature
                 ts_debug_features( word(data_1, data_2) );
 
-                TS_cli.cmdPending = FALSE;
+                TS_cli.State.cmd_pending = FALSE;
             }
             break;
 
@@ -128,7 +152,7 @@ void ts_communication()
                 /**
                 user permission management
                 */
-                TS_cli.cmdPending= TRUE;
+                TS_cli.State.cmd_pending= TRUE;
 
                 if(UART_available() >= 4)
                 {
@@ -141,17 +165,23 @@ void ts_communication()
                     //get modification permission
                     if((data_1 == 'm') && (data_2 == 'o') && (data_3 == 'd') && (data_4 == '#'))
                     {
-                        TS_cli.mod_permission =1;
+                        TS_cli.State.mod_permission = TRUE;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config modification ***");
                     }
                     else if((data_1 == 'b') && (data_2 == 'r') && (data_3 == 'n') && (data_4 == '!'))
                     {
-                        TS_cli.burn_permission =1;
+                        TS_cli.State.burn_permission = TRUE;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config burn ***");
+                    }
+                    else if((data_1 == 'l') && (data_2 == 'o') && (data_3 == 'c') && (data_4 == 'k'))
+                    {
+                        TS_cli.State.burn_permission = FALSE;
+                        TS_cli.State.mod_permission = FALSE;
+                        UART_Send(DEBUG_PORT, "\r\n *** config locked ***");
                     }
 
                     //ready
-                    TS_cli.cmdPending = FALSE;
+                    TS_cli.State.cmd_pending = FALSE;
                 }
 
             break;
@@ -179,7 +209,7 @@ void ts_communication()
             set the current page
             (A 2nd byte of data is required after the 'P' specifying the new page number)
             */
-            TS_cli.cmdPending= TRUE;
+            TS_cli.State.cmd_pending= TRUE;
 
             if( UART_available() )
             {
@@ -193,12 +223,12 @@ void ts_communication()
                     data_1 -= 0x30;
                 }
 
-                if((data_1 > 0) && (data_1 < 13))
+                if((data_1 > TS_ZERO_PAGE) && (data_1 < TSPAGE_COUNT))
                 {
-                    TS_cli.currentPage_Nr= data_1;
+                    TS_cli.currentPage= data_1;
                 }
 
-                TS_cli.cmdPending = FALSE;
+                TS_cli.State.cmd_pending = FALSE;
             }
 
             break;
@@ -236,93 +266,166 @@ void ts_communication()
                 receive new config value at 'W'+<offset>+<newbyte>
                 */
 
-                TS_cli.cmdPending = TRUE;
+                #ifdef TS_DEBUG
+                #warning TODO (oli#1#): debug action enabled
+                UART_Tx(DEBUG_PORT, '\r');
+                UART_Tx(DEBUG_PORT, '\n');
+                UART_Tx(DEBUG_PORT, 'W');
+                UART_Tx(DEBUG_PORT, '.');
+                UART_Tx(DEBUG_PORT, 'p');
+                UART_Print_U(DEBUG_PORT, TS_cli.currentPage, TYPE_U32, NO_PAD);
+                UART_Tx(DEBUG_PORT, '.');
+                UART_Tx(DEBUG_PORT, 'a');
+                UART_Print_U(DEBUG_PORT, UART_available(), TYPE_U32, NO_PAD);
+                 UART_Tx(DEBUG_PORT, '\r');
+                UART_Tx(DEBUG_PORT, '\n');
+                #endif // TS_DEBUG
 
-                if(TS_cli.currentPage_Nr == CALIBPAGE_NR)
+
+                TS_cli.State.cmd_pending = TRUE;
+
+
+
+                switch(TS_cli.currentPage)
                 {
-                    /**
-                    this is for the calibration page:
-                    we are expecting
-                    16 bit calibration data
-                    8 bit offset
-                    */
 
-                    if(UART_available() >= 3)
-                    {
-                        /**
-                        offset
-                        */
-                        data_1= UART_getRX();
-
+                    case CALIBPAGE:
+                    case DECODERPAGE:
+                    case IGNITIONPAGE:
 
                         /**
-                        value
-                        MSB, LSB
+                        16 bit calibration data and 8 bit offset
                         */
-                        data_2= UART_getRX();
-                        data_3= UART_getRX();
 
-                        //take the received data to config
-                        ts_replaceConfig(data_1, word(data_2, data_3));
+                        if(UART_available() >= 3)
+                        {
+                            /**
+                            offset
+                            */
+                            data_1= UART_getRX();
 
-                        TS_cli.cmdPending = FALSE;
-                    }
-                }
-                else if( (TS_cli.currentPage_Nr == VEMAPPAGE_NR) || (TS_cli.currentPage_Nr == IGNMAPPAGE_NR) || (TS_cli.currentPage_Nr == AFRMAPPAGE_NR) )
-                {
-                    /**
-                    this is a map
-                    */
 
-                    if(UART_available() >= 3)
-                    {
-                        /**
-                        offset
-                        LSB, MSB
-                        */
-                        data_1= UART_getRX();
-                        data_2= UART_getRX();
+                            /**
+                            value
+                            MSB, LSB
+                            */
+                            data_2= UART_getRX();
+                            data_3= UART_getRX();
 
-                        /**
-                        value
-                        */
-                        data_3= UART_getRX();
+                            //take the received data to config
+                            ts_replaceConfig(data_1, word(data_2, data_3));
 
-                        //take the received data to config
-                        ts_replaceConfig(word(data_2, data_1), data_3);
+                            TS_cli.State.cmd_pending = FALSE;
+                        }
 
-                        TS_cli.cmdPending = FALSE;
-                    }
-                }
-                else
-                {
-                    if(UART_available() >= 2)
-                    {
-                        /**
-                        offset
-                        */
-                        data_1= UART_getRX();
+                        break;
 
-                        /**
-                        value
-                        */
-                        data_2= UART_getRX();
 
-                        //take the received data to config
-                        ts_replaceConfig(data_1, data_2);
+                    case VEMAPPAGE:
+                    case IGNMAPPAGE:
+                    case AFRMAPPAGE:
 
-                        TS_cli.cmdPending = FALSE;
-                    }
-                }
+                            /**
+                            8 bit calibration data and 16 bit offset
+                            */
 
-                break;
+                            if(UART_available() >= 3)
+                            {
+                                /**
+                                offset
+                                LSB, MSB
+                                */
+                                data_1= UART_getRX();
+                                data_2= UART_getRX();
+
+                                /**
+                                value
+                                */
+                                data_3= UART_getRX();
+
+                                //take the received data to config
+                                ts_replaceConfig(word(data_2, data_1), data_3);
+
+                                TS_cli.State.cmd_pending = FALSE;
+                            }
+
+                            break;
+
+                    case IGNITIONMAP1PAGE:
+
+                            /**
+                            16 bit offset and 16 bit data
+                            O_H O_L D_H D_L
+                            */
+
+                            if(UART_available() >= 4)
+                            {
+                                /**
+                                offset
+                                MSB, LSB
+                                */
+                                data_1= UART_getRX();
+                                data_2= UART_getRX();
+
+                                /**
+                                value
+                                MSB, LSB
+                                */
+                                data_3= UART_getRX();
+                                data_4= UART_getRX();
+
+
+                                if(TS_cli.State.mod_permission == FALSE)
+                                {
+                                    UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
+                                    return;
+                                }
+
+                                //write to table (boctok 3D coordinates)
+                                modify_3D_table(&ignitionTable, word(data_1, data_2), word(data_3, data_4));
+
+                                TS_cli.State.cmd_pending = FALSE;
+                            }
+
+                            break;
+
+                    default:
+
+                            /**
+                            8 bit calibration data and 8 bit offset
+                            */
+
+                            if(UART_available() >= 2)
+                            {
+                                /**
+                                offset
+                                */
+                                data_1= UART_getRX();
+
+                                /**
+                                value
+                                */
+                                data_2= UART_getRX();
+
+                                //take the received data to config
+                                ts_replaceConfig(data_1, data_2);
+
+                                TS_cli.State.cmd_pending = FALSE;
+                            }
+
+                            break;
+
+
+                } //switch page
+
+                break; // W cmd
 
 
             case 'r':
                 /**
                 New format for the optimized OutputChannels
                 */
-                TS_cli.cmdPending = TRUE;
+                TS_cli.State.cmd_pending = TRUE;
 
 
                 if (UART_available() >= 6)
@@ -366,7 +469,7 @@ void ts_communication()
                         ts_sendValues(word(data_2, data_1), word(data_4, data_3));
                     }
 
-                    TS_cli.cmdPending = FALSE;
+                    TS_cli.State.cmd_pending = FALSE;
                 }
                 break;
 
@@ -400,7 +503,9 @@ void ts_communication()
 
         default:
             break;
-  }
+  } //switch active cmd
+
+
 }
 
 
@@ -450,8 +555,8 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[23] = (U8) Tuareg.sensors->asensors[ASENSOR_TPS]; // TPS (0% to 100%)
 
     //Need to split the int loopsPerSecond value into 2 bytes
-    fullStatus[24] = lowByte(Tuareg.loopsPerSecond);
-    fullStatus[25] = highByte(Tuareg.loopsPerSecond);
+    fullStatus[24] = 0x42;
+    fullStatus[25] = 0x01;
 
     //The following can be used to show the amount of free memory
     //not needed by now
@@ -463,8 +568,8 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[30] = Tuareg.spark; //Spark related bitfield
 
     //rpmDOT must be sent as a signed integer
-    fullStatus[31] = lowByte(Tuareg.rpmDOT);
-    fullStatus[32] = highByte(Tuareg.rpmDOT);
+    fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
+    fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
 
     if(length > 31)
     {
@@ -545,8 +650,10 @@ FeatureID is a 16 Bit 0x00 .. 0xFFFF
 
 */
 
-#warning TODO (oli#3#): Implement debug features\
-check feature id width (16 vs. 32 bit)
+#warning TODO (oli#3#): Implement debug features
+#warning TODO (oli#3#): Implement binary diag data printout
+
+#define DEBUG_DATA_MAXLEN 25
 
 void ts_debug_features(U32 FeatureID)
 {
@@ -554,9 +661,45 @@ void ts_debug_features(U32 FeatureID)
     U32 data_1 =0;
     U32 data_2 =0;
 
+    U32 debug_data[DEBUG_DATA_MAXLEN];
+
     switch (FeatureID)
     {
-        case 'de':
+        case 'dd':
+
+            //print decoder diag
+            UART_Send(TS_PORT, "\r\ndecoder:\r\n");
+
+            //get diag data
+            decoder_export_diag(debug_data);
+
+            for(data_1=0; data_1 < DDIAG_COUNT; data_1++)
+            {
+                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
+            }
+
+            UART_Send(TS_PORT, "\r\nCRANKHANDL   CISHANDL  SYNCCHECK CRANKTABLE   ROTSPEED ASYNCSYNCT SYNCASYNCT    INITPOS    SYNCPOS ASYNKEYPOS ASYNGAPPOS  IRQSYNCED IRQDELAYED   TIMEOUTS CISPHASEDP  CISUNDEFP CISPHASELST\r\n");
+
+            break;
+
+        case 'dT':
+
+            //print Tuareg diag
+            UART_Send(TS_PORT, "\r\nTuareg:\r\n");
+
+            //get diag data
+            Tuareg_export_diag(debug_data);
+
+            for(data_1=0; data_1 < TDIAG_COUNT; data_1++)
+            {
+                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
+            }
+
+            UART_Send(TS_PORT, "\r\nDECODERIRQ   DECODAGE  DECTIMOUT DECPASIVE IGNITIONIRQ   MNLPENTR   MNLPMODE  INITHALTT   RUNHALTT    RUNSTBT    STBRUNT   STBHALTT    HALTRUNT  HALTSTBT   TSTUDCAL  TRIIGNCAL   IGNDWELL     IGNIGN\r\n");
+
+            break;
+
+        case 'ep':
 
             /**
             dump eeprom content in binary format
@@ -582,10 +725,49 @@ void ts_debug_features(U32 FeatureID)
 
             break;
 
-        case 'ds':
+        case 'pr':
+
+            /**
+            print current engine rpm
+            */
+
+            UART_Send(TS_PORT, "\r\nrpm: ");
+
+            UART_Print_U(TS_PORT, Tuareg.decoder->engine_rpm, TYPE_U32, NO_PAD);
+
+            break;
+
+
+        case 'sd':
+
+            //print decoder statistics
+            UART_Send(TS_PORT, "\r\ndecoder statistics:\r\n");
+
+            //get diag data
+            decoder_export_statistics(debug_data);
+
+            for(data_1=0; data_1 < CRK_POSITION_COUNT; data_1++)
+            {
+                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U16, NO_PAD);
+            }
+
+            UART_Send(TS_PORT, " rpm: ");
+
+            UART_Print_U(TS_PORT, debug_data[CRK_POSITION_COUNT],TYPE_U16, NO_PAD);
+
+
+            break;
+
+        case 'sn':
 
             //show analog and digital sensor values
             print_sensor_data(TS_PORT);
+            break;
+
+        case 'rs':
+
+            //show analog and digital sensor values
+            NVIC_SystemReset();
             break;
 
 
@@ -608,49 +790,49 @@ void ts_sendPage()
 {
     volatile void* pnt_configPage =NULL;
     U32 configPage_size =0;
-    volatile table3D * currentTable =NULL;
+    volatile table3D_t * currentTable =NULL;
     U8 response[MAP_PAGE_SIZE];
     U32 i, l;
 #warning TODO (oli#8#): implement calibbration data binary printout for verification
 
 
-    switch (TS_cli.currentPage_Nr)
+    switch (TS_cli.currentPage)
     {
 
-        case VEMAPPAGE_NR:
+        case VEMAPPAGE:
             currentTable = &fuelTable;
             break;
 
-        case VESETPAGE_NR:
+        case VESETPAGE:
             pnt_configPage= &configPage1;
             configPage_size= VESETPAGE_SIZE;
             break;
 
-        case IGNMAPPAGE_NR:
+        case IGNMAPPAGE:
             currentTable = &ignitionTable;
             break;
 
-        case IGNSETPAGE_NR:
+        case IGNSETPAGE:
             pnt_configPage = &configPage2;
             configPage_size= IGNSETPAGE_SIZE;
             break;
 
-        case AFRMAPPAGE_NR:
+        case AFRMAPPAGE:
             currentTable = &afrTable;
             break;
 
-        case AFRSETPAGE_NR:
+        case AFRSETPAGE:
             pnt_configPage = &configPage3;
             configPage_size= AFRSETPAGE_SIZE;
             break;
 
-        case IACPAGE_NR:
+        case IACPAGE:
             pnt_configPage = &configPage4;
             configPage_size= IACPAGE_SIZE;
             break;
 
 
-        case BOOSTVVCPAGE_NR:
+        case BOOSTVVCPAGE:
 
             /**
             Need to perform a translation of the values[MAP/TPS][RPM] into the MS expected format
@@ -678,7 +860,7 @@ void ts_sendPage()
             break;
 
 
-        case SEQFUELPAGE_NR:
+        case SEQFUELPAGE:
 
             /**
             Need to perform a translation of the values[MAP/TPS][RPM] into the MS expected format
@@ -717,12 +899,12 @@ void ts_sendPage()
             break;
 
 
-        case CANBUSPAGE_NR:
+        case CANBUSPAGE:
             pnt_configPage = &configPage10;
             configPage_size= CANBUSPAGE_SIZE;
             break;
 
-        case WARMUPPAGE_NR:
+        case WARMUPPAGE:
             pnt_configPage = &configPage11;
             configPage_size= WARMUPPAGE_SIZE;
             break;
@@ -739,7 +921,7 @@ void ts_sendPage()
     }
 
 
-    if ( (TS_cli.currentPage_Nr == VEMAPPAGE_NR) || (TS_cli.currentPage_Nr == IGNMAPPAGE_NR) || (TS_cli.currentPage_Nr == AFRMAPPAGE_NR) )
+    if ( (TS_cli.currentPage == VEMAPPAGE) || (TS_cli.currentPage == IGNMAPPAGE) || (TS_cli.currentPage == AFRMAPPAGE) )
     {
         /**
         this is a map
@@ -752,6 +934,13 @@ void ts_sendPage()
             Z axis
             */
             response[l]= currentTable->axisZ[l / TABLE_3D_ARRAYSIZE][l % TABLE_3D_ARRAYSIZE];
+
+            if(TS_cli.currentPage == IGNMAPPAGE)
+            {
+                //add offset for TS
+                response[l] += TS_IGNITION_ADVANCE_OFFSET;
+            }
+
         }
 
         for(l= 256; l < 272; l++)
@@ -800,21 +989,21 @@ into a buffer and sends it in human readable form.
 */
 void ts_diagPage()
 {
-    volatile table3D * currentTable;
+    volatile table3D_t * currentTable;
     U32 sendComplete = FALSE;
     U32 x, i;
     U32 value;
     VU8 * currentVar;
 
 
-    switch(TS_cli.currentPage_Nr)
+    switch(TS_cli.currentPage)
     {
-        case VEMAPPAGE_NR:
+        case VEMAPPAGE:
             currentTable = &fuelTable;
             UART_Send(TS_PORT, "\r \n Volumetric Efficiency Map \r \n");
             break;
 
-        case VESETPAGE_NR:
+        case VESETPAGE:
 
             /**
             Display Values from Config Page 1
@@ -894,12 +1083,12 @@ void ts_diagPage()
             break;
 
 
-        case IGNMAPPAGE_NR:
+        case IGNMAPPAGE:
             currentTable = &ignitionTable;
             UART_Send(TS_PORT, "\r \n Ignition Map \r \n");
             break;
 
-        case IGNSETPAGE_NR:
+        case IGNSETPAGE:
 
             /**
             Display Values from Config Page 2
@@ -983,12 +1172,12 @@ void ts_diagPage()
             sendComplete = TRUE;
             break;
 
-        case AFRMAPPAGE_NR:
+        case AFRMAPPAGE:
             currentTable = &afrTable;
             UART_Send(TS_PORT, "\r \n Air/Fuel Ratio Map \r \n");
             break;
 
-        case AFRSETPAGE_NR:
+        case AFRSETPAGE:
 
             /**
             Display Values from Config Page 3
@@ -1070,7 +1259,7 @@ void ts_diagPage()
             sendComplete = TRUE;
             break;
 
-        case IACPAGE_NR:
+        case IACPAGE:
 
             /**
             Display Values from Config Page 4
@@ -1144,23 +1333,23 @@ void ts_diagPage()
             break;
 
 
-        case BOOSTVVCPAGE_NR:
+        case BOOSTVVCPAGE:
                 currentTable= &boostTable;
                 UART_Send(TS_PORT, "\r \n Boost Map \r \n");
                 break;
 
 
-        case SEQFUELPAGE_NR:
+        case SEQFUELPAGE:
 
                 currentTable= &trim1Table;
                 UART_Send(TS_PORT, "\r \n VVT Map \r \n");
 
-                for (i = 0; i < currentTable->dimension; i++)
+                for (i = 0; i < TABLE3D_DIMENSION; i++)
                 {
                     value= (U8) (currentTable->axisY[i]);
                     UART_Print_U(TS_PORT, value, TYPE_U8, NO_PAD);
 
-                    for (x = 0; x < currentTable->dimension; x++)
+                    for (x = 0; x < TABLE3D_DIMENSION; x++)
                     {
                         value= currentTable->axisZ[i][x];
                         UART_Print_U(TS_PORT, value, TYPE_U8, NO_PAD);
@@ -1172,7 +1361,7 @@ void ts_diagPage()
                 sendComplete = TRUE;
                 break;
 
-        case CALIBPAGE_NR:
+        case CALIBPAGE:
 
                 /**
                 Display Values from Config Page 9
@@ -1276,6 +1465,99 @@ void ts_diagPage()
                 sendComplete = TRUE;
                 break;
 
+
+        case DECODERPAGE:
+
+                /**
+                U16 trigger_position_map[POSITION_COUNT];
+                S16 decoder_offset_deg;
+                U16 decoder_delay_us;
+                U8 crank_noise_filter;
+                U8 sync_ratio_min_pct;
+                U8 sync_ratio_max_pct;
+                U8 decoder_timeout_s;
+                */
+
+                /**
+                Display Values from Config Page 12
+                */
+                UART_Send(TS_PORT, "\r\n\r\ndecoderpage:\r\n\r\n");
+
+                /*
+                trigger_position_map[CRK_POSITION_COUNT]
+                */
+                UART_Send(TS_PORT, "Trigger position map A1 .. D2: \r\n");
+
+                for(i=0; i< CRK_POSITION_COUNT; i++)
+                {
+                    UART_Print_U(TS_PORT, configPage12.trigger_position_map[i], TYPE_U16, PAD);
+                }
+
+                //decoder_offset_deg
+                UART_Send(TS_PORT, "\r\ndecoder offset (deg): ");
+                UART_Print_S(TS_PORT, configPage12.decoder_offset_deg, TYPE_S16, NO_PAD);
+
+                //decoder_delay_us
+                UART_Send(TS_PORT, "\r\ndecoder delay (us): ");
+                UART_Print_U(TS_PORT, configPage12.decoder_delay_us, TYPE_U16, NO_PAD);
+
+                //crank_noise_filter
+                UART_Send(TS_PORT, "\r\ncrank noise filter: ");
+                UART_Print_U(TS_PORT, configPage12.crank_noise_filter, TYPE_U8, NO_PAD);
+
+                //sync_ratio_min_pct
+                UART_Send(TS_PORT, "\r\nsync ratio min (pct): ");
+                UART_Print_U(TS_PORT, configPage12.sync_ratio_min_pct, TYPE_U8, NO_PAD);
+
+
+                //sync_ratio_max_pct
+                UART_Send(TS_PORT, "\r\nsync ratio max (pct): ");
+                UART_Print_U(TS_PORT, configPage12.sync_ratio_max_pct, TYPE_U8, NO_PAD);
+
+
+                //decoder_timeout_s
+                UART_Send(TS_PORT, "\r\ndecoder timeout (s): ");
+                UART_Print_U(TS_PORT, configPage12.decoder_timeout_s, TYPE_U8, NO_PAD);
+
+                sendComplete = TRUE;
+                break;
+
+
+        case IGNITIONPAGE:
+
+                /**
+                U16 dynamic_min_rpm
+                U16 dynamic_dwell_us
+                U8 safety_margin_us
+                */
+
+                /**
+                Display Values from Config Page 13
+                */
+                UART_Send(TS_PORT, "\r\n\r\nignitionpage:\r\n");
+
+                //dynamic_min_rpm
+                UART_Send(TS_PORT, "\r\ndynamic min (rpm): ");
+                UART_Print_U(TS_PORT, configPage13.dynamic_min_rpm, TYPE_U16, NO_PAD);
+
+                //dynamic_dwell_us
+                UART_Send(TS_PORT, "\r\ndynamic dwell (us): ");
+                UART_Print_U(TS_PORT, configPage13.dynamic_dwell_us, TYPE_U16, NO_PAD);
+
+                //safety_margin_us
+                UART_Send(TS_PORT, "\r\nsafety margin (us): ");
+                UART_Print_U(TS_PORT, configPage13.safety_margin_us, TYPE_U8, NO_PAD);
+
+                sendComplete = TRUE;
+                break;
+
+
+        case IGNITIONMAP1PAGE:
+            currentTable = &ignitionTable;
+            UART_Send(TS_PORT, "\r \nIgnition Map 1 (in boctok 3D coordinate system)\r\n");
+            break;
+
+
         default:
             UART_Send(TS_PORT, "\n Page has not been implemented yet. Change to another page.");
             sendComplete = TRUE;
@@ -1288,11 +1570,12 @@ void ts_diagPage()
             title already printed
             */
 
+            /*
             for (i= 0; i < TABLE_3D_ARRAYSIZE; i++)
             {
                 UART_Print_U(TS_PORT, currentTable->axisY[TABLE_3D_ARRAYSIZE -1 - i], TYPE_U16, NO_PAD);
 
-                for (x = 0; x < currentTable->dimension; x++)
+                for (x = 0; x < TABLE3D_DIMENSION; x++)
                 {
                     UART_Print_U(TS_PORT, currentTable->axisZ[TABLE_3D_ARRAYSIZE -1 - i][x], TYPE_U16, NO_PAD);
                 }
@@ -1303,16 +1586,31 @@ void ts_diagPage()
             UART_Send(TS_PORT, "    ");
 
             // Horizontal bins
-            for (x = 0; x < currentTable->dimension; x++)
+            for (x = 0; x < TABLE3D_DIMENSION; x++)
             {
                 UART_Print_U(TS_PORT, currentTable->axisX[x] / 100, TYPE_U16, NO_PAD);
             }
 
             UART_Send(TS_PORT, "\r\n");
 
+            */
+
+            print_3D_table(TS_PORT, currentTable);
+
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
@@ -1325,15 +1623,25 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
     volatile void* pnt_configPage;
     U32 tempOffset;
 
-    if(TS_cli.mod_permission == 0)
+    if(TS_cli.State.mod_permission == FALSE)
     {
         UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
         return;
     }
 
-    switch(TS_cli.currentPage_Nr)
+    #ifdef TS_DEBUG
+    #warning TODO (oli#1#): debug action enabled
+    UART_Tx(DEBUG_PORT, '\r');
+    UART_Tx(DEBUG_PORT, '\n');
+    UART_Tx(DEBUG_PORT, 'r');
+    UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+    UART_Tx(DEBUG_PORT, '.');
+    UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+    #endif //TS_DEBUG
+
+    switch(TS_cli.currentPage)
     {
-        case VEMAPPAGE_NR:
+        case VEMAPPAGE:
 
             if (valueOffset < 256)
             {
@@ -1361,7 +1669,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
             break;
 
-        case VESETPAGE_NR:
+        case VESETPAGE:
 
             pnt_configPage = &configPage1;
 
@@ -1376,35 +1684,74 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             break;
 
 
-        case IGNMAPPAGE_NR:
+        case IGNMAPPAGE:
 
-            if (valueOffset < 256)
+
+#warning TODO (oli#1#): check which transformation applies
+
+
+            if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
             {
-                //New value is part of the ignition map
-                ignitionTable.axisZ[15 - (valueOffset / 16)][valueOffset % 16] = newValue;
+                // Z-axis
+
+                //all values are offset by 40
+                if(newValue >= TS_IGNITION_ADVANCE_OFFSET)
+                {
+                    newValue -= TS_IGNITION_ADVANCE_OFFSET;
+                }
+
             }
-            else if (valueOffset < 272)
+            else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
             {
-                /**
-                X Axis
-                The RPM values sent by megasquirt are divided by 100,
-                need to multiple it back by 100 to make it correct
-                */
-                ignitionTable.axisX[(valueOffset - 256)] = (S16)(newValue) * TABLE_RPM_MULTIPLIER;
+                // X-axis
+
+                // the RPM values sent by megasquirt are divided by 100
+                newValue *= TABLE_RPM_MULTIPLIER;
+
+            }
+            else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION )
+            {
+                // Y-axis
+
+                // the RPM values sent by megasquirt are divided by 2
+                newValue *= TABLE_LOAD_MULTIPLIER;
+
+                //need to do a translation to flip the order
+                valueOffset= 15 - (valueOffset - TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION);
             }
             else
             {
-                /**
-                Y Axis
-                Need to do a translation to flip the order
-                */
-                tempOffset = 15 - (valueOffset - 272);
-                ignitionTable.axisY[tempOffset] = (S16)(newValue) * TABLE_LOAD_MULTIPLIER;
+                //invalid offset, do not attempt to modify anything
+                return;
             }
+
+            //write to table
+            modify_3D_table(&ignitionTable, valueOffset, newValue);
+
+
+
+
+            /*
+            if (valueOffset < 256)
+            {
+                ignitionTable.axisZ[15 - (valueOffset / 16)][valueOffset % 16] = (U8) newValue;
+            }
+            else if (valueOffset < 272)
+            {
+
+                ignitionTable.axisX[(valueOffset - 256)] = (U16)(newValue * TABLE_RPM_MULTIPLIER);
+            }
+            else
+            {
+
+                tempOffset = 15 - (valueOffset - 272);
+                ignitionTable.axisY[tempOffset] = (U16)(newValue * TABLE_LOAD_MULTIPLIER );
+            }
+            */
 
             break;
 
-        case IGNSETPAGE_NR:
+        case IGNSETPAGE:
 
             pnt_configPage = &configPage2;
 
@@ -1418,7 +1765,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             }
             break;
 
-        case AFRMAPPAGE_NR:
+        case AFRMAPPAGE:
 
             if (valueOffset < 256)
             {
@@ -1446,7 +1793,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             break;
 
 
-        case AFRSETPAGE_NR:
+        case AFRSETPAGE:
             pnt_configPage = &configPage3;
 
             /**
@@ -1460,7 +1807,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             break;
 
 
-        case IACPAGE_NR:
+        case IACPAGE:
             pnt_configPage = &configPage4;
 
             /**
@@ -1473,7 +1820,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             }
             break;
 
-        case BOOSTVVCPAGE_NR:
+        case BOOSTVVCPAGE:
 
             /**
             Boost and VVT maps (8x8)
@@ -1528,7 +1875,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
             break;
 
-        case SEQFUELPAGE_NR:
+        case SEQFUELPAGE:
         {
             if (valueOffset < 36)
             {
@@ -1615,7 +1962,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
         break;
 
 
-        case WARMUPPAGE_NR:
+        case WARMUPPAGE:
             pnt_configPage = &configPage11;
 
             /**
@@ -1630,7 +1977,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             break;
 
 
-        case CALIBPAGE_NR:
+        case CALIBPAGE:
 
             /**
             TODO
@@ -1770,6 +2117,90 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
             break;
 
+
+        case DECODERPAGE:
+
+            /**
+            U16 trigger_position_map[CRK_POSITION_COUNT];
+            S16 decoder_offset_deg;
+            U16 decoder_delay_us;
+            U8 crank_noise_filter;
+            U8 sync_ratio_min_pct;
+            U8 sync_ratio_max_pct;
+            U8 decoder_timeout_s;
+            */
+
+            //trigger_position_map
+            if(valueOffset < CRK_POSITION_COUNT)
+            {
+                configPage12.trigger_position_map[valueOffset]= (U16) newValue;
+            }
+
+            //decoder_offset_deg
+            else if(valueOffset == 8)
+            {
+                configPage12.decoder_offset_deg= (S16) newValue;
+            }
+
+            //decoder_delay_us
+            else if(valueOffset == 9)
+            {
+                configPage12.decoder_delay_us= (U16) newValue;
+            }
+
+            //crank_noise_filter
+            else if(valueOffset == 10)
+            {
+                configPage12.crank_noise_filter= (U8) newValue;
+            }
+
+            //sync_ratio_min_pct
+            else if(valueOffset == 11)
+            {
+                configPage12.sync_ratio_min_pct= (U8) newValue;
+            }
+
+            //sync_ratio_max_pct
+            else if(valueOffset == 12)
+            {
+                configPage12.sync_ratio_max_pct= (U8) newValue;
+            }
+
+            //decoder_timeout_s
+            else if(valueOffset == 13)
+            {
+                configPage12.decoder_timeout_s= (U8) newValue;
+            }
+
+            break;
+
+        case IGNITIONPAGE:
+
+            /**
+            U16 dynamic_min_rpm;
+            U16 dynamic_dwell_us;
+            U8 safety_margin_us;
+            */
+
+            //dynamic_min_rpm
+            if(valueOffset == 0)
+            {
+                configPage13.dynamic_min_rpm= (U16) newValue;
+            }
+
+            //dynamic_dwell_us
+            else if(valueOffset == 1)
+            {
+                configPage13.dynamic_dwell_us= (U16) newValue;
+            }
+
+            //safety_margin_us
+            else if(valueOffset == 2)
+            {
+                configPage13.safety_margin_us= (U8) newValue;
+            }
+
+            break;
 
         default:
             break;

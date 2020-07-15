@@ -8,7 +8,7 @@
 #define TS_PORT USART1
 #define DEBUG_PORT USART6
 
-#define TS_RX_BUFFER_SIZE 24
+#define TS_RX_BUFFER_SIZE 64
 //#define DEBUG_TX_BUFFER_SIZE 128
 
 /**
@@ -31,9 +31,9 @@ typedef struct _serial_buffer_t {
 
     VU8 * const buffer;
     const uint32_t length;
-    U32 head;
-    U32 tail;
-    U32 available;
+    VU32 head;
+    VU32 tail;
+    VU32 available;
 
 } serial_buffer_t ;
 

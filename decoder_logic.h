@@ -4,36 +4,95 @@
 #include "stm32_libs/boctok_types.h"
 #include "trigger_wheel_layout.h"
 
+/**
+essential config section
+*/
 
 /**
+decoder offset
+
+static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and crank angle
+the angle the crank shaft is actually at significantly differs from the trigger wheel key position angle
+
+config item:
+configPage12.decoder_offset_deg
+
+default:
+DEFAULT_CONFIG12_DECODER_OFFSET
+*/
+#define DEFAULT_CONFIG12_DECODER_OFFSET 260
+
+
+/**
+decoder delay
+
+dynamic delay introduced by VR interface schematics (between key passing sensor and signal edge generation)
+the VR interface hw introduces a delay of about 300 us from the key edge passing the sensor until the CRANK signal is triggered
+
+config item:
+configPage12.decoder_delay_us
+
+default:
+DEFAULT_CONFIG12_DECODER_DELAY
+*/
+#define DEFAULT_CONFIG12_DECODER_DELAY 320
+
+
+/**
+crank noise filter
+
 the amount of timer  ticks until we re enable the crank pickup irq
 adjusted to about 2° crank shaft at 9500 rpm
 (smallest segment is about 5° in length)
 (setting: ps 400 at 100 MHz)
+
+config item:
+configPage12.crank_noise_filter
+
+default:
+DEFAULT_CONFIG12_CRANK_NOISE_FILTER
 */
-#define CRANK_NOISE_FILTER 8
+#define DEFAULT_CONFIG12_CRANK_NOISE_FILTER 8
 
 
 /**
-segment 1 has a sync ratio of 0.4
+sync checker
+
+segment 1 has a key to (key + gap) ratio of about 40 percent
+
+this config defines the interval, which measured sync ratios will be considered valid
+
+config items:
+configPage12.sync_ratio_min_pct
+configPage12.sync_ratio_max_pct
+
+defaults:
+DEFAULT_CONFIG12_SYNC_RATIO_MIN
+DEFAULT_CONFIG12_SYNC_RATIO_MAX
 */
-#define SYNC_RATIO_MIN 30
-#define SYNC_RATIO_MAX 60
+#define DEFAULT_CONFIG12_SYNC_RATIO_MIN 30
+#define DEFAULT_CONFIG12_SYNC_RATIO_MAX 60
+
 
 /**
-the amount of seconds until we detect a stalled engine
+decoder timeout detection
+
+amount of seconds until a decoder timeout will be detected, when no trigger event has occurred
+
+config items:
+configPage12.decoder_timeout_s
+
+defaults:
+DEFAULT_CONFIG12_DECODER_TIMEOUT_S
 */
-#define DECODER_TIMEOUT_MS 3000UL
-
-
-#define DECODER_TIMEOUT (DECODER_TIMEOUT_MS / DECODER_TIMER_OVERFLOW_MS)
+#define DEFAULT_CONFIG12_DECODER_TIMEOUT_S 3
 
 
 /**
 when to enable cylinder identification sensor irq
 */
-#define CYLINDER_SENSOR_ENA_POSITION POSITION_B2
-#define CYLINDER_SENSOR_DISA_POSITION POSITION_C1
+#define CYLINDER_SENSOR_ENA_POSITION CRK_POSITION_B2
+#define CYLINDER_SENSOR_DISA_POSITION CRK_POSITION_C1
 
 
 typedef enum {
@@ -104,11 +163,14 @@ typedef struct {
     /*
     crank position
     */
-    volatile engine_position_t crank_position;
+    volatile crank_position_t crank_position;
 
     /*
     stalled engine detection
+    - decoder_timeout_thrs reflects the configured threshold in timer update events when the timeout shall occur
+    - timeout_count is the actually counts, how much consecutive timer update events have occurred
     */
+    U32 decoder_timeout_thrs;
     VU32 timeout_count;
 
     /*
@@ -118,6 +180,10 @@ typedef struct {
 
     //decoder statistics
     VU32 diag[DDIAG_COUNT];
+
+    //segment duration statistics
+    VU16 segment_duration_deg[CRK_POSITION_COUNT];
+    VU16 segment_duration_base_rpm;
 
 } decoder_internals_t;
 
@@ -134,14 +200,14 @@ typedef struct {
     /*
     crank position
     */
-    volatile engine_position_t crank_position;
+    volatile crank_position_t crank_position;
 
 
     /*
     calculated crank angles for the next positions
     at the current engine speed
     */
-    VU16 crank_position_table_deg[POSITION_COUNT];
+    VU16 crank_position_table_deg[CRK_POSITION_COUNT];
 
     /*
     camshaft
@@ -160,9 +226,19 @@ extern void decoder_logic_timer_update_handler();
 
 extern void reset_position_data();
 extern void reset_crank_timing_data();
-extern void reset_statistics_data();
 
 void calculate_crank_position_table(U32 Period, U16 * Table);
 void update_engine_speed(VU32 Interval);
+
+extern void reset_diag_data();
+void decoder_export_diag(VU32 * pTarget);
+
+void decoder_statistics_handler(VU32 Interval);
+void reset_decoder_statistics();
+void decoder_export_statistics(VU32 * pTarget);
+
+extern void sync_lost_debug_handler();
+extern void got_sync_debug_handler();
+extern void decoder_timeout_debug_handler();
 
 #endif // DECODERLOGIC_H_INCLUDED

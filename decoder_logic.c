@@ -37,6 +37,86 @@ how the decoder works:
 
 
 /**
+calculates detailed decoder statistics
+*/
+void decoder_statistics_handler(VU32 Interval)
+{
+   DInternals.segment_duration_deg[DInternals.crank_position]= calc_rot_angle_deg(Interval * DECODER_TIMER_PERIOD_US, DInterface.crank_T_us);
+
+   DInternals.segment_duration_base_rpm= DInterface.engine_rpm;
+}
+
+/**
+calculates detailed decoder statistics
+*/
+void reset_decoder_statistics()
+{
+    U32 item;
+
+    for(item= 0; item < CRK_POSITION_COUNT; item++)
+    {
+        DInternals.segment_duration_deg[item]=0;
+    }
+
+    DInternals.segment_duration_base_rpm =0;
+
+}
+
+
+
+/**
+writes the collected diagnostic data to the memory at pTarget
+*/
+void decoder_export_statistics(VU32 * pTarget)
+{
+    U32 count;
+
+    for(count=0; count < CRK_POSITION_COUNT; count++)
+    {
+        pTarget[count]= DInternals.segment_duration_deg[count];
+    }
+
+    pTarget[CRK_POSITION_COUNT]= DInternals.segment_duration_base_rpm;
+}
+
+
+/**
+writes the collected diagnostic data to the memory a pTarget
+*/
+void decoder_export_diag(VU32 * pTarget)
+{
+    U32 count;
+
+    for(count=0; count < DDIAG_COUNT; count++)
+    {
+        pTarget[count]= DInternals.diag[count];
+    }
+}
+
+
+inline void sync_lost_debug_handler()
+{
+    UART_Tx(DEBUG_PORT, '!');
+
+}
+
+
+inline void got_sync_debug_handler()
+{
+    UART_Tx(DEBUG_PORT, '+');
+
+}
+
+
+inline void decoder_timeout_debug_handler()
+{
+
+    UART_Send(DEBUG_PORT, "\r \n decoder timeout");
+}
+
+
+
+/**
 evaluate key/gap ratio to get trigger wheel sync
 */
 VU32 check_sync_ratio()
@@ -54,7 +134,7 @@ VU32 check_sync_ratio()
     //calculate key/gap ratio in percent
     sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
-    if( (sync_ratio >= SYNC_RATIO_MIN) && (sync_ratio <= SYNC_RATIO_MAX) )
+    if( (sync_ratio >= configPage12.sync_ratio_min_pct) && (sync_ratio <= configPage12.sync_ratio_max_pct) )
     {
         //its key A!
         return sync_ratio;
@@ -83,7 +163,7 @@ void calculate_crank_position_table(U32 Period, U16 * Table)
     //collect diagnostic data
     DInternals.diag[DDIAG_CRANKTABLE_CALLS] += 1;
 
-    for(position=0; position < POSITION_COUNT; position++)
+    for(position=0; position < CRK_POSITION_COUNT; position++)
     {
         //calculate angle
         angle= configPage12.trigger_position_map[position] + configPage12.decoder_offset_deg;
@@ -165,14 +245,16 @@ void update_engine_speed(VU32 Interval)
 
 inline void reset_position_data()
 {
-    DInternals.crank_position= UNDEFINED_POSITION;
-    DInterface.crank_position= UNDEFINED_POSITION;
+    DInternals.crank_position= CRK_POSITION_UNDEFINED;
+    DInterface.crank_position= CRK_POSITION_UNDEFINED;
     DInternals.phase= PHASE_UNDEFINED;
     DInterface.phase= PHASE_UNDEFINED;
 }
 
 inline void reset_crank_timing_data()
 {
+    VU32 item;
+
     DInternals.cycle_timing_buffer= 0UL;
     DInternals.cycle_timing_counter= 0UL;
 
@@ -180,9 +262,12 @@ inline void reset_crank_timing_data()
     DInterface.crank_deltaT_us= 0UL;
 
     DInterface.engine_rpm= 0UL;
+
+    //decoder statistics are based on engine rpm/period
+    reset_decoder_statistics();
 }
 
-inline void reset_statistics_data()
+inline void reset_diag_data()
 {
     VU32 item;
 
@@ -205,7 +290,10 @@ volatile decoder_interface_t * init_decoder_logic()
 
     reset_position_data();
     reset_crank_timing_data();
-    reset_statistics_data();
+    reset_diag_data();
+
+    //calculate the decoder timeout threshold corresponding to the configured timeout value
+    DInternals.decoder_timeout_thrs= ((1000 * configPage12.decoder_timeout_s) / DECODER_TIMER_OVERFLOW_MS);
 
 
     /**
@@ -296,11 +384,15 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             {
                 // it was key A -> we have SYNC now!
                 DInternals.sync_mode= SYNC;
-                DInternals.crank_position= POSITION_B1;
+                DInternals.crank_position= CRK_POSITION_B1;
                 DInterface.crank_position= DInternals.crank_position;
 
                 //collect diagnostic data
                 DInternals.diag[DDIAG_ASYNC_SYNC_TR] += 1;
+
+                //run desired debug action
+                got_sync_debug_handler();
+
             }
             else
             {
@@ -320,7 +412,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             DInternals.crank_position++;
 
             //wrap around
-            if(DInternals.crank_position == POSITION_COUNT)
+            if(DInternals.crank_position == CRK_POSITION_COUNT)
             {
                 DInternals.crank_position= 0;
             }
@@ -347,14 +439,14 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             */
             switch(DInternals.crank_position) {
 
-            case POSITION_A2:
+            case CRK_POSITION_A2:
 
                 // store key length for sync check
                 DInternals.sync_buffer_key= Interval;
                 break;
 
 
-            case POSITION_B1:
+            case CRK_POSITION_B1:
 
                 //do sync check
                 DInternals.sync_buffer_gap= Interval;
@@ -365,7 +457,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
                 if( ratio == 0 )
                 {
                     //sync check failed! -> prepare for the next trigger condition
-                    DInternals.crank_position= UNDEFINED_POSITION;
+                    DInternals.crank_position= CRK_POSITION_UNDEFINED;
                     DInternals.sync_mode= ASYNC_KEY;
                     decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
 
@@ -377,6 +469,9 @@ inline void decoder_logic_crank_handler(VU32 Interval)
 
                     //collect diagnostic data
                     DInternals.diag[DDIAG_SYNC_ASYNC_TR] += 1;
+
+                    //run desired debug actions
+                    sync_lost_debug_handler();
                 }
                 break;
 
@@ -430,6 +525,10 @@ inline void decoder_logic_crank_handler(VU32 Interval)
                 DInternals.diag[DDIAG_CRANKPOS_CIS_PHASED] += 1;
             }
 
+
+            //collect statistics data
+            decoder_statistics_handler(Interval);
+
             //collect diagnostic data
             DInternals.diag[DDIAG_TRIGGER_IRQ_SYNC] += 1;
             DInternals.diag[DDIAG_TRIGGER_IRQ_DELAY]= decoder_get_data_age_us();
@@ -467,11 +566,12 @@ inline void decoder_logic_timer_compare_handler()
 
 
 /******************************************************************************************************************************
-Timer for decoder control: update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
+Timer for decoder control: update event --> overflow interrupt occurs when no signal from crankshaft pickup
+has been received for more than the configured interval
  ******************************************************************************************************************************/
 inline void decoder_logic_timer_update_handler()
 {
-    if(DInternals.timeout_count >= DECODER_TIMEOUT)
+    if(DInternals.timeout_count >= DInternals.decoder_timeout_thrs)
     {
         //reset decoder
         DInternals.sync_mode= INIT;
@@ -491,8 +591,8 @@ inline void decoder_logic_timer_update_handler()
         //collect diagnostic data
         DInternals.diag[DDIAG_TIMEOUT_EVENTS] += 1;
 
-        //DEBUG
-        UART_Send(DEBUG_PORT, "\r \n decoder timeout");
+        //run desired debug action
+        decoder_timeout_debug_handler();
 
         //trigger sw irq for decoder output processing (ca. 3.2us behind trigger edge)
         trigger_decoder_irq();

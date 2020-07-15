@@ -271,14 +271,12 @@ U32 serial_buffer_push(volatile serial_buffer_t * buffer, VU8 data_in)
 
     buffer->available++;
 
-/*
-#warning TODO (oli#1#): debug action enabled
-    //debug
-        UART_Send(DEBUG_PORT, "\r\n pushed-");
-        UART_Tx(DEBUG_PORT, data_in);
-        //UART_Send(DEBUG_PORT, " avail-");
-        //UART_Print_U(DEBUG_PORT, buffer->available, TYPE_U32, NO_PAD);
-*/
+    #ifdef UART_DEBUG
+    #warning TODO (oli#1#): debug action enabled
+    UART_Tx(DEBUG_PORT, '+');
+    UART_Tx(DEBUG_PORT, data_in);
+    #endif //UART_DEBUG
+
 
     //return buffer access
     //buffer->semaphor= SEMAPHOR_FREE;
@@ -318,18 +316,17 @@ U32 serial_buffer_pull(volatile serial_buffer_t * buffer, VU8 * data_out)
         next =0;
     }
 
+    #ifdef UART_DEBUG
+    #warning TODO (oli#1#): debug action enabled
+    UART_Tx(DEBUG_PORT, '-');
+    UART_Tx(DEBUG_PORT, buffer->buffer[buffer->tail]);
+    #endif //UART_DEBUG
+
+
     *data_out= buffer->buffer[buffer->tail];
     buffer->tail= next;
 
     buffer->available--;
-
-    /*
-    //debug
-        UART_Send(DEBUG_PORT, "\r\n\t pulled-");
-        UART_Tx(DEBUG_PORT, * data_out);
-        UART_Send(DEBUG_PORT, " avail-");
-        UART_Print_U(DEBUG_PORT, buffer->available, TYPE_U32, NO_PAD);
-    */
 
     return  BUFFER_PULL_SUCCESS;
 

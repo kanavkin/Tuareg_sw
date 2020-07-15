@@ -45,7 +45,17 @@ void Tuareg_trigger_ignition()
     //collect diagnostic information
     Tuareg.diag[TDIAG_TRIG_IGN_CALLS] += 1;
 
-    //ignition control
+    /**
+    its a normal situation that ignition and dwell are triggered from the same position
+    */
+    if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_ignition_pos)
+    {
+        //collect diagnostic information
+        Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
+
+        trigger_coil_by_timer(Tuareg.ignition_timing.coil_ignition_timing_us, COIL_IGNITION);
+    }
+
     if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_dwell_pos)
     {
         //collect diagnostic information
@@ -53,13 +63,8 @@ void Tuareg_trigger_ignition()
 
         trigger_coil_by_timer(Tuareg.ignition_timing.coil_dwell_timing_us, COIL_DWELL);
     }
-    else if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_ignition_pos)
-    {
-        //collect diagnostic information
-        Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
 
-        trigger_coil_by_timer(Tuareg.ignition_timing.coil_ignition_timing_us, COIL_IGNITION);
-    }
+
 }
 
 
@@ -95,5 +100,19 @@ U32 Tuareg_get_asensor(asensors_t sensor)
 
 
 
+    }
+}
+
+
+/**
+writes the collected diagnostic data to the memory a pTarget
+*/
+void Tuareg_export_diag(VU32 * pTarget)
+{
+    U32 count;
+
+    for(count=0; count < TDIAG_COUNT; count++)
+    {
+        pTarget[count]= Tuareg.diag[count];
     }
 }

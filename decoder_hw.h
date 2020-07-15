@@ -15,6 +15,8 @@ T.timer := 4 us @ 100 MHz
 
 WARNING:
 when changing, adjust CRANK_NOISE_FILTER accordingly!
+
+this configuration parameter intentionally kept as built in config
 */
 #define DECODER_TIMER_PSC 400UL
 #define DECODER_TIMER_PERIOD_US 4
