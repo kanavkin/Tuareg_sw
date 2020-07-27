@@ -32,28 +32,28 @@ sleep 0.1
 printf '\x57\x01\x00\x28' > $DEV
 sleep 0.1
 
-# 90
-printf '\x57\x02\x00\x5A' > $DEV
+# 89
+printf '\x57\x02\x00\x59' > $DEV
 sleep 0.1
 
-# 100
-printf '\x57\x03\x00\x64' > $DEV
+# 99
+printf '\x57\x03\x00\x63' > $DEV
 sleep 0.1
 
-# 180
-printf '\x57\x04\x00\xB4' > $DEV
+# 178
+printf '\x57\x04\x00\xB2' > $DEV
 sleep 0.1
 
 # 185
 printf '\x57\x05\x00\xB9' > $DEV
 sleep 0.1
 
-# 270
-printf '\x57\x06\x01\x0E' > $DEV
+# 267
+printf '\x57\x06\x01\x0B' > $DEV
 sleep 0.1
 
-# 275
-printf '\x57\x07\x01\x13' > $DEV
+# 274
+printf '\x57\x07\x01\x12' > $DEV
 sleep 0.1
 
 #decoder offset

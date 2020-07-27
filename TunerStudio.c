@@ -673,12 +673,25 @@ void ts_debug_features(U32 FeatureID)
             //get diag data
             decoder_export_diag(debug_data);
 
+            data_2 =0;
+
             for(data_1=0; data_1 < DDIAG_COUNT; data_1++)
             {
                 UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
+
+                if(data_2 == 9)
+                {
+                    UART_Send(TS_PORT, "\r\n");
+                    data_2= 0;
+                }
+                else
+                {
+                    data_2++;
+                }
             }
 
-            UART_Send(TS_PORT, "\r\nCRANKHANDL   CISHANDL  SYNCCHECK CRANKTABLE   ROTSPEED ASYNCSYNCT SYNCASYNCT    INITPOS    SYNCPOS ASYNKEYPOS ASYNGAPPOS  IRQSYNCED IRQDELAYED   TIMEOUTS CISPHASEDP  CISUNDEFP CISPHASELST\r\n");
+            UART_Send(TS_PORT, "\r\nCRANKHANDLER_CALLS, CISHANDLER_CALLS, SYNCCHECK_CALLS, CRANKTABLE_CALLS, ROTSPEED_CALLS, ASYNC_SYNC_TR, SYNC_ASYNC_TR, CRANKPOS_INIT, CRANKPOS_SYNC, CRANKPOS_ASYNC_KEY");
+            UART_Send(TS_PORT, "\r\nCRANKPOS_ASYNC_GAP, TRIGGER_IRQ_SYNC, TRIGGER_IRQ_DELAY, TIMEOUT_EVENTS, CRANKPOS_CIS_PHASED, CRANKPOS_CIS_UNDEFINED, PHASED_UNDEFINED_TR, TIMER_UPDATE_EVENTS,");
 
             break;
 
@@ -690,12 +703,26 @@ void ts_debug_features(U32 FeatureID)
             //get diag data
             Tuareg_export_diag(debug_data);
 
+            data_2 =0;
+
             for(data_1=0; data_1 < TDIAG_COUNT; data_1++)
             {
                 UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
+
+                if(data_2 == 9)
+                {
+                    UART_Send(TS_PORT, "\r\n");
+                    data_2= 0;
+                }
+                else
+                {
+                    data_2++;
+                }
             }
 
-            UART_Send(TS_PORT, "\r\nDECODERIRQ   DECODAGE  DECTIMOUT DECPASIVE IGNITIONIRQ   MNLPENTR   MNLPMODE  INITHALTT   RUNHALTT    RUNSTBT    STBRUNT   STBHALTT    HALTRUNT  HALTSTBT   TSTUDCAL  TRIIGNCAL   IGNDWELL     IGNIGN\r\n");
+            UART_Send(TS_PORT, "\r\nDECODER_IRQ, DECODER_AGE, DECODER_TIMEOUT, DECODER_PASSIVE, IGNITION_IRQ, MAINLOOP_ENTRY, MODECTRL, INIT_HALT_TR, RUNNING_HALT_TR, RUNNING_STB_TR");
+            UART_Send(TS_PORT, "\r\nSTB_RUNNING_TR, STB_HALT_TR, HALT_RUNNING_TR, HALT_STB_TR, ENTER_INIT, ENTER_HALT, ENTER_RUNNING, ENTER_STB, TSTUDIO_CALLS, TRIG_IGN_CALLS");
+            UART_Send(TS_PORT, "\r\nTRIG_COIL_DWELL, TRIG_COIL_IGN, KILL_SIDESTAND, KILL_RUNSWITCH");
 
             break;
 

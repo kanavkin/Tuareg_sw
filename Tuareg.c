@@ -26,15 +26,255 @@
 #include "Tuareg.h"
 
 
+void Tuareg_update_Runmode()
+{
+    /**
+    calculate new system state
+    */
+
+    //collect diagnostic information
+    Tuareg.diag[TDIAG_MODECTRL] += 1;
+
+
+    switch(Tuareg.Runmode)
+    {
+    case TMODE_DIAG:
+
+        //DIAG mode will persist until reboot
+        break;
+
+    case TMODE_RUNNING:
+        case TMODE_STB:
+
+        //shut engine off if the RUN switch is disengaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
+        {
+            //Tuareg_set_Runmode(TMODE_HALT);
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_KILL_RUNSWITCH] += 1;
+
+            //#warning TODO (oli#9#): debug message enabled
+            //UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
+        }
+
+        //shut engine off if the CRASH sensor is engaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
+        {
+            //Tuareg_set_Runmode(TMODE_HALT);
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_KILL_SIDESTAND] += 1;
+
+            //#warning TODO (oli#9#): debug message enabled
+            //UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
+        }
+
+        break;
+
+    case TMODE_HALT:
+
+        //allow turning engine on if the RUN switch is engaged AND the CRASH sensor disengaged
+        if( ((Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) == RUN_SENSOR_ENGAGE_LEVEL ) && ((Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) != CRASH_SENSOR_ENGAGE_LEVEL) )
+        {
+            Tuareg_set_Runmode(TMODE_STB);
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_HALT_STB_TR] += 1;
+        }
+
+        break;
+
+    case TMODE_LIMP:
+
+        #warning TODO (oli#1#): who will reenable the ignition in limp mode?
+
+        //shut engine off if the RUN switch is disengaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
+        {
+            Tuareg_stop_engine();
+        }
+
+        //shut engine off if the CRASH sensor is engaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
+        {
+            Tuareg_stop_engine();
+        }
+
+        break;
+
+    default:
+        //very strange
+        UART_Send(DEBUG_PORT, "ERROR! default branch in TMODE machine reached");
+        Tuareg_stop_engine();
+        break;
+
+    }
+}
+
+
+
+void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
+{
+    if(Tuareg.Runmode != Target_runmode)
+    {
+        /**
+        run state transition actions
+        */
+        switch(Target_runmode)
+        {
+            case TMODE_HWINIT:
+
+                //system init
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_ENTER_INIT] += 1;
+
+
+                break;
+
+            case TMODE_CONFIGLOAD:
+
+
+                break;
+
+            case TMODE_MODULEINIT:
+
+
+                break;
+
+            case TMODE_LIMP:
+                //control engine with minimum sensor input available
+
+
+                break;
+
+            case TMODE_DIAG:
+
+                //perform diagnostic functions triggered by user, no engine operation
+                break;
+
+            case TMODE_HALT:
+
+                //engine operation prohibited due to kill switch or crash sensor
+                Tuareg_stop_engine();
+
+                //collect diagnostic information
+                if(Tuareg.Runmode == TMODE_RUNNING)
+                {
+                    Tuareg.diag[TDIAG_RUNNING_HALT_TR] += 1;
+
+                     #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_HALT");
+                }
+                else if(Tuareg.Runmode == TMODE_HWINIT)
+                {
+                    Tuareg.diag[TDIAG_INIT_HALT_TR] += 1;
+
+                     #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HWINIT --> TMODE_HALT");
+                }
+                else if(Tuareg.Runmode == TMODE_STB)
+                {
+                    Tuareg.diag[TDIAG_STB_HALT_TR] += 1;
+
+                     #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_HALT");
+                }
+
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_ENTER_HALT] += 1;
+
+                break;
+
+            case TMODE_RUNNING:
+
+                //begin normal engine operation
+
+                //turn fuel pump on to maintain fuel pressure
+                set_fuelpump(ON);
+
+                //begin ignition coil charge for first spark
+                set_ignition_ch1(COIL_DWELL);
+                //set_ignition_ch2(COIL_DWELL);
+
+                //provide initial ignition timing for cranking
+                default_ignition_timing(&Tuareg.ignition_timing);
+
+                //collect diagnostic information
+
+                //collect diagnostic information
+                if(Tuareg.Runmode == TMODE_STB)
+                {
+                    Tuareg.diag[TDIAG_STB_RUNNING_TR] += 1;
+
+                    #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_RUNNING");
+                }
+
+                Tuareg.diag[TDIAG_ENTER_RUNNING] += 1;
+
+                break;
+
+            case TMODE_STB:
+
+                #warning TODO (oli#9#): check if we need fuel pump priming
+
+                //engine stalled, system ready for start
+                Tuareg_stop_engine();
+
+                //collect diagnostic information
+                if(Tuareg.Runmode == TMODE_RUNNING)
+                {
+                    Tuareg.diag[TDIAG_RUNNING_STB_TR] += 1;
+
+                    #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_STB");
+                }
+                else if(Tuareg.Runmode == TMODE_HALT)
+                {
+                    Tuareg.diag[TDIAG_HALT_STB_TR] += 1;
+
+                    #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
+                }
+
+                Tuareg.diag[TDIAG_ENTER_STB] += 1;
+                break;
+
+
+            default:
+
+                //very strange
+                UART_Send(DEBUG_PORT, "ERROR! default branch in Tuareg_set_Runmode reached");
+                Tuareg_stop_engine();
+                break;
+
+        }
+
+        //finally set the new mode
+        Tuareg.Runmode= Target_runmode;
+
+    }
+
+}
+
+
+
 
 
 void Tuareg_stop_engine()
 {
+    //turn off vital engine actors
     set_fuelpump(OFF);
     set_injector_ch1(OFF);
     set_injector_ch2(OFF);
     set_ignition_ch1(COIL_POWERDOWN);
     set_ignition_ch2(COIL_POWERDOWN);
+
+    //reset MAP calculation
+    reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);
 }
 
 

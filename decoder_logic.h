@@ -139,6 +139,8 @@ typedef enum {
     DDIAG_CRANKPOS_CIS_UNDEFINED,
     DDIAG_PHASED_UNDEFINED_TR,
 
+    DDIAG_TIMER_UPDATE_EVENTS,
+
     DDIAG_COUNT
 
 } decoder_diag_t;

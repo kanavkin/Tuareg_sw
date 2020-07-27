@@ -177,9 +177,8 @@ typedef enum {
     TDIAG_DECODER_PASSIVE,
     TDIAG_IGNITION_IRQ,
 
-
     TDIAG_MAINLOOP_ENTRY,
-    TDIAG_MAINLOOP_MODECTRL,
+    TDIAG_MODECTRL,
 
     TDIAG_INIT_HALT_TR,
     TDIAG_RUNNING_HALT_TR,
@@ -189,11 +188,20 @@ typedef enum {
     TDIAG_HALT_RUNNING_TR,
     TDIAG_HALT_STB_TR,
 
+    TDIAG_ENTER_INIT,
+    TDIAG_ENTER_HALT,
+    TDIAG_ENTER_RUNNING,
+    TDIAG_ENTER_STB,
+
+
     TDIAG_TSTUDIO_CALLS,
 
     TDIAG_TRIG_IGN_CALLS,
     TDIAG_TRIG_COIL_DWELL,
     TDIAG_TRIG_COIL_IGN,
+
+    TDIAG_KILL_SIDESTAND,
+    TDIAG_KILL_RUNSWITCH,
 
     TDIAG_COUNT
 
@@ -310,6 +318,8 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+void Tuareg_update_Runmode();
+void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 void Tuareg_stop_engine();
 void Tuareg_trigger_ignition();
 U32 Tuareg_get_asensor(asensors_t sensor);

@@ -48,10 +48,10 @@ typedef struct _ignition_timing_t {
 
 
 
-void fit_position( U32 Period_us, U32 Crank_angle_deg, crank_position_t * pTarget_position, U32 * pTarget_delay_us);
-void calc_ignition_timing(volatile ignition_timing_t * pTarget, U32 Period_us, U32 Rpm);
+void fit_position( VU32 Period_us, VU32 Crank_angle_deg, volatile crank_position_t * pTarget_position, VU32 * pTarget_delay_us);
+void calc_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, VU32 Rpm);
 void default_ignition_timing(volatile ignition_timing_t * pTarget);
-void trigger_coil_by_timer(U32 delay_us, U32 level);
+void trigger_coil_by_timer(VU32 delay_us, VU32 level);
 
 
 

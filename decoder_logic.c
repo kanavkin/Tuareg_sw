@@ -529,21 +529,26 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             //collect statistics data
             decoder_statistics_handler(Interval);
 
+            break;
+
+        } //switch DInternals.sync_mode
+
+
+        /**
+        finally trigger the sw irq 2 for decoder output processing
+        (ca. 3.2us after trigger event)
+        the irq will be triggered anyways to react on sync failures!
+
+        shall be the last action in irq!
+        */
+        if(DInternals.sync_mode == SYNC)
+        {
             //collect diagnostic data
             DInternals.diag[DDIAG_TRIGGER_IRQ_SYNC] += 1;
             DInternals.diag[DDIAG_TRIGGER_IRQ_DELAY]= decoder_get_data_age_us();
 
-            /**
-            finally trigger the sw irq 2 for decoder output processing
-            (ca. 3.2us after trigger event)
-            the irq will be triggered anyways to react on sync failures!
-
-            shall be the last action in irq!
-            */
             trigger_decoder_irq();
-            break;
-
-        } //switch DInternals.sync_mode
+        }
 
 
 
@@ -582,24 +587,32 @@ inline void decoder_logic_timer_update_handler()
         //prepare for the next trigger condition
         decoder_stop_timer();
         decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
-        decoder_unmask_crank_irq();
 
         //shut down c.i.s. irq
         decoder_mask_cis_irq();
         DInternals.phase= PHASE_UNDEFINED;
 
-        //collect diagnostic data
-        DInternals.diag[DDIAG_TIMEOUT_EVENTS] += 1;
-
         //run desired debug action
         decoder_timeout_debug_handler();
 
-        //trigger sw irq for decoder output processing (ca. 3.2us behind trigger edge)
+        //prepare for the next trigger condition
+        decoder_unmask_crank_irq();
+
+        //reset timeout_count and give sync a chance
+        DInternals.timeout_count =0;
+
+        //collect diagnostic data
+        DInternals.diag[DDIAG_TIMEOUT_EVENTS] += 1;
+
+        //trigger sw irq for decoder output processing - LAST ACTION here!
         trigger_decoder_irq();
     }
     else
     {
         DInternals.timeout_count++;
+
+        //collect diagnostic data
+        DInternals.diag[DDIAG_TIMER_UPDATE_EVENTS] += 1;
     }
 
 }

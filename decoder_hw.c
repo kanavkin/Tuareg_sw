@@ -43,6 +43,9 @@ inline void decoder_start_timer()
     // clear flags
     TIM9->SR= (U16) 0;
 
+    //reset counter
+    TIM9->CNT= (U16) 0;
+
     //set prescaler
     TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
 
@@ -78,6 +81,9 @@ inline void decoder_mask_crank_irq()
 
 inline void decoder_unmask_crank_irq()
 {
+    //clear the pending flag
+    EXTI->PR= EXTI_Line0;
+
     EXTI->IMR |= EXTI_IMR_MR0;
 }
 

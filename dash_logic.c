@@ -11,7 +11,24 @@
 #include "Tuareg.h"
 
 
+ //#warning TODO (oli#9#): debug action enabled
+            //working!!
+            //set_user_lamp(ON);
+            //lowprio_scheduler_togglemode_channel(LOWPRIO_CH1, set_user_lamp, 1000, 5000);
 
+            /*
+            //working!!!
+            #warning TODO (oli#9#): debug action enabled
+            set_debug_pin(ON);
+            lowprio_scheduler_seqmode_channel(LOWPRIO_CH1, set_debug_pin, 1000, 5000, 10000, 3);
+            */
+
+            //#warning TODO (oli#3#): the first sequence triggered seems to be 1 pulse longer!
+           // #warning TODO (oli#9#): debug action enabled
+            /*
+            set_user_lamp(ON);
+            lowprio_scheduler_seqmode_channel(LOWPRIO_CH1, set_user_lamp, 400000, 500000, 3000000, 4);
+            */
 
 
 /**
