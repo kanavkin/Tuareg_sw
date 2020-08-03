@@ -29,8 +29,8 @@ printf '\x57\x00\x03\xE8' > $DEV
 sleep 0.1
 
 #dynamic dwell us
-# 2000
-printf '\x57\x01\x07\xD0' > $DEV
+# 6000
+printf '\x57\x01\x17\x70' > $DEV
 sleep 0.1
 
 #safety margin
