@@ -172,8 +172,11 @@ decoder config data for configpage 12
 //U8 sync_ratio_max_pct
 #define EEPROM_CONFIG12_SYNC_RATIO_MAX (EEPROM_CONFIG12_START + 22)
 
+//U8 sync_stability_thrs
+#define EEPROM_CONFIG12_SYNC_STABILITY_THRS (EEPROM_CONFIG12_START + 23)
+
 //U8 decoder_timeout_s
-#define EEPROM_CONFIG12_DECODER_TIMEOUT (EEPROM_CONFIG12_START + 23)
+#define EEPROM_CONFIG12_DECODER_TIMEOUT (EEPROM_CONFIG12_START + 24)
 
 /**
 ignition config data for configpage 13
@@ -190,11 +193,22 @@ ignition config data for configpage 13
 //U8 safety_margin_us
 #define EEPROM_CONFIG13_SAFETY_MARGIN (EEPROM_CONFIG13_START + 4)
 
+//crank_position_t idle_ignition_position;
+#define EEPROM_CONFIG13_IDLE_IGN_POS (EEPROM_CONFIG13_START + 5)
+
+//crank_position_t idle_dwell_position;
+#define EEPROM_CONFIG13_IDLE_DWELL_POS (EEPROM_CONFIG13_START + 6)
+
+//U8 idle_advance_deg;
+#define EEPROM_CONFIG13_IDLE_ADVANCE_DEG (EEPROM_CONFIG13_START + 7)
+
+//U8 idle_dwell_deg;
+#define EEPROM_CONFIG13_IDLE_DWELL_DEG (EEPROM_CONFIG13_START + 8)
 
 /**
 This is the last used eeprom address -> memory dump will be read until here
 */
-#define EEPROM_STORAGE_END (EEPROM_CONFIG13_START + 5)
+#define EEPROM_STORAGE_END (EEPROM_CONFIG13_START + 9)
 
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

@@ -77,13 +77,18 @@ printf '\x57\x0B\x00\x1E' > $DEV
 sleep 0.1
 
 #sync ratio max
-# 60
-printf '\x57\x0C\x00\x3C' > $DEV
+# 50
+printf '\x57\x0C\x00\x32' > $DEV
+sleep 0.1
+
+#sync stability threshold
+#80
+printf '\x57\x0D\x00\x50' > $DEV
 sleep 0.1
 
 #decoder timeout
 # 3
-printf '\x57\x0D\x00\x03' > $DEV
+printf '\x57\x0E\x00\x03' > $DEV
 sleep 0.1
 
 

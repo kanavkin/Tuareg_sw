@@ -121,29 +121,53 @@ evaluate key/gap ratio to get trigger wheel sync
 */
 VU32 check_sync_ratio()
 {
-    VU32 sync_ratio;
+    VU32 sync_ratio, target_ratio;
 
     //collect diagnostic data
     DInternals.diag[DDIAG_SYNCCHECK_CALLS] += 1;
 
     if(DInternals.sync_buffer_key + DInternals.sync_buffer_gap == 0)
     {
-        return (U32) 0;
+        return RETURN_FAIL;
     }
 
     //calculate key/gap ratio in percent
     sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
+
     if( (sync_ratio >= configPage12.sync_ratio_min_pct) && (sync_ratio <= configPage12.sync_ratio_max_pct) )
     {
-        //its key A!
-        return sync_ratio;
+        /**
+        strict check succeeded - its key A!
+        */
+        return RETURN_OK;
     }
     else
     {
-        return (U32) 0;
+        /**
+        strict check failed
+        apply relaxed sync check while cranking / re syncing
+        */
+        if(DInternals.sync_stability < configPage12.sync_stability_thrs)
+        {
+            //collect diagnostic data
+            DInternals.diag[DDIAG_SYNCCHECK_RELAXED] += 1;
+
+            //calculate target (mean) key/gap ratio
+            target_ratio= configPage12.sync_ratio_min_pct + (configPage12.sync_ratio_max_pct - configPage12.sync_ratio_min_pct) / 2;
+
+            // do relaxed check
+            if((sync_ratio >= target_ratio / 2) && (sync_ratio <= 2* target_ratio))
+            {
+                /**
+                relaxed check succeeded - its key A!
+                */
+                return RETURN_OK;
+            }
+        }
     }
 
+    return RETURN_FAIL;
 }
 
 
@@ -156,7 +180,7 @@ calculate the angle at which the crankshaft will be, when the corresponding engi
 
 -> the crank angle wraps around at 360°
 */
-void calculate_crank_position_table(U32 Period, U16 * Table)
+void calculate_crank_position_table(VU32 Period, VU16 * Table)
 {
     U32 position, angle;
 
@@ -277,6 +301,10 @@ inline void reset_diag_data()
     }
 }
 
+inline void reset_sync_stability()
+{
+    DInternals.sync_stability =0;
+}
 
 
 /**
@@ -291,6 +319,7 @@ volatile decoder_interface_t * init_decoder_logic()
     reset_position_data();
     reset_crank_timing_data();
     reset_diag_data();
+    reset_sync_stability();
 
     //calculate the decoder timeout threshold corresponding to the configured timeout value
     DInternals.decoder_timeout_thrs= ((1000 * configPage12.decoder_timeout_s) / DECODER_TIMER_OVERFLOW_MS);
@@ -324,8 +353,6 @@ handler entry happens about 1 us after the trigger signal edge had occurred
  ******************************************************************************************************************************/
 inline void decoder_logic_crank_handler(VU32 Interval)
 {
-    VU32 ratio;
-
     //reset timeout counter, we just saw a trigger condition
     DInternals.timeout_count= 0UL;
 
@@ -377,10 +404,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             reset_crank_timing_data();
             reset_position_data();
 
-            ratio= check_sync_ratio();
-
-
-            if( ratio )
+            if( check_sync_ratio() == RETURN_OK )
             {
                 // it was key A -> we have SYNC now!
                 DInternals.sync_mode= SYNC;
@@ -432,6 +456,12 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             //collect diagnostic data
             DInternals.diag[DDIAG_CRANKPOS_SYNC] += 1;
 
+            //count the synced position for stability examination
+            if(DInternals.sync_stability < configPage12.sync_stability_thrs)
+            {
+                DInternals.sync_stability++;
+            }
+
 
             /**
             per-position decoder housekeeping actions:
@@ -451,10 +481,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
                 //do sync check
                 DInternals.sync_buffer_gap= Interval;
 
-                ratio= check_sync_ratio();
-
-
-                if( ratio == 0 )
+                if( check_sync_ratio() == RETURN_OK )
                 {
                     //sync check failed! -> prepare for the next trigger condition
                     DInternals.crank_position= CRK_POSITION_UNDEFINED;
@@ -464,6 +491,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
                     //engine phase measurement is upset too
                     reset_position_data();
                     reset_crank_timing_data();
+                    reset_sync_stability();
 
                     decoder_mask_cis_irq();
 
@@ -576,6 +604,11 @@ has been received for more than the configured interval
  ******************************************************************************************************************************/
 inline void decoder_logic_timer_update_handler()
 {
+    /**
+    timer update indicates unstable engine operation
+    */
+    reset_sync_stability();
+
     if(DInternals.timeout_count >= DInternals.decoder_timeout_thrs)
     {
         //reset decoder

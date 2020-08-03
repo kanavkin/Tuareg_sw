@@ -61,10 +61,12 @@ sync checker
 segment 1 has a key to (key + gap) ratio of about 40 percent
 
 this config defines the interval, which measured sync ratios will be considered valid
+a relaxed sync check will be applied, when less than sync_stability_thrs consecutive positions have been captured with sync
 
 config items:
 configPage12.sync_ratio_min_pct
 configPage12.sync_ratio_max_pct
+configPage12.sync_stability_thrs
 
 defaults:
 DEFAULT_CONFIG12_SYNC_RATIO_MIN
@@ -72,6 +74,7 @@ DEFAULT_CONFIG12_SYNC_RATIO_MAX
 */
 #define DEFAULT_CONFIG12_SYNC_RATIO_MIN 30
 #define DEFAULT_CONFIG12_SYNC_RATIO_MAX 60
+#define DEFAULT_CONFIG12_SYNC_STABILITY_THRS 80
 
 
 /**
@@ -120,6 +123,7 @@ typedef enum {
     DDIAG_CISHANDLER_CALLS,
 
     DDIAG_SYNCCHECK_CALLS,
+    DDIAG_SYNCCHECK_RELAXED,
     DDIAG_CRANKTABLE_CALLS,
     DDIAG_ROTSPEED_CALLS,
 
@@ -155,6 +159,7 @@ typedef struct {
 
     VU32 sync_buffer_key;
     VU32 sync_buffer_gap;
+    VU32 sync_stability;
 
     /*
     engine dynamics
@@ -166,6 +171,7 @@ typedef struct {
     crank position
     */
     volatile crank_position_t crank_position;
+
 
     /*
     stalled engine detection
@@ -228,8 +234,9 @@ extern void decoder_logic_timer_update_handler();
 
 extern void reset_position_data();
 extern void reset_crank_timing_data();
+extern void reset_sync_stability();
 
-void calculate_crank_position_table(U32 Period, U16 * Table);
+void calculate_crank_position_table(VU32 Period, VU16 * Table);
 void update_engine_speed(VU32 Interval);
 
 extern void reset_diag_data();

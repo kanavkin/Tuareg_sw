@@ -690,8 +690,8 @@ void ts_debug_features(U32 FeatureID)
                 }
             }
 
-            UART_Send(TS_PORT, "\r\nCRANKHANDLER_CALLS, CISHANDLER_CALLS, SYNCCHECK_CALLS, CRANKTABLE_CALLS, ROTSPEED_CALLS, ASYNC_SYNC_TR, SYNC_ASYNC_TR, CRANKPOS_INIT, CRANKPOS_SYNC, CRANKPOS_ASYNC_KEY");
-            UART_Send(TS_PORT, "\r\nCRANKPOS_ASYNC_GAP, TRIGGER_IRQ_SYNC, TRIGGER_IRQ_DELAY, TIMEOUT_EVENTS, CRANKPOS_CIS_PHASED, CRANKPOS_CIS_UNDEFINED, PHASED_UNDEFINED_TR, TIMER_UPDATE_EVENTS,");
+            UART_Send(TS_PORT, "\r\nCRANKHANDLER_CALLS, CISHANDLER_CALLS, SYNCCHECK_CALLS, RELAXED_SYNCCHECKS, CRANKTABLE_CALLS, ROTSPEED_CALLS, ASYNC_SYNC_TR, SYNC_ASYNC_TR, CRANKPOS_INIT, CRANKPOS_SYNC");
+            UART_Send(TS_PORT, "\r\nCRANKPOS_ASYNC_KEY, CRANKPOS_ASYNC_GAP, TRIGGER_IRQ_SYNC, TRIGGER_IRQ_DELAY, TIMEOUT_EVENTS, CRANKPOS_CIS_PHASED, CRANKPOS_CIS_UNDEFINED, PHASED_UNDEFINED_TR, TIMER_UPDATE_EVENTS,");
 
             break;
 
@@ -1541,6 +1541,9 @@ void ts_diagPage()
                 UART_Send(TS_PORT, "\r\nsync ratio max (pct): ");
                 UART_Print_U(TS_PORT, configPage12.sync_ratio_max_pct, TYPE_U8, NO_PAD);
 
+                //sync_stability_thrs
+                UART_Send(TS_PORT, "\r\nsync stability thrs: ");
+                UART_Print_U(TS_PORT, configPage12.sync_stability_thrs, TYPE_U8, NO_PAD);
 
                 //decoder_timeout_s
                 UART_Send(TS_PORT, "\r\ndecoder timeout (s): ");
@@ -1556,6 +1559,10 @@ void ts_diagPage()
                 U16 dynamic_min_rpm
                 U16 dynamic_dwell_us
                 U8 safety_margin_us
+                crank_position_t idle_ignition_position
+                crank_position_t idle_dwell_position
+                U8 idle_advance_deg
+                U8 idle_dwell_deg
                 */
 
                 /**
@@ -1574,6 +1581,22 @@ void ts_diagPage()
                 //safety_margin_us
                 UART_Send(TS_PORT, "\r\nsafety margin (us): ");
                 UART_Print_U(TS_PORT, configPage13.safety_margin_us, TYPE_U8, NO_PAD);
+
+                //idle_ignition_position
+                UART_Send(TS_PORT, "\r\nidle ignition position: ");
+                UART_Print_U(TS_PORT, configPage13.idle_ignition_position, TYPE_U8, NO_PAD);
+
+                //idle_dwell_position
+                UART_Send(TS_PORT, "\r\nidle dwell position: ");
+                UART_Print_U(TS_PORT, configPage13.idle_dwell_position, TYPE_U8, NO_PAD);
+
+                //idle_advance_deg
+                UART_Send(TS_PORT, "\r\nidle advance (deg): ");
+                UART_Print_U(TS_PORT, configPage13.idle_advance_deg, TYPE_U8, NO_PAD);
+
+                //idle_dwell_deg
+                UART_Send(TS_PORT, "\r\nidle dwell (deg): ");
+                UART_Print_U(TS_PORT, configPage13.idle_dwell_deg, TYPE_U8, NO_PAD);
 
                 sendComplete = TRUE;
                 break;
@@ -2154,49 +2177,62 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             U8 crank_noise_filter;
             U8 sync_ratio_min_pct;
             U8 sync_ratio_max_pct;
+            U8 sync_stability_thrs;
             U8 decoder_timeout_s;
             */
 
-            //trigger_position_map
-            if(valueOffset < CRK_POSITION_COUNT)
+            switch(valueOffset)
             {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+
                 configPage12.trigger_position_map[valueOffset]= (U16) newValue;
-            }
+                break;
 
-            //decoder_offset_deg
-            else if(valueOffset == 8)
-            {
+            case 8:
+
                 configPage12.decoder_offset_deg= (S16) newValue;
-            }
+                break;
 
-            //decoder_delay_us
-            else if(valueOffset == 9)
-            {
+            case 9:
+
                 configPage12.decoder_delay_us= (U16) newValue;
-            }
+                break;
 
-            //crank_noise_filter
-            else if(valueOffset == 10)
-            {
+            case 10:
+
                 configPage12.crank_noise_filter= (U8) newValue;
-            }
+                break;
 
-            //sync_ratio_min_pct
-            else if(valueOffset == 11)
-            {
+            case 11:
+
                 configPage12.sync_ratio_min_pct= (U8) newValue;
-            }
+                break;
 
-            //sync_ratio_max_pct
-            else if(valueOffset == 12)
-            {
+            case 12:
+
                 configPage12.sync_ratio_max_pct= (U8) newValue;
-            }
+                break;
 
-            //decoder_timeout_s
-            else if(valueOffset == 13)
-            {
+            case 13:
+
+                configPage12.sync_stability_thrs= (U8) newValue;
+                break;
+
+            case 14:
+
                 configPage12.decoder_timeout_s= (U8) newValue;
+                break;
+
+            default:
+                break;
+
             }
 
             break;
@@ -2207,25 +2243,56 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             U16 dynamic_min_rpm;
             U16 dynamic_dwell_us;
             U8 safety_margin_us;
+            crank_position_t idle_ignition_position;
+            crank_position_t idle_dwell_position;
+            U8 idle_advance_deg;
+            U8 idle_dwell_deg;
             */
 
-            //dynamic_min_rpm
-            if(valueOffset == 0)
+            switch(valueOffset)
             {
+            case 0:
+
                 configPage13.dynamic_min_rpm= (U16) newValue;
-            }
+                break;
 
-            //dynamic_dwell_us
-            else if(valueOffset == 1)
-            {
+            case 1:
+
                 configPage13.dynamic_dwell_us= (U16) newValue;
+                break;
+
+            case 2:
+
+                configPage13.safety_margin_us= (U8) newValue;
+                break;
+
+            case 3:
+
+                configPage13.idle_ignition_position= (crank_position_t) newValue;
+                break;
+
+            case 4:
+
+                configPage13.idle_dwell_position= (crank_position_t) newValue;
+                break;
+
+            case 5:
+
+                configPage13.idle_advance_deg= (U8) newValue;
+                break;
+
+            case 6:
+
+                configPage13.idle_dwell_deg= (U8) newValue;
+                break;
+
+            default:
+                break;
+
             }
 
-            //safety_margin_us
-            else if(valueOffset == 2)
-            {
-                configPage13.safety_margin_us= (U8) newValue;
-            }
+
+
 
             break;
 

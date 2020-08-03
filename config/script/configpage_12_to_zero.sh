@@ -61,8 +61,12 @@ sleep 0.1
 printf '\x57\x0C\x00\x00' > $DEV
 sleep 0.1
 
-#decoder timeout
+#sync stability threshold
 printf '\x57\x0D\x00\x00' > $DEV
+sleep 0.1
+
+#decoder timeout
+printf '\x57\x0E\x00\x00' > $DEV
 sleep 0.1
 
 

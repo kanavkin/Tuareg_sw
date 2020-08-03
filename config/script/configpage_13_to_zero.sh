@@ -35,6 +35,21 @@ sleep 0.1
 printf '\x57\x02\x00\x00' > $DEV
 sleep 0.1
 
+#idle ignition position
+printf '\x57\x03\x00\x00' > $DEV
+sleep 0.1
+
+#idle dwell position
+printf '\x57\x04\x00\x00' > $DEV
+sleep 0.1
+
+#idle advance deg
+printf '\x57\x05\x00\x00' > $DEV
+sleep 0.1
+
+#idle dwell deg
+printf '\x57\x06\x00\x00' > $DEV
+sleep 0.1
 
 #print new values
 printf "L" > $DEV

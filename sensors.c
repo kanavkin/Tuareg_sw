@@ -376,9 +376,9 @@ MAP sensor readout as injected conversion
 */
 void ADC_IRQHandler()
 {
-    U32 average, sample;
-    U32 * pIntegr= NULL;
-    U8 * pCount= NULL;
+    VU32 average, sample;
+    VU32 * pIntegr= NULL;
+    VU8 * pCount= NULL;
 
     //collect diagnostic data
     SInternals.diag[SDIAG_ADCIRQ_CALLS] += 1;

@@ -1368,6 +1368,14 @@ U32 load_DecoderConfig()
     configPage12.sync_ratio_max_pct= eeprom_data;
 
 
+    //U8 sync_stability_thrs
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_SYNC_STABILITY_THRS, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage12.sync_stability_thrs= eeprom_data;
+
+
     //U8 decoder_timeout_s
     eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_DECODER_TIMEOUT, &eeprom_data);
 
@@ -1405,6 +1413,7 @@ void load_essential_DecoderConfig()
     configPage12.crank_noise_filter= DEFAULT_CONFIG12_CRANK_NOISE_FILTER;
     configPage12.sync_ratio_min_pct= DEFAULT_CONFIG12_SYNC_RATIO_MIN;
     configPage12.sync_ratio_max_pct= DEFAULT_CONFIG12_SYNC_RATIO_MAX;
+    configPage12.sync_stability_thrs= DEFAULT_CONFIG12_SYNC_STABILITY_THRS;
     configPage12.decoder_timeout_s= DEFAULT_CONFIG12_DECODER_TIMEOUT_S;
 
 }
@@ -1459,6 +1468,12 @@ U32 write_DecoderConfig()
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
 
+    //U8 sync_stability_thrs
+    eeprom_code= eeprom_update(EEPROM_CONFIG12_SYNC_STABILITY_THRS, configPage12.sync_stability_thrs);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
     //U8 decoder_timeout_s
     eeprom_code= eeprom_update(EEPROM_CONFIG12_DECODER_TIMEOUT, configPage12.decoder_timeout_s);
 
@@ -1467,8 +1482,6 @@ U32 write_DecoderConfig()
     //all done
     return RETURN_OK;
 }
-
-
 
 
 /**
@@ -1505,6 +1518,39 @@ U32 load_IgnitionConfig()
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     configPage13.safety_margin_us= eeprom_data;
+
+
+    //crank_position_t idle_ignition_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_IGN_POS, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.idle_ignition_position= eeprom_data;
+
+
+    //crank_position_t idle_dwell_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_DWELL_POS, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.idle_dwell_position= eeprom_data;
+
+
+    //U8 idle_advance_deg
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_ADVANCE_DEG, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.idle_advance_deg= eeprom_data;
+
+
+    //U8 idle_dwell_deg
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_DWELL_DEG, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.idle_dwell_deg= eeprom_data;
+
 
     //all done
     return RETURN_OK;
@@ -1547,6 +1593,27 @@ U32 write_IgnitionConfig()
     eeprom_code= eeprom_update(EEPROM_CONFIG13_SAFETY_MARGIN, configPage13.safety_margin_us);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //crank_position_t idle_ignition_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_IGN_POS, configPage13.idle_ignition_position);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //crank_position_t idle_dwell_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_DWELL_POS, configPage13.idle_dwell_position);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //U8 idle_advance_deg
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_ADVANCE_DEG, configPage13.idle_advance_deg);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //U8 idle_dwell_deg
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_DWELL_DEG, configPage13.idle_dwell_deg);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
 
     //all done
     return RETURN_OK;

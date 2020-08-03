@@ -383,6 +383,7 @@ typedef struct _configPage12_t_ {
     // valid key/90° ratio interval for detecting positions A2/B1
     U8 sync_ratio_min_pct;
     U8 sync_ratio_max_pct;
+    U8 sync_stability_thrs;
 
     //amount of seconds until a decoder timeout will be detected, when no trigger event has occurred
     U8 decoder_timeout_s;
@@ -405,8 +406,11 @@ typedef struct _configPage13_t_ {
     //safety margin for positioning
     U8 safety_margin_us;
 
-#warning TODO (oli#3#): add default and idle setup to config
-
+    //static ignition setup for idle
+    crank_position_t idle_ignition_position;
+    crank_position_t idle_dwell_position;
+    U8 idle_advance_deg;
+    U8 idle_dwell_deg;
 
 } configPage13_t;
 

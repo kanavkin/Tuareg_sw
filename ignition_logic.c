@@ -151,6 +151,9 @@ void calc_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, 
         //calculate dwell duration in crank deg (on timing)
         dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, Period_us);
 
+        //export to timing
+        pTarget->dwell_deg= dwell_deg;
+
         //clip dwell to crank cycle
         if(crank_angle_deg >= dwell_deg)
         {
@@ -186,7 +189,13 @@ void calc_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, 
         use fixed ignition triggers while cranking
         late ignition
         */
-        default_ignition_timing(pTarget);
+
+        pTarget->coil_ignition_pos= configPage13.idle_ignition_position;
+        pTarget->coil_dwell_pos= configPage13.idle_dwell_position;
+        pTarget->ignition_advance_deg= configPage13.idle_advance_deg;
+        pTarget->dwell_deg= dwell_deg= configPage13.idle_dwell_deg;
+        pTarget->coil_ignition_timing_us =0;
+        pTarget->coil_dwell_timing_us =0;
     }
 }
 

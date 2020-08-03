@@ -24,8 +24,8 @@ sleep 0.1
 
 
 #dynamic min rpm
-# 1000
-printf '\x57\x00\x03\xE8' > $DEV
+# 500
+printf '\x57\x00\x01\xF4' > $DEV
 sleep 0.1
 
 #dynamic dwell us
@@ -38,6 +38,25 @@ sleep 0.1
 printf '\x57\x02\x00\x0F' > $DEV
 sleep 0.1
 
+#idle ignition position
+# POSITION_B2 -> 3
+printf '\x57\x03\x00\x03' > $DEV
+sleep 0.1
+
+#idle dwell position
+# POSITION_D2 -> 7
+printf '\x57\x04\x00\x07' > $DEV
+sleep 0.1
+
+#idle advance deg
+# 3
+printf '\x57\x05\x00\x03' > $DEV
+sleep 0.1
+
+#idle dwell deg
+# 190
+printf '\x57\x06\x00\xBE' > $DEV
+sleep 0.1
 
 #print new values
 printf "L" > $DEV

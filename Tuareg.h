@@ -134,6 +134,7 @@ for the currentStatus
 
 
 typedef enum {
+#warning TODO (oli#3#): develop a concept for cranking detection/handling
 
     //system init
     TMODE_HWINIT,
