@@ -43,34 +43,73 @@ void Tuareg_update_Runmode()
         //DIAG mode will persist until reboot
         break;
 
+
+    case TMODE_CRANKING:
+
+        //shut engine off if the RUN switch is disengaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
+        {
+            Tuareg_set_Runmode(TMODE_HALT);
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_KILL_RUNSWITCH] += 1;
+
+            #warning TODO (oli#9#): debug message enabled
+            UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
+        }
+
+        //shut engine off if the CRASH sensor is engaged
+        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
+        {
+            Tuareg_set_Runmode(TMODE_HALT);
+
+            //collect diagnostic information
+            Tuareg.diag[TDIAG_KILL_SIDESTAND] += 1;
+
+            #warning TODO (oli#9#): debug message enabled
+            UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
+        }
+
+        #warning TODO (oli#3#): implement cranking handling
+        if((Tuareg.decoder->engine_rpm > 800) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+        {
+            /**
+            engine has finished cranking
+            */
+
+            Tuareg_set_Runmode(TMODE_RUNNING);
+        }
+
+
     case TMODE_RUNNING:
         case TMODE_STB:
 
         //shut engine off if the RUN switch is disengaged
         if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
         {
-            //Tuareg_set_Runmode(TMODE_HALT);
+            Tuareg_set_Runmode(TMODE_HALT);
 
             //collect diagnostic information
             Tuareg.diag[TDIAG_KILL_RUNSWITCH] += 1;
 
-            //#warning TODO (oli#9#): debug message enabled
-            //UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
+            #warning TODO (oli#9#): debug message enabled
+            UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
         }
 
         //shut engine off if the CRASH sensor is engaged
         if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
         {
-            //Tuareg_set_Runmode(TMODE_HALT);
+            Tuareg_set_Runmode(TMODE_HALT);
 
             //collect diagnostic information
             Tuareg.diag[TDIAG_KILL_SIDESTAND] += 1;
 
-            //#warning TODO (oli#9#): debug message enabled
-            //UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
+            #warning TODO (oli#9#): debug message enabled
+            UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
         }
 
         break;
+
 
     case TMODE_HALT:
 
@@ -87,19 +126,13 @@ void Tuareg_update_Runmode()
 
     case TMODE_LIMP:
 
-        #warning TODO (oli#1#): who will reenable the ignition in limp mode?
+        /**
+        LIMP mode will ignore RUN sensor
+        */
 
-        //shut engine off if the RUN switch is disengaged
-        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
-        {
-            Tuareg_stop_engine();
-        }
-
-        //shut engine off if the CRASH sensor is engaged
-        if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
-        {
-            Tuareg_stop_engine();
-        }
+        /**
+        LIMP mode will ignore CRASH sensor
+        */
 
         break;
 
@@ -205,12 +238,12 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //collect diagnostic information
 
                 //collect diagnostic information
-                if(Tuareg.Runmode == TMODE_STB)
+                if(Tuareg.Runmode == TMODE_CRANKING)
                 {
-                    Tuareg.diag[TDIAG_STB_RUNNING_TR] += 1;
+                    Tuareg.diag[TDIAG_CRANKING_RUNNING_TR] += 1;
 
                     #warning TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_RUNNING");
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_RUNNING");
                 }
 
                 Tuareg.diag[TDIAG_ENTER_RUNNING] += 1;
@@ -239,8 +272,31 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     #warning TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
                 }
+                else if(Tuareg.Runmode == TMODE_CRANKING)
+                {
+                    Tuareg.diag[TDIAG_CRANKING_STB_TR] += 1;
+
+                    #warning TODO (oli#9#): debug message enabled
+                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
+                }
+
+                //provide ignition timing for engine startup
+                default_ignition_timing(&Tuareg.ignition_timing);
 
                 Tuareg.diag[TDIAG_ENTER_STB] += 1;
+                break;
+
+            case TMODE_CRANKING:
+
+                #warning TODO (oli#9#): check if we need fuel pump priming
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_ENTER_CRANKING] += 1;
+
+
+                #warning TODO (oli#9#): debug message enabled
+                UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
+
                 break;
 
 
@@ -278,6 +334,43 @@ void Tuareg_stop_engine()
 }
 
 
+/**
+recalculate ignition timing if the run mode allows engine operation
+*/
+void Tuareg_update_ignition_timing()
+{
+
+    //collect diagnostic information
+    Tuareg.diag[TDIAG_IGNITIONCALC_CALLS] += 1;
+
+
+    switch(Tuareg.Runmode)
+     {
+
+        case TMODE_CRANKING:
+        case TMODE_RUNNING:
+        case TMODE_STB:
+
+            calculate_ignition_timing(&(Tuareg.ignition_timing), Tuareg.decoder->crank_T_us, Tuareg.decoder->engine_rpm);
+            break;
+
+
+        case TMODE_LIMP:
+
+            default_ignition_timing(&(Tuareg.ignition_timing));
+            break;
+
+
+        default:
+
+            /**
+            possible scenario:
+            -engine has been killed by kill switch and the crank shaft is still rotating
+            */
+            break;
+
+     }
+}
 
 
 void Tuareg_trigger_ignition()

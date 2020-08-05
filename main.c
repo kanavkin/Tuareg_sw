@@ -355,27 +355,23 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
+    //start MAP sensor conversion
+    adc_start_injected_group(SENSOR_ADC);
+
     //collect diagnostic information
     Tuareg.diag[TDIAG_DECODER_IRQ] += 1;
     Tuareg.diag[TDIAG_DECODER_AGE]= decoder_get_data_age_us();
 
-     #warning TODO (oli#9#): debug action enabled
-     set_user_lamp(TOGGLE);
-
     /**
-    check if this is a decoder timeout (engine has stalled)
-    -> shut down coils, injectors and fuel pump
-    or
-    a regular crank position update event
-    -> trigger coil handling
-       (immediate action: 4us behind pickup signal edge!)
+    check if this is a decoder timeout (engine has stalled) or a regular crank position update event
     */
-     switch(Tuareg.Runmode)
-     {
+    switch(Tuareg.Runmode)
+    {
 
+        case TMODE_CRANKING:
         case TMODE_RUNNING:
 
-            if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
             {
                 /**
                 normal engine operation
@@ -383,11 +379,6 @@ void EXTI2_IRQHandler(void)
 
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
-
-                /**
-                read the MAP sensor
-                */
-                adc_start_injected_group(SENSOR_ADC);
             }
             else
             {
@@ -395,24 +386,36 @@ void EXTI2_IRQHandler(void)
                 decoder timeout
                 */
 
-                Tuareg_set_Runmode(TMODE_STB);
-
                 //collect diagnostic information
                 Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
+
+                Tuareg_set_Runmode(TMODE_STB);
 
             }
 
             break;
 
+
         case TMODE_STB:
 
-            if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+
+            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
             {
                 /**
-                normal engine operation, this is the first engine position in decoder SYNC mode we have seen
+                first position detected -> cranking has begun
                 */
 
-                Tuareg_set_Runmode(TMODE_RUNNING);
+                Tuareg_set_Runmode(TMODE_CRANKING);
+
+            }
+            else
+            {
+                /**
+                decoder timeout
+                */
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
             }
 
             break;
@@ -420,13 +423,15 @@ void EXTI2_IRQHandler(void)
 
         case TMODE_LIMP:
 
-            if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+            //if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
             {
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
             }
 
             break;
+
 
         default:
 
@@ -457,24 +462,15 @@ void EXTI3_IRQHandler(void)
     //collect diagnostic information
     Tuareg.diag[TDIAG_IGNITION_IRQ] += 1;
 
+    //#warning TODO (oli#9#): debug action enabled
+    //set_user_lamp(TOGGLE);
+    //set_user_lamp(ON);
+    //lowprio_scheduler_set_channel(LOWPRIO_CH1, set_user_lamp, OFF, 500);
+
     /**
     recalculate ignition timing if the run mode allows engine operation
     */
-    if((Tuareg.Runmode == TMODE_STB) || (Tuareg.Runmode == TMODE_RUNNING))
-    {
-        /**
-        in STB or RUNNING mode
-        */
-        calc_ignition_timing(&Tuareg.ignition_timing, Tuareg.decoder->crank_T_us, Tuareg.decoder->engine_rpm);
-    }
-    else if(Tuareg.Runmode == TMODE_LIMP)
-    {
-        default_ignition_timing(&Tuareg.ignition_timing);
-    }
-    else
-    {
-        Tuareg_stop_engine();
-    }
+    void Tuareg_update_ignition_timing();
 }
 
 

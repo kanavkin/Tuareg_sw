@@ -1,9 +1,10 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Jul 07 23:28:59 CEST 2020
-#Tue Jul 07 23:28:59 CEST 2020
+#Last Saved on: Tue Aug 04 14:06:53 CEST 2020
+#Tue Aug 04 14:06:53 CEST 2020
 dwellSettingsDwell\ Settings_X=637
 dwell_correction_curve_Auto\ Scale\ Y\ Axis\ Maximum=true
+sparkMap3DIgnition\ Advance\ Table_height=536
 recordsPerSec=5
 dwell_correction_curveDwell\ voltage\ correction_X=393
 sparkSettingsSpark\ Settings_X=757
@@ -26,6 +27,7 @@ sparkTblIgnition\ Advance\ Table_Y=379
 refTable_000_chkCelsius=true
 engine_constantsEngine\ Constants_width=596
 dwellSettingsDwell\ Settings_Y=316
+sparkMap3DIgnition\ Advance\ Table_width=816
 2DTable_sparkTbl_tableInitialDir=/home/oli/Desktop
 egoControlAFR/O2_height=435
 dwell_correction_curve_Auto\ Scale\ X\ Axis\ Maximum=true
@@ -33,6 +35,8 @@ airdensity_curveIAT\ density\ correction_X=626
 airdensity_curveIAT\ density\ correction_Y=350
 CommSettingsputnikCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 egoControlAFR/O2_width=412
+sparkMap3DIgnition\ Advance\ Table_Y=263
+sparkMap3DIgnition\ Advance\ Table_X=555
 veTable1Map3DVE\ Table_Y=257
 veTable1Map3DVE\ Table_X=435
 injCharsInjector\ Characteristics_height=549
@@ -88,8 +92,8 @@ CommSettingsputnikCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
 mapCalCalibrate\ MAP_Y=384
 mapCalCalibrate\ MAP_X=631
 CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
-mapCalCalibrate\ MAP_width=412
-tuneFileDir=/home/oli/tenere/efi/Tuareg/TunerStudio/speeduino_config
+mapCalCalibrate\ MAP_width=423
+tuneFileDir=/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
 refTable_000_txtTemp2=21.0
 refTable_000_txtTemp1=-40.0
 refTable_000_txtTemp3=99.0

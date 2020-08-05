@@ -150,11 +150,14 @@ typedef enum {
     //engine operation prohibited due to kill switch or crash sensor
     TMODE_HALT,
 
-    //normal engine operation
-    TMODE_RUNNING,
-
     //engine stalled, system ready for start
     TMODE_STB,
+
+    //engine startup
+    TMODE_CRANKING,
+
+    //normal engine operation
+    TMODE_RUNNING
 
 } tuareg_runmode_t;
 
@@ -177,6 +180,7 @@ typedef enum {
     TDIAG_DECODER_TIMEOUT,
     TDIAG_DECODER_PASSIVE,
     TDIAG_IGNITION_IRQ,
+    TDIAG_IGNITIONCALC_CALLS,
 
     TDIAG_MAINLOOP_ENTRY,
     TDIAG_MODECTRL,
@@ -184,7 +188,8 @@ typedef enum {
     TDIAG_INIT_HALT_TR,
     TDIAG_RUNNING_HALT_TR,
     TDIAG_RUNNING_STB_TR,
-    TDIAG_STB_RUNNING_TR,
+    TDIAG_CRANKING_RUNNING_TR,
+    TDIAG_CRANKING_STB_TR,
     TDIAG_STB_HALT_TR,
     TDIAG_HALT_RUNNING_TR,
     TDIAG_HALT_STB_TR,
@@ -193,6 +198,7 @@ typedef enum {
     TDIAG_ENTER_HALT,
     TDIAG_ENTER_RUNNING,
     TDIAG_ENTER_STB,
+    TDIAG_ENTER_CRANKING,
 
 
     TDIAG_TSTUDIO_CALLS,
@@ -322,6 +328,7 @@ extern volatile Tuareg_t Tuareg;
 void Tuareg_update_Runmode();
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 void Tuareg_stop_engine();
+void Tuareg_update_ignition_timing();
 void Tuareg_trigger_ignition();
 U32 Tuareg_get_asensor(asensors_t sensor);
 void Tuareg_export_diag(VU32 * pTarget);

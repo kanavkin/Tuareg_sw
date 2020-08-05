@@ -79,9 +79,6 @@ e.g. while LIMP HOME
 */
 void default_ignition_timing(volatile ignition_timing_t * pTarget)
 {
-    /**
-    late ignition
-    */
     pTarget->coil_dwell_pos= DEFAULT_DWELL_POSITION;
     pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
     pTarget->coil_dwell_timing_us= 0;
@@ -89,7 +86,20 @@ void default_ignition_timing(volatile ignition_timing_t * pTarget)
 
     pTarget->dwell_deg= DEFAULT_DWELL_DEG;
     pTarget->ignition_advance_deg= DEFAULT_ADVANCE_DEG;
+}
 
+/**
+provides an ignition timing which will allow engine operation
+e.g. while LIMP HOME
+*/
+inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
+{
+    pTarget->coil_ignition_pos= configPage13.idle_ignition_position;
+    pTarget->coil_dwell_pos= configPage13.idle_dwell_position;
+    pTarget->ignition_advance_deg= configPage13.idle_advance_deg;
+    pTarget->dwell_deg= configPage13.idle_dwell_deg;
+    pTarget->coil_ignition_timing_us =0;
+    pTarget->coil_dwell_timing_us =0;
 }
 
 /**
@@ -125,12 +135,11 @@ problem on high rpms:   with a large dwell AND large ignition advance
                         (cutting dwell)
 
 */
-void calc_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, VU32 Rpm)
+void calculate_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, VU32 Rpm)
 {
     #warning TODO (oli#1#):test ignition calculation
 
     U32 crank_angle_deg, advance_deg, dwell_deg;
-   // engine_position_t position;
 
     if(Rpm > configPage13.dynamic_min_rpm)
     {
@@ -187,15 +196,10 @@ void calc_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, 
     {
         /**
         use fixed ignition triggers while cranking
-        late ignition
         */
+#warning TODO (oli#2#): handle this case
+        cranking_ignition_timing(pTarget);
 
-        pTarget->coil_ignition_pos= configPage13.idle_ignition_position;
-        pTarget->coil_dwell_pos= configPage13.idle_dwell_position;
-        pTarget->ignition_advance_deg= configPage13.idle_advance_deg;
-        pTarget->dwell_deg= dwell_deg= configPage13.idle_dwell_deg;
-        pTarget->coil_ignition_timing_us =0;
-        pTarget->coil_dwell_timing_us =0;
     }
 }
 

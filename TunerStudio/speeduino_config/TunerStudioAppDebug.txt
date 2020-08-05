@@ -19339,3 +19339,1527 @@ This is wierd.
 7/7/20, 11:49:48 PM :Debug: ############################################# Save Project ##########################################
 7/7/20, 11:49:48 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Tue Aug 04 14:04:36 CEST 2020
+JRE 11.0.7, Linux 4.15.0-109-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+8/4/20, 2:04:37 PM :Debug: no update:defaultFont
+8/4/20, 2:04:39 PM :Info: Loading Language Content.
+8/4/20, 2:04:39 PM :Info: Initializing File Dialogs.
+8/4/20, 2:04:39 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+8/4/20, 2:04:39 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+8/4/20, 2:04:39 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+8/4/20, 2:04:39 PM :Info: Initializing Help.
+8/4/20, 2:04:39 PM :Info: Initializing Edition Features.
+8/4/20, 2:04:39 PM :Info: Initializing App Events.
+8/4/20, 2:04:39 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+8/4/20, 2:04:39 PM :Debug: Dummy Function Factory Created.
+8/4/20, 2:04:40 PM :Info: Initializing User Interface
+8/4/20, 2:04:40 PM :Warning: Unable to set Main cluster for title:
+8/4/20, 2:04:40 PM :Info: Checking for updates
+8/4/20, 2:04:40 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+8/4/20, 2:04:42 PM :Info: Loading Font list.
+8/4/20, 2:04:42 PM :Debug: Time to retreive font name list: 43 ms.
+8/4/20, 2:04:42 PM :Info: 
+8/4/20, 2:04:42 PM :Info: Initializing UI Components.
+8/4/20, 2:04:42 PM :Info: Ready
+Saved user properties successfully
+8/4/20, 2:04:47 PM :Info: Update Check Completed
+Saved user properties successfully
+Saved user properties successfully
+8/4/20, 2:04:51 PM :Info: Opening Project ...
+8/4/20, 2:04:51 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
+8/4/20, 2:04:51 PM :Debug: Reading translation file as plain text
+8/4/20, 2:04:51 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:04:51 PM :Debug: Filtered ConfigurationOptionGroup in 32ms.
+8/4/20, 2:04:51 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:04:51 PM :Info: Read file canPcVariables.ini: 0.786187ms
+8/4/20, 2:04:51 PM :Info: Filtered ini: 0.089134ms
+8/4/20, 2:04:51 PM :Info: No iniVersion defined
+8/4/20, 2:04:51 PM :Info: Loading Trigger Wheels
+8/4/20, 2:04:51 PM :Info: Loaded All known ini sections
+8/4/20, 2:04:51 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 23ms.
+8/4/20, 2:04:51 PM :Info: Read file mainController.ini: 11.487954ms
+8/4/20, 2:04:51 PM :Info: Filtered ini: 2.992104ms
+8/4/20, 2:04:51 PM :Info: No iniVersion defined
+8/4/20, 2:04:51 PM :Debug: ini signature: speeduino 201708
+8/4/20, 2:04:52 PM :Info: Loading Trigger Wheels
+8/4/20, 2:04:52 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+8/4/20, 2:04:52 PM :Info: Loaded All known ini sections
+8/4/20, 2:04:52 PM :Info: Parsed and validated ini "mainController.ini" in : 175ms.
+8/4/20, 2:04:52 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+8/4/20, 2:04:52 PM :Info: Time to load primary config: 315.49783ms. used cached config: false
+8/4/20, 2:04:52 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:04:52 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+8/4/20, 2:04:52 PM :Debug: Fill Constants: 11
+8/4/20, 2:04:52 PM :Info: Tune opened, 1505 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/4/20, 2:04:52 PM :Info: Tune opened, 1505 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/4/20, 2:04:52 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:04:52 PM :Info: !!! Loaded config in 512
+8/4/20, 2:04:52 PM :Info: Com Thread created: COMM Thread94092.07249129342
+8/4/20, 2:04:52 PM :Info: !!! Activated Project 1008
+8/4/20, 2:04:52 PM :Info: Opening Gauge Cluster..
+8/4/20, 2:04:52 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread94092.07249129342
+8/4/20, 2:04:52 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:04:53 PM :Debug: High Speed Paint: true
+8/4/20, 2:04:53 PM :Info: 
+8/4/20, 2:04:53 PM :Debug: !!! Opened Dash 1831
+8/4/20, 2:04:53 PM :Info: tuareg_with_speeduino_config Ready
+8/4/20, 2:04:53 PM :Debug: Deactivated fast paint Main Dashboard
+8/4/20, 2:04:53 PM :Debug: Tuning View Files loaded in 135.44843ms.
+8/4/20, 2:04:53 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread94092.07249129342
+8/4/20, 2:04:55 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:04:55 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:04:56 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:04:56 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:04:58 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:04:58 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:00 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:00 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:01 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:01 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:03 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:03 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:04 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:04 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:06 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:06 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:08 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:08 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:09 PM :Info: Initiating read page 2
+8/4/20, 2:05:09 PM :Info: Initiating read page 6
+8/4/20, 2:05:09 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:09 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:11 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:11 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:13 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:13 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:14 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:14 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:16 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:16 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:18 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:18 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:19 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:19 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:21 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:21 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:23 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:23 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:24 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:24 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:26 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:26 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:28 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:28 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:29 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:29 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:31 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:31 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:33 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:33 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:36 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:36 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:38 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:38 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:41 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:41 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:43 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:43 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:44 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:44 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:46 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:46 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:47 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:47 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:49 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:05:49 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:49 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:51 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:51 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:52 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:52 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:54 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:54 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:56 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:56 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:57 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:57 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:05:59 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 04, 2020 2:05:59 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:06:01 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/4/20, 2:06:02 PM :Info: Communicating with sig:speeduino 201708, Serial Signature: speeduino 201708
+8/4/20, 2:06:02 PM :Info: Activating page: 1
+8/4/20, 2:06:05 PM :Debug: Time:73.201s. Instruction: 
+Aug 04, 2020 2:06:05 PM l.G a
+INFO: Error Reading Page
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+8/4/20, 2:06:05 PM :Error: Could not process CommInstruction. writing last 0 controller interactions to the log folowed by the stack trace
+Aug 04, 2020 2:06:05 PM l.G y
+SEVERE: null
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/4/20, 2:06:05 PM :Debug: result.FAILED: 1 tryCount
+8/4/20, 2:06:05 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 2:06:05 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:06:05 PM :Info: Closing Port
+8/4/20, 2:06:05 PM :Info: Successfully Closed Port
+8/4/20, 2:06:05 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:06:07 PM :Info: Activating page: 1
+8/4/20, 2:06:07 PM :Debug: Read page time: 185ms.
+8/4/20, 2:06:07 PM :Info: Activating page: 2
+8/4/20, 2:06:07 PM :Debug: Read page time: 171ms.
+8/4/20, 2:06:07 PM :Info: Activating page: 3
+8/4/20, 2:06:07 PM :Debug: Read page time: 208ms.
+8/4/20, 2:06:07 PM :Info: Activating page: 4
+8/4/20, 2:06:08 PM :Debug: Read page time: 170ms.
+8/4/20, 2:06:08 PM :Info: Activating page: 5
+8/4/20, 2:06:08 PM :Debug: Read page time: 209ms.
+8/4/20, 2:06:08 PM :Info: Activating page: 6
+8/4/20, 2:06:08 PM :Debug: Read page time: 170ms.
+8/4/20, 2:06:08 PM :Info: Activating page: 7
+8/4/20, 2:06:08 PM :Debug: Read page time: 189ms.
+8/4/20, 2:06:08 PM :Info: Activating page: 8
+8/4/20, 2:06:08 PM :Debug: Read page time: 197ms.
+8/4/20, 2:06:08 PM :Info: Activating page: 9
+8/4/20, 2:06:09 PM :Debug: Read page time: 192ms.
+8/4/20, 2:06:09 PM :Info: Activating page: 10
+8/4/20, 2:06:09 PM :Debug: Read page time: 184ms.
+8/4/20, 2:06:09 PM :Info: Activating page: 11
+8/4/20, 2:06:09 PM :Debug: Read page time: 195ms.
+8/4/20, 2:06:09 PM :Debug: Read All Data
+8/4/20, 2:06:09 PM :Debug: isBlank Time: 0 ms.
+8/4/20, 2:06:09 PM :Debug: DiffTime: 11 ms.
+8/4/20, 2:06:09 PM :Debug: Time to get Panels = 0ms.
+8/4/20, 2:06:09 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 2:06:09 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:06:09 PM :Info: Closing Port
+8/4/20, 2:06:09 PM :Info: Successfully Closed Port
+8/4/20, 2:06:09 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:06:11 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:06:11 PM :Debug: Went offline
+8/4/20, 2:06:11 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:06:11 PM :Info: Closing Port
+8/4/20, 2:06:11 PM :Info: Successfully Closed Port
+8/4/20, 2:06:11 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:06:11 PM :Info: Went offline 2
+8/4/20, 2:06:11 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:06:14 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/4/20, 2:06:15 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/4/20, 2:06:15 PM :Info: Activating page: 1
+8/4/20, 2:06:15 PM :Debug: Read page time: 222ms.
+8/4/20, 2:06:15 PM :Info: Activating page: 2
+8/4/20, 2:06:15 PM :Debug: Read page time: 169ms.
+8/4/20, 2:06:15 PM :Info: Activating page: 3
+8/4/20, 2:06:15 PM :Debug: Read page time: 210ms.
+8/4/20, 2:06:15 PM :Info: Activating page: 4
+8/4/20, 2:06:16 PM :Debug: Read page time: 170ms.
+8/4/20, 2:06:16 PM :Info: Activating page: 5
+8/4/20, 2:06:16 PM :Debug: Read page time: 209ms.
+8/4/20, 2:06:16 PM :Info: Activating page: 6
+8/4/20, 2:06:16 PM :Debug: Read page time: 170ms.
+8/4/20, 2:06:16 PM :Info: Activating page: 7
+8/4/20, 2:06:16 PM :Debug: Read page time: 188ms.
+8/4/20, 2:06:16 PM :Info: Activating page: 8
+8/4/20, 2:06:16 PM :Debug: Read page time: 198ms.
+8/4/20, 2:06:16 PM :Info: Activating page: 9
+8/4/20, 2:06:17 PM :Debug: Read page time: 193ms.
+8/4/20, 2:06:17 PM :Info: Activating page: 10
+8/4/20, 2:06:17 PM :Debug: Read page time: 184ms.
+8/4/20, 2:06:17 PM :Info: Activating page: 11
+8/4/20, 2:06:17 PM :Debug: Read page time: 196ms.
+8/4/20, 2:06:17 PM :Debug: Read All Data
+8/4/20, 2:06:17 PM :Debug: isBlank Time: 0 ms.
+8/4/20, 2:06:17 PM :Debug: DiffTime: 6 ms.
+8/4/20, 2:06:17 PM :Debug: Time to get Panels = 0ms.
+8/4/20, 2:06:17 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 2:06:17 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:06:17 PM :Info: Closing Port
+8/4/20, 2:06:17 PM :Info: Successfully Closed Port
+8/4/20, 2:06:17 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:06:19 PM :Info: dr: 0:30
+8/4/20, 2:06:19 PM :Debug: Range Sort Time: 0
+8/4/20, 2:06:38 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:06:51 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 2:06:51 PM :Info: Time to save msq: 141.77615
+8/4/20, 2:06:51 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 2:06:51 PM :Info: closeApp Called
+8/4/20, 2:06:51 PM :Debug: TuneLog Editor set text
+8/4/20, 2:06:51 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 2:06:51 PM :Info: Time to save msq: 24.177427
+8/4/20, 2:06:51 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 2:06:52 PM :Debug: goOffline Starting, Time:0
+8/4/20, 2:06:52 PM :Info: Deactivated Turbo Baud, goOffline
+8/4/20, 2:06:53 PM :Debug: goOffline about to stopProcessing, Time:251
+8/4/20, 2:06:53 PM :Debug: goOffline Notified offline, Time:263
+8/4/20, 2:06:53 PM :Debug: goOffline closed port, Time:263
+8/4/20, 2:06:53 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:06:53 PM :Info: Closing Port
+8/4/20, 2:06:53 PM :Info: Successfully Closed Port
+8/4/20, 2:06:53 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread94092.07249129342
+8/4/20, 2:06:53 PM :Debug: goOffline comm thread stopped, Time:514
+8/4/20, 2:06:53 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:06:53 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+8/4/20, 2:06:53 PM :Debug: ############################################# Save Project ##########################################
+8/4/20, 2:06:53 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Tue Aug 04 14:07:05 CEST 2020
+JRE 11.0.7, Linux 4.15.0-109-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+8/4/20, 2:07:06 PM :Debug: no update:defaultFont
+8/4/20, 2:07:08 PM :Info: Loading Language Content.
+8/4/20, 2:07:08 PM :Info: Initializing File Dialogs.
+8/4/20, 2:07:08 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+8/4/20, 2:07:08 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+8/4/20, 2:07:08 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+8/4/20, 2:07:08 PM :Info: Initializing Help.
+8/4/20, 2:07:08 PM :Info: Initializing Edition Features.
+8/4/20, 2:07:08 PM :Info: Initializing App Events.
+8/4/20, 2:07:08 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+8/4/20, 2:07:08 PM :Debug: Dummy Function Factory Created.
+8/4/20, 2:07:08 PM :Info: Initializing User Interface
+8/4/20, 2:07:08 PM :Warning: Unable to set Main cluster for title:
+8/4/20, 2:07:09 PM :Info: Checking for updates
+8/4/20, 2:07:09 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+8/4/20, 2:07:10 PM :Info: Loading Font list.
+8/4/20, 2:07:10 PM :Debug: Time to retreive font name list: 32 ms.
+8/4/20, 2:07:10 PM :Info: 
+8/4/20, 2:07:10 PM :Info: Initializing UI Components.
+8/4/20, 2:07:10 PM :Info: Ready
+MSmain: No check, last update check=Tue Aug 04 14:04:44 CEST 2020
+8/4/20, 2:07:12 PM :Info: Opening Project ...
+8/4/20, 2:07:12 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
+8/4/20, 2:07:12 PM :Debug: Reading translation file as plain text
+8/4/20, 2:07:12 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:07:12 PM :Debug: Filtered ConfigurationOptionGroup in 39ms.
+8/4/20, 2:07:12 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:07:12 PM :Info: Read file canPcVariables.ini: 0.314583ms
+8/4/20, 2:07:12 PM :Info: Filtered ini: 0.072588ms
+8/4/20, 2:07:12 PM :Info: No iniVersion defined
+8/4/20, 2:07:12 PM :Info: Loading Trigger Wheels
+8/4/20, 2:07:12 PM :Info: Loaded All known ini sections
+8/4/20, 2:07:12 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 22ms.
+8/4/20, 2:07:12 PM :Info: Read file mainController.ini: 9.982648ms
+8/4/20, 2:07:12 PM :Info: Filtered ini: 2.934993ms
+8/4/20, 2:07:12 PM :Info: No iniVersion defined
+8/4/20, 2:07:12 PM :Debug: ini signature: speeduino 201708
+8/4/20, 2:07:13 PM :Info: Loading Trigger Wheels
+8/4/20, 2:07:13 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+8/4/20, 2:07:13 PM :Info: Loaded All known ini sections
+8/4/20, 2:07:13 PM :Info: Parsed and validated ini "mainController.ini" in : 206ms.
+8/4/20, 2:07:13 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+8/4/20, 2:07:13 PM :Info: Time to load primary config: 332.5261ms. used cached config: false
+8/4/20, 2:07:13 PM :Info: Supported iniSpecVersion=3.51
+8/4/20, 2:07:13 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+8/4/20, 2:07:13 PM :Debug: Fill Constants: 10
+8/4/20, 2:07:13 PM :Info: Tune opened, 1505 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/4/20, 2:07:13 PM :Info: Tune opened, 1505 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/4/20, 2:07:13 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:07:13 PM :Info: !!! Loaded config in 541
+8/4/20, 2:07:13 PM :Info: Com Thread created: COMM Thread90872.3686566095
+8/4/20, 2:07:13 PM :Info: !!! Activated Project 1019
+8/4/20, 2:07:13 PM :Info: Opening Gauge Cluster..
+8/4/20, 2:07:13 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread90872.3686566095
+8/4/20, 2:07:13 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:07:14 PM :Debug: High Speed Paint: true
+8/4/20, 2:07:14 PM :Info: 
+8/4/20, 2:07:14 PM :Debug: !!! Opened Dash 1582
+8/4/20, 2:07:14 PM :Info: tuareg_with_speeduino_config Ready
+8/4/20, 2:07:14 PM :Debug: Deactivated fast paint Main Dashboard
+8/4/20, 2:07:14 PM :Debug: Tuning View Files loaded in 346.93262ms.
+8/4/20, 2:07:14 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread90872.3686566095
+MSad: No check, last update check=Tue Aug 04 14:04:47 CEST 2020
+8/4/20, 2:07:15 PM :Info: Update Check Completed
+Saved user properties successfully
+8/4/20, 2:07:16 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/4/20, 2:07:17 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/4/20, 2:07:17 PM :Info: Activating page: 1
+8/4/20, 2:07:17 PM :Debug: Read page time: 172ms.
+8/4/20, 2:07:17 PM :Info: Activating page: 2
+8/4/20, 2:07:17 PM :Debug: Read page time: 169ms.
+8/4/20, 2:07:17 PM :Info: Activating page: 3
+8/4/20, 2:07:17 PM :Debug: Read page time: 198ms.
+8/4/20, 2:07:17 PM :Info: Activating page: 4
+8/4/20, 2:07:17 PM :Debug: Read page time: 170ms.
+8/4/20, 2:07:17 PM :Info: Activating page: 5
+8/4/20, 2:07:18 PM :Debug: Read page time: 209ms.
+8/4/20, 2:07:18 PM :Info: Activating page: 6
+8/4/20, 2:07:18 PM :Debug: Read page time: 170ms.
+8/4/20, 2:07:18 PM :Info: Activating page: 7
+8/4/20, 2:07:18 PM :Debug: Read page time: 189ms.
+8/4/20, 2:07:18 PM :Info: Activating page: 8
+8/4/20, 2:07:18 PM :Debug: Read page time: 198ms.
+8/4/20, 2:07:18 PM :Info: Activating page: 9
+8/4/20, 2:07:18 PM :Debug: Read page time: 192ms.
+8/4/20, 2:07:18 PM :Info: Activating page: 10
+8/4/20, 2:07:19 PM :Debug: Read page time: 184ms.
+8/4/20, 2:07:19 PM :Info: Activating page: 11
+8/4/20, 2:07:19 PM :Debug: Read page time: 195ms.
+8/4/20, 2:07:19 PM :Debug: Read All Data
+8/4/20, 2:07:19 PM :Debug: isBlank Time: 0 ms.
+8/4/20, 2:07:19 PM :Debug: DiffTime: 14 ms.
+8/4/20, 2:07:19 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 2:07:19 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:07:19 PM :Info: Closing Port
+8/4/20, 2:07:19 PM :Info: Successfully Closed Port
+8/4/20, 2:07:19 PM :Info: Opening port: /dev/ttyUSB0
+8/4/20, 2:07:20 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:07:21 PM :Info: dr: 0:30
+8/4/20, 2:07:21 PM :Debug: Range Sort Time: 0
+8/4/20, 2:07:31 PM :Info: dr: 0:30
+8/4/20, 2:07:31 PM :Debug: Range Sort Time: 0
+8/4/20, 2:07:31 PM :Info: Initiating read page 2
+8/4/20, 2:07:31 PM :Info: Initiating read page 4
+8/4/20, 2:07:31 PM :Info: Initiating read page 11
+8/4/20, 2:07:31 PM :Info: Activating page: 2
+8/4/20, 2:07:31 PM :Info: Activating page: 4
+8/4/20, 2:07:32 PM :Info: Activating page: 11
+Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1042)
+	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:996)
+	at ag.ho.b(Unknown Source)
+	at ag.ho.a(Unknown Source)
+	at ag.hp.focusLost(Unknown Source)
+	at java.desktop/java.awt.AWTEventMulticaster.focusLost(AWTEventMulticaster.java:238)
+	at java.desktop/java.awt.AWTEventMulticaster.focusLost(AWTEventMulticaster.java:237)
+	at java.desktop/java.awt.Component.processFocusEvent(Component.java:6523)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6387)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2263)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5007)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2321)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4839)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1950)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:1059)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:725)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4888)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2321)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4839)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:772)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:95)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:743)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:07:42 PM :Info: dr: 0:30
+8/4/20, 2:07:42 PM :Debug: Range Sort Time: 0
+8/4/20, 2:07:42 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:07:47 PM :Info: Initiating read page 3
+8/4/20, 2:07:47 PM :Info: dr: 0:30
+8/4/20, 2:07:47 PM :Debug: Range Sort Time: 0
+8/4/20, 2:07:47 PM :Info: Activating page: 3
+8/4/20, 2:08:11 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:08:11 PM :Debug: Burn Page anonymous: 3
+8/4/20, 2:08:11 PM :Info: Queueing burn to page:3
+8/4/20, 2:08:11 PM :Debug: Burn time:10ms.
+8/4/20, 2:08:11 PM :Debug: burned page 3
+8/4/20, 2:08:11 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:08:11 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 2:08:11 PM :Info: Time to save msq: 108.72114
+8/4/20, 2:08:11 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 9 >= 1
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.getHeaderRenderer(BasicTableHeaderUI.java:716)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paintCell(BasicTableHeaderUI.java:732)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:675)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 10 >= 6
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+java.lang.ArrayIndexOutOfBoundsException: 1 >= 0
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paintCells(BasicTableUI.java:2083)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1883)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:10 PM :Debug: Bintableview paint error.
+java.lang.ArrayIndexOutOfBoundsException: 2 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paintCells(BasicTableUI.java:2083)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1883)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:10 PM :Debug: Bintableview paint error.
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 5 >= 1
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 5 >= 5
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 10 >= 5
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 4 >= 3
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+java.lang.ArrayIndexOutOfBoundsException: 7 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paintCells(BasicTableUI.java:2083)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1883)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:31 PM :Debug: Bintableview paint error.
+java.lang.ArrayIndexOutOfBoundsException: 8 >= 8
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumnIndexAtX(DefaultTableColumnModel.java:337)
+	at java.desktop/javax.swing.JTable.columnAtPoint(JTable.java:2842)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1851)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:34 PM :Debug: Bintableview paint error.
+java.lang.ArrayIndexOutOfBoundsException: 3 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paintCells(BasicTableUI.java:2083)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1883)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:38 PM :Debug: Bintableview paint error.
+java.lang.ArrayIndexOutOfBoundsException: 9 >= 4
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paintCells(BasicTableUI.java:2083)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI.paint(BasicTableUI.java:1883)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at com.efiAnalytics.ui.BinTableView.a(Unknown Source)
+	at com.efiAnalytics.ui.BinTableView.paint(Unknown Source)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:09:42 PM :Debug: Bintableview paint error.
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 5 >= 5
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 2 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 7 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 4 >= 3
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 6 >= 6
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at com.efiAnalytics.ui.j.setBounds(Unknown Source)
+	at java.desktop/java.awt.BorderLayout.layoutContainer(BorderLayout.java:843)
+	at java.desktop/java.awt.Container.layout(Container.java:1537)
+	at java.desktop/java.awt.Container.doLayout(Container.java:1526)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1722)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validateTree(Container.java:1731)
+	at java.desktop/java.awt.Container.validate(Container.java:1657)
+	at java.desktop/javax.swing.RepaintManager$3.run(RepaintManager.java:745)
+	at java.desktop/javax.swing.RepaintManager$3.run(RepaintManager.java:743)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.validateInvalidComponents(RepaintManager.java:742)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1889)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 1 >= 1
+	at java.base/java.util.Vector.elementAt(Vector.java:496)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:671)
+	at java.desktop/javax.swing.plaf.ComponentUI.update(ComponentUI.java:161)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:797)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1074)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5255)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1323)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5203)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5013)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:865)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:848)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:848)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:823)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:772)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1890)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+8/4/20, 2:10:03 PM :Debug: Flush lasted: 0ms.
+8/4/20, 2:10:03 PM :Debug: Burn Page anonymous: 3
+8/4/20, 2:10:03 PM :Info: Queueing burn to page:3
+8/4/20, 2:10:03 PM :Debug: Burn time:10ms.
+8/4/20, 2:10:03 PM :Debug: burned page 3
+8/4/20, 2:10:03 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 2:10:03 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 2:10:03 PM :Info: Time to save msq: 27.185898
+8/4/20, 2:10:03 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 2:10:04 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 2:10:04 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 2:10:04 PM :Info: Closing Port
+8/4/20, 2:10:04 PM :Info: Successfully Closed Port
+8/4/20, 2:10:04 PM :Info: Opening port: /dev/ttyUSB0
+
+8/4/20, 2:10:05 PM :Debug: Purged 31 orphaned bytes:
+8/4/20, 2:10:05 PM :Debug: Time:172.698s. 0xA8 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0xE5 0xE5 0x6 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0xA 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/4/20, 2:10:05 PM :Debug: Time:172.698s. 
+
+8/4/20, 2:10:05 PM :Debug: Time:172.698s.   .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/4/20, 2:10:49 PM :Info: Activating page: 3
+8/4/20, 3:07:01 PM :Debug: Flush lasted: 0ms.
+8/4/20, 3:07:01 PM :Debug: Burn Page anonymous: 3
+8/4/20, 3:07:01 PM :Info: Queueing burn to page:3
+8/4/20, 3:07:01 PM :Debug: Burn time:10ms.
+8/4/20, 3:07:01 PM :Debug: burned page 3
+8/4/20, 3:07:01 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 3:07:01 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 3:07:01 PM :Info: Time to save msq: 14.557708
+8/4/20, 3:07:01 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 3:07:01 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/4/20, 3:07:01 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 3:07:01 PM :Info: Closing Port
+8/4/20, 3:07:01 PM :Info: Successfully Closed Port
+8/4/20, 3:07:02 PM :Info: Opening port: /dev/ttyUSB0
+
+8/4/20, 3:07:03 PM :Debug: Purged 31 orphaned bytes:
+8/4/20, 3:07:03 PM :Debug: Time:3590.33s. 0x1 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0xE6 0xE6 0x6 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0xA 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/4/20, 3:07:03 PM :Debug: Time:3590.33s. 
+
+8/4/20, 3:07:03 PM :Debug: Time:3590.331s.   .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/4/20, 3:07:04 PM :Info: dr: 0:30
+8/4/20, 3:07:04 PM :Debug: Range Sort Time: 0
+8/4/20, 3:07:04 PM :Debug: Flush lasted: 0ms.
+8/4/20, 3:07:05 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 3:07:05 PM :Info: Time to save msq: 12.887275
+8/4/20, 3:07:05 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 3:07:05 PM :Info: closeApp Called
+8/4/20, 3:07:05 PM :Debug: TuneLog Editor set text
+8/4/20, 3:07:05 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/4/20, 3:07:05 PM :Info: Time to save msq: 7.780826
+8/4/20, 3:07:05 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/4/20, 3:07:06 PM :Debug: goOffline Starting, Time:0
+8/4/20, 3:07:06 PM :Info: Deactivated Turbo Baud, goOffline
+8/4/20, 3:07:06 PM :Debug: goOffline about to stopProcessing, Time:252
+8/4/20, 3:07:06 PM :Debug: goOffline Notified offline, Time:261
+8/4/20, 3:07:06 PM :Debug: goOffline closed port, Time:261
+8/4/20, 3:07:06 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/4/20, 3:07:06 PM :Info: Closing Port
+8/4/20, 3:07:06 PM :Info: Successfully Closed Port
+8/4/20, 3:07:06 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread90872.3686566095
+8/4/20, 3:07:06 PM :Debug: goOffline comm thread stopped, Time:462
+8/4/20, 3:07:06 PM :Debug: No Remaining Queue Write instructions
+8/4/20, 3:07:06 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+8/4/20, 3:07:06 PM :Debug: ############################################# Save Project ##########################################
+8/4/20, 3:07:06 PM :Info: Finalizing Sensors
+Saved user properties successfully
