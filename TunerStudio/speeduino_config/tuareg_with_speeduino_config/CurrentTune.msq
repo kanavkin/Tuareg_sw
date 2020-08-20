@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Aug 18 14:56:44 CEST 2020"/>
+    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Thu Aug 20 16:37:16 CEST 2020"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
     <page>
         <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
@@ -155,7 +155,7 @@
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 111.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         3.0 10.0 10.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
@@ -183,7 +183,7 @@
          8500.0 
       </constant>
         <constant cols="1" digits="0" name="mapBins2" rows="16" units="kPa">
-         14.0 
+         2.0 
          0.0 
          0.0 
          0.0 
@@ -191,14 +191,14 @@
          0.0 
          0.0 
          0.0 
+         50.0 
          0.0 
          0.0 
          0.0 
          0.0 
          0.0 
          0.0 
-         0.0 
-         0.0 
+         100.0 
       </constant>
     </page>
     <page number="3" size="64">
@@ -328,22 +328,22 @@
          21300.0 
       </constant>
         <constant cols="1" digits="0" name="mapBinsAFR" rows="16" units="kPa">
-         458.0 
-         456.0 
-         454.0 
-         452.0 
-         450.0 
-         448.0 
-         446.0 
-         444.0 
-         442.0 
-         440.0 
-         438.0 
-         436.0 
-         434.0 
-         432.0 
-         430.0 
          428.0 
+         430.0 
+         432.0 
+         434.0 
+         436.0 
+         438.0 
+         440.0 
+         442.0 
+         444.0 
+         446.0 
+         448.0 
+         450.0 
+         452.0 
+         454.0 
+         456.0 
+         458.0 
       </constant>
     </page>
     <page number="5" size="64">

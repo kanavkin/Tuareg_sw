@@ -996,6 +996,7 @@ void ts_sendPage()
             break;
     }
 
+#warning TODO (oli#1#): refactor!!!
 
     if ( (TS_cli.currentPage == VEMAPPAGE) || (TS_cli.currentPage == IGNMAPPAGE) || (TS_cli.currentPage == AFRMAPPAGE) )
     {
@@ -1028,7 +1029,7 @@ void ts_sendPage()
         for(l= 272; l < 288; l++)
         {
             //MAP or TPS bins for VE table
-            response[l]= (U8) (currentTable->axisY[15 - (l - 272)] / TABLE_LOAD_MULTIPLIER);
+            response[l]= (U8) (currentTable->axisY[(l - 272)] / TABLE_LOAD_MULTIPLIER);
         }
 
         /**
@@ -1841,13 +1842,17 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
         case IGNMAPPAGE:
 
-
-#warning TODO (oli#1#): check which transformation applies
-
+            /**
+            perform basic transformation to adapt to boctok 3D coordinate system
+            */
 
             if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
             {
                 // Z-axis
+                #warning TODO (oli#1#): debug action enabled
+                UART_Send(DEBUG_PORT, "\r\nIGN Z: ");
+                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
 
                 //all values are offset by 40
                 if(newValue >= TS_IGNITION_ADVANCE_OFFSET)
@@ -1859,6 +1864,10 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
             {
                 // X-axis
+                #warning TODO (oli#1#): debug action enabled
+                UART_Send(DEBUG_PORT, "\r\nIGN X: ");
+                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
 
                 // the RPM values sent by megasquirt are divided by 100
                 newValue *= TABLE_RPM_MULTIPLIER;
@@ -1867,12 +1876,13 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION )
             {
                 // Y-axis
+                #warning TODO (oli#1#): debug action enabled
+                UART_Send(DEBUG_PORT, "\r\nIGN Y: ");
+                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
 
                 // the RPM values sent by megasquirt are divided by 2
                 newValue *= TABLE_LOAD_MULTIPLIER;
-
-                //need to do a translation to flip the order
-                valueOffset= 15 - (valueOffset - TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION);
             }
             else
             {
@@ -1888,27 +1898,6 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
             //write to table
             modify_3D_table(&ignitionTable_TPS, valueOffset, newValue);
-
-
-
-
-            /*
-            if (valueOffset < 256)
-            {
-                ignitionTable.axisZ[15 - (valueOffset / 16)][valueOffset % 16] = (U8) newValue;
-            }
-            else if (valueOffset < 272)
-            {
-
-                ignitionTable.axisX[(valueOffset - 256)] = (U16)(newValue * TABLE_RPM_MULTIPLIER);
-            }
-            else
-            {
-
-                tempOffset = 15 - (valueOffset - 272);
-                ignitionTable.axisY[tempOffset] = (U16)(newValue * TABLE_LOAD_MULTIPLIER );
-            }
-            */
 
             break;
 

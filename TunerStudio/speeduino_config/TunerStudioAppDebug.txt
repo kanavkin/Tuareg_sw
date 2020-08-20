@@ -22163,3 +22163,1441 @@ z.b: No bytes found on unknown read size. timeout x2: 1000
 8/18/20, 2:56:45 PM :Debug: ############################################# Save Project ##########################################
 8/18/20, 2:56:45 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Thu Aug 20 16:05:59 CEST 2020
+JRE 11.0.8, Linux 4.15.0-112-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+8/20/20, 4:06:00 PM :Debug: no update:defaultFont
+8/20/20, 4:06:02 PM :Info: Loading Language Content.
+8/20/20, 4:06:02 PM :Info: Initializing File Dialogs.
+8/20/20, 4:06:02 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+8/20/20, 4:06:02 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+8/20/20, 4:06:02 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+8/20/20, 4:06:02 PM :Info: Initializing Help.
+8/20/20, 4:06:02 PM :Info: Initializing Edition Features.
+8/20/20, 4:06:02 PM :Info: Initializing App Events.
+8/20/20, 4:06:02 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+8/20/20, 4:06:02 PM :Debug: Dummy Function Factory Created.
+8/20/20, 4:06:02 PM :Info: Initializing User Interface
+8/20/20, 4:06:02 PM :Warning: Unable to set Main cluster for title:
+8/20/20, 4:06:03 PM :Info: Checking for updates
+8/20/20, 4:06:03 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+8/20/20, 4:06:04 PM :Info: Loading Font list.
+8/20/20, 4:06:04 PM :Debug: Time to retreive font name list: 39 ms.
+8/20/20, 4:06:04 PM :Info: 
+8/20/20, 4:06:04 PM :Info: Initializing UI Components.
+8/20/20, 4:06:04 PM :Info: Ready
+Saved user properties successfully
+8/20/20, 4:06:09 PM :Info: Update Check Completed
+Saved user properties successfully
+Saved user properties successfully
+8/20/20, 4:06:10 PM :Info: Opening Project ...
+8/20/20, 4:06:10 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
+8/20/20, 4:06:11 PM :Debug: Reading translation file as plain text
+8/20/20, 4:06:11 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:06:11 PM :Debug: Filtered ConfigurationOptionGroup in 37ms.
+8/20/20, 4:06:11 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:06:11 PM :Info: Read file canPcVariables.ini: 0.773224ms
+8/20/20, 4:06:11 PM :Info: Filtered ini: 0.089956ms
+8/20/20, 4:06:11 PM :Info: No iniVersion defined
+8/20/20, 4:06:11 PM :Info: Loading Trigger Wheels
+8/20/20, 4:06:11 PM :Info: Loaded All known ini sections
+8/20/20, 4:06:11 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 23ms.
+8/20/20, 4:06:11 PM :Info: Read file mainController.ini: 9.285165ms
+8/20/20, 4:06:11 PM :Info: Filtered ini: 2.888112ms
+8/20/20, 4:06:11 PM :Info: No iniVersion defined
+8/20/20, 4:06:11 PM :Debug: ini signature: speeduino 201708
+8/20/20, 4:06:11 PM :Info: Loading Trigger Wheels
+8/20/20, 4:06:11 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+8/20/20, 4:06:11 PM :Info: Loaded All known ini sections
+8/20/20, 4:06:11 PM :Info: Parsed and validated ini "mainController.ini" in : 172ms.
+8/20/20, 4:06:11 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+8/20/20, 4:06:11 PM :Info: Time to load primary config: 327.22705ms. used cached config: false
+8/20/20, 4:06:11 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:06:11 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+8/20/20, 4:06:11 PM :Debug: Fill Constants: 8
+8/20/20, 4:06:11 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/20/20, 4:06:11 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/20/20, 4:06:11 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:06:11 PM :Info: !!! Loaded config in 545
+8/20/20, 4:06:12 PM :Info: Com Thread created: COMM Thread80329.4098527788
+8/20/20, 4:06:12 PM :Info: !!! Activated Project 1098
+8/20/20, 4:06:12 PM :Info: Opening Gauge Cluster..
+8/20/20, 4:06:12 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread80329.4098527788
+8/20/20, 4:06:12 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:06:12 PM :Debug: High Speed Paint: true
+8/20/20, 4:06:12 PM :Info: 
+8/20/20, 4:06:12 PM :Debug: !!! Opened Dash 1281
+8/20/20, 4:06:12 PM :Info: tuareg_with_speeduino_config Ready
+8/20/20, 4:06:12 PM :Debug: Tuning View Files loaded in 196.44151ms.
+8/20/20, 4:06:12 PM :Debug: Deactivated fast paint Main Dashboard
+8/20/20, 4:06:13 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread80329.4098527788
+8/20/20, 4:06:14 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:06:15 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:06:15 PM :Info: Activating page: 1
+8/20/20, 4:06:15 PM :Debug: Read page time: 172ms.
+8/20/20, 4:06:15 PM :Info: Activating page: 2
+8/20/20, 4:06:15 PM :Debug: Read page time: 170ms.
+8/20/20, 4:06:15 PM :Info: Activating page: 3
+8/20/20, 4:06:15 PM :Debug: Read page time: 176ms.
+8/20/20, 4:06:15 PM :Info: Activating page: 4
+8/20/20, 4:06:16 PM :Debug: Read page time: 170ms.
+8/20/20, 4:06:16 PM :Info: Activating page: 5
+8/20/20, 4:06:16 PM :Debug: Read page time: 209ms.
+8/20/20, 4:06:16 PM :Info: Activating page: 6
+8/20/20, 4:06:16 PM :Debug: Read page time: 170ms.
+8/20/20, 4:06:16 PM :Info: Activating page: 7
+8/20/20, 4:06:16 PM :Debug: Read page time: 189ms.
+8/20/20, 4:06:16 PM :Info: Activating page: 8
+8/20/20, 4:06:16 PM :Debug: Read page time: 197ms.
+8/20/20, 4:06:16 PM :Info: Activating page: 9
+8/20/20, 4:06:17 PM :Debug: Read page time: 192ms.
+8/20/20, 4:06:17 PM :Info: Activating page: 10
+8/20/20, 4:06:17 PM :Debug: Read page time: 184ms.
+8/20/20, 4:06:17 PM :Info: Activating page: 11
+8/20/20, 4:06:17 PM :Debug: Read page time: 195ms.
+8/20/20, 4:06:17 PM :Debug: Read All Data
+8/20/20, 4:06:17 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:06:17 PM :Debug: DiffTime: 15 ms.
+8/20/20, 4:06:17 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:06:17 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:06:17 PM :Info: Closing Port
+8/20/20, 4:06:17 PM :Info: Successfully Closed Port
+8/20/20, 4:06:17 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:06:19 PM :Info: dr: 0:30
+8/20/20, 4:06:19 PM :Debug: Range Sort Time: 0
+8/20/20, 4:06:31 PM :Info: Initiating read page 3
+8/20/20, 4:06:31 PM :Info: Activating page: 3
+8/20/20, 4:06:32 PM :Info: dr: 0:30
+8/20/20, 4:06:32 PM :Debug: Range Sort Time: 0
+8/20/20, 4:07:58 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:07:58 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:07:58 PM :Info: Queueing burn to page:3
+8/20/20, 4:07:58 PM :Debug: Burn time:11ms.
+8/20/20, 4:07:58 PM :Debug: burned page 3
+8/20/20, 4:07:58 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:07:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:07:58 PM :Info: Time to save msq: 133.52802
+8/20/20, 4:07:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:08:52 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:08:52 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:08:52 PM :Info: Closing Port
+8/20/20, 4:08:52 PM :Info: Successfully Closed Port
+8/20/20, 4:08:52 PM :Info: Opening port: /dev/ttyUSB0
+
+8/20/20, 4:08:53 PM :Debug: Purged 31 orphaned bytes:
+8/20/20, 4:08:53 PM :Debug: Time:162.246s. 0x9A 0x0 0x0 0xA 0xA 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x3 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/20/20, 4:08:53 PM :Debug: Time:162.247s. 
+
+8/20/20, 4:08:53 PM :Debug: Time:162.248s.   .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/20/20, 4:09:23 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:09:23 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:09:23 PM :Info: Queueing burn to page:3
+8/20/20, 4:09:23 PM :Debug: Burn time:11ms.
+8/20/20, 4:09:23 PM :Debug: burned page 3
+8/20/20, 4:09:23 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:09:23 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:09:23 PM :Info: Time to save msq: 20.155792
+8/20/20, 4:09:23 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:09:24 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:09:24 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:09:24 PM :Info: Closing Port
+8/20/20, 4:09:24 PM :Info: Successfully Closed Port
+8/20/20, 4:09:24 PM :Info: Opening port: /dev/ttyUSB0
+
+8/20/20, 4:09:25 PM :Debug: Purged 31 orphaned bytes:
+8/20/20, 4:09:25 PM :Debug: Time:194.266s. 0xBA 0x0 0x0 0xA 0xA 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x3 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/20/20, 4:09:25 PM :Debug: Time:194.267s. 
+
+8/20/20, 4:09:25 PM :Debug: Time:194.268s.   .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/20/20, 4:09:38 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:09:38 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:09:38 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:09:38 PM :Debug: goOffline about to stopProcessing, Time:251
+8/20/20, 4:09:38 PM :Debug: goOffline Notified offline, Time:264
+8/20/20, 4:09:38 PM :Debug: goOffline closed port, Time:264
+8/20/20, 4:09:38 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:09:38 PM :Info: Closing Port
+8/20/20, 4:09:38 PM :Info: Successfully Closed Port
+8/20/20, 4:09:38 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread80329.4098527788
+8/20/20, 4:09:38 PM :Debug: goOffline comm thread stopped, Time:515
+8/20/20, 4:09:38 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:22 PM :Info: Com Thread created: COMM Thread39365.92964416707
+8/20/20, 4:11:22 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread39365.92964416707
+8/20/20, 4:11:22 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:11:23 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread80329.4098527788, new Thread:COMM Thread39365.92964416707
+8/20/20, 4:11:24 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:11:25 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:11:25 PM :Info: Activating page: 1
+8/20/20, 4:11:25 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:25 PM :Info: Activating page: 2
+8/20/20, 4:11:25 PM :Debug: Read page time: 169ms.
+8/20/20, 4:11:25 PM :Info: Activating page: 3
+8/20/20, 4:11:25 PM :Debug: Read page time: 189ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 4
+8/20/20, 4:11:26 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 5
+8/20/20, 4:11:26 PM :Debug: Read page time: 208ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 6
+8/20/20, 4:11:26 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 7
+8/20/20, 4:11:26 PM :Debug: Read page time: 189ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 8
+8/20/20, 4:11:26 PM :Debug: Read page time: 198ms.
+8/20/20, 4:11:26 PM :Info: Activating page: 9
+8/20/20, 4:11:27 PM :Debug: Read page time: 193ms.
+8/20/20, 4:11:27 PM :Info: Activating page: 10
+8/20/20, 4:11:27 PM :Debug: Read page time: 184ms.
+8/20/20, 4:11:27 PM :Info: Activating page: 11
+8/20/20, 4:11:27 PM :Debug: Read page time: 195ms.
+8/20/20, 4:11:27 PM :Debug: Read All Data
+8/20/20, 4:11:27 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:11:27 PM :Debug: DiffTime: 4 ms.
+8/20/20, 4:11:27 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:11:27 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:11:27 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:11:27 PM :Info: Closing Port
+8/20/20, 4:11:27 PM :Info: Successfully Closed Port
+8/20/20, 4:11:27 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:11:30 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:30 PM :Info: Time to save msq: 17.583311
+8/20/20, 4:11:30 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:30 PM :Debug: Flush lasted: 14ms.
+8/20/20, 4:11:30 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:11:30 PM :Info: Queueing burn to page:3
+8/20/20, 4:11:30 PM :Info: Sending, 16 bytes.
+8/20/20, 4:11:30 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:11:30 PM :Debug: Flush lasted: 6ms.
+8/20/20, 4:11:30 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:11:30 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:11:30 PM :Info: Activating page: 3
+8/20/20, 4:11:31 PM :Debug: Burn time:11ms.
+8/20/20, 4:11:31 PM :Debug: burned page 3
+8/20/20, 4:11:31 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:31 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:31 PM :Info: Time to save msq: 17.561895
+8/20/20, 4:11:31 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:31 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:31 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:31 PM :Debug: Burn time:10ms.
+8/20/20, 4:11:31 PM :Debug: burned page 3
+8/20/20, 4:11:31 PM :Info: Activating page: 1
+8/20/20, 4:11:32 PM :Debug: Read page time: 1462ms.
+8/20/20, 4:11:32 PM :Info: Activating page: 2
+8/20/20, 4:11:32 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:32 PM :Info: Activating page: 3
+8/20/20, 4:11:33 PM :Debug: Read page time: 209ms.
+8/20/20, 4:11:33 PM :Info: Activating page: 4
+8/20/20, 4:11:33 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:33 PM :Info: Activating page: 5
+8/20/20, 4:11:33 PM :Debug: Read page time: 209ms.
+8/20/20, 4:11:33 PM :Info: Activating page: 6
+8/20/20, 4:11:33 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:33 PM :Info: Activating page: 7
+8/20/20, 4:11:33 PM :Debug: Read page time: 189ms.
+8/20/20, 4:11:33 PM :Info: Activating page: 8
+8/20/20, 4:11:34 PM :Debug: Read page time: 198ms.
+8/20/20, 4:11:34 PM :Info: Activating page: 9
+8/20/20, 4:11:34 PM :Debug: Read page time: 192ms.
+8/20/20, 4:11:34 PM :Info: Activating page: 10
+8/20/20, 4:11:34 PM :Debug: Read page time: 184ms.
+8/20/20, 4:11:34 PM :Info: Activating page: 11
+8/20/20, 4:11:34 PM :Debug: Read page time: 195ms.
+8/20/20, 4:11:34 PM :Debug: Read All Data
+8/20/20, 4:11:34 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:11:34 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:11:34 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:11:36 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:36 PM :Info: Time to save msq: 14.64517
+8/20/20, 4:11:36 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:36 PM :Debug: Flush lasted: 21ms.
+8/20/20, 4:11:36 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:11:36 PM :Info: Queueing burn to page:3
+8/20/20, 4:11:36 PM :Info: Sending, 16 bytes.
+8/20/20, 4:11:36 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:11:36 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:11:36 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:11:36 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:11:36 PM :Info: Activating page: 3
+8/20/20, 4:11:37 PM :Debug: Burn time:11ms.
+8/20/20, 4:11:37 PM :Debug: burned page 3
+8/20/20, 4:11:37 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:37 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:37 PM :Info: Time to save msq: 12.111805
+8/20/20, 4:11:37 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:37 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:37 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:37 PM :Debug: Burn time:10ms.
+8/20/20, 4:11:37 PM :Debug: burned page 3
+8/20/20, 4:11:37 PM :Info: Activating page: 1
+8/20/20, 4:11:39 PM :Debug: Read page time: 1481ms.
+8/20/20, 4:11:39 PM :Info: Activating page: 2
+8/20/20, 4:11:39 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:39 PM :Info: Activating page: 3
+8/20/20, 4:11:39 PM :Debug: Read page time: 209ms.
+8/20/20, 4:11:39 PM :Info: Activating page: 4
+8/20/20, 4:11:39 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:39 PM :Info: Activating page: 5
+8/20/20, 4:11:40 PM :Debug: Read page time: 208ms.
+8/20/20, 4:11:40 PM :Info: Activating page: 6
+8/20/20, 4:11:40 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:40 PM :Info: Activating page: 7
+8/20/20, 4:11:40 PM :Debug: Read page time: 189ms.
+8/20/20, 4:11:40 PM :Info: Activating page: 8
+8/20/20, 4:11:40 PM :Debug: Read page time: 198ms.
+8/20/20, 4:11:40 PM :Info: Activating page: 9
+8/20/20, 4:11:40 PM :Debug: Read page time: 192ms.
+8/20/20, 4:11:40 PM :Info: Activating page: 10
+8/20/20, 4:11:41 PM :Debug: Read page time: 184ms.
+8/20/20, 4:11:41 PM :Info: Activating page: 11
+8/20/20, 4:11:41 PM :Debug: Read page time: 195ms.
+8/20/20, 4:11:41 PM :Debug: Read All Data
+8/20/20, 4:11:41 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:11:41 PM :Debug: DiffTime: 1 ms.
+8/20/20, 4:11:41 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:11:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:42 PM :Info: Time to save msq: 8.459522
+8/20/20, 4:11:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:42 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:11:42 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:11:42 PM :Info: Queueing burn to page:3
+8/20/20, 4:11:42 PM :Info: Sending, 16 bytes.
+8/20/20, 4:11:42 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:11:42 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:11:42 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:11:42 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:11:42 PM :Info: Activating page: 3
+8/20/20, 4:11:43 PM :Debug: Burn time:10ms.
+8/20/20, 4:11:43 PM :Debug: burned page 3
+8/20/20, 4:11:43 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:43 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:11:43 PM :Info: Time to save msq: 11.030292
+8/20/20, 4:11:43 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:11:43 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:43 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:11:43 PM :Debug: Burn time:10ms.
+8/20/20, 4:11:43 PM :Debug: burned page 3
+8/20/20, 4:11:43 PM :Info: Activating page: 1
+8/20/20, 4:11:45 PM :Debug: Read page time: 1468ms.
+8/20/20, 4:11:45 PM :Info: Activating page: 2
+8/20/20, 4:11:45 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:45 PM :Info: Activating page: 3
+8/20/20, 4:11:45 PM :Debug: Read page time: 209ms.
+8/20/20, 4:11:45 PM :Info: Activating page: 4
+8/20/20, 4:11:45 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:45 PM :Info: Activating page: 5
+8/20/20, 4:11:45 PM :Debug: Read page time: 209ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 6
+8/20/20, 4:11:46 PM :Debug: Read page time: 170ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 7
+8/20/20, 4:11:46 PM :Debug: Read page time: 189ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 8
+8/20/20, 4:11:46 PM :Debug: Read page time: 198ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 9
+8/20/20, 4:11:46 PM :Debug: Read page time: 193ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 10
+8/20/20, 4:11:46 PM :Debug: Read page time: 184ms.
+8/20/20, 4:11:46 PM :Info: Activating page: 11
+8/20/20, 4:11:47 PM :Debug: Read page time: 195ms.
+8/20/20, 4:11:47 PM :Debug: Read All Data
+8/20/20, 4:11:47 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:11:47 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:11:47 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:12:22 PM :Info: Activating page: 3
+8/20/20, 4:12:33 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:12:33 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:12:33 PM :Info: Queueing burn to page:3
+8/20/20, 4:12:33 PM :Debug: Burn time:10ms.
+8/20/20, 4:12:33 PM :Debug: burned page 3
+8/20/20, 4:12:33 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:12:33 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:12:33 PM :Info: Time to save msq: 9.841449
+8/20/20, 4:12:33 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:12:33 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:12:33 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:12:33 PM :Info: Closing Port
+8/20/20, 4:12:33 PM :Info: Successfully Closed Port
+8/20/20, 4:12:34 PM :Info: Opening port: /dev/ttyUSB0
+
+8/20/20, 4:12:35 PM :Debug: Purged 31 orphaned bytes:
+8/20/20, 4:12:35 PM :Debug: Time:384.159s. 0x46 0x0 0x0 0xA 0xA 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x3 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/20/20, 4:12:35 PM :Debug: Time:384.159s. 
+
+8/20/20, 4:12:35 PM :Debug: Time:384.16s.   F    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/20/20, 4:16:05 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:16:05 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:16:05 PM :Info: Closing Port
+8/20/20, 4:16:05 PM :Info: Successfully Closed Port
+8/20/20, 4:16:05 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:16:07 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:16:07 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:16:07 PM :Info: Closing Port
+8/20/20, 4:16:07 PM :Info: Successfully Closed Port
+8/20/20, 4:16:07 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:16:09 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:09 PM :Debug: Went offline
+8/20/20, 4:16:09 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:16:09 PM :Info: Closing Port
+8/20/20, 4:16:09 PM :Info: Successfully Closed Port
+8/20/20, 4:16:09 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:09 PM :Info: Went offline 2
+8/20/20, 4:16:10 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:16:12 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:16:13 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:16:13 PM :Info: Activating page: 1
+8/20/20, 4:16:13 PM :Debug: Read page time: 169ms.
+8/20/20, 4:16:13 PM :Info: Activating page: 2
+8/20/20, 4:16:13 PM :Debug: Read page time: 169ms.
+8/20/20, 4:16:13 PM :Info: Activating page: 3
+8/20/20, 4:16:13 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:13 PM :Info: Activating page: 4
+8/20/20, 4:16:14 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:14 PM :Info: Activating page: 5
+8/20/20, 4:16:14 PM :Debug: Read page time: 208ms.
+8/20/20, 4:16:14 PM :Info: Activating page: 6
+8/20/20, 4:16:14 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:14 PM :Info: Activating page: 7
+8/20/20, 4:16:14 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:14 PM :Info: Activating page: 8
+8/20/20, 4:16:14 PM :Debug: Read page time: 198ms.
+8/20/20, 4:16:14 PM :Info: Activating page: 9
+8/20/20, 4:16:15 PM :Debug: Read page time: 193ms.
+8/20/20, 4:16:15 PM :Info: Activating page: 10
+8/20/20, 4:16:15 PM :Debug: Read page time: 184ms.
+8/20/20, 4:16:15 PM :Info: Activating page: 11
+8/20/20, 4:16:15 PM :Debug: Read page time: 195ms.
+8/20/20, 4:16:15 PM :Debug: Read All Data
+8/20/20, 4:16:15 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:16:15 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:16:15 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:16:15 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:16:15 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:16:15 PM :Info: Closing Port
+8/20/20, 4:16:15 PM :Info: Successfully Closed Port
+8/20/20, 4:16:15 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:16:27 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:27 PM :Info: Time to save msq: 9.09841
+8/20/20, 4:16:27 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:27 PM :Debug: Flush lasted: 108ms.
+8/20/20, 4:16:27 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:16:27 PM :Info: Queueing burn to page:3
+8/20/20, 4:16:27 PM :Info: Sending, 16 bytes.
+8/20/20, 4:16:27 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:16:27 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:27 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:16:27 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:16:27 PM :Info: Activating page: 3
+8/20/20, 4:16:28 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:28 PM :Debug: burned page 3
+8/20/20, 4:16:28 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:28 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:28 PM :Info: Time to save msq: 7.429552
+8/20/20, 4:16:28 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:28 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:28 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:28 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:28 PM :Debug: burned page 3
+8/20/20, 4:16:28 PM :Info: Activating page: 1
+8/20/20, 4:16:29 PM :Debug: Read page time: 991ms.
+8/20/20, 4:16:29 PM :Info: Activating page: 2
+8/20/20, 4:16:30 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:30 PM :Info: Activating page: 3
+8/20/20, 4:16:30 PM :Debug: Read page time: 208ms.
+8/20/20, 4:16:30 PM :Info: Activating page: 4
+8/20/20, 4:16:30 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:30 PM :Info: Activating page: 5
+8/20/20, 4:16:30 PM :Debug: Read page time: 208ms.
+8/20/20, 4:16:30 PM :Info: Activating page: 6
+8/20/20, 4:16:30 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:30 PM :Info: Activating page: 7
+8/20/20, 4:16:31 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:31 PM :Info: Activating page: 8
+8/20/20, 4:16:31 PM :Debug: Read page time: 198ms.
+8/20/20, 4:16:31 PM :Info: Activating page: 9
+8/20/20, 4:16:31 PM :Debug: Read page time: 192ms.
+8/20/20, 4:16:31 PM :Info: Activating page: 10
+8/20/20, 4:16:31 PM :Debug: Read page time: 183ms.
+8/20/20, 4:16:31 PM :Info: Activating page: 11
+8/20/20, 4:16:31 PM :Debug: Read page time: 195ms.
+8/20/20, 4:16:31 PM :Debug: Read All Data
+8/20/20, 4:16:31 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:16:31 PM :Debug: DiffTime: 3 ms.
+8/20/20, 4:16:31 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:16:33 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:33 PM :Info: Time to save msq: 5.280963
+8/20/20, 4:16:33 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:33 PM :Info: Activating page: 3
+8/20/20, 4:16:34 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:34 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:16:34 PM :Info: Queueing burn to page:3
+8/20/20, 4:16:34 PM :Info: Sending, 16 bytes.
+8/20/20, 4:16:34 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:16:34 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:34 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:16:34 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:16:34 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:34 PM :Debug: burned page 3
+8/20/20, 4:16:34 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:34 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:34 PM :Info: Time to save msq: 10.045924
+8/20/20, 4:16:34 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:34 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:34 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:34 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:34 PM :Debug: burned page 3
+8/20/20, 4:16:34 PM :Info: Activating page: 1
+8/20/20, 4:16:35 PM :Debug: Read page time: 973ms.
+8/20/20, 4:16:35 PM :Info: Activating page: 2
+8/20/20, 4:16:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:36 PM :Info: Activating page: 3
+8/20/20, 4:16:36 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:36 PM :Info: Activating page: 4
+8/20/20, 4:16:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:36 PM :Info: Activating page: 5
+8/20/20, 4:16:36 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:36 PM :Info: Activating page: 6
+8/20/20, 4:16:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:36 PM :Info: Activating page: 7
+8/20/20, 4:16:37 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:37 PM :Info: Activating page: 8
+8/20/20, 4:16:37 PM :Debug: Read page time: 198ms.
+8/20/20, 4:16:37 PM :Info: Activating page: 9
+8/20/20, 4:16:37 PM :Debug: Read page time: 193ms.
+8/20/20, 4:16:37 PM :Info: Activating page: 10
+8/20/20, 4:16:37 PM :Debug: Read page time: 184ms.
+8/20/20, 4:16:37 PM :Info: Activating page: 11
+8/20/20, 4:16:37 PM :Debug: Read page time: 196ms.
+8/20/20, 4:16:37 PM :Debug: Read All Data
+8/20/20, 4:16:37 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:16:37 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:16:37 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:16:39 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:39 PM :Info: Time to save msq: 5.204016
+8/20/20, 4:16:39 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:39 PM :Debug: Flush lasted: 13ms.
+8/20/20, 4:16:39 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:16:39 PM :Info: Queueing burn to page:3
+8/20/20, 4:16:39 PM :Info: Sending, 16 bytes.
+8/20/20, 4:16:39 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:16:39 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:39 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:16:39 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:16:39 PM :Info: Activating page: 3
+8/20/20, 4:16:40 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:40 PM :Debug: burned page 3
+8/20/20, 4:16:40 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:40 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:40 PM :Info: Time to save msq: 11.073956
+8/20/20, 4:16:40 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:40 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:40 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:40 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:40 PM :Debug: burned page 3
+8/20/20, 4:16:40 PM :Info: Activating page: 1
+8/20/20, 4:16:41 PM :Debug: Read page time: 981ms.
+8/20/20, 4:16:41 PM :Info: Activating page: 2
+8/20/20, 4:16:41 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:41 PM :Info: Activating page: 3
+8/20/20, 4:16:41 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:41 PM :Info: Activating page: 4
+8/20/20, 4:16:42 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:42 PM :Info: Activating page: 5
+8/20/20, 4:16:42 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:42 PM :Info: Activating page: 6
+8/20/20, 4:16:42 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:42 PM :Info: Activating page: 7
+8/20/20, 4:16:42 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:42 PM :Info: Activating page: 8
+8/20/20, 4:16:42 PM :Debug: Read page time: 198ms.
+8/20/20, 4:16:42 PM :Info: Activating page: 9
+8/20/20, 4:16:43 PM :Debug: Read page time: 192ms.
+8/20/20, 4:16:43 PM :Info: Activating page: 10
+8/20/20, 4:16:43 PM :Debug: Read page time: 184ms.
+8/20/20, 4:16:43 PM :Info: Activating page: 11
+8/20/20, 4:16:43 PM :Debug: Read page time: 195ms.
+8/20/20, 4:16:43 PM :Debug: Read All Data
+8/20/20, 4:16:43 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:16:43 PM :Debug: DiffTime: 0 ms.
+8/20/20, 4:16:43 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:16:45 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:45 PM :Info: Time to save msq: 8.031204
+8/20/20, 4:16:45 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:45 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:45 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:16:45 PM :Info: Queueing burn to page:3
+8/20/20, 4:16:45 PM :Info: Sending, 16 bytes.
+8/20/20, 4:16:45 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:16:45 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:16:45 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:16:45 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:16:45 PM :Info: Activating page: 3
+8/20/20, 4:16:46 PM :Debug: Burn time:11ms.
+8/20/20, 4:16:46 PM :Debug: burned page 3
+8/20/20, 4:16:46 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:46 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:16:46 PM :Info: Time to save msq: 10.218311
+8/20/20, 4:16:46 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:16:46 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:46 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:16:46 PM :Debug: Burn time:10ms.
+8/20/20, 4:16:46 PM :Debug: burned page 3
+8/20/20, 4:16:46 PM :Info: Activating page: 1
+8/20/20, 4:16:47 PM :Debug: Read page time: 974ms.
+8/20/20, 4:16:47 PM :Info: Activating page: 2
+8/20/20, 4:16:47 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:47 PM :Info: Activating page: 3
+8/20/20, 4:16:47 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:47 PM :Info: Activating page: 4
+8/20/20, 4:16:48 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:48 PM :Info: Activating page: 5
+8/20/20, 4:16:48 PM :Debug: Read page time: 209ms.
+8/20/20, 4:16:48 PM :Info: Activating page: 6
+8/20/20, 4:16:48 PM :Debug: Read page time: 170ms.
+8/20/20, 4:16:48 PM :Info: Activating page: 7
+8/20/20, 4:16:48 PM :Debug: Read page time: 189ms.
+8/20/20, 4:16:48 PM :Info: Activating page: 8
+8/20/20, 4:16:48 PM :Debug: Read page time: 198ms.
+8/20/20, 4:16:48 PM :Info: Activating page: 9
+8/20/20, 4:16:49 PM :Debug: Read page time: 193ms.
+8/20/20, 4:16:49 PM :Info: Activating page: 10
+8/20/20, 4:16:49 PM :Debug: Read page time: 184ms.
+8/20/20, 4:16:49 PM :Info: Activating page: 11
+8/20/20, 4:16:49 PM :Debug: Read page time: 195ms.
+8/20/20, 4:16:49 PM :Debug: Read All Data
+8/20/20, 4:16:49 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:16:49 PM :Debug: DiffTime: 1 ms.
+8/20/20, 4:16:49 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:16:55 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:16:55 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:16:55 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:16:55 PM :Debug: goOffline about to stopProcessing, Time:251
+8/20/20, 4:16:55 PM :Debug: goOffline Notified offline, Time:258
+8/20/20, 4:16:55 PM :Debug: goOffline closed port, Time:259
+8/20/20, 4:16:55 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:16:55 PM :Info: Closing Port
+8/20/20, 4:16:55 PM :Info: Successfully Closed Port
+8/20/20, 4:16:55 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread39365.92964416707
+8/20/20, 4:16:55 PM :Debug: goOffline comm thread stopped, Time:459
+8/20/20, 4:16:55 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:17:22 PM :Info: Com Thread created: COMM Thread41992.188005877506
+8/20/20, 4:17:22 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread41992.188005877506
+8/20/20, 4:17:22 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:17:23 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread39365.92964416707, new Thread:COMM Thread41992.188005877506
+8/20/20, 4:17:25 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:17:26 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:17:26 PM :Info: Activating page: 1
+8/20/20, 4:17:26 PM :Debug: Read page time: 169ms.
+8/20/20, 4:17:26 PM :Info: Activating page: 2
+8/20/20, 4:17:26 PM :Debug: Read page time: 168ms.
+8/20/20, 4:17:26 PM :Info: Activating page: 3
+8/20/20, 4:17:26 PM :Debug: Read page time: 193ms.
+8/20/20, 4:17:26 PM :Info: Activating page: 4
+8/20/20, 4:17:26 PM :Debug: Read page time: 171ms.
+8/20/20, 4:17:26 PM :Info: Activating page: 5
+8/20/20, 4:17:27 PM :Debug: Read page time: 209ms.
+8/20/20, 4:17:27 PM :Info: Activating page: 6
+8/20/20, 4:17:27 PM :Debug: Read page time: 170ms.
+8/20/20, 4:17:27 PM :Info: Activating page: 7
+8/20/20, 4:17:27 PM :Debug: Read page time: 189ms.
+8/20/20, 4:17:27 PM :Info: Activating page: 8
+8/20/20, 4:17:27 PM :Debug: Read page time: 198ms.
+8/20/20, 4:17:27 PM :Info: Activating page: 9
+8/20/20, 4:17:27 PM :Debug: Read page time: 193ms.
+8/20/20, 4:17:27 PM :Info: Activating page: 10
+8/20/20, 4:17:28 PM :Debug: Read page time: 184ms.
+8/20/20, 4:17:28 PM :Info: Activating page: 11
+8/20/20, 4:17:28 PM :Debug: Read page time: 196ms.
+8/20/20, 4:17:28 PM :Debug: Read All Data
+8/20/20, 4:17:28 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:17:28 PM :Debug: DiffTime: 1 ms.
+8/20/20, 4:17:28 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:17:28 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:17:28 PM :Info: Closing Port
+8/20/20, 4:17:28 PM :Info: Successfully Closed Port
+8/20/20, 4:17:28 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:17:52 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:18:07 PM :Info: dr: 0:30
+8/20/20, 4:18:07 PM :Debug: Range Sort Time: 0
+8/20/20, 4:18:07 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:18:13 PM :Info: Initiating read page 3
+8/20/20, 4:18:13 PM :Info: dr: 0:30
+8/20/20, 4:18:13 PM :Debug: Range Sort Time: 0
+8/20/20, 4:18:13 PM :Info: Activating page: 3
+8/20/20, 4:27:24 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:27:24 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:27:24 PM :Info: Closing Port
+8/20/20, 4:27:24 PM :Info: Successfully Closed Port
+8/20/20, 4:27:24 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:27:26 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:27:26 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:27:26 PM :Info: Closing Port
+8/20/20, 4:27:26 PM :Info: Successfully Closed Port
+8/20/20, 4:27:26 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:27:27 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:27:31 PM :Info: Going offline before all changes were permanently saved to the Controller.
+8/20/20, 4:27:31 PM :Debug: Went offline
+8/20/20, 4:27:31 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:27:31 PM :Info: Closing Port
+8/20/20, 4:27:31 PM :Info: Successfully Closed Port
+8/20/20, 4:27:32 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:27:32 PM :Info: Went offline 2
+8/20/20, 4:27:32 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:27:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 20, 2020 4:27:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/20/20, 4:27:36 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 20, 2020 4:27:36 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/20/20, 4:27:38 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 20, 2020 4:27:38 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/20/20, 4:27:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Aug 20, 2020 4:27:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+8/20/20, 4:27:43 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:27:44 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:27:44 PM :Info: Activating page: 1
+8/20/20, 4:27:44 PM :Debug: Read page time: 173ms.
+8/20/20, 4:27:44 PM :Debug: Activate Page, burn page 1 new active page=2
+8/20/20, 4:27:44 PM :Debug: Burn time:10ms.
+8/20/20, 4:27:44 PM :Debug: burned page 1
+8/20/20, 4:27:44 PM :Info: Activating page: 2
+8/20/20, 4:27:44 PM :Debug: Read page time: 270ms.
+8/20/20, 4:27:44 PM :Info: Activating page: 3
+8/20/20, 4:27:44 PM :Debug: Read page time: 210ms.
+8/20/20, 4:27:44 PM :Info: Activating page: 4
+8/20/20, 4:27:45 PM :Debug: Read page time: 170ms.
+8/20/20, 4:27:45 PM :Info: Activating page: 5
+8/20/20, 4:27:45 PM :Debug: Read page time: 209ms.
+8/20/20, 4:27:45 PM :Info: Activating page: 6
+8/20/20, 4:27:45 PM :Debug: Read page time: 170ms.
+8/20/20, 4:27:45 PM :Info: Activating page: 7
+8/20/20, 4:27:45 PM :Debug: Read page time: 189ms.
+8/20/20, 4:27:45 PM :Info: Activating page: 8
+8/20/20, 4:27:45 PM :Debug: Read page time: 198ms.
+8/20/20, 4:27:45 PM :Info: Activating page: 9
+8/20/20, 4:27:46 PM :Debug: Read page time: 192ms.
+8/20/20, 4:27:46 PM :Info: Activating page: 10
+8/20/20, 4:27:46 PM :Debug: Read page time: 184ms.
+8/20/20, 4:27:46 PM :Info: Activating page: 11
+8/20/20, 4:27:46 PM :Debug: Read page time: 195ms.
+8/20/20, 4:27:46 PM :Debug: Read All Data
+8/20/20, 4:27:46 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:27:46 PM :Debug: DiffTime: 1 ms.
+8/20/20, 4:27:46 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:27:46 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:27:46 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:27:46 PM :Info: Closing Port
+8/20/20, 4:27:46 PM :Info: Successfully Closed Port
+8/20/20, 4:27:46 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:27:48 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:27:48 PM :Info: Time to save msq: 7.891185
+8/20/20, 4:27:48 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:27:48 PM :Debug: Flush lasted: 109ms.
+8/20/20, 4:27:48 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:27:48 PM :Info: Queueing burn to page:3
+8/20/20, 4:27:48 PM :Info: Sending, 16 bytes.
+8/20/20, 4:27:48 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:27:48 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:27:48 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:27:48 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:27:48 PM :Info: Activating page: 3
+8/20/20, 4:27:49 PM :Debug: Burn time:10ms.
+8/20/20, 4:27:49 PM :Debug: burned page 3
+8/20/20, 4:27:49 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:27:49 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:27:49 PM :Info: Time to save msq: 10.795499
+8/20/20, 4:27:49 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:27:49 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:27:49 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:27:49 PM :Debug: Burn time:10ms.
+8/20/20, 4:27:49 PM :Debug: burned page 3
+8/20/20, 4:27:49 PM :Info: Activating page: 1
+8/20/20, 4:27:50 PM :Debug: Read page time: 986ms.
+8/20/20, 4:27:50 PM :Info: Activating page: 2
+8/20/20, 4:27:50 PM :Debug: Read page time: 170ms.
+8/20/20, 4:27:50 PM :Info: Activating page: 3
+8/20/20, 4:27:51 PM :Debug: Read page time: 209ms.
+8/20/20, 4:27:51 PM :Info: Activating page: 4
+8/20/20, 4:27:51 PM :Debug: Read page time: 171ms.
+8/20/20, 4:27:51 PM :Info: Activating page: 5
+8/20/20, 4:27:51 PM :Debug: Read page time: 209ms.
+8/20/20, 4:27:51 PM :Info: Activating page: 6
+8/20/20, 4:27:51 PM :Debug: Read page time: 171ms.
+8/20/20, 4:27:51 PM :Info: Activating page: 7
+8/20/20, 4:27:51 PM :Debug: Read page time: 189ms.
+8/20/20, 4:27:51 PM :Info: Activating page: 8
+8/20/20, 4:27:52 PM :Debug: Read page time: 198ms.
+8/20/20, 4:27:52 PM :Info: Activating page: 9
+8/20/20, 4:27:52 PM :Debug: Read page time: 193ms.
+8/20/20, 4:27:52 PM :Info: Activating page: 10
+8/20/20, 4:27:52 PM :Debug: Read page time: 184ms.
+8/20/20, 4:27:52 PM :Info: Activating page: 11
+8/20/20, 4:27:52 PM :Debug: Read page time: 196ms.
+8/20/20, 4:27:52 PM :Debug: Read All Data
+8/20/20, 4:27:52 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:27:52 PM :Debug: DiffTime: 5 ms.
+8/20/20, 4:27:52 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:28:04 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:28:04 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:28:04 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:28:04 PM :Debug: goOffline about to stopProcessing, Time:250
+8/20/20, 4:28:04 PM :Debug: goOffline Notified offline, Time:257
+8/20/20, 4:28:04 PM :Debug: goOffline closed port, Time:257
+8/20/20, 4:28:09 PM :Debug: goOffline comm thread stopped, Time:5269
+8/20/20, 4:28:09 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:28:11 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:28:11 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:28:11 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:28:11 PM :Debug: goOffline about to stopProcessing, Time:0
+8/20/20, 4:28:11 PM :Debug: goOffline closed port, Time:1
+8/20/20, 4:28:11 PM :Debug: goOffline comm thread stopped, Time:501
+8/20/20, 4:28:11 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:28:31 PM :Info: Com Thread created: COMM Thread12329.73111606811
+8/20/20, 4:28:31 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread12329.73111606811
+8/20/20, 4:28:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:28:42 PM :Info: Time to save msq: 12.234586
+8/20/20, 4:28:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:28:42 PM :Info: closeApp Called
+8/20/20, 4:28:42 PM :Debug: TuneLog Editor set text
+8/20/20, 4:28:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:28:42 PM :Info: Time to save msq: 5.344954
+8/20/20, 4:28:42 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:28:43 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:28:43 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:28:43 PM :Debug: goOffline about to stopProcessing, Time:1
+8/20/20, 4:28:43 PM :Debug: goOffline closed port, Time:1
+8/20/20, 4:28:48 PM :Debug: goOffline comm thread stopped, Time:5014
+8/20/20, 4:28:48 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:28:48 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+8/20/20, 4:28:48 PM :Debug: ############################################# Save Project ##########################################
+8/20/20, 4:28:48 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Thu Aug 20 16:28:56 CEST 2020
+JRE 11.0.8, Linux 4.15.0-112-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+8/20/20, 4:28:57 PM :Debug: no update:defaultFont
+8/20/20, 4:28:59 PM :Info: Loading Language Content.
+8/20/20, 4:28:59 PM :Info: Initializing File Dialogs.
+8/20/20, 4:28:59 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+8/20/20, 4:28:59 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+8/20/20, 4:28:59 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+8/20/20, 4:28:59 PM :Info: Initializing Help.
+8/20/20, 4:28:59 PM :Info: Initializing Edition Features.
+8/20/20, 4:28:59 PM :Info: Initializing App Events.
+8/20/20, 4:28:59 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+8/20/20, 4:28:59 PM :Debug: Dummy Function Factory Created.
+8/20/20, 4:28:59 PM :Info: Initializing User Interface
+8/20/20, 4:28:59 PM :Warning: Unable to set Main cluster for title:
+8/20/20, 4:29:00 PM :Info: Checking for updates
+8/20/20, 4:29:00 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+8/20/20, 4:29:01 PM :Info: Loading Font list.
+8/20/20, 4:29:01 PM :Debug: Time to retreive font name list: 32 ms.
+8/20/20, 4:29:01 PM :Info: 
+8/20/20, 4:29:01 PM :Info: Initializing UI Components.
+8/20/20, 4:29:01 PM :Info: Ready
+8/20/20, 4:29:02 PM :Info: Opening Project ...
+8/20/20, 4:29:02 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
+8/20/20, 4:29:02 PM :Debug: Reading translation file as plain text
+8/20/20, 4:29:02 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:29:02 PM :Debug: Filtered ConfigurationOptionGroup in 38ms.
+8/20/20, 4:29:02 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:29:02 PM :Info: Read file canPcVariables.ini: 0.352915ms
+8/20/20, 4:29:02 PM :Info: Filtered ini: 0.073393ms
+8/20/20, 4:29:02 PM :Info: No iniVersion defined
+8/20/20, 4:29:02 PM :Info: Loading Trigger Wheels
+8/20/20, 4:29:02 PM :Info: Loaded All known ini sections
+8/20/20, 4:29:02 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 21ms.
+8/20/20, 4:29:02 PM :Info: Read file mainController.ini: 10.760294ms
+8/20/20, 4:29:02 PM :Info: Filtered ini: 2.873927ms
+8/20/20, 4:29:02 PM :Info: No iniVersion defined
+8/20/20, 4:29:02 PM :Debug: ini signature: speeduino 201708
+8/20/20, 4:29:02 PM :Info: Loading Trigger Wheels
+8/20/20, 4:29:02 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+8/20/20, 4:29:02 PM :Info: Loaded All known ini sections
+8/20/20, 4:29:02 PM :Info: Parsed and validated ini "mainController.ini" in : 170ms.
+8/20/20, 4:29:02 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+8/20/20, 4:29:02 PM :Info: Time to load primary config: 290.73926ms. used cached config: false
+8/20/20, 4:29:02 PM :Info: Supported iniSpecVersion=3.51
+8/20/20, 4:29:02 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+8/20/20, 4:29:02 PM :Debug: Fill Constants: 8
+8/20/20, 4:29:02 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/20/20, 4:29:02 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+8/20/20, 4:29:02 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:29:02 PM :Info: !!! Loaded config in 493
+MSmain: No check, last update check=Thu Aug 20 16:06:07 CEST 2020
+8/20/20, 4:29:03 PM :Info: Com Thread created: COMM Thread22405.798910160313
+8/20/20, 4:29:03 PM :Info: !!! Activated Project 1002
+8/20/20, 4:29:03 PM :Info: Opening Gauge Cluster..
+8/20/20, 4:29:03 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread22405.798910160313
+8/20/20, 4:29:03 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:29:03 PM :Debug: High Speed Paint: true
+8/20/20, 4:29:03 PM :Info: 
+8/20/20, 4:29:03 PM :Debug: !!! Opened Dash 1589
+8/20/20, 4:29:03 PM :Info: tuareg_with_speeduino_config Ready
+8/20/20, 4:29:03 PM :Debug: Deactivated fast paint Main Dashboard
+8/20/20, 4:29:04 PM :Debug: Tuning View Files loaded in 113.597725ms.
+8/20/20, 4:29:04 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread22405.798910160313
+8/20/20, 4:29:05 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:29:05 PM :Info: Update Check Completed
+Saved user properties successfully
+MSad: No check, last update check=Thu Aug 20 16:06:10 CEST 2020
+8/20/20, 4:29:06 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:29:06 PM :Info: Activating page: 1
+8/20/20, 4:29:06 PM :Debug: Read page time: 171ms.
+8/20/20, 4:29:06 PM :Info: Activating page: 2
+8/20/20, 4:29:07 PM :Debug: Read page time: 170ms.
+8/20/20, 4:29:07 PM :Info: Activating page: 3
+8/20/20, 4:29:07 PM :Debug: Read page time: 181ms.
+8/20/20, 4:29:07 PM :Info: Activating page: 4
+8/20/20, 4:29:07 PM :Debug: Read page time: 170ms.
+8/20/20, 4:29:07 PM :Info: Activating page: 5
+8/20/20, 4:29:07 PM :Debug: Read page time: 209ms.
+8/20/20, 4:29:07 PM :Info: Activating page: 6
+8/20/20, 4:29:07 PM :Debug: Read page time: 170ms.
+8/20/20, 4:29:07 PM :Info: Activating page: 7
+8/20/20, 4:29:08 PM :Debug: Read page time: 189ms.
+8/20/20, 4:29:08 PM :Info: Activating page: 8
+8/20/20, 4:29:08 PM :Debug: Read page time: 198ms.
+8/20/20, 4:29:08 PM :Info: Activating page: 9
+8/20/20, 4:29:08 PM :Debug: Read page time: 193ms.
+8/20/20, 4:29:08 PM :Info: Activating page: 10
+8/20/20, 4:29:08 PM :Debug: Read page time: 184ms.
+8/20/20, 4:29:08 PM :Info: Activating page: 11
+8/20/20, 4:29:08 PM :Debug: Read page time: 195ms.
+8/20/20, 4:29:08 PM :Debug: Read All Data
+8/20/20, 4:29:08 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:29:08 PM :Debug: DiffTime: 12 ms.
+8/20/20, 4:29:09 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:29:09 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:29:09 PM :Info: Closing Port
+8/20/20, 4:29:09 PM :Info: Successfully Closed Port
+8/20/20, 4:29:09 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:29:10 PM :Info: dr: 0:30
+8/20/20, 4:29:10 PM :Debug: Range Sort Time: 0
+8/20/20, 4:29:43 PM :Info: Initiating read page 3
+8/20/20, 4:29:43 PM :Info: dr: 0:30
+8/20/20, 4:29:43 PM :Debug: Range Sort Time: 0
+8/20/20, 4:29:43 PM :Info: Activating page: 3
+8/20/20, 4:29:59 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:29:59 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:29:59 PM :Info: Queueing burn to page:3
+8/20/20, 4:29:59 PM :Debug: Burn time:11ms.
+8/20/20, 4:29:59 PM :Debug: burned page 3
+8/20/20, 4:29:59 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:29:59 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:30:00 PM :Info: Time to save msq: 131.66557
+8/20/20, 4:30:00 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:30:15 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:30:15 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:30:15 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:30:15 PM :Debug: goOffline about to stopProcessing, Time:250
+8/20/20, 4:30:15 PM :Debug: goOffline Notified offline, Time:261
+8/20/20, 4:30:15 PM :Debug: goOffline closed port, Time:261
+8/20/20, 4:30:15 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:30:15 PM :Info: Closing Port
+8/20/20, 4:30:15 PM :Info: Successfully Closed Port
+8/20/20, 4:30:15 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread22405.798910160313
+8/20/20, 4:30:16 PM :Debug: goOffline comm thread stopped, Time:512
+8/20/20, 4:30:16 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:30:31 PM :Debug: FullScreen
+8/20/20, 4:30:32 PM :Info: Com Thread created: COMM Thread49421.68099547095
+8/20/20, 4:30:32 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread49421.68099547095
+8/20/20, 4:30:32 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:30:33 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread22405.798910160313, new Thread:COMM Thread49421.68099547095
+8/20/20, 4:30:35 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:30:36 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:30:36 PM :Info: Activating page: 1
+8/20/20, 4:30:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:36 PM :Info: Activating page: 2
+8/20/20, 4:30:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:36 PM :Info: Activating page: 3
+8/20/20, 4:30:36 PM :Debug: Read page time: 186ms.
+8/20/20, 4:30:36 PM :Info: Activating page: 4
+8/20/20, 4:30:36 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:36 PM :Info: Activating page: 5
+8/20/20, 4:30:37 PM :Debug: Read page time: 208ms.
+8/20/20, 4:30:37 PM :Info: Activating page: 6
+8/20/20, 4:30:37 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:37 PM :Info: Activating page: 7
+8/20/20, 4:30:37 PM :Debug: Read page time: 189ms.
+8/20/20, 4:30:37 PM :Info: Activating page: 8
+8/20/20, 4:30:37 PM :Debug: Read page time: 198ms.
+8/20/20, 4:30:37 PM :Info: Activating page: 9
+8/20/20, 4:30:37 PM :Debug: Read page time: 192ms.
+8/20/20, 4:30:37 PM :Info: Activating page: 10
+8/20/20, 4:30:38 PM :Debug: Read page time: 184ms.
+8/20/20, 4:30:38 PM :Info: Activating page: 11
+8/20/20, 4:30:38 PM :Debug: Read page time: 195ms.
+8/20/20, 4:30:38 PM :Debug: Read All Data
+8/20/20, 4:30:38 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:30:38 PM :Debug: DiffTime: 4 ms.
+8/20/20, 4:30:38 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:30:38 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:30:38 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:30:38 PM :Info: Closing Port
+8/20/20, 4:30:38 PM :Info: Successfully Closed Port
+8/20/20, 4:30:38 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:30:40 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:30:40 PM :Info: Time to save msq: 26.103802
+8/20/20, 4:30:40 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:30:40 PM :Debug: Flush lasted: 46ms.
+8/20/20, 4:30:40 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:30:40 PM :Info: Queueing burn to page:3
+8/20/20, 4:30:40 PM :Info: Sending, 16 bytes.
+8/20/20, 4:30:40 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:30:40 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:30:40 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:30:40 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:30:40 PM :Info: Activating page: 3
+8/20/20, 4:30:41 PM :Debug: Burn time:10ms.
+8/20/20, 4:30:41 PM :Debug: burned page 3
+8/20/20, 4:30:41 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:30:41 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:30:41 PM :Info: Time to save msq: 18.693428
+8/20/20, 4:30:41 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:30:41 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:30:41 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:30:41 PM :Debug: Burn time:10ms.
+8/20/20, 4:30:41 PM :Debug: burned page 3
+8/20/20, 4:30:41 PM :Info: Activating page: 1
+8/20/20, 4:30:43 PM :Debug: Read page time: 1476ms.
+8/20/20, 4:30:43 PM :Info: Activating page: 2
+8/20/20, 4:30:43 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:43 PM :Info: Activating page: 3
+8/20/20, 4:30:43 PM :Debug: Read page time: 209ms.
+8/20/20, 4:30:43 PM :Info: Activating page: 4
+8/20/20, 4:30:43 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:43 PM :Info: Activating page: 5
+8/20/20, 4:30:43 PM :Debug: Read page time: 209ms.
+8/20/20, 4:30:43 PM :Info: Activating page: 6
+8/20/20, 4:30:44 PM :Debug: Read page time: 170ms.
+8/20/20, 4:30:44 PM :Info: Activating page: 7
+8/20/20, 4:30:44 PM :Debug: Read page time: 190ms.
+8/20/20, 4:30:44 PM :Info: Activating page: 8
+8/20/20, 4:30:44 PM :Debug: Read page time: 198ms.
+8/20/20, 4:30:44 PM :Info: Activating page: 9
+8/20/20, 4:30:44 PM :Debug: Read page time: 192ms.
+8/20/20, 4:30:44 PM :Info: Activating page: 10
+8/20/20, 4:30:44 PM :Debug: Read page time: 184ms.
+8/20/20, 4:30:44 PM :Info: Activating page: 11
+8/20/20, 4:30:45 PM :Debug: Read page time: 195ms.
+8/20/20, 4:30:45 PM :Debug: Read All Data
+8/20/20, 4:30:45 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:30:45 PM :Debug: DiffTime: 4 ms.
+8/20/20, 4:30:45 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:31:00 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:31:00 PM :Info: Time to save msq: 13.134507
+8/20/20, 4:31:00 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:31:00 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:31:00 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:31:00 PM :Info: Queueing burn to page:3
+8/20/20, 4:31:00 PM :Info: Sending, 16 bytes.
+8/20/20, 4:31:00 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 16 bytes.
+8/20/20, 4:31:00 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:31:00 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:31:00 PM :Info: skip burn to page:3, lastWritePage = -2
+8/20/20, 4:31:00 PM :Info: Activating page: 3
+8/20/20, 4:31:01 PM :Debug: Burn time:10ms.
+8/20/20, 4:31:01 PM :Debug: burned page 3
+8/20/20, 4:31:01 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:31:01 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:31:01 PM :Info: Time to save msq: 14.038174
+8/20/20, 4:31:01 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:31:01 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:31:01 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:31:01 PM :Debug: Burn time:10ms.
+8/20/20, 4:31:01 PM :Debug: burned page 3
+8/20/20, 4:31:01 PM :Info: Activating page: 1
+8/20/20, 4:31:02 PM :Debug: Read page time: 1504ms.
+8/20/20, 4:31:02 PM :Info: Activating page: 2
+8/20/20, 4:31:02 PM :Debug: Read page time: 170ms.
+8/20/20, 4:31:02 PM :Info: Activating page: 3
+8/20/20, 4:31:03 PM :Debug: Read page time: 209ms.
+8/20/20, 4:31:03 PM :Info: Activating page: 4
+8/20/20, 4:31:03 PM :Debug: Read page time: 171ms.
+8/20/20, 4:31:03 PM :Info: Activating page: 5
+8/20/20, 4:31:03 PM :Debug: Read page time: 209ms.
+8/20/20, 4:31:03 PM :Info: Activating page: 6
+8/20/20, 4:31:03 PM :Debug: Read page time: 171ms.
+8/20/20, 4:31:03 PM :Info: Activating page: 7
+8/20/20, 4:31:03 PM :Debug: Read page time: 189ms.
+8/20/20, 4:31:03 PM :Info: Activating page: 8
+8/20/20, 4:31:04 PM :Debug: Read page time: 198ms.
+8/20/20, 4:31:04 PM :Info: Activating page: 9
+8/20/20, 4:31:04 PM :Debug: Read page time: 193ms.
+8/20/20, 4:31:04 PM :Info: Activating page: 10
+8/20/20, 4:31:04 PM :Debug: Read page time: 184ms.
+8/20/20, 4:31:04 PM :Info: Activating page: 11
+8/20/20, 4:31:04 PM :Debug: Read page time: 196ms.
+8/20/20, 4:31:04 PM :Debug: Read All Data
+8/20/20, 4:31:04 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:31:04 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:31:04 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:35:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:35:48 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:35:48 PM :Info: Closing Port
+8/20/20, 4:35:48 PM :Info: Successfully Closed Port
+8/20/20, 4:35:48 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:35:50 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:35:50 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:35:50 PM :Info: Closing Port
+8/20/20, 4:35:50 PM :Info: Successfully Closed Port
+8/20/20, 4:35:50 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:35:51 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:35:51 PM :Debug: Went offline
+8/20/20, 4:35:52 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:35:52 PM :Info: Closing Port
+8/20/20, 4:35:52 PM :Info: Successfully Closed Port
+8/20/20, 4:35:52 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:35:52 PM :Info: Went offline 2
+8/20/20, 4:35:52 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:35:54 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:35:55 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:35:55 PM :Info: Activating page: 1
+8/20/20, 4:35:56 PM :Debug: Read page time: 182ms.
+8/20/20, 4:35:56 PM :Info: Activating page: 2
+8/20/20, 4:35:56 PM :Debug: Read page time: 170ms.
+8/20/20, 4:35:56 PM :Info: Activating page: 3
+8/20/20, 4:35:56 PM :Debug: Read page time: 209ms.
+8/20/20, 4:35:56 PM :Info: Activating page: 4
+8/20/20, 4:35:56 PM :Debug: Read page time: 170ms.
+8/20/20, 4:35:56 PM :Info: Activating page: 5
+8/20/20, 4:35:56 PM :Debug: Read page time: 209ms.
+8/20/20, 4:35:56 PM :Info: Activating page: 6
+8/20/20, 4:35:57 PM :Debug: Read page time: 171ms.
+8/20/20, 4:35:57 PM :Info: Activating page: 7
+8/20/20, 4:35:57 PM :Debug: Read page time: 188ms.
+8/20/20, 4:35:57 PM :Info: Activating page: 8
+8/20/20, 4:35:57 PM :Debug: Read page time: 198ms.
+8/20/20, 4:35:57 PM :Info: Activating page: 9
+8/20/20, 4:35:57 PM :Debug: Read page time: 193ms.
+8/20/20, 4:35:57 PM :Info: Activating page: 10
+8/20/20, 4:35:57 PM :Debug: Read page time: 184ms.
+8/20/20, 4:35:57 PM :Info: Activating page: 11
+8/20/20, 4:35:58 PM :Debug: Read page time: 196ms.
+8/20/20, 4:35:58 PM :Debug: Read All Data
+8/20/20, 4:35:58 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:35:58 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:35:58 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:35:58 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:35:58 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:35:58 PM :Info: Closing Port
+8/20/20, 4:35:58 PM :Info: Successfully Closed Port
+8/20/20, 4:35:58 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:36:00 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:00 PM :Info: Time to save msq: 8.922365
+8/20/20, 4:36:00 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:00 PM :Debug: Flush lasted: 1ms.
+8/20/20, 4:36:00 PM :Debug: Burn Page anonymous: 5
+8/20/20, 4:36:00 PM :Info: Queueing burn to page:5
+8/20/20, 4:36:00 PM :Info: Sending, 32 bytes.
+8/20/20, 4:36:00 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 32 bytes.
+8/20/20, 4:36:00 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:36:00 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:36:00 PM :Info: skip burn to page:5, lastWritePage = -2
+8/20/20, 4:36:00 PM :Info: Activating page: 3
+8/20/20, 4:36:01 PM :Debug: Activate Page, burn page 3 new active page=5
+8/20/20, 4:36:01 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:01 PM :Debug: burned page 3
+8/20/20, 4:36:01 PM :Info: Activating page: 5
+8/20/20, 4:36:02 PM :Debug: Burn time:11ms.
+8/20/20, 4:36:02 PM :Debug: burned page 5
+8/20/20, 4:36:02 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:02 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:02 PM :Info: Time to save msq: 13.224188
+8/20/20, 4:36:02 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:02 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:02 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:02 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:02 PM :Debug: burned page 5
+8/20/20, 4:36:02 PM :Info: Activating page: 1
+8/20/20, 4:36:03 PM :Debug: Read page time: 964ms.
+8/20/20, 4:36:03 PM :Info: Activating page: 2
+8/20/20, 4:36:03 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:03 PM :Info: Activating page: 3
+8/20/20, 4:36:03 PM :Debug: Read page time: 208ms.
+8/20/20, 4:36:03 PM :Info: Activating page: 4
+8/20/20, 4:36:04 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:04 PM :Info: Activating page: 5
+8/20/20, 4:36:04 PM :Debug: Read page time: 208ms.
+8/20/20, 4:36:04 PM :Info: Activating page: 6
+8/20/20, 4:36:04 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:04 PM :Info: Activating page: 7
+8/20/20, 4:36:04 PM :Debug: Read page time: 190ms.
+8/20/20, 4:36:04 PM :Info: Activating page: 8
+8/20/20, 4:36:04 PM :Debug: Read page time: 198ms.
+8/20/20, 4:36:04 PM :Info: Activating page: 9
+8/20/20, 4:36:05 PM :Debug: Read page time: 192ms.
+8/20/20, 4:36:05 PM :Info: Activating page: 10
+8/20/20, 4:36:05 PM :Debug: Read page time: 185ms.
+8/20/20, 4:36:05 PM :Info: Activating page: 11
+8/20/20, 4:36:05 PM :Debug: Read page time: 195ms.
+8/20/20, 4:36:05 PM :Debug: Read All Data
+8/20/20, 4:36:05 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:36:05 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:36:05 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:36:06 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:06 PM :Info: Time to save msq: 7.354655
+8/20/20, 4:36:06 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:06 PM :Debug: Flush lasted: 90ms.
+8/20/20, 4:36:06 PM :Debug: Burn Page anonymous: 5
+8/20/20, 4:36:06 PM :Info: Queueing burn to page:5
+8/20/20, 4:36:06 PM :Info: Sending, 32 bytes.
+8/20/20, 4:36:06 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 32 bytes.
+8/20/20, 4:36:06 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:36:06 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:36:06 PM :Info: skip burn to page:5, lastWritePage = -2
+8/20/20, 4:36:06 PM :Info: Activating page: 3
+8/20/20, 4:36:07 PM :Debug: Activate Page, burn page 3 new active page=5
+8/20/20, 4:36:07 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:07 PM :Debug: burned page 3
+8/20/20, 4:36:07 PM :Info: Activating page: 5
+8/20/20, 4:36:08 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:08 PM :Debug: burned page 5
+8/20/20, 4:36:08 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:08 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:08 PM :Info: Time to save msq: 8.452499
+8/20/20, 4:36:08 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:08 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:08 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:08 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:08 PM :Debug: burned page 5
+8/20/20, 4:36:08 PM :Info: Activating page: 1
+8/20/20, 4:36:09 PM :Debug: Read page time: 960ms.
+8/20/20, 4:36:09 PM :Info: Activating page: 2
+8/20/20, 4:36:09 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:09 PM :Info: Activating page: 3
+8/20/20, 4:36:09 PM :Debug: Read page time: 209ms.
+8/20/20, 4:36:09 PM :Info: Activating page: 4
+8/20/20, 4:36:09 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:09 PM :Info: Activating page: 5
+8/20/20, 4:36:10 PM :Debug: Read page time: 209ms.
+8/20/20, 4:36:10 PM :Info: Activating page: 6
+8/20/20, 4:36:10 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:10 PM :Info: Activating page: 7
+8/20/20, 4:36:10 PM :Debug: Read page time: 189ms.
+8/20/20, 4:36:10 PM :Info: Activating page: 8
+8/20/20, 4:36:10 PM :Debug: Read page time: 198ms.
+8/20/20, 4:36:10 PM :Info: Activating page: 9
+8/20/20, 4:36:10 PM :Debug: Read page time: 193ms.
+8/20/20, 4:36:10 PM :Info: Activating page: 10
+8/20/20, 4:36:11 PM :Debug: Read page time: 184ms.
+8/20/20, 4:36:11 PM :Info: Activating page: 11
+8/20/20, 4:36:11 PM :Debug: Read page time: 195ms.
+8/20/20, 4:36:11 PM :Debug: Read All Data
+8/20/20, 4:36:11 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:36:11 PM :Debug: DiffTime: 1 ms.
+8/20/20, 4:36:11 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:36:13 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:13 PM :Info: Time to save msq: 8.59085
+8/20/20, 4:36:13 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:13 PM :Debug: Flush lasted: 77ms.
+8/20/20, 4:36:13 PM :Debug: Burn Page anonymous: 5
+8/20/20, 4:36:13 PM :Info: Queueing burn to page:5
+8/20/20, 4:36:13 PM :Info: Sending, 32 bytes.
+8/20/20, 4:36:13 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 32 bytes.
+8/20/20, 4:36:13 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:36:13 PM :Debug: Burn Page anonymous: -1
+8/20/20, 4:36:13 PM :Info: skip burn to page:5, lastWritePage = -2
+8/20/20, 4:36:13 PM :Info: Activating page: 3
+8/20/20, 4:36:14 PM :Debug: Activate Page, burn page 3 new active page=5
+8/20/20, 4:36:14 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:14 PM :Debug: burned page 3
+8/20/20, 4:36:14 PM :Info: Activating page: 5
+8/20/20, 4:36:15 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:15 PM :Debug: burned page 5
+8/20/20, 4:36:15 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:36:15 PM :Info: Time to save msq: 11.752073
+8/20/20, 4:36:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:36:15 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:15 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:15 PM :Debug: Burn time:10ms.
+8/20/20, 4:36:15 PM :Debug: burned page 5
+8/20/20, 4:36:15 PM :Info: Activating page: 1
+8/20/20, 4:36:16 PM :Debug: Read page time: 958ms.
+8/20/20, 4:36:16 PM :Info: Activating page: 2
+8/20/20, 4:36:16 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:16 PM :Info: Activating page: 3
+8/20/20, 4:36:16 PM :Debug: Read page time: 209ms.
+8/20/20, 4:36:16 PM :Info: Activating page: 4
+8/20/20, 4:36:16 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:16 PM :Info: Activating page: 5
+8/20/20, 4:36:16 PM :Debug: Read page time: 208ms.
+8/20/20, 4:36:16 PM :Info: Activating page: 6
+8/20/20, 4:36:17 PM :Debug: Read page time: 170ms.
+8/20/20, 4:36:17 PM :Info: Activating page: 7
+8/20/20, 4:36:17 PM :Debug: Read page time: 190ms.
+8/20/20, 4:36:17 PM :Info: Activating page: 8
+8/20/20, 4:36:17 PM :Debug: Read page time: 198ms.
+8/20/20, 4:36:17 PM :Info: Activating page: 9
+8/20/20, 4:36:17 PM :Debug: Read page time: 193ms.
+8/20/20, 4:36:17 PM :Info: Activating page: 10
+8/20/20, 4:36:17 PM :Debug: Read page time: 184ms.
+8/20/20, 4:36:17 PM :Info: Activating page: 11
+8/20/20, 4:36:18 PM :Debug: Read page time: 195ms.
+8/20/20, 4:36:18 PM :Debug: Read All Data
+8/20/20, 4:36:18 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:36:18 PM :Debug: DiffTime: 3 ms.
+8/20/20, 4:36:18 PM :Debug: Time to get Panels = 0ms.
+8/20/20, 4:36:22 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:36:22 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:36:22 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:36:22 PM :Debug: goOffline about to stopProcessing, Time:250
+8/20/20, 4:36:22 PM :Debug: goOffline Notified offline, Time:258
+8/20/20, 4:36:22 PM :Debug: goOffline closed port, Time:258
+8/20/20, 4:36:22 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:36:22 PM :Info: Closing Port
+8/20/20, 4:36:22 PM :Info: Successfully Closed Port
+8/20/20, 4:36:22 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread49421.68099547095
+8/20/20, 4:36:23 PM :Debug: goOffline comm thread stopped, Time:409
+8/20/20, 4:36:23 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:36:40 PM :Info: Com Thread created: COMM Thread89772.55011159307
+8/20/20, 4:36:40 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread89772.55011159307
+8/20/20, 4:36:40 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:36:41 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread49421.68099547095, new Thread:COMM Thread89772.55011159307
+8/20/20, 4:36:42 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+8/20/20, 4:36:43 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:36:43 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+8/20/20, 4:36:43 PM :Info: Activating page: 1
+8/20/20, 4:36:43 PM :Debug: Read page time: 210ms.
+8/20/20, 4:36:43 PM :Info: Activating page: 2
+8/20/20, 4:36:43 PM :Debug: Read page time: 171ms.
+8/20/20, 4:36:43 PM :Info: Activating page: 3
+8/20/20, 4:36:43 PM :Debug: Read page time: 208ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 4
+8/20/20, 4:36:44 PM :Debug: Read page time: 171ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 5
+8/20/20, 4:36:44 PM :Debug: Read page time: 208ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 6
+8/20/20, 4:36:44 PM :Debug: Read page time: 171ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 7
+8/20/20, 4:36:44 PM :Debug: Read page time: 190ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 8
+8/20/20, 4:36:44 PM :Debug: Read page time: 198ms.
+8/20/20, 4:36:44 PM :Info: Activating page: 9
+8/20/20, 4:36:45 PM :Debug: Read page time: 193ms.
+8/20/20, 4:36:45 PM :Info: Activating page: 10
+8/20/20, 4:36:45 PM :Debug: Read page time: 184ms.
+8/20/20, 4:36:45 PM :Info: Activating page: 11
+8/20/20, 4:36:45 PM :Debug: Read page time: 196ms.
+8/20/20, 4:36:45 PM :Debug: Read All Data
+8/20/20, 4:36:45 PM :Debug: isBlank Time: 0 ms.
+8/20/20, 4:36:45 PM :Debug: DiffTime: 2 ms.
+8/20/20, 4:36:45 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:36:45 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:36:45 PM :Info: Closing Port
+8/20/20, 4:36:45 PM :Info: Successfully Closed Port
+8/20/20, 4:36:45 PM :Info: Opening port: /dev/ttyUSB0
+8/20/20, 4:36:47 PM :Info: dr: 0:30
+8/20/20, 4:36:47 PM :Debug: Range Sort Time: 1
+8/20/20, 4:36:53 PM :Info: Initiating read page 3
+8/20/20, 4:36:53 PM :Info: Activating page: 3
+8/20/20, 4:36:54 PM :Info: dr: 0:30
+8/20/20, 4:36:54 PM :Debug: Range Sort Time: 0
+8/20/20, 4:37:02 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:37:02 PM :Debug: Burn Page anonymous: 3
+8/20/20, 4:37:02 PM :Info: Queueing burn to page:3
+8/20/20, 4:37:02 PM :Debug: Burn time:10ms.
+8/20/20, 4:37:02 PM :Debug: burned page 3
+8/20/20, 4:37:02 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:37:02 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:37:02 PM :Info: Time to save msq: 10.313666
+8/20/20, 4:37:02 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:37:02 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+8/20/20, 4:37:02 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:37:02 PM :Info: Closing Port
+8/20/20, 4:37:02 PM :Info: Successfully Closed Port
+8/20/20, 4:37:02 PM :Info: Opening port: /dev/ttyUSB0
+
+8/20/20, 4:37:04 PM :Debug: Purged 31 orphaned bytes:
+8/20/20, 4:37:04 PM :Debug: Time:481.629s. 0x14 0x0 0x0 0xA 0xA 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x3 0x0 0x42 0x1 0x42 0x42 0x42 0x42 0x0 
+8/20/20, 4:37:04 PM :Debug: Time:481.629s. 
+
+8/20/20, 4:37:04 PM :Debug: Time:481.629s.   .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    B    B    B    B    .  
+8/20/20, 4:37:13 PM :Info: dr: 0:30
+8/20/20, 4:37:13 PM :Debug: Range Sort Time: 1
+8/20/20, 4:37:13 PM :Debug: Flush lasted: 0ms.
+8/20/20, 4:37:16 PM :Debug: TuneLog Editor set text
+8/20/20, 4:37:16 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+8/20/20, 4:37:16 PM :Info: Time to save msq: 7.649464
+8/20/20, 4:37:16 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+8/20/20, 4:37:17 PM :Debug: goOffline Starting, Time:0
+8/20/20, 4:37:17 PM :Info: Deactivated Turbo Baud, goOffline
+8/20/20, 4:37:17 PM :Debug: goOffline about to stopProcessing, Time:251
+8/20/20, 4:37:17 PM :Debug: goOffline Notified offline, Time:263
+8/20/20, 4:37:17 PM :Debug: goOffline closed port, Time:264
+8/20/20, 4:37:17 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+8/20/20, 4:37:17 PM :Info: Closing Port
+8/20/20, 4:37:17 PM :Info: Successfully Closed Port
+8/20/20, 4:37:17 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread89772.55011159307
+8/20/20, 4:37:17 PM :Debug: goOffline comm thread stopped, Time:515
+8/20/20, 4:37:17 PM :Debug: No Remaining Queue Write instructions
+8/20/20, 4:37:17 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+8/20/20, 4:37:17 PM :Debug: ############################################# Save Project ##########################################
+8/20/20, 4:37:17 PM :Info: closeApp Called
+8/20/20, 4:37:17 PM :Info: Finalizing Sensors
+Saved user properties successfully
