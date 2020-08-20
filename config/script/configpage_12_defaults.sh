@@ -32,28 +32,28 @@ sleep 0.1
 printf '\x57\x01\x00\x28' > $DEV
 sleep 0.1
 
-# 89
-printf '\x57\x02\x00\x59' > $DEV
+# 90
+printf '\x57\x02\x00\x5A' > $DEV
 sleep 0.1
 
-# 99
-printf '\x57\x03\x00\x63' > $DEV
+# 100
+printf '\x57\x03\x00\x64' > $DEV
 sleep 0.1
 
-# 178
-printf '\x57\x04\x00\xB2' > $DEV
+# 180
+printf '\x57\x04\x00\xB4' > $DEV
 sleep 0.1
 
-# 185
-printf '\x57\x05\x00\xB9' > $DEV
+# 187
+printf '\x57\x05\x00\xBB' > $DEV
 sleep 0.1
 
-# 267
-printf '\x57\x06\x01\x0B' > $DEV
+# 270
+printf '\x57\x06\x01\x0E' > $DEV
 sleep 0.1
 
-# 274
-printf '\x57\x07\x01\x12' > $DEV
+# 277
+printf '\x57\x07\x01\x15' > $DEV
 sleep 0.1
 
 #decoder offset
@@ -62,8 +62,8 @@ printf '\x57\x08\x01\x04' > $DEV
 sleep 0.1
 
 #decoder delay
-# 320
-printf '\x57\x09\x01\x40' > $DEV
+# 40
+printf '\x57\x09\x00\x28' > $DEV
 sleep 0.1
 
 #crank noise filter

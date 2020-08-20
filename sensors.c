@@ -10,6 +10,7 @@
 #include "table.h"
 #include "config.h"
 #include "decoder_logic.h"
+#include <math.h>
 
 volatile sensor_interface_t SInterface;
 volatile sensor_internals_t SInternals;
@@ -216,6 +217,51 @@ U32 calculate_inverse_lin(U16 Figure, U16 M, U16 N, U16 L)
         ... but who can be sure for sure... ;9
         */
         return (calc / M);
+    }
+    else
+    {
+        //clip result
+        return 0;
+    }
+
+}
+
+/**
+sensor data conversion by inverse linear function
+using float for maximum precision
+
+x = ( # - n)  / m
+
+configPage9.xxx_calib_L
+*/
+U32 calc_inverse_lin(U16 Arg, U16 M, U16 N)
+{
+    float inverse;
+
+#warning TODO (oli#2#): check if calculation is correct
+
+    //subtract N
+    if( N < Arg)
+    {
+        inverse= Arg - N;
+    }
+    else
+    {
+        //clip result
+        return 0;
+    }
+
+    //divide by M
+    if(M != 0)
+    {
+        /**
+        do not ever delete by zero
+        so we test if calib_M is set to something usable
+        -> calibration loading success should be monitored and
+        there should be default values if an error occurred while loading
+        ... but who can be sure for sure... ;9
+        */
+        return (U32) (inverse / M);
     }
     else
     {
@@ -539,7 +585,7 @@ void DMA2_Stream0_IRQHandler()
 
                         case ASENSOR_ASYNC_TPS:
 
-                            result= table2D_getValue(&TPS_calib_table, average);
+                            result= calc_inverse_lin(average, configPage9.TPS_calib_M, configPage9.TPS_calib_N);
 
                             //save old TPS value for ddt_TPS calculation
                             SInternals.last_TPS= SInterface.asensors[ASENSOR_TPS];

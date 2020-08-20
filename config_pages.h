@@ -369,7 +369,7 @@ Page 12 - decoder config
 typedef struct _configPage12_t_ {
 
     //contains the trigger wheel layout (angles corresp. to positions A1 .. D2)
-    U16 trigger_position_map[CRK_POSITION_COUNT];
+    crank_position_table_t trigger_position_map;
 
     //static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and crank angle
     S16 decoder_offset_deg;
@@ -406,6 +406,8 @@ typedef struct _configPage13_t_ {
     //safety margin for positioning
     U8 safety_margin_us;
 
+    crank_position_t dynamic_ignition_position;
+
     //static ignition setup for idle
     crank_position_t idle_ignition_position;
     crank_position_t idle_dwell_position;
@@ -429,8 +431,8 @@ typedef struct {
     U16 CLT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
     U16 CLT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
 
-    U16 TPS_calib_data_x[CALIBRATION_TABLE_DIMENSION];
-    U16 TPS_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+    U16 TPS_calib_M;
+    U16 TPS_calib_N;
 
     U16 MAP_calib_M;
     U16 MAP_calib_N;

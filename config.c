@@ -114,61 +114,9 @@ U32 config_load()
     * IGNITION CONFIG PAGE (2) *
     ***************************/
 
-    /*
-    for(x=EEPROM_CONFIG3_MAP; x<EEPROM_CONFIG3_XBINS; x++)
-    {
-        offset = x - EEPROM_CONFIG3_MAP;
-        eeprom_code= eeprom_read_byte(x, &eeprom_data);
-
-        if(eeprom_code == 0)
-        {
-            ignitionTable.axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] = eeprom_data;
-        }
-        else
-        {
-            return eeprom_code;
-        }
-    }
-
-
-    for(x=EEPROM_CONFIG3_XBINS; x<EEPROM_CONFIG3_YBINS; x++)
-    {
-        offset = x - EEPROM_CONFIG3_XBINS;
-        eeprom_code= eeprom_read_byte(x, &eeprom_data);
-
-        if(eeprom_code == 0)
-        {
-            //RPM bins are divided by 100 when stored. Multiply them back now
-            ignitionTable.axisX[offset] = (eeprom_data * TABLE_RPM_MULTIPLIER);
-        }
-        else
-        {
-            return eeprom_code;
-        }
-    }
-
-
-    for(x=EEPROM_CONFIG3_YBINS; x<EEPROM_CONFIG4_START; x++)
-    {
-        offset = x - EEPROM_CONFIG3_YBINS;
-        eeprom_code= eeprom_read_byte(x, &eeprom_data);
-
-        if(eeprom_code == 0)
-        {
-            //Table load is divided by 2 (Allows for MAP up to 511)
-            ignitionTable.axisY[offset] = eeprom_data * TABLE_LOAD_MULTIPLIER;
-        }
-        else
-        {
-            return eeprom_code;
-        }
-    }
-
-    */
-
 
     //ignition table loaded by table module
-    eeprom_code= load_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+    eeprom_code= load_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
 
 
 
@@ -769,7 +717,7 @@ U32 config_write()
 */
 
     //ignition table handled by table module
-    eeprom_code= write_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+    eeprom_code= write_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
 
 
     /*******************
@@ -1324,7 +1272,7 @@ U32 load_DecoderConfig()
 
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        configPage12.trigger_position_map[x]= (U16) data;
+        configPage12.trigger_position_map.a_deg[x]= (U16) data;
     }
 
 
@@ -1399,14 +1347,14 @@ void load_essential_DecoderConfig()
     /**
     config page 12 - crank decoder
     */
-    configPage12.trigger_position_map[CRK_POSITION_A1]= DEFAULT_CONFIG12_POSITION_A1_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_A2]= DEFAULT_CONFIG12_POSITION_A2_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_B1]= DEFAULT_CONFIG12_POSITION_B1_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_B2]= DEFAULT_CONFIG12_POSITION_B2_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_C1]= DEFAULT_CONFIG12_POSITION_C1_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_C2]= DEFAULT_CONFIG12_POSITION_C2_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_D1]= DEFAULT_CONFIG12_POSITION_D1_ANGLE;
-    configPage12.trigger_position_map[CRK_POSITION_D2]= DEFAULT_CONFIG12_POSITION_D2_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_A1]= DEFAULT_CONFIG12_POSITION_A1_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_A2]= DEFAULT_CONFIG12_POSITION_A2_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_B1]= DEFAULT_CONFIG12_POSITION_B1_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_B2]= DEFAULT_CONFIG12_POSITION_B2_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_C1]= DEFAULT_CONFIG12_POSITION_C1_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_C2]= DEFAULT_CONFIG12_POSITION_C2_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_D1]= DEFAULT_CONFIG12_POSITION_D1_ANGLE;
+    configPage12.trigger_position_map.a_deg[CRK_POSITION_D2]= DEFAULT_CONFIG12_POSITION_D2_ANGLE;
 
     configPage12.decoder_offset_deg= DEFAULT_CONFIG12_DECODER_OFFSET;
     configPage12.decoder_delay_us= DEFAULT_CONFIG12_DECODER_DELAY;
@@ -1432,7 +1380,7 @@ U32 write_DecoderConfig()
     for(x=0; x < CRK_POSITION_COUNT; x++)
     {
         //every config item is 2 bytes in width
-        eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, configPage12.trigger_position_map[x], 2);
+        eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, configPage12.trigger_position_map.a_deg[x], 2);
 
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
     }
@@ -1665,23 +1613,22 @@ U32 load_SensorCalibration()
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
         configPage9.IAT_calib_data_y[i]= (U16) data;
-
-
-        /**
-        TPS
-        */
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-        configPage9.TPS_calib_data_x[i]= (U16) data;
-
-        eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, &data, 2);
-
-        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-        configPage9.TPS_calib_data_y[i]= (U16) data;
     }
+
+    /**
+    TPS
+    */
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_M, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.TPS_calib_M= (U16) data;
+
+    eeprom_code= eeprom_read_bytes(EEPROM_CALIBRATION_TPS_N, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage9.TPS_calib_N= (U16) data;
 
 
     /**
@@ -1803,17 +1750,18 @@ U32 write_SensorCalibration()
 
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        /**
-        TPS
-        */
-        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_X + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_x[i], 2);
-
-        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-        eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_Y + i* EEPROM_CALIB_DATA_WIDTH, configPage9.TPS_calib_data_y[i], 2);
-
-        if(eeprom_code) return eeprom_code; //exit on eeprom read failure
     }
+
+    /**
+    TPS
+    */
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_M, configPage9.TPS_calib_M, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_N, configPage9.TPS_calib_N, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     MAP

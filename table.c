@@ -22,13 +22,13 @@ A full copy of the license may be found in the projects root directory
 /**
 tables
 */
-volatile table3D_t ignitionTable;
+volatile table3D_t ignitionTable_TPS, ignitionTable_MAP;
 volatile table3D_t fuelTable, afrTable;
 volatile table3D_t boostTable, vvtTable;
 volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
 volatile table2D taeTable, WUETable, crankingEnrichTable, dwellVCorrectionTable;
 volatile table2D injectorVCorrectionTable, IATDensityCorrectionTable, IATRetardTable, rotarySplitTable;
-volatile table2D IAT_calib_table, CLT_calib_table, TPS_calib_table;
+volatile table2D IAT_calib_table, CLT_calib_table;
 
 
 /**
@@ -77,10 +77,6 @@ void init_2Dtables()
     CLT_calib_table.axisX= configPage9.CLT_calib_data_x;
     CLT_calib_table.axisY= configPage9.CLT_calib_data_y;
 
-    TPS_calib_table.dimension= CALIBRATION_TABLE_DIMENSION;
-    TPS_calib_table.axisX= configPage9.TPS_calib_data_x;
-    TPS_calib_table.axisY= configPage9.TPS_calib_data_y;
-
     taeTable.dimension = 4;
     taeTable.axisY = (U16 *) configPage2.taeValues;
     taeTable.axisX = (U16 *)configPage2.taeBins;
@@ -113,11 +109,6 @@ void init_2Dtables()
     rotarySplitTable.axisY = (U16 *) configPage11.rotarySplitValues;
     rotarySplitTable.axisX = (U16 *) configPage11.rotarySplitBins;
 }
-
-
-
-
-
 
 
 
@@ -223,8 +214,6 @@ It performs a bilinear interpolation
 */
 U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
 {
-#warning TODO (oli#1#): convert to floatingpoint numbers
-
     float A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;
     U32 xMin_index =0, xMax_index =0, yMin_index =0, yMax_index =0;
@@ -631,8 +620,12 @@ U32 load_tables()
 {
     U32 status;
 
-    //ignition table
-    status= load_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+    //ignition tables
+    status= load_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
+
+    if(status) return status; //exit on eeprom read failure
+
+    status= load_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 1);
 
     if(status) return status; //exit on eeprom read failure
 
@@ -654,8 +647,12 @@ U32 write_tables()
 {
     U32 status;
 
-    //ignition table
-    status= write_3D_table(&ignitionTable, EEPROM_CONFIG3_MAP, 100, 2);
+    //ignition tables
+    status= write_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
+
+    if(status) return status; //exit on eeprom read failure
+
+    status= write_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 2);
 
     if(status) return status; //exit on eeprom read failure
 
@@ -674,14 +671,15 @@ U32 write_tables()
 * layout:
 * left column: Y-Axis
 * row below: X-Axis
-* orientation (order from low to high) of Y-axis: bottom to top
+* data layout: z[y][x]
+* orientation (order from low to high) of Y-axis: top to bottom
 * orientation (order from low to high) of X-axis: left to right
 ****************************************************************************************************************************************************/
 void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
 {
     U32 row, column;
 
-    // for every row, printing the top row first (highest value)
+    // for every row, printing the top row first (highest value) Z[0..15][x]
     for (row= 0; row < TABLE3D_DIMENSION; row++)
     {
         // Y value for this row
@@ -690,10 +688,11 @@ void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
         //separator
         UART_Send(pPort, " . ");
 
-        // Z values of this row, printing from left to right
+        // Z values of this row, printing from left to right Z[y][0..15]
         for (column = 0; column < TABLE3D_DIMENSION; column++)
         {
-            UART_Print_U(pPort, pTable->axisZ[column][row], TYPE_U8, PAD);
+            UART_Print_U(pPort, pTable->axisZ[TABLE3D_DIMENSION -1 - row][column], TYPE_U8, PAD);
+            UART_Send(pPort, "  ");
         }
 
         UART_Send(pPort, "\r\n");

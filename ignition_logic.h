@@ -4,8 +4,11 @@
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
+#include "Tuareg_process_data.h"
 #include "decoder_logic.h"
 #include "trigger_wheel_layout.h"
+
 
 /**
 essential config section
@@ -37,6 +40,7 @@ typedef struct _ignition_timing_t {
     //status data
     U16 ignition_advance_deg;
     U16 dwell_deg;
+    U8 dwell_ms;
 
     //timing
     U32 coil_dwell_timing_us;
@@ -49,7 +53,7 @@ typedef struct _ignition_timing_t {
 
 
 void fit_position( VU32 Period_us, VU32 Crank_angle_deg, volatile crank_position_t * pTarget_position, VU32 * pTarget_delay_us);
-void calculate_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, VU32 Rpm);
+void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget);
 void default_ignition_timing(volatile ignition_timing_t * pTarget);
 extern void cranking_ignition_timing(volatile ignition_timing_t * pTarget);
 void trigger_coil_by_timer(VU32 delay_us, VU32 level);

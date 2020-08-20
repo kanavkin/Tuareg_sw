@@ -9,7 +9,7 @@
 #include "trigger_wheel_layout.h"
 #include "config.h"
 
-#include "rotation_calc.h"
+#include "base_calc.h"
 #include "conversion.h"
 
 volatile decoder_internals_t DInternals;
@@ -43,7 +43,7 @@ void decoder_statistics_handler(VU32 Interval)
 {
    DInternals.segment_duration_deg[DInternals.crank_position]= calc_rot_angle_deg(Interval * DECODER_TIMER_PERIOD_US, DInterface.crank_T_us);
 
-   DInternals.segment_duration_base_rpm= DInterface.engine_rpm;
+   DInternals.segment_duration_base_rpm= calc_rpm(DInterface.crank_T_us);
 }
 
 /**
@@ -121,7 +121,8 @@ evaluate key/gap ratio to get trigger wheel sync
 */
 VU32 check_sync_ratio()
 {
-    VU32 sync_ratio, target_ratio;
+    VU32 sync_ratio;
+    //VU32 target_ratio;
 
     //collect diagnostic data
     DInternals.diag[DDIAG_SYNCCHECK_CALLS] += 1;
@@ -147,7 +148,7 @@ VU32 check_sync_ratio()
         /**
         strict check failed
         apply relaxed sync check while cranking / re syncing
-        */
+
         if(DInternals.sync_stability < configPage12.sync_stability_thrs)
         {
             //collect diagnostic data
@@ -159,12 +160,13 @@ VU32 check_sync_ratio()
             // do relaxed check
             if((sync_ratio >= target_ratio / 2) && (sync_ratio <= 2* target_ratio))
             {
-                /**
+
                 relaxed check succeeded - its key A!
-                */
+
                 return RETURN_OK;
             }
         }
+        */
     }
 
     return RETURN_FAIL;
@@ -179,33 +181,31 @@ calculate the angle at which the crankshaft will be, when the corresponding engi
 -> the VR interface hw introduces a delay of about 300 us from the key edge passing the sensor until the CRANK signal is triggered
 
 -> the crank angle wraps around at 360°
+-> returns the crank base angles when crank speed is unknown
 */
-void calculate_crank_position_table(VU32 Period, VU16 * Table)
+void update_crank_position_table(volatile crank_position_table_t * Table)
 {
-    U32 position, angle;
+    VU32 position, angle, delay_deg;
 
     //collect diagnostic data
     DInternals.diag[DDIAG_CRANKTABLE_CALLS] += 1;
 
     for(position=0; position < CRK_POSITION_COUNT; position++)
     {
-        //calculate angle
-        angle= configPage12.trigger_position_map[position] + configPage12.decoder_offset_deg;
+        //get trigger position base angle
+        angle= configPage12.trigger_position_map.a_deg[position];
 
-        //account for VR delay
-        if(Period != 0)
-        {
-            angle += calc_rot_angle_deg(configPage12.decoder_delay_us, Period);
-        }
+        //calculate effective crank angle
+        angle += configPage12.decoder_offset_deg;
+
+        //calculate VR introduced delay
+        angle += calc_rot_angle_deg(configPage12.decoder_delay_us, DInterface.crank_T_us);
 
         //wrap around crank angle
-        if(angle >= 360)
-        {
-            angle -= 360;
-        }
+        angle= angle % 360;
 
         //save to table
-        Table[position]= angle;
+        Table->a_deg[position]= angle;
     }
 }
 
@@ -215,7 +215,7 @@ crank rotational speed calculation
 */
 void update_engine_speed(VU32 Interval)
 {
-    U32 period;
+    VU32 period;
 
     //collect diagnostic data
     DInternals.diag[DDIAG_ROTSPEED_CALLS] += 1;
@@ -229,7 +229,7 @@ void update_engine_speed(VU32 Interval)
     DInternals.cycle_timing_counter++;
 
 
-    if(DInternals.cycle_timing_counter == 16)
+    if(DInternals.cycle_timing_counter == 2* CRK_POSITION_COUNT)
     {
         /**
         crank_T_us acts as an accurate time base for following calculations
@@ -239,11 +239,6 @@ void update_engine_speed(VU32 Interval)
         */
         period= DInternals.cycle_timing_buffer * (DECODER_TIMER_PERIOD_US / 2);
 
-        /**
-        export engine_rpm
-        rpm figure is mainly for user display and table lookup
-        */
-        DInterface.engine_rpm= calc_rpm(period);
 
         /**
         crank acceleration
@@ -261,8 +256,6 @@ void update_engine_speed(VU32 Interval)
         DInternals.cycle_timing_buffer= 0;
         DInternals.cycle_timing_counter= 0;
 
-        //update engine position data
-        calculate_crank_position_table(period, DInterface.crank_position_table_deg);
     }
 
 }
@@ -277,15 +270,10 @@ inline void reset_position_data()
 
 inline void reset_crank_timing_data()
 {
-    VU32 item;
-
     DInternals.cycle_timing_buffer= 0UL;
     DInternals.cycle_timing_counter= 0UL;
-
     DInterface.crank_T_us= 0UL;
     DInterface.crank_deltaT_us= 0UL;
-
-    DInterface.engine_rpm= 0UL;
 
     //decoder statistics are based on engine rpm/period
     reset_decoder_statistics();
@@ -448,8 +436,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
             decoder_set_crank_pickup_sensing(INVERT);
 
             /*
-            update rotational speed if necessary
-            and update the crank position table
+            update rotational speed calculation
             */
             update_engine_speed(Interval);
 
@@ -481,7 +468,7 @@ inline void decoder_logic_crank_handler(VU32 Interval)
                 //do sync check
                 DInternals.sync_buffer_gap= Interval;
 
-                if( check_sync_ratio() == RETURN_OK )
+                if( check_sync_ratio() == RETURN_FAIL )
                 {
                     //sync check failed! -> prepare for the next trigger condition
                     DInternals.crank_position= CRK_POSITION_UNDEFINED;

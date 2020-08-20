@@ -2,6 +2,7 @@
 #define TUAREG_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
 #include "config.h"
 #include "table.h"
 #include "ignition_logic.h"
@@ -24,10 +25,6 @@ to allow limp home operation if eeprom has ben corrupted
 
 
 
-
-
-#define RETURN_OK 0
-#define RETURN_FAIL 0xFF
 
 
 #warning TODO (oli#8#): find elegant solution for configuration values
@@ -66,13 +63,15 @@ default sensor values
 
 if an analog sensor is not available, use these defaults
 */
-#warning TODO (oli#4#): provide default values to Tuareg.asensor_defaults[]
-
-#define MAP_DEFAULT_KPA 1000
-
-
-
-
+#define MAP_DEFAULT_KPA 100
+#define BARO_DEFAULT_KPA 100
+#define TPS_DEFAULT_DEG 45
+#define O2_DEFAULT_AFR 145
+#define IAT_DEFAULT_C 20
+#define CLT_DEFAULT_C 85
+#define VBAT_DEFAULT_V 14
+#define KNOCK_DEFAULT 0
+#define SPARE_DEFAULT 0
 
 
 //**************************************************************************************************
@@ -133,6 +132,11 @@ for the currentStatus
 
 
 
+
+
+
+
+
 typedef enum {
 #warning TODO (oli#3#): develop a concept for cranking detection/handling
 
@@ -181,9 +185,11 @@ typedef enum {
     TDIAG_DECODER_PASSIVE,
     TDIAG_IGNITION_IRQ,
     TDIAG_IGNITIONCALC_CALLS,
+    TDIAG_UPDSTRATEGY_CALLS,
 
     TDIAG_MAINLOOP_ENTRY,
     TDIAG_MODECTRL,
+
 
     TDIAG_INIT_HALT_TR,
     TDIAG_RUNNING_HALT_TR,
@@ -209,6 +215,8 @@ typedef enum {
 
     TDIAG_KILL_SIDESTAND,
     TDIAG_KILL_RUNSWITCH,
+
+    TDIAG_PROCESSDATA_CALLS,
 
     TDIAG_COUNT
 
@@ -245,6 +253,8 @@ typedef struct _Tuareg_t {
     VU32 diag[TDIAG_COUNT];
 
 
+
+    volatile process_data_t process;
 
 
   //volatile ardbool hasSync;
@@ -328,8 +338,10 @@ extern volatile Tuareg_t Tuareg;
 void Tuareg_update_Runmode();
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 void Tuareg_stop_engine();
+void Tuareg_update_process_data();
 void Tuareg_update_ignition_timing();
 void Tuareg_trigger_ignition();
+void Tuareg_set_asensor_defaults();
 U32 Tuareg_get_asensor(asensors_t sensor);
 void Tuareg_export_diag(VU32 * pTarget);
 

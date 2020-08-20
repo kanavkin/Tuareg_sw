@@ -18,6 +18,7 @@
 #include "sensors.h"
 #include "fuel_hw.h"
 #include "fuel_logic.h"
+#include "base_calc.h"
 
 #include "dash_hw.h"
 #include "dash_logic.h"
@@ -71,7 +72,7 @@ void Tuareg_update_Runmode()
         }
 
         #warning TODO (oli#3#): implement cranking handling
-        if((Tuareg.decoder->engine_rpm > 800) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+        if((Tuareg.process.engine_rpm > 800) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
         {
             /**
             engine has finished cranking
@@ -163,11 +164,12 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //collect diagnostic information
                 Tuareg.diag[TDIAG_ENTER_INIT] += 1;
 
-
                 break;
 
             case TMODE_CONFIGLOAD:
 
+                //set sensor defaults
+                Tuareg_set_asensor_defaults();
 
                 break;
 
@@ -225,18 +227,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 //begin normal engine operation
 
-                //turn fuel pump on to maintain fuel pressure
-                set_fuelpump(ON);
-
-                //begin ignition coil charge for first spark
-                set_ignition_ch1(COIL_DWELL);
-                //set_ignition_ch2(COIL_DWELL);
-
-                //provide initial ignition timing for cranking
-                default_ignition_timing(&Tuareg.ignition_timing);
-
-                //collect diagnostic information
-
                 //collect diagnostic information
                 if(Tuareg.Runmode == TMODE_CRANKING)
                 {
@@ -256,6 +246,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 //engine stalled, system ready for start
                 Tuareg_stop_engine();
+
+                //provide ignition timing for engine startup
+                update_ignition_timing( &(Tuareg.process), &(Tuareg.ignition_timing));
 
                 //collect diagnostic information
                 if(Tuareg.Runmode == TMODE_RUNNING)
@@ -280,8 +273,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
                 }
 
-                //provide ignition timing for engine startup
-                default_ignition_timing(&Tuareg.ignition_timing);
+
 
                 Tuareg.diag[TDIAG_ENTER_STB] += 1;
                 break;
@@ -289,6 +281,15 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_CRANKING:
 
                 #warning TODO (oli#9#): check if we need fuel pump priming
+                //turn fuel pump on to maintain fuel pressure
+                set_fuelpump(ON);
+
+                //begin ignition coil charge for first spark
+                //set_ignition_ch1(COIL_DWELL);
+                //set_ignition_ch2(COIL_DWELL);
+
+                //provide initial ignition timing for cranking
+                //update_ignition_timing( &(Tuareg.process), &(Tuareg.ignition_timing));
 
                 //collect diagnostic information
                 Tuareg.diag[TDIAG_ENTER_CRANKING] += 1;
@@ -333,6 +334,46 @@ void Tuareg_stop_engine()
     reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);
 }
 
+/**
+update engine control strategy based on available sensors and
+*/
+void Tuareg_update_process_data(process_data_t * pImage)
+{
+    //collect diagnostic information
+    Tuareg.diag[TDIAG_PROCESSDATA_CALLS] += 1;
+
+
+
+    //crank_T_us
+    pImage->crank_T_us= Tuareg.decoder->crank_T_us;
+
+    //engine_rpm
+    pImage->engine_rpm= calc_rpm(pImage->crank_T_us);
+
+    //crank_position
+    pImage->crank_position= Tuareg.decoder->crank_position;
+
+    //crank position table
+    update_crank_position_table(&(pImage->crank_position_table));
+
+    //analog sensors
+    pImage->MAP_kPa= Tuareg_get_asensor(ASENSOR_MAP);
+    pImage->Baro_kPa= Tuareg_get_asensor(ASENSOR_BARO);
+    pImage->TPS_deg= Tuareg_get_asensor(ASENSOR_TPS);
+    pImage->IAT_C= Tuareg_get_asensor(ASENSOR_IAT);
+    pImage->CLT_C= Tuareg_get_asensor(ASENSOR_CLT);
+    pImage->VBAT_V= Tuareg_get_asensor(ASENSOR_VBAT);
+    pImage->ddt_TPS= Tuareg.sensors->ddt_TPS;
+
+    // strategy?
+
+    //delay
+    //pImage->data_age= decoder_get_data_age_us();
+
+
+}
+
+
 
 /**
 recalculate ignition timing if the run mode allows engine operation
@@ -351,7 +392,7 @@ void Tuareg_update_ignition_timing()
         case TMODE_RUNNING:
         case TMODE_STB:
 
-            calculate_ignition_timing(&(Tuareg.ignition_timing), Tuareg.decoder->crank_T_us, Tuareg.decoder->engine_rpm);
+            update_ignition_timing( &(Tuareg.process), &(Tuareg.ignition_timing));
             break;
 
 
@@ -375,6 +416,8 @@ void Tuareg_update_ignition_timing()
 
 void Tuareg_trigger_ignition()
 {
+    VU32 corr_timing_us;
+
     //collect diagnostic information
     Tuareg.diag[TDIAG_TRIG_IGN_CALLS] += 1;
 
@@ -386,7 +429,10 @@ void Tuareg_trigger_ignition()
         //collect diagnostic information
         Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
 
-        trigger_coil_by_timer(Tuareg.ignition_timing.coil_ignition_timing_us, COIL_IGNITION);
+        //correct timing
+        corr_timing_us= sub_U32(Tuareg.ignition_timing.coil_ignition_timing_us, decoder_get_data_age_us());
+
+        trigger_coil_by_timer(corr_timing_us, COIL_IGNITION);
     }
 
     if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_dwell_pos)
@@ -394,10 +440,11 @@ void Tuareg_trigger_ignition()
         //collect diagnostic information
         Tuareg.diag[TDIAG_TRIG_COIL_DWELL] += 1;
 
-        trigger_coil_by_timer(Tuareg.ignition_timing.coil_dwell_timing_us, COIL_DWELL);
+        //correct timing
+        corr_timing_us= sub_U32(Tuareg.ignition_timing.coil_dwell_timing_us, decoder_get_data_age_us());
+
+        trigger_coil_by_timer(corr_timing_us, COIL_DWELL);
     }
-
-
 }
 
 
@@ -431,8 +478,6 @@ U32 Tuareg_get_asensor(asensors_t sensor)
             return Tuareg.asensor_defaults[sensor];
         }
 
-
-
     }
 }
 
@@ -448,4 +493,19 @@ void Tuareg_export_diag(VU32 * pTarget)
     {
         pTarget[count]= Tuareg.diag[count];
     }
+}
+
+
+void Tuareg_set_asensor_defaults()
+{
+    Tuareg.asensor_defaults[ASENSOR_O2]= O2_DEFAULT_AFR;
+    Tuareg.asensor_defaults[ASENSOR_TPS]= TPS_DEFAULT_DEG;
+    Tuareg.asensor_defaults[ASENSOR_IAT]= IAT_DEFAULT_C;
+    Tuareg.asensor_defaults[ASENSOR_CLT]= CLT_DEFAULT_C;
+    Tuareg.asensor_defaults[ASENSOR_VBAT]= VBAT_DEFAULT_V;
+    Tuareg.asensor_defaults[ASENSOR_KNOCK]= KNOCK_DEFAULT;
+    Tuareg.asensor_defaults[ASENSOR_BARO]= BARO_DEFAULT_KPA;
+    Tuareg.asensor_defaults[ASENSOR_SPARE]= SPARE_DEFAULT;
+    Tuareg.asensor_defaults[ASENSOR_MAP]= MAP_DEFAULT_KPA;
+
 }

@@ -81,105 +81,6 @@ void enable_sysclk_check()
 
 
 
-
-/**
-full state is so heavy
-that it destroys engine timing
-print_full_state() takes about 855 us
-*/
-/*
-void print_full_state(volatile ignition_timing_t * intime)
-{
-    UART_newline();
-
-    UART_Print_U16(intime->rpm);
-    UART_Send("rpm, advance: ");
-    UART_Print_U8(intime->ignition_advance);
-    UART_Send_P(PSTR(" deg, dwell advance: "));
-    UART_Print_U16(intime->dwell_advance);
-    UART_Send_P(PSTR(" deg, on: "));
-
-            switch(intime->coil_on_pos)
-            {
-            case POSITION_A1:
-                UART_Send("A1");
-                break;
-            case POSITION_A2:
-                UART_Send("A2");
-                break;
-                case POSITION_B1:
-                UART_Send("B1");
-                break;
-                case POSITION_B2:
-                UART_Send("B2");
-                break;
-                case POSITION_C1:
-                UART_Send("C1");
-                break;
-                case POSITION_C2:
-                UART_Send("C2");
-                break;
-                case POSITION_D1:
-                UART_Send("D1");
-                break;
-                case POSITION_D2:
-                UART_Send("D2");
-                break;
-                case UNDEFINED_POSITION:
-                break;
-            }
-
-            UART_Tx('-');
-            UART_Print_U8(intime->coil_on_timing);
-
-            UART_Send_P(PSTR("off:"));
-
-            switch(intime->coil_off_pos)
-            {
-            case POSITION_A1:
-                UART_Send("A1");
-                break;
-            case POSITION_A2:
-                UART_Send("A2");
-                break;
-                case POSITION_B1:
-                UART_Send("B1");
-                break;
-                case POSITION_B2:
-                UART_Send("B2");
-                break;
-                case POSITION_C1:
-                UART_Send("C1");
-                break;
-                case POSITION_C2:
-                UART_Send("C2");
-                break;
-                case POSITION_D1:
-                UART_Send("D1");
-                break;
-                case POSITION_D2:
-                UART_Send("D2");
-                break;
-                case UNDEFINED_POSITION:
-                break;
-            }
-
-            UART_Tx('-');
-            UART_Print_U8(intime->coil_off_timing);
-}
-*/
-
-
-void print_minimal_state(USART_TypeDef * Port, volatile ignition_timing_t * intime)
-{
-/*
-    UART_Print_U(Port, intime->rpm, TYPE_U32, NO_PAD);
-    UART_Send(Port, " rpm, advance  ");
-    UART_Print_U(Port, intime->ignition_advance_deg, TYPE_U32, NO_PAD);
-    */
-}
-
-
 void dwt_init()
 {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
@@ -263,13 +164,13 @@ void print_sensor_data(USART_TypeDef * Port)
     //can be called cyclic by adding a lowspeed action
     U32 sensor;
 
-    UART_Send(Port, "\r\n\r\nANALOG: O2 TPS IAT CLT VBAT KNOCK BARO SPARE MAP\r\n");
+    UART_Send(Port, "\r\n\r\n   O2   TPS   IAT   CLT  VBAT KNOCK  BARO SPARE  MAP\r\n");
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
         if(Tuareg.sensors->asensors_health & (1<< sensor))
         {
-            UART_Print_U(Port, Tuareg.sensors->asensors[sensor], TYPE_U16, NO_PAD);
+            UART_Print_U(Port, Tuareg.sensors->asensors[sensor], TYPE_U16, PAD);
         }
         else
         {
@@ -277,13 +178,13 @@ void print_sensor_data(USART_TypeDef * Port)
         }
     }
 
-    UART_Send(Port, "\r\n\r\n (raw values)\r\n");
+    UART_Send(Port, "\r\n   (raw:)\r\n");
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
         if(Tuareg.sensors->asensors_health & (1<< sensor))
         {
-            UART_Print_U(Port, Tuareg.sensors->asensors_raw[sensor], TYPE_U16, NO_PAD);
+            UART_Print_U(Port, Tuareg.sensors->asensors_raw[sensor], TYPE_U16, PAD);
         }
         else
         {

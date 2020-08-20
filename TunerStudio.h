@@ -1,6 +1,9 @@
 #ifndef TUNERSTUDIO_H_INCLUDED
 #define TUNERSTUDIO_H_INCLUDED
 
+#include "Tuareg_process_data.h"
+#include "ignition_logic.h"
+
 /*
 #define VEMAPPAGE_NR    1
 #define VESETPAGE_NR    2 //Config Page 1
@@ -62,7 +65,8 @@ typedef enum {
 
     DECODERPAGE, // 13 '=' 61
     IGNITIONPAGE, // 14 '>' 62
-    IGNITIONMAP1PAGE, // 15 '?' 63
+    IGNITIONMAP_TPS, // 15 '?' 63
+    IGNITIONMAP_MAP, // 16 '' 64
 
     TSPAGE_COUNT
 
@@ -105,6 +109,12 @@ void ts_sendPage();
 void ts_diagPage();
 void ts_debug_features(U32 feature);
 void ts_replaceConfig(U32 valueOffset, U32 newValue);
+
+void ts_diag_process_data(volatile process_data_t * pImage);
+void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming);
+void ts_diagPage_ignition();
+void ts_diagPage_decoder();
+void ts_diagPage_calib();
 
 
 #endif // TUNERSTUDIO_H_INCLUDED

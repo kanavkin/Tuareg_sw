@@ -16,9 +16,8 @@ requirements:
 #include "Tuareg.h"
 #include "uart.h"
 #include "table.h"
-#include "rotation_calc.h"
+#include "base_calc.h"
 #include "config.h"
-
 
 
 /**
@@ -48,7 +47,7 @@ void fit_position( VU32 Period_us, VU32 Crank_angle_deg, volatile crank_position
     //for all possible positions
     for(position=0; position < CRK_POSITION_COUNT; position++)
     {
-        corresp_angle_deg= Tuareg.decoder->crank_position_table_deg[position];
+        corresp_angle_deg= Tuareg.process.crank_position_table.a_deg[position];
 
         //if position is "earlier"
         if(Crank_angle_deg > corresp_angle_deg)
@@ -74,7 +73,7 @@ void fit_position( VU32 Period_us, VU32 Crank_angle_deg, volatile crank_position
 }
 
 /**
-provides an ignition timing which will allow engine operation
+provides a ignition timing which will allow engine operation
 e.g. while LIMP HOME
 */
 void default_ignition_timing(volatile ignition_timing_t * pTarget)
@@ -83,14 +82,13 @@ void default_ignition_timing(volatile ignition_timing_t * pTarget)
     pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
     pTarget->coil_dwell_timing_us= 0;
     pTarget->coil_ignition_timing_us= 0;
-
+    pTarget->dwell_ms= 1;
     pTarget->dwell_deg= DEFAULT_DWELL_DEG;
     pTarget->ignition_advance_deg= DEFAULT_ADVANCE_DEG;
 }
 
 /**
-provides an ignition timing which will allow engine operation
-e.g. while LIMP HOME
+provides a late ignition timing for cranking
 */
 inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
 {
@@ -98,6 +96,7 @@ inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
     pTarget->coil_dwell_pos= configPage13.idle_dwell_position;
     pTarget->ignition_advance_deg= configPage13.idle_advance_deg;
     pTarget->dwell_deg= configPage13.idle_dwell_deg;
+    pTarget->dwell_ms= 1;
     pTarget->coil_ignition_timing_us =0;
     pTarget->coil_dwell_timing_us =0;
 }
@@ -135,50 +134,69 @@ problem on high rpms:   with a large dwell AND large ignition advance
                         (cutting dwell)
 
 */
-void calculate_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period_us, VU32 Rpm)
+void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget)
 {
     #warning TODO (oli#1#):test ignition calculation
 
-    U32 crank_angle_deg, advance_deg, dwell_deg;
+    VU32 target_crank_angle_deg, advance_deg, dwell_deg, current_crank_angle_deg;
 
-    if(Rpm > configPage13.dynamic_min_rpm)
+    if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
     {
         /**
         calculate advance (off timing)
         */
-        advance_deg= table3D_getValue(&ignitionTable, Rpm, Tuareg_get_asensor(ASENSOR_MAP) );
 
-        //calculate the corresponding crank ignition angle
-        crank_angle_deg= 360 - advance_deg;
+        //use fixed ignition position in dynamic mode
+        pTarget->coil_ignition_pos= configPage13.dynamic_ignition_position;
+
+        //get the expected (ideal) crank angle at ignition trigger position
+        current_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_position];
+
+        //get target ignition advance angle
+        advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
 
         //store ignition advance to timing object
         pTarget->ignition_advance_deg= advance_deg;
 
-        //calculate and store the optimal scheduler trigger position to timing object (ignition)
-        fit_position(Period_us, crank_angle_deg, &(pTarget->coil_ignition_pos), &(pTarget->coil_ignition_timing_us));
+        //calculate the corresponding crank ignition angle
+        target_crank_angle_deg= 360 - advance_deg;
+
+        //clip large advance angles
+        if(target_crank_angle_deg < current_crank_angle_deg)
+        {
+            pTarget->coil_ignition_timing_us= 0;
+        }
+        else
+        {
+            pTarget->coil_ignition_timing_us= calc_rot_duration_us(target_crank_angle_deg-current_crank_angle_deg, pImage->crank_T_us);
+        }
 
         //calculate dwell duration in crank deg (on timing)
-        dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, Period_us);
+        dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, pImage->crank_T_us);
 
         //export to timing
         pTarget->dwell_deg= dwell_deg;
+        pTarget->dwell_ms= configPage13.dynamic_dwell_us / 1000;
 
         //clip dwell to crank cycle
-        if(crank_angle_deg >= dwell_deg)
+        if(target_crank_angle_deg >= dwell_deg)
         {
             //normally, dwell + ignition advance should be max. around 100 deg
-            crank_angle_deg -= dwell_deg;
+            target_crank_angle_deg -= dwell_deg;
         }
         else
         {
             #warning TODO (oli#6#):check if this case is relevant / should be tackled more accurate
 
             //clip dwell advance to cycle
-            crank_angle_deg =0;
+            target_crank_angle_deg =0;
         }
 
         //calculate and store the optimal scheduler trigger position to timing object (dwell)
-        fit_position(Period_us, crank_angle_deg, &(pTarget->coil_dwell_pos), &(pTarget->coil_dwell_timing_us));
+        //fit_position(pImage->crank_T_us, crank_angle_deg, &(pTarget->coil_dwell_pos), &(pTarget->coil_dwell_timing_us));
+        pTarget->coil_dwell_pos= CRK_POSITION_D2;
+       pTarget->coil_dwell_timing_us= 10;
+
 
         /**
         account for scheduler allocation
@@ -197,9 +215,7 @@ void calculate_ignition_timing(volatile ignition_timing_t * pTarget, VU32 Period
         /**
         use fixed ignition triggers while cranking
         */
-#warning TODO (oli#2#): handle this case
         cranking_ignition_timing(pTarget);
-
     }
 }
 

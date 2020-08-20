@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Aug 04 14:06:53 CEST 2020
-#Tue Aug 04 14:06:53 CEST 2020
+#Last Saved on: Tue Aug 18 14:42:19 CEST 2020
+#Tue Aug 18 14:42:19 CEST 2020
 dwellSettingsDwell\ Settings_X=637
 dwell_correction_curve_Auto\ Scale\ Y\ Axis\ Maximum=true
 sparkMap3DIgnition\ Advance\ Table_height=536
@@ -33,8 +33,8 @@ egoControlAFR/O2_height=435
 dwell_correction_curve_Auto\ Scale\ X\ Axis\ Maximum=true
 airdensity_curveIAT\ density\ correction_X=626
 airdensity_curveIAT\ density\ correction_Y=350
-CommSettingsputnikCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 egoControlAFR/O2_width=412
+CommSettingsputnikCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 sparkMap3DIgnition\ Advance\ Table_Y=263
 sparkMap3DIgnition\ Advance\ Table_X=555
 veTable1Map3DVE\ Table_Y=257
@@ -44,8 +44,8 @@ sparkTblIgnition\ Advance\ Table_width=1651
 CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 dwell_correction_curveDwell\ voltage\ correction_width=1021
 afrTable1TblAFR\ Table_Y=334
-afrTable1TblAFR\ Table_X=684
 sparkSettingsSpark\ Settings_Y=419
+afrTable1TblAFR\ Table_X=684
 crankPWCranking\ Settings_height=569
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
 CommSettingBaud\ Rate=115200

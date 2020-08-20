@@ -208,6 +208,9 @@ int main(void)
     #endif
 
 
+    #warning TODO (oli#4#): implement config item set/read logic
+    configPage13.dynamic_ignition_position= CRK_POSITION_A2;
+
 
     /**
     ready to load config data from eeprom
@@ -299,6 +302,16 @@ config_load_status= RETURN_FAIL;
         {
             ls_timer &= ~BIT_TIMER_1HZ;
 
+            //provide sensor data
+            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
+            {
+                //start MAP sensor conversion
+                adc_start_injected_group(SENSOR_ADC);
+
+                Tuareg_update_process_data(&(Tuareg.process));
+            }
+
+
             //calculate new system state
             Tuareg_update_Runmode();
 
@@ -379,6 +392,7 @@ void EXTI2_IRQHandler(void)
 
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
+
             }
             else
             {
@@ -404,7 +418,6 @@ void EXTI2_IRQHandler(void)
                 /**
                 first position detected -> cranking has begun
                 */
-
                 Tuareg_set_Runmode(TMODE_CRANKING);
 
             }
@@ -413,7 +426,6 @@ void EXTI2_IRQHandler(void)
                 /**
                 decoder timeout
                 */
-
                 //collect diagnostic information
                 Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
             }
@@ -462,15 +474,11 @@ void EXTI3_IRQHandler(void)
     //collect diagnostic information
     Tuareg.diag[TDIAG_IGNITION_IRQ] += 1;
 
-    //#warning TODO (oli#9#): debug action enabled
-    //set_user_lamp(TOGGLE);
-    //set_user_lamp(ON);
-    //lowprio_scheduler_set_channel(LOWPRIO_CH1, set_user_lamp, OFF, 500);
-
     /**
-    recalculate ignition timing if the run mode allows engine operation
+    recalculate ignition timing
     */
-    void Tuareg_update_ignition_timing();
+    Tuareg_update_process_data(&(Tuareg.process));
+    Tuareg_update_ignition_timing();
 }
 
 

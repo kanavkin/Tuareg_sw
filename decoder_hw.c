@@ -251,13 +251,17 @@ inline void init_decoder_hw()
 
 
 //returns the current decoder timer value
-inline U32 decoder_get_data_age_us()
+VU32 decoder_get_data_age_us()
 {
+    /*
     VU32 timestamp;
 
     timestamp=  TIM9->CNT;
 
     return DECODER_TIMER_PERIOD_US * timestamp;
+    */
+#warning TODO (oli#1#): DEBUG
+    return 8;
 }
 
 

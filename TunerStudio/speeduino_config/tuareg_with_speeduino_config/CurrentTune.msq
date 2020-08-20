@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Aug 04 15:07:05 CEST 2020"/>
+    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Aug 18 14:56:44 CEST 2020"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
     <page>
         <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
@@ -118,7 +118,7 @@
         <constant name="nInjectors">"2"</constant>
         <constant name="engineType">"Even fire"</constant>
         <constant name="flexEnabled">"Off"</constant>
-        <constant name="algorithm">"Speed Density"</constant>
+        <constant name="algorithm">"Alpha-N"</constant>
         <constant name="baroCorr">"Off"</constant>
         <constant name="injLayout">"Paired"</constant>
         <constant name="perToothIgn">"No"</constant>
@@ -155,14 +155,14 @@
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         0.0 0.0 111.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         3.0 10.0 10.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
       </constant>
         <constant cols="1" digits="0" name="rpmBins2" rows="16" units="RPM">
          1000.0 
@@ -183,22 +183,22 @@
          8500.0 
       </constant>
         <constant cols="1" digits="0" name="mapBins2" rows="16" units="kPa">
-         20.0 
-         28.0 
-         26.0 
-         10.0 
-         20.0 
-         30.0 
-         34.0 
-         42.0 
-         50.0 
-         58.0 
-         66.0 
-         74.0 
-         82.0 
-         90.0 
-         98.0 
-         106.0 
+         14.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
       </constant>
     </page>
     <page number="3" size="64">
@@ -364,6 +364,7 @@
         <constant digits="0" name="ego_sdelay" units="sec">255.0</constant>
         <constant digits="0" name="egoRPM" units="rpm">25500.0</constant>
         <constant digits="0" name="egoTPSMax" units="%">255.0</constant>
+        <constant name="vvtPin">"Board Default"</constant>
         <constant name="useExtBaro">"Yes"</constant>
         <constant name="boostMode">"Full"</constant>
         <constant cols="1" digits="1" name="brvBins" rows="6" units="V">
@@ -815,6 +816,7 @@
          115.0 
          255.0 
       </constant>
+        <constant name="rotaryType">"FC"</constant>
         <constant name="unused11-8c">"On"</constant>
         <constant name="unused11-8d">"On"</constant>
         <constant name="unused11-8e">"On"</constant>

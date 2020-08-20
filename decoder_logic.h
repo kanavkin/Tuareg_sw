@@ -2,6 +2,7 @@
 #define DECODERLOGIC_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
 #include "trigger_wheel_layout.h"
 
 /**
@@ -100,50 +101,42 @@ when to enable cylinder identification sensor irq
 
 typedef enum {
 
-    CYL1_WORK,
-    CYL2_WORK,
-    PHASE_UNDEFINED
-
-} engine_phase_t;
-
-
-typedef enum {
-
-    INIT= 0,
-    ASYNC_KEY= 0xAA,
-    ASYNC_GAP= 0xAB,
-    SYNC= 0xB0
+    INIT,
+    ASYNC_KEY,
+    ASYNC_GAP,
+    SYNC
 
 } decoder_state_t;
 
 
 typedef enum {
 
-    DDIAG_CRANKHANDLER_CALLS,
-    DDIAG_CISHANDLER_CALLS,
-
-    DDIAG_SYNCCHECK_CALLS,
-    DDIAG_SYNCCHECK_RELAXED,
-    DDIAG_CRANKTABLE_CALLS,
-    DDIAG_ROTSPEED_CALLS,
-
     DDIAG_ASYNC_SYNC_TR,
     DDIAG_SYNC_ASYNC_TR,
+
+    DDIAG_CRANKHANDLER_CALLS,
+    DDIAG_TRIGGER_IRQ_SYNC,
+    DDIAG_TRIGGER_IRQ_DELAY,
+
 
     DDIAG_CRANKPOS_INIT,
     DDIAG_CRANKPOS_SYNC,
     DDIAG_CRANKPOS_ASYNC_KEY,
     DDIAG_CRANKPOS_ASYNC_GAP,
 
-    DDIAG_TRIGGER_IRQ_SYNC,
-    DDIAG_TRIGGER_IRQ_DELAY,
     DDIAG_TIMEOUT_EVENTS,
+    DDIAG_TIMER_UPDATE_EVENTS,
 
+    DDIAG_SYNCCHECK_CALLS,
+    DDIAG_SYNCCHECK_RELAXED,
+
+    DDIAG_CRANKTABLE_CALLS,
+    DDIAG_ROTSPEED_CALLS,
+
+    DDIAG_CISHANDLER_CALLS,
     DDIAG_CRANKPOS_CIS_PHASED,
     DDIAG_CRANKPOS_CIS_UNDEFINED,
     DDIAG_PHASED_UNDEFINED_TR,
-
-    DDIAG_TIMER_UPDATE_EVENTS,
 
     DDIAG_COUNT
 
@@ -198,24 +191,14 @@ typedef struct {
 
 typedef struct {
 
-
     //rotational period of crankshaft
     VU32 crank_T_us;
     VS32 crank_deltaT_us;
-
-    VU32 engine_rpm;
 
     /*
     crank position
     */
     volatile crank_position_t crank_position;
-
-
-    /*
-    calculated crank angles for the next positions
-    at the current engine speed
-    */
-    VU16 crank_position_table_deg[CRK_POSITION_COUNT];
 
     /*
     camshaft
@@ -236,7 +219,7 @@ extern void reset_position_data();
 extern void reset_crank_timing_data();
 extern void reset_sync_stability();
 
-void calculate_crank_position_table(VU32 Period, VU16 * Table);
+void update_crank_position_table(volatile crank_position_table_t * Table);
 void update_engine_speed(VU32 Interval);
 
 extern void reset_diag_data();
