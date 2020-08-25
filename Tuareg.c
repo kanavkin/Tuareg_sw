@@ -359,7 +359,12 @@ void Tuareg_update_process_data(process_data_t * pImage)
     //analog sensors
     pImage->MAP_kPa= Tuareg_get_asensor(ASENSOR_MAP);
     pImage->Baro_kPa= Tuareg_get_asensor(ASENSOR_BARO);
-    pImage->TPS_deg= Tuareg_get_asensor(ASENSOR_TPS);
+
+#warning TODO (oli#1#): debug
+
+    //pImage->TPS_deg= Tuareg_get_asensor(ASENSOR_TPS);
+    pImage->TPS_deg= 30;
+
     pImage->IAT_C= Tuareg_get_asensor(ASENSOR_IAT);
     pImage->CLT_C= Tuareg_get_asensor(ASENSOR_CLT);
     pImage->VBAT_V= Tuareg_get_asensor(ASENSOR_VBAT);

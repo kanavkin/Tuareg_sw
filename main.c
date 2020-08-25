@@ -305,6 +305,8 @@ config_load_status= RETURN_FAIL;
             //provide sensor data
             if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
             {
+#warning TODO (oli#8#): who will provide procass data in limp mode with engine halted?
+
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
 

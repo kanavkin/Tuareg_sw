@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Thu Aug 20 16:28:48 CEST 2020
-#Thu Aug 20 16:28:48 CEST 2020
+#Last Saved on: Tue Aug 25 11:28:43 CEST 2020
+#Tue Aug 25 11:28:43 CEST 2020
 dwellSettingsDwell\ Settings_X=637
 dwell_correction_curve_Auto\ Scale\ Y\ Axis\ Maximum=true
 sparkMap3DIgnition\ Advance\ Table_height=536
@@ -21,9 +21,9 @@ engine_constantsEngine\ Constants_Y=281
 refTable_000_txtBiasResistor=50000.0
 afrTable1TblAFR\ Table_width=558
 CommSettingsputnikCommDriver.controllerInterfaceId=RS232 Serial Interface
-sparkTblIgnition\ Advance\ Table_X=240
+sparkTblIgnition\ Advance\ Table_X=152
 CommSettingsputnikCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
-sparkTblIgnition\ Advance\ Table_Y=379
+sparkTblIgnition\ Advance\ Table_Y=416
 refTable_000_chkCelsius=true
 engine_constantsEngine\ Constants_width=601
 dwellSettingsDwell\ Settings_Y=316

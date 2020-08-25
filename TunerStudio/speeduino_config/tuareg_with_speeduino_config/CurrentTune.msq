@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Thu Aug 20 16:37:16 CEST 2020"/>
+    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Aug 25 13:30:56 CEST 2020"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
     <page>
         <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
@@ -94,8 +94,8 @@
         <constant name="display5">"RPM"</constant>
         <constant name="displayB1">"RPM"</constant>
         <constant name="displayB2">"RPM"</constant>
-        <constant digits="1" name="reqFuel" units="ms">0.0</constant>
-        <constant digits="0" name="divider">0.0</constant>
+        <constant digits="1" name="reqFuel" units="ms">10.9</constant>
+        <constant digits="0" name="divider">2.0</constant>
         <constant name="alternate">"Simultaneous"</constant>
         <constant name="multiplyMAP">"No"</constant>
         <constant name="includeAFR">"No"</constant>
@@ -109,7 +109,7 @@
         <constant digits="0" name="inj2Ang" units="deg">0.0</constant>
         <constant digits="0" name="inj3Ang" units="deg">0.0</constant>
         <constant digits="0" name="inj4Ang" units="deg">0.0</constant>
-        <constant name="mapSample">"Instantaneous"</constant>
+        <constant name="mapSample">"Cycle Average"</constant>
         <constant name="twoStroke">"Four-stroke"</constant>
         <constant name="injType">"Port"</constant>
         <constant name="nCylinders">"2"</constant>
@@ -133,7 +133,7 @@
         <constant digits="0" name="mapMin" units="kpa">0.0</constant>
         <constant digits="0" name="mapMax" units="kpa">173.0</constant>
         <constant digits="0" name="fpPrime" units="s">0.0</constant>
-        <constant digits="1" name="stoich" units=":1">0.0</constant>
+        <constant digits="1" name="stoich" units=":1">12.0</constant>
         <constant digits="0" name="oddfire2" units="deg">0.0</constant>
         <constant digits="0" name="oddfire3" units="deg">0.0</constant>
         <constant digits="0" name="oddfire4" units="deg">0.0</constant>
@@ -153,16 +153,16 @@
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         1.0 11.0 11.0 12.0 23.0 27.0 32.0 34.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         3.0 10.0 10.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         3.0 3.0 3.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
          0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
-         3.0 10.0 10.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
+         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
+         3.0 20.0 3.0 10.0 13.0 15.0 18.0 21.0 24.0 26.0 29.0 43.0 42.0 42.0 42.0 42.0 
       </constant>
         <constant cols="1" digits="0" name="rpmBins2" rows="16" units="RPM">
          1000.0 
@@ -183,22 +183,22 @@
          8500.0 
       </constant>
         <constant cols="1" digits="0" name="mapBins2" rows="16" units="kPa">
-         2.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         50.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         0.0 
-         100.0 
+         6.0 
+         10.0 
+         14.0 
+         18.0 
+         22.0 
+         26.0 
+         30.0 
+         34.0 
+         38.0 
+         42.0 
+         48.0 
+         54.0 
+         64.0 
+         74.0 
+         84.0 
+         90.0 
       </constant>
     </page>
     <page number="3" size="64">
