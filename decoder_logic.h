@@ -36,7 +36,7 @@ configPage12.decoder_delay_us
 default:
 DEFAULT_CONFIG12_DECODER_DELAY
 */
-#define DEFAULT_CONFIG12_DECODER_DELAY 320
+#define DEFAULT_CONFIG12_DECODER_DELAY 40
 
 
 /**

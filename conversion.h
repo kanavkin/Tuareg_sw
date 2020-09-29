@@ -18,6 +18,8 @@ typedef enum {
 
 } conversion_int_t ;
 
+
+
 void UART_Print_S(USART_TypeDef * Port, S32 value, conversion_int_t inttype, U32 padding);
 void UART_Print_U(USART_TypeDef * Port, U32 value, conversion_int_t inttype, U32 padding);
 
@@ -31,5 +33,10 @@ void UART1_Print_U32(U32 value);
 
 void UART_Print_U8Hex(USART_TypeDef * Port, U8 value);
 void UART_Print_U8Hex_new(USART_TypeDef * Port, U8 value);
+
+U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb);
+float compose_float(U32 Buffer);
+U32 serialize_float(float Value);
+void UART_Print_F32(USART_TypeDef * Port, F32 Value);
 
 #endif // CONVERSION_H_INCLUDED

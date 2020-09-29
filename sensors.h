@@ -259,7 +259,7 @@ typedef struct {
     VU8 asensors_sync_integrator_count[ASENSOR_SYNC_COUNT];
 
 
-    VU16 last_TPS;
+    VF32 last_TPS;
 
     VU8 async_loop_count;
 
@@ -275,11 +275,11 @@ typedef struct {
 
 typedef struct {
 
-    VS16 ddt_TPS;
+    VF32 ddt_TPS;
 
     VU16 asensors_health;
 
-    VU16 asensors[ASENSOR_COUNT];
+    VF32 asensors[ASENSOR_COUNT];
     VU16 asensors_raw[ASENSOR_COUNT];
     VU16 asensors_valid[ASENSOR_COUNT];
 
@@ -290,8 +290,8 @@ typedef struct {
 volatile sensor_interface_t * init_sensors();
 VU32 read_dsensors();
 void read_digital_sensors();
-U32 calculate_inverse_lin(U16 Figure, U16 M, U16 N, U16 L);
-S16 calculate_ddt_TPS(U16 Last_TPS, U16 Current_TPS);
+float calc_inverse_lin(U32 Arg, float M, float N);
+float calculate_ddt_TPS(float Last_TPS, float Current_TPS);
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
 #endif // SENSORS_H_INCLUDED

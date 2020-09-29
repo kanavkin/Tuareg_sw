@@ -18,13 +18,13 @@ typedef struct _process_data_t {
 
     volatile ctrl_strategy_t ctrl_strategy;
 
-    VU32 MAP_kPa;
-    VU32 Baro_kPa;
-    VU32 TPS_deg;
-    VS32 ddt_TPS;
-    VU32 IAT_C;
-    VU32 CLT_C;
-    VU32 VBAT_V;
+    VF32 MAP_Pa;
+    VF32 Baro_Pa;
+    VF32 TPS_deg;
+    VF32 ddt_TPS;
+    VF32 IAT_C;
+    VF32 CLT_C;
+    VF32 VBAT_V;
 
 
 } process_data_t;

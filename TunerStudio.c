@@ -36,7 +36,7 @@ All commands that require more than one byte of rx data shall set the TS_cli.Sta
 */
 void ts_communication()
 {
-    VU32 data_1, data_2, data_3, data_4;
+    VU32 data_1, data_2, data_3, data_4, data_5;
 
 
     // reset cmd pending when timeout occurred
@@ -138,6 +138,34 @@ void ts_communication()
             }
             break;
 
+        case 'E':
+
+            /**
+            received modify calibration command
+            */
+            TS_cli.State.cmd_pending = TRUE;
+
+            //taking 5 bytes of input data
+
+            if(UART_available() >= 5)
+            {
+                /**
+                data order: Offset, Value (MSB, x, x, LSB)
+                */
+                data_1= UART_getRX();
+                data_2= UART_getRX();
+                data_3= UART_getRX();
+                data_4= UART_getRX();
+                data_5= UART_getRX();
+
+                //run the desired feature
+                //replaceCalib((U32) data_1, compose_U32(data_2, data_3, data_4, data_5) );
+                replaceCalib((U32) data_1, dword(data_2, data_3, data_4, data_5) );
+
+                TS_cli.State.cmd_pending = FALSE;
+            }
+            break;
+
 
         case 'F':
                 /**
@@ -173,10 +201,16 @@ void ts_communication()
                         TS_cli.State.burn_permission = TRUE;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config burn ***");
                     }
+                    else if((data_1 == 'c') && (data_2 == 'a') && (data_3 == 'l') && (data_4 == '#'))
+                    {
+                        TS_cli.State.calibmod_permission = TRUE;
+                        UART_Send(DEBUG_PORT, "\r\n *** unlocked calibration modification ***");
+                    }
                     else if((data_1 == 'l') && (data_2 == 'o') && (data_3 == 'c') && (data_4 == 'k'))
                     {
                         TS_cli.State.burn_permission = FALSE;
                         TS_cli.State.mod_permission = FALSE;
+                        TS_cli.State.calibmod_permission = FALSE;
                         UART_Send(DEBUG_PORT, "\r\n *** config locked ***");
                     }
 
@@ -576,8 +610,8 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
     fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
     fullStatus[3] = Tuareg.ignition_timing.dwell_ms *10; //Dwell in ms * 10
-    fullStatus[4] = lowByte(Tuareg.process.MAP_kPa / 10); //2 U8s for MAP
-    fullStatus[5] = highByte(Tuareg.process.MAP_kPa / 10);
+    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_Pa / 10); //2 U8s for MAP
+    fullStatus[5] = highByte((U32) Tuareg.process.MAP_Pa / 10);
     fullStatus[6] = (U8)Tuareg.process.IAT_C; //mat
     fullStatus[7] = (U8)Tuareg.process.CLT_C; //Coolant ADC
     fullStatus[8] = (U8) Tuareg.process.VBAT_V; //Battery voltage correction (%)
@@ -625,7 +659,7 @@ void ts_sendValues(U32 offset, U32 length)
         fullStatus[38] = 0x42; //Tuareg.testOutputs;
 
         fullStatus[39] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-        fullStatus[40] = (U8) Tuareg.process.Baro_kPa; //Barometer value
+        fullStatus[40] = (U8) Tuareg.process.Baro_Pa; //Barometer value
 
         /**
         we do not use CAN
@@ -1488,95 +1522,73 @@ void ts_diagPage()
 
 void ts_diagPage_calib()
 {
-    U32 i;
-
     /**
     Display Values from Config Page 9
     */
-    UART_Send(TS_PORT, "\r\n\r\nconfigpage 9 aka calibpage 12:\r\n\r\n");
+    UART_Send(TS_PORT, "\r\n\r\nsensors calibration:\r\n");
 
     /*
     IAT
     */
-    UART_Send(TS_PORT, "IAT: \r\nx: ");
+    UART_Send(TS_PORT, "\r\nIAT M N: ");
+    UART_Print_F32(TS_PORT, configPage9.IAT_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.IAT_calib_N);
 
-    for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        UART_Print_U(TS_PORT, configPage9.IAT_calib_data_x[i], TYPE_U16, PAD);
-    }
-
-    UART_Send(TS_PORT, "\r\ny: ");
-
-    for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        UART_Print_U(TS_PORT, configPage9.IAT_calib_data_y[i], TYPE_U16, PAD);
-    }
 
 
     /*
     CLT
     */
-    UART_Send(TS_PORT, "\r\nCLT: \r\nx: ");
-
-    for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        UART_Print_U(TS_PORT, configPage9.CLT_calib_data_x[i], TYPE_U16, PAD);
-    }
-
-    UART_Send(TS_PORT, "\r\ny: ");
-
-    for(i=0; i< CALIBRATION_TABLE_DIMENSION; i++)
-    {
-        UART_Print_U(TS_PORT, configPage9.CLT_calib_data_y[i], TYPE_U16, PAD);
-    }
+    UART_Send(TS_PORT, "\r\nCLT M N: ");
+    UART_Print_F32(TS_PORT, configPage9.CLT_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.CLT_calib_N);
 
 
     /*
     TPS
     */
-    UART_Send(TS_PORT, "\r\n\r\nTPS M N: ");
-    UART_Print_U(TS_PORT, configPage9.TPS_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.TPS_calib_N, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nTPS M N: ");
+    UART_Print_F32(TS_PORT, configPage9.TPS_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.TPS_calib_N);
 
     /*
     MAP
     */
-    UART_Send(TS_PORT, "\r\nMAP M N L: ");
-    UART_Print_U(TS_PORT, configPage9.MAP_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.MAP_calib_N, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.MAP_calib_L, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nMAP M N: ");
+    UART_Print_F32(TS_PORT, configPage9.MAP_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.MAP_calib_N);
+
 
     /*
     BARO
     */
-    UART_Send(TS_PORT, "\r\nBARO M N L: ");
-    UART_Print_U(TS_PORT, configPage9.BARO_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.BARO_calib_N, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.BARO_calib_L, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nBARO M N: ");
+    UART_Print_F32(TS_PORT, configPage9.BARO_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.BARO_calib_N);
+
 
     /*
     O2
     */
-    UART_Send(TS_PORT, "\r\nO2 M N L: ");
-    UART_Print_U(TS_PORT, configPage9.O2_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.O2_calib_N, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.O2_calib_L, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nO2 M N: ");
+    UART_Print_F32(TS_PORT, configPage9.O2_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.O2_calib_N);
+
 
     /*
     VBAT
     */
-    UART_Send(TS_PORT, "\r\nVBAT M N L: ");
-    UART_Print_U(TS_PORT, configPage9.VBAT_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.VBAT_calib_N, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.VBAT_calib_L, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nVBAT M N: ");
+    UART_Print_F32(TS_PORT, configPage9.VBAT_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.VBAT_calib_N);
+
 
     /*
     KNOCK
     */
-    UART_Send(TS_PORT, "\r\nKNOCK M N L: ");
-    UART_Print_U(TS_PORT, configPage9.KNOCK_calib_M, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.KNOCK_calib_N, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, configPage9.KNOCK_calib_L, TYPE_U16, NO_PAD);
+    UART_Send(TS_PORT, "\r\nKNOCK M N: ");
+    UART_Print_F32(TS_PORT, configPage9.KNOCK_calib_M);
+    UART_Print_F32(TS_PORT, configPage9.KNOCK_calib_N);
 
 }
 
@@ -1696,13 +1708,13 @@ void ts_diag_process_data(volatile process_data_t * pImage)
 
     volatile ctrl_strategy_t ctrl_strategy;
 
-    VU32 MAP_kPa;
-    VU32 Baro_kPa;
-    VU32 TPS_deg;
-    VS32 ddt_TPS;
-    VU32 IAT_C;
-    VU32 CLT_C;
-    VU32 VBAT_V;
+    VF32 MAP_Pa;
+    VF32 Baro_Pa;
+    VF32 TPS_deg;
+    VF32 ddt_TPS;
+    VF32 IAT_C;
+    VF32 CLT_C;
+    VF32 VBAT_V;
     */
 
     UART_Send(TS_PORT, "\r\n\r\nprocess data image:\r\n");
@@ -1727,14 +1739,14 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Send(TS_PORT, "\r\nstrategy: ");
     UART_Print_U(TS_PORT, pImage->ctrl_strategy, TYPE_U8, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kpa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V): ");
-    UART_Print_U(TS_PORT, pImage->MAP_kPa, TYPE_U32, PAD);
-    UART_Print_U(TS_PORT, pImage->Baro_kPa, TYPE_U32, PAD);
-    UART_Print_U(TS_PORT, pImage->TPS_deg, TYPE_U32, PAD);
-    UART_Print_S(TS_PORT, pImage->ddt_TPS, TYPE_S32, PAD);
-    UART_Print_U(TS_PORT, pImage->IAT_C, TYPE_U32, PAD);
-    UART_Print_U(TS_PORT, pImage->CLT_C, TYPE_U32, PAD);
-    UART_Print_U(TS_PORT, pImage->VBAT_V, TYPE_U32, PAD);
+    UART_Send(TS_PORT, "\r\nMAP (Pa), BARO (Pa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V): ");
+    UART_Print_F32(TS_PORT, pImage->MAP_Pa);
+    UART_Print_F32(TS_PORT, pImage->Baro_Pa);
+    UART_Print_F32(TS_PORT, pImage->TPS_deg);
+    UART_Print_F32(TS_PORT, pImage->ddt_TPS);
+    UART_Print_F32(TS_PORT, pImage->IAT_C);
+    UART_Print_F32(TS_PORT, pImage->CLT_C);
+    UART_Print_F32(TS_PORT, pImage->VBAT_V);
 
 }
 
@@ -1849,10 +1861,12 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
             {
                 // Z-axis
+                #ifdef TS_DEBUG
                 #warning TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN Z: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                #endif //TS_DEBUG
 
                 //all values are offset by 40
                 if(newValue >= TS_IGNITION_ADVANCE_OFFSET)
@@ -1864,10 +1878,12 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
             {
                 // X-axis
+                #ifdef TS_DEBUG
                 #warning TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN X: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                #endif //TS_DEBUG
 
                 // the RPM values sent by megasquirt are divided by 100
                 newValue *= TABLE_RPM_MULTIPLIER;
@@ -1876,10 +1892,12 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             else if(valueOffset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION )
             {
                 // Y-axis
+                #ifdef TS_DEBUG
                 #warning TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN Y: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                #endif //TS_DEBUG
 
                 // the RPM values sent by megasquirt are divided by 2
                 newValue *= TABLE_LOAD_MULTIPLIER;
@@ -1887,11 +1905,12 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             else
             {
                 //invalid offset, do not attempt to modify anything
-
-#warning TODO (oli#1#): debug action enabled
+                #ifdef TS_DEBUG
+                #warning TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "received invalid ignition bin: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                #endif //TS_DEBUG
 
                 return;
             }
@@ -2129,142 +2148,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
         case CALIBPAGE:
 
-            /**
-            TODO
-            reformat with generic literals
-
-            Page 9:
-
-            U16 IAT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
-            U16 IAT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
-
-            U16 CLT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
-            U16 CLT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
-
-            U16 TPS_calib_M;
-            U16 TPS_calib_N;
-
-            U16 MAP_calib_M;
-            U16 MAP_calib_N;
-            U16 MAP_calib_L;
-
-            U16 BARO_calib_M;
-            U16 BARO_calib_N;
-            U16 BARO_calib_L;
-
-            U16 O2_calib_M;
-            U16 O2_calib_N;
-            U16 O2_calib_L;
-
-            U16 VBAT_calib_M;
-            U16 VBAT_calib_N;
-            U16 VBAT_calib_L;
-
-            U16 KNOCK_calib_M;
-            U16 KNOCK_calib_N;
-            U16 KNOCK_calib_L;
-            */
-
-            //IAT
-            if(valueOffset < CALIBRATION_TABLE_DIMENSION)
-            {
-                configPage9.IAT_calib_data_x[valueOffset]= newValue;
-            }
-            else if(valueOffset < 2* CALIBRATION_TABLE_DIMENSION)
-            {
-                configPage9.IAT_calib_data_y[valueOffset - CALIBRATION_TABLE_DIMENSION]= newValue;
-            }
-
-            //CLT
-            else if(valueOffset < 3* CALIBRATION_TABLE_DIMENSION)
-            {
-                configPage9.CLT_calib_data_x[valueOffset - 2* CALIBRATION_TABLE_DIMENSION]= newValue;
-            }
-            else if(valueOffset < 4* CALIBRATION_TABLE_DIMENSION)
-            {
-                configPage9.CLT_calib_data_y[valueOffset - 3* CALIBRATION_TABLE_DIMENSION]= newValue;
-            }
-
-            //TPS
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION)
-            {
-                configPage9.TPS_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +1)
-            {
-                configPage9.TPS_calib_N= newValue;
-            }
-
-            //MAP M,N,L
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +2)
-            {
-                configPage9.MAP_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +3)
-            {
-                configPage9.MAP_calib_N= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +4)
-            {
-                configPage9.MAP_calib_L= newValue;
-            }
-
-            //BARO M,N,L
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +5)
-            {
-                configPage9.BARO_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +6)
-            {
-                configPage9.BARO_calib_N= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +7)
-            {
-                configPage9.BARO_calib_L= newValue;
-            }
-
-            //O2 M,N,L
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +8)
-            {
-                configPage9.O2_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +9)
-            {
-                configPage9.O2_calib_N= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +10)
-            {
-                configPage9.O2_calib_L= newValue;
-            }
-
-            //VBAT M,N,L
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +11)
-            {
-                configPage9.VBAT_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +12)
-            {
-                configPage9.VBAT_calib_N= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +13)
-            {
-                configPage9.VBAT_calib_L= newValue;
-            }
-
-            //KNOCK M,N,L
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +14)
-            {
-                configPage9.KNOCK_calib_M= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +15)
-            {
-                configPage9.KNOCK_calib_N= newValue;
-            }
-            else if(valueOffset == 4* CALIBRATION_TABLE_DIMENSION +16)
-            {
-                configPage9.KNOCK_calib_L= newValue;
-            }
-
+            UART_Send(DEBUG_PORT, "\r\n*** use E command for calibration modification! ***\r\n");
             break;
 
 
@@ -2399,5 +2283,152 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
         default:
             break;
   }
+}
+
+/**
+replace a calibration value
+*/
+void replaceCalib(U32 Offset, U32 Value)
+{
+
+    if(TS_cli.State.calibmod_permission == FALSE)
+    {
+        UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (permission) ***\r\n");
+        return;
+    }
+
+    #ifdef TS_DEBUG
+    #warning TODO (oli#1#): debug action enabled
+    UART_Tx(DEBUG_PORT, '\r');
+    UART_Tx(DEBUG_PORT, '\n');
+    UART_Tx(DEBUG_PORT, 'E');
+    UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+    UART_Tx(DEBUG_PORT, '.');
+    UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+    #endif //TS_DEBUG
+
+    /**
+    calibration layout:
+
+    float IAT_calib_M;
+    float IAT_calib_N;
+
+    float CLT_calib_M;
+    float CLT_calib_N;
+
+    float TPS_calib_M;
+    float TPS_calib_N;
+
+    float MAP_calib_M;
+    float MAP_calib_N;
+
+    float BARO_calib_M;
+    float BARO_calib_N;
+
+    float O2_calib_M;
+    float O2_calib_N;
+
+    float VBAT_calib_M;
+    float VBAT_calib_N;
+
+    float KNOCK_calib_M;
+    float KNOCK_calib_N;
+    */
+
+    switch(Offset)
+    {
+    case CALIB_OS_IAT_M:
+
+        configPage9.IAT_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_IAT_N:
+
+        configPage9.IAT_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_CLT_M:
+
+        configPage9.CLT_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_CLT_N:
+
+        configPage9.CLT_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_TPS_M:
+
+        configPage9.TPS_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_TPS_N:
+
+        configPage9.TPS_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_MAP_M:
+
+        configPage9.MAP_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_MAP_N:
+
+        configPage9.MAP_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_BARO_M:
+
+        configPage9.BARO_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_BARO_N:
+
+        configPage9.BARO_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_O2_M:
+
+        configPage9.O2_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_O2_N:
+
+        configPage9.O2_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_VBAT_M:
+
+        configPage9.VBAT_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_VBAT_N:
+
+        configPage9.VBAT_calib_N= compose_float(Value);
+        break;
+
+
+    case CALIB_OS_KNOCK_M:
+
+        configPage9.KNOCK_calib_M= compose_float(Value);
+        break;
+
+    case CALIB_OS_KNOCK_N:
+
+        configPage9.KNOCK_calib_N= compose_float(Value);
+        break;
+
+    default:
+        UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (invalid offset) ***\r\n");
+        break;
+
+    }
+
 }
 

@@ -192,6 +192,88 @@ void UART_Print_U(USART_TypeDef * Port, U32 value, conversion_int_t inttype, U32
 }
 
 
+#define PRINTF32_BUFLEN 10
+
+/**
+void myPrintf(float fVal)
+
+prints a number with 2 digits following the decimal place
+creates the string backwards, before printing it character-by-character from
+the end to the start
+
+*/
+void UART_Print_F32(USART_TypeDef * Port, F32 Value)
+{
+    U8 result[PRINTF32_BUFLEN];
+    S32 dVal, dec;
+    U32 i;
+
+    if(Value < 0.0)
+    {
+        //negative number
+        Value -= 0.005;
+
+        dVal = -Value;
+    }
+    else
+    {
+        //added for rounding
+        Value += 0.005;
+
+        dVal = Value;
+    }
+
+
+    dec = (S32)(Value * 100) % 100;
+
+    result[0] = (dec % 10) + '0';
+    result[1] = (dec / 10) + '0';
+    result[2] = '.';
+
+    //proceed to the integer part
+    i = 3;
+
+    if(dVal == 0)
+    {
+        //nothing to convert
+        result[i] = '0';
+    }
+    else
+    {
+        //loop through the positions
+        while ((dVal > 0) && (i < PRINTF32_BUFLEN))
+        {
+            result[i] = (dVal % 10) + '0';
+            dVal /= 10;
+            i++;
+        }
+
+         //adjust i to the first significant place
+        i--;
+    }
+
+
+
+    if(Value < 0.0)
+    {
+        //negative number
+        UART_Tx(Port, '-');
+    }
+
+    while(i > 0)
+    {
+        UART_Tx(Port, result[i]);
+        i--;
+    }
+
+    //last fractional place
+    UART_Tx(Port, result[0]);
+
+    //trailing whitespace
+    UART_Tx(Port, ' ');
+}
+
+
 void CV_U8Char(U8 value, char * Target)
 {
     U8 hun;
@@ -218,47 +300,6 @@ void CV_U8Char(U8 value, char * Target)
 
 }
 
-/*
-void UART_Print_U8(U8 value)
-{
-    U8 hun;
-    U8 ten;
-
-    for(hun=0; value > 99; hun++)
-    {
-        value -= 100;
-    }
-
-    for(ten=0; value > 9; ten++)
-    {
-        value -= 10;
-    }
-
-    //ASCII
-    if(hun == 0)
-    {
-        UART_Tx(' ');
-    }
-    else
-    {
-        UART_Tx(hun + 0x30);
-    }
-
-    if((ten == 0) && (hun == 0))
-    {
-        UART_Tx(' ');
-    }
-    else
-    {
-        UART_Tx(ten + 0x30);
-    }
-
-    UART_Tx(value + 0x30);
-
-    //trailing space
-    UART_Tx(' ');
-}
-*/
 
 
 
@@ -302,58 +343,6 @@ void CV_S8Char(S8 value, char * Target)
 }
 
 
-/*
-void UART_Print_S8(S8 value)
-{
-    U8 hun;
-    U8 ten;
-
-    if(value < 0)
-    {
-        UART_Tx('-');
-        value= (U8) -value;
-    }
-    else
-    {
-        UART_Tx(' ');
-        value= (U8) value;
-    }
-
-    for(hun=0; value > 99; hun++)
-    {
-        value -= 100;
-    }
-
-    for(ten=0; value > 9; ten++)
-    {
-        value -= 10;
-    }
-
-    //ASCII
-    if(hun == 0)
-    {
-        UART_Tx(' ');
-    }
-    else
-    {
-        UART_Tx(hun + 0x30);
-    }
-
-    if((ten == 0) && (hun == 0))
-    {
-        UART_Tx(' ');
-    }
-    else
-    {
-        UART_Tx(ten + 0x30);
-    }
-
-    UART_Tx(value + 0x30);
-
-    //trailing space
-    UART_Tx(' ');
-}
-*/
 
 
 void CV_U16Char(U16 value,  char * Target,  U8 term_string,  U8 nozero)
@@ -463,341 +452,6 @@ void CV_U16Char(U16 value,  char * Target,  U8 term_string,  U8 nozero)
 }
 
 
-/*
-void UART_Print_U16(U16 value)
-{
-    U32 number;
-    U32 lead_zero;
-
-    //ten thousands
-    for(number=0; value > 9999; number++)
-    {
-        value -= 10000;
-    }
-
-    if(number)
-    {
-        UART_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-
-        UART_Tx(' ');
-        lead_zero= 0xFFFFFFFF;
-
-    }
-
-    //thousands
-    for(number=0; value > 999; number++)
-    {
-        value -= 1000;
-    }
-
-    if(number)
-    {
-        UART_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART_Tx(' ');
-        }
-        else
-        {
-            UART_Tx('0');
-        }
-
-    }
-
-    //hundert
-    for(number=0; value > 99; number++)
-    {
-        value -= 100;
-    }
-
-    if(number)
-    {
-        UART_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART_Tx(' ');
-        }
-        else
-        {
-            UART_Tx('0');
-        }
-
-    }
-
-    //ten
-    for(number=0; value > 9; number++)
-    {
-        value -= 10;
-    }
-
-    if(number)
-    {
-        UART_Tx(number + 0x30);
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART_Tx(' ');
-        }
-        else
-        {
-            UART_Tx('0');
-        }
-
-    }
-
-    //remainder
-    UART_Tx(value + 0x30);
-
-
-    //trailing space
-    UART_Tx(' ');
-}
-*/
-
-
-/**
-0xFFFFFFFF = 4 294 967 295
-*/
-/*
-void UART1_Print_U32(U32 value)
-{
-    U32 number;
-    U32 lead_zero;
-
-
-    //milliard
-    for(number=0; value > 999999999; number++)
-    {
-        value -= 1000000000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0UL;
-    }
-    else
-    {
-        UART1_Tx(' ');
-        lead_zero= 0xFFFFFFFF;
-    }
-
-    //hundred millions
-    for(number=0; value > 99999999; number++)
-    {
-        value -= 100000000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //ten millions
-    for(number=0; value > 9999999; number++)
-    {
-        value -= 10000000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //millions
-    for(number=0; value > 999999; number++)
-    {
-        value -= 1000000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //hundred thousands
-    for(number=0; value > 99999; number++)
-    {
-        value -= 100000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //ten thousands
-    for(number=0; value > 9999; number++)
-    {
-        value -= 10000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //thousands
-    for(number=0; value > 999; number++)
-    {
-        value -= 1000;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //hundert
-    for(number=0; value > 99; number++)
-    {
-        value -= 100;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-        lead_zero= 0x00;
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //ten
-    for(number=0; value > 9; number++)
-    {
-        value -= 10;
-    }
-
-    if(number)
-    {
-        UART1_Tx(number + 0x30);
-    }
-    else
-    {
-        if(lead_zero)
-        {
-            UART1_Tx(' ');
-        }
-        else
-        {
-            UART1_Tx('0');
-        }
-
-    }
-
-    //remainder
-    UART1_Tx(value + 0x30);
-
-
-    //trailing space
-    UART1_Tx(' ');
-}
-*/
-
-
-
 
 
 
@@ -854,5 +508,56 @@ void UART_Print_U8Hex_new(USART_TypeDef * Port, U8 value)
 
     //trailing space
     UART_Tx(Port, ' ');
+}
+
+
+
+U32 serialize_float(float Value)
+{
+    union {
+
+        float in;
+        U32  out;
+
+    } u;
+
+    u.in = Value;
+
+    return u.out;
+}
+
+float compose_float(U32 Buffer)
+{
+    union {
+
+        float float_out;
+        U32  in;
+
+    } u;
+
+    u.in = Buffer;
+
+    return u.float_out;
+}
+
+
+
+
+U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb)
+#warning TODO (oli#9#): broken
+{
+    union {
+
+        U32 out;
+        U8  in[4];
+
+    } u;
+
+    u.in[0] = Msb;
+    u.in[1] = Mid_h;
+    u.in[2] = Mid_l;
+    u.in[3] = Lsb;
+
+    return u.out;
 }
 

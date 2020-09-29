@@ -342,8 +342,6 @@ void Tuareg_update_process_data(process_data_t * pImage)
     //collect diagnostic information
     Tuareg.diag[TDIAG_PROCESSDATA_CALLS] += 1;
 
-
-
     //crank_T_us
     pImage->crank_T_us= Tuareg.decoder->crank_T_us;
 
@@ -357,14 +355,9 @@ void Tuareg_update_process_data(process_data_t * pImage)
     update_crank_position_table(&(pImage->crank_position_table));
 
     //analog sensors
-    pImage->MAP_kPa= Tuareg_get_asensor(ASENSOR_MAP);
-    pImage->Baro_kPa= Tuareg_get_asensor(ASENSOR_BARO);
-
-#warning TODO (oli#1#): debug
-
-    //pImage->TPS_deg= Tuareg_get_asensor(ASENSOR_TPS);
-    pImage->TPS_deg= 30;
-
+    pImage->MAP_Pa= Tuareg_get_asensor(ASENSOR_MAP);
+    pImage->Baro_Pa= Tuareg_get_asensor(ASENSOR_BARO);
+    pImage->TPS_deg= Tuareg_get_asensor(ASENSOR_TPS);
     pImage->IAT_C= Tuareg_get_asensor(ASENSOR_IAT);
     pImage->CLT_C= Tuareg_get_asensor(ASENSOR_CLT);
     pImage->VBAT_V= Tuareg_get_asensor(ASENSOR_VBAT);
@@ -435,7 +428,9 @@ void Tuareg_trigger_ignition()
         Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
 
         //correct timing
-        corr_timing_us= sub_U32(Tuareg.ignition_timing.coil_ignition_timing_us, decoder_get_data_age_us());
+        corr_timing_us= Tuareg.ignition_timing.coil_ignition_timing_us;
+
+        sub_VU32(&corr_timing_us, decoder_get_data_age_us());
 
         trigger_coil_by_timer(corr_timing_us, COIL_IGNITION);
     }
@@ -446,7 +441,9 @@ void Tuareg_trigger_ignition()
         Tuareg.diag[TDIAG_TRIG_COIL_DWELL] += 1;
 
         //correct timing
-        corr_timing_us= sub_U32(Tuareg.ignition_timing.coil_dwell_timing_us, decoder_get_data_age_us());
+        corr_timing_us= Tuareg.ignition_timing.coil_dwell_timing_us;
+
+        sub_VU32(&corr_timing_us, decoder_get_data_age_us());
 
         trigger_coil_by_timer(corr_timing_us, COIL_DWELL);
     }

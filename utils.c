@@ -91,7 +91,10 @@ U16 word(U8 high, U8 low)
     return ((high << 8) | low);
 }
 
-
+U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb)
+{
+    return ( (Msb << 24) | (Mid1 << 16) | (Mid2 << 8) | Lsb );
+}
 
 
 

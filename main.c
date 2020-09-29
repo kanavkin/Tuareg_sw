@@ -317,6 +317,9 @@ config_load_status= RETURN_FAIL;
             //calculate new system state
             Tuareg_update_Runmode();
 
+
+            //print_sensor_data(DEBUG_PORT);
+
         }
 
         /**

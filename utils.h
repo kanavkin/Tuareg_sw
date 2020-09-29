@@ -17,6 +17,7 @@ void LeaveCrit();
 U16 word(U8 high, U8 low);
 U8 lowByte(U16);
 U8 highByte(U16);
+U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb);
 
 U16 freeRam();
 void initialiseTriggers();

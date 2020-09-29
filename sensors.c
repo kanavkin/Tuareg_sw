@@ -174,67 +174,14 @@ volatile sensor_interface_t * init_sensors()
 }
 
 
-
-/**
-sensor data conversion by inverse linear function
-x = ( #_adc * (phi*l) - (phi*n) ) / (phi*m)
-scaling factor phi is for maximum calculation precision
-phi = 4095 * beta
-constant l reflects the analogue input scaling and 12 bit adc resolution:
-l = u_ref/ (k * 4095)
-k = u_sensor / u_adc = R_in/R_ges
-map_calib_xxx is the actual calibration value multiplied by phi:
-configPage9.MAP_calib_L := (phi*l)
-...and so on...
-*/
-U32 calculate_inverse_lin(U16 Figure, U16 M, U16 N, U16 L)
-{
-    U32 calc;
-#warning TODO (oli#2#): check if calculation is correct
-
-    //scale with L
-    calc= L * Figure;
-
-    //subtract N
-    if( N <= calc)
-    {
-        calc -= N;
-    }
-    else
-    {
-        //clip result
-        return 0;
-    }
-
-    //divide by M
-    if(M != 0)
-    {
-        /**
-        do not ever delete by zero
-        so we test if calib_M is set to something usable
-        -> calibration loading success should be monitored and
-        there should be default values if an error occurred while loading
-        ... but who can be sure for sure... ;9
-        */
-        return (calc / M);
-    }
-    else
-    {
-        //clip result
-        return 0;
-    }
-
-}
-
 /**
 sensor data conversion by inverse linear function
 using float for maximum precision
 
 x = ( # - n)  / m
 
-configPage9.xxx_calib_L
 */
-U32 calc_inverse_lin(U16 Arg, U16 M, U16 N)
+float calc_inverse_lin(U32 Arg, float M, float N)
 {
     float inverse;
 
@@ -248,11 +195,11 @@ U32 calc_inverse_lin(U16 Arg, U16 M, U16 N)
     else
     {
         //clip result
-        return 0;
+        return 0.0;
     }
 
     //divide by M
-    if(M != 0)
+    if( (M > 0.0) || (M < 0.0) )
     {
         /**
         do not ever delete by zero
@@ -261,12 +208,12 @@ U32 calc_inverse_lin(U16 Arg, U16 M, U16 N)
         there should be default values if an error occurred while loading
         ... but who can be sure for sure... ;9
         */
-        return (U32) (inverse / M);
+        return (inverse / M);
     }
     else
     {
         //clip result
-        return 0;
+        return 0.0;
     }
 
 }
@@ -282,19 +229,19 @@ but suppress little spikes
 
 calculation relies on the converted TPS value (0..100)!
 */
-S16 calculate_ddt_TPS(U16 Last_TPS, U16 Current_TPS)
+float calculate_ddt_TPS(float Last_TPS, float Current_TPS)
 {
-    S16 delta_TPS;
+    float delta_TPS;
 
-    delta_TPS= ((S16) Current_TPS - (S16) Last_TPS);
+    delta_TPS= Current_TPS - Last_TPS;
 
-    if( ((delta_TPS < 0) && (-delta_TPS < DELTA_TPS_THRES)) || ((delta_TPS >= 0) && (delta_TPS < DELTA_TPS_THRES)) )
+    if( ((delta_TPS < 0.0) && (-delta_TPS < DELTA_TPS_THRES)) || ((delta_TPS >= 0.0) && (delta_TPS < DELTA_TPS_THRES)) )
     {
-        return 0;
+        return 0.0;
     }
     else
     {
-        return (delta_TPS * ((S16)(101 - (S16) Last_TPS)));
+        return (delta_TPS * (101.0 - Last_TPS));
     }
 }
 
@@ -463,7 +410,7 @@ void ADC_IRQHandler()
                 average= *pIntegr / *pCount;
 
                 //calculate MAP and export to interface
-                SInterface.asensors[ASENSOR_MAP]= calculate_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N, configPage9.MAP_calib_L);
+                SInterface.asensors[ASENSOR_MAP]= calc_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N);
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -580,7 +527,7 @@ void DMA2_Stream0_IRQHandler()
                     {
                         case ASENSOR_ASYNC_O2:
 
-                            result= calculate_inverse_lin(average, configPage9.O2_calib_M, configPage9.O2_calib_N, configPage9.O2_calib_L);
+                            result= calc_inverse_lin(average, configPage9.O2_calib_M, configPage9.O2_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_TPS:
@@ -597,27 +544,27 @@ void DMA2_Stream0_IRQHandler()
 
                         case ASENSOR_ASYNC_IAT:
 
-                            result= table2D_getValue(&IAT_calib_table, average);
+                            result= calc_inverse_lin(average, configPage9.IAT_calib_M, configPage9.IAT_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_CLT:
 
-                            result= table2D_getValue(&CLT_calib_table, average);
+                            result= calc_inverse_lin(average, configPage9.CLT_calib_M, configPage9.CLT_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_VBAT:
 
-                            result= calculate_inverse_lin(average, configPage9.VBAT_calib_M, configPage9.VBAT_calib_N, configPage9.VBAT_calib_L);
+                            result= calc_inverse_lin(average, configPage9.VBAT_calib_M, configPage9.VBAT_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_KNOCK:
 
-                            result= calculate_inverse_lin(average, configPage9.KNOCK_calib_M, configPage9.KNOCK_calib_N, configPage9.KNOCK_calib_L);
+                            result= calc_inverse_lin(average, configPage9.KNOCK_calib_M, configPage9.KNOCK_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_BARO:
 
-                            result= calculate_inverse_lin(average, configPage9.BARO_calib_M, configPage9.BARO_calib_N, configPage9.BARO_calib_L);
+                            result= calc_inverse_lin(average, configPage9.BARO_calib_M, configPage9.BARO_calib_N);
                             break;
 
                         default:

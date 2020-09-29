@@ -417,42 +417,34 @@ typedef struct _configPage13_t_ {
 } configPage13_t;
 
 
-#define CALIBRATION_TABLE_DIMENSION 6
-
-
 /**
 analog sensor calibration page
 */
 typedef struct {
 
-    U16 IAT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
-    U16 IAT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+    float IAT_calib_M;
+    float IAT_calib_N;
 
-    U16 CLT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
-    U16 CLT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+    float CLT_calib_M;
+    float CLT_calib_N;
 
-    U16 TPS_calib_M;
-    U16 TPS_calib_N;
+    float TPS_calib_M;
+    float TPS_calib_N;
 
-    U16 MAP_calib_M;
-    U16 MAP_calib_N;
-    U16 MAP_calib_L;
+    float MAP_calib_M;
+    float MAP_calib_N;
 
-    U16 BARO_calib_M;
-    U16 BARO_calib_N;
-    U16 BARO_calib_L;
+    float BARO_calib_M;
+    float BARO_calib_N;
 
-    U16 O2_calib_M;
-    U16 O2_calib_N;
-    U16 O2_calib_L;
+    float O2_calib_M;
+    float O2_calib_N;
 
-    U16 VBAT_calib_M;
-    U16 VBAT_calib_N;
-    U16 VBAT_calib_L;
+    float VBAT_calib_M;
+    float VBAT_calib_N;
 
-    U16 KNOCK_calib_M;
-    U16 KNOCK_calib_N;
-    U16 KNOCK_calib_L;
+    float KNOCK_calib_M;
+    float KNOCK_calib_N;
 
 } configPage9_t;
 

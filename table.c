@@ -28,7 +28,7 @@ volatile table3D_t boostTable, vvtTable;
 volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
 volatile table2D taeTable, WUETable, crankingEnrichTable, dwellVCorrectionTable;
 volatile table2D injectorVCorrectionTable, IATDensityCorrectionTable, IATRetardTable, rotarySplitTable;
-volatile table2D IAT_calib_table, CLT_calib_table;
+
 
 
 /**
@@ -68,15 +68,6 @@ void init_3Dtables()
 */
 void init_2Dtables()
 {
-
-    IAT_calib_table.dimension= CALIBRATION_TABLE_DIMENSION;
-    IAT_calib_table.axisX= configPage9.IAT_calib_data_x;
-    IAT_calib_table.axisY= configPage9.IAT_calib_data_y;
-
-    CLT_calib_table.dimension= CALIBRATION_TABLE_DIMENSION;
-    CLT_calib_table.axisX= configPage9.CLT_calib_data_x;
-    CLT_calib_table.axisY= configPage9.CLT_calib_data_y;
-
     taeTable.dimension = 4;
     taeTable.axisY = (U16 *) configPage2.taeValues;
     taeTable.axisX = (U16 *)configPage2.taeBins;

@@ -153,7 +153,8 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         current_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_position];
 
         //get target ignition advance angle
-        advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+        //advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+        advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
 
         //store ignition advance to timing object
         pTarget->ignition_advance_deg= advance_deg;
@@ -171,32 +172,28 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
             pTarget->coil_ignition_timing_us= calc_rot_duration_us(target_crank_angle_deg-current_crank_angle_deg, pImage->crank_T_us);
         }
 
+#warning TODO (oli#1#): dwell logic hacked!
+
         //calculate dwell duration in crank deg (on timing)
-        dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, pImage->crank_T_us);
+        if(pImage->engine_rpm < 2000)
+        {
+            dwell_deg = calc_rot_angle_deg(10000, pImage->crank_T_us);
+        }
+        else
+        {
+            dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, pImage->crank_T_us);
+        }
 
         //export to timing
         pTarget->dwell_deg= dwell_deg;
         pTarget->dwell_ms= configPage13.dynamic_dwell_us / 1000;
 
         //clip dwell to crank cycle
-        if(target_crank_angle_deg >= dwell_deg)
-        {
-            //normally, dwell + ignition advance should be max. around 100 deg
-            target_crank_angle_deg -= dwell_deg;
-        }
-        else
-        {
-            #warning TODO (oli#6#):check if this case is relevant / should be tackled more accurate
-
-            //clip dwell advance to cycle
-            target_crank_angle_deg =0;
-        }
+        #warning TODO (oli#6#):check if this case is relevant / should be tackled more accurate
+        sub_VU32(&target_crank_angle_deg, dwell_deg);
 
         //calculate and store the optimal scheduler trigger position to timing object (dwell)
-        //fit_position(pImage->crank_T_us, crank_angle_deg, &(pTarget->coil_dwell_pos), &(pTarget->coil_dwell_timing_us));
-        pTarget->coil_dwell_pos= CRK_POSITION_D2;
-       pTarget->coil_dwell_timing_us= 10;
-
+        fit_position(pImage->crank_T_us, target_crank_angle_deg, &(pTarget->coil_dwell_pos), &(pTarget->coil_dwell_timing_us));
 
         /**
         account for scheduler allocation

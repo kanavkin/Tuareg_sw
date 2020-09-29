@@ -72,6 +72,58 @@ typedef enum {
 
 } TS_page_t;
 
+/**
+calibration page offsets
+*/
+typedef enum {
+
+    /*
+    float IAT_calib_M;
+    U16 IAT_calib_N;
+
+    float CLT_calib_M;
+    U16 CLT_calib_N;
+
+    float TPS_calib_M;
+    U16 TPS_calib_N;
+
+    float MAP_calib_M;
+    U16 MAP_calib_N;
+
+    float BARO_calib_M;
+    U16 BARO_calib_N;
+
+    float O2_calib_M;
+    S16 O2_calib_N;
+
+    float VBAT_calib_M;
+    S16 VBAT_calib_N;
+
+    float KNOCK_calib_M;
+    S16 KNOCK_calib_N;
+    */
+
+    CALIB_OS_IAT_M,
+    CALIB_OS_IAT_N,
+    CALIB_OS_CLT_M,
+    CALIB_OS_CLT_N,
+    CALIB_OS_TPS_M,
+    CALIB_OS_TPS_N,
+    CALIB_OS_MAP_M,
+    CALIB_OS_MAP_N,
+    CALIB_OS_BARO_M,
+    CALIB_OS_BARO_N,
+    CALIB_OS_O2_M,
+    CALIB_OS_O2_N,
+    CALIB_OS_VBAT_M,
+    CALIB_OS_VBAT_N,
+    CALIB_OS_KNOCK_M,
+    CALIB_OS_KNOCK_N,
+
+    CALIB_OS_COUNT
+
+} calib_offset_t;
+
 
 typedef struct
 {
@@ -80,6 +132,7 @@ typedef struct
 
     U8 mod_permission :1;
     U8 burn_permission :1;
+    U8 calibmod_permission :1;
 
 } TS_state_t ;
 
@@ -115,6 +168,7 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming);
 void ts_diagPage_ignition();
 void ts_diagPage_decoder();
 void ts_diagPage_calib();
+void replaceCalib(U32 Offset, U32 Value);
 
 
 #endif // TUNERSTUDIO_H_INCLUDED

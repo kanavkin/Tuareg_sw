@@ -308,7 +308,7 @@
 	"ignition.h"
 	"sensors.h"
 
-1596490139 source:/home/oli/tenere/efi/Tuareg_sw/config.c
+1601376629 source:/home/oli/tenere/efi/Tuareg_sw/config.c
 	"utils.h"
 	"table.h"
 	"storage.h"
@@ -322,14 +322,14 @@
 	"uart.h"
 	"conversion.h"
 
-1551035339 /home/oli/tenere/efi/Tuareg_sw/utils.h
+1601288908 /home/oli/tenere/efi/Tuareg_sw/utils.h
 	"stm32_libs/boctok_types.h"
 
-1596453198 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/boctok_types.h
+1601372960 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/boctok_types.h
 	<stdlib.h>
 	<stdint.h>
 
-1593429260 /home/oli/tenere/efi/Tuareg_sw/table.h
+1597309251 /home/oli/tenere/efi/Tuareg_sw/table.h
 	"stm32_libs/boctok_types.h"
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 
@@ -338,9 +338,9 @@
 1551036875 /home/oli/tenere/efi/Tuareg_sw/eeprom.h
 	"stm32_libs/boctok_types.h"
 
-1596490039 /home/oli/tenere/efi/Tuareg_sw/eeprom_layout.h
+1601376659 /home/oli/tenere/efi/Tuareg_sw/eeprom_layout.h
 
-1596488319 /home/oli/tenere/efi/Tuareg_sw/config_pages.h
+1601376423 /home/oli/tenere/efi/Tuareg_sw/config_pages.h
 	"stm32_libs/boctok_types.h"
 	"sensors.h"
 
@@ -483,15 +483,15 @@
 1596453199 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/spl/stm32f4xx_fsmc.h
 	"stm32f4xx.h"
 
-1587037979 /home/oli/tenere/efi/Tuareg_sw/conversion.h
+1601381945 /home/oli/tenere/efi/Tuareg_sw/conversion.h
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 
-1551035218 source:/home/oli/tenere/efi/Tuareg_sw/conversion.c
+1601385186 source:/home/oli/tenere/efi/Tuareg_sw/conversion.c
 	"stm32_libs/boctok_types.h"
 	"conversion.h"
 	"uart.h"
 
-1590787888 source:/home/oli/tenere/efi/Tuareg_sw/debug.c
+1597229682 source:/home/oli/tenere/efi/Tuareg_sw/debug.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
@@ -503,8 +503,8 @@
 	"sensors.h"
 	"Tuareg.h"
 
-1596453198 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h
-	"boctok_types.h"
+1601373664 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h
+	"../boctok_types.h"
 
 1596453198 /home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/boctok_types.h
 	<stdlib.h>
@@ -531,15 +531,16 @@
 	"uart.h"
 	"Tuareg.h"
 
-1596618455 /home/oli/tenere/efi/Tuareg_sw/Tuareg.h
+1597227713 /home/oli/tenere/efi/Tuareg_sw/Tuareg.h
 	"stm32_libs/boctok_types.h"
+	"Tuareg_types.h"
 	"config.h"
 	"table.h"
 	"ignition_logic.h"
 	"sensors.h"
 	"arduino_types.h"
 
-1590787499 /home/oli/tenere/efi/Tuareg_sw/sensors.h
+1601375785 /home/oli/tenere/efi/Tuareg_sw/sensors.h
 	"stm32_libs/boctok_types.h"
 	"decoder_logic.h"
 
@@ -582,9 +583,11 @@
 1572992769 /home/oli/tenere/efi/Tuareg_sw/lowspeed_timers.h
 	"stm32_libs/boctok_types.h"
 
-1593463220 /home/oli/tenere/efi/Tuareg_sw/TunerStudio.h
+1601294681 /home/oli/tenere/efi/Tuareg_sw/TunerStudio.h
+	"Tuareg_process_data.h"
+	"ignition_logic.h"
 
-1597063486 source:/home/oli/tenere/efi/Tuareg_sw/main.c
+1601064205 source:/home/oli/tenere/efi/Tuareg_sw/main.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
@@ -620,7 +623,7 @@
 	"ignition_hw.h"
 	"fuel_hw.h"
 
-1596485477 source:/home/oli/tenere/efi/Tuareg_sw/sensors.c
+1601373928 source:/home/oli/tenere/efi/Tuareg_sw/sensors.c
 	<math.h>
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
@@ -632,6 +635,7 @@
 	"table.h"
 	"config.h"
 	"decoder_logic.h"
+	<math.h>
 
 1547855139 source:/home/oli/tenere/efi/Tuareg_sw/serial_monitor.c
 
@@ -639,9 +643,9 @@
 	"stm32f4xx.h"
 	"stm32f4xx_adc.h"
 
-1596453198 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c
+1601373683 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c
 	"stm32f4xx.h"
-	"boctok_types.h"
+	"../boctok_types.h"
 	"stm32f4xx_gpio.h"
 
 1596453198 source:/home/oli/tenere/efi/Tuareg_sw/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s
@@ -692,7 +696,7 @@
 
 1547855139 source:/home/oli/tenere/efi/Tuareg_sw/storage.c
 
-1593433236 source:/home/oli/tenere/efi/Tuareg_sw/table.c
+1601286452 source:/home/oli/tenere/efi/Tuareg_sw/table.c
 	<stdlib.h>
 	"table.h"
 	"config.h"
@@ -703,7 +707,7 @@
 	"eeprom.h"
 	"eeprom_layout.h"
 
-1597063588 source:/home/oli/tenere/efi/Tuareg_sw/Tuareg.c
+1599126677 source:/home/oli/tenere/efi/Tuareg_sw/Tuareg.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
@@ -723,12 +727,13 @@
 	"sensors.h"
 	"fuel_hw.h"
 	"fuel_logic.h"
+	"base_calc.h"
 	"dash_hw.h"
 	"dash_logic.h"
 	"debug.h"
 	"Tuareg.h"
 
-1596490401 source:/home/oli/tenere/efi/Tuareg_sw/TunerStudio.c
+1601383243 source:/home/oli/tenere/efi/Tuareg_sw/TunerStudio.c
 	"stm32_libs/boctok_types.h"
 	"utils.h"
 	"table.h"
@@ -742,7 +747,7 @@
 	"eeprom_layout.h"
 	"sensors.h"
 	"debug.h"
-	"rotation_calc.h"
+	"base_calc.h"
 
 1592920824 source:/home/oli/tenere/efi/Tuareg_sw/uart.c
 	<stdint.h>
@@ -756,24 +761,27 @@
 	"conversion.h"
 	"debug.h"
 
-1551037252 source:/home/oli/tenere/efi/Tuareg_sw/utils.c
+1601288892 source:/home/oli/tenere/efi/Tuareg_sw/utils.c
 	"stm32_libs/boctok_types.h"
 	"arduino_types.h"
 	"utils.h"
 	"config.h"
 
-1596797490 /home/oli/tenere/efi/Tuareg_sw/ignition_logic.h
+1597744672 /home/oli/tenere/efi/Tuareg_sw/ignition_logic.h
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
+	"Tuareg_types.h"
+	"Tuareg_process_data.h"
 	"decoder_logic.h"
 	"trigger_wheel_layout.h"
 
-1596489854 /home/oli/tenere/efi/Tuareg_sw/decoder_logic.h
+1598355921 /home/oli/tenere/efi/Tuareg_sw/decoder_logic.h
 	"stm32_libs/boctok_types.h"
+	"Tuareg_types.h"
 	"trigger_wheel_layout.h"
 
-1596810090 source:/home/oli/tenere/efi/Tuareg_sw/decoder_hw.c
+1597746567 source:/home/oli/tenere/efi/Tuareg_sw/decoder_hw.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
@@ -785,10 +793,10 @@
 	"dwt.h"
 	"ignition_hw.h"
 
-1592811450 /home/oli/tenere/efi/Tuareg_sw/decoder_hw.h
+1597673833 /home/oli/tenere/efi/Tuareg_sw/decoder_hw.h
 	"stm32_libs/boctok_types.h"
 
-1597065175 source:/home/oli/tenere/efi/Tuareg_sw/decoder_logic.c
+1597931445 source:/home/oli/tenere/efi/Tuareg_sw/decoder_logic.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
@@ -798,7 +806,7 @@
 	"Tuareg.h"
 	"trigger_wheel_layout.h"
 	"config.h"
-	"rotation_calc.h"
+	"base_calc.h"
 	"conversion.h"
 
 1596537867 source:/home/oli/tenere/efi/Tuareg_sw/ignition_hw.c
@@ -812,7 +820,7 @@
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
 
-1596705906 source:/home/oli/tenere/efi/Tuareg_sw/ignition_logic.c
+1599128147 source:/home/oli/tenere/efi/Tuareg_sw/ignition_logic.c
 	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
@@ -823,7 +831,7 @@
 	"Tuareg.h"
 	"uart.h"
 	"table.h"
-	"rotation_calc.h"
+	"base_calc.h"
 	"config.h"
 
 1573168655 source:/home/oli/tenere/efi/Tuareg_sw/dash_hw.c
@@ -907,7 +915,7 @@
 1573056059 /home/oli/tenere/efi/Tuareg_sw/lowprio_scheduler.h
 	"Tuareg.h"
 
-1594893300 /home/oli/tenere/efi/Tuareg_sw/trigger_wheel_layout.h
+1598355709 /home/oli/tenere/efi/Tuareg_sw/trigger_wheel_layout.h
 
 1586808005 /home/oli/tenere/efi/Tuareg_sw/dwt.h
 	"stm32_libs/boctok_types.h"
@@ -921,4 +929,21 @@
 	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 	"stm32_libs/boctok_types.h"
 	"Tuareg.h"
+
+1598444164 source:/home/oli/tenere/efi/Tuareg_sw/base_calc.c
+	"stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+	"stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+	"stm32_libs/boctok_types.h"
+	"Tuareg.h"
+
+1597176539 /home/oli/tenere/efi/Tuareg_sw/Tuareg_types.h
+	"stm32_libs/boctok_types.h"
+
+1601376072 /home/oli/tenere/efi/Tuareg_sw/Tuareg_process_data.h
+	"stm32_libs/boctok_types.h"
+	"Tuareg_types.h"
+	"trigger_wheel_layout.h"
+
+1598444164 /home/oli/tenere/efi/Tuareg_sw/base_calc.h
+	"stm32_libs/boctok_types.h"
 

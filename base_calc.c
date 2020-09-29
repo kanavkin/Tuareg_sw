@@ -57,16 +57,16 @@ U32 calc_rpm(U32 Period_us)
 /**
 safe subtraction with clipping
 */
-VU32 sub_U32(VU32 Min, VU32 Subtr)
+void sub_VU32(VU32 * pMin, VU32 Subtr)
 {
 
-    if(Min > Subtr)
+    if(*pMin > Subtr)
     {
-        return (Min - Subtr);
+        *pMin -= Subtr;
     }
     else
     {
-        return 0;
+        *pMin= 0;
     }
 
 
