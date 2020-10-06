@@ -285,28 +285,18 @@ config_load_status= RETURN_FAIL;
         //collect diagnostic information
         Tuareg.diag[TDIAG_MAINLOOP_ENTRY] += 1;
 
-        /**
-        15 Hz actions
-        */
-        if(ls_timer & BIT_TIMER_15HZ)
-        {
-            ls_timer &= ~BIT_TIMER_15HZ;
-
-            //update digital sensor values
-            read_digital_sensors();
-        }
 
         /**
-        1 Hz actions
+        4 Hz actions
         */
-        if( ls_timer & BIT_TIMER_1HZ)
+        if( ls_timer & BIT_TIMER_4HZ)
         {
-            ls_timer &= ~BIT_TIMER_1HZ;
+            ls_timer &= ~BIT_TIMER_4HZ;
 
             //provide sensor data
             if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
             {
-#warning TODO (oli#8#): who will provide procass data in limp mode with engine halted?
+#warning TODO (oli#8#): who will provide process data in limp mode with engine halted?
 
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
@@ -327,7 +317,6 @@ config_load_status= RETURN_FAIL;
         handle TS communication
         */
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
-        //if(ls_timer & BIT_TIMER_4HZ)
         {
             ls_timer &= ~BIT_TIMER_10HZ;
 

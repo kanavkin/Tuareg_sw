@@ -68,6 +68,9 @@ void SysTick_Handler(void)
     //30Hz loop
     if (loop33ms == 33)
     {
+        //update digital sensor values
+        read_digital_sensors();
+
         loop33ms = 0;
         ls_timer |= BIT_TIMER_30HZ;
     }
