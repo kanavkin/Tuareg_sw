@@ -1,0 +1,931 @@
+#!/bin/bash
+
+# run with /bin/bash !!!
+
+DEV="/dev/ttyUSB0"
+
+#stty -F /dev/ttyUSB0 115200 raw -echo -hupcl
+#stty -F /dev/ttyUSB0 115200 raw 
+
+#get permissions
+printf "Jmod#" > $DEV
+sleep 0.5
+
+#printf "Jbrn!" > $DEV
+#sleep 0.5
+
+#set page  15 / 63
+printf '\x50\x3F' > $DEV
+sleep 0.5
+
+#setting calib values:
+#printf '\x57\x24\x00\x00' > $DEV
+# "W" offset_H offset_L value_H value_L
+
+
+#Z axis
+
+#row 0
+printf '\x57\x00\x00\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x01\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x02\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x03\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x04\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x05\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x06\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x07\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x08\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x09\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x0F\x00\x00' > $DEV
+sleep 0.5
+
+#row 1
+printf '\x57\x00\x10\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x11\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x12\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x13\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x14\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x15\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x16\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x17\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x18\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x19\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x1F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 2
+printf '\x57\x00\x20\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x21\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x22\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x23\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x24\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x25\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x26\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x27\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x28\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x29\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x2F\x00\x00' > $DEV
+sleep 0.5
+
+#row 3
+printf '\x57\x00\x30\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x31\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x32\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x33\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x34\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x35\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x36\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x37\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x38\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x39\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x3F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 4
+printf '\x57\x00\x40\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x41\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x42\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x43\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x44\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x45\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x46\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x47\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x48\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x49\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x4F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 5
+printf '\x57\x00\x50\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x51\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x52\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x53\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x54\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x55\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x56\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x57\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x58\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x59\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x5F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 6
+printf '\x57\x00\x60\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x61\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x62\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x63\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x64\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x65\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x66\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x67\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x68\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x69\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x6F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 7
+printf '\x57\x00\x70\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x71\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x72\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x73\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x74\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x75\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x76\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x77\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x78\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x79\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x7F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 8
+printf '\x57\x00\x80\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x81\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x82\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x83\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x84\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x85\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x86\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x87\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x88\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x89\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x8F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 9
+printf '\x57\x00\x90\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x91\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x92\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x93\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x94\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x95\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x96\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x97\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x98\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x99\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\x9F\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 10
+printf '\x57\x00\xA0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xA9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAD\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xAF\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 11
+printf '\x57\x00\xB0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xB9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBD\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xBF\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 12
+printf '\x57\x00\xC0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xC9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCD\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xCF\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 13
+printf '\x57\x00\xD0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xD9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDD\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xDF\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 14
+printf '\x57\x00\xE0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xE9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xEA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xEB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xEC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xED\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xEE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xEF\x00\x00' > $DEV
+sleep 0.5
+
+
+#row 15
+printf '\x57\x00\xF0\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF1\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF2\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF3\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF4\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF5\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF6\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF7\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF8\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xF9\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFA\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFB\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFC\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFD\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFE\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x00\xFF\x00\x00' > $DEV
+sleep 0.5
+
+
+#X axis
+printf '\x57\x01\x00\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x01\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x02\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x03\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x04\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x05\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x06\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x07\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x08\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x09\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x0F\x00\x00' > $DEV
+sleep 0.5
+
+
+
+#Y axis
+printf '\x57\x01\x10\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x11\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x12\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x13\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x14\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x15\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x16\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x17\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x18\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x19\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1A\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1B\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1C\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1D\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1E\x00\x00' > $DEV
+sleep 0.5
+
+printf '\x57\x01\x1F\x00\x00' > $DEV
+sleep 0.5
+
+
+#print new values
+printf "L" > $DEV
+
+
+

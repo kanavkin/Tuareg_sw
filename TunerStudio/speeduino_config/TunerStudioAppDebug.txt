@@ -55276,3 +55276,3523 @@ Saved user properties successfully
 9/3/20, 12:40:37 PM :Debug: removing Configuration: tuareg_with_speeduino_config
 9/3/20, 12:40:37 PM :Debug: ############################################# Save Project ##########################################
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Sun Oct 04 22:05:00 CEST 2020
+JRE 11.0.8, Linux 4.15.0-118-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+10/4/20, 10:05:01 PM :Debug: no update:defaultFont
+10/4/20, 10:05:03 PM :Info: Loading Language Content.
+10/4/20, 10:05:03 PM :Info: Initializing File Dialogs.
+10/4/20, 10:05:04 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+10/4/20, 10:05:04 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+10/4/20, 10:05:04 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+10/4/20, 10:05:04 PM :Info: Initializing Help.
+10/4/20, 10:05:04 PM :Info: Initializing Edition Features.
+10/4/20, 10:05:04 PM :Info: Initializing App Events.
+10/4/20, 10:05:04 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+10/4/20, 10:05:04 PM :Debug: Dummy Function Factory Created.
+10/4/20, 10:05:04 PM :Info: Initializing User Interface
+10/4/20, 10:05:04 PM :Warning: Unable to set Main cluster for title:
+10/4/20, 10:05:04 PM :Info: Checking for updates
+10/4/20, 10:05:05 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+10/4/20, 10:05:06 PM :Info: Loading Font list.
+10/4/20, 10:05:06 PM :Debug: Time to retreive font name list: 58 ms.
+10/4/20, 10:05:06 PM :Info: 
+10/4/20, 10:05:06 PM :Info: Initializing UI Components.
+10/4/20, 10:05:06 PM :Info: Ready
+Saved user properties successfully
+10/4/20, 10:05:08 PM :Info: Opening Project ...
+10/4/20, 10:05:08 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config
+10/4/20, 10:05:08 PM :Debug: Reading translation file as plain text
+10/4/20, 10:05:09 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:05:09 PM :Debug: Filtered ConfigurationOptionGroup in 48ms.
+10/4/20, 10:05:09 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:05:09 PM :Info: Read file canPcVariables.ini: 0.620462ms
+10/4/20, 10:05:09 PM :Info: Filtered ini: 0.054569ms
+10/4/20, 10:05:09 PM :Info: No iniVersion defined
+10/4/20, 10:05:09 PM :Info: Loading Trigger Wheels
+10/4/20, 10:05:09 PM :Info: Loaded All known ini sections
+10/4/20, 10:05:09 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 16ms.
+10/4/20, 10:05:09 PM :Info: Read file mainController.ini: 8.336628ms
+10/4/20, 10:05:09 PM :Info: Filtered ini: 3.118212ms
+10/4/20, 10:05:09 PM :Info: No iniVersion defined
+10/4/20, 10:05:09 PM :Debug: ini signature: speeduino 201708
+10/4/20, 10:05:09 PM :Info: Loading Trigger Wheels
+10/4/20, 10:05:09 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+10/4/20, 10:05:09 PM :Info: Loaded All known ini sections
+10/4/20, 10:05:09 PM :Info: Parsed and validated ini "mainController.ini" in : 182ms.
+10/4/20, 10:05:09 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+10/4/20, 10:05:09 PM :Info: Time to load primary config: 336.32257ms. used cached config: false
+10/4/20, 10:05:09 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:05:09 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+10/4/20, 10:05:09 PM :Debug: Fill Constants: 12
+10/4/20, 10:05:09 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:05:09 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:05:09 PM :Debug: Flush lasted: 2ms.
+10/4/20, 10:05:09 PM :Info: !!! Loaded config in 565
+10/4/20, 10:05:09 PM :Info: Com Thread created: COMM Thread42629.45229059318
+10/4/20, 10:05:09 PM :Info: !!! Activated Project 1056
+10/4/20, 10:05:09 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread42629.45229059318
+10/4/20, 10:05:09 PM :Info: Opening Gauge Cluster..
+10/4/20, 10:05:09 PM :Info: Opening port: /dev/ttyUSB0
+10/4/20, 10:05:10 PM :Debug: High Speed Paint: true
+10/4/20, 10:05:10 PM :Info: 
+10/4/20, 10:05:10 PM :Debug: !!! Opened Dash 2056
+10/4/20, 10:05:10 PM :Info: tuareg_with_speeduino_config Ready
+10/4/20, 10:05:10 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread42629.45229059318
+10/4/20, 10:05:10 PM :Debug: Deactivated fast paint Main Dashboard
+10/4/20, 10:05:11 PM :Debug: Tuning View Files loaded in 196.04015ms.
+10/4/20, 10:05:11 PM :Info: Update Check Completed
+Saved user properties successfully
+Saved user properties successfully
+10/4/20, 10:05:12 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:05:12 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:05:13 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:05:13 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:05:14 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:05:14 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:05:14 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:05:14 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:05:14 PM :Debug: goOffline about to stopProcessing, Time:1
+10/4/20, 10:05:14 PM :Debug: goOffline about to stopProcessing, Time:0
+10/4/20, 10:05:14 PM :Debug: goOffline closed port, Time:2
+10/4/20, 10:05:14 PM :Debug: goOffline closed port, Time:1
+10/4/20, 10:05:14 PM :Debug: goOffline comm thread stopped, Time:501
+10/4/20, 10:05:14 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:05:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:05:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:05:15 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:05:15 PM :Info: Closing Port
+10/4/20, 10:05:15 PM :Info: Successfully Closed Port
+10/4/20, 10:05:16 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread42629.45229059318
+10/4/20, 10:05:16 PM :Debug: goOffline comm thread stopped, Time:1755
+10/4/20, 10:05:16 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:05:19 PM :Info: Com Thread created: COMM Thread79620.72115408543
+10/4/20, 10:05:19 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread79620.72115408543
+10/4/20, 10:05:19 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:05:20 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread42629.45229059318, new Thread:COMM Thread79620.72115408543
+10/4/20, 10:05:22 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+10/4/20, 10:05:23 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+10/4/20, 10:05:23 PM :Info: Activating page: 1
+10/4/20, 10:05:23 PM :Debug: Read page time: 176ms.
+10/4/20, 10:05:23 PM :Info: Activating page: 2
+10/4/20, 10:05:23 PM :Debug: Read page time: 169ms.
+10/4/20, 10:05:23 PM :Info: Activating page: 3
+10/4/20, 10:05:23 PM :Debug: Read page time: 209ms.
+10/4/20, 10:05:23 PM :Info: Activating page: 4
+10/4/20, 10:05:24 PM :Debug: Read page time: 169ms.
+10/4/20, 10:05:24 PM :Info: Activating page: 5
+10/4/20, 10:05:24 PM :Debug: Read page time: 210ms.
+10/4/20, 10:05:24 PM :Info: Activating page: 6
+10/4/20, 10:05:24 PM :Debug: Read page time: 170ms.
+10/4/20, 10:05:24 PM :Info: Activating page: 7
+10/4/20, 10:05:24 PM :Debug: Read page time: 189ms.
+10/4/20, 10:05:24 PM :Info: Activating page: 8
+10/4/20, 10:05:24 PM :Debug: Read page time: 199ms.
+10/4/20, 10:05:24 PM :Info: Activating page: 9
+10/4/20, 10:05:25 PM :Debug: Read page time: 195ms.
+10/4/20, 10:05:25 PM :Info: Activating page: 10
+10/4/20, 10:05:25 PM :Debug: Read page time: 181ms.
+10/4/20, 10:05:25 PM :Info: Activating page: 11
+10/4/20, 10:05:25 PM :Debug: Read page time: 195ms.
+10/4/20, 10:05:25 PM :Debug: Read All Data
+10/4/20, 10:05:25 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:05:25 PM :Debug: DiffTime: 23 ms.
+10/4/20, 10:05:25 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:05:25 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:05:25 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:05:25 PM :Info: Closing Port
+10/4/20, 10:05:25 PM :Info: Successfully Closed Port
+10/4/20, 10:05:25 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:05:26 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:05:26 PM :Info: Time to save msq: 169.25398
+10/4/20, 10:05:26 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:05:27 PM :Debug: Flush lasted: 98ms.
+10/4/20, 10:05:27 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:05:27 PM :Info: Queueing burn to page:11
+10/4/20, 10:05:27 PM :Info: Sending, 622 bytes.
+10/4/20, 10:05:27 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 622 bytes.
+10/4/20, 10:05:27 PM :Debug: Flush lasted: 2ms.
+10/4/20, 10:05:27 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:05:27 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:05:27 PM :Info: Activating page: 1
+10/4/20, 10:05:28 PM :Debug: Queued Write instructions:846 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:29 PM :Debug: Queued Write instructions:826 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:30 PM :Debug: Queued Write instructions:806 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:31 PM :Debug: Queued Write instructions:786 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:32 PM :Debug: Queued Write instructions:766 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:33 PM :Debug: Queued Write instructions:746 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:34 PM :Debug: Queued Write instructions:725 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:35 PM :Debug: Queued Write instructions:705 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:36 PM :Debug: Queued Write instructions:685 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:37 PM :Debug: Queued Write instructions:665 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:38 PM :Debug: Queued Write instructions:645 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:39 PM :Debug: Queued Write instructions:624 to page(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:39 PM :Debug: Activate Page, burn page 1 new active page=2
+10/4/20, 10:05:39 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:39 PM :Debug: burned page 1
+10/4/20, 10:05:39 PM :Info: Activating page: 2
+10/4/20, 10:05:39 PM :Debug: Activate Page, burn page 2 new active page=3
+10/4/20, 10:05:39 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:39 PM :Debug: burned page 2
+10/4/20, 10:05:39 PM :Info: Activating page: 3
+10/4/20, 10:05:40 PM :Debug: Queued Write instructions:604 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+
+10/4/20, 10:05:40 PM :Debug: Purged 17 orphaned bytes:
+10/4/20, 10:05:40 PM :Debug: Time:31.232s. 0x53 0x70 0x65 0x65 0x64 0x75 0x69 0x6E 0x6F 0x20 0x32 0x30 0x31 0x37 0x2E 0x30 0x38 
+10/4/20, 10:05:40 PM :Debug: Time:31.233s. 
+
+10/4/20, 10:05:40 PM :Debug: Time:31.233s.   S    p    e    e    d    u    i    n    o         2    0    1    7    .    0    8  
+10/4/20, 10:05:41 PM :Debug: Queued Write instructions:584 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:42 PM :Debug: Queued Write instructions:564 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:43 PM :Debug: Queued Write instructions:544 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:44 PM :Debug: Queued Write instructions:524 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:45 PM :Debug: Queued Write instructions:504 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:46 PM :Debug: Queued Write instructions:483 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:47 PM :Debug: Queued Write instructions:463 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:48 PM :Debug: Queued Write instructions:443 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:49 PM :Debug: Queued Write instructions:423 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:50 PM :Debug: Queued Write instructions:402 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:51 PM :Debug: Queued Write instructions:382 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:52 PM :Debug: Queued Write instructions:362 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:53 PM :Debug: Queued Write instructions:342 to page(s) 3, 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:53 PM :Debug: Activate Page, burn page 3 new active page=4
+10/4/20, 10:05:53 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:53 PM :Debug: burned page 3
+10/4/20, 10:05:53 PM :Info: Activating page: 4
+10/4/20, 10:05:54 PM :Debug: Queued Write instructions:321 to page(s) 4, 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:54 PM :Debug: Activate Page, burn page 4 new active page=5
+10/4/20, 10:05:54 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:54 PM :Debug: burned page 4
+10/4/20, 10:05:54 PM :Info: Activating page: 5
+10/4/20, 10:05:55 PM :Debug: Queued Write instructions:301 to page(s) 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:05:55 PM :Debug: Activate Page, burn page 5 new active page=6
+10/4/20, 10:05:55 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:55 PM :Debug: burned page 5
+10/4/20, 10:05:55 PM :Info: Activating page: 6
+10/4/20, 10:05:56 PM :Debug: Queued Write instructions:279 to page(s) 6, 7, 8, 9, 11, 
+10/4/20, 10:05:56 PM :Debug: Activate Page, burn page 6 new active page=7
+10/4/20, 10:05:56 PM :Debug: Burn time:11ms.
+10/4/20, 10:05:56 PM :Debug: burned page 6
+10/4/20, 10:05:56 PM :Info: Activating page: 7
+10/4/20, 10:05:57 PM :Debug: Queued Write instructions:256 to page(s) 7, 8, 9, 11, 
+10/4/20, 10:05:57 PM :Debug: Activate Page, burn page 7 new active page=8
+10/4/20, 10:05:57 PM :Debug: Burn time:11ms.
+10/4/20, 10:05:57 PM :Debug: burned page 7
+10/4/20, 10:05:57 PM :Info: Activating page: 8
+10/4/20, 10:05:58 PM :Debug: Queued Write instructions:232 to page(s) 8, 9, 11, 
+10/4/20, 10:05:59 PM :Debug: Queued Write instructions:208 to page(s) 8, 9, 11, 
+10/4/20, 10:05:59 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:05:59 PM :Debug: Burn time:10ms.
+10/4/20, 10:05:59 PM :Debug: burned page 8
+10/4/20, 10:05:59 PM :Info: Activating page: 9
+10/4/20, 10:06:00 PM :Debug: Queued Write instructions:185 to page(s) 11, 
+10/4/20, 10:06:00 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:06:00 PM :Debug: Burn time:10ms.
+10/4/20, 10:06:00 PM :Debug: burned page 9
+10/4/20, 10:06:00 PM :Info: Activating page: 11
+10/4/20, 10:06:01 PM :Debug: Queued Write instructions:161 to page(s) 11, 
+10/4/20, 10:06:02 PM :Debug: Queued Write instructions:137 to page(s) 11, 
+10/4/20, 10:06:03 PM :Debug: Queued Write instructions:113 to page(s) 11, 
+10/4/20, 10:06:04 PM :Debug: Queued Write instructions:89 to page(s) 11, 
+10/4/20, 10:06:05 PM :Debug: Queued Write instructions:65 to page(s) 11, 
+10/4/20, 10:06:06 PM :Debug: Queued Write instructions:41 to page(s) 11, 
+10/4/20, 10:06:07 PM :Debug: Queued Write instructions:17 to page(s) 11, 
+10/4/20, 10:06:07 PM :Debug: Burn time:10ms.
+10/4/20, 10:06:07 PM :Debug: burned page 11
+10/4/20, 10:06:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:06:07 PM :Info: Time to save msq: 30.825478
+10/4/20, 10:06:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:06:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:07 PM :Debug: Burn time:10ms.
+10/4/20, 10:06:07 PM :Debug: burned page 11
+10/4/20, 10:06:07 PM :Info: Activating page: 1
+10/4/20, 10:06:08 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:10 PM :Debug: Time:61.665s. Instruction: 
+Oct 04, 2020 10:06:10 PM l.G a
+INFO: Error Reading Page
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+10/4/20, 10:06:10 PM :Error: Could not process CommInstruction. writing last 0 controller interactions to the log folowed by the stack trace
+Oct 04, 2020 10:06:10 PM l.G y
+SEVERE: null
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:10 PM :Debug: result.FAILED: 0 tryCount
+10/4/20, 10:06:11 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:06:11 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:06:11 PM :Info: Closing Port
+10/4/20, 10:06:11 PM :Info: Successfully Closed Port
+10/4/20, 10:06:11 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:06:12 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:12 PM :Debug: Went offline
+10/4/20, 10:06:13 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:06:13 PM :Info: Closing Port
+10/4/20, 10:06:13 PM :Info: Successfully Closed Port
+10/4/20, 10:06:13 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:13 PM :Info: Went offline 2
+10/4/20, 10:06:13 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:06:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:17 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:17 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:19 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:19 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:20 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:20 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:22 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:22 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:24 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:24 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:25 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:25 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:27 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:27 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:29 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:29 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:30 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:30 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:32 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:32 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:33 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:06:33 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:06:33 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:06:33 PM :Debug: goOffline about to stopProcessing, Time:1
+10/4/20, 10:06:33 PM :Debug: goOffline closed port, Time:2
+10/4/20, 10:06:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:34 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:06:34 PM :Info: Closing Port
+10/4/20, 10:06:34 PM :Info: Successfully Closed Port
+10/4/20, 10:06:34 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread79620.72115408543
+10/4/20, 10:06:34 PM :Debug: goOffline comm thread stopped, Time:1506
+10/4/20, 10:06:34 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:06:36 PM :Info: Com Thread created: COMM Thread33438.910113963175
+10/4/20, 10:06:36 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread33438.910113963175
+10/4/20, 10:06:36 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:06:37 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread79620.72115408543, new Thread:COMM Thread33438.910113963175
+10/4/20, 10:06:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:40 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:40 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:42 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:42 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:44 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:44 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:45 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:45 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:47 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:47 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:49 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:49 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:50 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:50 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:52 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:52 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:54 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:54 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:55 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:55 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:57 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:57 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:06:59 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:06:59 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:00 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:00 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:02 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:02 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:04 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:04 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:05 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:05 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:07 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:07 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:08 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:08 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:10 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:10 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:12 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:12 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:13 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:13 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:17 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:17 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:18 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:18 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:20 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:20 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:22 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:22 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:23 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:23 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:25 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:25 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:27 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:27 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:28 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:28 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:30 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:30 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:32 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:32 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:33 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:33 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:35 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:35 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:37 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:37 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:38 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:38 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:40 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:40 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:42 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:42 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:43 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:43 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:45 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:45 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:46 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:46 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:48 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:48 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:50 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:50 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:51 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:51 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:53 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:53 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:55 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:55 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:56 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:56 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:07:58 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:07:58 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:00 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:00 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:01 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:01 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:03 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:03 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:05 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:05 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:06 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:06 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:08 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:08 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:10 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:10 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:11 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:11 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:13 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:13 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:16 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:16 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:18 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:18 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:20 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:20 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:21 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:21 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:23 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:23 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:24 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:24 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:26 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:26 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:28 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:28 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:29 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:29 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:31 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:31 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:33 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:33 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:36 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:36 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:38 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:38 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:41 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:41 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:43 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:43 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:44 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:44 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:46 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:46 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:48 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:48 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:49 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:49 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:51 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:51 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:53 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:53 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:54 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:54 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:56 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:56 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:58 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:58 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:08:58 PM :Debug: Time to load ini list: 25ms.
+10/4/20, 10:08:58 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:08:58 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:08:58 PM :Debug: Filtered ConfigurationOptionGroup in 3ms.
+10/4/20, 10:08:59 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:08:59 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:01 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:01 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:03 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:03 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:04 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:04 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:06 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:06 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:07 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:07 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:09 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:09 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:11 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:11 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:12 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:12 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:14 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:14 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:16 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:16 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:17 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:17 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:19 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:19 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:20 PM :Debug: ############################################# Save Project ##########################################
+10/4/20, 10:09:20 PM :Debug: TuneLog Editor set text
+10/4/20, 10:09:20 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:09:20 PM :Info: Time to save msq: 18.525904
+10/4/20, 10:09:20 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:09:21 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:21 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:21 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:09:21 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:09:21 PM :Debug: goOffline about to stopProcessing, Time:0
+10/4/20, 10:09:21 PM :Debug: goOffline closed port, Time:0
+10/4/20, 10:09:21 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:09:21 PM :Info: Closing Port
+10/4/20, 10:09:21 PM :Info: Successfully Closed Port
+10/4/20, 10:09:21 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread33438.910113963175
+10/4/20, 10:09:21 PM :Debug: goOffline comm thread stopped, Time:351
+10/4/20, 10:09:21 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:09:21 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+10/4/20, 10:09:21 PM :Debug: ############################################# Save Project ##########################################
+10/4/20, 10:09:21 PM :Info: Opening Project ...
+10/4/20, 10:09:21 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/
+10/4/20, 10:09:21 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:21 PM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+10/4/20, 10:09:21 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:21 PM :Info: Read file canPcVariables.ini: 0.220404ms
+10/4/20, 10:09:21 PM :Info: Filtered ini: 0.012128ms
+10/4/20, 10:09:21 PM :Info: No iniVersion defined
+10/4/20, 10:09:21 PM :Info: Loading Trigger Wheels
+10/4/20, 10:09:21 PM :Info: Loaded All known ini sections
+10/4/20, 10:09:21 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 2ms.
+10/4/20, 10:09:21 PM :Info: Read file mainController.ini: 3.245502ms
+10/4/20, 10:09:21 PM :Info: Filtered ini: 4.951264ms
+10/4/20, 10:09:21 PM :Info: No iniVersion defined
+10/4/20, 10:09:21 PM :Debug: ini signature: speeduino 201708
+10/4/20, 10:09:21 PM :Info: Loading Trigger Wheels
+10/4/20, 10:09:21 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+10/4/20, 10:09:21 PM :Info: Loaded All known ini sections
+10/4/20, 10:09:21 PM :Info: Parsed and validated ini "mainController.ini" in : 124ms.
+10/4/20, 10:09:21 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+10/4/20, 10:09:21 PM :Info: Time to load primary config: 137.67874ms. used cached config: false
+10/4/20, 10:09:21 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:21 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+10/4/20, 10:09:21 PM :Debug: Fill Constants: 9
+10/4/20, 10:09:22 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:09:22 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:09:22 PM :Debug: Flush lasted: 4ms.
+10/4/20, 10:09:22 PM :Info: !!! Loaded config in 229
+10/4/20, 10:09:22 PM :Info: Com Thread created: COMM Thread92683.12653439144
+10/4/20, 10:09:22 PM :Info: !!! Activated Project 468
+10/4/20, 10:09:22 PM :Info: Opening Gauge Cluster..
+10/4/20, 10:09:22 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread92683.12653439144
+10/4/20, 10:09:22 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:09:22 PM :Debug: High Speed Paint: true
+10/4/20, 10:09:22 PM :Debug: Deactivated fast paint Main Dashboard
+10/4/20, 10:09:22 PM :Info: 
+10/4/20, 10:09:22 PM :Debug: !!! Opened Dash 920
+10/4/20, 10:09:22 PM :Info: tuareg_with_speeduino_config Ready
+10/4/20, 10:09:22 PM :Debug: Tuning View Files loaded in 61.370865ms.
+10/4/20, 10:09:23 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread92683.12653439144
+10/4/20, 10:09:24 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:24 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:26 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:26 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:27 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:27 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:29 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:29 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:31 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:31 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:32 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:32 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:36 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:36 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:37 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:37 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:41 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:41 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:42 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:42 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:44 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:44 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:46 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:46 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:47 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:47 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:49 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:49 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:51 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:51 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:52 PM :Debug: Time to load ini list: 8ms.
+10/4/20, 10:09:52 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:52 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:52 PM :Debug: Filtered ConfigurationOptionGroup in 2ms.
+10/4/20, 10:09:52 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:52 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:54 PM :Debug: ############################################# Save Project ##########################################
+10/4/20, 10:09:54 PM :Debug: TuneLog Editor set text
+10/4/20, 10:09:54 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:09:54 PM :Info: Time to save msq: 22.596603
+10/4/20, 10:09:54 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:09:54 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:54 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:55 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:09:55 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:09:55 PM :Debug: goOffline about to stopProcessing, Time:1
+10/4/20, 10:09:55 PM :Debug: goOffline closed port, Time:1
+10/4/20, 10:09:55 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:55 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:09:56 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:09:56 PM :Info: Closing Port
+10/4/20, 10:09:56 PM :Info: Successfully Closed Port
+10/4/20, 10:09:56 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread92683.12653439144
+10/4/20, 10:09:56 PM :Debug: goOffline comm thread stopped, Time:1205
+10/4/20, 10:09:56 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:09:56 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+10/4/20, 10:09:56 PM :Debug: ############################################# Save Project ##########################################
+10/4/20, 10:09:56 PM :Info: Opening Project ...
+10/4/20, 10:09:56 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/
+10/4/20, 10:09:56 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:56 PM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+10/4/20, 10:09:56 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:56 PM :Info: Read file canPcVariables.ini: 0.174233ms
+10/4/20, 10:09:56 PM :Info: Filtered ini: 0.012452ms
+10/4/20, 10:09:56 PM :Info: No iniVersion defined
+10/4/20, 10:09:56 PM :Info: Loading Trigger Wheels
+10/4/20, 10:09:56 PM :Info: Loaded All known ini sections
+10/4/20, 10:09:56 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 4ms.
+10/4/20, 10:09:56 PM :Info: Read file mainController.ini: 3.318151ms
+10/4/20, 10:09:56 PM :Info: Filtered ini: 25.726088ms
+10/4/20, 10:09:56 PM :Info: No iniVersion defined
+10/4/20, 10:09:56 PM :Debug: ini signature: speeduino 201708
+10/4/20, 10:09:56 PM :Info: Loading Trigger Wheels
+10/4/20, 10:09:56 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+10/4/20, 10:09:56 PM :Info: Loaded All known ini sections
+10/4/20, 10:09:56 PM :Info: Parsed and validated ini "mainController.ini" in : 105ms.
+10/4/20, 10:09:56 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+10/4/20, 10:09:56 PM :Info: Time to load primary config: 127.48453ms. used cached config: false
+10/4/20, 10:09:56 PM :Info: Supported iniSpecVersion=3.51
+10/4/20, 10:09:56 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+10/4/20, 10:09:56 PM :Debug: Fill Constants: 7
+10/4/20, 10:09:56 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:09:56 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/4/20, 10:09:56 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:09:56 PM :Info: !!! Loaded config in 175
+10/4/20, 10:09:57 PM :Info: Com Thread created: COMM Thread98583.68769837864
+10/4/20, 10:09:57 PM :Info: !!! Activated Project 525
+10/4/20, 10:09:57 PM :Info: Opening Gauge Cluster..
+10/4/20, 10:09:57 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread98583.68769837864
+10/4/20, 10:09:57 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:09:57 PM :Debug: High Speed Paint: true
+10/4/20, 10:09:57 PM :Debug: Deactivated fast paint Main Dashboard
+10/4/20, 10:09:57 PM :Info: 
+10/4/20, 10:09:57 PM :Debug: !!! Opened Dash 864
+10/4/20, 10:09:57 PM :Info: tuareg_with_speeduino_config Ready
+10/4/20, 10:09:57 PM :Debug: Tuning View Files loaded in 39.58736ms.
+10/4/20, 10:09:58 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread98583.68769837864
+10/4/20, 10:09:59 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:09:59 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:01 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:01 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:02 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:02 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:04 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:04 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:05 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:05 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:07 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:07 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:09 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:09 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:10 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:10 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:12 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:12 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:14 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:14 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:17 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:17 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:19 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:19 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:20 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:20 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:22 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:22 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:24 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:24 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:25 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:25 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:27 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:27 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:29 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:29 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:30 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:30 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:32 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:32 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:34 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:34 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:35 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:35 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:37 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:37 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:39 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:39 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:40 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:40 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:42 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:42 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:43 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:43 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:45 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:45 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:47 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:47 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:48 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:48 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:50 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:50 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:52 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:52 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:53 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:53 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:55 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:55 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:57 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:57 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:10:58 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:10:58 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:00 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:00 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:02 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:02 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:03 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:03 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:05 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:05 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:07 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:07 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:08 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:08 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:10 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:10 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:12 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:12 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:13 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:13 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:15 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:15 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:17 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:17 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:18 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:18 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:20 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:20 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:21 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:21 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:23 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:23 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:25 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:25 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:26 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:26 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:28 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:28 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:30 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:30 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:31 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:31 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:33 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:33 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:35 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:35 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:36 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:36 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:38 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:38 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:40 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:40 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:42 PM :Warning: Unsupported Controller Firmware.
+10/4/20, 10:11:43 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+10/4/20, 10:11:44 PM :Info: Communicating with sig:speeduino 201708, Serial Signature: speeduino 201708
+10/4/20, 10:11:44 PM :Info: Activating page: 1
+
+10/4/20, 10:11:44 PM :Debug: Purged 2 orphaned bytes:
+10/4/20, 10:11:44 PM :Debug: Time:108.271s. 0x50 0x1 
+10/4/20, 10:11:44 PM :Debug: Time:108.271s. 
+
+10/4/20, 10:11:44 PM :Debug: Time:108.272s.   P    .  
+10/4/20, 10:11:48 PM :Debug: Time:111.423s. Instruction: 
+Oct 04, 2020 10:11:48 PM l.G a
+INFO: Error Reading Page
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:1
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:1
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+10/4/20, 10:11:48 PM :Error: Could not process CommInstruction. writing last 0 controller interactions to the log folowed by the stack trace
+Oct 04, 2020 10:11:48 PM l.G y
+SEVERE: null
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:1
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:48 PM :Debug: result.FAILED: 1 tryCount
+10/4/20, 10:11:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:11:48 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:11:48 PM :Info: Closing Port
+10/4/20, 10:11:48 PM :Info: Successfully Closed Port
+10/4/20, 10:11:48 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:11:50 PM :Info: Activating page: 1
+10/4/20, 10:11:53 PM :Debug: Time:116.566s. Instruction: 
+Oct 04, 2020 10:11:53 PM l.G a
+INFO: Error Reading Page
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+10/4/20, 10:11:53 PM :Error: Could not process CommInstruction. writing last 0 controller interactions to the log folowed by the stack trace
+Oct 04, 2020 10:11:53 PM l.G y
+SEVERE: null
+z.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:288, bytes read:0
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.h(Unknown Source)
+	at l.G.c(Unknown Source)
+	at l.G.y(Unknown Source)
+	at h.p.i(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:53 PM :Debug: result.FAILED: 2 tryCount
+10/4/20, 10:11:53 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:11:53 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:11:53 PM :Info: Closing Port
+10/4/20, 10:11:53 PM :Info: Successfully Closed Port
+10/4/20, 10:11:53 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:11:55 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:11:55 PM :Debug: Went offline
+10/4/20, 10:11:55 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:11:55 PM :Info: Closing Port
+10/4/20, 10:11:55 PM :Info: Successfully Closed Port
+10/4/20, 10:11:55 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:11:55 PM :Info: Went offline 2
+10/4/20, 10:11:55 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:11:58 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:58 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:11:59 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:11:59 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:12:01 PM :Debug: Error trying to go online: No bytes found on unknown read size. timeout x2: 1000
+Oct 04, 2020 10:12:01 PM h.q run
+SEVERE: z.b: No bytes found on unknown read size. timeout x2: 1000
+z.b: No bytes found on unknown read size. timeout x2: 1000
+	at h.p.a(Unknown Source)
+	at l.G.a(Unknown Source)
+	at l.G.b(Unknown Source)
+	at l.G.d(Unknown Source)
+	at h.p.a(Unknown Source)
+	at h.q.run(Unknown Source)
+
+10/4/20, 10:12:03 PM :Warning: Unsupported Controller Firmware.
+10/4/20, 10:12:05 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+10/4/20, 10:12:06 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+10/4/20, 10:12:06 PM :Info: Activating page: 1
+10/4/20, 10:12:06 PM :Debug: Read page time: 170ms.
+10/4/20, 10:12:06 PM :Info: Activating page: 2
+10/4/20, 10:12:06 PM :Debug: Read page time: 169ms.
+10/4/20, 10:12:06 PM :Info: Activating page: 3
+10/4/20, 10:12:06 PM :Debug: Read page time: 203ms.
+10/4/20, 10:12:06 PM :Info: Activating page: 4
+10/4/20, 10:12:06 PM :Debug: Read page time: 171ms.
+10/4/20, 10:12:06 PM :Info: Activating page: 5
+10/4/20, 10:12:07 PM :Debug: Read page time: 209ms.
+10/4/20, 10:12:07 PM :Info: Activating page: 6
+10/4/20, 10:12:07 PM :Debug: Read page time: 171ms.
+10/4/20, 10:12:07 PM :Info: Activating page: 7
+10/4/20, 10:12:07 PM :Debug: Read page time: 190ms.
+10/4/20, 10:12:07 PM :Info: Activating page: 8
+10/4/20, 10:12:07 PM :Debug: Read page time: 197ms.
+10/4/20, 10:12:07 PM :Info: Activating page: 9
+10/4/20, 10:12:07 PM :Debug: Read page time: 193ms.
+10/4/20, 10:12:07 PM :Info: Activating page: 10
+10/4/20, 10:12:08 PM :Debug: Read page time: 184ms.
+10/4/20, 10:12:08 PM :Info: Activating page: 11
+10/4/20, 10:12:08 PM :Debug: Read page time: 196ms.
+10/4/20, 10:12:08 PM :Debug: Read All Data
+10/4/20, 10:12:08 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:12:08 PM :Debug: DiffTime: 4 ms.
+10/4/20, 10:12:08 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:12:08 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:12:08 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:12:08 PM :Info: Closing Port
+10/4/20, 10:12:08 PM :Info: Successfully Closed Port
+10/4/20, 10:12:08 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:12:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:12:09 PM :Info: Time to save msq: 11.795335
+10/4/20, 10:12:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:12:09 PM :Debug: Flush lasted: 6ms.
+10/4/20, 10:12:09 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:12:09 PM :Info: Queueing burn to page:11
+10/4/20, 10:12:09 PM :Info: Sending, 322 bytes.
+10/4/20, 10:12:09 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 322 bytes.
+10/4/20, 10:12:09 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:12:09 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:12:09 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:12:10 PM :Info: Activating page: 3
+10/4/20, 10:12:10 PM :Debug: Activate Page, burn page 3 new active page=5
+10/4/20, 10:12:10 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:10 PM :Debug: burned page 3
+10/4/20, 10:12:10 PM :Info: Activating page: 5
+10/4/20, 10:12:10 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:10 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:10 PM :Debug: Queued Write instructions:303 to page(s) 5, 6, 7, 8, 9, 11, 
+10/4/20, 10:12:11 PM :Debug: Activate Page, burn page 5 new active page=6
+10/4/20, 10:12:11 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:11 PM :Debug: burned page 5
+10/4/20, 10:12:11 PM :Info: Activating page: 6
+10/4/20, 10:12:11 PM :Debug: Queued Write instructions:282 to page(s) 6, 7, 8, 9, 11, 
+10/4/20, 10:12:12 PM :Debug: Activate Page, burn page 6 new active page=7
+10/4/20, 10:12:12 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:12 PM :Debug: burned page 6
+10/4/20, 10:12:12 PM :Info: Activating page: 7
+10/4/20, 10:12:12 PM :Debug: Queued Write instructions:258 to page(s) 7, 8, 9, 11, 
+10/4/20, 10:12:13 PM :Debug: Activate Page, burn page 7 new active page=8
+10/4/20, 10:12:13 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:13 PM :Debug: burned page 7
+10/4/20, 10:12:13 PM :Info: Activating page: 8
+10/4/20, 10:12:13 PM :Debug: Queued Write instructions:235 to page(s) 8, 9, 11, 
+10/4/20, 10:12:14 PM :Debug: Queued Write instructions:211 to page(s) 8, 9, 11, 
+10/4/20, 10:12:15 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:12:15 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:15 PM :Debug: burned page 8
+10/4/20, 10:12:15 PM :Info: Activating page: 9
+10/4/20, 10:12:15 PM :Debug: Queued Write instructions:187 to page(s) 9, 11, 
+10/4/20, 10:12:15 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:12:15 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:15 PM :Debug: burned page 9
+10/4/20, 10:12:15 PM :Info: Activating page: 11
+10/4/20, 10:12:16 PM :Debug: Queued Write instructions:164 to page(s) 11, 
+10/4/20, 10:12:17 PM :Debug: Queued Write instructions:140 to page(s) 11, 
+10/4/20, 10:12:18 PM :Debug: Queued Write instructions:116 to page(s) 11, 
+10/4/20, 10:12:19 PM :Debug: Queued Write instructions:91 to page(s) 11, 
+10/4/20, 10:12:20 PM :Debug: Queued Write instructions:67 to page(s) 11, 
+10/4/20, 10:12:21 PM :Debug: Queued Write instructions:43 to page(s) 11, 
+10/4/20, 10:12:22 PM :Debug: Queued Write instructions:19 to page(s) 11, 
+10/4/20, 10:12:23 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:23 PM :Debug: burned page 11
+10/4/20, 10:12:23 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:23 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:12:23 PM :Info: Time to save msq: 12.553274
+10/4/20, 10:12:23 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:12:23 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:23 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:23 PM :Debug: Burn time:10ms.
+10/4/20, 10:12:23 PM :Debug: burned page 11
+10/4/20, 10:12:23 PM :Info: Activating page: 1
+10/4/20, 10:12:23 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:25 PM :Debug: Read page time: 1247ms.
+10/4/20, 10:12:25 PM :Info: Activating page: 2
+10/4/20, 10:12:25 PM :Debug: Read page time: 170ms.
+10/4/20, 10:12:25 PM :Info: Activating page: 3
+10/4/20, 10:12:25 PM :Debug: Read page time: 209ms.
+10/4/20, 10:12:25 PM :Info: Activating page: 4
+10/4/20, 10:12:25 PM :Debug: Read page time: 170ms.
+10/4/20, 10:12:25 PM :Info: Activating page: 5
+10/4/20, 10:12:25 PM :Debug: Read page time: 209ms.
+10/4/20, 10:12:25 PM :Info: Activating page: 6
+10/4/20, 10:12:26 PM :Debug: Read page time: 169ms.
+10/4/20, 10:12:26 PM :Info: Activating page: 7
+10/4/20, 10:12:26 PM :Debug: Read page time: 189ms.
+10/4/20, 10:12:26 PM :Info: Activating page: 8
+10/4/20, 10:12:26 PM :Debug: Read page time: 198ms.
+10/4/20, 10:12:26 PM :Info: Activating page: 9
+10/4/20, 10:12:26 PM :Debug: Read page time: 191ms.
+10/4/20, 10:12:26 PM :Info: Activating page: 10
+10/4/20, 10:12:26 PM :Debug: Read page time: 184ms.
+10/4/20, 10:12:26 PM :Info: Activating page: 11
+10/4/20, 10:12:27 PM :Debug: Read page time: 194ms.
+10/4/20, 10:12:27 PM :Debug: Read All Data
+10/4/20, 10:12:27 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:12:27 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:12:27 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:12:27 PM :Info: dr: 0:30
+10/4/20, 10:12:27 PM :Debug: Range Sort Time: 0
+10/4/20, 10:12:49 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:12:49 PM :Info: Time to save msq: 9.312801
+10/4/20, 10:12:49 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:12:50 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:50 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:12:50 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:14:48 PM :Debug: expected secl =159, secl = 31, secDelta = 128
+10/4/20, 10:14:48 PM :Debug: Detected Bad och read on tuareg_with_speeduino_config, increased delay to 122, increase extra wait between to 1, secl = 31
+10/4/20, 10:14:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/4/20, 10:14:48 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:14:48 PM :Debug: Flush lasted: 118286ms.
+10/4/20, 10:14:48 PM :Info: Closing Port
+10/4/20, 10:14:48 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:14:48 PM :Info: Queueing burn to page:11
+10/4/20, 10:14:48 PM :Info: Successfully Closed Port
+10/4/20, 10:14:48 PM :Info: Sending, 322 bytes.
+10/4/20, 10:14:48 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 322 bytes.
+10/4/20, 10:14:48 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:14:48 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:14:48 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:14:48 PM :Info: Opening port: /dev/ttyACM0
+10/4/20, 10:14:49 PM :Info: Activating page: 3
+10/4/20, 10:14:49 PM :Debug: Activate Page, burn page 3 new active page=5
+10/4/20, 10:14:49 PM :Debug: Burn time:10ms.
+10/4/20, 10:14:49 PM :Debug: burned page 3
+10/4/20, 10:14:49 PM :Info: Activating page: 5
+10/4/20, 10:14:51 PM :Debug: Activate Page, burn page 5 new active page=6
+10/4/20, 10:14:51 PM :Debug: Burn time:10ms.
+10/4/20, 10:14:51 PM :Debug: burned page 5
+10/4/20, 10:14:51 PM :Info: Activating page: 6
+10/4/20, 10:14:52 PM :Debug: Activate Page, burn page 6 new active page=7
+10/4/20, 10:14:52 PM :Debug: Burn time:11ms.
+10/4/20, 10:14:52 PM :Debug: burned page 6
+10/4/20, 10:14:52 PM :Info: Activating page: 7
+10/4/20, 10:14:52 PM :Debug: Activate Page, burn page 7 new active page=8
+10/4/20, 10:14:52 PM :Debug: Burn time:10ms.
+10/4/20, 10:14:52 PM :Debug: burned page 7
+10/4/20, 10:14:52 PM :Info: Activating page: 8
+10/4/20, 10:14:54 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:14:54 PM :Debug: Burn time:10ms.
+10/4/20, 10:14:54 PM :Debug: burned page 8
+10/4/20, 10:14:54 PM :Info: Activating page: 9
+10/4/20, 10:14:55 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:14:55 PM :Debug: Burn time:10ms.
+10/4/20, 10:14:55 PM :Debug: burned page 9
+10/4/20, 10:14:55 PM :Info: Activating page: 11
+10/4/20, 10:15:03 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:03 PM :Debug: burned page 11
+10/4/20, 10:15:03 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:03 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:15:03 PM :Info: Time to save msq: 17.885057
+10/4/20, 10:15:03 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:15:03 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:03 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:03 PM :Debug: Burn time:11ms.
+10/4/20, 10:15:03 PM :Debug: burned page 11
+10/4/20, 10:15:03 PM :Info: Activating page: 1
+10/4/20, 10:15:05 PM :Debug: Read page time: 1875ms.
+10/4/20, 10:15:05 PM :Info: Activating page: 2
+10/4/20, 10:15:05 PM :Debug: Read page time: 170ms.
+10/4/20, 10:15:05 PM :Info: Activating page: 3
+10/4/20, 10:15:05 PM :Debug: Read page time: 209ms.
+10/4/20, 10:15:05 PM :Info: Activating page: 4
+10/4/20, 10:15:05 PM :Debug: Read page time: 170ms.
+10/4/20, 10:15:05 PM :Info: Activating page: 5
+10/4/20, 10:15:06 PM :Debug: Read page time: 210ms.
+10/4/20, 10:15:06 PM :Info: Activating page: 6
+10/4/20, 10:15:06 PM :Debug: Read page time: 170ms.
+10/4/20, 10:15:06 PM :Info: Activating page: 7
+10/4/20, 10:15:06 PM :Debug: Read page time: 186ms.
+10/4/20, 10:15:06 PM :Info: Activating page: 8
+10/4/20, 10:15:06 PM :Debug: Read page time: 199ms.
+10/4/20, 10:15:06 PM :Info: Activating page: 9
+10/4/20, 10:15:06 PM :Debug: Read page time: 193ms.
+10/4/20, 10:15:06 PM :Info: Activating page: 10
+10/4/20, 10:15:07 PM :Debug: Read page time: 184ms.
+10/4/20, 10:15:07 PM :Info: Activating page: 11
+10/4/20, 10:15:07 PM :Debug: Read page time: 195ms.
+10/4/20, 10:15:07 PM :Debug: Read All Data
+10/4/20, 10:15:07 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:15:07 PM :Debug: DiffTime: 1 ms.
+10/4/20, 10:15:07 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:15:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:15:09 PM :Info: Time to save msq: 10.0989
+10/4/20, 10:15:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:15:10 PM :Debug: Flush lasted: 47ms.
+10/4/20, 10:15:10 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:15:10 PM :Info: Queueing burn to page:11
+10/4/20, 10:15:10 PM :Info: Sending, 481 bytes.
+10/4/20, 10:15:10 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 481 bytes.
+10/4/20, 10:15:10 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:15:10 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:15:10 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:15:10 PM :Info: Activating page: 5
+10/4/20, 10:15:23 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:15:23 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:23 PM :Debug: burned page 5
+10/4/20, 10:15:23 PM :Info: Activating page: 8
+10/4/20, 10:15:25 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:15:25 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:25 PM :Debug: burned page 8
+10/4/20, 10:15:25 PM :Info: Activating page: 9
+10/4/20, 10:15:26 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:15:26 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:26 PM :Debug: burned page 9
+10/4/20, 10:15:26 PM :Info: Activating page: 11
+10/4/20, 10:15:32 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:32 PM :Debug: burned page 11
+10/4/20, 10:15:32 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:32 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:15:32 PM :Info: Time to save msq: 9.403993
+10/4/20, 10:15:32 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:15:32 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:32 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:15:32 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:32 PM :Debug: burned page 11
+10/4/20, 10:15:32 PM :Info: Activating page: 1
+10/4/20, 10:15:34 PM :Debug: Read page time: 1802ms.
+10/4/20, 10:15:34 PM :Info: Activating page: 2
+10/4/20, 10:15:34 PM :Debug: Read page time: 169ms.
+10/4/20, 10:15:34 PM :Info: Activating page: 3
+10/4/20, 10:15:34 PM :Debug: Read page time: 209ms.
+10/4/20, 10:15:34 PM :Info: Activating page: 4
+10/4/20, 10:15:34 PM :Debug: Read page time: 169ms.
+10/4/20, 10:15:34 PM :Info: Activating page: 5
+10/4/20, 10:15:34 PM :Debug: Read page time: 209ms.
+10/4/20, 10:15:34 PM :Info: Activating page: 6
+10/4/20, 10:15:35 PM :Debug: Read page time: 169ms.
+10/4/20, 10:15:35 PM :Info: Activating page: 7
+10/4/20, 10:15:35 PM :Debug: Read page time: 189ms.
+10/4/20, 10:15:35 PM :Info: Activating page: 8
+10/4/20, 10:15:35 PM :Debug: Read page time: 199ms.
+10/4/20, 10:15:35 PM :Info: Activating page: 9
+10/4/20, 10:15:35 PM :Debug: Read page time: 192ms.
+10/4/20, 10:15:35 PM :Info: Activating page: 10
+10/4/20, 10:15:35 PM :Debug: Read page time: 184ms.
+10/4/20, 10:15:35 PM :Info: Activating page: 11
+10/4/20, 10:15:36 PM :Debug: Read page time: 194ms.
+10/4/20, 10:15:36 PM :Debug: Read All Data
+10/4/20, 10:15:36 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:15:36 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:15:36 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:15:44 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:15:44 PM :Info: Time to save msq: 8.426187
+10/4/20, 10:15:44 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:15:45 PM :Debug: Flush lasted: 130ms.
+10/4/20, 10:15:45 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:15:45 PM :Info: Queueing burn to page:11
+10/4/20, 10:15:45 PM :Info: Sending, 489 bytes.
+10/4/20, 10:15:45 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:15:45 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:15:45 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:15:45 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:15:45 PM :Info: Activating page: 5
+10/4/20, 10:15:58 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:15:58 PM :Debug: Burn time:10ms.
+10/4/20, 10:15:58 PM :Debug: burned page 5
+10/4/20, 10:15:58 PM :Info: Activating page: 8
+10/4/20, 10:16:01 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:16:01 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:01 PM :Debug: burned page 8
+10/4/20, 10:16:01 PM :Info: Activating page: 9
+10/4/20, 10:16:02 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:16:02 PM :Debug: Burn time:11ms.
+10/4/20, 10:16:02 PM :Debug: burned page 9
+10/4/20, 10:16:02 PM :Info: Activating page: 11
+10/4/20, 10:16:07 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:07 PM :Debug: burned page 11
+10/4/20, 10:16:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:16:07 PM :Info: Time to save msq: 11.020175
+10/4/20, 10:16:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:16:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:07 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:07 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:07 PM :Debug: burned page 11
+10/4/20, 10:16:07 PM :Info: Activating page: 1
+10/4/20, 10:16:09 PM :Debug: Read page time: 1729ms.
+10/4/20, 10:16:09 PM :Info: Activating page: 2
+10/4/20, 10:16:09 PM :Debug: Read page time: 170ms.
+10/4/20, 10:16:09 PM :Info: Activating page: 3
+10/4/20, 10:16:09 PM :Debug: Read page time: 210ms.
+10/4/20, 10:16:09 PM :Info: Activating page: 4
+10/4/20, 10:16:10 PM :Debug: Read page time: 169ms.
+10/4/20, 10:16:10 PM :Info: Activating page: 5
+10/4/20, 10:16:10 PM :Debug: Read page time: 210ms.
+10/4/20, 10:16:10 PM :Info: Activating page: 6
+10/4/20, 10:16:10 PM :Debug: Read page time: 170ms.
+10/4/20, 10:16:10 PM :Info: Activating page: 7
+10/4/20, 10:16:10 PM :Debug: Read page time: 189ms.
+10/4/20, 10:16:10 PM :Info: Activating page: 8
+10/4/20, 10:16:10 PM :Debug: Read page time: 198ms.
+10/4/20, 10:16:10 PM :Info: Activating page: 9
+10/4/20, 10:16:11 PM :Debug: Read page time: 192ms.
+10/4/20, 10:16:11 PM :Info: Activating page: 10
+10/4/20, 10:16:11 PM :Debug: Read page time: 183ms.
+10/4/20, 10:16:11 PM :Info: Activating page: 11
+10/4/20, 10:16:11 PM :Debug: Read page time: 195ms.
+10/4/20, 10:16:11 PM :Debug: Read All Data
+10/4/20, 10:16:11 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:16:11 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:16:11 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:16:13 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:16:13 PM :Info: Time to save msq: 18.163609
+10/4/20, 10:16:13 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:16:13 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:16:13 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:16:13 PM :Info: Queueing burn to page:11
+10/4/20, 10:16:13 PM :Info: Sending, 489 bytes.
+10/4/20, 10:16:13 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:16:13 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:16:13 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:16:13 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:16:13 PM :Info: Activating page: 5
+10/4/20, 10:16:27 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:16:27 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:27 PM :Debug: burned page 5
+10/4/20, 10:16:27 PM :Info: Activating page: 8
+10/4/20, 10:16:29 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:16:29 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:29 PM :Debug: burned page 8
+10/4/20, 10:16:29 PM :Info: Activating page: 9
+10/4/20, 10:16:30 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:16:30 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:30 PM :Debug: burned page 9
+10/4/20, 10:16:30 PM :Info: Activating page: 11
+10/4/20, 10:16:36 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:36 PM :Debug: burned page 11
+10/4/20, 10:16:36 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:36 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:16:36 PM :Info: Time to save msq: 4.440809
+10/4/20, 10:16:36 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:16:36 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:36 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:16:36 PM :Debug: Burn time:10ms.
+10/4/20, 10:16:36 PM :Debug: burned page 11
+10/4/20, 10:16:36 PM :Info: Activating page: 1
+10/4/20, 10:16:38 PM :Debug: Read page time: 1718ms.
+10/4/20, 10:16:38 PM :Info: Activating page: 2
+10/4/20, 10:16:38 PM :Debug: Read page time: 170ms.
+10/4/20, 10:16:38 PM :Info: Activating page: 3
+10/4/20, 10:16:38 PM :Debug: Read page time: 210ms.
+10/4/20, 10:16:38 PM :Info: Activating page: 4
+10/4/20, 10:16:38 PM :Debug: Read page time: 170ms.
+10/4/20, 10:16:38 PM :Info: Activating page: 5
+10/4/20, 10:16:38 PM :Debug: Read page time: 210ms.
+10/4/20, 10:16:38 PM :Info: Activating page: 6
+10/4/20, 10:16:39 PM :Debug: Read page time: 170ms.
+10/4/20, 10:16:39 PM :Info: Activating page: 7
+10/4/20, 10:16:39 PM :Debug: Read page time: 190ms.
+10/4/20, 10:16:39 PM :Info: Activating page: 8
+10/4/20, 10:16:39 PM :Debug: Read page time: 199ms.
+10/4/20, 10:16:39 PM :Info: Activating page: 9
+10/4/20, 10:16:39 PM :Debug: Read page time: 193ms.
+10/4/20, 10:16:39 PM :Info: Activating page: 10
+10/4/20, 10:16:39 PM :Debug: Read page time: 184ms.
+10/4/20, 10:16:39 PM :Info: Activating page: 11
+10/4/20, 10:16:40 PM :Debug: Read page time: 195ms.
+10/4/20, 10:16:40 PM :Debug: Read All Data
+10/4/20, 10:16:40 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:16:40 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:16:40 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:16:46 PM :Debug: 100 good och reads, decreased delay to 120, set extra wait between to 0
+10/4/20, 10:16:46 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:16:46 PM :Info: Time to save msq: 17.10627
+10/4/20, 10:16:46 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:16:46 PM :Debug: Flush lasted: 65ms.
+10/4/20, 10:16:46 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:16:46 PM :Info: Queueing burn to page:11
+10/4/20, 10:16:46 PM :Info: Sending, 489 bytes.
+10/4/20, 10:16:46 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:16:46 PM :Debug: Flush lasted: 1ms.
+10/4/20, 10:16:46 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:16:46 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:16:46 PM :Info: Activating page: 5
+10/4/20, 10:17:00 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:17:00 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:00 PM :Debug: burned page 5
+10/4/20, 10:17:00 PM :Info: Activating page: 8
+10/4/20, 10:17:02 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:17:02 PM :Debug: Burn time:11ms.
+10/4/20, 10:17:02 PM :Debug: burned page 8
+10/4/20, 10:17:02 PM :Info: Activating page: 9
+10/4/20, 10:17:03 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:17:03 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:03 PM :Debug: burned page 9
+10/4/20, 10:17:03 PM :Info: Activating page: 11
+10/4/20, 10:17:09 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:09 PM :Debug: burned page 11
+10/4/20, 10:17:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:17:09 PM :Info: Time to save msq: 8.839261
+10/4/20, 10:17:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:17:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:09 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:09 PM :Debug: burned page 11
+10/4/20, 10:17:09 PM :Info: Activating page: 1
+10/4/20, 10:17:11 PM :Debug: Read page time: 1749ms.
+10/4/20, 10:17:11 PM :Info: Activating page: 2
+10/4/20, 10:17:11 PM :Debug: Read page time: 169ms.
+10/4/20, 10:17:11 PM :Info: Activating page: 3
+10/4/20, 10:17:11 PM :Debug: Read page time: 209ms.
+10/4/20, 10:17:11 PM :Info: Activating page: 4
+10/4/20, 10:17:11 PM :Debug: Read page time: 169ms.
+10/4/20, 10:17:11 PM :Info: Activating page: 5
+10/4/20, 10:17:11 PM :Debug: Read page time: 209ms.
+10/4/20, 10:17:11 PM :Info: Activating page: 6
+10/4/20, 10:17:12 PM :Debug: Read page time: 170ms.
+10/4/20, 10:17:12 PM :Info: Activating page: 7
+10/4/20, 10:17:12 PM :Debug: Read page time: 189ms.
+10/4/20, 10:17:12 PM :Info: Activating page: 8
+10/4/20, 10:17:12 PM :Debug: Read page time: 197ms.
+10/4/20, 10:17:12 PM :Info: Activating page: 9
+10/4/20, 10:17:12 PM :Debug: Read page time: 192ms.
+10/4/20, 10:17:12 PM :Info: Activating page: 10
+10/4/20, 10:17:12 PM :Debug: Read page time: 183ms.
+10/4/20, 10:17:12 PM :Info: Activating page: 11
+10/4/20, 10:17:13 PM :Debug: Read page time: 195ms.
+10/4/20, 10:17:13 PM :Debug: Read All Data
+10/4/20, 10:17:13 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:17:13 PM :Debug: DiffTime: 1 ms.
+10/4/20, 10:17:13 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:17:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:17:15 PM :Info: Time to save msq: 10.791898
+10/4/20, 10:17:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:17:15 PM :Debug: Flush lasted: 10ms.
+10/4/20, 10:17:15 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:17:15 PM :Info: Queueing burn to page:11
+10/4/20, 10:17:15 PM :Info: Sending, 489 bytes.
+10/4/20, 10:17:15 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:17:15 PM :Debug: Flush lasted: 19ms.
+10/4/20, 10:17:15 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:17:15 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:17:15 PM :Info: Activating page: 5
+10/4/20, 10:17:28 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:17:28 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:28 PM :Debug: burned page 5
+10/4/20, 10:17:28 PM :Info: Activating page: 8
+10/4/20, 10:17:31 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:17:31 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:31 PM :Debug: burned page 8
+10/4/20, 10:17:31 PM :Info: Activating page: 9
+10/4/20, 10:17:32 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:17:32 PM :Debug: Burn time:11ms.
+10/4/20, 10:17:32 PM :Debug: burned page 9
+10/4/20, 10:17:32 PM :Info: Activating page: 11
+10/4/20, 10:17:37 PM :Debug: Burn time:11ms.
+10/4/20, 10:17:37 PM :Debug: burned page 11
+10/4/20, 10:17:37 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:37 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:17:37 PM :Info: Time to save msq: 10.974277
+10/4/20, 10:17:37 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:17:37 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:37 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:17:37 PM :Debug: Burn time:10ms.
+10/4/20, 10:17:37 PM :Debug: burned page 11
+10/4/20, 10:17:37 PM :Info: Activating page: 1
+10/4/20, 10:17:39 PM :Debug: Read page time: 1798ms.
+10/4/20, 10:17:39 PM :Info: Activating page: 2
+10/4/20, 10:17:39 PM :Debug: Read page time: 170ms.
+10/4/20, 10:17:39 PM :Info: Activating page: 3
+10/4/20, 10:17:40 PM :Debug: Read page time: 210ms.
+10/4/20, 10:17:40 PM :Info: Activating page: 4
+10/4/20, 10:17:40 PM :Debug: Read page time: 170ms.
+10/4/20, 10:17:40 PM :Info: Activating page: 5
+10/4/20, 10:17:40 PM :Debug: Read page time: 210ms.
+10/4/20, 10:17:40 PM :Info: Activating page: 6
+10/4/20, 10:17:40 PM :Debug: Read page time: 170ms.
+10/4/20, 10:17:40 PM :Info: Activating page: 7
+10/4/20, 10:17:40 PM :Debug: Read page time: 190ms.
+10/4/20, 10:17:40 PM :Info: Activating page: 8
+10/4/20, 10:17:41 PM :Debug: Read page time: 199ms.
+10/4/20, 10:17:41 PM :Info: Activating page: 9
+10/4/20, 10:17:41 PM :Debug: Read page time: 193ms.
+10/4/20, 10:17:41 PM :Info: Activating page: 10
+10/4/20, 10:17:41 PM :Debug: Read page time: 184ms.
+10/4/20, 10:17:41 PM :Info: Activating page: 11
+10/4/20, 10:17:41 PM :Debug: Read page time: 196ms.
+10/4/20, 10:17:41 PM :Debug: Read All Data
+10/4/20, 10:17:41 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:17:41 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:17:41 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:17:47 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:17:47 PM :Info: Time to save msq: 9.724079
+10/4/20, 10:17:47 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:17:47 PM :Debug: Flush lasted: 73ms.
+10/4/20, 10:17:47 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:17:47 PM :Info: Queueing burn to page:11
+10/4/20, 10:17:47 PM :Info: Sending, 489 bytes.
+10/4/20, 10:17:47 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:17:47 PM :Debug: Flush lasted: 7ms.
+10/4/20, 10:17:47 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:17:47 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:17:47 PM :Info: Activating page: 5
+10/4/20, 10:18:00 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:18:00 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:00 PM :Debug: burned page 5
+10/4/20, 10:18:00 PM :Info: Activating page: 8
+10/4/20, 10:18:03 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:18:03 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:03 PM :Debug: burned page 8
+10/4/20, 10:18:03 PM :Info: Activating page: 9
+10/4/20, 10:18:04 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:18:04 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:04 PM :Debug: burned page 9
+10/4/20, 10:18:04 PM :Info: Activating page: 11
+10/4/20, 10:18:09 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:09 PM :Debug: burned page 11
+10/4/20, 10:18:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:18:09 PM :Info: Time to save msq: 5.146321
+10/4/20, 10:18:09 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:18:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:09 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:09 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:09 PM :Debug: burned page 11
+10/4/20, 10:18:09 PM :Info: Activating page: 1
+10/4/20, 10:18:11 PM :Debug: Read page time: 1797ms.
+10/4/20, 10:18:11 PM :Info: Activating page: 2
+10/4/20, 10:18:11 PM :Debug: Read page time: 170ms.
+10/4/20, 10:18:11 PM :Info: Activating page: 3
+10/4/20, 10:18:12 PM :Debug: Read page time: 208ms.
+10/4/20, 10:18:12 PM :Info: Activating page: 4
+10/4/20, 10:18:12 PM :Debug: Read page time: 170ms.
+10/4/20, 10:18:12 PM :Info: Activating page: 5
+10/4/20, 10:18:12 PM :Debug: Read page time: 208ms.
+10/4/20, 10:18:12 PM :Info: Activating page: 6
+10/4/20, 10:18:12 PM :Debug: Read page time: 170ms.
+10/4/20, 10:18:12 PM :Info: Activating page: 7
+10/4/20, 10:18:12 PM :Debug: Read page time: 189ms.
+10/4/20, 10:18:12 PM :Info: Activating page: 8
+10/4/20, 10:18:13 PM :Debug: Read page time: 197ms.
+10/4/20, 10:18:13 PM :Info: Activating page: 9
+10/4/20, 10:18:13 PM :Debug: Read page time: 192ms.
+10/4/20, 10:18:13 PM :Info: Activating page: 10
+10/4/20, 10:18:13 PM :Debug: Read page time: 183ms.
+10/4/20, 10:18:13 PM :Info: Activating page: 11
+10/4/20, 10:18:13 PM :Debug: Read page time: 195ms.
+10/4/20, 10:18:13 PM :Debug: Read All Data
+10/4/20, 10:18:13 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:18:13 PM :Debug: DiffTime: 1 ms.
+10/4/20, 10:18:13 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:18:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:18:15 PM :Info: Time to save msq: 6.370736
+10/4/20, 10:18:15 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:18:15 PM :Debug: Flush lasted: 8ms.
+10/4/20, 10:18:15 PM :Debug: Burn Page anonymous: 11
+10/4/20, 10:18:15 PM :Info: Queueing burn to page:11
+10/4/20, 10:18:15 PM :Info: Sending, 489 bytes.
+10/4/20, 10:18:15 PM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+	Sending, 489 bytes.
+10/4/20, 10:18:15 PM :Debug: Flush lasted: 0ms.
+10/4/20, 10:18:15 PM :Debug: Burn Page anonymous: -1
+10/4/20, 10:18:15 PM :Info: skip burn to page:11, lastWritePage = -2
+10/4/20, 10:18:15 PM :Info: Activating page: 5
+10/4/20, 10:18:28 PM :Debug: Activate Page, burn page 5 new active page=8
+10/4/20, 10:18:28 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:28 PM :Debug: burned page 5
+10/4/20, 10:18:28 PM :Info: Activating page: 8
+10/4/20, 10:18:31 PM :Debug: Activate Page, burn page 8 new active page=9
+10/4/20, 10:18:31 PM :Debug: Burn time:11ms.
+10/4/20, 10:18:31 PM :Debug: burned page 8
+10/4/20, 10:18:31 PM :Info: Activating page: 9
+10/4/20, 10:18:32 PM :Debug: Activate Page, burn page 9 new active page=11
+10/4/20, 10:18:32 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:32 PM :Debug: burned page 9
+10/4/20, 10:18:32 PM :Info: Activating page: 11
+10/4/20, 10:18:38 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:38 PM :Debug: burned page 11
+10/4/20, 10:18:38 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:38 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:18:38 PM :Info: Time to save msq: 11.125393
+10/4/20, 10:18:38 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:18:38 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:38 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:18:38 PM :Debug: Burn time:10ms.
+10/4/20, 10:18:38 PM :Debug: burned page 11
+10/4/20, 10:18:38 PM :Info: Activating page: 1
+10/4/20, 10:18:39 PM :Debug: Read page time: 1728ms.
+10/4/20, 10:18:39 PM :Info: Activating page: 2
+10/4/20, 10:18:40 PM :Debug: Read page time: 169ms.
+10/4/20, 10:18:40 PM :Info: Activating page: 3
+10/4/20, 10:18:40 PM :Debug: Read page time: 209ms.
+10/4/20, 10:18:40 PM :Info: Activating page: 4
+10/4/20, 10:18:40 PM :Debug: Read page time: 170ms.
+10/4/20, 10:18:40 PM :Info: Activating page: 5
+10/4/20, 10:18:40 PM :Debug: Read page time: 210ms.
+10/4/20, 10:18:40 PM :Info: Activating page: 6
+10/4/20, 10:18:40 PM :Debug: Read page time: 171ms.
+10/4/20, 10:18:40 PM :Info: Activating page: 7
+10/4/20, 10:18:41 PM :Debug: Read page time: 188ms.
+10/4/20, 10:18:41 PM :Info: Activating page: 8
+10/4/20, 10:18:41 PM :Debug: Read page time: 199ms.
+10/4/20, 10:18:41 PM :Info: Activating page: 9
+10/4/20, 10:18:41 PM :Debug: Read page time: 193ms.
+10/4/20, 10:18:41 PM :Info: Activating page: 10
+10/4/20, 10:18:41 PM :Debug: Read page time: 184ms.
+10/4/20, 10:18:41 PM :Info: Activating page: 11
+10/4/20, 10:18:41 PM :Debug: Read page time: 196ms.
+10/4/20, 10:18:41 PM :Debug: Read All Data
+10/4/20, 10:18:41 PM :Debug: isBlank Time: 0 ms.
+10/4/20, 10:18:41 PM :Debug: DiffTime: 2 ms.
+10/4/20, 10:18:41 PM :Debug: Time to get Panels = 0ms.
+10/4/20, 10:19:15 PM :Info: Initiating read page 3
+10/4/20, 10:19:15 PM :Info: Activating page: 3
+10/4/20, 10:19:16 PM :Info: dr: 0:30
+10/4/20, 10:19:16 PM :Debug: Range Sort Time: 0
+10/4/20, 10:21:43 PM :Info: dr: 0:30
+10/4/20, 10:21:43 PM :Debug: Range Sort Time: 0
+10/4/20, 10:21:43 PM :Debug: Flush lasted: 1ms.
+10/4/20, 10:21:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:21:58 PM :Info: Time to save msq: 6.922676
+10/4/20, 10:21:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:21:58 PM :Info: closeApp Called
+10/4/20, 10:21:58 PM :Debug: TuneLog Editor set text
+10/4/20, 10:21:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/4/20, 10:21:58 PM :Info: Time to save msq: 4.769535
+10/4/20, 10:21:58 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/4/20, 10:21:59 PM :Debug: goOffline Starting, Time:0
+10/4/20, 10:21:59 PM :Info: Deactivated Turbo Baud, goOffline
+10/4/20, 10:21:59 PM :Debug: goOffline about to stopProcessing, Time:251
+10/4/20, 10:21:59 PM :Debug: goOffline Notified offline, Time:256
+10/4/20, 10:21:59 PM :Debug: goOffline closed port, Time:256
+10/4/20, 10:21:59 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/4/20, 10:21:59 PM :Info: Closing Port
+10/4/20, 10:21:59 PM :Info: Successfully Closed Port
+10/4/20, 10:21:59 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread98583.68769837864
+10/4/20, 10:21:59 PM :Debug: goOffline comm thread stopped, Time:507
+10/4/20, 10:21:59 PM :Debug: No Remaining Queue Write instructions
+10/4/20, 10:21:59 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+10/4/20, 10:21:59 PM :Debug: ############################################# Save Project ##########################################
+10/4/20, 10:21:59 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.0.28 started on Tue Oct 06 22:54:33 CEST 2020
+JRE 11.0.8, Linux 4.15.0-118-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.metal.MetalLookAndFeel
+ScrollBar.width
+10/6/20, 10:54:34 PM :Debug: no update:defaultFont
+10/6/20, 10:54:37 PM :Info: Loading Language Content.
+10/6/20, 10:54:37 PM :Info: Initializing File Dialogs.
+10/6/20, 10:54:37 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+10/6/20, 10:54:37 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+10/6/20, 10:54:37 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+10/6/20, 10:54:37 PM :Info: Initializing Help.
+10/6/20, 10:54:37 PM :Info: Initializing Edition Features.
+10/6/20, 10:54:37 PM :Info: Initializing App Events.
+10/6/20, 10:54:37 PM :Debug: App Name:TunerStudio, appEdition:MS Lite!
+10/6/20, 10:54:37 PM :Debug: Dummy Function Factory Created.
+10/6/20, 10:54:37 PM :Info: Initializing User Interface
+10/6/20, 10:54:37 PM :Warning: Unable to set Main cluster for title:
+10/6/20, 10:54:38 PM :Info: Checking for updates
+10/6/20, 10:54:38 PM :Info: Error Sorting Dialog: column beyond range of TableModel
+10/6/20, 10:54:39 PM :Info: Loading Font list.
+10/6/20, 10:54:39 PM :Debug: Time to retreive font name list: 126 ms.
+10/6/20, 10:54:39 PM :Info: 
+10/6/20, 10:54:39 PM :Info: Initializing UI Components.
+10/6/20, 10:54:39 PM :Info: Ready
+10/6/20, 10:54:41 PM :Info: Opening Project ...
+10/6/20, 10:54:41 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/
+10/6/20, 10:54:41 PM :Debug: Reading translation file as plain text
+10/6/20, 10:54:41 PM :Info: Supported iniSpecVersion=3.51
+10/6/20, 10:54:41 PM :Debug: Filtered ConfigurationOptionGroup in 36ms.
+10/6/20, 10:54:41 PM :Info: Supported iniSpecVersion=3.51
+10/6/20, 10:54:41 PM :Info: Read file canPcVariables.ini: 0.752245ms
+10/6/20, 10:54:41 PM :Info: Filtered ini: 0.071713ms
+10/6/20, 10:54:41 PM :Info: No iniVersion defined
+10/6/20, 10:54:41 PM :Info: Loading Trigger Wheels
+10/6/20, 10:54:41 PM :Info: Loaded All known ini sections
+10/6/20, 10:54:41 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 42ms.
+10/6/20, 10:54:41 PM :Info: Read file mainController.ini: 20.399052ms
+10/6/20, 10:54:41 PM :Info: Filtered ini: 2.812592ms
+10/6/20, 10:54:41 PM :Info: No iniVersion defined
+10/6/20, 10:54:41 PM :Debug: ini signature: speeduino 201708
+MSmain: No check, last update check=Sun Oct 04 22:05:08 CEST 2020
+10/6/20, 10:54:41 PM :Info: Loading Trigger Wheels
+10/6/20, 10:54:41 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+10/6/20, 10:54:41 PM :Info: Loaded All known ini sections
+10/6/20, 10:54:41 PM :Info: Parsed and validated ini "mainController.ini" in : 223ms.
+10/6/20, 10:54:41 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+10/6/20, 10:54:41 PM :Info: Time to load primary config: 383.99078ms. used cached config: false
+10/6/20, 10:54:41 PM :Info: Supported iniSpecVersion=3.51
+10/6/20, 10:54:41 PM :Debug: Adding Configuration: tuareg_with_speeduino_config
+10/6/20, 10:54:41 PM :Debug: Fill Constants: 14
+10/6/20, 10:54:42 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/6/20, 10:54:42 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/speeduino_config/tuareg_with_speeduino_config/CurrentTune.msq
+10/6/20, 10:54:42 PM :Debug: Flush lasted: 0ms.
+10/6/20, 10:54:42 PM :Info: !!! Loaded config in 656
+10/6/20, 10:54:42 PM :Info: Com Thread created: COMM Thread72010.97194926732
+10/6/20, 10:54:42 PM :Info: !!! Activated Project 1360
+10/6/20, 10:54:42 PM :Info: Opening Gauge Cluster..
+10/6/20, 10:54:42 PM :Info: Comm Manager for tuareg_with_speeduino_config Started, thread ID: COMM Thread72010.97194926732
+10/6/20, 10:54:42 PM :Info: Opening port: /dev/ttyACM0
+10/6/20, 10:54:43 PM :Debug: High Speed Paint: true
+10/6/20, 10:54:43 PM :Info: 
+10/6/20, 10:54:43 PM :Debug: !!! Opened Dash 2239
+10/6/20, 10:54:43 PM :Info: tuareg_with_speeduino_config Ready
+10/6/20, 10:54:43 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread72010.97194926732
+10/6/20, 10:54:43 PM :Debug: Tuning View Files loaded in 300.00992ms.
+10/6/20, 10:54:44 PM :Debug: Deactivated fast paint Main Dashboard
+MSad: No check, last update check=Sun Oct 04 22:05:11 CEST 2020
+10/6/20, 10:54:45 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+10/6/20, 10:54:45 PM :Info: Update Check Completed
+Saved user properties successfully
+10/6/20, 10:54:46 PM :Info: Communicating with sig:speeduino 201708, Speeduino 2017.08
+10/6/20, 10:54:46 PM :Info: Activating page: 1
+10/6/20, 10:54:46 PM :Debug: Read page time: 170ms.
+10/6/20, 10:54:46 PM :Info: Activating page: 2
+10/6/20, 10:54:46 PM :Debug: Read page time: 169ms.
+10/6/20, 10:54:46 PM :Info: Activating page: 3
+10/6/20, 10:54:46 PM :Debug: Read page time: 204ms.
+10/6/20, 10:54:46 PM :Info: Activating page: 4
+10/6/20, 10:54:46 PM :Debug: Read page time: 171ms.
+10/6/20, 10:54:46 PM :Info: Activating page: 5
+10/6/20, 10:54:47 PM :Debug: Read page time: 209ms.
+10/6/20, 10:54:47 PM :Info: Activating page: 6
+10/6/20, 10:54:47 PM :Debug: Read page time: 170ms.
+10/6/20, 10:54:47 PM :Info: Activating page: 7
+10/6/20, 10:54:47 PM :Debug: Read page time: 189ms.
+10/6/20, 10:54:47 PM :Info: Activating page: 8
+10/6/20, 10:54:47 PM :Debug: Read page time: 198ms.
+10/6/20, 10:54:47 PM :Info: Activating page: 9
+10/6/20, 10:54:47 PM :Debug: Read page time: 193ms.
+10/6/20, 10:54:47 PM :Info: Activating page: 10
+10/6/20, 10:54:48 PM :Debug: Read page time: 184ms.
+10/6/20, 10:54:48 PM :Info: Activating page: 11
+10/6/20, 10:54:48 PM :Debug: Read page time: 195ms.
+10/6/20, 10:54:48 PM :Debug: Read All Data
+10/6/20, 10:54:48 PM :Debug: isBlank Time: 0 ms.
+10/6/20, 10:54:48 PM :Debug: DiffTime: 14 ms.
+10/6/20, 10:54:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+10/6/20, 10:54:48 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/6/20, 10:54:48 PM :Info: Closing Port
+10/6/20, 10:54:48 PM :Info: Successfully Closed Port
+10/6/20, 10:54:48 PM :Info: Opening port: /dev/ttyACM0
+10/6/20, 10:54:50 PM :Info: dr: 0:30
+10/6/20, 10:54:50 PM :Debug: Range Sort Time: 0
+10/6/20, 10:55:03 PM :Info: Initiating read page 3
+10/6/20, 10:55:03 PM :Info: Activating page: 3
+10/6/20, 10:55:03 PM :Info: dr: 0:30
+10/6/20, 10:55:03 PM :Debug: Range Sort Time: 0
+10/6/20, 10:56:02 PM :Info: dr: 0:30
+10/6/20, 10:56:02 PM :Debug: Range Sort Time: 0
+10/6/20, 10:56:02 PM :Debug: Flush lasted: 0ms.
+10/6/20, 10:56:06 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/6/20, 10:56:07 PM :Info: Time to save msq: 188.31956
+10/6/20, 10:56:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/6/20, 10:56:07 PM :Info: closeApp Called
+10/6/20, 10:56:07 PM :Debug: TuneLog Editor set text
+10/6/20, 10:56:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+10/6/20, 10:56:07 PM :Info: Time to save msq: 59.14651
+10/6/20, 10:56:07 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+10/6/20, 10:56:08 PM :Debug: goOffline Starting, Time:0
+10/6/20, 10:56:08 PM :Info: Deactivated Turbo Baud, goOffline
+10/6/20, 10:56:08 PM :Debug: goOffline about to stopProcessing, Time:251
+10/6/20, 10:56:08 PM :Debug: JSSC ControllerInterface Close Connection currentPort == null:false
+10/6/20, 10:56:08 PM :Info: Closing Port
+10/6/20, 10:56:08 PM :Debug: goOffline Notified offline, Time:255
+10/6/20, 10:56:08 PM :Debug: goOffline closed port, Time:255
+10/6/20, 10:56:08 PM :Info: Successfully Closed Port
+10/6/20, 10:56:08 PM :Info: tuareg_with_speeduino_config ComThread stopped COMM Thread72010.97194926732
+10/6/20, 10:56:08 PM :Debug: goOffline comm thread stopped, Time:356
+10/6/20, 10:56:08 PM :Debug: No Remaining Queue Write instructions
+10/6/20, 10:56:08 PM :Debug: removing Configuration: tuareg_with_speeduino_config
+10/6/20, 10:56:08 PM :Debug: ############################################# Save Project ##########################################
+10/6/20, 10:56:08 PM :Info: Finalizing Sensors
+Saved user properties successfully

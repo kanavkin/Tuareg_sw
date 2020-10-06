@@ -15,6 +15,8 @@
 volatile sensor_interface_t SInterface;
 volatile sensor_internals_t SInternals;
 
+const float cKelvin_offset= 273.15;
+
 /**
 see sensors.h for sensor layout!
 */
@@ -468,9 +470,10 @@ void ADC_IRQHandler()
 
 
 /**
-The regular group conversion is triggered by lowspeed_timer
-every 20 ms (50Hz)
+The regular group conversion is triggered by lowspeed_timer every 20 ms (50Hz)
+with 5x oversampling this gives an update interval of 100 ms
 */
+#warning TODO (oli#1#): is 100ms to slow?
 void DMA2_Stream0_IRQHandler()
 {
 
@@ -517,7 +520,7 @@ void DMA2_Stream0_IRQHandler()
                 //enough samples read?
                 if(*pCount >= ASENSOR_ASYNC_SAMPLE_LEN)
                 {
-                    //calculate the average map value
+                    //calculate the average value
                     average= *pIntegr / *pCount;
 
                     /**
@@ -545,11 +548,13 @@ void DMA2_Stream0_IRQHandler()
                         case ASENSOR_ASYNC_IAT:
 
                             result= calc_inverse_lin(average, configPage9.IAT_calib_M, configPage9.IAT_calib_N);
+                            result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_CLT:
 
                             result= calc_inverse_lin(average, configPage9.CLT_calib_M, configPage9.CLT_calib_N);
+                            result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_VBAT:

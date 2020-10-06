@@ -138,23 +138,24 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
 {
     #warning TODO (oli#1#):test ignition calculation
 
-    VU32 target_crank_angle_deg, advance_deg, dwell_deg, current_crank_angle_deg;
+    VU32 target_crank_angle_deg, advance_deg, max_dwell_deg, base_crank_angle_deg, target_dwell_us, max_dwell_us;
 
     if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
     {
         /**
         calculate advance (off timing)
+
+        - this calculation shall be carried out immediately after the ignition event
         */
 
         //use fixed ignition position in dynamic mode
         pTarget->coil_ignition_pos= configPage13.dynamic_ignition_position;
 
         //get the expected (ideal) crank angle at ignition trigger position
-        current_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_position];
+        base_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_position];
 
         //get target ignition advance angle
-        //advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
-        advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
+        advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
 
         //store ignition advance to timing object
         pTarget->ignition_advance_deg= advance_deg;
@@ -162,48 +163,93 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         //calculate the corresponding crank ignition angle
         target_crank_angle_deg= 360 - advance_deg;
 
-        //clip large advance angles
-        if(target_crank_angle_deg < current_crank_angle_deg)
-        {
-            pTarget->coil_ignition_timing_us= 0;
-        }
-        else
-        {
-            pTarget->coil_ignition_timing_us= calc_rot_duration_us(target_crank_angle_deg-current_crank_angle_deg, pImage->crank_T_us);
-        }
+        //the next ignition event will take place after ca. 360 deg
+        pTarget->coil_ignition_timing_us= calc_rot_duration_us( subtract_VU32(target_crank_angle_deg, base_crank_angle_deg), pImage->crank_T_us);
 
-#warning TODO (oli#1#): dwell logic hacked!
 
-        //calculate dwell duration in crank deg (on timing)
+        /**
+        dwell calculation
+
+        - we are using a fixed dwell position (configPage13.dynamic_dwell_position)
+        - this dwell position has to be chosen with care to prevent spark extinction on low and mid revs
+        - the ignition event will take place at (target_crank_angle_deg)
+        - the dwell timing compensates the difference between the target dwell time (configPage13.dynamic_dwell_us) and the time it will take for the crank to rotate from (configPage13.dynamic_dwell_position)
+            to (target_crank_angle_deg)
+        */
+
+        #warning TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
         if(pImage->engine_rpm < 2000)
         {
-            dwell_deg = calc_rot_angle_deg(10000, pImage->crank_T_us);
+            target_dwell_us = 10000;
         }
         else
         {
-            dwell_deg = calc_rot_angle_deg(configPage13.dynamic_dwell_us, pImage->crank_T_us);
+            target_dwell_us = configPage13.dynamic_dwell_us;
         }
 
-        //export to timing
-        pTarget->dwell_deg= dwell_deg;
-        pTarget->dwell_ms= configPage13.dynamic_dwell_us / 1000;
 
-        //clip dwell to crank cycle
-        #warning TODO (oli#6#):check if this case is relevant / should be tackled more accurate
-        sub_VU32(&target_crank_angle_deg, dwell_deg);
 
-        //calculate and store the optimal scheduler trigger position to timing object (dwell)
-        fit_position(pImage->crank_T_us, target_crank_angle_deg, &(pTarget->coil_dwell_pos), &(pTarget->coil_dwell_timing_us));
+        max_dwell_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_dwell_position];
+
+        //is the dynamic dwell position before or after TDC?
+        if(max_dwell_deg < 180)
+        {
+            //after TDC, shortening dwell
+            max_dwell_deg= subtract_VU32(target_crank_angle_deg, max_dwell_deg);
+        }
+        else
+        {
+            //before TDC, enlarging dwell
+            max_dwell_deg= subtract_VU32(360, max_dwell_deg) + target_crank_angle_deg;
+        }
+
+        //the angular difference between dwell position and ignition position determine the maximum dwell time with respect to engine rpm
+        max_dwell_us= calc_rot_duration_us(max_dwell_deg, pImage->crank_T_us);
+
+
+        /**
+        export to timing object
+        */
+        pTarget->coil_dwell_pos= configPage13.dynamic_dwell_position;
+
+        //if we can provide sufficient dwell time
+        if(max_dwell_us > target_dwell_us)
+        {
+            //compensate for long dwell
+            pTarget->coil_dwell_timing_us= max_dwell_us - target_dwell_us;
+
+            pTarget->dwell_ms= configPage13.dynamic_dwell_us / 1000;
+            pTarget->dwell_deg= calc_rot_angle_deg(configPage13.dynamic_dwell_us, pImage->crank_T_us);
+        }
+        else
+        {
+            //turn on dwell immediately at dwell position
+            pTarget->coil_dwell_timing_us= 0;
+
+            pTarget->dwell_ms= max_dwell_us / 1000;
+            pTarget->dwell_deg= max_dwell_deg;
+        }
+
+
+        /**
+        postprocessing
+        */
 
         /**
         account for scheduler allocation
 
         we have only one scheduler per ignition channel -> use the scheduler for precise interval end (ignition),
         use decoder irq for interval begin (dwell)
+
+        this should no more be a concern as we are using fixed ignition and dwell positions
         */
         if(pTarget->coil_ignition_pos == pTarget->coil_dwell_pos)
         {
-            pTarget->coil_dwell_timing_us =0;
+            pTarget->coil_dwell_pos = next_crank_position(pTarget->coil_ignition_pos);
+            pTarget->coil_dwell_timing_us = 0;
+
+            pTarget->dwell_ms= 0;
+            pTarget->dwell_deg= 0;
         }
 
     }

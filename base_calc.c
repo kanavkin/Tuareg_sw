@@ -72,5 +72,55 @@ void sub_VU32(VU32 * pMin, VU32 Subtr)
 
 }
 
+/**
+safe subtraction with clipping
+*/
+VU32 subtract_VU32(VU32 Min, VU32 Subtr)
+{
 
+    if(Min > Subtr)
+    {
+        return (Min - Subtr);
+    }
+    else
+    {
+         return 0;
+    }
+}
+
+
+/**
+safe absolute difference
+*/
+VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
+{
+
+    if(Val1 > Val2)
+    {
+        return (Val1 - Val2);
+    }
+    else if(Val2 > Val1)
+    {
+        return (Val2 - Val1);
+    }
+    else
+    {
+         return 0;
+    }
+}
+
+
+volatile crank_position_t next_crank_position(crank_position_t Current_Position)
+{
+    //overflow check
+    if( (Current_Position +1) >= CRK_POSITION_COUNT )
+    {
+        //new cycle
+        return 0;
+    }
+    else
+    {
+        return Current_Position +1;
+    }
+}
 

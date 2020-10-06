@@ -1,0 +1,53 @@
+#!/bin/bash
+
+DEV="/dev/ttyUSB0"
+
+#stty -F /dev/ttyUSB0 115200 raw -echo -hupcl
+#stty -F /dev/ttyUSB0 115200 raw 
+
+#get permissions
+#printf "Jmod#" > $DEV
+#sleep 0.1
+#printf "Jbrn!" > $DEV
+
+#set config page 9 --> 12
+printf '\\x50\\x3c' > $DEV
+sleep 0.1
+
+#IAT
+#    U16 IAT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
+ #   U16 IAT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+
+  #  U16 CLT_calib_data_x[CALIBRATION_TABLE_DIMENSION];
+   # U16 CLT_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+
+    #U16 TPS_calib_data_x[CALIBRATION_TABLE_DIMENSION];
+    #U16 TPS_calib_data_y[CALIBRATION_TABLE_DIMENSION];
+
+
+echo -ne "\\x57\\x24\\x00\\x00" > $DEV
+
+    #U16 MAP_calib_M;
+    #U16 MAP_calib_N;
+    #U16 MAP_calib_L;
+
+    #U16 BARO_calib_M;
+    #U16 BARO_calib_N;
+    #U16 BARO_calib_L;
+
+    #U16 O2_calib_M;
+    #U16 O2_calib_N;
+    #U16 O2_calib_L;
+
+    #U16 VBAT_calib_M;
+    #U16 VBAT_calib_N;
+    #U16 VBAT_calib_L;
+
+    #U16 KNOCK_calib_M;
+    #U16 KNOCK_calib_N;
+#U16 KNOCK_calib_L;
+
+#print new values
+echo -ne "L" > $DEV
+
+

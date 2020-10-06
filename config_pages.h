@@ -407,6 +407,7 @@ typedef struct _configPage13_t_ {
     U8 safety_margin_us;
 
     crank_position_t dynamic_ignition_position;
+    crank_position_t dynamic_dwell_position;
 
     //static ignition setup for idle
     crank_position_t idle_ignition_position;

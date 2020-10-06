@@ -610,10 +610,10 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
     fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
     fullStatus[3] = Tuareg.ignition_timing.dwell_ms *10; //Dwell in ms * 10
-    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_Pa / 10); //2 U8s for MAP
-    fullStatus[5] = highByte((U32) Tuareg.process.MAP_Pa / 10);
-    fullStatus[6] = (U8)Tuareg.process.IAT_C; //mat
-    fullStatus[7] = (U8)Tuareg.process.CLT_C; //Coolant ADC
+    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_kPa / 10); //2 U8s for MAP
+    fullStatus[5] = highByte((U32) Tuareg.process.MAP_kPa / 10);
+    fullStatus[6] = (U8) (Tuareg.process.IAT_K - cKelvin_offset); //mat
+    fullStatus[7] = (U8) (Tuareg.process.CLT_K -cKelvin_offset); //Coolant ADC
     fullStatus[8] = (U8) Tuareg.process.VBAT_V; //Battery voltage correction (%)
     fullStatus[9] = (U8) Tuareg.process.VBAT_V; //battery voltage
     fullStatus[10] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
@@ -659,7 +659,7 @@ void ts_sendValues(U32 offset, U32 length)
         fullStatus[38] = 0x42; //Tuareg.testOutputs;
 
         fullStatus[39] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-        fullStatus[40] = (U8) Tuareg.process.Baro_Pa; //Barometer value
+        fullStatus[40] = (U8) Tuareg.process.Baro_kPa; //Barometer value
 
         /**
         we do not use CAN
@@ -689,13 +689,10 @@ void ts_sendValues(U32 offset, U32 length)
 
     /**
     i is number of sent bytes
-
-
     take care for fake CAN section
 
     TODO
-    once CAN has been removed we can
-    ease this procedure a lot
+    once CAN has been removed we can ease this procedure a lot
     */
     for(i=0; i < length; i++)
     {
@@ -1739,13 +1736,13 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Send(TS_PORT, "\r\nstrategy: ");
     UART_Print_U(TS_PORT, pImage->ctrl_strategy, TYPE_U8, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nMAP (Pa), BARO (Pa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V): ");
-    UART_Print_F32(TS_PORT, pImage->MAP_Pa);
-    UART_Print_F32(TS_PORT, pImage->Baro_Pa);
+    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V): ");
+    UART_Print_F32(TS_PORT, pImage->MAP_kPa);
+    UART_Print_F32(TS_PORT, pImage->Baro_kPa);
     UART_Print_F32(TS_PORT, pImage->TPS_deg);
     UART_Print_F32(TS_PORT, pImage->ddt_TPS);
-    UART_Print_F32(TS_PORT, pImage->IAT_C);
-    UART_Print_F32(TS_PORT, pImage->CLT_C);
+    UART_Print_F32(TS_PORT, pImage->IAT_K - cKelvin_offset);
+    UART_Print_F32(TS_PORT, pImage->CLT_K - cKelvin_offset);
     UART_Print_F32(TS_PORT, pImage->VBAT_V);
 
 }
@@ -1768,8 +1765,9 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming)
     UART_Print_U(TS_PORT, pTiming->coil_ignition_pos, TYPE_U32, NO_PAD);
     UART_Print_U(TS_PORT, pTiming->coil_ignition_timing_us, TYPE_U32, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\ndwell angle (deg), position, timing (us): ");
+    UART_Send(TS_PORT, "\r\ndwell angle (deg), duration (ms), position, timing (us): ");
     UART_Print_U(TS_PORT, pTiming->dwell_deg, TYPE_U16, NO_PAD);
+    UART_Print_U(TS_PORT, pTiming->dwell_ms, TYPE_U16, NO_PAD);
     UART_Print_U(TS_PORT, pTiming->coil_dwell_pos, TYPE_U32, NO_PAD);
     UART_Print_U(TS_PORT, pTiming->coil_dwell_timing_us, TYPE_U32, NO_PAD);
 

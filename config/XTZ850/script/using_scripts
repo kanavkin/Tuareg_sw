@@ -1,0 +1,3 @@
+run /bin/bash <scriptname.sh>
+
+(ubuntu sh will not properly interprete hex escape sequences)

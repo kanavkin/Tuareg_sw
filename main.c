@@ -210,6 +210,7 @@ int main(void)
 
     #warning TODO (oli#4#): implement config item set/read logic
     configPage13.dynamic_ignition_position= CRK_POSITION_A2;
+    configPage13.dynamic_dwell_position= CRK_POSITION_B2;
 
 
     /**

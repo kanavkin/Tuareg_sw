@@ -294,4 +294,6 @@ float calc_inverse_lin(U32 Arg, float M, float N);
 float calculate_ddt_TPS(float Last_TPS, float Current_TPS);
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
+extern const float cKelvin_offset;
+
 #endif // SENSORS_H_INCLUDED
