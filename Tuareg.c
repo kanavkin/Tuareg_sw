@@ -72,7 +72,7 @@ void Tuareg_update_Runmode()
         }
 
         #warning TODO (oli#3#): implement cranking handling
-        if((Tuareg.process.engine_rpm > 800) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
+        if((Tuareg.process.engine_rpm > configPage13.dynamic_min_rpm) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
         {
             /**
             engine has finished cranking
@@ -415,7 +415,7 @@ void Tuareg_update_ignition_timing()
 
 void Tuareg_trigger_ignition()
 {
-    VU32 corr_timing_us;
+    VU32 age_us, corr_timing_us;
 
     //collect diagnostic information
     Tuareg.diag[TDIAG_TRIG_IGN_CALLS] += 1;
@@ -429,9 +429,8 @@ void Tuareg_trigger_ignition()
         Tuareg.diag[TDIAG_TRIG_COIL_IGN] += 1;
 
         //correct timing
-        corr_timing_us= Tuareg.ignition_timing.coil_ignition_timing_us;
-
-        sub_VU32(&corr_timing_us, decoder_get_data_age_us());
+        age_us= decoder_get_data_age_us();
+        corr_timing_us= subtract_VU32(Tuareg.ignition_timing.coil_ignition_timing_us, age_us);
 
         trigger_coil_by_timer(corr_timing_us, COIL_IGNITION);
     }
@@ -442,9 +441,8 @@ void Tuareg_trigger_ignition()
         Tuareg.diag[TDIAG_TRIG_COIL_DWELL] += 1;
 
         //correct timing
-        corr_timing_us= Tuareg.ignition_timing.coil_dwell_timing_us;
-
-        sub_VU32(&corr_timing_us, decoder_get_data_age_us());
+        age_us= decoder_get_data_age_us();
+        corr_timing_us= subtract_VU32(Tuareg.ignition_timing.coil_dwell_timing_us, age_us);
 
         trigger_coil_by_timer(corr_timing_us, COIL_DWELL);
     }
