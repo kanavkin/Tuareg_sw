@@ -98,6 +98,20 @@ global status object
 volatile Tuareg_t Tuareg;
 
 
+/**
+variables for module test
+*/
+#define TUAREG_MODULE_TEST
+#define TUAREG_MODULE_TEST_SCHEDULER
+#define MODULE_TEST_SCHEDULER_DELAY_MIN 10
+#define MODULE_TEST_SCHEDULER_DELAY_MAX 1000
+#define MODULE_TEST_SCHEDULER_DELAY_INCREMENT 1
+VU32 mtest_scheduler_delay = MODULE_TEST_SCHEDULER_DELAY_MIN;
+VU32 mtest_scheduler_state =0;
+VU32 mtest_scheduler_tests_started =0;
+VU32 mtest_scheduler_tests_finished =0;
+
+
 #warning TODO (oli#1#): implement memset function
 
 
@@ -179,6 +193,8 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
     UART_DEBUG_PORT_Init();
+
+    #ifndef TUAREG_MODULE_TEST
     UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
     UART_Send(DEBUG_PORT, "RC 0001");
     UART_Send(DEBUG_PORT, "\r \n config: \r \n");
@@ -187,6 +203,15 @@ int main(void)
 
     UART_TS_PORT_Init();
     UART_Send(DEBUG_PORT, "TunerStudio interface ready \r\n");
+    #endif
+
+    #ifdef TUAREG_MODULE_TEST
+    UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** WARNING This is Tuareg module test unit, no functional release *** \r \n");
+    #endif // TUAREG_MODULE_TEST
+
+    #ifdef TUAREG_MODULE_TEST_SCHEDULER
+    UART_Send(DEBUG_PORT, "\r\n*** Scheduler test ***");
+    #endif // TUAREG_MODULE_TEST
 
     /**
     initialize core components
@@ -200,7 +225,7 @@ int main(void)
 
     //DEBUG
     //init_debug_pins();
-    //dwt_init();
+    dwt_init();
 
      //serial monitor
     #ifdef SERIAL_MONITOR
@@ -257,8 +282,10 @@ config_load_status= RETURN_FAIL;
     }
 
     //initialize core components and register interface access pointers
+     #ifdef TUAREG_MODULE_TEST
     Tuareg.sensors= init_sensors();
     Tuareg.decoder= init_decoder_logic();
+    #endif
     init_scheduler();
     init_lowspeed_timers();
     init_lowprio_scheduler();
@@ -270,10 +297,14 @@ config_load_status= RETURN_FAIL;
     /**
     system initialization has been completed, but never leave LIMP mode!
     */
+    #ifdef TUAREG_MODULE_TEST
+    Tuareg_set_Runmode(TMODE_MODULE_TEST);
+    #else
     if(Tuareg.Runmode != TMODE_LIMP )
     {
         Tuareg_set_Runmode(TMODE_HALT);
     }
+    #endif // TUAREG_MODULE_TEST
 
 
 
@@ -284,6 +315,30 @@ config_load_status= RETURN_FAIL;
 
         //collect diagnostic information
         Tuareg.diag[TDIAG_MAINLOOP_ENTRY] += 1;
+
+
+        #ifdef TUAREG_MODULE_TEST_SCHEDULER
+
+        if(mtest_scheduler_state == 0)
+        {
+            mtest_scheduler_state= 0xFF;
+
+            dwt_set_begin();
+
+            //ready for test
+            set_ignition_ch1(COIL_DWELL);
+            scheduler_set_channel(IGN_CH1, COIL_IGNITION, mtest_scheduler_delay);
+
+            mtest_scheduler_tests_started++;
+
+            //increase delay
+            if((mtest_scheduler_delay + MODULE_TEST_SCHEDULER_DELAY_INCREMENT) < MODULE_TEST_SCHEDULER_DELAY_MAX)
+            {
+                mtest_scheduler_delay += MODULE_TEST_SCHEDULER_DELAY_INCREMENT;
+            }
+        }
+
+        #endif // TUAREG_MODULE_TEST_SCHEDULER
 
 
         /**
@@ -304,10 +359,10 @@ config_load_status= RETURN_FAIL;
                 Tuareg_update_process_data(&(Tuareg.process));
             }
 
-
             //calculate new system state
+            #ifndef TUAREG_MODULE_TEST
             Tuareg_update_Runmode();
-
+            #endif // TUAREG_MODULE_TEST
 
             //print_sensor_data(DEBUG_PORT);
 
@@ -316,6 +371,7 @@ config_load_status= RETURN_FAIL;
         /**
         handle TS communication
         */
+        #ifndef TUAREG_MODULE_TEST
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
             ls_timer &= ~BIT_TIMER_10HZ;
@@ -337,6 +393,7 @@ config_load_status= RETURN_FAIL;
 
            // }
         }
+        #endif // TUAREG_MODULE_TEST
 
 
     }
@@ -362,6 +419,8 @@ void EXTI2_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line2;
+
+    #ifndef TUAREG_MODULE_TEST
 
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
@@ -455,6 +514,8 @@ void EXTI2_IRQHandler(void)
 
      }
 
+     #endif // TUAREG_MODULE_TEST
+
 }
 
 /******************************************************************************************************************************
@@ -466,6 +527,8 @@ void EXTI3_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line3;
 
+    #ifndef TUAREG_MODULE_TEST
+
     //collect diagnostic information
     Tuareg.diag[TDIAG_IGNITION_IRQ] += 1;
 
@@ -474,6 +537,29 @@ void EXTI3_IRQHandler(void)
     */
     Tuareg_update_process_data(&(Tuareg.process));
     Tuareg_update_ignition_timing();
+
+    #endif // TUAREG_MODULE_TEST
+
+
+    #ifdef TUAREG_MODULE_TEST_SCHEDULER
+
+    //scheduler cycle end
+
+    dwt_set_end();
+
+    mtest_scheduler_tests_finished++;
+
+    //print result
+    UART_Send(DEBUG_PORT, "\r\nscheduler tests started, finished, target delay (us): ");
+    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_started, TYPE_U32, NO_PAD);
+    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_finished, TYPE_U32, NO_PAD);
+    UART_Print_U(DEBUG_PORT, mtest_scheduler_delay, TYPE_U32, NO_PAD);
+
+    print_dwt_delay();
+
+    mtest_scheduler_state =0;
+
+    #endif // TUAREG_MODULE_TEST_SCHEDULER
 }
 
 

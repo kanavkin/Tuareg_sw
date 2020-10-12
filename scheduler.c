@@ -100,7 +100,6 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
                 //amount of ticks after update event
                 remain= compare - 0xFFFFFFFF;
 
-
                 /**
                 we can not set the new compare value right now, if we will see it in this timer cycle
                 */

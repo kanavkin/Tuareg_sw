@@ -300,12 +300,28 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 break;
 
+            case TMODE_MODULE_TEST:
+
+                Tuareg_stop_engine();
+
+                //collect diagnostic information
+                Tuareg.diag[TDIAG_ENTER_CRANKING] += 1;
+
+
+                #warning TODO (oli#9#): debug message enabled
+                UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_MODULE_TEST");
+
+                break;
+
 
             default:
 
                 //very strange
                 UART_Send(DEBUG_PORT, "ERROR! default branch in Tuareg_set_Runmode reached");
                 Tuareg_stop_engine();
+                decoder_set_crank_pickup_sensing(DISABLED);
+
+
                 break;
 
         }

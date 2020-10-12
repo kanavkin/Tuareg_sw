@@ -161,7 +161,10 @@ typedef enum {
     TMODE_CRANKING,
 
     //normal engine operation
-    TMODE_RUNNING
+    TMODE_RUNNING,
+
+    //run internal checks
+    TMODE_MODULE_TEST
 
 } tuareg_runmode_t;
 
