@@ -16,18 +16,18 @@ performance analysis revealed:
  ******************************************************************************************************************************/
 inline void set_tachometer(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOC, 11, OFF);
+        gpio_set_pin(GPIOC, 11, PIN_OFF);
     }
-    else if(level == TOGGLE)
+    else if(level == PIN_TOGGLE)
     {
-        gpio_set_pin(GPIOC, 11, TOGGLE);
+        gpio_set_pin(GPIOC, 11, PIN_TOGGLE);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 11, ON);
+        gpio_set_pin(GPIOC, 11, PIN_ON);
     }
 }
 
@@ -37,18 +37,18 @@ in the Output register leaves the port in Hi-Z (the P-MOS is never activated)
 */
 inline void set_user_lamp(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOC, 12, ON);
+        gpio_set_pin(GPIOC, 12, PIN_ON);
     }
-    else if(level == TOGGLE)
+    else if(level == PIN_TOGGLE)
     {
-        gpio_set_pin(GPIOC, 12, TOGGLE);
+        gpio_set_pin(GPIOC, 12, PIN_TOGGLE);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 12, OFF);
+        gpio_set_pin(GPIOC, 12, PIN_OFF);
     }
 }
 
@@ -68,6 +68,6 @@ inline void init_dash_hw()
 
     GPIO_configure(GPIOC, 11, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 12, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
-    set_tachometer(OFF);
-    set_user_lamp(OFF);
+    set_tachometer(PIN_OFF);
+    set_user_lamp(PIN_OFF);
 }

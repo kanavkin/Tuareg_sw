@@ -16,28 +16,28 @@ performance analysis revealed:
  ******************************************************************************************************************************/
 inline void set_act1(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOB, 8, OFF);
+        gpio_set_pin(GPIOB, 8, PIN_OFF);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOB, 8, ON);
+        gpio_set_pin(GPIOB, 8, PIN_ON);
     }
 }
 
 
 inline void set_act2(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOB, 9, OFF);
+        gpio_set_pin(GPIOB, 9, PIN_OFF);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOB, 9, ON);
+        gpio_set_pin(GPIOB, 9, PIN_ON);
     }
 }
 
@@ -57,6 +57,6 @@ inline void init_act_hw()
 
     GPIO_configure(GPIOB, 8, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOB, 9, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    set_act1(OFF);
-    set_act2(OFF);
+    set_act1(PIN_OFF);
+    set_act2(PIN_OFF);
 }

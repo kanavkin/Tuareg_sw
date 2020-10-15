@@ -25,11 +25,11 @@ this configuration parameter intentionally kept as built in config
 
 typedef enum {
 
-    DISABLED,
-    RISE,
-    FALL,
-    EDGE,
-    INVERT
+    SENSING_DISABLED,
+    SENSING_RISE,
+    SENSING_FALL,
+    SENSING_EDGE,
+    SENSING_INVERT
 
 } sensing_t;
 
@@ -37,25 +37,27 @@ typedef enum {
 set up the trigger edge detection mode required to detect a key begin or end event
 RISE/FALL
 */
-#define SENSING_KEY_BEGIN FALL
-#define SENSING_KEY_END RISE
+#define SENSING_KEY_BEGIN SENSING_FALL
+#define SENSING_KEY_END SENSING_RISE
 
 
 typedef struct {
 
-    sensing_t crank_pickup_sensing;
+    volatile sensing_t crank_pickup_sensing;
+    volatile sensing_t cis_sensing;
 
 } decoder_hw_t;
 
-extern void init_decoder_hw();
-extern void decoder_start_timer();
-extern void decoder_stop_timer();
-extern void decoder_mask_crank_irq();
-extern void decoder_unmask_crank_irq();
-extern void decoder_mask_cis_irq();
-extern void decoder_unmask_cis_irq();
+void init_decoder_hw();
+void decoder_start_timer(U16 Noise_filter);
+void decoder_stop_timer();
+void decoder_mask_crank_irq();
+void decoder_unmask_crank_irq();
+void decoder_mask_cis_irq();
+void decoder_unmask_cis_irq();
 void decoder_set_crank_pickup_sensing(sensing_t sensing);
-extern void trigger_decoder_irq();
+void decoder_set_cis_sensing(sensing_t sensing);
+void trigger_decoder_irq();
 VU32 decoder_get_data_age_us();
 
 

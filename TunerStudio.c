@@ -21,6 +21,7 @@ TODO
 #include "sensors.h"
 #include "debug.h"
 #include "base_calc.h"
+#include "diagnostics.h"
 
 
 
@@ -645,8 +646,10 @@ void ts_sendValues(U32 offset, U32 length)
     fullStatus[30] = Tuareg.spark; //Spark related bitfield
 
     //rpmDOT must be sent as a signed integer
-    fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
-    fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
+    //fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
+    //fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
+    fullStatus[31] = 0;
+    fullStatus[32] = 0;
 
     if(length > 31)
     {
@@ -741,63 +744,12 @@ void ts_debug_features(U32 FeatureID)
     {
         case 'dd':
 
-            //print decoder diag
-            UART_Send(TS_PORT, "\r\ndecoder:\r\n");
-
-            //get diag data
-            decoder_export_diag(debug_data);
-
-            data_2 =0;
-
-            for(data_1=0; data_1 < DDIAG_COUNT; data_1++)
-            {
-                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
-
-                if(data_2 == 9)
-                {
-                    UART_Send(TS_PORT, "\r\n");
-                    data_2= 0;
-                }
-                else
-                {
-                    data_2++;
-                }
-            }
-                                           //0          0          0          0          0          0          0          0          0          0
-            UART_Send(TS_PORT, "\r\n ASYN->SYN  SYN->ASYN  CRKHDLR_C TR_IRQ_SYN TR_IRQ_DEL   CRP_INIT   CRP_SYNC   CRP_A_KEY CRP_A_GAP  TIMEOUT_E");
-            UART_Send(TS_PORT, "\r\n TMR_UPD_E   SYNCHK_C  SYNCHK_RLX  CRKTBL_C ROTSPEED_C   CISHDL_C   CRP_PHAS     CRP_UND PHAS->UND");
-            UART_Send(TS_PORT, "\r\n");
+            print_decoder_diag(TS_PORT);
             break;
 
         case 'dT':
 
-            //print Tuareg diag
-            UART_Send(TS_PORT, "\r\nTuareg:\r\n");
-
-            //get diag data
-            Tuareg_export_diag(debug_data);
-
-            data_2 =0;
-
-            for(data_1=0; data_1 < TDIAG_COUNT; data_1++)
-            {
-                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
-
-                if(data_2 == 9)
-                {
-                    UART_Send(TS_PORT, "\r\n");
-                    data_2= 0;
-                }
-                else
-                {
-                    data_2++;
-                }
-            }
-
-            UART_Send(TS_PORT, "\r\nDECODER_IRQ, DECODER_AGE, DECODER_TIMEOUT, DECODER_PASSIVE, IGNITION_IRQ, MAINLOOP_ENTRY, MODECTRL, INIT_HALT_TR, RUNNING_HALT_TR, RUNNING_STB_TR");
-            UART_Send(TS_PORT, "\r\nSTB_RUNNING_TR, STB_HALT_TR, HALT_RUNNING_TR, HALT_STB_TR, ENTER_INIT, ENTER_HALT, ENTER_RUNNING, ENTER_STB, TSTUDIO_CALLS, TRIG_IGN_CALLS");
-            UART_Send(TS_PORT, "\r\nTRIG_COIL_DWELL, TRIG_COIL_IGN, KILL_SIDESTAND, KILL_RUNSWITCH");
-
+            print_tuareg_diag(TS_PORT);
             break;
 
         case 'ep':
@@ -851,7 +803,8 @@ void ts_debug_features(U32 FeatureID)
             UART_Send(TS_PORT, "\r\ndecoder statistics:\r\n");
 
             //get diag data
-            decoder_export_statistics(debug_data);
+
+            //decoder_export_statistics(debug_data);
 
             for(data_1=0; data_1 < CRK_POSITION_COUNT; data_1++)
             {

@@ -110,6 +110,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="decoder_logic.h" />
+		<Unit filename="diagnostics.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="diagnostics.h" />
 		<Unit filename="eeprom.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -142,6 +146,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="module_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="module_test.h" />
 		<Unit filename="scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>

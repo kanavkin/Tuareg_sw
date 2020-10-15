@@ -140,6 +140,9 @@ for the currentStatus
 typedef enum {
 #warning TODO (oli#3#): develop a concept for cranking detection/handling
 
+    //Tuareg.Runmode at boot time
+    TMODE_BOOT,
+
     //system init
     TMODE_HWINIT,
     TMODE_CONFIGLOAD,
@@ -180,52 +183,6 @@ typedef enum {
 } tuareg_error_t;
 
 
-typedef enum {
-
-    TDIAG_DECODER_IRQ,
-    TDIAG_DECODER_AGE,
-    TDIAG_DECODER_TIMEOUT,
-    TDIAG_DECODER_PASSIVE,
-    TDIAG_IGNITION_IRQ,
-    TDIAG_IGNITIONCALC_CALLS,
-    TDIAG_UPDSTRATEGY_CALLS,
-
-    TDIAG_MAINLOOP_ENTRY,
-    TDIAG_MODECTRL,
-
-
-    TDIAG_INIT_HALT_TR,
-    TDIAG_RUNNING_HALT_TR,
-    TDIAG_RUNNING_STB_TR,
-    TDIAG_CRANKING_RUNNING_TR,
-    TDIAG_CRANKING_STB_TR,
-    TDIAG_STB_HALT_TR,
-    TDIAG_HALT_RUNNING_TR,
-    TDIAG_HALT_STB_TR,
-
-    TDIAG_ENTER_INIT,
-    TDIAG_ENTER_HALT,
-    TDIAG_ENTER_RUNNING,
-    TDIAG_ENTER_STB,
-    TDIAG_ENTER_CRANKING,
-
-
-    TDIAG_TSTUDIO_CALLS,
-
-    TDIAG_TRIG_IGN_CALLS,
-    TDIAG_TRIG_COIL_DWELL,
-    TDIAG_TRIG_COIL_IGN,
-
-    TDIAG_KILL_SIDESTAND,
-    TDIAG_KILL_RUNSWITCH,
-
-    TDIAG_PROCESSDATA_CALLS,
-
-    TDIAG_COUNT
-
-} Tuareg_diag_t;
-
-
 /**
 The status struct contains the current values for all 'live' variables
 In current version this is 64 bytes
@@ -252,11 +209,6 @@ typedef struct _Tuareg_t {
     VU8 crash_switch_counter;
 
 #warning TODO (oli#7#): turn diagnostics on/off per compiler switch
-    //diagnostics
-    VU32 diag[TDIAG_COUNT];
-
-
-
     volatile process_data_t process;
 
 
@@ -338,6 +290,7 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+void Tuareg_print_init_message();
 void Tuareg_update_Runmode();
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 void Tuareg_stop_engine();

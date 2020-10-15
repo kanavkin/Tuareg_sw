@@ -16,42 +16,42 @@ performance analysis revealed:
  ******************************************************************************************************************************/
 inline void set_injector_ch1(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOC, 8, ON);
+        gpio_set_pin(GPIOC, 8, PIN_ON);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 8, OFF);
+        gpio_set_pin(GPIOC, 8, PIN_OFF);
     }
 }
 
 
 inline void set_injector_ch2(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOC, 9, ON);
+        gpio_set_pin(GPIOC, 9, PIN_ON);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 9, OFF);
+        gpio_set_pin(GPIOC, 9, PIN_OFF);
     }
 }
 
 
 inline void set_fuelpump(output_pin_t level)
 {
-    if(level == ON)
+    if(level == PIN_ON)
     {
-        gpio_set_pin(GPIOC, 10, ON);
+        gpio_set_pin(GPIOC, 10, PIN_ON);
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 10, OFF);
+        gpio_set_pin(GPIOC, 10, PIN_OFF);
     }
 }
 
@@ -72,7 +72,7 @@ inline void init_fuel_hw()
     GPIO_configure(GPIOC, 8, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 9, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 10, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    set_injector_ch1(OFF);
-    set_injector_ch2(OFF);
-    set_fuelpump(OFF);
+    set_injector_ch1(PIN_OFF);
+    set_injector_ch2(PIN_OFF);
+    set_fuelpump(PIN_OFF);
 }

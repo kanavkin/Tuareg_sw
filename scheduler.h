@@ -7,39 +7,9 @@
 #define SCHEDULER_PERIOD_US 1
 
 //we are using a 32 bit timer now
-#define SCHEDULER_MAX_PERIOD_US (U32) 0xFFFFFFFF * SCHEDULER_PERIOD_US -1
+#define SCHEDULER_MAX_PERIOD_US (U32) ((0xFFFFFFFF * SCHEDULER_PERIOD_US) -1)
 
-
-
-typedef enum {
-
-
-    SCHEDIAG_DELAY_CLIPPED,
-
-    SCHEDIAG_ICH1_SET,
-    CHEDIAG_ICH1_CURRC_SET,
-    CHEDIAG_ICH1_NEXTC_PRELOAD_SET,
-    CHEDIAG_ICH1_NEXTC_UPDATE_SET,
-    SCHEDIAG_ICH2_SET,
-    SCHEDIAG_FCH1_SET,
-    SCHEDIAG_FCH2_SET,
-
-    SCHEDIAG_ICH1_TRIG,
-    SCHEDIAG_ICH2_TRIG,
-    SCHEDIAG_FCH1_TRIG,
-    SCHEDIAG_FCH2_TRIG,
-
-    SCHEDIAG_ICH1_RESET,
-    SCHEDIAG_ICH2_RESET,
-    SCHEDIAG_FCH1_RESET,
-    SCHEDIAG_FCH2_RESET,
-
-    SCHEDIAG_COUNT
-
-} scheduler_diag_t;
-
-
-
+#define SCHEDULER_MIN_PERIOD_US 10
 
 
 typedef enum {
@@ -61,8 +31,6 @@ typedef struct _scheduler_t {
     U32 ign_ch2_action;
     U32 fuel_ch1_action;
     U32 fuel_ch2_action;
-
-    VU32 diag[SCHEDIAG_COUNT];
 
 } scheduler_t;
 

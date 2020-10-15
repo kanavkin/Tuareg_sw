@@ -133,6 +133,8 @@ problem on high rpms:   with a large dwell AND large ignition advance
             solution:   clip dwell advance to 360°
                         (cutting dwell)
 
+The ignition logic shall be aware that the crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync!
+
 */
 void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget)
 {

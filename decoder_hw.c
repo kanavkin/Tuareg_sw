@@ -2,17 +2,12 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
-#include "config.h"
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 
-#include "uart.h"
-#include "Tuareg.h"
-#include "dwt.h"
+#include "config.h"
 
-#warning TODO (oli#9#): DEBUG
-VU32 debug_state;
-#include "ignition_hw.h"
+#include "diagnostics.h"
 
 volatile decoder_hw_t Decoder_hw;
 
@@ -37,8 +32,11 @@ how the decoder works:
 
 /**
 use 16 bit TIM9 for crank pickup signal decoding
+the timer is started as a crank pickup signal edge is detected
+the crank noise filter masks the crank pickup irq until the compare event is triggered
+the required timer compare value is part of the config and must be provided as a parameter
 */
-inline void decoder_start_timer()
+void decoder_start_timer(U16 Noise_filter)
 {
     // clear flags
     TIM9->SR= (U16) 0;
@@ -50,7 +48,7 @@ inline void decoder_start_timer()
     TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
 
     //enable output compare for exti
-    TIM9->CCR1= (U16) configPage12.crank_noise_filter;
+    TIM9->CCR1= (U16) Noise_filter;
 
     //enable overflow interrupt
     TIM9->DIER |= TIM_DIER_UIE;
@@ -63,7 +61,7 @@ inline void decoder_start_timer()
 }
 
 
-inline void decoder_stop_timer()
+void decoder_stop_timer()
 {
     TIM9->CR1 &= ~TIM_CR1_CEN;
 }
@@ -73,13 +71,13 @@ inline void decoder_stop_timer()
 crank pickup irq helper functions
 (hardware dependent)
 */
-inline void decoder_mask_crank_irq()
+void decoder_mask_crank_irq()
 {
     //Bit in IMR reset -> masked (disabled!)
     EXTI->IMR &= ~EXTI_IMR_MR0;
 }
 
-inline void decoder_unmask_crank_irq()
+void decoder_unmask_crank_irq()
 {
     //clear the pending flag
     EXTI->PR= EXTI_Line0;
@@ -92,12 +90,12 @@ inline void decoder_unmask_crank_irq()
 cylinder sensor irq helper functions
 (hardware dependent)
 */
-inline void decoder_mask_cis_irq()
+void decoder_mask_cis_irq()
 {
     EXTI->IMR &= ~EXTI_IMR_MR1;
 }
 
-inline void decoder_unmask_cis_irq()
+void decoder_unmask_cis_irq()
 {
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
@@ -114,21 +112,46 @@ static inline void set_crank_pickup_sensing_rise()
 {
     EXTI->RTSR |= EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
-    Decoder_hw.crank_pickup_sensing= RISE;
+    Decoder_hw.crank_pickup_sensing= SENSING_RISE;
 }
 
 static inline void set_crank_pickup_sensing_fall()
 {
     EXTI->FTSR |= EXTI_FTSR_TR0;
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
-    Decoder_hw.crank_pickup_sensing= FALL;
+    Decoder_hw.crank_pickup_sensing= SENSING_FALL;
 }
 
 static inline void set_crank_pickup_sensing_disabled()
 {
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
-    Decoder_hw.crank_pickup_sensing= DISABLED;
+    Decoder_hw.crank_pickup_sensing= SENSING_DISABLED;
+}
+
+/**
+cis sensing helper functions
+(the hardware dependent part)
+*/
+static inline void set_cis_sensing_rise()
+{
+    EXTI->RTSR |= EXTI_RTSR_TR1;
+    EXTI->FTSR &= ~EXTI_FTSR_TR1;
+    Decoder_hw.cis_sensing= SENSING_RISE;
+}
+
+static inline void set_cis_sensing_fall()
+{
+    EXTI->FTSR |= EXTI_FTSR_TR1;
+    EXTI->RTSR &= ~EXTI_RTSR_TR1;
+    Decoder_hw.cis_sensing= SENSING_FALL;
+}
+
+static inline void set_cis_sensing_disabled()
+{
+    EXTI->RTSR &= ~EXTI_RTSR_TR1;
+    EXTI->FTSR &= ~EXTI_FTSR_TR1;
+    Decoder_hw.cis_sensing= SENSING_DISABLED;
 }
 
 
@@ -143,30 +166,77 @@ void decoder_set_crank_pickup_sensing(sensing_t sensing)
 
     switch(sensing)
     {
-    case RISE:
+    case SENSING_RISE:
                 set_crank_pickup_sensing_rise();
                 break;
 
-    case FALL:
+    case SENSING_FALL:
                 set_crank_pickup_sensing_fall();
                 break;
 
-    case INVERT:
-                if(Decoder_hw.crank_pickup_sensing == RISE)
+    case SENSING_INVERT:
+                if(Decoder_hw.crank_pickup_sensing == SENSING_RISE)
                 {
                     set_crank_pickup_sensing_fall();
                 }
+                else if(Decoder_hw.crank_pickup_sensing == SENSING_FALL)
+                {
+                    set_crank_pickup_sensing_rise();
+                }
                 else
                 {
-                    /*
-                    inverting from disabled state will enable trigger on rising edge, too
-                    */
-                    set_crank_pickup_sensing_rise();
+                    //invalid usage
+                    set_crank_pickup_sensing_disabled();
                 }
 
                 break;
 
     default:
+                //invalid usage
+                set_crank_pickup_sensing_disabled();
+                break;
+    }
+
+}
+
+/**
+select the signal edge that will trigger the cylinder identification sensor
+masks the cis irq!
+*/
+void decoder_set_cis_sensing(sensing_t sensing)
+{
+    //disable irq for setup
+    decoder_mask_cis_irq();
+
+    switch(sensing)
+    {
+    case SENSING_RISE:
+                set_cis_sensing_rise();
+                break;
+
+    case SENSING_FALL:
+                set_cis_sensing_fall();
+                break;
+
+    case SENSING_INVERT:
+                if(Decoder_hw.cis_sensing == SENSING_RISE)
+                {
+                    set_cis_sensing_fall();
+                }
+                else if(Decoder_hw.cis_sensing == SENSING_FALL)
+                {
+                    set_cis_sensing_rise();
+                }
+                else
+                {
+                    //invalid usage
+                    set_crank_pickup_sensing_disabled();
+                }
+
+                break;
+
+    default:
+                //invalid usage
                 set_crank_pickup_sensing_disabled();
                 break;
     }
@@ -174,7 +244,7 @@ void decoder_set_crank_pickup_sensing(sensing_t sensing)
 }
 
 
-inline void trigger_decoder_irq()
+void trigger_decoder_irq()
 {
     EXTI->SWIER= EXTI_SWIER_SWIER2;
 }
@@ -199,11 +269,8 @@ inline void trigger_decoder_irq()
 
 
 */
-inline void init_decoder_hw()
+void init_decoder_hw()
 {
-    //interface variables
-    //only variable will be set by decoder_set_crank_pickup_sensing()
-
     //clock tree setup
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
     RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
@@ -216,15 +283,20 @@ inline void init_decoder_hw()
     SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
     SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
 
-    //configure crank pickup sensor EXTI
+    /**
+    configure crank pickup sensor EXTI
+    decoder_set_crank_pickup_sensing() keeps irq masked!
+    */
     decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
 
-    //configure cylinder identification sensor EXTI (only rising edge), but keep c.i.s. irq masked for now
-    EXTI->RTSR |= EXTI_RTSR_TR1;
-    EXTI->FTSR &= ~EXTI_FTSR_TR1;
-    decoder_mask_cis_irq();
+    /**
+    configure cylinder identification sensor EXTI
+    for only rising edge
+    decoder_set_cis_sensing() keep cis irq masked!
+    */
+    decoder_set_cis_sensing(SENSING_RISE);
 
-    //sw irq on exti line 2
+    //enable sw irq on exti line 2
     EXTI->IMR |= EXTI_IMR_MR2;
 
     //enable crank pickup irq (prio 1)
@@ -253,15 +325,12 @@ inline void init_decoder_hw()
 //returns the current decoder timer value
 VU32 decoder_get_data_age_us()
 {
-    /*
+
     VU32 timestamp;
 
     timestamp=  TIM9->CNT;
 
     return DECODER_TIMER_PERIOD_US * timestamp;
-    */
-#warning TODO (oli#1#): DEBUG
-    return 8;
 }
 
 
@@ -282,6 +351,17 @@ void EXTI0_IRQHandler(void)
 
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
+
+    /**
+    crank noise filter
+    -> mask crank interrupt line against spikes
+    */
+    decoder_mask_crank_irq();
+
+    /**
+    diagnostics
+    */
+    decoder_diag_log_event(DDIAG_HW_EXTI0_CALLS);
 
     /**
     hw independent part
@@ -310,6 +390,11 @@ void TIM1_BRK_TIM9_IRQHandler(void)
         TIM9->SR = (U16) ~TIM_IT_CC1;
 
         /**
+        diagnostics
+        */
+        decoder_diag_log_event(DDIAG_HW_TIM9_CC1_CALLS);
+
+        /**
         hw independent part
         */
         decoder_logic_timer_compare_handler();
@@ -325,6 +410,11 @@ void TIM1_BRK_TIM9_IRQHandler(void)
 
         //clear the pending flag
         TIM9->SR = (U16) ~TIM_IT_Update;
+
+        /**
+        diagnostics
+        */
+        decoder_diag_log_event(DDIAG_HW_TIM9_UE_CALLS);
 
         /**
         hw independent part
@@ -348,10 +438,20 @@ void EXTI1_IRQHandler(void)
     EXTI->PR= EXTI_Line1;
 
     /**
+    noise filter
+    -> mask cis interrupt line against spikes
+    */
+    decoder_mask_cis_irq();
+
+    /**
+    diagnostics
+    */
+    decoder_diag_log_event(DDIAG_HW_EXTI1_CALLS);
+
+    /**
     hw independent part
     */
     decoder_logic_cam_handler();
-
 }
 
 

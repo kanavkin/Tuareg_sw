@@ -101,46 +101,14 @@ when to enable cylinder identification sensor irq
 
 typedef enum {
 
-    INIT,
-    ASYNC_KEY,
-    ASYNC_GAP,
-    SYNC
+    DSTATE_INIT,
+    DSTATE_ASYNC,
+    DSTATE_ASYNC_KEY,
+    DSTATE_ASYNC_GAP,
+    DSTATE_SYNC,
+    DSTATE_COUNT
 
 } decoder_state_t;
-
-
-typedef enum {
-
-    DDIAG_ASYNC_SYNC_TR,
-    DDIAG_SYNC_ASYNC_TR,
-
-    DDIAG_CRANKHANDLER_CALLS,
-    DDIAG_TRIGGER_IRQ_SYNC,
-    DDIAG_TRIGGER_IRQ_DELAY,
-
-
-    DDIAG_CRANKPOS_INIT,
-    DDIAG_CRANKPOS_SYNC,
-    DDIAG_CRANKPOS_ASYNC_KEY,
-    DDIAG_CRANKPOS_ASYNC_GAP,
-
-    DDIAG_TIMEOUT_EVENTS,
-    DDIAG_TIMER_UPDATE_EVENTS,
-
-    DDIAG_SYNCCHECK_CALLS,
-    DDIAG_SYNCCHECK_RELAXED,
-
-    DDIAG_CRANKTABLE_CALLS,
-    DDIAG_ROTSPEED_CALLS,
-
-    DDIAG_CISHANDLER_CALLS,
-    DDIAG_CRANKPOS_CIS_PHASED,
-    DDIAG_CRANKPOS_CIS_UNDEFINED,
-    DDIAG_PHASED_UNDEFINED_TR,
-
-    DDIAG_COUNT
-
-} decoder_diag_t;
 
 
 typedef struct {
@@ -148,21 +116,22 @@ typedef struct {
     /*
     decoder syncronisation
     */
-    volatile decoder_state_t sync_mode;
+    volatile decoder_state_t state;
 
+
+    //sync timing
     VU32 sync_buffer_key;
     VU32 sync_buffer_gap;
-    VU32 sync_stability;
 
-    /*
-    engine dynamics
-    */
+    //cycle timing
     VU32 cycle_timing_buffer;
     VU32 cycle_timing_counter;
 
-    /*
-    crank position
-    */
+    //rotational period of crankshaft
+    VU32 crank_period_us;
+
+
+    //crank position
     volatile crank_position_t crank_position;
 
 
@@ -174,17 +143,13 @@ typedef struct {
     U32 decoder_timeout_thrs;
     VU32 timeout_count;
 
-    /*
-    camshaft
-    */
-    volatile engine_phase_t phase;
-
-    //decoder statistics
-    VU32 diag[DDIAG_COUNT];
 
     //segment duration statistics
+    /*
     VU16 segment_duration_deg[CRK_POSITION_COUNT];
     VU16 segment_duration_base_rpm;
+    */
+
 
 } decoder_internals_t;
 
@@ -192,18 +157,10 @@ typedef struct {
 typedef struct {
 
     //rotational period of crankshaft
-    VU32 crank_T_us;
-    VS32 crank_deltaT_us;
+    VU32 crank_period_us;
 
-    /*
-    crank position
-    */
+    //crank position
     volatile crank_position_t crank_position;
-
-    /*
-    camshaft
-    */
-    volatile engine_phase_t phase;
 
 } decoder_interface_t;
 
@@ -219,6 +176,8 @@ extern void reset_position_data();
 extern void reset_crank_timing_data();
 extern void reset_sync_stability();
 
+extern void decoder_set_state(decoder_state_t NewState);
+
 void update_crank_position_table(volatile crank_position_table_t * Table);
 void update_engine_speed(VU32 Interval);
 
@@ -232,5 +191,10 @@ void decoder_export_statistics(VU32 * pTarget);
 extern void sync_lost_debug_handler();
 extern void got_sync_debug_handler();
 extern void decoder_timeout_debug_handler();
+
+extern void decoder_update_interface();
+extern void reset_timeout_counter();
+
+extern VU32 check_sync_ratio();
 
 #endif // DECODERLOGIC_H_INCLUDED

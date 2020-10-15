@@ -88,28 +88,15 @@ SCHEDULER (ignition)
 
 
 #include "debug.h"
+#include "diagnostics.h"
 #include "Tuareg.h"
 
-
+#include "module_test.h"
 
 /**
 global status object
 */
 volatile Tuareg_t Tuareg;
-
-
-/**
-variables for module test
-*/
-#define TUAREG_MODULE_TEST
-#define TUAREG_MODULE_TEST_SCHEDULER
-#define MODULE_TEST_SCHEDULER_DELAY_MIN 10
-#define MODULE_TEST_SCHEDULER_DELAY_MAX 1000
-#define MODULE_TEST_SCHEDULER_DELAY_INCREMENT 1
-VU32 mtest_scheduler_delay = MODULE_TEST_SCHEDULER_DELAY_MIN;
-VU32 mtest_scheduler_state =0;
-VU32 mtest_scheduler_tests_started =0;
-VU32 mtest_scheduler_tests_finished =0;
 
 
 #warning TODO (oli#1#): implement memset function
@@ -182,117 +169,30 @@ sensors: no timers
 
 int main(void)
 {
-    U32 config_load_status;
+    Tuareg.Runmode= TMODE_BOOT;
 
-    /**
-    starting primary hw initialisation
-    */
+    //primary hardware initialization
     Tuareg_set_Runmode(TMODE_HWINIT);
 
-    //use 16 preemption priority levels
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
-
-    UART_DEBUG_PORT_Init();
-
-    #ifndef TUAREG_MODULE_TEST
-    UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    UART_Send(DEBUG_PORT, "RC 0001");
-    UART_Send(DEBUG_PORT, "\r \n config: \r \n");
-    UART_Send(DEBUG_PORT, "XTZ 660 digital crank signal on GPIOB-0 \r \n");
-    UART_Send(DEBUG_PORT, "\r \n XTZ 660 ignition coil signal on GPIOC-6 \r \n");
-
-    UART_TS_PORT_Init();
-    UART_Send(DEBUG_PORT, "TunerStudio interface ready \r\n");
-    #endif
-
-    #ifdef TUAREG_MODULE_TEST
-    UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** WARNING This is Tuareg module test unit, no functional release *** \r \n");
-    #endif // TUAREG_MODULE_TEST
-
-    #ifdef TUAREG_MODULE_TEST_SCHEDULER
-    UART_Send(DEBUG_PORT, "\r\n*** Scheduler test ***");
-    #endif // TUAREG_MODULE_TEST
-
-    /**
-    initialize core components
-    */
-    init_decoder_hw();
-    init_ignition_hw();
-    init_fuel_hw();
-    init_dash_hw();
-    init_act_hw();
-    init_eeprom();
-
     //DEBUG
-    //init_debug_pins();
+    init_debug_pins();
+    set_debug_pin(PIN_ON);
     dwt_init();
 
-     //serial monitor
+    //serial monitor
     #ifdef SERIAL_MONITOR
     UART1_Send("\r \n serial monitor loaded!");
     #endif
 
+    //set up config data
+    Tuareg_set_Runmode(TMODE_CONFIGLOAD);
 
     #warning TODO (oli#4#): implement config item set/read logic
     configPage13.dynamic_ignition_position= CRK_POSITION_A2;
     configPage13.dynamic_dwell_position= CRK_POSITION_B2;
 
-
-    /**
-    ready to load config data from eeprom
-    */
-    Tuareg_set_Runmode(TMODE_CONFIGLOAD);
-
-    //loading the config data is important to us, failure in loading forces "limp home mode"
-    config_load_status= config_load();
-
-/**
-#warning TODO (oli#1#): DEBUG: limp home test
-config_load_status= RETURN_FAIL;
-*/
-
-    if(config_load_status != RETURN_OK)
-    {
-        //save to error register
-        Tuareg.Errors |= (1<< TERROR_CONFIGLOAD);
-
-        //as we can hardly save some error logs in this system condition, print some debug messages only
-        UART_Send(DEBUG_PORT, "\r \n *** FAILED to load config data !");
-
-        Tuareg_set_Runmode(TMODE_LIMP);
-
-        //provide default values to ensure limp home operation even without eeprom
-        config_load_essentials();
-    }
-    else
-    {
-        /**
-        prepare config data
-        */
-
-        //set 2D table dimension and link table data to config pages
-        init_2Dtables();
-        //actually sets table dimension, could be removed
-        init_3Dtables();
-
-        /**
-        ready to initialize further system hardware
-        */
-        Tuareg_set_Runmode(TMODE_MODULEINIT);
-    }
-
-    //initialize core components and register interface access pointers
-     #ifdef TUAREG_MODULE_TEST
-    Tuareg.sensors= init_sensors();
-    Tuareg.decoder= init_decoder_logic();
-    #endif
-    init_scheduler();
-    init_lowspeed_timers();
-    init_lowprio_scheduler();
-    init_fuel_logic();
-    init_dash_logic();
-    init_act_logic();
-
+    //initialize Tuareg modules
+    Tuareg_set_Runmode(TMODE_MODULEINIT);
 
     /**
     system initialization has been completed, but never leave LIMP mode!
@@ -300,45 +200,29 @@ config_load_status= RETURN_FAIL;
     #ifdef TUAREG_MODULE_TEST
     Tuareg_set_Runmode(TMODE_MODULE_TEST);
     #else
-    if(Tuareg.Runmode != TMODE_LIMP )
+
+    if(Tuareg.Errors & (1<< TERROR_CONFIGLOAD))
+    {
+        Tuareg_set_Runmode(TMODE_LIMP);
+    }
+    else
     {
         Tuareg_set_Runmode(TMODE_HALT);
     }
     #endif // TUAREG_MODULE_TEST
 
 
-
     while(1)
     {
+        #ifdef TUAREG_MODULE_TEST
+        moduletest_main_action();
+        #else
+
         //debug
         //poll_dwt_printout();
 
         //collect diagnostic information
-        Tuareg.diag[TDIAG_MAINLOOP_ENTRY] += 1;
-
-
-        #ifdef TUAREG_MODULE_TEST_SCHEDULER
-
-        if(mtest_scheduler_state == 0)
-        {
-            mtest_scheduler_state= 0xFF;
-
-            dwt_set_begin();
-
-            //ready for test
-            set_ignition_ch1(COIL_DWELL);
-            scheduler_set_channel(IGN_CH1, COIL_IGNITION, mtest_scheduler_delay);
-
-            mtest_scheduler_tests_started++;
-
-            //increase delay
-            if((mtest_scheduler_delay + MODULE_TEST_SCHEDULER_DELAY_INCREMENT) < MODULE_TEST_SCHEDULER_DELAY_MAX)
-            {
-                mtest_scheduler_delay += MODULE_TEST_SCHEDULER_DELAY_INCREMENT;
-            }
-        }
-
-        #endif // TUAREG_MODULE_TEST_SCHEDULER
+        tuareg_diag_log_event(TDIAG_MAINLOOP_ENTRY);
 
 
         /**
@@ -360,9 +244,7 @@ config_load_status= RETURN_FAIL;
             }
 
             //calculate new system state
-            #ifndef TUAREG_MODULE_TEST
             Tuareg_update_Runmode();
-            #endif // TUAREG_MODULE_TEST
 
             //print_sensor_data(DEBUG_PORT);
 
@@ -371,7 +253,6 @@ config_load_status= RETURN_FAIL;
         /**
         handle TS communication
         */
-        #ifndef TUAREG_MODULE_TEST
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
             ls_timer &= ~BIT_TIMER_10HZ;
@@ -384,20 +265,16 @@ config_load_status= RETURN_FAIL;
             }
             #endif // SERIAL_MONITOR
 
-            //if (UART_available() > 0)
-           // {
-                ts_communication();
 
-                //collect diagnostic information
-                Tuareg.diag[TDIAG_TSTUDIO_CALLS] += 1;
+            //collect diagnostic information
+            tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
 
-           // }
+            ts_communication();
         }
-        #endif // TUAREG_MODULE_TEST
-
 
     }
 
+    #endif // TUAREG_MODULE_TEST
     return 0;
 }
 
@@ -410,7 +287,9 @@ sw generated irq when decoder has
 updated crank_position based on crank pickup signal
 or decoder timeout occurred!
 
-The irq can be entered in HALT Mode when the crank is already spinning but the RUN switch has not yet been evaluated
+The crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync!
+
+The irq can be entered in HALT Mode when the crank is still spinning but the RUN switch has not yet been evaluated.
 
 performance analysis revealed:
 handler entry happens about 3 us after the trigger signal edge had occurred
@@ -420,14 +299,18 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
-    #ifndef TUAREG_MODULE_TEST
+    #ifdef TUAREG_MODULE_TEST
+    moduletest_irq2_action();
+    #else
+
+    //debug
+    set_debug_pin(PIN_TOGGLE);
 
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
     //collect diagnostic information
-    Tuareg.diag[TDIAG_DECODER_IRQ] += 1;
-    Tuareg.diag[TDIAG_DECODER_AGE]= decoder_get_data_age_us();
+    tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
     /**
     check if this is a decoder timeout (engine has stalled) or a regular crank position update event
@@ -438,7 +321,7 @@ void EXTI2_IRQHandler(void)
         case TMODE_CRANKING:
         case TMODE_RUNNING:
 
-            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
+            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
                 /**
                 normal engine operation
@@ -455,7 +338,7 @@ void EXTI2_IRQHandler(void)
                 */
 
                 //collect diagnostic information
-                Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
+                tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
 
                 Tuareg_set_Runmode(TMODE_STB);
 
@@ -467,7 +350,7 @@ void EXTI2_IRQHandler(void)
         case TMODE_STB:
 
 
-            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
+            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
                 /**
                 first position detected -> cranking has begun
@@ -481,7 +364,7 @@ void EXTI2_IRQHandler(void)
                 decoder timeout
                 */
                 //collect diagnostic information
-                Tuareg.diag[TDIAG_DECODER_TIMEOUT] += 1;
+                tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
             }
 
             break;
@@ -490,7 +373,7 @@ void EXTI2_IRQHandler(void)
         case TMODE_LIMP:
 
             //if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
-            if(Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED)
+            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
@@ -508,14 +391,12 @@ void EXTI2_IRQHandler(void)
             */
 
             //collect diagnostic information
-            Tuareg.diag[TDIAG_DECODER_PASSIVE] += 1;
-
+            tuareg_diag_log_event(TDIAG_DECODER_PASSIVE);
             break;
 
      }
 
      #endif // TUAREG_MODULE_TEST
-
 }
 
 /******************************************************************************************************************************
@@ -527,10 +408,12 @@ void EXTI3_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line3;
 
-    #ifndef TUAREG_MODULE_TEST
-
     //collect diagnostic information
-    Tuareg.diag[TDIAG_IGNITION_IRQ] += 1;
+    tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
+
+    #ifdef TUAREG_MODULE_TEST
+    moduletest_irq3_action();
+    #else
 
     /**
     recalculate ignition timing
@@ -539,27 +422,6 @@ void EXTI3_IRQHandler(void)
     Tuareg_update_ignition_timing();
 
     #endif // TUAREG_MODULE_TEST
-
-
-    #ifdef TUAREG_MODULE_TEST_SCHEDULER
-
-    //scheduler cycle end
-
-    dwt_set_end();
-
-    mtest_scheduler_tests_finished++;
-
-    //print result
-    UART_Send(DEBUG_PORT, "\r\nscheduler tests started, finished, target delay (us): ");
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_started, TYPE_U32, NO_PAD);
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_finished, TYPE_U32, NO_PAD);
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_delay, TYPE_U32, NO_PAD);
-
-    print_dwt_delay();
-
-    mtest_scheduler_state =0;
-
-    #endif // TUAREG_MODULE_TEST_SCHEDULER
 }
 
 

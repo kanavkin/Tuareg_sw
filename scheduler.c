@@ -17,6 +17,8 @@ timer resources:
 #include "ignition_hw.h"
 #include "fuel_hw.h"
 
+#include "diagnostics.h"
+
 volatile scheduler_t Scheduler;
 
 
@@ -41,7 +43,7 @@ void init_scheduler()
     TIM5->SR= (U16) 0;
 
     //set prescaler
-    TIM5->PSC= (U16) SCHEDULER_PERIOD_US * (SystemCoreClock / 1000000) - 1;
+    TIM5->PSC= (U16) (SCHEDULER_PERIOD_US * (SystemCoreClock / 1000000) - 1);
 
     //start timer counter
     TIM5->CR1 |= TIM_CR1_CEN;
@@ -72,9 +74,13 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
     {
         delay_us= SCHEDULER_MAX_PERIOD_US;
 
-        Scheduler.diag[SCHEDIAG_DELAY_CLIPPED] += 1;
+        scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
+    }
+    else if(delay_us < SCHEDULER_MIN_PERIOD_US)
+    {
+        delay_us= SCHEDULER_MIN_PERIOD_US;
 
-        //TODO log a warning
+        scheduler_diag_log_event(SCHEDIAG_DELAY_ENLARGED);
     }
 
     //compare value at delay end in ticks
@@ -89,7 +95,8 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
             //store the desired action at delay end
             Scheduler.ign_ch1_action= action;
 
-            Scheduler.diag[SCHEDIAG_ICH1_SET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_ICH1_SET);
+
 
             if(compare >= 0xFFFFFFFF)
             {
@@ -109,11 +116,11 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
                     //preload function not needed
                     TIM5->CCMR1 &= ~TIM_CCMR1_OC1PE;
 
-                    Scheduler.diag[CHEDIAG_ICH1_NEXTC_UPDATE_SET] += 1;
+                    scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_UPDATE_SET);
                 }
                 else
                 {
-                    Scheduler.diag[CHEDIAG_ICH1_NEXTC_PRELOAD_SET] += 1;
+                    scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_PRELOAD_SET);
 
                     //set new compare after update event, use a default value by now
                     TIM5->CCR1= (U32) 0x00;
@@ -128,7 +135,7 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
             }
             else
             {
-                Scheduler.diag[CHEDIAG_ICH1_CURRC_SET] += 1;
+                scheduler_diag_log_event(SCHEDIAG_ICH1_CURRC_SET);
 
                 /**
                 the desired timeout will occur in the current timer cycle
@@ -151,7 +158,7 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             Scheduler.ign_ch2_action= action;
 
-            Scheduler.diag[SCHEDIAG_ICH2_SET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_ICH2_SET);
 
             if(compare >= 0xFFFFFFFF)
             {
@@ -195,7 +202,7 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             Scheduler.fuel_ch1_action= action;
 
-            Scheduler.diag[SCHEDIAG_FCH1_SET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_FCH1_SET);
 
             if(compare >= 0xFFFFFFFF)
             {
@@ -240,7 +247,7 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             Scheduler.fuel_ch2_action= action;
 
-            Scheduler.diag[SCHEDIAG_FCH2_SET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_FCH2_SET);
 
             if(compare >= 0xFFFFFFFF)
             {
@@ -296,7 +303,7 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
 
-            Scheduler.diag[SCHEDIAG_ICH1_RESET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_ICH1_RESET);
             break;
 
         case IGN_CH2:
@@ -304,7 +311,7 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
             TIM5->SR    = (U16) ~TIM_SR_CC2IF;
 
-            Scheduler.diag[SCHEDIAG_ICH2_RESET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_ICH2_RESET);
             break;
 
         case FUEL_CH1:
@@ -312,7 +319,7 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
             TIM5->SR    = (U16) ~TIM_SR_CC3IF;
 
-            Scheduler.diag[SCHEDIAG_FCH1_RESET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_FCH1_RESET);
             break;
 
         case FUEL_CH2:
@@ -320,7 +327,7 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
             TIM5->SR    = (U16) ~TIM_SR_CC4IF;
 
-            Scheduler.diag[SCHEDIAG_FCH2_RESET] += 1;
+            scheduler_diag_log_event(SCHEDIAG_FCH2_RESET);
             break;
 
         default:
@@ -340,7 +347,7 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC1IF;
 
-         Scheduler.diag[SCHEDIAG_ICH1_TRIG] += 1;
+        scheduler_diag_log_event(SCHEDIAG_ICH1_TRIG);
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
@@ -358,7 +365,7 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC2IF;
 
-         Scheduler.diag[SCHEDIAG_ICH2_TRIG] += 1;
+        scheduler_diag_log_event(SCHEDIAG_ICH2_TRIG);
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
@@ -374,7 +381,7 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC3IF;
 
-         Scheduler.diag[SCHEDIAG_FCH1_TRIG] += 1;
+        scheduler_diag_log_event(SCHEDIAG_FCH1_TRIG);
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
@@ -390,7 +397,7 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC4IF;
 
-         Scheduler.diag[SCHEDIAG_FCH2_TRIG] += 1;
+        scheduler_diag_log_event(SCHEDIAG_FCH2_TRIG);
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;

@@ -133,7 +133,7 @@ void lowprio_scheduler_seqmode_channel(lowprio_scheduler_channel_t target_ch, vo
     }
 
     //activate lowprio_scheduler for the first delay
-    lowprio_scheduler_set_channel(target_ch, callback_funct, TOGGLE, delay1_us);
+    lowprio_scheduler_set_channel(target_ch, callback_funct, PIN_TOGGLE, delay1_us);
 }
 
 
@@ -204,7 +204,7 @@ void lowprio_scheduler_togglemode_channel(lowprio_scheduler_channel_t target_ch,
     }
 
     //activate lowprio_scheduler for the first delay
-    lowprio_scheduler_set_channel(target_ch, callback_funct, TOGGLE, delay1_us);
+    lowprio_scheduler_set_channel(target_ch, callback_funct, PIN_TOGGLE, delay1_us);
 }
 
 
@@ -535,7 +535,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             }
 
             //re enable
-            lowprio_scheduler_set_channel(LOWPRIO_CH1, Lowprio_Scheduler.ch1_callback, TOGGLE, toggle_delay);
+            lowprio_scheduler_set_channel(LOWPRIO_CH1, Lowprio_Scheduler.ch1_callback, PIN_TOGGLE, toggle_delay);
         }
         else
         {
@@ -599,7 +599,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             }
 
             //re enable
-            lowprio_scheduler_set_channel(LOWPRIO_CH2, Lowprio_Scheduler.ch2_callback, TOGGLE, toggle_delay);
+            lowprio_scheduler_set_channel(LOWPRIO_CH2, Lowprio_Scheduler.ch2_callback, PIN_TOGGLE, toggle_delay);
         }
         else
         {
@@ -639,7 +639,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             }
 
             //re enable
-            lowprio_scheduler_set_channel(LOWPRIO_CH3, Lowprio_Scheduler.ch3_callback, TOGGLE, toggle_delay);
+            lowprio_scheduler_set_channel(LOWPRIO_CH3, Lowprio_Scheduler.ch3_callback, PIN_TOGGLE, toggle_delay);
         }
         else
         {
@@ -679,7 +679,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             }
 
             //re enable
-            lowprio_scheduler_set_channel(LOWPRIO_CH4, Lowprio_Scheduler.ch4_callback, TOGGLE, toggle_delay);
+            lowprio_scheduler_set_channel(LOWPRIO_CH4, Lowprio_Scheduler.ch4_callback, PIN_TOGGLE, toggle_delay);
         }
         else
         {
