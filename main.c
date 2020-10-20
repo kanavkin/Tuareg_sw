@@ -99,7 +99,7 @@ global status object
 volatile Tuareg_t Tuareg;
 
 
-#warning TODO (oli#1#): implement memset function
+/// TODO (oli#1#): implement memset function
 
 
 
@@ -187,7 +187,7 @@ int main(void)
     //set up config data
     Tuareg_set_Runmode(TMODE_CONFIGLOAD);
 
-    #warning TODO (oli#4#): implement config item set/read logic
+    /// TODO (oli#4#): implement config item set/read logic
     configPage13.dynamic_ignition_position= CRK_POSITION_A2;
     configPage13.dynamic_dwell_position= CRK_POSITION_B2;
 
@@ -221,10 +221,6 @@ int main(void)
         //debug
         //poll_dwt_printout();
 
-        //collect diagnostic information
-        tuareg_diag_log_event(TDIAG_MAINLOOP_ENTRY);
-
-
         /**
         4 Hz actions
         */
@@ -235,7 +231,7 @@ int main(void)
             //provide sensor data
             if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
             {
-#warning TODO (oli#8#): who will provide process data in limp mode with engine halted?
+/// TODO (oli#8#): who will provide process data in limp mode with engine halted?
 
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
@@ -303,9 +299,6 @@ void EXTI2_IRQHandler(void)
     moduletest_irq2_action();
     #else
 
-    //debug
-    set_debug_pin(PIN_TOGGLE);
-
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
@@ -326,6 +319,8 @@ void EXTI2_IRQHandler(void)
                 /**
                 normal engine operation
                 */
+
+                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
@@ -352,6 +347,8 @@ void EXTI2_IRQHandler(void)
 
             if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
+                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
+
                 /**
                 first position detected -> cranking has begun
                 */
@@ -375,6 +372,8 @@ void EXTI2_IRQHandler(void)
             //if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
             if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
+                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
+
                 //trigger dwell or spark
                 Tuareg_trigger_ignition();
             }

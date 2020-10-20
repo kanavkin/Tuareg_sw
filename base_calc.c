@@ -10,7 +10,7 @@
 #include "Tuareg.h"
 
 
-#warning TODO (oli#1#): add range check and clipping
+/// TODO (oli#1#): add range check and clipping
 
 /**
 calculate the duration (in us) corresponding to an rotation angle
@@ -110,17 +110,21 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 }
 
 
-volatile crank_position_t next_crank_position(crank_position_t Current_Position)
+void increment_crank_position(volatile crank_position_t * pPosition)
 {
+    volatile crank_position_t next= *pPosition;
+
+    next++;
+
     //overflow check
-    if( (Current_Position +1) >= CRK_POSITION_COUNT )
+    if( next >= CRK_POSITION_COUNT )
     {
         //new cycle
-        return 0;
+        *pPosition= 0;
     }
     else
     {
-        return Current_Position +1;
+        *pPosition= next;
     }
 }
 

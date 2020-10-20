@@ -7,6 +7,8 @@
 
 #include "TunerStudio.h"
 
+#include "scheduler.h"
+
 
 VU32 loop20ms;
 VU32 loop33ms;
@@ -122,5 +124,10 @@ void SysTick_Handler(void)
     T= 1ms
     */
     system_time++;
+
+    /**
+    scheduler watchdog
+    */
+    scheduler_update_watchdog();
 
 }

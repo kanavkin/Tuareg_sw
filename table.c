@@ -196,7 +196,7 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     return (U32) y;
 }
 
-#warning TODO (oli#1#): check if we can convert to U8 3D tables
+/// TODO (oli#1#): check if we can convert to U8 3D tables
 
 
 /**
@@ -442,7 +442,7 @@ U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
     Check that all values aren't just the same
     (This regularly happens with things like the fuel trim maps)
     */
-#warning TODO (oli#4#): improve float equality check
+/// TODO (oli#4#): improve float equality check
 
     if( (A == B) && (A == C) && (A == D) )
     {
@@ -734,7 +734,7 @@ void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
         pTable->axisY[Offset - (TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION)] = (U16) Value;
     }
 
-#warning TODO (oli#8#): check if we need to log invalid offsets
+/// TODO (oli#8#): check if we need to log invalid offsets
 
 }
 

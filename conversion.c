@@ -544,7 +544,7 @@ float compose_float(U32 Buffer)
 
 
 U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb)
-#warning TODO (oli#9#): broken
+/// TODO (oli#9#): broken
 {
     union {
 

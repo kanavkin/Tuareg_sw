@@ -187,7 +187,7 @@ float calc_inverse_lin(U32 Arg, float M, float N)
 {
     float inverse;
 
-#warning TODO (oli#2#): check if calculation is correct
+/// TODO (oli#2#): check if calculation is correct
 
     //subtract N
     if( N < Arg)
@@ -473,7 +473,7 @@ void ADC_IRQHandler()
 The regular group conversion is triggered by lowspeed_timer every 20 ms (50Hz)
 with 5x oversampling this gives an update interval of 100 ms
 */
-#warning TODO (oli#1#): is 100ms to slow?
+/// TODO (oli#1#): is 100ms to slow?
 void DMA2_Stream0_IRQHandler()
 {
 

@@ -13,6 +13,8 @@
 #include "conversion.h"
 #include "diagnostics.h"
 
+#include "debug.h"
+
 volatile decoder_internals_t DInternals;
 volatile decoder_interface_t DInterface;
 
@@ -134,7 +136,7 @@ inline VU32 check_sync_ratio()
     if((DInternals.sync_buffer_key > 0) && (DInternals.sync_buffer_gap > 0))
     {
         //calculate key/gap ratio in percent
-        sync_ratio= (DInternals.sync_buffer_key * 100UL) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
+        sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
 
         if( (sync_ratio >= configPage12.sync_ratio_min_pct) && (sync_ratio <= configPage12.sync_ratio_max_pct) )
@@ -397,7 +399,7 @@ void decoder_logic_crank_handler(VU32 Interval)
             decoder_set_state(DSTATE_ASYNC_KEY);
 
             //collect diagnostic data
-            decoder_diag_log_event(DSTATE_ASYNC);
+            decoder_diag_log_event(DDIAG_CRANKPOS_ASYNC);
 
             break;
 
@@ -431,7 +433,9 @@ void decoder_logic_crank_handler(VU32 Interval)
 
             if( check_sync_ratio() == RETURN_OK )
             {
-                // it was key A -> we have SYNC now!
+                /**
+                it was key A -> we have SYNC now!
+                */
                 decoder_set_state(DSTATE_SYNC);
                 DInternals.crank_position= CRK_POSITION_B1;
 
@@ -444,8 +448,11 @@ void decoder_logic_crank_handler(VU32 Interval)
             }
             else
             {
-                //any other key
+                //on any other key
                 decoder_set_state(DSTATE_ASYNC_KEY);
+
+                reset_position_data();
+                reset_crank_timing_data();
             }
 
             //collect diagnostic data
@@ -456,6 +463,7 @@ void decoder_logic_crank_handler(VU32 Interval)
 
         case DSTATE_SYNC:
 
+            /*
             //update crank_position
             DInternals.crank_position++;
 
@@ -464,6 +472,8 @@ void decoder_logic_crank_handler(VU32 Interval)
             {
                 DInternals.crank_position= 0;
             }
+            */
+            increment_crank_position(&(DInternals.crank_position));
 
             // update crank sensing
             decoder_set_crank_pickup_sensing(SENSING_INVERT);
@@ -532,7 +542,6 @@ void decoder_logic_crank_handler(VU32 Interval)
         /**
         finally trigger the sw irq 2 for decoder output processing
         (ca. 3.2us after trigger event)
-        the irq will be triggered anyways to react on sync failures!
 
         shall be the last action in irq!
         */
@@ -546,8 +555,6 @@ void decoder_logic_crank_handler(VU32 Interval)
 
             trigger_decoder_irq();
         }
-
-
 
         /**
         noise filter
@@ -590,11 +597,11 @@ void decoder_logic_timer_update_handler()
         //run desired debug action
         decoder_timeout_debug_handler();
 
-        //prepare for the next trigger condition
-        decoder_unmask_crank_irq();
+        //stopping the decoder timer will leave the crank noise filter on
+        decoder_stop_timer();
 
-        //reset timeout_count and give sync a chance
-        DInternals.timeout_count =0;
+        //so prepare for the next trigger condition
+        decoder_unmask_crank_irq();
 
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_TIMEOUT_EVENTS);
@@ -633,7 +640,7 @@ void update_cis_sensor()
 
             if(DInternals.crank_position == CYLINDER_SENSOR_ENA_POSITION)
             {
-               // #warning TODO (oli#1#): DEBUG
+               // /// TODO (oli#1#): DEBUG
                 //enabling c.i.s irq will clear its pending flag
                 decoder_unmask_cis_irq();
             }

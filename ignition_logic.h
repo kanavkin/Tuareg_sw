@@ -29,6 +29,22 @@ adjust DYNAMIC_MIN_RPM to a value higher than your desired idle rpm if you want 
 #define DEFAULT_DWELL_DEG 180
 #define DEFAULT_ADVANCE_DEG 10
 
+/**
+dynamic ignition calculation dwell position setup
+
+fit_position() will select a dwell position in between DYNAMIC_DWELL_LATEST_POSITION and DYNAMIC_DWELL_EARLIEST_POSITION
+
+The proper selected DYNAMIC_DWELL_EARLIEST_POSITION allows the spark to burn for at least 1ms after ignition event.
+Dwell position will default to DYNAMIC_DWELL_EARLIEST_POSITION.
+
+DYNAMIC_DWELL_LATEST_POSITION shall be selected to not interfere with the scheduler allocation, but allow for maximum dwell.
+*/
+#define DYNAMIC_DWELL_LATEST_POSITION CRK_POSITION_D2
+#define DYNAMIC_DWELL_EARLIEST_POSITION CRK_POSITION_B2
+
+
+
+
 
 /**
 ignition_timing_t defines a transfer object
@@ -52,7 +68,7 @@ typedef struct _ignition_timing_t {
 
 
 
-void fit_position( VU32 Period_us, VU32 Crank_angle_deg, volatile crank_position_t * pTarget_position, VU32 * pTarget_delay_us);
+void fit_position( VU32 Ign_advance_deg, VU32 Dwell_target_us, volatile process_data_t * pImage, volatile ignition_timing_t * pTarget);
 void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget);
 void default_ignition_timing(volatile ignition_timing_t * pTarget);
 extern void cranking_ignition_timing(volatile ignition_timing_t * pTarget);

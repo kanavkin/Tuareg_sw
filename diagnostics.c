@@ -11,52 +11,14 @@ VU32 tuareg_diag[TDIAG_COUNT];
 VU32 decoder_diag[DDIAG_COUNT];
 
 
-
+/******************************************************************************************************
+scheduler diag
+*******************************************************************************************************/
 void scheduler_diag_log_event(scheduler_diag_t event)
 {
     if(event < SCHEDIAG_COUNT)
     {
         scheduler_diag[event] += 1;
-    }
-}
-
-void ignhw_diag_log_event(ignhw_diag_t event)
-{
-    if(event < IGNHWDIAG_COUNT)
-    {
-        ignhw_diag[event] += 1;
-    }
-}
-
-void tuareg_diag_log_event(tuareg_diag_t event)
-{
-    if(event < TDIAG_COUNT)
-    {
-        tuareg_diag[event] += 1;
-    }
-}
-
-void tuareg_diag_log_parameter(tuareg_diag_t Parameter, U32 Value)
-{
-    if(Parameter < TDIAG_COUNT)
-    {
-        tuareg_diag[Parameter]= Value;
-    }
-}
-
-void decoder_diag_log_event(decoder_diag_t Event)
-{
-    if(Event < DDIAG_COUNT)
-    {
-        decoder_diag[Event] += 1;
-    }
-}
-
-void decoder_diag_log_parameter(decoder_diag_t Parameter, U32 Value)
-{
-    if(Parameter < DDIAG_COUNT)
-    {
-        decoder_diag[Parameter]= Value;
     }
 }
 
@@ -77,10 +39,30 @@ void print_scheduler_diag(USART_TypeDef * Port)
         }
 
     }
+}
 
-    UART_Send(Port, "\r\nDELAY_CLIPPED SCHEDIAG_DELAY_ENLARGED ICH1_SET ICH1_CURRCYC_SET ICH1_NEXTC_PRELOAD_SET ICH1_NEXTC_UPDATE_SET ");
-    UART_Send(Port, "\r\nICH2_SET FCH1_SET FCH2_SET FCH1_TRIG FCH2_TRIG");
-    UART_Send(Port, "\r\nICH1_RESET ICH2_RESET FCH1_RESET FCH2_RESET");
+
+void print_scheduler_diag_legend(USART_TypeDef * Port)
+{
+    UART_Send(Port, "\r\nDELAY_CLIPPED, DELAY_ENLARGED, ICH1_SET, ICH1_CURRC_SET, ICH1_NEXTC_PRELOAD_SET,");
+    UART_Send(Port, "\r\nICH1_NEXTC_UPDATE_SET, ICH2_SET, FCH1_SET, FCH2_SET, ICH1_TRIG,");
+    UART_Send(Port, "\r\nICH2_TRIG, FCH1_TRIG, FCH2_TRIG, ICH1_RESET, ICH2_RESET,");
+    UART_Send(Port, "\r\nFCH1_RESET, FCH2_RESET, ICH1_RETRIGD, ICH2_RETRIGD, FCH1_RETRIGD,");
+    UART_Send(Port, "\r\nFCH2_RETRIGD");
+}
+
+
+
+
+/******************************************************************************************************
+ignition hardware diag
+*******************************************************************************************************/
+void ignhw_diag_log_event(ignhw_diag_t event)
+{
+    if(event < IGNHWDIAG_COUNT)
+    {
+        ignhw_diag[event] += 1;
+    }
 }
 
 
@@ -100,66 +82,115 @@ void print_ignhw_diag(USART_TypeDef * Port)
         }
 
     }
-
-    UART_Send(Port, "\r\nSWIRQ3_TRIGGERED");
-
 }
+
+
+void print_ignhw_diag_legend(USART_TypeDef * Port)
+{
+    UART_Send(TS_PORT, "\r\nIGNHWDIAG_SWIER3_TRIGGERED");
+}
+
+
+
+/******************************************************************************************************
+Tuareg main diag
+*******************************************************************************************************/
+void tuareg_diag_log_event(tuareg_diag_t event)
+{
+    if(event < TDIAG_COUNT)
+    {
+        tuareg_diag[event] += 1;
+    }
+}
+
+
+void tuareg_diag_log_parameter(tuareg_diag_t Parameter, U32 Value)
+{
+    if(Parameter < TDIAG_COUNT)
+    {
+        tuareg_diag[Parameter]= Value;
+    }
+}
+
 
 void print_tuareg_diag(USART_TypeDef * Port)
 {
     U32 cnt;
 
-    UART_Send(Port, "\r\ntuareg diag: \r\n");
+    UART_Send(Port, "\r\nTuareg diag: \r\n");
 
-    for(cnt=0; cnt < SCHEDIAG_COUNT; cnt++)
+    for(cnt=0; cnt < TDIAG_COUNT; cnt++)
     {
-        UART_Print_U(Port, scheduler_diag[cnt], TYPE_U32, PAD);
+        UART_Print_U(Port, tuareg_diag[cnt], TYPE_U32, PAD);
 
-        if((cnt % 9) == 0)
+        if((cnt != 0) && ((cnt % 5) == 0))
         {
             UART_Send(Port, "\r\n");
         }
 
     }
-
-    UART_Send(TS_PORT, "\r\nDECODER_IRQ, DECODER_AGE, DECODER_TIMEOUT, DECODER_PASSIVE, IGNITION_IRQ, MAINLOOP_ENTRY, MODECTRL, INIT_HALT_TR, RUNNING_HALT_TR, RUNNING_STB_TR");
-    UART_Send(TS_PORT, "\r\nSTB_RUNNING_TR, STB_HALT_TR, HALT_RUNNING_TR, HALT_STB_TR, ENTER_INIT, ENTER_HALT, ENTER_RUNNING, ENTER_STB, TSTUDIO_CALLS, TRIG_IGN_CALLS");
-    UART_Send(TS_PORT, "\r\nTRIG_COIL_DWELL, TRIG_COIL_IGN, KILL_SIDESTAND, KILL_RUNSWITCH TDIAG_INVALID_RUNMODE");
 }
+
+
+void print_tuareg_diag_legend(USART_TypeDef * Port)
+{
+    UART_Send(TS_PORT, "\r\nTDIAG_DECODER_IRQ, TDIAG_DECODER_UPDATE, TDIAG_DECODER_TIMEOUT, TDIAG_DECODER_PASSIVE, TDIAG_IGNITION_IRQ,");
+    UART_Send(TS_PORT, "\r\nTDIAG_TRIG_IGN_CALLS, TDIAG_TRIG_COIL_DWELL, TDIAG_TRIG_COIL_IGN, TDIAG_PROCESSDATA_CALLS, TDIAG_IGNITIONCALC_CALLS,");
+    UART_Send(TS_PORT, "\r\nTDIAG_TSTUDIO_CALLS, TDIAG_MODECTRL, TDIAG_KILL_SIDESTAND, TDIAG_KILL_RUNSWITCH, TDIAG_ENTER_INIT,");
+    UART_Send(TS_PORT, "\r\nTDIAG_ENTER_HALT, TDIAG_RUNNING_HALT_TR, TDIAG_STB_HALT_TR, TDIAG_INIT_HALT_TR, TDIAG_ENTER_RUNNING,");
+    UART_Send(TS_PORT, "\r\nTDIAG_CRANKING_RUNNING_TR, TDIAG_HALT_RUNNING_TR, TDIAG_ENTER_STB, TDIAG_RUNNING_STB_TR, TDIAG_CRANKING_STB_TR,");
+    UART_Send(TS_PORT, "\r\nTDIAG_HALT_STB_TR, TDIAG_ENTER_CRANKING, TDIAG_ENTER_MTEST, TDIAG_INVALID_RUNMODE");
+}
+
+
+/******************************************************************************************************
+decoder diag
+*******************************************************************************************************/
+void decoder_diag_log_event(decoder_diag_t Event)
+{
+    if(Event < DDIAG_COUNT)
+    {
+        decoder_diag[Event] += 1;
+    }
+}
+
+
+void decoder_diag_log_parameter(decoder_diag_t Parameter, U32 Value)
+{
+    if(Parameter < DDIAG_COUNT)
+    {
+        decoder_diag[Parameter]= Value;
+    }
+}
+
 
 void print_decoder_diag(USART_TypeDef * Port)
 {
-    UART_Send(Port, "\r\ndecoder diag print out not yet implemented");
+    U32 cnt, column = 1;
 
+    UART_Send(Port, "\r\nDecoder diag: \r\n");
 
-    /*
-    //print decoder diag
-            UART_Send(TS_PORT, "\r\ndecoder:\r\n");
+    for(cnt=0; cnt < DDIAG_COUNT; cnt++)
+    {
+        UART_Print_U(Port, decoder_diag[cnt], TYPE_U32, PAD);
 
-            //get diag data
-            decoder_export_diag(debug_data);
+        if(column == DIAG_PRINT_LEGEND_COLUMNS)
+        {
+            UART_Send(Port, "\r\n");
+            column = 1;
+        }
+        else
+        {
+            column++;
+        }
+    }
+}
 
-            data_2 =0;
-
-            for(data_1=0; data_1 < DDIAG_COUNT; data_1++)
-            {
-                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U32, PAD);
-
-                if(data_2 == 9)
-                {
-                    UART_Send(TS_PORT, "\r\n");
-                    data_2= 0;
-                }
-                else
-                {
-                    data_2++;
-                }
-            }
-                                           //0          0          0          0          0          0          0          0          0          0
-            UART_Send(TS_PORT, "\r\n ASYN->SYN  SYN->ASYN  CRKHDLR_C TR_IRQ_SYN TR_IRQ_DEL   CRP_INIT   CRP_SYNC   CRP_A_KEY CRP_A_GAP  TIMEOUT_E");
-            UART_Send(TS_PORT, "\r\n TMR_UPD_E   SYNCHK_C  SYNCHK_RLX  CRKTBL_C ROTSPEED_C   CISHDL_C   CRP_PHAS     CRP_UND PHAS->UND");
-            UART_Send(TS_PORT, "\r\n");
-
-
-    */
+void print_decoder_diag_legend(USART_TypeDef * Port)
+{
+    UART_Send(TS_PORT, "\r\nDDIAG_HW_EXTI0_CALLS, DDIAG_CRANKHANDLER_CALLS, DDIAG_CRANKPOS_INIT, DDIAG_CRANKPOS_SYNC, DDIAG_CRANKPOS_ASYNC,");
+    UART_Send(TS_PORT, "\r\nDDIAG_CRANKPOS_ASYNC_KEY, DDIAG_CRANKPOS_ASYNC_GAP, DDIAG_ASYNC_SYNC_TR, DDIAG_SYNC_ASYNC_TR, DDIAG_HW_SWIER2_CALLS,");
+    UART_Send(TS_PORT, "\r\nDDIAG_TRIGGER_IRQ_SYNC, DDIAG_HW_TIM9_CC1_CALLS, DDIAG_TIMER_COMPARE_EVENTS, DDIAG_HW_TIM9_UE_CALLS, DDIAG_TIMER_UPDATE_EVENTS,");
+    UART_Send(TS_PORT, "\r\nDDIAG_TIMEOUT_EVENTS, DDIAG_SYNCCHECK_CALLS, DDIAG_SYNCCHECK_SUCCESS, DDIAG_SYNCCHECK_FAILED, DDIAG_CRANKTABLE_CALLS,");
+    UART_Send(TS_PORT, "\r\nDDIAG_ROTSPEED_CALLS, DDIAG_HW_EXTI1_CALLS,");
 }

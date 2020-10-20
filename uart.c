@@ -49,7 +49,7 @@ void UART_TS_PORT_Init()
 
     //GPIOA alternative functions 9 > Tx, 10 > Rx
     GPIO_configure(GPIOA, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
-#warning TODO (oli#1#): observe sporadic uart errors: GPIOA 10 GPIO_MODE_IN / GPIO_MODE_AF config dependant
+/// TODO (oli#1#): observe sporadic uart errors: GPIOA 10 GPIO_MODE_IN / GPIO_MODE_AF config dependant
     GPIO_configure(GPIOA, 10, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_DOWN);
 
     //connect USART1 to PA9/10 and USART6 to PA11
@@ -272,7 +272,7 @@ U32 serial_buffer_push(volatile serial_buffer_t * buffer, VU8 data_in)
     buffer->available++;
 
     #ifdef UART_DEBUG
-    #warning TODO (oli#1#): debug action enabled
+    /// TODO (oli#1#): debug action enabled
     UART_Tx(DEBUG_PORT, '+');
     UART_Tx(DEBUG_PORT, data_in);
     #endif //UART_DEBUG
@@ -317,7 +317,7 @@ U32 serial_buffer_pull(volatile serial_buffer_t * buffer, VU8 * data_out)
     }
 
     #ifdef UART_DEBUG
-    #warning TODO (oli#1#): debug action enabled
+    /// TODO (oli#1#): debug action enabled
     UART_Tx(DEBUG_PORT, '-');
     UART_Tx(DEBUG_PORT, buffer->buffer[buffer->tail]);
     #endif //UART_DEBUG

@@ -1241,7 +1241,7 @@ U32 migrate_configData()
     {
         return eeprom_code;
     }
-#warning TODO (oli#4#): Add an eeprom layout and config version check (at config load)
+/// TODO (oli#4#): Add an eeprom layout and config version check (at config load)
 
     if( (eeprom_data == 0) || (eeprom_data == 255) )
     {

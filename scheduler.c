@@ -9,6 +9,8 @@ timer resources:
     -ignition channel 2 -> compare channel 2
     -fuel channel 1 -> compare channel 3
     -fuel channel 2 -> compare channel 4
+
+a timer update event is expected every ~74 min op scheduler operation
 */
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
@@ -145,6 +147,15 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
+            if(Scheduler.ign_ch1_triggered == TRUE)
+            {
+                scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD);
+            }
+
+            //save new state
+            Scheduler.ign_ch1_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.ign_ch1_triggered= TRUE;
+
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
             TIM5->DIER |= (U16) TIM_DIER_CC1IE;
@@ -189,6 +200,16 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
                 TIM5->CCMR1 &= ~TIM_CCMR1_OC2PE;
                 TIM5->CCR2  = (U32) compare;
             }
+
+            if(Scheduler.ign_ch2_triggered == TRUE)
+            {
+                scheduler_diag_log_event(SCHEDIAG_ICH2_RETRIGD);
+            }
+
+            //save new state
+            Scheduler.ign_ch2_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.ign_ch2_triggered= TRUE;
+
 
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC2IF;
@@ -235,6 +256,16 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
+            if(Scheduler.fuel_ch1_triggered == TRUE)
+            {
+                scheduler_diag_log_event(SCHEDIAG_FCH1_RETRIGD);
+            }
+
+            //save new state
+            Scheduler.fuel_ch1_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.fuel_ch1_triggered= TRUE;
+
+
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC3IF;
             TIM5->DIER |= (U16) TIM_DIER_CC3IE;
@@ -280,6 +311,15 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
+            if(Scheduler.fuel_ch2_triggered == TRUE)
+            {
+                scheduler_diag_log_event(SCHEDIAG_FCH2_RETRIGD);
+            }
+
+            //save new state
+            Scheduler.fuel_ch2_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.fuel_ch2_triggered= TRUE;
+
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC4IF;
             TIM5->DIER |= (U16) TIM_DIER_CC4IE;
@@ -303,6 +343,9 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
 
+            Scheduler.ign_ch1_triggered= FALSE;
+            Scheduler.ign_ch1_watchdog= 0;
+
             scheduler_diag_log_event(SCHEDIAG_ICH1_RESET);
             break;
 
@@ -310,6 +353,9 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
             TIM5->SR    = (U16) ~TIM_SR_CC2IF;
+
+            Scheduler.ign_ch2_triggered= FALSE;
+            Scheduler.ign_ch2_watchdog= 0;
 
             scheduler_diag_log_event(SCHEDIAG_ICH2_RESET);
             break;
@@ -319,6 +365,9 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
             TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
             TIM5->SR    = (U16) ~TIM_SR_CC3IF;
 
+            Scheduler.fuel_ch1_triggered= FALSE;
+            Scheduler.fuel_ch1_watchdog= 0;
+
             scheduler_diag_log_event(SCHEDIAG_FCH1_RESET);
             break;
 
@@ -326,6 +375,9 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
             TIM5->SR    = (U16) ~TIM_SR_CC4IF;
+
+            Scheduler.fuel_ch2_triggered= FALSE;
+            Scheduler.fuel_ch2_watchdog= 0;
 
             scheduler_diag_log_event(SCHEDIAG_FCH2_RESET);
             break;
@@ -336,6 +388,78 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
     }
 }
 
+
+void scheduler_update_watchdog()
+{
+    if(Scheduler.ign_ch1_triggered == TRUE)
+    {
+        if(Scheduler.ign_ch1_watchdog > 0)
+        {
+            Scheduler.ign_ch1_watchdog--;
+        }
+
+        if(Scheduler.ign_ch1_watchdog == 0)
+        {
+            /**
+            scheduler delay has expired
+            MALFUNCTION in scheduler module
+            */
+            Tuareg_register_error(TERROR_SCHEDULER);
+        }
+    }
+
+    if(Scheduler.ign_ch2_triggered == TRUE)
+    {
+        if(Scheduler.ign_ch2_watchdog > 0)
+        {
+            Scheduler.ign_ch2_watchdog--;
+        }
+
+        if(Scheduler.ign_ch2_watchdog == 0)
+        {
+            /**
+            scheduler delay has expired
+            MALFUNCTION in scheduler module
+            */
+            Tuareg_register_error(TERROR_SCHEDULER);
+        }
+    }
+
+    if(Scheduler.fuel_ch1_triggered == TRUE)
+    {
+        if(Scheduler.fuel_ch1_watchdog > 0)
+        {
+            Scheduler.fuel_ch1_watchdog--;
+        }
+
+        if(Scheduler.fuel_ch1_watchdog == 0)
+        {
+            /**
+            scheduler delay has expired
+            MALFUNCTION in scheduler module
+            */
+            Tuareg_register_error(TERROR_SCHEDULER);
+        }
+    }
+
+    if(Scheduler.fuel_ch2_triggered == TRUE)
+    {
+        if(Scheduler.fuel_ch2_watchdog > 0)
+        {
+            Scheduler.fuel_ch2_watchdog--;
+        }
+
+        if(Scheduler.fuel_ch2_watchdog == 0)
+        {
+            /**
+            scheduler delay has expired
+            MALFUNCTION in scheduler module
+            */
+            Tuareg_register_error(TERROR_SCHEDULER);
+        }
+    }
+
+}
 
 
 
@@ -351,6 +475,9 @@ void TIM5_IRQHandler(void)
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
+
+        //save new state
+        Scheduler.ign_ch1_triggered= FALSE;
 
         /**
         ignition channel 1
@@ -370,6 +497,9 @@ void TIM5_IRQHandler(void)
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
 
+        //save new state
+        Scheduler.ign_ch2_triggered= FALSE;
+
         /**
         ignition channel 2
         */
@@ -385,6 +515,9 @@ void TIM5_IRQHandler(void)
 
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
+
+        //save new state
+        Scheduler.fuel_ch1_triggered= FALSE;
 
         /**
         fuel channel 1
@@ -402,10 +535,12 @@ void TIM5_IRQHandler(void)
         //disable compare irq
         TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
 
+        //save new state
+        Scheduler.fuel_ch2_triggered= FALSE;
+
         /**
         fuel channel 2
         */
         set_fuel_ch2(Scheduler.ign_ch2_action);
     }
-
 }

@@ -6,7 +6,6 @@
 #include "decoder_logic.h"
 
 #include "config.h"
-
 #include "diagnostics.h"
 
 volatile decoder_hw_t Decoder_hw;
@@ -64,6 +63,12 @@ void decoder_start_timer(U16 Noise_filter)
 void decoder_stop_timer()
 {
     TIM9->CR1 &= ~TIM_CR1_CEN;
+
+    //disable timer interrupts
+    TIM9->DIER= (U16) 0;
+
+    //delete interrupt flags
+    TIM9->SR = (U16) 0;
 }
 
 
@@ -246,6 +251,11 @@ void decoder_set_cis_sensing(sensing_t sensing)
 
 void trigger_decoder_irq()
 {
+    /**
+    diagnostics
+    */
+    decoder_diag_log_event(DDIAG_HW_SWIER2_CALLS);
+
     EXTI->SWIER= EXTI_SWIER_SWIER2;
 }
 
@@ -378,9 +388,8 @@ Timer 9 - decoder control:
  ******************************************************************************************************************************/
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
-
     //TIM9 compare event
-    if( TIM9->SR & TIM_IT_CC1)
+    if(TIM9->SR & TIM_IT_CC1)
     {
         /**
         hw dependent part
@@ -402,7 +411,7 @@ void TIM1_BRK_TIM9_IRQHandler(void)
 
 
     //TIM9 update event
-    if( TIM9->SR & TIM_IT_Update)
+    if(TIM9->SR & TIM_IT_Update)
     {
         /**
         hw dependent part

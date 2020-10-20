@@ -79,7 +79,7 @@ void Tuareg_update_Runmode()
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_KILL_RUNSWITCH);
 
-            #warning TODO (oli#9#): debug message enabled
+            /// TODO (oli#9#): debug message enabled
             UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
         }
 
@@ -91,11 +91,11 @@ void Tuareg_update_Runmode()
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
 
-            #warning TODO (oli#9#): debug message enabled
+            /// TODO (oli#9#): debug message enabled
             UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
         }
 
-        #warning TODO (oli#3#): implement cranking handling
+        /// TODO (oli#3#): implement cranking handling
         if((Tuareg.process.engine_rpm > configPage13.dynamic_min_rpm) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
         {
             /**
@@ -117,7 +117,7 @@ void Tuareg_update_Runmode()
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_KILL_RUNSWITCH);
 
-            #warning TODO (oli#9#): debug message enabled
+            /// TODO (oli#9#): debug message enabled
             UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
         }
 
@@ -129,7 +129,7 @@ void Tuareg_update_Runmode()
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
 
-            #warning TODO (oli#9#): debug message enabled
+            /// TODO (oli#9#): debug message enabled
             UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
         }
 
@@ -171,6 +171,17 @@ void Tuareg_update_Runmode()
 }
 
 
+void Tuareg_register_error(tuareg_error_t Error)
+{
+    if(Error < TERROR_CNT)
+    {
+        Tuareg.Errors |= (1<< Error);
+    }
+
+    UART_Send(DEBUG_PORT, "\r\n*** Registered error ");
+    UART_Print_U(DEBUG_PORT, Error, TYPE_U32, NO_PAD);
+    UART_Send(DEBUG_PORT, "***");
+}
 
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 {
@@ -217,14 +228,14 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 config_load_status= config_load();
 
                 /**
-                #warning TODO (oli#1#): DEBUG: limp home test
+                /// TODO (oli#1#): DEBUG: limp home test
                 config_load_status= RETURN_FAIL;
                 */
 
                 if(config_load_status != RETURN_OK)
                 {
                     //save to error register
-                    Tuareg.Errors |= (1<< TERROR_CONFIGLOAD);
+                    Tuareg_register_error(TERROR_CONFIGLOAD);
 
                     //as we can hardly save some error logs in this system condition, print some debug messages only
                     UART_Send(DEBUG_PORT, "\r \n *** FAILED to load config data !");
@@ -291,21 +302,21 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 {
                     tuareg_diag_log_event(TDIAG_RUNNING_HALT_TR);
 
-                     #warning TODO (oli#9#): debug message enabled
+                     /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_HALT");
                 }
                 else if(Tuareg.Runmode == TMODE_HWINIT)
                 {
                     tuareg_diag_log_event(TDIAG_INIT_HALT_TR);
 
-                     #warning TODO (oli#9#): debug message enabled
+                     /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HWINIT --> TMODE_HALT");
                 }
                 else if(Tuareg.Runmode == TMODE_STB)
                 {
                     tuareg_diag_log_event(TDIAG_STB_HALT_TR);
 
-                     #warning TODO (oli#9#): debug message enabled
+                     /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_HALT");
                 }
 
@@ -325,7 +336,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 {
                     tuareg_diag_log_event(TDIAG_CRANKING_RUNNING_TR);
 
-                    #warning TODO (oli#9#): debug message enabled
+                    /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_RUNNING");
                 }
 
@@ -334,7 +345,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_STB:
 
-                #warning TODO (oli#9#): check if we need fuel pump priming
+                /// TODO (oli#9#): check if we need fuel pump priming
 
                 //engine stalled, system ready for start
                 Tuareg_stop_engine();
@@ -347,21 +358,21 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 {
                     tuareg_diag_log_event(TDIAG_RUNNING_STB_TR);
 
-                    #warning TODO (oli#9#): debug message enabled
+                    /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_STB");
                 }
                 else if(Tuareg.Runmode == TMODE_HALT)
                 {
                     tuareg_diag_log_event(TDIAG_HALT_STB_TR);
 
-                    #warning TODO (oli#9#): debug message enabled
+                    /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
                 }
                 else if(Tuareg.Runmode == TMODE_CRANKING)
                 {
                     tuareg_diag_log_event(TDIAG_CRANKING_STB_TR);
 
-                    #warning TODO (oli#9#): debug message enabled
+                    /// TODO (oli#9#): debug message enabled
                     UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
                 }
 
@@ -370,7 +381,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_CRANKING:
 
-                #warning TODO (oli#9#): check if we need fuel pump priming
+                /// TODO (oli#9#): check if we need fuel pump priming
                 //turn fuel pump on to maintain fuel pressure
                 set_fuelpump(PIN_ON);
 
@@ -378,9 +389,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 default_ignition_timing(&(Tuareg.ignition_timing));
 
                 //collect diagnostic information
-                //tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
+                tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
 
-                #warning TODO (oli#9#): debug message enabled
+                /// TODO (oli#9#): debug message enabled
                 UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
 
                 break;
@@ -390,9 +401,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 Tuareg_stop_engine();
 
                 //collect diagnostic information
-                //tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
+                tuareg_diag_log_event(TDIAG_ENTER_MTEST);
 
-                #warning TODO (oli#9#): debug message enabled
+                /// TODO (oli#9#): debug message enabled
                 UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_MODULE_TEST");
 
                 break;

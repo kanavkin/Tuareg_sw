@@ -7,7 +7,7 @@
 #include "uart.h"
 #include "conversion.h"
 #include "ignition_hw.h"
-
+#include "diagnostics.h"
 
 /**
 variables for module test

@@ -73,7 +73,7 @@ typedef struct _table2D_t {
 } table2D ;
 
 
-#warning TODO (oli#8#): check if we need different 3D table dimensions
+/// TODO (oli#8#): check if we need different 3D table dimensions
 
 /**
 This 3D table "contains" 8-bit unsigned values in Z,

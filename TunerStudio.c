@@ -46,7 +46,7 @@ void ts_communication()
         TS_cli.State.cmd_pending = FALSE;
 
         #ifdef TS_DEBUG
-        #warning TODO (oli#1#): debug action enabled
+        /// TODO (oli#1#): debug action enabled
         UART_Tx(DEBUG_PORT, '!');
         #endif // TS_DEBUG
 
@@ -65,12 +65,12 @@ void ts_communication()
         TS_cli.command_duration= COMMAND_MAX_DURATION_S;
 
         #ifdef TS_DEBUG
-        #warning TODO (oli#1#): debug action enabled
+        /// TODO (oli#1#): debug action enabled
         UART_Tx(DEBUG_PORT, '*');
         #endif // TS_DEBUG
 
     }
-#warning TODO (oli#4#): export diagnostics
+/// TODO (oli#4#): export diagnostics
 
 
     switch(TS_cli.currentCommand)
@@ -95,7 +95,7 @@ void ts_communication()
             }
             else
             {
-                #warning TODO (oli#8#): evaluate return value!
+                /// TODO (oli#8#): evaluate return value!
                 UART_Send(DEBUG_PORT, "\r\n*** writing config to eeprom ***\r\n");
                 config_write();
                 UART_Send(DEBUG_PORT, "\r\n*** config has been written ***\r\n");
@@ -302,7 +302,7 @@ void ts_communication()
                 */
 
                 #ifdef TS_DEBUG
-                #warning TODO (oli#1#): debug action enabled
+                /// TODO (oli#1#): debug action enabled
                 UART_Tx(DEBUG_PORT, '\r');
                 UART_Tx(DEBUG_PORT, '\n');
                 UART_Tx(DEBUG_PORT, 'W');
@@ -727,8 +727,8 @@ FeatureID is a 16 Bit 0x00 .. 0xFFFF
 
 */
 
-#warning TODO (oli#3#): Implement debug features
-#warning TODO (oli#3#): Implement binary diag data printout
+/// TODO (oli#3#): Implement debug features
+/// TODO (oli#3#): Implement binary diag data printout
 
 #define DEBUG_DATA_MAXLEN 25
 
@@ -742,15 +742,47 @@ void ts_debug_features(U32 FeatureID)
 
     switch (FeatureID)
     {
-        case 'dd':
+        case 'dD':
 
             print_decoder_diag(TS_PORT);
+            break;
+
+        case 'dd':
+
+            print_decoder_diag_legend(TS_PORT);
             break;
 
         case 'dT':
 
             print_tuareg_diag(TS_PORT);
             break;
+
+        case 'dt':
+
+            print_tuareg_diag_legend(TS_PORT);
+            break;
+
+        case 'dS':
+
+            print_scheduler_diag(TS_PORT);
+            break;
+
+        case 'ds':
+
+            print_scheduler_diag_legend(TS_PORT);
+            break;
+
+        case 'dI':
+
+            print_ignhw_diag(TS_PORT);
+            break;
+
+        case 'di':
+
+            print_ignhw_diag_legend(TS_PORT);
+            break;
+
+
 
         case 'ep':
 
@@ -853,7 +885,7 @@ void ts_sendPage()
     volatile table3D_t * currentTable =NULL;
     U8 response[MAP_PAGE_SIZE];
     U32 i, l;
-#warning TODO (oli#8#): implement calibbration data binary printout for verification
+/// TODO (oli#8#): implement calibbration data binary printout for verification
 
 
     switch (TS_cli.currentPage)
@@ -980,7 +1012,7 @@ void ts_sendPage()
             break;
     }
 
-#warning TODO (oli#1#): refactor!!!
+/// TODO (oli#1#): refactor!!!
 
     if ( (TS_cli.currentPage == VEMAPPAGE) || (TS_cli.currentPage == IGNMAPPAGE) || (TS_cli.currentPage == AFRMAPPAGE) )
     {
@@ -1749,7 +1781,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
     }
 
     #ifdef TS_DEBUG
-    #warning TODO (oli#1#): debug action enabled
+    /// TODO (oli#1#): debug action enabled
     UART_Tx(DEBUG_PORT, '\r');
     UART_Tx(DEBUG_PORT, '\n');
     UART_Tx(DEBUG_PORT, 'r');
@@ -1813,7 +1845,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             {
                 // Z-axis
                 #ifdef TS_DEBUG
-                #warning TODO (oli#1#): debug action enabled
+                /// TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN Z: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
@@ -1830,7 +1862,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             {
                 // X-axis
                 #ifdef TS_DEBUG
-                #warning TODO (oli#1#): debug action enabled
+                /// TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN X: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
@@ -1844,7 +1876,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             {
                 // Y-axis
                 #ifdef TS_DEBUG
-                #warning TODO (oli#1#): debug action enabled
+                /// TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "\r\nIGN Y: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
@@ -1857,7 +1889,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
             {
                 //invalid offset, do not attempt to modify anything
                 #ifdef TS_DEBUG
-                #warning TODO (oli#1#): debug action enabled
+                /// TODO (oli#1#): debug action enabled
                 UART_Send(DEBUG_PORT, "received invalid ignition bin: ");
                 UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
                 UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
@@ -2249,7 +2281,7 @@ void replaceCalib(U32 Offset, U32 Value)
     }
 
     #ifdef TS_DEBUG
-    #warning TODO (oli#1#): debug action enabled
+    /// TODO (oli#1#): debug action enabled
     UART_Tx(DEBUG_PORT, '\r');
     UART_Tx(DEBUG_PORT, '\n');
     UART_Tx(DEBUG_PORT, 'E');

@@ -8,6 +8,7 @@ this module covers the ignition HAL
 #include "stm32_libs/boctok_types.h"
 #include "ignition_hw.h"
 #include "diagnostics.h"
+#include "debug.h"
 
 /******************************************************************************************************************************
 ignition actuator control

@@ -27,7 +27,7 @@ to allow limp home operation if eeprom has ben corrupted
 
 
 
-#warning TODO (oli#8#): find elegant solution for configuration values
+/// TODO (oli#8#): find elegant solution for configuration values
 
 //level at which the crash sensor reports a crash event
 #define CRASH_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_CRASH)
@@ -138,7 +138,7 @@ for the currentStatus
 
 
 typedef enum {
-#warning TODO (oli#3#): develop a concept for cranking detection/handling
+/// TODO (oli#3#): develop a concept for cranking detection/handling
 
     //Tuareg.Runmode at boot time
     TMODE_BOOT,
@@ -177,6 +177,7 @@ typedef enum {
 
     TERROR_NONE,
     TERROR_CONFIGLOAD,
+    TERROR_SCHEDULER,
     TERROR_CNT
 
 
@@ -202,13 +203,13 @@ typedef struct _Tuareg_t {
 
     //statemachine and health status
     volatile tuareg_runmode_t Runmode;
-    volatile tuareg_error_t Errors;
+    VU32 Errors;
 
     //sidestand, crash and run switch counter
     VU8 run_switch_counter;
     VU8 crash_switch_counter;
 
-#warning TODO (oli#7#): turn diagnostics on/off per compiler switch
+/// TODO (oli#7#): turn diagnostics on/off per compiler switch
     volatile process_data_t process;
 
 
@@ -300,5 +301,6 @@ void Tuareg_trigger_ignition();
 void Tuareg_set_asensor_defaults();
 U32 Tuareg_get_asensor(asensors_t sensor);
 void Tuareg_export_diag(VU32 * pTarget);
+void Tuareg_register_error(tuareg_error_t Error);
 
 #endif // TUAREG_H_INCLUDED
