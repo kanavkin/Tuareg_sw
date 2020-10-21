@@ -78,9 +78,9 @@ void ts_communication()
 
         case 'A':
             /**
-            send 74 bytes of realtime values actually CAN part is fake
+            send OutputChannels
             */
-            ts_sendValues(0, SENDVALUE_FAKE_PACKETSIZE);
+            ts_sendOutputChannels();
 
             break;
 
@@ -714,6 +714,87 @@ void ts_sendValues(U32 offset, U32 length)
             //TPS
             UART_Tx(TS_PORT, fullStatus[41]);
         }
+    }
+}
+
+/**
+This function returns the current values of a fixed group of variables
+
+a detailed view on the logs has revealed that the A command is not in use
+by TunerStudio, mostly r (offset=0, length=31)
+*/
+void ts_sendOutputChannels()
+{
+    U8 fullStatus[TS_OUTPUTCHANNELS_BUFFERSIZE];
+    U32 i;
+
+    if(TS_cli.A_cmd_requests == 0)
+    {
+        Tuareg.secl = 0;
+    }
+
+    TS_cli.A_cmd_requests++;
+
+    fullStatus[0] = Tuareg.secl; //secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
+    fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
+    fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
+    fullStatus[3] = Tuareg.ignition_timing.dwell_ms *10; //Dwell in ms * 10
+    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_kPa / 10); //2 U8s for MAP
+    fullStatus[5] = highByte((U32) Tuareg.process.MAP_kPa / 10);
+    fullStatus[6] = (U8) (Tuareg.process.IAT_K - cKelvin_offset); //mat
+    fullStatus[7] = (U8) (Tuareg.process.CLT_K -cKelvin_offset); //Coolant ADC
+    fullStatus[8] = (U8) Tuareg.process.VBAT_V; //Battery voltage correction (%)
+    fullStatus[9] = (U8) Tuareg.process.VBAT_V; //battery voltage
+    fullStatus[10] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
+    fullStatus[11] = Tuareg.egoCorrection; //Exhaust gas correction (%)
+    fullStatus[12] = Tuareg.iatCorrection; //Air temperature Correction (%)
+    fullStatus[13] = Tuareg.wueCorrection; //Warmup enrichment (%)
+    fullStatus[14] = lowByte(Tuareg.process.engine_rpm); //rpm HB
+    fullStatus[15] = highByte(Tuareg.process.engine_rpm); //rpm LB
+    fullStatus[16] = Tuareg.TAEamount; //acceleration enrichment (%)
+    fullStatus[17] = Tuareg.corrections; //Total GammaE (%)
+    fullStatus[18] = Tuareg.VE; //Current VE 1 (%)
+    fullStatus[19] = Tuareg.afrTarget;
+    fullStatus[20] = (U8)(Tuareg.PW1 / 100); //Pulsewidth 1 multiplied by 10 in ms. Have to convert from uS to mS.
+    fullStatus[21] = (U8) Tuareg.process.ddt_TPS; //TPS DOT
+    fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance_deg;
+    fullStatus[23] = (U8) Tuareg.process.TPS_deg; // TPS (0% to 100%)
+
+    //Need to split the int loopsPerSecond value into 2 bytes
+    fullStatus[24] = 0x42;
+    fullStatus[25] = 0x01;
+
+    //The following can be used to show the amount of free memory
+    //not needed by now
+    fullStatus[26] = 0x42; //lowByte(Tuareg.freeRAM);
+    fullStatus[27] = 0x42; //highByte(Tuareg.freeRAM);
+
+    fullStatus[28] = 0x42; //boost target not needed
+    fullStatus[29] = 0x42; //boost duty not needed
+    fullStatus[30] = Tuareg.spark; //Spark related bitfield
+
+    //rpmDOT must be sent as a signed integer
+    //fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
+    //fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
+    fullStatus[31] = 0;
+    fullStatus[32] = 0;
+    fullStatus[33] = 0x42; //Tuareg.ethanolPct; //Flex sensor value (or 0 if not used)
+    fullStatus[34] = 0x42; //Tuareg.flexCorrection; //Flex fuel correction (% above or below 100)
+    fullStatus[35] = 0x42; //Tuareg.flexIgnCorrection; //Ignition correction (Increased degrees of advance) for flex fuel
+    fullStatus[36] = 0x42; //getNextError();
+    fullStatus[37] = 0x42; //Tuareg.idleLoad;
+    fullStatus[38] = 0x42; //Tuareg.testOutputs;
+    fullStatus[39] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
+    fullStatus[40] = (U8) Tuareg.process.Baro_kPa; //Barometer value
+    fullStatus[41] = (U8) Tuareg.process.TPS_deg;
+
+
+    /**
+    print the requested section
+    */
+    for(i=0; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
+    {
+        UART_Tx(TS_PORT, fullStatus[i]);
     }
 }
 

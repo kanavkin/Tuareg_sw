@@ -139,6 +139,9 @@ typedef struct
 #define SENDVALUE_BUFFERSIZE 42
 #define SENDVALUE_FAKE_PACKETSIZE 74
 
+#define TS_OUTPUTCHANNELS_BUFFERSIZE 41
+
+
 #define COMMAND_MAX_DURATION_S 3
 
 typedef struct _tuners_cli_t
@@ -158,6 +161,7 @@ extern volatile tuners_cli_t TS_cli;
 
 void ts_communication();
 void ts_sendValues(U32 offset, U32 length);
+void ts_sendOutputChannels();
 void ts_sendPage();
 void ts_diagPage();
 void ts_debug_features(U32 feature);
