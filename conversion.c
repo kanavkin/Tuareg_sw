@@ -512,7 +512,7 @@ void UART_Print_U8Hex_new(USART_TypeDef * Port, U8 value)
 
 
 
-U32 serialize_float(float Value)
+U32 serialize_float_U32(float Value)
 {
     union {
 
@@ -525,6 +525,36 @@ U32 serialize_float(float Value)
 
     return u.out;
 }
+
+
+//writes 4 bytes to pTarget, LSB first
+void serialize_float_U8(float Value, U8 * pTarget)
+{
+    U32 i;
+
+    union {
+
+        float in;
+        U8  out[4];
+
+    } u;
+
+    u.in = Value;
+
+    for(i=0; i<4; i++)
+    {
+        pTarget[i]= u.out[i];
+    }
+}
+
+//writes 2 bytes to pTarget, LSB first
+void serialize_U16_U8(U16 Value, U8 * pTarget)
+{
+      *pTarget= (U8)(Value & 0x00FF);
+      *(pTarget +1)= (U8)(Value >> 8);
+}
+
+
 
 float compose_float(U32 Buffer)
 {

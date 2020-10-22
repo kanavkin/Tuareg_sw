@@ -36,7 +36,9 @@ void UART_Print_U8Hex_new(USART_TypeDef * Port, U8 value);
 
 U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb);
 float compose_float(U32 Buffer);
-U32 serialize_float(float Value);
+U32 serialize_float_U32(float Value);
+void serialize_float_U8(float Value, U8 * pTarget);
+void serialize_U16_U8(U16 Value, U8 * pTarget);
 void UART_Print_F32(USART_TypeDef * Port, F32 Value);
 
 #endif // CONVERSION_H_INCLUDED

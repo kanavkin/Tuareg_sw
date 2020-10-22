@@ -597,7 +597,21 @@ by TunerStudio, mostly r (offset=0, length=31)
 */
 void ts_sendValues(U32 offset, U32 length)
 {
-    U8 fullStatus[SENDVALUE_BUFFERSIZE];
+    U32 i;
+
+    /**
+    print fake data
+    */
+    for(i=0; i < length; i++)
+    {
+        UART_Tx(TS_PORT, 0x00);
+    }
+
+}
+
+void ts_sendOutputChannels()
+{
+    U8 fullStatus[TS_OUTPUTCHANNELS_BUFFERSIZE];
     U32 i;
 
     if(TS_cli.A_cmd_requests == 0)
@@ -607,114 +621,136 @@ void ts_sendValues(U32 offset, U32 length)
 
     TS_cli.A_cmd_requests++;
 
-    fullStatus[0] = Tuareg.secl; //secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
-    fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
-    fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
-    fullStatus[3] = Tuareg.ignition_timing.dwell_ms *10; //Dwell in ms * 10
-    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_kPa / 10); //2 U8s for MAP
-    fullStatus[5] = highByte((U32) Tuareg.process.MAP_kPa / 10);
-    fullStatus[6] = (U8) (Tuareg.process.IAT_K - cKelvin_offset); //mat
-    fullStatus[7] = (U8) (Tuareg.process.CLT_K -cKelvin_offset); //Coolant ADC
-    fullStatus[8] = (U8) Tuareg.process.VBAT_V; //Battery voltage correction (%)
-    fullStatus[9] = (U8) Tuareg.process.VBAT_V; //battery voltage
-    fullStatus[10] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-    fullStatus[11] = Tuareg.egoCorrection; //Exhaust gas correction (%)
-    fullStatus[12] = Tuareg.iatCorrection; //Air temperature Correction (%)
-    fullStatus[13] = Tuareg.wueCorrection; //Warmup enrichment (%)
-    fullStatus[14] = lowByte(Tuareg.process.engine_rpm); //rpm HB
-    fullStatus[15] = highByte(Tuareg.process.engine_rpm); //rpm LB
-    fullStatus[16] = Tuareg.TAEamount; //acceleration enrichment (%)
-    fullStatus[17] = Tuareg.corrections; //Total GammaE (%)
-    fullStatus[18] = Tuareg.VE; //Current VE 1 (%)
-    fullStatus[19] = Tuareg.afrTarget;
-    fullStatus[20] = (U8)(Tuareg.PW1 / 100); //Pulsewidth 1 multiplied by 10 in ms. Have to convert from uS to mS.
-    fullStatus[21] = (U8) Tuareg.process.ddt_TPS; //TPS DOT
-    fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance_deg;
-    fullStatus[23] = (U8) Tuareg.process.TPS_deg; // TPS (0% to 100%)
 
-    //Need to split the int loopsPerSecond value into 2 bytes
-    fullStatus[24] = 0x42;
-    fullStatus[25] = 0x01;
 
-    //The following can be used to show the amount of free memory
-    //not needed by now
-    fullStatus[26] = 0x42; //lowByte(Tuareg.freeRAM);
-    fullStatus[27] = 0x42; //highByte(Tuareg.freeRAM);
+   /*
+   secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
+   secl             = scalar, U08,  0, "sec",    1.000, 0.000
+   */
+   fullStatus[0] = Tuareg.secl;
 
-    fullStatus[28] = 0x42; //boost target not needed
-    fullStatus[29] = 0x42; //boost duty not needed
-    fullStatus[30] = Tuareg.spark; //Spark related bitfield
+   /*
+   Squirt Bitfield
+   squirt           = scalar, U08,  1, "bits",   1.000, 0.000
+    inj1Status       = bits,    U08,    1, [0:0]
+    inj2Status       = bits,    U08,    1, [1:1]
+    inj3Status       = bits,    U08,    1, [2:2]
+    inj4Status       = bits,    U08,    1, [3:3]
+    DFCOOn           = bits,    U08,    1, [4:4]
+    boostCutFuel     = bits,    U08,    1, [5:5]
+    toothLog1Ready   = bits,    U08,    1, [6:6]
+    toothLog2Ready   = bits,    U08,    1, [7:7]
+    */
+    fullStatus[1] = Tuareg.squirt;
 
-    //rpmDOT must be sent as a signed integer
-    //fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
-    //fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
-    fullStatus[31] = 0;
-    fullStatus[32] = 0;
+    /*
+    Engine Status Bitfield
+    engine           = scalar, U08,  2, "bits",   1.000, 0.000
+    ready            = bits,    U08,    2, [0:0]
+    crank            = bits,    U08,    2, [1:1]
+    startw           = bits,    U08,    2, [2:2]
+    warmup           = bits,    U08,    2, [3:3]
+    tpsaccaen        = bits,    U08,    2, [4:4]
+    tpsaccden        = bits,    U08,    2, [5:5]
+    mapaccaen        = bits,    U08,    2, [6:6]
+    mapaccden        = bits,    U08,    2, [7:7]
+    */
+    fullStatus[2] = Tuareg.engine;
 
-    if(length > 31)
+    /*
+    errors           = scalar,   U08,    3, "bits",   1.000, 0.000
+    errorNum        = bits,     U08,    3, [0:1]
+    currentError    = bits,     U08,    3, [2:7]
+    */
+    fullStatus[3] = Tuareg.Errors & 0x000F;
+
+    //rpm              = scalar,   U16,    4, "rpm",    1.000, 0.000
+    serialize_U16_U8(Tuareg.process.engine_rpm, &(fullStatus[4]));
+
+    //rpmDOT           = scalar,   F32,    6, "rpm/s",  1.000, 0.000
+    serialize_float_U8(0.42, &(fullStatus[6]));
+
+    //advance          = scalar,   U16,    10, "deg",    1.000, 0.000
+    serialize_U16_U8(Tuareg.ignition_timing.ignition_advance_deg, &(fullStatus[10]));
+
+    //dwell	    = scalar,   U16,    12, "ms",     0.100, 0.00
+    serialize_U16_U8(Tuareg.ignition_timing.dwell_ms, &(fullStatus[12]));
+
+    //map              = scalar,   F32,    14, "kpa",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.MAP_kPa, &(fullStatus[14]));
+
+    //baro             = scalar,   F32,    18, "kpa",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.Baro_kPa, &(fullStatus[18]));
+
+    //tps              = scalar,   F32,    22, "deg",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.TPS_deg, &(fullStatus[22]));
+
+    //TPSdot           = scalar,   F32,    26, "%/s",    10.00, 0.000
+    serialize_float_U8(0.42, &(fullStatus[26]));
+
+    //iatRaw           = scalar,   F32,    30, "K",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.IAT_K, &(fullStatus[30]));
+
+    //coolantRaw       = scalar,   F32,    34, "K",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.CLT_K, &(fullStatus[34]));
+
+    //batteryVoltage   = scalar,   F32,    38, "V",      0.100, 0.000
+    serialize_float_U8(Tuareg.process.VBAT_V, &(fullStatus[38]));
+
+    //afr              = scalar,   F32,    42, "O2",     0.100, 0.000
+    serialize_float_U8(14.5, &(fullStatus[42]));
+
+    /*
+   batCorrection    = scalar,   U08,      46, "%",      1.000, 0.000
+   egoCorrection    = scalar,   U08,      47, "%",      1.000, 0.000
+   airCorrection    = scalar,   U08,      48, "%",      1.000, 0.000
+   warmupEnrich     = scalar,   U08,      49, "%",      1.000, 0.000
+   accelEnrich      = scalar,   U08,      50, "%",      1.000, 0.000
+   gammaEnrich      = scalar,   U08,      51, "%",      1.000, 0.000
+   veCurr           = scalar,   U08,      52, "%",      1.000, 0.000
+   afrTarget        = scalar,   U08,      53, "O2",     0.100, 0.000
+   pulseWidth       = scalar,   U08,      54, "ms",     0.1,   0.000
+   loopsPerSecond   = scalar,   U16,      55, "loops",  1.000, 0.000
+   freeRAM          = scalar,   U16,      57, "bytes",  1.000, 0.000
+   boostTarget      = scalar,   U08,      59, "kPa",    2.000, 0.000
+   boostDuty        = scalar,   U08,      60, "%",      1.000, 0.000
+   spark            = scalar,   U08,      61, "bits",   1.000, 0.000
+    launchHard       = bits,    U08,    61, [0:0]
+    launchSoft       = bits,    U08,    61, [1:1]
+    hardLimitOn      = bits,    U08,    61, [2:2]
+    softlimitOn      = bits,    U08,    61, [3:3]
+    boostCutSpark    = bits,    U08,    61, [4:4]
+    error            = bits,    U08,    61, [5:5]
+    idle             = bits,    U08,    61, [6:6]
+    sync             = bits,    U08,    61, [7:7]
+   flex             = scalar,   U08,    62, "%",      1.000, 0.000
+   flexFuelCor      = scalar,   U08,    63, "%",      1.000, 0.000
+   flexIgnCor       = scalar,   U08,   64, "deg",    1.000, 0.000
+   idleLoad         = scalar,   U08,    65, { bitStringValue( idleUnits , iacAlgorithm  ) },    2.000, 0.000 ; This is a combined variable covering both PWM and stepper IACs. The units used depend on which idle algorithm is chosen
+   testoutputs      = scalar,   U08,    66, "bits",   1.000, 0.000
+   testenabled       = bits,    U08,	  66, [0:0]
+   testactive        = bits,    U08,	  66, [1:1]
+   afr2             = scalar,   U08,    67, "O2",     0.100, 0.000
+   tpsADC           = scalar,   U08,  68, "ADC",1.000, 0.000
+   */
+
+
+    /**
+    the last bytes are not implemented yet
+    */
+    for(i=46; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
     {
-        fullStatus[33] = 0x42; //Tuareg.ethanolPct; //Flex sensor value (or 0 if not used)
-        fullStatus[34] = 0x42; //Tuareg.flexCorrection; //Flex fuel correction (% above or below 100)
-        fullStatus[35] = 0x42; //Tuareg.flexIgnCorrection; //Ignition correction (Increased degrees of advance) for flex fuel
-        fullStatus[36] = 0x42; //getNextError();
-
-        fullStatus[37] = 0x42; //Tuareg.idleLoad;
-        fullStatus[38] = 0x42; //Tuareg.testOutputs;
-
-        fullStatus[39] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-        fullStatus[40] = (U8) Tuareg.process.Baro_kPa; //Barometer value
-
-        /**
-        we do not use CAN
-        but message bytes 41 to 73 are expected
-        to be about CAN
-        by now
-        */
-
-        fullStatus[41] = (U8) Tuareg.process.TPS_deg;
+        fullStatus[i]= 0;
     }
 
     /**
-    print the requested section
-    but avoid memory access violation
+    print output channels
     */
-
-    if(length > SENDVALUE_FAKE_PACKETSIZE)
+    for(i=0; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
     {
-        length= SENDVALUE_FAKE_PACKETSIZE;
+        UART_Tx(TS_PORT, fullStatus[i]);
     }
 
-    if((offset + length) > SENDVALUE_FAKE_PACKETSIZE)
-    {
-        offset= SENDVALUE_FAKE_PACKETSIZE - length;
-    }
-
-
-    /**
-    i is number of sent bytes
-    take care for fake CAN section
-
-    TODO
-    once CAN has been removed we can ease this procedure a lot
-    */
-    for(i=0; i < length; i++)
-    {
-        if( (i + offset) < 41)
-        {
-            //live data
-            UART_Tx(TS_PORT, fullStatus[i + offset]);
-        }
-        else if( (i + offset) < 74)
-        {
-            //this is the fake CAN section
-            UART_Tx(TS_PORT, 0);
-        }
-        else if( (i + offset) == 74 )
-        {
-            //TPS
-            UART_Tx(TS_PORT, fullStatus[41]);
-        }
-    }
 }
 
 /**
@@ -723,6 +759,7 @@ This function returns the current values of a fixed group of variables
 a detailed view on the logs has revealed that the A command is not in use
 by TunerStudio, mostly r (offset=0, length=31)
 */
+/*
 void ts_sendOutputChannels()
 {
     U8 fullStatus[TS_OUTPUTCHANNELS_BUFFERSIZE];
@@ -789,14 +826,15 @@ void ts_sendOutputChannels()
     fullStatus[41] = (U8) Tuareg.process.TPS_deg;
 
 
-    /**
+    **
     print the requested section
-    */
+    *
     for(i=0; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
     {
         UART_Tx(TS_PORT, fullStatus[i]);
     }
 }
+*/
 
 
 /**

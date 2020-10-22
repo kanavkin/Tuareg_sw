@@ -158,7 +158,11 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         */
 
         //get target ignition advance angle
-        Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+        //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+
+        /// TODO (oli#3#): tps readout not stable yet
+        Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
+
 
         /**
         dwell

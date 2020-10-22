@@ -1705,77 +1705,77 @@ U32 write_SensorCalibration()
     /**
     IAT
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_M, serialize_float(configPage9.IAT_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_M, serialize_float_U32(configPage9.IAT_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_N, serialize_float(configPage9.IAT_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_IAT_N, serialize_float_U32(configPage9.IAT_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     CLT
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_M, serialize_float(configPage9.CLT_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_M, serialize_float_U32(configPage9.CLT_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_N, serialize_float(configPage9.CLT_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_CLT_N, serialize_float_U32(configPage9.CLT_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     TPS
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_M, serialize_float(configPage9.TPS_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_M, serialize_float_U32(configPage9.TPS_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_N, serialize_float(configPage9.TPS_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_TPS_N, serialize_float_U32(configPage9.TPS_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     MAP
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_M, serialize_float(configPage9.MAP_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_M, serialize_float_U32(configPage9.MAP_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_N, serialize_float(configPage9.MAP_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_MAP_N, serialize_float_U32(configPage9.MAP_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     BARO
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_M, serialize_float(configPage9.BARO_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_M, serialize_float_U32(configPage9.BARO_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_N, serialize_float(configPage9.BARO_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_BARO_N, serialize_float_U32(configPage9.BARO_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     O2
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_M, serialize_float(configPage9.O2_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_M, serialize_float_U32(configPage9.O2_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_N, serialize_float(configPage9.O2_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_O2_N, serialize_float_U32(configPage9.O2_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     /**
     VBAT
     */
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_M, serialize_float(configPage9.VBAT_calib_M), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_M, serialize_float_U32(configPage9.VBAT_calib_M), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_N, serialize_float(configPage9.VBAT_calib_N), 4);
+    eeprom_code= eeprom_update_bytes(EEPROM_CALIBRATION_VBAT_N, serialize_float_U32(configPage9.VBAT_calib_N), 4);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
