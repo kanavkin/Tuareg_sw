@@ -26,8 +26,8 @@ adjust DYNAMIC_MIN_RPM to a value higher than your desired idle rpm if you want 
 */
 #define DEFAULT_DWELL_POSITION CRK_POSITION_D2
 #define DEFAULT_IGNITION_POSITION CRK_POSITION_B1
-#define DEFAULT_DWELL_DEG 180
-#define DEFAULT_ADVANCE_DEG 10
+#define DEFAULT_IGNITION_ADVANCE_DEG 10
+#define DEFAULT_REPORTED_DWELL_MS 10
 
 /**
 dynamic ignition calculation dwell position setup
@@ -43,6 +43,30 @@ DYNAMIC_DWELL_LATEST_POSITION shall be selected to not interfere with the schedu
 #define DYNAMIC_DWELL_EARLIEST_POSITION CRK_POSITION_B2
 
 
+/**
+values to report during cranking
+*/
+#define CRANKING_REPORTED_IGNITION_ADVANCE_DEG 3
+#define CRANKING_REPORTED_DWELL_MS 10
+
+
+
+/**
+
+*/
+typedef enum {
+
+    IGNLOG_DEFAULT_TIMING,
+    IGNLOG_CRANKING_TIMING,
+    IGNLOG_REV_LIMITER,
+    IGNLOG_DYNAMIC,
+    IGNLOG_COLD_IDLE,
+    IGNLOG_ADVANCE_MAP,
+    IGNLOG_ADVANCE_TPS,
+    IGNLOG_COUNT
+
+} ignition_logic_state_bits_t;
+
 
 
 
@@ -53,16 +77,18 @@ keeps the relevant data for the timing of an ignition channel
 */
 typedef struct _ignition_timing_t {
 
-    //status data
+    //functional data
     U16 ignition_advance_deg;
-    U16 dwell_deg;
     U8 dwell_ms;
 
-    //timing
+    //functional timing
     U32 coil_dwell_timing_us;
     U32 coil_ignition_timing_us;
     crank_position_t coil_dwell_pos;
     crank_position_t coil_ignition_pos;
+
+    //status data
+    ignition_logic_state_bits_t state;
 
 } ignition_timing_t;
 

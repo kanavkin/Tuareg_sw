@@ -383,7 +383,6 @@ typedef struct _configPage12_t_ {
     // valid key/90° ratio interval for detecting positions A2/B1
     U8 sync_ratio_min_pct;
     U8 sync_ratio_max_pct;
-    U8 sync_stability_thrs;
 
     //amount of seconds until a decoder timeout will be detected, when no trigger event has occurred
     U8 decoder_timeout_s;
@@ -397,23 +396,25 @@ Page 13 - ignition config
 */
 typedef struct _configPage13_t_ {
 
-    // minimal engine rpm to enable dynamic ignition adjustment
+    //rev limiter function
+    U16 max_rpm;
+
+    //dynamic ignition function
     U16 dynamic_min_rpm;
+    crank_position_t dynamic_ignition_base_position;
+    crank_position_t dynamic_dwell_base_position;
+    U16 dynamic_dwell_target_us;
 
-    //target dwell for dynamic ignition
-    U16 dynamic_dwell_us;
+    //cold idle ignition advance function
+    U16 cold_idle_cutoff_rpm;
+    U16 cold_idle_cutoff_CLT_K;
+    U8 cold_idle_ignition_advance_deg;
+    U16 cold_idle_dwell_target_us;
 
-    //safety margin for positioning
-    U8 safety_margin_us;
+    //static ignition setup for cranking
+    crank_position_t cranking_ignition_position;
+    crank_position_t cranking_dwell_position;
 
-    crank_position_t dynamic_ignition_position;
-    crank_position_t dynamic_dwell_position;
-
-    //static ignition setup for idle
-    crank_position_t idle_ignition_position;
-    crank_position_t idle_dwell_position;
-    U8 idle_advance_deg;
-    U8 idle_dwell_deg;
 
 } configPage13_t;
 

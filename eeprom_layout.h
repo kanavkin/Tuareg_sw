@@ -165,11 +165,8 @@ decoder config data for configpage 12
 //U8 sync_ratio_max_pct
 #define EEPROM_CONFIG12_SYNC_RATIO_MAX (EEPROM_CONFIG12_START + 22)
 
-//U8 sync_stability_thrs
-#define EEPROM_CONFIG12_SYNC_STABILITY_THRS (EEPROM_CONFIG12_START + 23)
-
 //U8 decoder_timeout_s
-#define EEPROM_CONFIG12_DECODER_TIMEOUT (EEPROM_CONFIG12_START + 24)
+#define EEPROM_CONFIG12_DECODER_TIMEOUT (EEPROM_CONFIG12_START + 23)
 
 /**
 ignition config data for configpage 13
@@ -177,26 +174,39 @@ ignition config data for configpage 13
 
 #define EEPROM_CONFIG13_START (EEPROM_CONFIG12_DECODER_TIMEOUT + 1)
 
+//U16 max_rpm
+#define EEPROM_CONFIG13_MAX_RPM EEPROM_CONFIG13_START
+
 //U16 dynamic_min_rpm
-#define EEPROM_CONFIG13_DYNAMIC_MIN EEPROM_CONFIG13_START
+#define EEPROM_CONFIG13_DYN_MIN_RPM (EEPROM_CONFIG13_START + 2)
 
-//U16 dynamic_dwell_us
-#define EEPROM_CONFIG13_DYNAMIC_DWELL (EEPROM_CONFIG13_START + 2)
+//crank_position_t dynamic_ignition_base_position;
+#define EEPROM_CONFIG13_DYN_IGN_BAS_POS (EEPROM_CONFIG13_START + 4)
 
-//U8 safety_margin_us
-#define EEPROM_CONFIG13_SAFETY_MARGIN (EEPROM_CONFIG13_START + 4)
+//crank_position_t dynamic_dwell_base_position;
+#define EEPROM_CONFIG13_DYN_DWL_BAS_POS (EEPROM_CONFIG13_START + 5)
 
-//crank_position_t idle_ignition_position;
-#define EEPROM_CONFIG13_IDLE_IGN_POS (EEPROM_CONFIG13_START + 5)
+//U16 dynamic_dwell_target_us
+#define EEPROM_CONFIG13_DYN_DWL_TGT_US (EEPROM_CONFIG13_START + 6)
 
-//crank_position_t idle_dwell_position;
-#define EEPROM_CONFIG13_IDLE_DWELL_POS (EEPROM_CONFIG13_START + 6)
+//U16 cold_idle_cutoff_rpm
+#define EEPROM_CONFIG13_CLD_IDL_COF_RPM (EEPROM_CONFIG13_START + 8)
 
-//U8 idle_advance_deg;
-#define EEPROM_CONFIG13_IDLE_ADVANCE_DEG (EEPROM_CONFIG13_START + 7)
+//U16 cold_idle_cutoff_CLT_K
+#define EEPROM_CONFIG13_CLD_IDL_COF_CLT_K (EEPROM_CONFIG13_START + 10)
 
-//U8 idle_dwell_deg;
-#define EEPROM_CONFIG13_IDLE_DWELL_DEG (EEPROM_CONFIG13_START + 8)
+//U8 cold_idle_ignition_advance_deg
+#define EEPROM_CONFIG13_CLD_IDL_IGN_ADV_DEG (EEPROM_CONFIG13_START + 12)
+
+//U16 cold_idle_dwell_target_us
+#define EEPROM_CONFIG13_CLD_IDL_DWL_TGT_US (EEPROM_CONFIG13_START + 13)
+
+//crank_position_t cranking_ignition_position
+#define EEPROM_CONFIG13_CRK_IGN_POS (EEPROM_CONFIG13_START + 15)
+
+//crank_position_t cranking_dwell_position;
+#define EEPROM_CONFIG13_CRK_DWELL_POS (EEPROM_CONFIG13_START + 16)
+
 
 /**
 Ignition map (MAP based)

@@ -187,10 +187,6 @@ int main(void)
     //set up config data
     Tuareg_set_Runmode(TMODE_CONFIGLOAD);
 
-    /// TODO (oli#4#): implement config item set/read logic
-    configPage13.dynamic_ignition_position= CRK_POSITION_A2;
-    configPage13.dynamic_dwell_position= CRK_POSITION_B2;
-
     //initialize Tuareg modules
     Tuareg_set_Runmode(TMODE_MODULEINIT);
 

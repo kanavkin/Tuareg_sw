@@ -38,10 +38,10 @@ void fit_position( VU32 Ign_advance_deg, VU32 Dwell_target_us, volatile process_
     */
 
     //use fixed ignition position in dynamic mode
-    pTarget->coil_ignition_pos= configPage13.dynamic_ignition_position;
+    pTarget->coil_ignition_pos= configPage13.dynamic_ignition_base_position;
 
     //get the expected (ideal) crank angle at ignition trigger position
-    base_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_position];
+    base_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_base_position];
 
     //store ignition advance to timing object
     pTarget->ignition_advance_deg= Ign_advance_deg;
@@ -100,8 +100,6 @@ void fit_position( VU32 Ign_advance_deg, VU32 Dwell_target_us, volatile process_
     pTarget->coil_dwell_timing_us =0;
     pTarget->coil_dwell_pos= position;
     pTarget->dwell_ms= dwell_table.a_deg[position] / 1000;
-    pTarget->dwell_deg= pImage->crank_position_table.a_deg[position];
-
 }
 
 /**
@@ -114,9 +112,11 @@ void default_ignition_timing(volatile ignition_timing_t * pTarget)
     pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
     pTarget->coil_dwell_timing_us= 0;
     pTarget->coil_ignition_timing_us= 0;
-    pTarget->dwell_ms= 1;
-    pTarget->dwell_deg= DEFAULT_DWELL_DEG;
-    pTarget->ignition_advance_deg= DEFAULT_ADVANCE_DEG;
+    pTarget->dwell_ms= DEFAULT_REPORTED_DWELL_MS;
+    pTarget->ignition_advance_deg= DEFAULT_IGNITION_ADVANCE_DEG;
+
+    pTarget->state =0;
+    setBit_U8(IGNLOG_DEFAULT_TIMING, &(pTarget->state));
 }
 
 /**
@@ -124,13 +124,14 @@ provides a late ignition timing for cranking
 */
 inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
 {
-    pTarget->coil_ignition_pos= configPage13.idle_ignition_position;
-    pTarget->coil_dwell_pos= configPage13.idle_dwell_position;
-    pTarget->ignition_advance_deg= configPage13.idle_advance_deg;
-    pTarget->dwell_deg= configPage13.idle_dwell_deg;
-    pTarget->dwell_ms= 1;
+    pTarget->coil_ignition_pos= configPage13.cranking_ignition_position;
+    pTarget->coil_dwell_pos= configPage13.cranking_dwell_position;
+    pTarget->ignition_advance_deg= CRANKING_REPORTED_IGNITION_ADVANCE_DEG;
+    pTarget->dwell_ms= CRANKING_REPORTED_DWELL_MS;
     pTarget->coil_ignition_timing_us =0;
     pTarget->coil_dwell_timing_us =0;
+
+    setBit_U8(IGNLOG_CRANKING_TIMING, &(pTarget->state));
 }
 
 /**
@@ -150,34 +151,76 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
 
     VU32 Ign_advance_deg, Dwell_target_us;
 
+    //clear status data
+    pTarget->state = 0;
 
-    if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
+    if(pImage->engine_rpm > configPage13.max_rpm)
     {
         /**
-        ignition advance
+        rev limiter function activated
         */
 
-        //get target ignition advance angle
-        //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+        //suspend ignition
+        pTarget->coil_ignition_pos= CRK_POSITION_UNDEFINED;
+        pTarget->coil_ignition_timing_us= 0;
+        pTarget->ignition_advance_deg= 0;
+        pTarget->coil_dwell_pos= CRK_POSITION_UNDEFINED;
+        pTarget->coil_dwell_timing_us= 0;
+        pTarget->dwell_ms= 0;
 
-        /// TODO (oli#3#): tps readout not stable yet
-        Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
+        //set status bit
+        setBit_U8(IGNLOG_REV_LIMITER, &(pTarget->state));
 
-
+    }
+    else if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
+    {
         /**
-        dwell
+        dynamic ignition function activated
         */
 
-        /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
+        //set status bit
+        setBit_U8(IGNLOG_DYNAMIC, &(pTarget->state));
 
-        //get target dwell duration
-        if(pImage->engine_rpm < 2000)
+        if( (pImage->engine_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
         {
-            Dwell_target_us = 10000;
+            /**
+            cold idle function activated
+            */
+            setBit_U8(IGNLOG_COLD_IDLE, &(pTarget->state));
+
+            Ign_advance_deg= configPage13.cold_idle_ignition_advance_deg;
+            Dwell_target_us= configPage13.cold_idle_dwell_target_us;
+
         }
         else
         {
-            Dwell_target_us = configPage13.dynamic_dwell_us;
+            ///get ignition advance from table
+
+            //set status bit
+            setBit_U8(IGNLOG_ADVANCE_TPS, &(pTarget->state));
+
+
+            //get target ignition advance angle
+            //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+
+            /// TODO (oli#3#): tps readout not stable yet
+            Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
+
+
+            ///get dwell from table
+
+            /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
+
+            //get target dwell duration
+            if(pImage->engine_rpm < 2000)
+            {
+                Dwell_target_us = 10000;
+            }
+            else
+            {
+                Dwell_target_us = configPage13.dynamic_dwell_target_us;
+            }
+
         }
 
         /**
@@ -189,7 +232,7 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
     else
     {
         /**
-        use fixed ignition triggers while cranking
+        cranking function activated
         */
         cranking_ignition_timing(pTarget);
     }

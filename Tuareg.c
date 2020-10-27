@@ -41,11 +41,7 @@ void Tuareg_print_init_message()
     #else
 
     UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    UART_Send(DEBUG_PORT, "RC 0001");
-    UART_Send(DEBUG_PORT, "\r \n config: \r \n");
-    UART_Send(DEBUG_PORT, "XTZ 660 digital crank signal on GPIOB-0 \r \n");
-    UART_Send(DEBUG_PORT, "\r \n XTZ 660 ignition coil signal on GPIOC-6 \r \n");
-
+    UART_Send(DEBUG_PORT, "V 0.2");
     #endif
 }
 

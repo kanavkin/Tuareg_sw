@@ -1316,14 +1316,6 @@ U32 load_DecoderConfig()
     configPage12.sync_ratio_max_pct= eeprom_data;
 
 
-    //U8 sync_stability_thrs
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_SYNC_STABILITY_THRS, &eeprom_data);
-
-    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-    configPage12.sync_stability_thrs= eeprom_data;
-
-
     //U8 decoder_timeout_s
     eeprom_code= eeprom_read_byte(EEPROM_CONFIG12_DECODER_TIMEOUT, &eeprom_data);
 
@@ -1361,7 +1353,6 @@ void load_essential_DecoderConfig()
     configPage12.crank_noise_filter= DEFAULT_CONFIG12_CRANK_NOISE_FILTER;
     configPage12.sync_ratio_min_pct= DEFAULT_CONFIG12_SYNC_RATIO_MIN;
     configPage12.sync_ratio_max_pct= DEFAULT_CONFIG12_SYNC_RATIO_MAX;
-    configPage12.sync_stability_thrs= DEFAULT_CONFIG12_SYNC_STABILITY_THRS;
     configPage12.decoder_timeout_s= DEFAULT_CONFIG12_DECODER_TIMEOUT_S;
 
 }
@@ -1416,12 +1407,6 @@ U32 write_DecoderConfig()
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
 
-    //U8 sync_stability_thrs
-    eeprom_code= eeprom_update(EEPROM_CONFIG12_SYNC_STABILITY_THRS, configPage12.sync_stability_thrs);
-
-    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-
     //U8 decoder_timeout_s
     eeprom_code= eeprom_update(EEPROM_CONFIG12_DECODER_TIMEOUT, configPage12.decoder_timeout_s);
 
@@ -1443,61 +1428,85 @@ U32 load_IgnitionConfig()
     U8 eeprom_data;
     U32 eeprom_code;
 
+    //U16 max_rpm
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_MAX_RPM, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.max_rpm= (U16) data;
+
 
     //U16 dynamic_min_rpm
-    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYNAMIC_MIN, &data, 2);
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYN_MIN_RPM, &data, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     configPage13.dynamic_min_rpm= (U16) data;
 
-
-    //U16 dynamic_dwell_us
-    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYNAMIC_DWELL, &data, 2);
-
-    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-    configPage13.dynamic_dwell_us= (U16) data;
-
-
-    //U8 safety_margin_us
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_SAFETY_MARGIN, &eeprom_data);
+    //crank_position_t dynamic_ignition_base_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_DYN_IGN_BAS_POS, &eeprom_data);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    configPage13.safety_margin_us= eeprom_data;
+    configPage13.dynamic_ignition_base_position= eeprom_data;
 
-
-    //crank_position_t idle_ignition_position
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_IGN_POS, &eeprom_data);
-
-    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-    configPage13.idle_ignition_position= eeprom_data;
-
-
-    //crank_position_t idle_dwell_position
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_DWELL_POS, &eeprom_data);
+    //crank_position_t dynamic_dwell_base_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_DYN_DWL_BAS_POS, &eeprom_data);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    configPage13.idle_dwell_position= eeprom_data;
+    configPage13.dynamic_dwell_base_position= eeprom_data;
 
-
-    //U8 idle_advance_deg
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_ADVANCE_DEG, &eeprom_data);
-
-    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
-
-    configPage13.idle_advance_deg= eeprom_data;
-
-
-    //U8 idle_dwell_deg
-    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_IDLE_DWELL_DEG, &eeprom_data);
+    //U16 dynamic_dwell_target_us
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYN_DWL_TGT_US, &data, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    configPage13.idle_dwell_deg= eeprom_data;
+    configPage13.dynamic_dwell_target_us= (U16) data;
+
+
+    //U16 cold_idle_cutoff_rpm
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_CLD_IDL_COF_RPM, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cold_idle_cutoff_rpm= (U16) data;
+
+    //U16 cold_idle_cutoff_CLT_K
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_CLD_IDL_COF_CLT_K, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cold_idle_cutoff_CLT_K= (U16) data;
+
+    //U8 cold_idle_ignition_advance_deg
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_CLD_IDL_IGN_ADV_DEG, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cold_idle_ignition_advance_deg= eeprom_data;
+
+    //U16 cold_idle_dwell_target_us
+    eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_CLD_IDL_DWL_TGT_US, &data, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cold_idle_cutoff_CLT_K= (U16) data;
+
+
+    //crank_position_t cranking_ignition_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_CRK_IGN_POS, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cranking_ignition_position= eeprom_data;
+
+    //crank_position_t cranking_dwell_position
+    eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_CRK_DWELL_POS, &eeprom_data);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    configPage13.cranking_dwell_position= eeprom_data;
 
 
     //all done
@@ -1527,38 +1536,61 @@ U32 write_IgnitionConfig()
 {
     U32 eeprom_code;
 
+    //U16 max_rpm
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_MAX_RPM, configPage13.max_rpm, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
     //U16 dynamic_min_rpm
-    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYNAMIC_MIN, configPage13.dynamic_min_rpm, 2);
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYN_MIN_RPM, configPage13.dynamic_min_rpm, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //U16 dynamic_dwell_us
-    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYNAMIC_DWELL, configPage13.dynamic_dwell_us, 2);
+    //crank_position_t dynamic_ignition_base_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_DYN_IGN_BAS_POS, configPage13.dynamic_ignition_base_position);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //U8 safety_margin_us
-    eeprom_code= eeprom_update(EEPROM_CONFIG13_SAFETY_MARGIN, configPage13.safety_margin_us);
+    //crank_position_t dynamic_dwell_base_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_DYN_DWL_BAS_POS, configPage13.dynamic_dwell_base_position);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //crank_position_t idle_ignition_position
-    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_IGN_POS, configPage13.idle_ignition_position);
+    //U16 dynamic_dwell_target_us
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYN_DWL_TGT_US, configPage13.dynamic_dwell_target_us, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //crank_position_t idle_dwell_position
-    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_DWELL_POS, configPage13.idle_dwell_position);
+
+    //U16 cold_idle_cutoff_rpm
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_CLD_IDL_COF_RPM, configPage13.cold_idle_cutoff_rpm, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //U8 idle_advance_deg
-    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_ADVANCE_DEG, configPage13.idle_advance_deg);
+    //U16 cold_idle_cutoff_CLT_K
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_CLD_IDL_COF_CLT_K, configPage13.cold_idle_cutoff_CLT_K, 2);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //U8 idle_dwell_deg
-    eeprom_code= eeprom_update(EEPROM_CONFIG13_IDLE_DWELL_DEG, configPage13.idle_dwell_deg);
+    //U8 cold_idle_ignition_advance_deg
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_CLD_IDL_IGN_ADV_DEG, configPage13.cold_idle_ignition_advance_deg);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //U16 cold_idle_dwell_target_us
+    eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_CLD_IDL_DWL_TGT_US, configPage13.cold_idle_dwell_target_us, 2);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+
+    //crank_position_t cranking_ignition_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_CRK_IGN_POS, configPage13.cranking_ignition_position);
+
+    if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+
+    //crank_position_t cranking_dwell_position
+    eeprom_code= eeprom_update(EEPROM_CONFIG13_CRK_DWELL_POS, configPage13.cranking_dwell_position);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 

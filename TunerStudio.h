@@ -131,15 +131,19 @@ typedef struct
     U8 cmd_pending :1;
 
     U8 mod_permission :1;
+
+    U8 calib_mod_permission :1;
+    U8 ignition_mod_permission :1;
+    U8 decoder_mod_permission :1;
+
     U8 burn_permission :1;
-    U8 calibmod_permission :1;
 
 } TS_state_t ;
 
 #define SENDVALUE_BUFFERSIZE 42
 #define SENDVALUE_FAKE_PACKETSIZE 74
 
-#define TS_OUTPUTCHANNELS_BUFFERSIZE 69
+#define TS_OUTPUTCHANNELS_BUFFERSIZE 74
 
 
 #define COMMAND_MAX_DURATION_S 3
@@ -165,6 +169,12 @@ void ts_sendOutputChannels();
 void ts_sendPage();
 void ts_diagPage();
 void ts_debug_features(U32 feature);
+
+
+void mod_config(U32 Page, U32 Offset, U32 Value);
+void mod_decoder_config(U32 Offset, U32 Value);
+void mod_ignition_config(U32 Offset, U32 Value);
+void mod_sensor_calib(U32 Offset, U32 Value);
 void ts_replaceConfig(U32 valueOffset, U32 newValue);
 
 void ts_diag_process_data(volatile process_data_t * pImage);
@@ -172,7 +182,7 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming);
 void ts_diagPage_ignition();
 void ts_diagPage_decoder();
 void ts_diagPage_calib();
-void replaceCalib(U32 Offset, U32 Value);
+
 
 
 #endif // TUNERSTUDIO_H_INCLUDED

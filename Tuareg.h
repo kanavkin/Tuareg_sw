@@ -175,7 +175,6 @@ typedef enum {
 
 typedef enum {
 
-    TERROR_NONE,
     TERROR_CONFIGLOAD,
     TERROR_SCHEDULER,
     TERROR_CNT
@@ -203,7 +202,7 @@ typedef struct _Tuareg_t {
 
     //statemachine and health status
     volatile tuareg_runmode_t Runmode;
-    VU32 Errors;
+    VU8 Errors;
 
     //sidestand, crash and run switch counter
     VU8 run_switch_counter;

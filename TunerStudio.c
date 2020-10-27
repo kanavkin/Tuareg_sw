@@ -37,7 +37,7 @@ All commands that require more than one byte of rx data shall set the TS_cli.Sta
 */
 void ts_communication()
 {
-    VU32 data_1, data_2, data_3, data_4, data_5;
+    VU32 data_1, data_2, data_3, data_4, offset, value;
 
 
     // reset cmd pending when timeout occurred
@@ -139,35 +139,6 @@ void ts_communication()
             }
             break;
 
-        case 'E':
-
-            /**
-            received modify calibration command
-            */
-            TS_cli.State.cmd_pending = TRUE;
-
-            //taking 5 bytes of input data
-
-            if(UART_available() >= 5)
-            {
-                /**
-                data order: Offset, Value (MSB, x, x, LSB)
-                */
-                data_1= UART_getRX();
-                data_2= UART_getRX();
-                data_3= UART_getRX();
-                data_4= UART_getRX();
-                data_5= UART_getRX();
-
-                //run the desired feature
-                //replaceCalib((U32) data_1, compose_U32(data_2, data_3, data_4, data_5) );
-                replaceCalib((U32) data_1, dword(data_2, data_3, data_4, data_5) );
-
-                TS_cli.State.cmd_pending = FALSE;
-            }
-            break;
-
-
         case 'F':
                 /**
                 send serial protocol version
@@ -197,21 +168,34 @@ void ts_communication()
                         TS_cli.State.mod_permission = TRUE;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config modification ***");
                     }
+                    else if((data_1 == 'c') && (data_2 == 'a') && (data_3 == 'l') && (data_4 == '#'))
+                    {
+                        TS_cli.State.calib_mod_permission = TRUE;
+                        UART_Send(DEBUG_PORT, "\r\n *** unlocked calibration modification ***");
+                    }
+                    else if((data_1 == 'd') && (data_2 == 'e') && (data_3 == 'c') && (data_4 == '#'))
+                    {
+                        TS_cli.State.decoder_mod_permission = TRUE;
+                        UART_Send(DEBUG_PORT, "\r\n *** unlocked decoder config modification ***");
+                    }
+                    else if((data_1 == 'i') && (data_2 == 'g') && (data_3 == 'n') && (data_4 == '#'))
+                    {
+                        TS_cli.State.ignition_mod_permission = TRUE;
+                        UART_Send(DEBUG_PORT, "\r\n *** unlocked ignition config modification ***");
+                    }
                     else if((data_1 == 'b') && (data_2 == 'r') && (data_3 == 'n') && (data_4 == '!'))
                     {
                         TS_cli.State.burn_permission = TRUE;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config burn ***");
                     }
-                    else if((data_1 == 'c') && (data_2 == 'a') && (data_3 == 'l') && (data_4 == '#'))
-                    {
-                        TS_cli.State.calibmod_permission = TRUE;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked calibration modification ***");
-                    }
+
                     else if((data_1 == 'l') && (data_2 == 'o') && (data_3 == 'c') && (data_4 == 'k'))
                     {
                         TS_cli.State.burn_permission = FALSE;
                         TS_cli.State.mod_permission = FALSE;
-                        TS_cli.State.calibmod_permission = FALSE;
+                        TS_cli.State.calib_mod_permission = FALSE;
+                        TS_cli.State.decoder_mod_permission = FALSE;
+                        TS_cli.State.ignition_mod_permission = FALSE;
                         UART_Send(DEBUG_PORT, "\r\n *** config locked ***");
                     }
 
@@ -274,6 +258,7 @@ void ts_communication()
                 send code version
                 */
                 UART_Send(TS_PORT, "speeduino 201708");
+                //UART_Send(TS_PORT, "Tuareg V0.2 2020");
                 break;
 
 
@@ -282,9 +267,50 @@ void ts_communication()
                 send code version
                 */
                 UART_Send(TS_PORT, "Speeduino 2017.08");
+                //UART_Send(TS_PORT, "Tuareg V0.2 2020");
 
                 //This is required in TS3 due to its stricter timings
                 Tuareg.secl = 0;
+                break;
+
+
+            case 'U':
+
+                /**
+                received an update config value command
+                */
+                TS_cli.State.cmd_pending = TRUE;
+
+                /// data order: Offset (MSB, LSB), Value (MSB, x, x, LSB)
+                if(UART_available() >= 6)
+                {
+
+                    offset= UART_getRX();
+                    offset <<= 8;
+                    offset |= UART_getRX();
+
+                    value= UART_getRX();
+                    value <<= 8;
+                    value |= UART_getRX();
+                    value <<= 8;
+                    value |= UART_getRX();
+                    value <<= 8;
+                    value |= UART_getRX();
+
+                    #ifdef TS_DEBUG
+                    /// TODO (oli#1#): debug action enabled
+                    UART_Send(DEBUG_PORT, "\r\nU cmd offset, value:");
+                    UART_Print_U(DEBUG_PORT, offset, TYPE_U32, NO_PAD);
+                    UART_Print_U(DEBUG_PORT, value, TYPE_U32, NO_PAD);
+                    #endif // TS_DEBUG
+
+                    //try to modify the indicated config page / calibration
+                    mod_config(TS_cli.currentPage, offset, value);
+
+                    //ready
+                    TS_cli.State.cmd_pending = FALSE;
+                }
+
                 break;
 
 
@@ -500,6 +526,9 @@ void ts_communication()
 
 
             case 'r':
+
+                /// TODO (oli#2#): needed?
+
                 /**
                 New format for the optimized OutputChannels
                 */
@@ -560,17 +589,17 @@ void ts_communication()
             UART_Send(TS_PORT, "prompt by conventional means. \n\r");
             UART_Send(TS_PORT, "Syntax:  <command>+<parameter1>+<parameter2>+<parameterN>\n\r");
             UART_Send(TS_PORT, "===List of Commands===\n\r");
-            UART_Send(TS_PORT, "A - Displays 31 bytes of Tuareg values in binary (live data)\n\r");
+            UART_Send(TS_PORT, "A - Send Tuareg output channels (live data)\n\r");
             UART_Send(TS_PORT, "B - Burn current map and configPage values to eeprom\n\r");
             UART_Send(TS_PORT, "C - Test COM port.  Used by Tunerstudio to see whether an ECU is on a given serial \n\r");
             UART_Send(TS_PORT, "    port. Returns a binary number.\n\r");
             UART_Send(TS_PORT, "L - Displays map page (aka table) or configPage values.  Use P to change page (not \n\r");
             UART_Send(TS_PORT, "    every page is a map)\n\r");
-            UART_Send(TS_PORT, "J - get permissions <mod#> or <brn!> \n\r");
+            UART_Send(TS_PORT, "J - get permissions <mod#>, <cal#>, <ign#>, <dec#> or <brn!> \n\r");
             UART_Send(TS_PORT, "N - Print new line.\n\r");
             UART_Send(TS_PORT, "P - Set current page.  Syntax:  P+<pageNumber>\n\r");
-            UART_Send(TS_PORT, "R - Same as A command\n\r");
             UART_Send(TS_PORT, "S - Display signature number\n\r");
+            UART_Send(TS_PORT, "U - update configuration / calibration value U<Offset MSB, LSB><Value MSB, x, x, LSB> \n\r");
             UART_Send(TS_PORT, "Q - Same as S command\n\r");
             UART_Send(TS_PORT, "V - Display map or configPage values in binary\n\r");
             UART_Send(TS_PORT, "W - Set one byte in map or configPage.  Expects binary parameters. \n\r");
@@ -611,7 +640,7 @@ void ts_sendValues(U32 offset, U32 length)
 
 void ts_sendOutputChannels()
 {
-    U8 fullStatus[TS_OUTPUTCHANNELS_BUFFERSIZE];
+    U8 output[TS_OUTPUTCHANNELS_BUFFERSIZE];
     U32 i;
 
     if(TS_cli.A_cmd_requests == 0)
@@ -622,125 +651,136 @@ void ts_sendOutputChannels()
     TS_cli.A_cmd_requests++;
 
 
+    /*
+    secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
+    secl             = scalar, U08,  0, "sec",    1.000, 0.000
+    */
+    output[0] = Tuareg.secl;
 
-   /*
-   secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
-   secl             = scalar, U08,  0, "sec",    1.000, 0.000
+    /*
+    tuareg           = scalar, U32,  1, "bits",   1.000, 0.000
+    tstate            = bits,    U32,    1, [0:23]
+    errors            = bits,    U32,    1, [24:31]
+    */
+    output[1] = 0;
+    output[2] = 0;
+    output[3] = 0;
+    output[4] = Tuareg.Errors;
+
+    /*
+    ignition         = scalar, U08,  5, "bits",   1.000, 0.000
+    istate            = bits,    U08,    5, [0:7]
+    */
+    output[5] = Tuareg.ignition_timing.state;
+
+    /*
+    comm             = scalar, U08,  6, "bits",   1.000, 0.000
+    cperm            = bits,    U08,    6, [0:7]
+    */
+    output[6] = 0;
+
+    //rpm              = scalar,   U16,    7, "rpm",    1.000, 0.000
+    serialize_U16_U8(Tuareg.process.engine_rpm, &(output[7]));
+
+    //rpmDOT           = scalar,   F32,    9, "rpm/s",  1.000, 0.000
+    serialize_float_U8(0.42, &(output[9]));
+
+    //advance          = scalar,   U16,    13, "deg",    1.000, 0.000
+    serialize_U16_U8(Tuareg.ignition_timing.ignition_advance_deg, &(output[13]));
+
+    //dwell	        = scalar,   U16,    15, "ms",     0.100, 0.00
+    serialize_U16_U8(Tuareg.ignition_timing.dwell_ms, &(output[15]));
+
+    //map              = scalar,   F32,    17, "kpa",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.MAP_kPa, &(output[17]));
+
+    //baro             = scalar,   F32,    21, "kpa",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.Baro_kPa, &(output[21]));
+
+    //tps              = scalar,   F32,    25, "deg",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.TPS_deg, &(output[25]));
+
+    //TPSdot           = scalar,   F32,    29, "deg/s",    10.00, 0.000
+    serialize_float_U8(0.42, &(output[29]));
+
+    //iatRaw           = scalar,   F32,    33, "K",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.IAT_K, &(output[33]));
+
+    //coolantRaw       = scalar,   F32,    37, "K",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.CLT_K, &(output[37]));
+
+    //batteryVoltage   = scalar,   F32,    41, "V",      0.100, 0.000
+    serialize_float_U8(Tuareg.process.VBAT_V, &(output[41]));
+
+    //afr              = scalar,   F32,    45, "O2",     0.100, 0.000
+    serialize_float_U8(14.5, &(output[45]));
+
+    /*
+   batCorrection    = scalar,   U08,      49, "%",      1.000, 0.000
+   egoCorrection    = scalar,   U08,      50, "%",      1.000, 0.000
+   airCorrection    = scalar,   U08,      51, "%",      1.000, 0.000
+   warmupEnrich     = scalar,   U08,      52, "%",      1.000, 0.000
+   accelEnrich      = scalar,   U08,      53, "%",      1.000, 0.000
+   gammaEnrich      = scalar,   U08,      54, "%",      1.000, 0.000
+   veCurr           = scalar,   U08,      55, "%",      1.000, 0.000
+   afrTarget        = scalar,   U08,      56, "O2",     0.100, 0.000
+   pulseWidth       = scalar,   U08,      57, "ms",     0.1,   0.000
+   loopsPerSecond   = scalar,   U16,      58, "loops",  1.000, 0.000
+   freeRAM          = scalar,   U16,      60, "bytes",  1.000, 0.000
+   boostTarget      = scalar,   U08,      62, "kPa",    2.000, 0.000
+   boostDuty        = scalar,   U08,      63, "%",      1.000, 0.000
+
+   spark            = scalar,   U08,      64, "bits",   1.000, 0.000
+    launchHard       = bits,    U08,    64, [0:0]
+    launchSoft       = bits,    U08,    64, [1:1]
+    hardLimitOn      = bits,    U08,    64, [2:2]
+    softlimitOn      = bits,    U08,    64, [3:3]
+    boostCutSpark    = bits,    U08,    64, [4:4]
+    error            = bits,    U08,    64, [5:5]
+    idle             = bits,    U08,    64, [6:6]
+    sync             = bits,    U08,    64, [7:7]
+
+   flex             = scalar,   U08,    65, "%",      1.000, 0.000
+   flexFuelCor      = scalar,   U08,    66, "%",      1.000, 0.000
+   flexIgnCor       = scalar,   U08,   67, "deg",    1.000, 0.000
+   idleLoad         = scalar,   U08,    68, { bitStringValue( idleUnits , iacAlgorithm  ) },    2.000, 0.000 ; This is a combined variable covering both PWM and stepper IACs. The units used depend on which idle algorithm is chosen
+   testoutputs      = scalar,   U08,    69, "bits",   1.000, 0.000
+   testenabled       = bits,    U08,	  69, [0:0]
+   testactive        = bits,    U08,	  69, [1:1]
+   afr2             = scalar,   U08,    70, "O2",     0.100, 0.000
+   tpsADC           = scalar,   U08,  71, "ADC",1.000, 0.000
+
+   squirt           = scalar, U08,  72, "bits",   1.000, 0.000
+    inj1Status       = bits,    U08,    72, [0:0]
+    inj2Status       = bits,    U08,    72, [1:1]
+    inj3Status       = bits,    U08,    72, [2:2]
+    inj4Status       = bits,    U08,    72, [3:3]
+    DFCOOn           = bits,    U08,    72, [4:4]
+    boostCutFuel     = bits,    U08,    72, [5:5]
+    toothLog1Ready   = bits,    U08,    72, [6:6]
+    toothLog2Ready   = bits,    U08,    72, [7:7]
+
+   engine           = scalar, U08,  73, "bits",   1.000, 0.000
+    ready            = bits,    U08,    73, [0:0]
+    crank            = bits,    U08,    73, [1:1]
+    startw           = bits,    U08,    73, [2:2]
+    warmup           = bits,    U08,    73, [3:3]
+    tpsaccaen        = bits,    U08,    73, [4:4]
+    tpsaccden        = bits,    U08,    73, [5:5]
+    mapaccaen        = bits,    U08,    73, [6:6]
+    mapaccden        = bits,    U08,    73, [7:7]
+
+    errors           = scalar,   U08,    74, "bits",   1.000, 0.000
+    errorNum        = bits,     U08,    74, [0:1]
+    currentError    = bits,     U08,    74, [2:7]
    */
-   fullStatus[0] = Tuareg.secl;
-
-   /*
-   Squirt Bitfield
-   squirt           = scalar, U08,  1, "bits",   1.000, 0.000
-    inj1Status       = bits,    U08,    1, [0:0]
-    inj2Status       = bits,    U08,    1, [1:1]
-    inj3Status       = bits,    U08,    1, [2:2]
-    inj4Status       = bits,    U08,    1, [3:3]
-    DFCOOn           = bits,    U08,    1, [4:4]
-    boostCutFuel     = bits,    U08,    1, [5:5]
-    toothLog1Ready   = bits,    U08,    1, [6:6]
-    toothLog2Ready   = bits,    U08,    1, [7:7]
-    */
-    fullStatus[1] = Tuareg.squirt;
-
-    /*
-    Engine Status Bitfield
-    engine           = scalar, U08,  2, "bits",   1.000, 0.000
-    ready            = bits,    U08,    2, [0:0]
-    crank            = bits,    U08,    2, [1:1]
-    startw           = bits,    U08,    2, [2:2]
-    warmup           = bits,    U08,    2, [3:3]
-    tpsaccaen        = bits,    U08,    2, [4:4]
-    tpsaccden        = bits,    U08,    2, [5:5]
-    mapaccaen        = bits,    U08,    2, [6:6]
-    mapaccden        = bits,    U08,    2, [7:7]
-    */
-    fullStatus[2] = Tuareg.engine;
-
-    /*
-    errors           = scalar,   U08,    3, "bits",   1.000, 0.000
-    errorNum        = bits,     U08,    3, [0:1]
-    currentError    = bits,     U08,    3, [2:7]
-    */
-    fullStatus[3] = Tuareg.Errors & 0x000F;
-
-    //rpm              = scalar,   U16,    4, "rpm",    1.000, 0.000
-    serialize_U16_U8(Tuareg.process.engine_rpm, &(fullStatus[4]));
-
-    //rpmDOT           = scalar,   F32,    6, "rpm/s",  1.000, 0.000
-    serialize_float_U8(0.42, &(fullStatus[6]));
-
-    //advance          = scalar,   U16,    10, "deg",    1.000, 0.000
-    serialize_U16_U8(Tuareg.ignition_timing.ignition_advance_deg, &(fullStatus[10]));
-
-    //dwell	    = scalar,   U16,    12, "ms",     0.100, 0.00
-    serialize_U16_U8(Tuareg.ignition_timing.dwell_ms, &(fullStatus[12]));
-
-    //map              = scalar,   F32,    14, "kpa",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.MAP_kPa, &(fullStatus[14]));
-
-    //baro             = scalar,   F32,    18, "kpa",      1.000, 0.000
-    serialize_float_U8(Tuareg.process.Baro_kPa, &(fullStatus[18]));
-
-    //tps              = scalar,   F32,    22, "deg",      1.000, 0.000
-    serialize_float_U8(Tuareg.process.TPS_deg, &(fullStatus[22]));
-
-    //TPSdot           = scalar,   F32,    26, "%/s",    10.00, 0.000
-    serialize_float_U8(0.42, &(fullStatus[26]));
-
-    //iatRaw           = scalar,   F32,    30, "K",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.IAT_K, &(fullStatus[30]));
-
-    //coolantRaw       = scalar,   F32,    34, "K",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.CLT_K, &(fullStatus[34]));
-
-    //batteryVoltage   = scalar,   F32,    38, "V",      0.100, 0.000
-    serialize_float_U8(Tuareg.process.VBAT_V, &(fullStatus[38]));
-
-    //afr              = scalar,   F32,    42, "O2",     0.100, 0.000
-    serialize_float_U8(14.5, &(fullStatus[42]));
-
-    /*
-   batCorrection    = scalar,   U08,      46, "%",      1.000, 0.000
-   egoCorrection    = scalar,   U08,      47, "%",      1.000, 0.000
-   airCorrection    = scalar,   U08,      48, "%",      1.000, 0.000
-   warmupEnrich     = scalar,   U08,      49, "%",      1.000, 0.000
-   accelEnrich      = scalar,   U08,      50, "%",      1.000, 0.000
-   gammaEnrich      = scalar,   U08,      51, "%",      1.000, 0.000
-   veCurr           = scalar,   U08,      52, "%",      1.000, 0.000
-   afrTarget        = scalar,   U08,      53, "O2",     0.100, 0.000
-   pulseWidth       = scalar,   U08,      54, "ms",     0.1,   0.000
-   loopsPerSecond   = scalar,   U16,      55, "loops",  1.000, 0.000
-   freeRAM          = scalar,   U16,      57, "bytes",  1.000, 0.000
-   boostTarget      = scalar,   U08,      59, "kPa",    2.000, 0.000
-   boostDuty        = scalar,   U08,      60, "%",      1.000, 0.000
-   spark            = scalar,   U08,      61, "bits",   1.000, 0.000
-    launchHard       = bits,    U08,    61, [0:0]
-    launchSoft       = bits,    U08,    61, [1:1]
-    hardLimitOn      = bits,    U08,    61, [2:2]
-    softlimitOn      = bits,    U08,    61, [3:3]
-    boostCutSpark    = bits,    U08,    61, [4:4]
-    error            = bits,    U08,    61, [5:5]
-    idle             = bits,    U08,    61, [6:6]
-    sync             = bits,    U08,    61, [7:7]
-   flex             = scalar,   U08,    62, "%",      1.000, 0.000
-   flexFuelCor      = scalar,   U08,    63, "%",      1.000, 0.000
-   flexIgnCor       = scalar,   U08,   64, "deg",    1.000, 0.000
-   idleLoad         = scalar,   U08,    65, { bitStringValue( idleUnits , iacAlgorithm  ) },    2.000, 0.000 ; This is a combined variable covering both PWM and stepper IACs. The units used depend on which idle algorithm is chosen
-   testoutputs      = scalar,   U08,    66, "bits",   1.000, 0.000
-   testenabled       = bits,    U08,	  66, [0:0]
-   testactive        = bits,    U08,	  66, [1:1]
-   afr2             = scalar,   U08,    67, "O2",     0.100, 0.000
-   tpsADC           = scalar,   U08,  68, "ADC",1.000, 0.000
-   */
-
 
     /**
     the last bytes are not implemented yet
     */
     for(i=46; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
     {
-        fullStatus[i]= 0;
+        output[i]= 0;
     }
 
     /**
@@ -748,93 +788,12 @@ void ts_sendOutputChannels()
     */
     for(i=0; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
     {
-        UART_Tx(TS_PORT, fullStatus[i]);
+        UART_Tx(TS_PORT, output[i]);
     }
 
 }
 
-/**
-This function returns the current values of a fixed group of variables
 
-a detailed view on the logs has revealed that the A command is not in use
-by TunerStudio, mostly r (offset=0, length=31)
-*/
-/*
-void ts_sendOutputChannels()
-{
-    U8 fullStatus[TS_OUTPUTCHANNELS_BUFFERSIZE];
-    U32 i;
-
-    if(TS_cli.A_cmd_requests == 0)
-    {
-        Tuareg.secl = 0;
-    }
-
-    TS_cli.A_cmd_requests++;
-
-    fullStatus[0] = Tuareg.secl; //secl is simply a counter that increments each second. Used to track unexpected resets (Which will reset this count to 0)
-    fullStatus[1] = Tuareg.squirt; //Squirt Bitfield
-    fullStatus[2] = Tuareg.engine; //Engine Status Bitfield
-    fullStatus[3] = Tuareg.ignition_timing.dwell_ms *10; //Dwell in ms * 10
-    fullStatus[4] = lowByte((U32) Tuareg.process.MAP_kPa / 10); //2 U8s for MAP
-    fullStatus[5] = highByte((U32) Tuareg.process.MAP_kPa / 10);
-    fullStatus[6] = (U8) (Tuareg.process.IAT_K - cKelvin_offset); //mat
-    fullStatus[7] = (U8) (Tuareg.process.CLT_K -cKelvin_offset); //Coolant ADC
-    fullStatus[8] = (U8) Tuareg.process.VBAT_V; //Battery voltage correction (%)
-    fullStatus[9] = (U8) Tuareg.process.VBAT_V; //battery voltage
-    fullStatus[10] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-    fullStatus[11] = Tuareg.egoCorrection; //Exhaust gas correction (%)
-    fullStatus[12] = Tuareg.iatCorrection; //Air temperature Correction (%)
-    fullStatus[13] = Tuareg.wueCorrection; //Warmup enrichment (%)
-    fullStatus[14] = lowByte(Tuareg.process.engine_rpm); //rpm HB
-    fullStatus[15] = highByte(Tuareg.process.engine_rpm); //rpm LB
-    fullStatus[16] = Tuareg.TAEamount; //acceleration enrichment (%)
-    fullStatus[17] = Tuareg.corrections; //Total GammaE (%)
-    fullStatus[18] = Tuareg.VE; //Current VE 1 (%)
-    fullStatus[19] = Tuareg.afrTarget;
-    fullStatus[20] = (U8)(Tuareg.PW1 / 100); //Pulsewidth 1 multiplied by 10 in ms. Have to convert from uS to mS.
-    fullStatus[21] = (U8) Tuareg.process.ddt_TPS; //TPS DOT
-    fullStatus[22] = (U8) Tuareg.ignition_timing.ignition_advance_deg;
-    fullStatus[23] = (U8) Tuareg.process.TPS_deg; // TPS (0% to 100%)
-
-    //Need to split the int loopsPerSecond value into 2 bytes
-    fullStatus[24] = 0x42;
-    fullStatus[25] = 0x01;
-
-    //The following can be used to show the amount of free memory
-    //not needed by now
-    fullStatus[26] = 0x42; //lowByte(Tuareg.freeRAM);
-    fullStatus[27] = 0x42; //highByte(Tuareg.freeRAM);
-
-    fullStatus[28] = 0x42; //boost target not needed
-    fullStatus[29] = 0x42; //boost duty not needed
-    fullStatus[30] = Tuareg.spark; //Spark related bitfield
-
-    //rpmDOT must be sent as a signed integer
-    //fullStatus[31] = lowByte(Tuareg.decoder->crank_deltaT_us);
-    //fullStatus[32] = highByte(Tuareg.decoder->crank_deltaT_us);
-    fullStatus[31] = 0;
-    fullStatus[32] = 0;
-    fullStatus[33] = 0x42; //Tuareg.ethanolPct; //Flex sensor value (or 0 if not used)
-    fullStatus[34] = 0x42; //Tuareg.flexCorrection; //Flex fuel correction (% above or below 100)
-    fullStatus[35] = 0x42; //Tuareg.flexIgnCorrection; //Ignition correction (Increased degrees of advance) for flex fuel
-    fullStatus[36] = 0x42; //getNextError();
-    fullStatus[37] = 0x42; //Tuareg.idleLoad;
-    fullStatus[38] = 0x42; //Tuareg.testOutputs;
-    fullStatus[39] = (U8) Tuareg.sensors->asensors[ASENSOR_O2]; //O2
-    fullStatus[40] = (U8) Tuareg.process.Baro_kPa; //Barometer value
-    fullStatus[41] = (U8) Tuareg.process.TPS_deg;
-
-
-    **
-    print the requested section
-    *
-    for(i=0; i < TS_OUTPUTCHANNELS_BUFFERSIZE; i++)
-    {
-        UART_Tx(TS_PORT, fullStatus[i]);
-    }
-}
-*/
 
 
 /**
@@ -944,28 +903,6 @@ void ts_debug_features(U32 FeatureID)
             print current ignition setup
             */
             ts_diag_ignition_timing(&(Tuareg.ignition_timing));
-
-            break;
-
-
-        case 'sd':
-
-            //print decoder statistics
-            UART_Send(TS_PORT, "\r\ndecoder statistics:\r\n");
-
-            //get diag data
-
-            //decoder_export_statistics(debug_data);
-
-            for(data_1=0; data_1 < CRK_POSITION_COUNT; data_1++)
-            {
-                UART_Print_U(TS_PORT, debug_data[data_1],TYPE_U16, NO_PAD);
-            }
-
-            UART_Send(TS_PORT, " rpm: ");
-
-            UART_Print_U(TS_PORT, debug_data[CRK_POSITION_COUNT],TYPE_U16, NO_PAD);
-
 
             break;
 
@@ -1743,10 +1680,6 @@ void ts_diagPage_decoder()
     UART_Send(TS_PORT, "\r\nsync ratio max (pct): ");
     UART_Print_U(TS_PORT, configPage12.sync_ratio_max_pct, TYPE_U8, NO_PAD);
 
-    //sync_stability_thrs
-    UART_Send(TS_PORT, "\r\nsync stability thrs: ");
-    UART_Print_U(TS_PORT, configPage12.sync_stability_thrs, TYPE_U8, NO_PAD);
-
     //decoder_timeout_s
     UART_Send(TS_PORT, "\r\ndecoder timeout (s): ");
     UART_Print_U(TS_PORT, configPage12.decoder_timeout_s, TYPE_U8, NO_PAD);
@@ -1755,13 +1688,20 @@ void ts_diagPage_decoder()
 void ts_diagPage_ignition()
 {
     /**
-    U16 dynamic_min_rpm
-    U16 dynamic_dwell_us
-    U8 safety_margin_us
-    crank_position_t idle_ignition_position
-    crank_position_t idle_dwell_position
-    U8 idle_advance_deg
-    U8 idle_dwell_deg
+    U16 max_rpm;
+
+    U16 dynamic_min_rpm;
+    crank_position_t dynamic_ignition_base_position;
+    crank_position_t dynamic_dwell_base_position;
+    U16 dynamic_dwell_target_us;
+
+    U16 cold_idle_cutoff_rpm;
+    U16 cold_idle_cutoff_CLT_K;
+    U8 cold_idle_ignition_advance_deg;
+    U16 cold_idle_dwell_target_us;
+
+    crank_position_t cranking_ignition_position;
+    crank_position_t cranking_dwell_position;
     */
 
     /**
@@ -1769,33 +1709,53 @@ void ts_diagPage_ignition()
     */
     UART_Send(TS_PORT, "\r\n\r\nignitionpage:\r\n");
 
+    //max_rpm
+    UART_Send(TS_PORT, "\r\nrev limiter (rpm): ");
+    UART_Print_U(TS_PORT, configPage13.max_rpm, TYPE_U16, NO_PAD);
+
+
     //dynamic_min_rpm
-    UART_Send(TS_PORT, "\r\ndynamic min (rpm): ");
+    UART_Send(TS_PORT, "\r\ndynamic ignition function minimum rpm: ");
     UART_Print_U(TS_PORT, configPage13.dynamic_min_rpm, TYPE_U16, NO_PAD);
 
-    //dynamic_dwell_us
-    UART_Send(TS_PORT, "\r\ndynamic dwell (us): ");
-    UART_Print_U(TS_PORT, configPage13.dynamic_dwell_us, TYPE_U16, NO_PAD);
+    //dynamic_ignition_base_position
+    UART_Send(TS_PORT, "\r\ndynamic ignition base position: ");
+    UART_Print_crank_position(TS_PORT, configPage13.dynamic_ignition_base_position);
 
-    //safety_margin_us
-    UART_Send(TS_PORT, "\r\nsafety margin (us): ");
-    UART_Print_U(TS_PORT, configPage13.safety_margin_us, TYPE_U8, NO_PAD);
+    //dynamic_dwell_base_position
+    UART_Send(TS_PORT, "\r\ndynamic dwell base position: ");
+    UART_Print_crank_position(TS_PORT, configPage13.dynamic_dwell_base_position);
 
-    //idle_ignition_position
-    UART_Send(TS_PORT, "\r\nidle ignition position: ");
-    UART_Print_U(TS_PORT, configPage13.idle_ignition_position, TYPE_U8, NO_PAD);
+    //dynamic_dwell_target_us
+    UART_Send(TS_PORT, "\r\ndynamic dwell target (us): ");
+    UART_Print_U(TS_PORT, configPage13.dynamic_dwell_target_us, TYPE_U16, NO_PAD);
 
-    //idle_dwell_position
-    UART_Send(TS_PORT, "\r\nidle dwell position: ");
-    UART_Print_U(TS_PORT, configPage13.idle_dwell_position, TYPE_U8, NO_PAD);
 
-    //idle_advance_deg
-    UART_Send(TS_PORT, "\r\nidle advance (deg): ");
-    UART_Print_U(TS_PORT, configPage13.idle_advance_deg, TYPE_U8, NO_PAD);
+    //cold_idle_cutoff_rpm
+    UART_Send(TS_PORT, "\r\ncold idle cutoff (rpm): ");
+    UART_Print_U(TS_PORT, configPage13.cold_idle_cutoff_rpm, TYPE_U16, NO_PAD);
 
-    //idle_dwell_deg
-    UART_Send(TS_PORT, "\r\nidle dwell (deg): ");
-    UART_Print_U(TS_PORT, configPage13.idle_dwell_deg, TYPE_U8, NO_PAD);
+    //cold_idle_cutoff_CLT_K
+    UART_Send(TS_PORT, "\r\ncold idle cutoff CLT (K): ");
+    UART_Print_U(TS_PORT, configPage13.cold_idle_cutoff_CLT_K, TYPE_U16, NO_PAD);
+
+    //cold_idle_ignition_advance_deg
+    UART_Send(TS_PORT, "\r\ncold idle ignition advance (deg): ");
+    UART_Print_U(TS_PORT, configPage13.cold_idle_ignition_advance_deg, TYPE_U8, NO_PAD);
+
+    //cold_idle_dwell_target_us
+    UART_Send(TS_PORT, "\r\ncold idle dwell target (us): ");
+    UART_Print_U(TS_PORT, configPage13.cold_idle_dwell_target_us, TYPE_U16, NO_PAD);
+
+
+    //cranking_ignition_position
+    UART_Send(TS_PORT, "\r\ncranking ignition position: ");
+    UART_Print_crank_position(TS_PORT, configPage13.cranking_ignition_position);
+
+    //cranking_dwell_position
+    UART_Send(TS_PORT, "\r\ncranking dwell position: ");
+    UART_Print_crank_position(TS_PORT, configPage13.cranking_dwell_position);
+
 }
 
 void ts_diag_process_data(volatile process_data_t * pImage)
@@ -1821,7 +1781,7 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Send(TS_PORT, "\r\n\r\nprocess data image:\r\n");
 
     UART_Send(TS_PORT, "\r\ncrank position: ");
-    UART_Print_U(TS_PORT, pImage->crank_position, TYPE_U8, NO_PAD);
+    UART_Print_crank_position(TS_PORT, pImage->crank_position);
 
 
     UART_Send(TS_PORT, "\r\ncrank position table: ");
@@ -1866,21 +1826,15 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming)
 
     UART_Send(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
     UART_Print_U(TS_PORT, pTiming->ignition_advance_deg, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, pTiming->coil_ignition_pos, TYPE_U32, NO_PAD);
+    UART_Print_crank_position(TS_PORT, pTiming->coil_ignition_pos);
     UART_Print_U(TS_PORT, pTiming->coil_ignition_timing_us, TYPE_U32, NO_PAD);
 
     UART_Send(TS_PORT, "\r\ndwell angle (deg), duration (ms), position, timing (us): ");
-    UART_Print_U(TS_PORT, pTiming->dwell_deg, TYPE_U16, NO_PAD);
     UART_Print_U(TS_PORT, pTiming->dwell_ms, TYPE_U16, NO_PAD);
-    UART_Print_U(TS_PORT, pTiming->coil_dwell_pos, TYPE_U32, NO_PAD);
+    UART_Print_crank_position(TS_PORT, pTiming->coil_dwell_pos);
     UART_Print_U(TS_PORT, pTiming->coil_dwell_timing_us, TYPE_U32, NO_PAD);
 
 }
-
-
-
-
-
 
 
 /**
@@ -2250,164 +2204,39 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
         case CALIBPAGE:
 
-            UART_Send(DEBUG_PORT, "\r\n*** use E command for calibration modification! ***\r\n");
+            UART_Send(DEBUG_PORT, "\r\n*** use U command for calibration modification! ***\r\n");
             break;
 
 
         case DECODERPAGE:
 
-            /**
-            U16 trigger_position_map[CRK_POSITION_COUNT];
-            S16 decoder_offset_deg;
-            U16 decoder_delay_us;
-            U8 crank_noise_filter;
-            U8 sync_ratio_min_pct;
-            U8 sync_ratio_max_pct;
-            U8 sync_stability_thrs;
-            U8 decoder_timeout_s;
-            */
-
-            switch(valueOffset)
-            {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-
-                configPage12.trigger_position_map.a_deg[valueOffset]= (U16) newValue;
-                break;
-
-            case 8:
-
-                configPage12.decoder_offset_deg= (S16) newValue;
-                break;
-
-            case 9:
-
-                configPage12.decoder_delay_us= (U16) newValue;
-                break;
-
-            case 10:
-
-                configPage12.crank_noise_filter= (U8) newValue;
-                break;
-
-            case 11:
-
-                configPage12.sync_ratio_min_pct= (U8) newValue;
-                break;
-
-            case 12:
-
-                configPage12.sync_ratio_max_pct= (U8) newValue;
-                break;
-
-            case 13:
-
-                configPage12.sync_stability_thrs= (U8) newValue;
-                break;
-
-            case 14:
-
-                configPage12.decoder_timeout_s= (U8) newValue;
-                break;
-
-            default:
-                break;
-
-            }
-
+            UART_Send(DEBUG_PORT, "\r\n*** use U command for decoder config modification! ***\r\n");
             break;
+
 
         case IGNITIONPAGE:
 
-            /**
-            U16 dynamic_min_rpm;
-            U16 dynamic_dwell_us;
-            U8 safety_margin_us;
-            crank_position_t idle_ignition_position;
-            crank_position_t idle_dwell_position;
-            U8 idle_advance_deg;
-            U8 idle_dwell_deg;
-            */
-
-            switch(valueOffset)
-            {
-            case 0:
-
-                configPage13.dynamic_min_rpm= (U16) newValue;
-                break;
-
-            case 1:
-
-                configPage13.dynamic_dwell_us= (U16) newValue;
-                break;
-
-            case 2:
-
-                configPage13.safety_margin_us= (U8) newValue;
-                break;
-
-            case 3:
-
-                configPage13.idle_ignition_position= (crank_position_t) newValue;
-                break;
-
-            case 4:
-
-                configPage13.idle_dwell_position= (crank_position_t) newValue;
-                break;
-
-            case 5:
-
-                configPage13.idle_advance_deg= (U8) newValue;
-                break;
-
-            case 6:
-
-                configPage13.idle_dwell_deg= (U8) newValue;
-                break;
-
-            default:
-                break;
-
-            }
-
-
-
-
+            UART_Send(DEBUG_PORT, "\r\n*** use U command for ignition config modification! ***\r\n");
             break;
+
 
         default:
             break;
   }
+
 }
 
 /**
 replace a calibration value
 */
-void replaceCalib(U32 Offset, U32 Value)
+void mod_sensor_calib(U32 Offset, U32 Value)
 {
 
-    if(TS_cli.State.calibmod_permission == FALSE)
+    if(TS_cli.State.calib_mod_permission == FALSE)
     {
         UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (permission) ***\r\n");
         return;
     }
-
-    #ifdef TS_DEBUG
-    /// TODO (oli#1#): debug action enabled
-    UART_Tx(DEBUG_PORT, '\r');
-    UART_Tx(DEBUG_PORT, '\n');
-    UART_Tx(DEBUG_PORT, 'E');
-    UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
-    UART_Tx(DEBUG_PORT, '.');
-    UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
-    #endif //TS_DEBUG
 
     /**
     calibration layout:
@@ -2528,6 +2357,208 @@ void replaceCalib(U32 Offset, U32 Value)
 
     default:
         UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (invalid offset) ***\r\n");
+        break;
+
+    }
+
+}
+
+
+/**
+replace an decoder config value
+*/
+void mod_decoder_config(U32 Offset, U32 Value)
+{
+    if(TS_cli.State.decoder_mod_permission == FALSE)
+    {
+        UART_Send(DEBUG_PORT, "\r\n*** decoder config modification rejected (permission) ***\r\n");
+        return;
+    }
+
+    /**
+    U16 trigger_position_map[CRK_POSITION_COUNT];
+    S16 decoder_offset_deg;
+    U16 decoder_delay_us;
+    U8 crank_noise_filter;
+    U8 sync_ratio_min_pct;
+    U8 sync_ratio_max_pct;
+    U8 sync_stability_thrs;
+    U8 decoder_timeout_s;
+    */
+
+    switch(Offset)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+
+        configPage12.trigger_position_map.a_deg[Offset]= (U16) Value;
+        break;
+
+    case 8:
+
+        configPage12.decoder_offset_deg= (S16) Value;
+        break;
+
+    case 9:
+
+        configPage12.decoder_delay_us= (U16) Value;
+        break;
+
+    case 10:
+
+        configPage12.crank_noise_filter= (U8) Value;
+        break;
+
+    case 11:
+
+        configPage12.sync_ratio_min_pct= (U8) Value;
+        break;
+
+    case 12:
+
+        configPage12.sync_ratio_max_pct= (U8) Value;
+        break;
+
+    case 13:
+
+        configPage12.decoder_timeout_s= (U8) Value;
+        break;
+
+    default:
+
+        UART_Send(DEBUG_PORT, "\r\n*** decoder config modification rejected (invalid offset) ***\r\n");
+        break;
+
+    }
+
+}
+
+
+/**
+replace an ignition config value
+*/
+void mod_ignition_config(U32 Offset, U32 Value)
+{
+    if(TS_cli.State.ignition_mod_permission == FALSE)
+    {
+        UART_Send(DEBUG_PORT, "\r\n*** ignition config modification rejected (permission) ***\r\n");
+        return;
+    }
+
+    /**
+    U16 max_rpm;
+
+    U16 dynamic_min_rpm;
+    crank_position_t dynamic_ignition_base_position;
+    crank_position_t dynamic_dwell_base_position;
+    U16 dynamic_dwell_target_us;
+
+    U16 cold_idle_cutoff_rpm;
+    U16 cold_idle_cutoff_CLT_K;
+    U8 cold_idle_ignition_advance_deg;
+    U16 cold_idle_dwell_target_us;
+
+    crank_position_t cranking_ignition_position;
+    crank_position_t cranking_dwell_position;
+    */
+
+    switch(Offset)
+    {
+    case 0:
+
+        configPage13.max_rpm= (U16) Value;
+        break;
+
+    case 1:
+
+        configPage13.dynamic_min_rpm= (U16) Value;
+        break;
+
+    case 2:
+
+        configPage13.dynamic_ignition_base_position= (crank_position_t) Value;
+        break;
+
+    case 3:
+
+        configPage13.dynamic_dwell_base_position= (crank_position_t) Value;
+        break;
+
+    case 4:
+
+        configPage13.dynamic_dwell_target_us= (U16) Value;
+        break;
+
+    case 5:
+
+        configPage13.cold_idle_cutoff_rpm= (U16) Value;
+        break;
+
+    case 6:
+
+        configPage13.cold_idle_cutoff_CLT_K= (U16) Value;
+        break;
+
+    case 7:
+
+        configPage13.cold_idle_ignition_advance_deg= (U8) Value;
+        break;
+
+    case 8:
+
+        configPage13.cold_idle_dwell_target_us= (U16) Value;
+        break;
+
+    case 9:
+
+        configPage13.cranking_ignition_position= (crank_position_t) Value;
+        break;
+
+    case 10:
+
+        configPage13.cranking_dwell_position= (crank_position_t) Value;
+        break;
+
+    default:
+        UART_Send(DEBUG_PORT, "\r\n*** ignition config modification rejected (invalid offset) ***\r\n");
+        break;
+
+    }
+
+}
+
+
+
+/**
+update a configuration value
+*/
+void mod_config(U32 Page, U32 Offset, U32 Value)
+{
+    switch(Page)
+    {
+    case DECODERPAGE:
+
+        mod_decoder_config(Offset, Value);
+        break;
+
+    case IGNITIONPAGE:
+
+        mod_ignition_config(Offset, Value);
+        break;
+
+    case CALIBPAGE:
+
+        mod_sensor_calib(Offset, Value);
+        break;
+
+    default:
+        UART_Send(DEBUG_PORT, "\r\n*** modification rejected (invalid page) ***\r\n");
         break;
 
     }

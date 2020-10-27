@@ -128,3 +128,25 @@ void increment_crank_position(volatile crank_position_t * pPosition)
     }
 }
 
+
+
+void setBit_U8(U32 Pos, VU8 * pTarget)
+{
+    if(Pos < 8)
+    {
+        *pTarget |= (1 << Pos);
+    }
+}
+
+void setBit_U16(U32 Pos, VU16 * pTarget)
+{
+    if(Pos < 16)
+    {
+        *pTarget |= (1 << Pos);
+    }
+}
+
+
+
+
+

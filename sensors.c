@@ -478,8 +478,8 @@ void DMA2_Stream0_IRQHandler()
 {
 
     U32 average, sample, sensor, result;
-    U16 * pIntegr= NULL;
-    U8 * pCount= NULL;
+    VU16 * pIntegr= NULL;
+    VU8 * pCount= NULL;
 
     //collect diagnostic data
     SInternals.diag[SDIAG_DMAIRQ_CALLS] += 1;
