@@ -115,8 +115,14 @@ void default_ignition_timing(volatile ignition_timing_t * pTarget)
     pTarget->dwell_ms= DEFAULT_REPORTED_DWELL_MS;
     pTarget->ignition_advance_deg= DEFAULT_IGNITION_ADVANCE_DEG;
 
-    pTarget->state =0;
-    setBit_U8(IGNLOG_DEFAULT_TIMING, &(pTarget->state));
+    pTarget->state.advance_map= FALSE;
+    pTarget->state.advance_tps= FALSE;
+    pTarget->state.dynamic= FALSE;
+    pTarget->state.cold_idle= FALSE;
+    pTarget->state.rev_limiter= FALSE;
+    pTarget->state.cranking_timing= FALSE;
+    pTarget->state.default_timing= TRUE;
+
 }
 
 /**
@@ -131,7 +137,13 @@ inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
     pTarget->coil_ignition_timing_us =0;
     pTarget->coil_dwell_timing_us =0;
 
-    setBit_U8(IGNLOG_CRANKING_TIMING, &(pTarget->state));
+    pTarget->state.advance_map= FALSE;
+    pTarget->state.advance_tps= FALSE;
+    pTarget->state.dynamic= FALSE;
+    pTarget->state.cold_idle= FALSE;
+    pTarget->state.rev_limiter= FALSE;
+    pTarget->state.default_timing= FALSE;
+    pTarget->state.cranking_timing= TRUE;
 }
 
 /**
@@ -151,9 +163,6 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
 
     VU32 Ign_advance_deg, Dwell_target_us;
 
-    //clear status data
-    pTarget->state = 0;
-
     if(pImage->engine_rpm > configPage13.max_rpm)
     {
         /**
@@ -169,7 +178,13 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         pTarget->dwell_ms= 0;
 
         //set status bit
-        setBit_U8(IGNLOG_REV_LIMITER, &(pTarget->state));
+        pTarget->state.advance_map= FALSE;
+        pTarget->state.advance_tps= FALSE;
+        pTarget->state.dynamic= FALSE;
+        pTarget->state.cold_idle= FALSE;
+        pTarget->state.default_timing= FALSE;
+        pTarget->state.cranking_timing= FALSE;
+        pTarget->state.rev_limiter= TRUE;
 
     }
     else if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
@@ -179,14 +194,17 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         */
 
         //set status bit
-        setBit_U8(IGNLOG_DYNAMIC, &(pTarget->state));
+        pTarget->state.dynamic= TRUE;
+        pTarget->state.default_timing= FALSE;
+        pTarget->state.cranking_timing= FALSE;
+        pTarget->state.rev_limiter= FALSE;
 
         if( (pImage->engine_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
         {
             /**
             cold idle function activated
             */
-            setBit_U8(IGNLOG_COLD_IDLE, &(pTarget->state));
+            pTarget->state.cold_idle= TRUE;
 
             Ign_advance_deg= configPage13.cold_idle_ignition_advance_deg;
             Dwell_target_us= configPage13.cold_idle_dwell_target_us;
@@ -197,7 +215,9 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
             ///get ignition advance from table
 
             //set status bit
-            setBit_U8(IGNLOG_ADVANCE_TPS, &(pTarget->state));
+            pTarget->state.advance_map= FALSE;
+            pTarget->state.advance_tps= TRUE;
+            pTarget->state.cold_idle= FALSE;
 
 
             //get target ignition advance angle

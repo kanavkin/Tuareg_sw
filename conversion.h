@@ -35,6 +35,7 @@ float compose_float(U32 Buffer);
 U32 serialize_float_U32(float Value);
 void serialize_float_U8(float Value, U8 * pTarget);
 void serialize_U16_U8(U16 Value, U8 * pTarget);
+void serialize_U32_char(VU32 Value, U8 * pTarget);
 
 
 #endif // CONVERSION_H_INCLUDED

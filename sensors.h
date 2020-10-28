@@ -198,7 +198,7 @@ typedef enum {
     ASENSOR_VBAT,
     ASENSOR_KNOCK,
     ASENSOR_BARO,
-    ASENSOR_SPARE,
+    ASENSOR_GEAR,
     ASENSOR_MAP,
     ASENSOR_COUNT
 
@@ -281,7 +281,7 @@ typedef struct {
 
     VF32 asensors[ASENSOR_COUNT];
     VU16 asensors_raw[ASENSOR_COUNT];
-    VU16 asensors_valid[ASENSOR_COUNT];
+    VU16 asensors_valid_samples[ASENSOR_COUNT];
 
     VU8 dsensors;
 
@@ -290,8 +290,8 @@ typedef struct {
 volatile sensor_interface_t * init_sensors();
 VU32 read_dsensors();
 void read_digital_sensors();
-float calc_inverse_lin(U32 Arg, float M, float N);
-float calculate_ddt_TPS(float Last_TPS, float Current_TPS);
+VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
+VF32 calculate_ddt_TPS(VF32 Last_TPS, VF32 Current_TPS);
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
 extern const float cKelvin_offset;

@@ -146,6 +146,14 @@ void setBit_U16(U32 Pos, VU16 * pTarget)
     }
 }
 
+void setBit_U32(U32 Pos, VU32 * pTarget)
+{
+    if(Pos < 32)
+    {
+        *pTarget |= (1 << Pos);
+    }
+}
+
 
 
 

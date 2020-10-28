@@ -52,20 +52,19 @@ values to report during cranking
 
 
 /**
-
+ignition_logic_state_t
 */
-typedef enum {
+typedef struct {
 
-    IGNLOG_DEFAULT_TIMING,
-    IGNLOG_CRANKING_TIMING,
-    IGNLOG_REV_LIMITER,
-    IGNLOG_DYNAMIC,
-    IGNLOG_COLD_IDLE,
-    IGNLOG_ADVANCE_MAP,
-    IGNLOG_ADVANCE_TPS,
-    IGNLOG_COUNT
+    U8 default_timing :1;
+    U8 cranking_timing :1;
+    U8 rev_limiter :1;
+    U8 dynamic :1;
+    U8 cold_idle :1;
+    U8 advance_map :1;
+    U8 advance_tps :1;
 
-} ignition_logic_state_bits_t;
+} ignition_logic_state_t;
 
 
 
@@ -88,7 +87,7 @@ typedef struct _ignition_timing_t {
     crank_position_t coil_ignition_pos;
 
     //status data
-    ignition_logic_state_bits_t state;
+    ignition_logic_state_t state;
 
 } ignition_timing_t;
 

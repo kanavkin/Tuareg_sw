@@ -73,7 +73,6 @@ typedef struct _table2D_t {
 } table2D ;
 
 
-/// TODO (oli#8#): check if we need different 3D table dimensions
 
 /**
 This 3D table "contains" 8-bit unsigned values in Z,
@@ -122,11 +121,11 @@ extern volatile table2D CLT_calib_table;
 void init_3Dtables();
 void init_2Dtables();
 
-U32 table2D_getValue(volatile table2D *fromTable, U32 X);
-U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y);
+VF32 table2D_getValue(volatile table2D *fromTable, VU32 X);
+VF32 table3D_getValue(volatile table3D_t * fromTable, VU32 X, VU32 Y);
 
-U32 load_3D_table(volatile table3D_t * pTarget, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y);
-U32 write_3D_table(volatile table3D_t * pTable, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y);
+U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
+U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
 
 U32 load_tables();
 U32 write_tables();

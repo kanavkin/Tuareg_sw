@@ -45,26 +45,12 @@ const U32 cTable3D_X_end= ;
 */
 
 
-/****************************************************************************************************************************************************
- *
- ****************************************************************************************************************************************************/
-/**
-TODO
-to be removed soon
-as we can make sure that all array is used
-*/
-void init_3Dtables()
-{
-
-
-
-}
-
-
-
 /**
     Repoint the 2D table structs to the config pages
     (initialise the 8 table2D structs)
+
+
+    to be reconfigured!
 */
 void init_2Dtables()
 {
@@ -106,10 +92,10 @@ void init_2Dtables()
 /**
 This function pulls a 1D linear interpolated value from a 2D table
 */
-U32 table2D_getValue(volatile table2D *fromTable, U32 X)
+VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
 {
     S32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
-    float m, y;
+    F32 m, y;
 
     /**
     clip the requested X to fit the interval covered by this table
@@ -193,19 +179,17 @@ U32 table2D_getValue(volatile table2D *fromTable, U32 X)
     m=  (yMax - yMin) / (xMax - xMin);
     y= m * (X - xMin) + yMin;
 
-    return (U32) y;
+    return y;
 }
-
-/// TODO (oli#1#): check if we can convert to U8 3D tables
 
 
 /**
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
+VF32 table3D_getValue(volatile table3D_t * fromTable, VU32 X, VU32 Y)
 {
-    float A =0, B =0, C =0, D =0;
+    F32 A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;
     U32 xMin_index =0, xMax_index =0, yMin_index =0, yMax_index =0;
     U32 i;
@@ -441,13 +425,14 @@ U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
     /**
     Check that all values aren't just the same
     (This regularly happens with things like the fuel trim maps)
-    */
+
 /// TODO (oli#4#): improve float equality check
 
     if( (A == B) && (A == C) && (A == D) )
     {
         return A;
     }
+    */
 
     /**
     RESULTS finally
@@ -469,7 +454,7 @@ U32 table3D_getValue(volatile table3D_t * fromTable, U32 X, U32 Y)
 * every item is represented by 1 Byte of eeprom data
 * x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-U32 load_3D_table(volatile table3D_t * pTarget, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y)
+U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
 {
     U32 data;
     U8 eeprom_data;
@@ -549,7 +534,7 @@ U32 load_3D_table(volatile table3D_t * pTarget, U32 BaseAddress, U32 Scaling_X, 
 * every item is represented by 1 Byte of eeprom data
 * x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-U32 write_3D_table(volatile table3D_t * pTable, U32 BaseAddress, U32 Scaling_X, U32 Scaling_Y)
+U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
 {
     U32 offset, address, eeprom_code;
 

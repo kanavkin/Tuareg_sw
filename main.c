@@ -197,7 +197,7 @@ int main(void)
     Tuareg_set_Runmode(TMODE_MODULE_TEST);
     #else
 
-    if(Tuareg.Errors & (1<< TERROR_CONFIGLOAD))
+    if(Tuareg.Errors.config_load_error)
     {
         Tuareg_set_Runmode(TMODE_LIMP);
     }

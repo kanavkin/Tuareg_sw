@@ -659,25 +659,51 @@ void ts_sendOutputChannels()
 
     /*
     tuareg           = scalar, U32,  1, "bits",   1.000, 0.000
-    tstate            = bits,    U32,    1, [0:23]
-    errors            = bits,    U32,    1, [24:31]
+    tConfigErr       = bits,    U32,    1, [0:0]
+    tScheduleErr     = bits,    U32,    1, [1:1]
+    tO2SensorErr     = bits,    U32,    1, [2:2]
+    tTpsSensorErr    = bits,    U32,    1, [3:3]
+    tIatSensorErr    = bits,    U32,    1, [4:4]
+    tCltSensorErr    = bits,    U32,    1, [5:5]
+    tVbatSensorErr   = bits,    U32,    1, [6:6]
+    tKnockSensorErr  = bits,    U32,    1, [7:7]
+    tBaroSensorErr   = bits,    U32,    1, [8:8]
+    tGearSensorErr   = bits,    U32,    1, [9:9]
+    tMapSensorErr    = bits,    U32,    1, [10:10]
+    tCiSensorErr     = bits,    U32,    1, [11:11]
+    tSpareErr        = bits,    U32,    1, [12:15]
+
+    tCrankingMode    = bits,    U32,    1, [16:16]
+    tLimpMode        = bits,    U32,    1, [17:17]
+    tDiagMode        = bits,    U32,    1, [18:18]
+
+    tSpareBits       = bits,    U32,    1, [19:31]
     */
-    output[1] = 0;
-    output[2] = 0;
-    output[3] = 0;
-    output[4] = Tuareg.Errors;
+    serialize_U32_char(ts_tuareg_bits(), &(output[1]));
 
     /*
-    ignition         = scalar, U08,  5, "bits",   1.000, 0.000
-    istate            = bits,    U08,    5, [0:7]
+    ignition         = scalar,  U08,    5, "bits",   1.000, 0.000
+    ignDefTim        = bits,    U08,    5, [0:0]
+    ignCrankingTim   = bits,    U08,    5, [1:1]
+    ignRevLimit      = bits,    U08,    5, [2:2]
+    ignDynamic       = bits,    U08,    5, [3:3]
+    ignColdIdle      = bits,    U08,    5, [4:4]
+    ignAdvMap        = bits,    U08,    5, [5:5]
+    ignAdvTps        = bits,    U08,    5, [6:6]
+    ignSpare         = bits,    U08,    5, [7:7]
     */
-    output[5] = Tuareg.ignition_timing.state;
+    output[5] = ts_ignition_bits();
 
     /*
     comm             = scalar, U08,  6, "bits",   1.000, 0.000
-    cperm            = bits,    U08,    6, [0:7]
+    comModPerm       = bits,    U08,    6, [0:0]
+    comCalModPerm    = bits,    U08,    6, [1:1]
+    comIgnModPerm    = bits,    U08,    6, [2:2]
+    comDecModPerm    = bits,    U08,    6, [3:3]
+    comBurnPerm      = bits,    U08,    6, [4:4]
+    comSpare         = bits,    U08,    6, [5:7]
     */
-    output[6] = 0;
+    output[6] = ts_comm_bits();
 
     //rpm              = scalar,   U16,    7, "rpm",    1.000, 0.000
     serialize_U16_U8(Tuareg.process.engine_rpm, &(output[7]));
@@ -808,15 +834,13 @@ FeatureID is a 16 Bit 0x00 .. 0xFFFF
 /// TODO (oli#3#): Implement debug features
 /// TODO (oli#3#): Implement binary diag data printout
 
-#define DEBUG_DATA_MAXLEN 25
+
 
 void ts_debug_features(U32 FeatureID)
 {
     U8 u8_data =0;
     U32 data_1 =0;
     U32 data_2 =0;
-
-    U32 debug_data[DEBUG_DATA_MAXLEN];
 
     switch (FeatureID)
     {
@@ -2565,3 +2589,171 @@ void mod_config(U32 Page, U32 Offset, U32 Value)
 
 }
 
+
+
+/**
+prepare OutputChannel "comm" field
+*/
+VU8 ts_comm_bits()
+{
+    U8 commbits =0;
+
+    if(TS_cli.State.burn_permission)
+    {
+        setBit_U8(COMMBIT_BURN_PERMISSION, &commbits);
+    }
+
+    if(TS_cli.State.mod_permission)
+    {
+        setBit_U8(COMMBIT_MOD_PERMISSION, &commbits);
+    }
+
+    if(TS_cli.State.calib_mod_permission)
+    {
+        setBit_U8(COMMBIT_CALMOD_PERMISSION, &commbits);
+    }
+
+    if(TS_cli.State.ignition_mod_permission)
+    {
+        setBit_U8(COMMBIT_IGNMOD_PERMISSION, &commbits);
+    }
+
+    if(TS_cli.State.decoder_mod_permission)
+    {
+        setBit_U8(COMMBIT_DECMOD_PERMISSION, &commbits);
+    }
+
+    return commbits;
+}
+
+
+/**
+prepare OutputChannel "tuareg" field
+
+*/
+VU32 ts_tuareg_bits()
+{
+    U32 tuaregbits =0;
+
+    if(Tuareg.Errors.config_load_error)
+    {
+        setBit_U32(TBIT_CONFIGLOAD_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.scheduler_error)
+    {
+        setBit_U32(TBIT_SCHEDULER_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_O2_error)
+    {
+        setBit_U32(TBIT_O2SENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_TPS_error)
+    {
+        setBit_U32(TBIT_TPSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_IAT_error)
+    {
+        setBit_U32(TBIT_IATSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_CLT_error)
+    {
+        setBit_U32(TBIT_CLTSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_VBAT_error)
+    {
+        setBit_U32(TBIT_VBATSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_KNOCK_error)
+    {
+        setBit_U32(TBIT_KNOCKSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_BARO_error)
+    {
+        setBit_U32(TBIT_BAROSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_GEAR_error)
+    {
+        setBit_U32(TBIT_GEARSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_MAP_error)
+    {
+        setBit_U32(TBIT_MAPSENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.sensor_CIS_error)
+    {
+        setBit_U32(TBIT_CISENSOR_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Runmode == TMODE_CRANKING)
+    {
+        setBit_U32(TBIT_CRANKING_MODE, &tuaregbits);
+    }
+    else if(Tuareg.Runmode == TMODE_LIMP)
+    {
+        setBit_U32(TBIT_LIMP_MODE, &tuaregbits);
+    }
+    else if(Tuareg.Runmode == TMODE_DIAG)
+    {
+        setBit_U32(TBIT_DIAG_MODE, &tuaregbits);
+    }
+
+    return tuaregbits;
+}
+
+
+/**
+prepare OutputChannel "ignition" field
+
+*/
+VU8 ts_ignition_bits()
+{
+    U32 ignitionbits =0;
+
+    if(Tuareg.ignition_timing.state.default_timing)
+    {
+        setBit_U32(IGNBIT_DEFAULT_TIMING, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.cranking_timing)
+    {
+        setBit_U32(IGNBIT_CRANKING_TIMING, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.rev_limiter)
+    {
+        setBit_U32(IGNBIT_REV_LIMITER, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.dynamic)
+    {
+        setBit_U32(IGNBIT_DYNAMIC, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.cold_idle)
+    {
+        setBit_U32(IGNBIT_COLD_IDLE, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.advance_map)
+    {
+        setBit_U32(IGNBIT_ADVANCE_MAP, &ignitionbits);
+    }
+
+    if(Tuareg.ignition_timing.state.advance_tps)
+    {
+        setBit_U32(IGNBIT_ADVANCE_TPS, &ignitionbits);
+    }
+
+    return ignitionbits;
+}

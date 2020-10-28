@@ -405,3 +405,24 @@ U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb)
     return u.out;
 }
 
+//writes 4 bytes to pTarget, MSB first
+void serialize_U32_char(VU32 Value, U8 * pTarget)
+{
+    U32 i;
+
+    union {
+
+        U32 in;
+        U8  out[4];
+
+    } u;
+
+    u.in = Value;
+
+    for(i=0; i<4; i++)
+    {
+        *pTarget=  u.out[i];
+        pTarget++;
+    }
+}
+

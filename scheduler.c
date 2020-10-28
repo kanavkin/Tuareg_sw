@@ -404,7 +404,7 @@ void scheduler_update_watchdog()
             scheduler delay has expired
             MALFUNCTION in scheduler module
             */
-            Tuareg_register_error(TERROR_SCHEDULER);
+            Tuareg_register_scheduler_error();
         }
     }
 
@@ -421,7 +421,7 @@ void scheduler_update_watchdog()
             scheduler delay has expired
             MALFUNCTION in scheduler module
             */
-            Tuareg_register_error(TERROR_SCHEDULER);
+            Tuareg_register_scheduler_error();
         }
     }
 
@@ -438,7 +438,7 @@ void scheduler_update_watchdog()
             scheduler delay has expired
             MALFUNCTION in scheduler module
             */
-            Tuareg_register_error(TERROR_SCHEDULER);
+            Tuareg_register_scheduler_error();
         }
     }
 
@@ -455,7 +455,7 @@ void scheduler_update_watchdog()
             scheduler delay has expired
             MALFUNCTION in scheduler module
             */
-            Tuareg_register_error(TERROR_SCHEDULER);
+            Tuareg_register_scheduler_error();
         }
     }
 

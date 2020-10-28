@@ -183,11 +183,9 @@ using float for maximum precision
 x = ( # - n)  / m
 
 */
-float calc_inverse_lin(U32 Arg, float M, float N)
+VF32 calc_inverse_lin(VU32 Arg, VF32 M, VF32 N)
 {
-    float inverse;
-
-/// TODO (oli#2#): check if calculation is correct
+    F32 inverse;
 
     //subtract N
     if( N < Arg)
@@ -231,9 +229,9 @@ but suppress little spikes
 
 calculation relies on the converted TPS value (0..100)!
 */
-float calculate_ddt_TPS(float Last_TPS, float Current_TPS)
+VF32 calculate_ddt_TPS(VF32 Last_TPS, VF32 Current_TPS)
 {
-    float delta_TPS;
+    F32 delta_TPS;
 
     delta_TPS= Current_TPS - Last_TPS;
 
@@ -426,7 +424,7 @@ void ADC_IRQHandler()
                 SInterface.asensors_raw[ASENSOR_MAP]= average;
 
                 //count the amount of consecutive valid readings
-                SInterface.asensors_valid[ASENSOR_MAP]++;
+                SInterface.asensors_valid_samples[ASENSOR_MAP]++;
             }
 
         }
@@ -458,7 +456,7 @@ void ADC_IRQHandler()
                 SInterface.asensors_raw[ASENSOR_MAP]= 0;
 
                 //no more consecutive valid readings
-                SInterface.asensors_valid[ASENSOR_MAP] =0;
+                SInterface.asensors_valid_samples[ASENSOR_MAP] =0;
 
             }
 
@@ -591,8 +589,11 @@ void DMA2_Stream0_IRQHandler()
                     SInterface.asensors_health |= (1<< sensor);
                     SInternals.asensors_async_error_counter[sensor] =0;
 
-                    //count the amount of consecutive valid readings
-                    SInterface.asensors_valid[sensor]++;
+                    //count the amount of consecutive valid readings, do not roll over
+                    if(SInterface.asensors_valid_samples[sensor] < 0xFF)
+                    {
+                        SInterface.asensors_valid_samples[sensor]++;
+                    }
 
                     //export raw value
                     SInterface.asensors_raw[sensor]= average;
@@ -627,7 +628,7 @@ void DMA2_Stream0_IRQHandler()
                     SInterface.asensors_raw[sensor]= 0;
 
                     //no more consecutive valid readings
-                    SInterface.asensors_valid[sensor] =0;
+                    SInterface.asensors_valid_samples[sensor] =0;
 
                 }
 

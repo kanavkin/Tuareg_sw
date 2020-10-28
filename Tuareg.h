@@ -71,76 +71,12 @@ if an analog sensor is not available, use these defaults
 #define CLT_DEFAULT_C 85
 #define VBAT_DEFAULT_V 14
 #define KNOCK_DEFAULT 0
-#define SPARE_DEFAULT 0
-
-
-//**************************************************************************************************
-// Config section
-#define engineSquirtsPerCycle 2 //Would be 1 for a 2 stroke
-//**************************************************************************************************
-
-
-
-/**
-this defines bit masks
-for the currentStatus
-*/
-
-//Define the load algorithm
-#define LOAD_SOURCE_MAP         0
-#define LOAD_SOURCE_TPS         1
-
-//Define bit positions within engine variable
-#define BIT_ENGINE_RUN      0   // Engine running
-#define BIT_ENGINE_CRANK    1   // Engine cranking
-#define BIT_ENGINE_ASE      2   // after start enrichment (ASE)
-#define BIT_ENGINE_WARMUP   3   // Engine in warmup
-#define BIT_ENGINE_ACC      4   // in acceleration mode (TPS accel)
-#define BIT_ENGINE_DCC      5   // in deceleration mode
-#define BIT_ENGINE_MAPACC   6   // MAP acceleration mode
-#define BIT_ENGINE_MAPDCC   7   // MAP deceleration mode
-
-//Define masks for Squirt
-#define BIT_SQUIRT_INJ1          0  //inj1 Squirt
-#define BIT_SQUIRT_INJ2          1  //inj2 Squirt
-#define BIT_SQUIRT_INJ3          2  //inj3 Squirt
-#define BIT_SQUIRT_INJ4          3  //inj4 Squirt
-#define BIT_SQUIRT_DFCO          4 //Decelleration fuel cutoff
-#define BIT_SQUIRT_BOOSTCUT      5  //Fuel component of MAP based boost cut out
-#define BIT_SQUIRT_TOOTHLOG1READY 6  //Used to flag if tooth log 1 is ready
-#define BIT_SQUIRT_TOOTHLOG2READY 7  //Used to flag if tooth log 2 is ready (Log is not currently used)
-
-//Define masks for spark variable
-#define BIT_SPARK_HLAUNCH         0  //Hard Launch indicator
-#define BIT_SPARK_SLAUNCH         1  //Soft Launch indicator
-#define BIT_SPARK_HRDLIM          2  //Hard limiter indicator
-#define BIT_SPARK_SFTLIM          3  //Soft limiter indicator
-#define BIT_SPARK_BOOSTCUT        4  //Spark component of MAP based boost cut out
-#define BIT_SPARK_ERROR           5  // Error is detected
-#define BIT_SPARK_IDLE            6  // idle on
-#define BIT_SPARK_SYNC            7  // Whether engine has sync or not
-
-#define BIT_SPARK2_FLATSH         0 //Flat shift hard cut
-#define BIT_SPARK2_FLATSS         1 //Flat shift soft cut
-#define BIT_SPARK2_UNUSED3        2
-#define BIT_SPARK2_UNUSED4        3
-#define BIT_SPARK2_UNUSED5        4
-#define BIT_SPARK2_UNUSED6        5
-#define BIT_SPARK2_UNUSED7        6
-#define BIT_SPARK2_UNUSED8        7
-
-
-
-
-
-
-
+#define GEAR_DEFAULT 0
 
 
 typedef enum {
-/// TODO (oli#3#): develop a concept for cranking detection/handling
 
-    //Tuareg.Runmode at boot time
+    //boot time
     TMODE_BOOT,
 
     //system init
@@ -173,14 +109,39 @@ typedef enum {
 
 
 
-typedef enum {
+typedef struct {
 
-    TERROR_CONFIGLOAD,
-    TERROR_SCHEDULER,
-    TERROR_CNT
-
+    VU32 config_load_error :1;
+    VU32 scheduler_error :1;
+    VU32 sensor_O2_error :1;
+    VU32 sensor_TPS_error :1;
+    VU32 sensor_IAT_error :1;
+    VU32 sensor_CLT_error :1;
+    VU32 sensor_VBAT_error :1;
+    VU32 sensor_KNOCK_error :1;
+    VU32 sensor_BARO_error :1;
+    VU32 sensor_GEAR_error :1;
+    VU32 sensor_MAP_error :1;
+    VU32 sensor_CIS_error :1;
 
 } tuareg_error_t;
+
+
+typedef struct {
+
+    VU8 crash_sensor :1;
+    VU8 run_switch :1;
+    VU8 sidestand_sensor :1;
+
+} tuareg_haltsrc_t;
+
+
+
+
+
+
+
+
 
 
 /**
@@ -196,91 +157,19 @@ typedef struct _Tuareg_t {
     volatile sensor_interface_t * sensors;
     volatile ignition_timing_t ignition_timing;
 
-    //analog sensors validity state
-    VU16 asensor_validity;
-    U32 asensor_defaults[ASENSOR_COUNT];
-
     //statemachine and health status
     volatile tuareg_runmode_t Runmode;
-    VU8 Errors;
+    volatile tuareg_haltsrc_t Halt_source;
+    volatile tuareg_error_t Errors;
 
     //sidestand, crash and run switch counter
-    VU8 run_switch_counter;
+    //VU8 run_switch_counter;
     VU8 crash_switch_counter;
 
 /// TODO (oli#7#): turn diagnostics on/off per compiler switch
     volatile process_data_t process;
 
-
-  //volatile ardbool hasSync;
-  //U16 RPM;
-  //S32 longRPM;
-  //S16 mapADC;
-  //S16 baroADC;
-  //S32 MAP; //Has to be a long for PID calcs (Boost control)
-  //U8 baro; //Barometric pressure is simply the inital MAP reading, taken before the engine is running. Alternatively, can be taken from an external sensor
-  //U8 TPS; //The current TPS reading (0% - 100%)
-  //U8 TPSlast; //The previous TPS reading
-  //U32 TPS_time; //The time the TPS sample was taken
-  //U32 TPSlast_time; //The time the previous TPS sample was taken
-  //U8 tpsADC; //0-255 byte representation of the TPS
-  //U8 tpsDOT;
-  //VS16 rpmDOT;
-  U8 VE;
-  //U8 O2;
-  //U8 O2_2;
-  //S16 coolant;
-  //S16 cltADC;
-  //S16 IAT;
-  //S16 iatADC;
-  //S16 batADC;
-  //S16 O2ADC;
-  //S16 O2_2ADC;
-  //S16 dwell;
-  U8 dwellCorrection; //The amount of correction being applied to the dwell time.
-  U8 battery10; //The current BRV in volts (multiplied by 10. Eg 12.5V = 125)
-  //S8 advance; //Signed 8 bit as advance can now go negative (ATDC)
-  U8 corrections;
-  U8 TAEamount; //The amount of accleration enrichment currently being applied
-  U8 egoCorrection; //The amount of closed loop AFR enrichment currently being applied
-  U8 wueCorrection; //The amount of warmup enrichment currently being applied
-  U8 batCorrection; //The amount of battery voltage enrichment currently being applied
-  U8 iatCorrection; //The amount of inlet air temperature adjustment currently being applied
-  U8 launchCorrection; //The amount of correction being applied if launch control is active
-  U8 flexCorrection; //Amount of correction being applied to compensate for ethanol content
-  U8 flexIgnCorrection; //Amount of additional advance being applied based on flex
-  U8 afrTarget;
-  U8 idleDuty;
-  //ardbool fanOn; //Whether or not the fan is turned on
-  //VU8 ethanolPct; //Ethanol reading (if enabled). 0 = No ethanol, 100 = pure ethanol. Eg E85 = 85.
-  //U32 TAEEndTime; //The target end time used whenever TAE is turned on
-  VU8 squirt;
-  VU8 spark;
-  VU8 spark2;
-  U8 engine;
-  U16 PW1; //In uS
-  //U16 PW2; //In uS
-  //U16 PW3; //In uS
-  //U16 PW4; //In uS
-  //VU8 runSecs; //Counter of seconds since cranking commenced (overflows at 255 obviously)
-  VU8 secl; //Continous
-  //VU16 loopsPerSecond;
-  //ardbool launchingSoft; //True when in launch control soft limit mode
-  //ardbool launchingHard; //True when in launch control hard limit mode
-  //U16 freeRAM;
-  //U16 clutchEngagedRPM;
-  //ardbool flatShiftingHard;
-  //VU16 startRevolutions; //A counter for how many revolutions have been completed since sync was achieved.
-  //U16 boostTarget;
-  //U8 testOutputs;
-  //ardbool testActive;
-  //U16 boostDuty; //Percentage value * 100 to give 2 points of precision
-  //U8 idleLoad; //Either the current steps or current duty cycle for the idle control.
-
-  //U16 canin[16]; //16bit raw value of selected canin data for channel 0-15
-  //U8 current_caninchannel; //start off at channel 0  was U8 current_caninchannel= 0;
-
-  //U16 crankRPM; //The actual cranking RPM limit. Saves us multiplying it everytime from the config page
+    VU8 secl;
 
 } Tuareg_t;
 
@@ -297,9 +186,23 @@ void Tuareg_stop_engine();
 void Tuareg_update_process_data();
 void Tuareg_update_ignition_timing();
 void Tuareg_trigger_ignition();
-void Tuareg_set_asensor_defaults();
-U32 Tuareg_get_asensor(asensors_t sensor);
+
+VF32 Tuareg_update_MAP_sensor();
+VF32 Tuareg_update_GEAR_sensor();
+VF32 Tuareg_update_BARO_sensor();
+VF32 Tuareg_update_KNOCK_sensor();
+VF32 Tuareg_update_VBAT_sensor();
+VF32 Tuareg_update_CLT_sensor();
+VF32 Tuareg_update_IAT_sensor();
+VF32 Tuareg_update_TPS_sensor();
+VF32 Tuareg_update_ddt_TPS();
+VF32 Tuareg_update_O2_sensor();
+VF32 Tuareg_update_MAP_sensor();
+
+
 void Tuareg_export_diag(VU32 * pTarget);
-void Tuareg_register_error(tuareg_error_t Error);
+void Tuareg_register_scheduler_error();
+
+VU8 Tuareg_check_halt_sources();
 
 #endif // TUAREG_H_INCLUDED

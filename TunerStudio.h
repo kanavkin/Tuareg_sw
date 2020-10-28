@@ -125,6 +125,72 @@ typedef enum {
 } calib_offset_t;
 
 
+
+
+/**
+OutputChannel comm bits
+*/
+typedef enum {
+
+    COMMBIT_MOD_PERMISSION,
+    COMMBIT_CALMOD_PERMISSION,
+    COMMBIT_IGNMOD_PERMISSION,
+    COMMBIT_DECMOD_PERMISSION,
+    COMMBIT_BURN_PERMISSION,
+    COMMBIT_COUNT
+
+} comm_bits_t;
+
+/**
+OutputChannel Tuareg bits
+*/
+typedef enum {
+
+    //16 error bits
+    TBIT_CONFIGLOAD_ERROR,
+    TBIT_SCHEDULER_ERROR,
+    TBIT_O2SENSOR_ERROR,
+    TBIT_TPSENSOR_ERROR,
+    TBIT_IATSENSOR_ERROR,
+    TBIT_CLTSENSOR_ERROR,
+    TBIT_VBATSENSOR_ERROR,
+    TBIT_KNOCKSENSOR_ERROR,
+    TBIT_BAROSENSOR_ERROR,
+    TBIT_GEARSENSOR_ERROR,
+    TBIT_MAPSENSOR_ERROR,
+    TBIT_CISENSOR_ERROR,
+    TBIT_SPARE1_ERROR,
+    TBIT_SPARE2_ERROR,
+    TBIT_SPARE3_ERROR,
+    TBIT_SPARE4_ERROR,
+
+    //16 status bits
+    TBIT_CRANKING_MODE,
+    TBIT_LIMP_MODE,
+    TBIT_DIAG_MODE,
+
+    TBIT_COUNT
+
+} tuareg_bits_t;
+
+/**
+OutputChannel ignition bits
+*/
+typedef enum {
+
+
+    IGNBIT_DEFAULT_TIMING,
+    IGNBIT_CRANKING_TIMING,
+    IGNBIT_REV_LIMITER,
+    IGNBIT_DYNAMIC,
+    IGNBIT_COLD_IDLE,
+    IGNBIT_ADVANCE_MAP,
+    IGNBIT_ADVANCE_TPS,
+    IGNBIT_COUNT
+
+} ignition_bits_t;
+
+
 typedef struct
 {
     //further rx data is required
@@ -183,6 +249,8 @@ void ts_diagPage_ignition();
 void ts_diagPage_decoder();
 void ts_diagPage_calib();
 
-
+VU8 ts_comm_bits();
+VU32 ts_tuareg_bits();
+VU8 ts_ignition_bits();
 
 #endif // TUNERSTUDIO_H_INCLUDED
