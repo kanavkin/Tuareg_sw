@@ -163,14 +163,15 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
 
     VU32 Ign_advance_deg, Dwell_target_us;
 
-    if(pImage->engine_rpm > configPage13.max_rpm)
+    if(pImage->crank_rpm > configPage13.max_rpm)
     {
         /**
         rev limiter function activated
+        we have to take care that the update process data, update ignition timing function will be executed anyways!
         */
 
         //suspend ignition
-        pTarget->coil_ignition_pos= CRK_POSITION_UNDEFINED;
+        pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
         pTarget->coil_ignition_timing_us= 0;
         pTarget->ignition_advance_deg= 0;
         pTarget->coil_dwell_pos= CRK_POSITION_UNDEFINED;
@@ -187,7 +188,7 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         pTarget->state.rev_limiter= TRUE;
 
     }
-    else if(pImage->engine_rpm > configPage13.dynamic_min_rpm)
+    else if(pImage->crank_rpm > configPage13.dynamic_min_rpm)
     {
         /**
         dynamic ignition function activated
@@ -199,7 +200,7 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
         pTarget->state.cranking_timing= FALSE;
         pTarget->state.rev_limiter= FALSE;
 
-        if( (pImage->engine_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
+        if( (pImage->crank_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
         {
             /**
             cold idle function activated
@@ -221,10 +222,10 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
 
 
             //get target ignition advance angle
-            //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, pImage->TPS_deg);
+            //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
 
             /// TODO (oli#3#): tps readout not stable yet
-            Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->engine_rpm, 30);
+            Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, 30);
 
 
             ///get dwell from table
@@ -232,7 +233,7 @@ void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_
             /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
 
             //get target dwell duration
-            if(pImage->engine_rpm < 2000)
+            if(pImage->crank_rpm < 2000)
             {
                 Dwell_target_us = 10000;
             }

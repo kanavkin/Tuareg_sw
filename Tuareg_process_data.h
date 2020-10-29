@@ -14,7 +14,8 @@ typedef struct _process_data_t {
     volatile crank_position_t crank_position;
     volatile crank_position_table_t crank_position_table;
     VU32 crank_T_us;
-    VU32 engine_rpm;
+    VU32 crank_rpm;
+    VU32 ddt_crank_rpms;
 
     volatile ctrl_strategy_t ctrl_strategy;
 
@@ -25,6 +26,8 @@ typedef struct _process_data_t {
     VF32 IAT_K;
     VF32 CLT_K;
     VF32 VBAT_V;
+    VF32 O2_AFR;
+    VU8 Gear;
 
 
 } process_data_t;

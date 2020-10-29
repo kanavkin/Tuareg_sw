@@ -258,7 +258,7 @@ void ts_communication()
                 send code version
                 */
                 UART_Send(TS_PORT, "speeduino 201708");
-                //UART_Send(TS_PORT, "Tuareg V0.2 2020");
+                //UART_Send(TS_PORT, "tuareg v0.2 102020");
                 break;
 
 
@@ -267,7 +267,7 @@ void ts_communication()
                 send code version
                 */
                 UART_Send(TS_PORT, "Speeduino 2017.08");
-                //UART_Send(TS_PORT, "Tuareg V0.2 2020");
+                //UART_Send(TS_PORT, "Tuareg V0.2 2020.10");
 
                 //This is required in TS3 due to its stricter timings
                 Tuareg.secl = 0;
@@ -706,7 +706,7 @@ void ts_sendOutputChannels()
     output[6] = ts_comm_bits();
 
     //rpm              = scalar,   U16,    7, "rpm",    1.000, 0.000
-    serialize_U16_U8(Tuareg.process.engine_rpm, &(output[7]));
+    serialize_U16_U8(Tuareg.process.crank_rpm, &(output[7]));
 
     //rpmDOT           = scalar,   F32,    9, "rpm/s",  1.000, 0.000
     serialize_float_U8(0.42, &(output[9]));
@@ -1819,12 +1819,12 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Print_U(TS_PORT, pImage->crank_T_us, TYPE_U32, NO_PAD);
 
     UART_Send(TS_PORT, "rpm: ");
-    UART_Print_U(TS_PORT, pImage->engine_rpm, TYPE_U32, NO_PAD);
+    UART_Print_U(TS_PORT, pImage->crank_rpm, TYPE_U32, NO_PAD);
 
     UART_Send(TS_PORT, "\r\nstrategy: ");
     UART_Print_U(TS_PORT, pImage->ctrl_strategy, TYPE_U8, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V): ");
+    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear: ");
     UART_Print_F32(TS_PORT, pImage->MAP_kPa);
     UART_Print_F32(TS_PORT, pImage->Baro_kPa);
     UART_Print_F32(TS_PORT, pImage->TPS_deg);
@@ -1832,6 +1832,8 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Print_F32(TS_PORT, pImage->IAT_K - cKelvin_offset);
     UART_Print_F32(TS_PORT, pImage->CLT_K - cKelvin_offset);
     UART_Print_F32(TS_PORT, pImage->VBAT_V);
+    UART_Print_F32(TS_PORT, pImage->O2_AFR);
+    UART_Print_U(TS_PORT, pImage->Gear, TYPE_U8, NO_PAD);
 
 }
 

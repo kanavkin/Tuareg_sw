@@ -71,7 +71,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if((Tuareg.process.engine_rpm > configPage13.dynamic_min_rpm) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
+        else if((Tuareg.process.crank_rpm > configPage13.dynamic_min_rpm) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -129,7 +129,6 @@ void Tuareg_register_scheduler_error()
 
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 {
-    U32 config_load_status;
 
     if(Tuareg.Runmode != Target_runmode)
     {
@@ -150,6 +149,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //use 16 preemption priority levels
                 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
+                //set basic config error states
+                Tuareg.Errors.config_load_error= TRUE;
+
                 /**
                 initialize core components
                 */
@@ -169,18 +171,15 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_CONFIGLOAD:
 
                 //loading the config data is important to us, failure in loading forces "limp home mode"
-                config_load_status= config_load();
+                Tuareg.Errors.config_load_error= config_load();
 
                 /**
                 /// TODO (oli#1#): DEBUG: limp home test
                 config_load_status= RETURN_FAIL;
                 */
 
-                if(config_load_status != RETURN_OK)
+                if(Tuareg.Errors.config_load_error)
                 {
-                    //save to error register
-                    Tuareg.Errors.config_load_error= TRUE;
-
                     //as we can hardly save some error logs in this system condition, print some debug messages only
                     UART_Send(DEBUG_PORT, "\r \n *** FAILED to load config data !");
 
@@ -193,9 +192,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     prepare config data
                     */
 
-                    //save to error register
-                    Tuareg.Errors.config_load_error= FALSE;
-
                     //set 2D table dimension and link table data to config pages
                     init_2Dtables();
                 }
@@ -207,6 +203,18 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 #ifdef TUAREG_MODULE_TEST
                 moduletest_moduleinit_action();
                 #else
+
+                //set basic sensor error states
+                Tuareg.Errors.sensor_BARO_error= TRUE;
+                Tuareg.Errors.sensor_MAP_error= TRUE;
+                Tuareg.Errors.sensor_O2_error= TRUE;
+                Tuareg.Errors.sensor_TPS_error= TRUE;
+                Tuareg.Errors.sensor_IAT_error= TRUE;
+                Tuareg.Errors.sensor_CLT_error= TRUE;
+                Tuareg.Errors.sensor_VBAT_error= TRUE;
+                Tuareg.Errors.sensor_KNOCK_error= TRUE;
+                Tuareg.Errors.sensor_GEAR_error= TRUE;
+                Tuareg.Errors.sensor_CIS_error= TRUE;
 
                 /**
                 initialize core components and register interface access pointers
@@ -399,7 +407,8 @@ void Tuareg_update_process_data(process_data_t * pImage)
     pImage->crank_T_us= Tuareg.decoder->crank_period_us;
 
     //engine_rpm
-    pImage->engine_rpm= calc_rpm(pImage->crank_T_us);
+    pImage->crank_rpm= calc_rpm(pImage->crank_T_us);
+    pImage->ddt_crank_rpms= 0;
 
     //crank_position
     pImage->crank_position= Tuareg.decoder->crank_position;
@@ -415,6 +424,8 @@ void Tuareg_update_process_data(process_data_t * pImage)
     pImage->CLT_K= Tuareg_update_CLT_sensor();
     pImage->VBAT_V= Tuareg_update_VBAT_sensor();
     pImage->ddt_TPS= Tuareg_update_ddt_TPS();
+    pImage->O2_AFR= Tuareg_update_O2_sensor();
+    pImage->Gear= Tuareg_update_GEAR_sensor();
 
     // strategy?
 
