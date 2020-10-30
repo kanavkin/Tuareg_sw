@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Lite! 3.0.28 - EFI Analytics, Inc." tuneComment="" writeDate="Fri Oct 30 00:09:02 CET 2020"/>
-    <versionInfo fileFormat="5.0" firmwareInfo="Speeduino+2017.08" nPages="11" signature="speeduino 201708"/>
-    <page>
-        <pcVariable name="tsCanId">"CAN ID 0"</pcVariable>
-    </page>
+    <bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Fri Oct 30 01:53:33 CET 2020"/>
+    <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="11" signature="speeduino 201708"/>
+    <page/>
     <page number="0" size="288">
         <constant cols="16" digits="0" name="veTable" rows="16" units="%">
          87.0 1.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0 0.0 13.0 14.0 15.0 40.0 0.0 

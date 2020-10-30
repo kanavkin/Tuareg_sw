@@ -1,0 +1,30 @@
+#Project Attributes.
+#TunerStudio by EFI Analytics, Inc
+#Last Saved on: Fri Oct 30 01:53:10 CET 2020
+#Fri Oct 30 01:53:10 CET 2020
+Triggers.ActiveTriggers=
+useCommonDashboardDir=false
+CommSettingMSCommDriver.controllerInterfaceId=RS232 Serial Interface
+firmwareDescription=Tuareg V0.2 2020.10
+logFileDir=/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/DataLogs
+ecuConfigFile=mainController.ini
+CommSettingMSCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=
+CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
+CommSettingCom\ Port=
+ecuSettings=AFR|CAN_COMMANDS_OFF|CELSIUS|SPEED_DENSITY|enablehardware_test_OFF|
+CommSettingMSCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
+CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
+CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=
+commPort=
+CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
+canId=-1
+dashBoardFile=/dashboard//dashboard.dash
+baudRate=115200
+useCommonTuneViewDir=false
+CommSettingboctokCommDriver.controllerInterfaceId=RS232 Serial Interface
+selectedComDriver=Multi Interface MegaSquirt Driver
+projectDescription=
+CommSettingboctokCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
+CommSettingMSCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
+projectName=Tuareg
+CommSettingBaud\ Rate=115200

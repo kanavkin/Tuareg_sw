@@ -258,7 +258,6 @@ void ts_communication()
                 send code version
                 */
                 UART_Send(TS_PORT, "speeduino 201708");
-                //UART_Send(TS_PORT, "tuareg v0.2 102020");
                 break;
 
 
@@ -266,8 +265,8 @@ void ts_communication()
                 /**
                 send code version
                 */
-                UART_Send(TS_PORT, "Speeduino 2017.08");
-                //UART_Send(TS_PORT, "Tuareg V0.2 2020.10");
+                //UART_Send(TS_PORT, "Speeduino 2017.08");
+                UART_Send(TS_PORT, "Tuareg V0.2 2020.10");
 
                 //This is required in TS3 due to its stricter timings
                 Tuareg.secl = 0;

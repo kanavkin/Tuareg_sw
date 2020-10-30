@@ -6,9 +6,8 @@
    MTversion      = 2.25 ; MegaTune itself; needs to match exec version.
 
    queryCommand   = "Q"
-   ;signature      = 20
+   
    signature      = "speeduino 201708"
-   ;signature      = "tuareg v0.2 102020"
    versionInfo    = "S"  ; Put this in the title bar.
 
 [TunerStudio]
@@ -2191,7 +2190,7 @@ cmdtestspk450dc = "E\x03\x0C"
    indicator = { tLimpMode      }, 		"LIMP",  			"LIMP",     		white, black, red,   	black
    indicator = { tDiagMode      }, 		"DIAG",  			"DIAG",     		white, black, green,    black
 
-   indicator = { ignDynamic }, 			"dyn ign",     		"dy ign",       	white, black, green,    black
+   indicator = { ignDynamic }, 			"dyn ign",     		"dyn ign",       	white, black, green,    black
    indicator = { ignRevLimit }, 		"rev limit",     	"rev limit",    	white, black, red,    black
    indicator = { ignColdIdle }, 		"cold idle ign",   	"cold idle ign",    white, black, green,    black
 
