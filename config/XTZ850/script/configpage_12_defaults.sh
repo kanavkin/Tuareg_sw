@@ -16,6 +16,7 @@ fi
 #get permissions
 printf "Jmod#" > $DEV
 sleep 0.1
+
 printf "Jdec#" > $DEV
 sleep 0.1
 
@@ -69,7 +70,7 @@ sleep 0.2
 
 #decoder offset
 # 260
-printf '\x55\x00\x08\x00\x00\x00\x04' > $DEV
+printf '\x55\x00\x08\x00\x00\x01\x04' > $DEV
 sleep 0.2
 
 #decoder delay

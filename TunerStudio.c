@@ -1823,7 +1823,8 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     UART_Send(TS_PORT, "\r\nstrategy: ");
     UART_Print_U(TS_PORT, pImage->ctrl_strategy, TYPE_U8, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear: ");
+    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");
+
     UART_Print_F32(TS_PORT, pImage->MAP_kPa);
     UART_Print_F32(TS_PORT, pImage->Baro_kPa);
     UART_Print_F32(TS_PORT, pImage->TPS_deg);
@@ -1852,11 +1853,13 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming)
     UART_Send(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
     UART_Print_U(TS_PORT, pTiming->ignition_advance_deg, TYPE_U16, NO_PAD);
     UART_Print_crank_position(TS_PORT, pTiming->coil_ignition_pos);
+    UART_Tx(TS_PORT, ' ');
     UART_Print_U(TS_PORT, pTiming->coil_ignition_timing_us, TYPE_U32, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\ndwell angle (deg), duration (ms), position, timing (us): ");
+    UART_Send(TS_PORT, "\r\nduration (ms), position, timing (us): ");
     UART_Print_U(TS_PORT, pTiming->dwell_ms, TYPE_U16, NO_PAD);
     UART_Print_crank_position(TS_PORT, pTiming->coil_dwell_pos);
+    UART_Tx(TS_PORT, ' ');
     UART_Print_U(TS_PORT, pTiming->coil_dwell_timing_us, TYPE_U32, NO_PAD);
 
 }

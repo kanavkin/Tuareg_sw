@@ -164,7 +164,7 @@ void print_sensor_data(USART_TypeDef * Port)
     //can be called cyclic by adding a lowspeed action
     U32 sensor;
 
-    UART_Send(Port, "\r\nO2   TPS   IAT   CLT  VBAT KNOCK  BARO SPARE  MAP\r\n");
+    UART_Send(Port, "\r\nO2   TPS   IAT   CLT  VBAT KNOCK  BARO  GEAR  MAP\r\n");
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
