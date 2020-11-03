@@ -1,0 +1,2009 @@
+Starting on boctok
+TunerStudio 3.1.04 started on Mon Nov 02 15:52:15 CET 2020
+JRE 1.8.0_272, Linux 4.15.0-122-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+11/2/20 3:52:15 PM :Info: Loading Language Content.
+11/2/20 3:52:17 PM :Info: Initializing File Dialogs.
+11/2/20 3:52:18 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+11/2/20 3:52:18 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+11/2/20 3:52:18 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+11/2/20 3:52:18 PM :Info: Initializing Plugin Services.
+11/2/20 3:52:18 PM :Info: Loading Plugins.
+11/2/20 3:52:18 PM :Info: Initializing Help.
+11/2/20 3:52:18 PM :Info: Initializing Edition Features.
+11/2/20 3:52:18 PM :Info: Initializing App Events.
+11/2/20 3:52:18 PM :Debug: App Name:TunerStudio, appEdition:MS
+11/2/20 3:52:18 PM :Info: Initializing User Interface
+11/2/20 3:52:20 PM :Info: Loading Font list.
+11/2/20 3:52:20 PM :Debug: Time to retreive font name list: 42 ms.
+11/2/20 3:52:20 PM :Info: 
+11/2/20 3:52:20 PM :Info: Initializing UI Components.
+11/2/20 3:52:20 PM :Info: Ready
+11/2/20 3:52:21 PM :Info: Opening Project ...
+11/2/20 3:52:21 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+11/2/20 3:52:21 PM :Debug: EventTrigger Data log Reset. expression: 
+11/2/20 3:52:21 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+11/2/20 3:52:21 PM :Debug: Reading translation file as plain text
+MSmain: No check, last update check=Thu Oct 29 23:39:35 CET 2020
+11/2/20 3:52:21 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 3:52:21 PM :Debug: Filtered ConfigurationOptionGroup in 17ms.
+11/2/20 3:52:21 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 3:52:21 PM :Info: Read file canPcVariables.ini: 0.917558ms
+11/2/20 3:52:21 PM :Info: Filtered ini: 0.08174ms
+11/2/20 3:52:21 PM :Info: No iniVersion defined
+11/2/20 3:52:21 PM :Info: Loading Trigger Wheels
+11/2/20 3:52:21 PM :Info: Loaded All known ini sections
+11/2/20 3:52:21 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 18ms.
+11/2/20 3:52:21 PM :Info: Read file mainController.ini: 4.975027ms
+11/2/20 3:52:21 PM :Info: Filtered ini: 2.5949ms
+11/2/20 3:52:21 PM :Info: No iniVersion defined
+11/2/20 3:52:21 PM :Debug: ini signature: speeduino 201708
+11/2/20 3:52:22 PM :Info: Loading Trigger Wheels
+11/2/20 3:52:22 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+11/2/20 3:52:22 PM :Info: Loaded All known ini sections
+11/2/20 3:52:22 PM :Info: Parsed and validated ini "mainController.ini" in : 109ms.
+11/2/20 3:52:22 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+11/2/20 3:52:22 PM :Info: Time to load primary config: 226.12662ms. used cached config: false
+11/2/20 3:52:22 PM :Debug: Adding Configuration: Tuareg
+11/2/20 3:52:22 PM :Debug: controllerOnline = 0.0
+11/2/20 3:52:22 PM :Debug: Fill Constants: 10
+11/2/20 3:52:22 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 3:52:22 PM :Info: Tune opened, 1509 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 3:52:22 PM :Info: dirtyData.size(): 0
+11/2/20 3:52:22 PM :Info: dirtyData.size(): 0
+11/2/20 3:52:22 PM :Debug: Flush lasted: 1ms.
+11/2/20 3:52:22 PM :Info: dirtyData.size(): 0
+11/2/20 3:52:22 PM :Info: dirtyData.size(): 0
+11/2/20 3:52:22 PM :Debug: Flush lasted: 1ms.
+11/2/20 3:52:22 PM :Debug: Skip Burn, last write page: -2
+11/2/20 3:52:22 PM :Info: !!! Loaded config in 389
+11/2/20 3:52:22 PM :Info: !!! Activated Project 914
+11/2/20 3:52:22 PM :Info: Opening Gauge Cluster..
+11/2/20 3:52:23 PM :Info: Time to load uncached dash: 267.4887ms, file: dashboard.dash
+11/2/20 3:52:23 PM :Debug: High Speed Paint: true
+11/2/20 3:52:23 PM :Info: 
+11/2/20 3:52:23 PM :Info: Com Thread created: COMM Thread8351.87862879525
+11/2/20 3:52:23 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+11/2/20 3:52:23 PM :Debug: !!! Opened Dash 1601
+11/2/20 3:52:23 PM :Info: Tuareg Ready
+11/2/20 3:52:23 PM :Debug: Tuning View Files loaded in 0.214482ms.
+11/2/20 3:52:23 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread8351.87862879525
+11/2/20 3:52:23 PM :Debug: Port not valid: Unable to open port: /dev/ttyACM0
+Please check your Communications Settings. 
+MSad: No check, last update check=Thu Oct 29 23:39:40 CET 2020
+11/2/20 3:52:30 PM :Debug: goOffline Starting, Time:0
+11/2/20 3:52:30 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 3:52:30 PM :Debug: goOffline about to stopProcessing, Time:0
+11/2/20 3:52:30 PM :Debug: goOffline closed port, Time:1
+11/2/20 3:52:30 PM :Debug: goOffline Starting, Time:0
+11/2/20 3:52:30 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 3:52:30 PM :Debug: goOffline about to stopProcessing, Time:0
+11/2/20 3:52:30 PM :Debug: goOffline closed port, Time:0
+11/2/20 3:52:30 PM :Info: Tuareg ComThread stopped COMM Thread8351.87862879525
+11/2/20 3:52:30 PM :Debug: goOffline comm thread stopped, Time:401
+11/2/20 3:52:30 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:52:30 PM :Debug: goOffline comm thread stopped, Time:500
+11/2/20 3:52:30 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:52:34 PM :Info: Com Thread created: COMM Thread43370.83374013282
+11/2/20 3:52:34 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread43370.83374013282
+11/2/20 3:52:35 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread43370.83374013282
+11/2/20 3:52:36 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 3:52:37 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 3:52:37 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 3:52:37 PM :Debug: controllerOnline = 1.0
+11/2/20 3:52:37 PM :Info: Activating page: 1
+11/2/20 3:52:37 PM :Debug: Read page time: 170ms.
+11/2/20 3:52:37 PM :Info: Activating page: 2
+11/2/20 3:52:37 PM :Debug: Read page time: 170ms.
+11/2/20 3:52:37 PM :Info: Activating page: 3
+11/2/20 3:52:38 PM :Debug: Read page time: 207ms.
+11/2/20 3:52:38 PM :Info: Activating page: 4
+11/2/20 3:52:38 PM :Debug: Read page time: 170ms.
+11/2/20 3:52:38 PM :Info: Activating page: 5
+11/2/20 3:52:38 PM :Debug: Read page time: 210ms.
+11/2/20 3:52:38 PM :Info: Activating page: 6
+11/2/20 3:52:38 PM :Debug: Read page time: 170ms.
+11/2/20 3:52:38 PM :Info: Activating page: 7
+11/2/20 3:52:38 PM :Debug: Read page time: 189ms.
+11/2/20 3:52:38 PM :Info: Activating page: 8
+11/2/20 3:52:39 PM :Debug: Read page time: 198ms.
+11/2/20 3:52:39 PM :Info: Activating page: 9
+11/2/20 3:52:39 PM :Debug: Read page time: 192ms.
+11/2/20 3:52:39 PM :Info: Activating page: 10
+11/2/20 3:52:39 PM :Debug: Read page time: 184ms.
+11/2/20 3:52:39 PM :Info: Activating page: 11
+11/2/20 3:52:39 PM :Debug: Read page time: 195ms.
+11/2/20 3:52:39 PM :Debug: Read All Data
+11/2/20 3:52:39 PM :Debug: isBlank Time: 0 ms.
+11/2/20 3:52:39 PM :Debug: DiffTime: 16 ms.
+11/2/20 3:52:39 PM :Info: Difference Report disabling shared table Models
+11/2/20 3:52:45 PM :Debug: Fill Constants: 5
+11/2/20 3:52:45 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-10-30_01.53.09.msq
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Info: Activating page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:45 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 3:52:48 PM :Info: Time to save msq: 82.031296
+11/2/20 3:52:48 PM :Info: Difference Report enabling shared table Models
+11/2/20 3:52:53 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 3:52:55 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 3:52:55 PM :Debug: Time:33.229s. 0xF 0x80 0xC 0x0 0x0 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x0 0x0 0x0 0x0 0xC8 0x42 0x0 0x0 0xC6 0x42 0x0 0x0 0xCC 0x42 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x93 0x43 0x0 0x80 0x9D 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 3:52:55 PM :Debug: Time:33.229s. 
+
+11/2/20 3:52:55 PM :Debug: Time:33.229s.   .    .    .    .    .    .    .    .    .    =    
+    .    >    .    .    .    .    .    .    .    B    .    .    .    B    .    .    .    B    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 3:54:01 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 3:54:03 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 3:54:05 PM :Debug: controllerOnline = 0.0
+11/2/20 3:54:05 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:54:28 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 3:54:28 PM :Debug: Went offline
+11/2/20 3:54:28 PM :Debug: controllerOnline = 0.0
+11/2/20 3:54:28 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:54:28 PM :Info: Went offline 2
+11/2/20 3:54:30 PM :Info: dirtyData.size(): 0
+11/2/20 3:54:30 PM :Info: dirtyData.size(): 0
+11/2/20 3:54:30 PM :Debug: Flush lasted: 1ms.
+11/2/20 3:54:30 PM :Debug: Burn Page anonymous: -1
+11/2/20 3:54:30 PM :Debug: Received Instruction: , Page: 9
+11/2/20 3:54:30 PM :Debug: goOffline Starting, Time:0
+11/2/20 3:54:30 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 3:54:30 PM :Debug: goOffline about to stopProcessing, Time:1
+11/2/20 3:54:30 PM :Debug: goOffline closed port, Time:1
+11/2/20 3:54:31 PM :Info: Tuareg ComThread stopped COMM Thread43370.83374013282
+11/2/20 3:54:31 PM :Debug: goOffline comm thread stopped, Time:1404
+11/2/20 3:54:31 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:57:19 PM :Info: Time to save msq: 16.838655
+11/2/20 3:57:19 PM :Info: closeApp Called
+11/2/20 3:57:19 PM :Debug: TuneLog Editor set text
+11/2/20 3:57:19 PM :Debug: Fill Constants: 7
+11/2/20 3:57:20 PM :Debug: File does not exist, creating new:
+/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/restorePoints/Tuareg_2020-11-02_15.57.19.msq
+11/2/20 3:57:20 PM :Info: Time to save msq: 13.294404
+11/2/20 3:57:20 PM :Info: Tuareg Restore point saved
+11/2/20 3:57:20 PM :Info: Tuareg Restore point saved to: Tuareg_2020-11-02_15.57.19.msq
+11/2/20 3:57:20 PM :Info: Time to save msq: 12.247665
+11/2/20 3:57:20 PM :Debug: goOffline Starting, Time:0
+11/2/20 3:57:20 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 3:57:20 PM :Debug: goOffline about to stopProcessing, Time:1
+11/2/20 3:57:20 PM :Debug: goOffline closed port, Time:1
+11/2/20 3:57:20 PM :Debug: goOffline comm thread stopped, Time:501
+11/2/20 3:57:20 PM :Debug: No Remaining Queue Write instructions
+11/2/20 3:57:20 PM :Debug: removing Configuration: Tuareg
+11/2/20 3:57:20 PM :Debug: ############################################# Save Project Backup ##########################################
+11/2/20 3:57:20 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Mon Nov 02 16:05:35 CET 2020
+JRE 1.8.0_272, Linux 4.15.0-122-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+11/2/20 4:05:35 PM :Info: Loading Language Content.
+11/2/20 4:05:38 PM :Info: Initializing File Dialogs.
+11/2/20 4:05:38 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+11/2/20 4:05:38 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+11/2/20 4:05:38 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+11/2/20 4:05:38 PM :Info: Initializing Plugin Services.
+11/2/20 4:05:38 PM :Info: Loading Plugins.
+11/2/20 4:05:38 PM :Info: Initializing Help.
+11/2/20 4:05:38 PM :Info: Initializing Edition Features.
+11/2/20 4:05:38 PM :Info: Initializing App Events.
+11/2/20 4:05:38 PM :Debug: App Name:TunerStudio, appEdition:MS
+11/2/20 4:05:38 PM :Info: Initializing User Interface
+11/2/20 4:05:40 PM :Info: Loading Font list.
+11/2/20 4:05:40 PM :Debug: Time to retreive font name list: 20 ms.
+11/2/20 4:05:40 PM :Info: 
+11/2/20 4:05:40 PM :Info: Initializing UI Components.
+11/2/20 4:05:40 PM :Info: Ready
+MSmain: No check, last update check=Thu Oct 29 23:39:35 CET 2020
+11/2/20 4:05:41 PM :Info: Opening Project ...
+11/2/20 4:05:41 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+11/2/20 4:05:41 PM :Debug: EventTrigger Data log Reset. expression: 
+11/2/20 4:05:41 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+11/2/20 4:05:41 PM :Debug: Reading translation file as plain text
+11/2/20 4:05:42 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 4:05:42 PM :Debug: Filtered ConfigurationOptionGroup in 14ms.
+11/2/20 4:05:42 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 4:05:42 PM :Info: Read file canPcVariables.ini: 0.503707ms
+11/2/20 4:05:42 PM :Info: Filtered ini: 0.085842ms
+11/2/20 4:05:42 PM :Info: No iniVersion defined
+11/2/20 4:05:42 PM :Info: Loading Trigger Wheels
+11/2/20 4:05:42 PM :Info: Loaded All known ini sections
+11/2/20 4:05:42 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 22ms.
+11/2/20 4:05:42 PM :Info: Read file mainController.ini: 5.345248ms
+11/2/20 4:05:42 PM :Info: Filtered ini: 2.520658ms
+11/2/20 4:05:42 PM :Info: No iniVersion defined
+11/2/20 4:05:42 PM :Debug: ini signature: speeduino 201708
+11/2/20 4:05:42 PM :Info: Loading Trigger Wheels
+11/2/20 4:05:42 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+11/2/20 4:05:42 PM :Info: Loaded All known ini sections
+11/2/20 4:05:42 PM :Info: Parsed and validated ini "mainController.ini" in : 108ms.
+11/2/20 4:05:42 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+11/2/20 4:05:42 PM :Info: Time to load primary config: 197.5306ms. used cached config: false
+11/2/20 4:05:42 PM :Debug: Adding Configuration: Tuareg
+11/2/20 4:05:42 PM :Debug: controllerOnline = 0.0
+11/2/20 4:05:42 PM :Debug: Fill Constants: 11
+11/2/20 4:05:42 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 4:05:42 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 4:05:42 PM :Info: dirtyData.size(): 0
+11/2/20 4:05:42 PM :Info: dirtyData.size(): 0
+11/2/20 4:05:42 PM :Debug: Flush lasted: 16ms.
+11/2/20 4:05:42 PM :Info: dirtyData.size(): 0
+11/2/20 4:05:42 PM :Info: dirtyData.size(): 0
+11/2/20 4:05:42 PM :Debug: Flush lasted: 0ms.
+11/2/20 4:05:42 PM :Debug: Skip Burn, last write page: -2
+11/2/20 4:05:42 PM :Info: !!! Loaded config in 394
+11/2/20 4:05:42 PM :Info: !!! Activated Project 895
+11/2/20 4:05:42 PM :Info: Opening Gauge Cluster..
+11/2/20 4:05:43 PM :Info: Time to load uncached dash: 267.403ms, file: dashboard.dash
+11/2/20 4:05:43 PM :Debug: High Speed Paint: true
+11/2/20 4:05:43 PM :Info: 
+11/2/20 4:05:43 PM :Info: Com Thread created: COMM Thread14617.049288999195
+11/2/20 4:05:43 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+11/2/20 4:05:43 PM :Debug: !!! Opened Dash 1540
+11/2/20 4:05:43 PM :Info: Tuareg Ready
+11/2/20 4:05:43 PM :Debug: Tuning View Files loaded in 0.147851ms.
+11/2/20 4:05:43 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread14617.049288999195
+11/2/20 4:05:44 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread14617.049288999195
+MSad: No check, last update check=Thu Oct 29 23:39:40 CET 2020
+11/2/20 4:05:45 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 4:05:46 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 4:05:46 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 4:05:46 PM :Debug: controllerOnline = 1.0
+11/2/20 4:05:46 PM :Info: Activating page: 1
+11/2/20 4:05:46 PM :Debug: Read page time: 170ms.
+11/2/20 4:05:47 PM :Info: Activating page: 2
+11/2/20 4:05:47 PM :Debug: Read page time: 169ms.
+11/2/20 4:05:47 PM :Info: Activating page: 3
+11/2/20 4:05:47 PM :Debug: Read page time: 181ms.
+11/2/20 4:05:47 PM :Info: Activating page: 4
+11/2/20 4:05:47 PM :Debug: Read page time: 170ms.
+11/2/20 4:05:47 PM :Info: Activating page: 5
+11/2/20 4:05:47 PM :Debug: Read page time: 208ms.
+11/2/20 4:05:47 PM :Info: Activating page: 6
+11/2/20 4:05:47 PM :Debug: Read page time: 170ms.
+11/2/20 4:05:47 PM :Info: Activating page: 7
+11/2/20 4:05:48 PM :Debug: Read page time: 190ms.
+11/2/20 4:05:48 PM :Info: Activating page: 8
+11/2/20 4:05:48 PM :Debug: Read page time: 198ms.
+11/2/20 4:05:48 PM :Info: Activating page: 9
+11/2/20 4:05:48 PM :Debug: Read page time: 192ms.
+11/2/20 4:05:48 PM :Info: Activating page: 10
+11/2/20 4:05:48 PM :Debug: Read page time: 185ms.
+11/2/20 4:05:48 PM :Info: Activating page: 11
+11/2/20 4:05:48 PM :Debug: Read page time: 195ms.
+11/2/20 4:05:48 PM :Debug: Read All Data
+11/2/20 4:05:48 PM :Debug: isBlank Time: 0 ms.
+11/2/20 4:05:48 PM :Debug: DiffTime: 13 ms.
+11/2/20 4:05:48 PM :Info: Difference Report disabling shared table Models
+11/2/20 4:05:52 PM :Debug: Fill Constants: 7
+11/2/20 4:05:52 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_15.57.19.msq
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:05:52 PM :Info: Activating page: 9
+11/2/20 4:05:53 PM :Info: Time to save msq: 54.564995
+11/2/20 4:05:53 PM :Info: Difference Report enabling shared table Models
+11/2/20 4:06:00 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 4:06:01 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 4:06:01 PM :Debug: Time:19.668s. 0xC 0x80 0x8 0x0 0x0 0x58 0x11 0xFD 0x4 0x3D 0xA 0xD7 0x3E 0x14 0x0 0x15 0x0 0x94 0x2B 0x6C 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x93 0x43 0x0 0x0 0x9F 0x43 0x0 0x0 0x60 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 4:06:01 PM :Debug: Time:19.668s. 
+
+11/2/20 4:06:01 PM :Debug: Time:19.668s.   .    .    .    .    .    X    .    .    .    =    
+    .    >    .    .    .    .    .    +    l    B    .    .    .    B    .    .    .    .    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    `    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 4:06:12 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:06:14 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:06:16 PM :Debug: controllerOnline = 0.0
+11/2/20 4:06:16 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:07:19 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 4:07:19 PM :Debug: Went offline
+11/2/20 4:07:19 PM :Debug: controllerOnline = 0.0
+11/2/20 4:07:19 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:07:19 PM :Info: Went offline 2
+11/2/20 4:07:25 PM :Info: Time to save msq: 15.481365
+11/2/20 4:07:25 PM :Info: closeApp Called
+11/2/20 4:07:25 PM :Debug: TuneLog Editor set text
+11/2/20 4:07:25 PM :Debug: Fill Constants: 6
+11/2/20 4:07:25 PM :Debug: File does not exist, creating new:
+/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/restorePoints/Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:07:25 PM :Info: Time to save msq: 13.825906
+11/2/20 4:07:25 PM :Info: Tuareg Restore point saved
+11/2/20 4:07:25 PM :Info: Tuareg Restore point saved to: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:07:25 PM :Info: Time to save msq: 11.678741
+11/2/20 4:07:25 PM :Debug: goOffline Starting, Time:0
+11/2/20 4:07:25 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 4:07:25 PM :Debug: goOffline about to stopProcessing, Time:0
+11/2/20 4:07:25 PM :Debug: goOffline closed port, Time:0
+11/2/20 4:07:27 PM :Info: Tuareg ComThread stopped COMM Thread14617.049288999195
+11/2/20 4:07:27 PM :Debug: goOffline comm thread stopped, Time:2055
+11/2/20 4:07:27 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:07:27 PM :Debug: removing Configuration: Tuareg
+11/2/20 4:07:27 PM :Debug: ############################################# Save Project Backup ##########################################
+11/2/20 4:07:27 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Mon Nov 02 16:33:14 CET 2020
+JRE 1.8.0_272, Linux 4.15.0-122-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+11/2/20 4:33:15 PM :Info: Loading Language Content.
+11/2/20 4:33:17 PM :Info: Initializing File Dialogs.
+11/2/20 4:33:17 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+11/2/20 4:33:17 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+11/2/20 4:33:17 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+11/2/20 4:33:17 PM :Info: Initializing Plugin Services.
+11/2/20 4:33:17 PM :Info: Loading Plugins.
+11/2/20 4:33:17 PM :Info: Initializing Help.
+11/2/20 4:33:17 PM :Info: Initializing Edition Features.
+11/2/20 4:33:17 PM :Info: Initializing App Events.
+11/2/20 4:33:17 PM :Debug: App Name:TunerStudio, appEdition:MS
+11/2/20 4:33:17 PM :Info: Initializing User Interface
+11/2/20 4:33:19 PM :Info: Loading Font list.
+11/2/20 4:33:19 PM :Debug: Time to retreive font name list: 18 ms.
+11/2/20 4:33:19 PM :Info: 
+11/2/20 4:33:19 PM :Info: Initializing UI Components.
+11/2/20 4:33:19 PM :Info: Ready
+11/2/20 4:33:20 PM :Info: Opening Project ...
+11/2/20 4:33:20 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+11/2/20 4:33:20 PM :Debug: EventTrigger Data log Reset. expression: 
+11/2/20 4:33:20 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+11/2/20 4:33:20 PM :Debug: Reading translation file as plain text
+11/2/20 4:33:20 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 4:33:21 PM :Debug: Filtered ConfigurationOptionGroup in 19ms.
+11/2/20 4:33:21 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 4:33:21 PM :Info: Read file canPcVariables.ini: 0.487185ms
+11/2/20 4:33:21 PM :Info: Filtered ini: 0.087493ms
+11/2/20 4:33:21 PM :Info: No iniVersion defined
+11/2/20 4:33:21 PM :Info: Loading Trigger Wheels
+11/2/20 4:33:21 PM :Info: Loaded All known ini sections
+11/2/20 4:33:21 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 19ms.
+11/2/20 4:33:21 PM :Info: Read file mainController.ini: 4.365843ms
+11/2/20 4:33:21 PM :Info: Filtered ini: 2.635018ms
+11/2/20 4:33:21 PM :Info: No iniVersion defined
+11/2/20 4:33:21 PM :Debug: ini signature: speeduino 201708
+11/2/20 4:33:21 PM :Info: Loading Trigger Wheels
+11/2/20 4:33:21 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+11/2/20 4:33:21 PM :Info: Loaded All known ini sections
+11/2/20 4:33:21 PM :Info: Parsed and validated ini "mainController.ini" in : 106ms.
+11/2/20 4:33:21 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+11/2/20 4:33:21 PM :Info: Time to load primary config: 211.93456ms. used cached config: false
+11/2/20 4:33:21 PM :Debug: Adding Configuration: Tuareg
+11/2/20 4:33:21 PM :Debug: controllerOnline = 0.0
+11/2/20 4:33:21 PM :Debug: Fill Constants: 9
+11/2/20 4:33:21 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 4:33:21 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 4:33:21 PM :Info: dirtyData.size(): 0
+11/2/20 4:33:21 PM :Info: dirtyData.size(): 0
+11/2/20 4:33:21 PM :Debug: Flush lasted: 2ms.
+11/2/20 4:33:21 PM :Info: dirtyData.size(): 0
+11/2/20 4:33:21 PM :Info: dirtyData.size(): 0
+11/2/20 4:33:21 PM :Debug: Flush lasted: 1ms.
+11/2/20 4:33:21 PM :Debug: Skip Burn, last write page: -2
+11/2/20 4:33:21 PM :Info: !!! Loaded config in 359
+MSmain: No check, last update check=Thu Oct 29 23:39:35 CET 2020
+11/2/20 4:33:21 PM :Debug: Running speed test
+11/2/20 4:33:22 PM :Debug: Processor Score:840398
+11/2/20 4:33:22 PM :Info: !!! Activated Project 1770
+11/2/20 4:33:22 PM :Info: Opening Gauge Cluster..
+11/2/20 4:33:22 PM :Info: Time to load uncached dash: 196.21709ms, file: dashboard.dash
+11/2/20 4:33:23 PM :Debug: High Speed Paint: true
+11/2/20 4:33:23 PM :Info: 
+11/2/20 4:33:23 PM :Info: Com Thread created: COMM Thread37296.003289870816
+11/2/20 4:33:23 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+11/2/20 4:33:23 PM :Debug: !!! Opened Dash 2416
+11/2/20 4:33:23 PM :Info: Tuareg Ready
+11/2/20 4:33:23 PM :Debug: Tuning View Files loaded in 0.121996ms.
+11/2/20 4:33:23 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread37296.003289870816
+MSad: No check, last update check=Thu Oct 29 23:39:40 CET 2020
+11/2/20 4:33:24 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread37296.003289870816
+11/2/20 4:33:42 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 4:33:43 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 4:33:43 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 4:33:43 PM :Debug: controllerOnline = 1.0
+11/2/20 4:33:43 PM :Info: Activating page: 1
+11/2/20 4:33:43 PM :Debug: Read page time: 170ms.
+11/2/20 4:33:43 PM :Info: Activating page: 2
+11/2/20 4:33:43 PM :Debug: Read page time: 169ms.
+11/2/20 4:33:43 PM :Info: Activating page: 3
+11/2/20 4:33:44 PM :Debug: Read page time: 202ms.
+11/2/20 4:33:44 PM :Info: Activating page: 4
+11/2/20 4:33:44 PM :Debug: Read page time: 170ms.
+11/2/20 4:33:44 PM :Info: Activating page: 5
+11/2/20 4:33:44 PM :Debug: Read page time: 209ms.
+11/2/20 4:33:44 PM :Info: Activating page: 6
+11/2/20 4:33:44 PM :Debug: Read page time: 170ms.
+11/2/20 4:33:44 PM :Info: Activating page: 7
+11/2/20 4:33:44 PM :Debug: Read page time: 189ms.
+11/2/20 4:33:44 PM :Info: Activating page: 8
+11/2/20 4:33:45 PM :Debug: Read page time: 198ms.
+11/2/20 4:33:45 PM :Info: Activating page: 9
+11/2/20 4:33:45 PM :Debug: Read page time: 193ms.
+11/2/20 4:33:45 PM :Info: Activating page: 10
+11/2/20 4:33:45 PM :Debug: Read page time: 184ms.
+11/2/20 4:33:45 PM :Info: Activating page: 11
+11/2/20 4:33:45 PM :Debug: Read page time: 195ms.
+11/2/20 4:33:45 PM :Debug: Read All Data
+11/2/20 4:33:45 PM :Debug: isBlank Time: 0 ms.
+11/2/20 4:33:45 PM :Debug: DiffTime: 13 ms.
+11/2/20 4:33:45 PM :Info: Difference Report disabling shared table Models
+11/2/20 4:33:48 PM :Debug: Fill Constants: 6
+11/2/20 4:33:48 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:33:49 PM :Debug: Bintableview paint error.
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:33:49 PM :Info: Activating page: 9
+11/2/20 4:33:49 PM :Info: Time to save msq: 63.42012
+11/2/20 4:33:49 PM :Info: Difference Report enabling shared table Models
+11/2/20 4:33:56 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 4:33:58 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 4:33:58 PM :Debug: Time:37.127s. 0xB 0x80 0x8 0x0 0x0 0x48 0x11 0xA 0x4 0x3D 0xA 0xD7 0x3E 0xA 0x0 0x1B 0x0 0xA4 0xBE 0x7F 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x80 0x92 0x43 0x0 0x80 0x9B 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 4:33:58 PM :Debug: Time:37.127s. 
+
+11/2/20 4:33:58 PM :Debug: Time:37.127s.   .    .    .    .    .    H    .    
+    .    =    
+    .    >    
+    .    .    .    .    .    .    B    .    .    .    B    .    .    .    .    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 4:35:00 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:35:02 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:35:04 PM :Debug: controllerOnline = 0.0
+11/2/20 4:35:04 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:35:41 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 4:35:41 PM :Debug: Went offline
+11/2/20 4:35:41 PM :Debug: controllerOnline = 0.0
+11/2/20 4:35:42 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:35:42 PM :Info: Went offline 2
+11/2/20 4:35:44 PM :Info: dirtyData.size(): 0
+11/2/20 4:35:44 PM :Info: dirtyData.size(): 0
+11/2/20 4:35:44 PM :Debug: Flush lasted: 1ms.
+11/2/20 4:35:44 PM :Debug: Burn Page anonymous: -1
+11/2/20 4:35:44 PM :Debug: Received Instruction: , Page: 9
+11/2/20 4:35:44 PM :Debug: goOffline Starting, Time:0
+11/2/20 4:35:44 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 4:35:44 PM :Debug: goOffline about to stopProcessing, Time:0
+11/2/20 4:35:44 PM :Debug: goOffline closed port, Time:0
+11/2/20 4:35:44 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 4:35:45 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 4:35:45 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 4:35:45 PM :Debug: controllerOnline = 1.0
+11/2/20 4:35:45 PM :Info: Tuareg ComThread stopped COMM Thread37296.003289870816
+11/2/20 4:35:45 PM :Debug: goOffline comm thread stopped, Time:1253
+11/2/20 4:35:45 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:54:18 PM :Info: Com Thread created: COMM Thread26602.013084495356
+11/2/20 4:54:18 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread26602.013084495356
+11/2/20 4:54:19 PM :Info: Comm Read Thread Change! Old Thread:COMM Thread37296.003289870816, new Thread:COMM Thread26602.013084495356
+11/2/20 4:54:20 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 4:54:21 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 4:54:21 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 4:54:21 PM :Debug: controllerOnline = 1.0
+11/2/20 4:54:21 PM :Info: Activating page: 1
+11/2/20 4:54:22 PM :Debug: Read page time: 191ms.
+11/2/20 4:54:22 PM :Debug: Activate Page, burn page 1 new active page=2
+11/2/20 4:54:22 PM :Debug: Burn time:10ms.
+11/2/20 4:54:22 PM :Debug: burned page 1
+11/2/20 4:54:22 PM :Info: Activating page: 2
+11/2/20 4:54:22 PM :Debug: Read page time: 270ms.
+11/2/20 4:54:22 PM :Info: Activating page: 3
+11/2/20 4:54:22 PM :Debug: Read page time: 209ms.
+11/2/20 4:54:22 PM :Info: Activating page: 4
+11/2/20 4:54:22 PM :Debug: Read page time: 170ms.
+11/2/20 4:54:22 PM :Info: Activating page: 5
+11/2/20 4:54:22 PM :Debug: Read page time: 209ms.
+11/2/20 4:54:22 PM :Info: Activating page: 6
+11/2/20 4:54:23 PM :Debug: Read page time: 170ms.
+11/2/20 4:54:23 PM :Info: Activating page: 7
+11/2/20 4:54:23 PM :Debug: Read page time: 190ms.
+11/2/20 4:54:23 PM :Info: Activating page: 8
+11/2/20 4:54:23 PM :Debug: Read page time: 198ms.
+11/2/20 4:54:23 PM :Info: Activating page: 9
+11/2/20 4:54:23 PM :Debug: Read page time: 193ms.
+11/2/20 4:54:23 PM :Info: Activating page: 10
+11/2/20 4:54:23 PM :Debug: Read page time: 184ms.
+11/2/20 4:54:23 PM :Info: Activating page: 11
+11/2/20 4:54:24 PM :Debug: Read page time: 195ms.
+11/2/20 4:54:24 PM :Debug: Read All Data
+11/2/20 4:54:24 PM :Debug: isBlank Time: 0 ms.
+11/2/20 4:54:24 PM :Debug: DiffTime: 3 ms.
+11/2/20 4:54:24 PM :Info: Difference Report disabling shared table Models
+11/2/20 4:54:26 PM :Debug: Fill Constants: 6
+11/2/20 4:54:26 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:54:27 PM :Info: Activating page: 9
+11/2/20 4:54:28 PM :Info: Time to save msq: 22.26749
+11/2/20 4:54:28 PM :Info: Difference Report enabling shared table Models
+11/2/20 4:54:35 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 4:54:36 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 4:54:36 PM :Debug: Time:1275.47s. 0xB 0x80 0x8 0x0 0x0 0x48 0x0 0x7 0x4 0x3D 0xA 0xD7 0x3E 0xA 0x0 0x1B 0x0 0x11 0x93 0x81 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x80 0x41 0x3D 0xA 0xD7 0x3E 0x0 0x80 0x92 0x43 0x0 0x0 0x9D 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 4:54:36 PM :Debug: Time:1275.47s. 
+
+11/2/20 4:54:36 PM :Debug: Time:1275.471s.   .    .    .    .    .    H    .    .    .    =    
+    .    >    
+    .    .    .    .    .    .    B    .    .    .    B    .    .    .    A    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 4:56:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:56:50 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 4:56:52 PM :Debug: controllerOnline = 0.0
+11/2/20 4:56:52 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:56:52 PM :Debug: Deactivated fast paint Main Dashboard
+11/2/20 4:57:06 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 4:57:06 PM :Debug: Went offline
+11/2/20 4:57:06 PM :Debug: controllerOnline = 0.0
+11/2/20 4:57:06 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:57:06 PM :Info: Went offline 2
+11/2/20 4:57:09 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 4:57:10 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 4:57:10 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 4:57:10 PM :Debug: controllerOnline = 1.0
+11/2/20 4:57:10 PM :Info: Activating page: 1
+11/2/20 4:57:10 PM :Debug: Read page time: 169ms.
+11/2/20 4:57:10 PM :Debug: Activate Page, burn page 1 new active page=2
+11/2/20 4:57:10 PM :Debug: Burn time:10ms.
+11/2/20 4:57:10 PM :Debug: burned page 1
+11/2/20 4:57:10 PM :Info: Activating page: 2
+11/2/20 4:57:10 PM :Debug: Read page time: 263ms.
+11/2/20 4:57:10 PM :Info: Activating page: 3
+11/2/20 4:57:10 PM :Debug: Read page time: 209ms.
+11/2/20 4:57:10 PM :Info: Activating page: 4
+11/2/20 4:57:11 PM :Debug: Read page time: 171ms.
+11/2/20 4:57:11 PM :Info: Activating page: 5
+11/2/20 4:57:11 PM :Debug: Read page time: 209ms.
+11/2/20 4:57:11 PM :Info: Activating page: 6
+11/2/20 4:57:11 PM :Debug: Read page time: 171ms.
+11/2/20 4:57:11 PM :Info: Activating page: 7
+11/2/20 4:57:11 PM :Debug: Read page time: 189ms.
+11/2/20 4:57:11 PM :Info: Activating page: 8
+11/2/20 4:57:11 PM :Debug: Read page time: 198ms.
+11/2/20 4:57:11 PM :Info: Activating page: 9
+11/2/20 4:57:12 PM :Debug: Read page time: 193ms.
+11/2/20 4:57:12 PM :Info: Activating page: 10
+11/2/20 4:57:12 PM :Debug: Read page time: 184ms.
+11/2/20 4:57:12 PM :Info: Activating page: 11
+11/2/20 4:57:12 PM :Debug: Read page time: 196ms.
+11/2/20 4:57:12 PM :Debug: Read All Data
+11/2/20 4:57:12 PM :Debug: isBlank Time: 0 ms.
+11/2/20 4:57:12 PM :Debug: DiffTime: 2 ms.
+11/2/20 4:57:12 PM :Info: Difference Report disabling shared table Models
+11/2/20 4:57:17 PM :Debug: Fill Constants: 5
+11/2/20 4:57:17 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 4:57:17 PM :Info: Activating page: 9
+11/2/20 4:57:19 PM :Info: Time to save msq: 15.392503
+11/2/20 4:57:19 PM :Info: Difference Report enabling shared table Models
+11/2/20 4:57:25 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 4:57:26 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 4:57:26 PM :Debug: Time:1445.769s. 0xD 0x80 0xC 0x0 0x0 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x0 0x0 0x0 0x0 0xC8 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x70 0x41 0x3D 0xA 0xD7 0x3E 0x0 0x80 0x92 0x43 0x0 0x80 0x9E 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 4:57:26 PM :Debug: Time:1445.77s. 
+
+11/2/20 4:57:26 PM :Debug: Time:1445.77s.   .    .    .    .    .    .    .    .    .    =    
+    .    >    .    .    .    .    .    .    .    B    .    .    .    B    .    .    p    A    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 4:57:30 PM :Info: Logger Processor stopped.
+11/2/20 4:57:30 PM :Info: Logger Processor stopped.
+11/2/20 4:57:30 PM :Info: Logger Processor stopped.
+11/2/20 4:57:30 PM :Info: Logger Processor stopped.
+11/2/20 4:57:30 PM :Debug: High Speed Paint: true
+11/2/20 4:57:30 PM :Debug: Deactivated fast paint IgnitionLoggerCluster
+11/2/20 4:57:32 PM :Debug: High Speed Paint: true
+11/2/20 4:57:32 PM :Debug: High Speed Paint: true
+11/2/20 4:58:03 PM :Debug: TuneLog Editor set text
+11/2/20 4:58:03 PM :Debug: Fill Constants: 7
+11/2/20 4:58:03 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 4:58:03 PM :Info: Time to save msq: 11.00269
+11/2/20 4:58:03 PM :Debug: goOffline Starting, Time:0
+11/2/20 4:58:03 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 4:58:03 PM :Debug: Burn Page anonymous: 9
+11/2/20 4:58:03 PM :Debug: Received Instruction: , Page: 9
+11/2/20 4:58:03 PM :Info: Queueing burn to page:9
+11/2/20 4:58:03 PM :Debug: Burn time:11ms.
+11/2/20 4:58:03 PM :Debug: burned page 9
+11/2/20 4:58:03 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:58:04 PM :Debug: goOffline about to stopProcessing, Time:276
+11/2/20 4:58:04 PM :Debug: controllerOnline = 0.0
+11/2/20 4:58:04 PM :Debug: goOffline Notified offline, Time:279
+11/2/20 4:58:04 PM :Debug: goOffline closed port, Time:279
+11/2/20 4:58:04 PM :Info: Tuareg ComThread stopped COMM Thread26602.013084495356
+11/2/20 4:58:04 PM :Debug: goOffline comm thread stopped, Time:479
+11/2/20 4:58:04 PM :Debug: No Remaining Queue Write instructions
+11/2/20 4:58:04 PM :Debug: removing Configuration: Tuareg
+11/2/20 4:58:04 PM :Info: Time to load non-cached dashboard: 19.249516 ms. file:IgnitionLoggerCluster.dash
+11/2/20 4:58:04 PM :Debug: Time to save dashboard: 20.77108ms. file: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg//dashboard/IgnitionLoggerCluster.dash
+11/2/20 4:58:04 PM :Info: Time to load non-cached dashboard: 42.095413 ms. file:veAnalyze_veTable1Tbl.dash
+11/2/20 4:58:04 PM :Debug: Time to save dashboard: 46.571266ms. file: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg//dashboard/veAnalyze_veTable1Tbl.dash
+11/2/20 4:58:04 PM :Info: Time to load non-cached dashboard: 48.090202 ms. file:veAnalyze_veTable1Tbl_histogram.dash
+11/2/20 4:58:04 PM :Debug: Time to save dashboard: 48.68526ms. file: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg//dashboard/veAnalyze_veTable1Tbl_histogram.dash
+11/2/20 4:58:04 PM :Debug: ############################################# Save Project Backup ##########################################
+Exception in thread "OfflineTuneSaver" java.lang.NullPointerException
+	at aI.g.a(Unknown Source)
+	at aI.g.e(Unknown Source)
+	at aI.iH.run(Unknown Source)
+MSmain: No check, last update check=Thu Oct 29 23:39:35 CET 2020
+MSad: No check, last update check=Thu Oct 29 23:39:40 CET 2020
+11/2/20 5:00:14 PM :Info: Opening Project ...
+11/2/20 5:00:14 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+11/2/20 5:00:14 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 5:00:14 PM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+11/2/20 5:00:14 PM :Info: Supported iniSpecVersion=3.67
+11/2/20 5:00:14 PM :Info: Read file canPcVariables.ini: 0.295475ms
+11/2/20 5:00:14 PM :Info: Filtered ini: 0.01132ms
+11/2/20 5:00:14 PM :Info: No iniVersion defined
+11/2/20 5:00:14 PM :Info: Loading Trigger Wheels
+11/2/20 5:00:14 PM :Info: Loaded All known ini sections
+11/2/20 5:00:14 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 2ms.
+11/2/20 5:00:14 PM :Info: Read file mainController.ini: 3.356953ms
+11/2/20 5:00:14 PM :Info: Filtered ini: 2.435104ms
+11/2/20 5:00:14 PM :Info: No iniVersion defined
+11/2/20 5:00:14 PM :Debug: ini signature: speeduino 201708
+11/2/20 5:00:14 PM :Info: Loading Trigger Wheels
+11/2/20 5:00:14 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+11/2/20 5:00:14 PM :Info: Loaded All known ini sections
+11/2/20 5:00:14 PM :Info: Parsed and validated ini "mainController.ini" in : 90ms.
+11/2/20 5:00:14 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+11/2/20 5:00:14 PM :Info: Time to load primary config: 98.84837ms. used cached config: false
+11/2/20 5:00:14 PM :Debug: Adding Configuration: Tuareg
+11/2/20 5:00:14 PM :Debug: controllerOnline = 0.0
+11/2/20 5:00:14 PM :Debug: controllerOnline = 0.0
+11/2/20 5:00:14 PM :Debug: Fill Constants: 2
+11/2/20 5:00:14 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 5:00:14 PM :Info: Tune opened, 1508 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+11/2/20 5:00:14 PM :Info: dirtyData.size(): 0
+11/2/20 5:00:14 PM :Info: dirtyData.size(): 0
+11/2/20 5:00:14 PM :Debug: Flush lasted: 1ms.
+11/2/20 5:00:14 PM :Info: dirtyData.size(): 0
+11/2/20 5:00:14 PM :Info: dirtyData.size(): 0
+11/2/20 5:00:14 PM :Debug: Flush lasted: 0ms.
+11/2/20 5:00:14 PM :Debug: Skip Burn, last write page: -2
+11/2/20 5:00:14 PM :Info: !!! Loaded config in 136
+11/2/20 5:00:14 PM :Info: !!! Activated Project 415
+11/2/20 5:00:14 PM :Info: Opening Gauge Cluster..
+11/2/20 5:00:15 PM :Info: Time to load uncached dash: 195.84427ms, file: dashboard.dash
+11/2/20 5:00:15 PM :Debug: High Speed Paint: true
+11/2/20 5:00:15 PM :Info: 
+11/2/20 5:00:15 PM :Info: Com Thread created: COMM Thread664.5863321434464
+11/2/20 5:00:15 PM :Debug: !!! Opened Dash 668
+11/2/20 5:00:15 PM :Info: Tuareg Ready
+11/2/20 5:00:15 PM :Debug: Tuning View Files loaded in 0.052925ms.
+11/2/20 5:00:15 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread664.5863321434464
+11/2/20 5:00:15 PM :Debug: Deactivated fast paint Main Dashboard
+11/2/20 5:00:16 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread664.5863321434464
+11/2/20 5:00:17 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 5:00:18 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 5:00:18 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 5:00:18 PM :Debug: controllerOnline = 1.0
+11/2/20 5:00:18 PM :Info: Activating page: 1
+11/2/20 5:00:18 PM :Debug: Read page time: 168ms.
+11/2/20 5:00:18 PM :Info: Activating page: 2
+11/2/20 5:00:18 PM :Debug: Read page time: 169ms.
+11/2/20 5:00:18 PM :Info: Activating page: 3
+11/2/20 5:00:19 PM :Debug: Read page time: 207ms.
+11/2/20 5:00:19 PM :Info: Activating page: 4
+11/2/20 5:00:19 PM :Debug: Read page time: 170ms.
+11/2/20 5:00:19 PM :Info: Activating page: 5
+11/2/20 5:00:19 PM :Debug: Read page time: 209ms.
+11/2/20 5:00:19 PM :Info: Activating page: 6
+11/2/20 5:00:19 PM :Debug: Read page time: 170ms.
+11/2/20 5:00:19 PM :Info: Activating page: 7
+11/2/20 5:00:19 PM :Debug: Read page time: 189ms.
+11/2/20 5:00:19 PM :Info: Activating page: 8
+11/2/20 5:00:20 PM :Debug: Read page time: 199ms.
+11/2/20 5:00:20 PM :Info: Activating page: 9
+11/2/20 5:00:20 PM :Debug: Read page time: 192ms.
+11/2/20 5:00:20 PM :Info: Activating page: 10
+11/2/20 5:00:20 PM :Debug: Read page time: 184ms.
+11/2/20 5:00:20 PM :Info: Activating page: 11
+11/2/20 5:00:20 PM :Debug: Read page time: 195ms.
+11/2/20 5:00:20 PM :Debug: Read All Data
+11/2/20 5:00:20 PM :Debug: isBlank Time: 0 ms.
+11/2/20 5:00:20 PM :Debug: DiffTime: 2 ms.
+11/2/20 5:00:20 PM :Info: Difference Report disabling shared table Models
+11/2/20 5:00:23 PM :Debug: Fill Constants: 1
+11/2/20 5:00:23 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:00:24 PM :Info: Activating page: 9
+11/2/20 5:00:25 PM :Info: Time to save msq: 9.694117
+11/2/20 5:00:25 PM :Info: Difference Report enabling shared table Models
+11/2/20 5:00:31 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 5:00:33 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 5:00:33 PM :Debug: Time:18.354s. 0xE 0x80 0xC 0x0 0x0 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x0 0x0 0x0 0x0 0xC8 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x70 0x41 0x3D 0xA 0xD7 0x3E 0x0 0x80 0x92 0x43 0x0 0x80 0x9F 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 5:00:33 PM :Debug: Time:18.354s. 
+
+11/2/20 5:00:33 PM :Debug: Time:18.354s.   .    .    .    .    .    .    .    .    .    =    
+    .    >    .    .    .    .    .    .    .    B    .    .    .    B    .    .    p    A    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 5:03:52 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 5:03:54 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 5:03:55 PM :Debug: controllerOnline = 0.0
+11/2/20 5:03:55 PM :Debug: No Remaining Queue Write instructions
+11/2/20 5:15:40 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 5:15:40 PM :Debug: Went offline
+11/2/20 5:15:40 PM :Debug: controllerOnline = 0.0
+11/2/20 5:15:40 PM :Debug: No Remaining Queue Write instructions
+11/2/20 5:15:40 PM :Info: Went offline 2
+11/2/20 5:15:43 PM :Info: Sig Bytes:x73 x70 x65 x65 x64 x75 x69 x6E x6F x20 x32 x30 x31 x37 x30 x38       speeduino.201708
+11/2/20 5:15:44 PM :Info: Communicating with sig:speeduino 201708, Tuareg V0.2 2020.10
+11/2/20 5:15:44 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+11/2/20 5:15:44 PM :Debug: controllerOnline = 1.0
+11/2/20 5:15:44 PM :Info: Activating page: 1
+11/2/20 5:15:44 PM :Debug: Read page time: 221ms.
+11/2/20 5:15:44 PM :Debug: Activate Page, burn page 1 new active page=2
+11/2/20 5:15:44 PM :Debug: Burn time:10ms.
+11/2/20 5:15:44 PM :Debug: burned page 1
+11/2/20 5:15:44 PM :Info: Activating page: 2
+11/2/20 5:15:44 PM :Debug: Read page time: 270ms.
+11/2/20 5:15:44 PM :Info: Activating page: 3
+11/2/20 5:15:44 PM :Debug: Read page time: 210ms.
+11/2/20 5:15:44 PM :Info: Activating page: 4
+11/2/20 5:15:45 PM :Debug: Read page time: 170ms.
+11/2/20 5:15:45 PM :Info: Activating page: 5
+11/2/20 5:15:45 PM :Debug: Read page time: 209ms.
+11/2/20 5:15:45 PM :Info: Activating page: 6
+11/2/20 5:15:45 PM :Debug: Read page time: 170ms.
+11/2/20 5:15:45 PM :Info: Activating page: 7
+11/2/20 5:15:45 PM :Debug: Read page time: 189ms.
+11/2/20 5:15:45 PM :Info: Activating page: 8
+11/2/20 5:15:45 PM :Debug: Read page time: 199ms.
+11/2/20 5:15:45 PM :Info: Activating page: 9
+11/2/20 5:15:46 PM :Debug: Read page time: 192ms.
+11/2/20 5:15:46 PM :Info: Activating page: 10
+11/2/20 5:15:46 PM :Debug: Read page time: 184ms.
+11/2/20 5:15:46 PM :Info: Activating page: 11
+11/2/20 5:15:46 PM :Debug: Read page time: 195ms.
+11/2/20 5:15:46 PM :Debug: Read All Data
+11/2/20 5:15:46 PM :Debug: isBlank Time: 0 ms.
+11/2/20 5:15:46 PM :Debug: DiffTime: 2 ms.
+11/2/20 5:15:46 PM :Info: Difference Report disabling shared table Models
+11/2/20 5:15:51 PM :Debug: Fill Constants: 3
+11/2/20 5:15:51 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Debug: Received Instruction: Write byte, Page: 9
+11/2/20 5:15:51 PM :Info: Activating page: 9
+11/2/20 5:15:52 PM :Info: Time to save msq: 11.482177
+11/2/20 5:15:52 PM :Info: Difference Report enabling shared table Models
+11/2/20 5:15:59 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+
+11/2/20 5:16:00 PM :Debug: Purged 74 orphaned bytes:
+11/2/20 5:16:00 PM :Debug: Time:946.112s. 0xD 0x80 0xC 0x0 0x0 0x0 0x0 0x0 0x0 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x0 0x0 0x0 0x0 0xC8 0x42 0x0 0x0 0xC8 0x42 0x0 0x0 0x80 0x41 0x3D 0xA 0xD7 0x3E 0x0 0x0 0x92 0x43 0x0 0x80 0x9D 0x43 0x0 0x0 0x40 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 
+11/2/20 5:16:00 PM :Debug: Time:946.112s. 
+
+11/2/20 5:16:00 PM :Debug: Time:946.112s.   .    .    .    .    .    .    .    .    .    =    
+    .    >    .    .    .    .    .    .    .    B    .    .    .    B    .    .    .    A    =    
+    .    >    .    .    .    C    .    .    .    C    .    .    @    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .  
+11/2/20 5:17:13 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 5:17:15 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:115200
+11/2/20 5:17:17 PM :Debug: controllerOnline = 0.0
+11/2/20 5:17:17 PM :Debug: No Remaining Queue Write instructions
+11/2/20 6:10:26 PM :Info: Going offline before all changes were permanently saved to the Controller.
+11/2/20 6:10:26 PM :Debug: Went offline
+11/2/20 6:10:26 PM :Debug: controllerOnline = 0.0
+11/2/20 6:10:26 PM :Debug: No Remaining Queue Write instructions
+11/2/20 6:10:26 PM :Info: Went offline 2
+11/2/20 6:10:27 PM :Info: Time to save msq: 5.320144
+11/2/20 6:10:27 PM :Info: closeApp Called
+11/2/20 6:10:27 PM :Debug: TuneLog Editor set text
+11/2/20 6:10:27 PM :Debug: Fill Constants: 3
+11/2/20 6:10:27 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-11-02_16.07.25.msq
+11/2/20 6:10:27 PM :Info: Time to save msq: 5.465027
+11/2/20 6:10:27 PM :Debug: goOffline Starting, Time:0
+11/2/20 6:10:27 PM :Info: Deactivated Turbo Baud, goOffline
+11/2/20 6:10:27 PM :Debug: goOffline about to stopProcessing, Time:0
+11/2/20 6:10:27 PM :Debug: goOffline closed port, Time:0
+11/2/20 6:10:29 PM :Info: Tuareg ComThread stopped COMM Thread664.5863321434464
+11/2/20 6:10:29 PM :Debug: goOffline comm thread stopped, Time:2456
+11/2/20 6:10:29 PM :Debug: No Remaining Queue Write instructions
+11/2/20 6:10:29 PM :Debug: removing Configuration: Tuareg
+11/2/20 6:10:29 PM :Debug: ############################################# Save Project Backup ##########################################
+11/2/20 6:10:29 PM :Info: Finalizing Sensors
+Saved user properties successfully

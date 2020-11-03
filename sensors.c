@@ -185,30 +185,11 @@ x = ( # - n)  / m
 */
 VF32 calc_inverse_lin(VU32 Arg, VF32 M, VF32 N)
 {
-    F32 inverse;
-
-    //subtract N
-    if( N < Arg)
-    {
-        inverse= Arg - N;
-    }
-    else
-    {
-        //clip result
-        return 0.0;
-    }
-
     //divide by M
     if( (M > 0.0) || (M < 0.0) )
     {
-        /**
-        do not ever delete by zero
-        so we test if calib_M is set to something usable
-        -> calibration loading success should be monitored and
-        there should be default values if an error occurred while loading
-        ... but who can be sure for sure... ;9
-        */
-        return (inverse / M);
+        ///float calculation can handle negative values but will not ever delete by zero
+        return ((Arg - N) / M);
     }
     else
     {
