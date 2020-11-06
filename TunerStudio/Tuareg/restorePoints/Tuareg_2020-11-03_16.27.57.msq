@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Nov 03 16:32:13 CET 2020"/>
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: TunerStudio settings before accepting Controller values in a Difference Report. - &lt;br&gt;" writeDate="Tue Nov 03 16:27:57 CET 2020"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="11" signature="speeduino 201708"/>
 <page/>
 <page number="0" size="288">
