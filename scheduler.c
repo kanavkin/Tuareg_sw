@@ -61,44 +61,70 @@ void init_scheduler()
 the scheduler stores the desired action to take
 to fit the coil_ctrl_t and level_t it takes U32 parameter as action
 */
-void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_us)
+void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t TargetState, U32 Delay_us)
 {
 
-    volatile U64 compare;
+    VU64 compare, remain;
     VU32 now;
-    volatile U64 remain;
 
     //get current timer value -> crucial part
     now= TIM5->CNT;
 
     //safety check - clip delay
-    if(delay_us > SCHEDULER_MAX_PERIOD_US)
+    if(Delay_us > SCHEDULER_MAX_PERIOD_US)
     {
-        delay_us= SCHEDULER_MAX_PERIOD_US;
+        Delay_us= SCHEDULER_MAX_PERIOD_US;
 
         scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
     }
-    else if(delay_us < SCHEDULER_MIN_PERIOD_US)
+    else if(Delay_us < SCHEDULER_MIN_PERIOD_US)
     {
-        delay_us= SCHEDULER_MIN_PERIOD_US;
+        /**
+        take immediate action - no scheduler allocation actually
 
-        scheduler_diag_log_event(SCHEDIAG_DELAY_ENLARGED);
+        this feature allows instantaneous triggering the coils through
+        a common interface
+        */
+
+        //
+        //scheduler_diag_log_event(SCHEDIAG_DELAY_ENLARGED);
+
+        switch(Channel)
+        {
+            case SCHEDULER_CH_IGN1:
+                set_ignition_ch1(TargetState);
+                break;
+
+            case SCHEDULER_CH_IGN2:
+                set_ignition_ch2(TargetState);
+                break;
+
+            case SCHEDULER_CH_FUEL1:
+                set_fuel_ch1(TargetState);
+                break;
+
+            case SCHEDULER_CH_FUEL2:
+                set_fuel_ch2(TargetState);
+                break;
+        }
+
+        //no scheduler allocation
+        return;
     }
 
     //compare value at delay end in ticks
-    compare= now  + (delay_us / SCHEDULER_PERIOD_US);
+    compare= now  + (Delay_us / SCHEDULER_PERIOD_US);
 
-    switch(target_ch)
+    switch(Channel)
     {
-        case IGN_CH1:
+        case SCHEDULER_CH_IGN1:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
 
             //store the desired action at delay end
-            Scheduler.ign_ch1_action= action;
+            Scheduler.targets[Channel]= TargetState;
 
             scheduler_diag_log_event(SCHEDIAG_ICH1_SET);
-
 
             if(compare >= 0xFFFFFFFF)
             {
@@ -147,14 +173,14 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
-            if(Scheduler.ign_ch1_triggered == TRUE)
+            if(Scheduler.ign1_triggered == true)
             {
                 scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD);
             }
 
             //save new state
-            Scheduler.ign_ch1_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
-            Scheduler.ign_ch1_triggered= TRUE;
+            Scheduler.watchdogs[Channel]= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.ign1_triggered= true;
 
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
@@ -163,11 +189,11 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
             break;
 
 
-        case IGN_CH2:
+        case SCHEDULER_CH_IGN2:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
 
-            Scheduler.ign_ch2_action= action;
+            Scheduler.targets[Channel]= TargetState;
 
             scheduler_diag_log_event(SCHEDIAG_ICH2_SET);
 
@@ -201,14 +227,14 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
                 TIM5->CCR2  = (U32) compare;
             }
 
-            if(Scheduler.ign_ch2_triggered == TRUE)
+            if(Scheduler.ign2_triggered == true)
             {
                 scheduler_diag_log_event(SCHEDIAG_ICH2_RETRIGD);
             }
 
             //save new state
-            Scheduler.ign_ch2_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
-            Scheduler.ign_ch2_triggered= TRUE;
+            Scheduler.watchdogs[Channel]= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.ign2_triggered= true;
 
 
             //clear pending flags and enable irq
@@ -217,11 +243,11 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
             break;
 
 
-        case FUEL_CH1:
+        case SCHEDULER_CH_FUEL1:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
 
-            Scheduler.fuel_ch1_action= action;
+            Scheduler.targets[Channel]= TargetState;
 
             scheduler_diag_log_event(SCHEDIAG_FCH1_SET);
 
@@ -256,14 +282,14 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
-            if(Scheduler.fuel_ch1_triggered == TRUE)
+            if(Scheduler.fuel1_triggered == true)
             {
                 scheduler_diag_log_event(SCHEDIAG_FCH1_RETRIGD);
             }
 
             //save new state
-            Scheduler.fuel_ch1_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
-            Scheduler.fuel_ch1_triggered= TRUE;
+            Scheduler.watchdogs[Channel]= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.fuel1_triggered= true;
 
 
             //clear pending flags and enable irq
@@ -272,11 +298,11 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
             break;
 
 
-        case FUEL_CH2:
+        case SCHEDULER_CH_FUEL2:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
 
-            Scheduler.fuel_ch2_action= action;
+            Scheduler.targets[Channel]= TargetState;
 
             scheduler_diag_log_event(SCHEDIAG_FCH2_SET);
 
@@ -311,14 +337,14 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
             }
 
-            if(Scheduler.fuel_ch2_triggered == TRUE)
+            if(Scheduler.fuel2_triggered == true)
             {
                 scheduler_diag_log_event(SCHEDIAG_FCH2_RETRIGD);
             }
 
             //save new state
-            Scheduler.fuel_ch2_watchdog= SCHEDULER_WATCHDOG_RESET_VALUE;
-            Scheduler.fuel_ch2_triggered= TRUE;
+            Scheduler.watchdogs[Channel]= SCHEDULER_WATCHDOG_RESET_VALUE;
+            Scheduler.fuel2_triggered= true;
 
             //clear pending flags and enable irq
             TIM5->SR    = (U16) ~TIM_SR_CC4IF;
@@ -334,50 +360,50 @@ void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_
 
 
 
-void scheduler_reset_channel(scheduler_channel_t target_ch)
+void scheduler_reset_channel(scheduler_channel_t Channel)
 {
-    switch(target_ch)
+    switch(Channel)
     {
-        case IGN_CH1:
+        case SCHEDULER_CH_IGN1:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
             TIM5->SR    = (U16) ~TIM_SR_CC1IF;
 
-            Scheduler.ign_ch1_triggered= FALSE;
-            Scheduler.ign_ch1_watchdog= 0;
+            Scheduler.ign1_triggered= false;
+            Scheduler.watchdogs[Channel]= 0;
 
             scheduler_diag_log_event(SCHEDIAG_ICH1_RESET);
             break;
 
-        case IGN_CH2:
+        case SCHEDULER_CH_IGN2:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
             TIM5->SR    = (U16) ~TIM_SR_CC2IF;
 
-            Scheduler.ign_ch2_triggered= FALSE;
-            Scheduler.ign_ch2_watchdog= 0;
+            Scheduler.ign2_triggered= false;
+            Scheduler.watchdogs[Channel]= 0;
 
             scheduler_diag_log_event(SCHEDIAG_ICH2_RESET);
             break;
 
-        case FUEL_CH1:
+        case SCHEDULER_CH_FUEL1:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
             TIM5->SR    = (U16) ~TIM_SR_CC3IF;
 
-            Scheduler.fuel_ch1_triggered= FALSE;
-            Scheduler.fuel_ch1_watchdog= 0;
+            Scheduler.fuel1_triggered= false;
+            Scheduler.watchdogs[Channel]= 0;
 
             scheduler_diag_log_event(SCHEDIAG_FCH1_RESET);
             break;
 
-        case FUEL_CH2:
+        case SCHEDULER_CH_FUEL2:
 
             TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
             TIM5->SR    = (U16) ~TIM_SR_CC4IF;
 
-            Scheduler.fuel_ch2_triggered= FALSE;
-            Scheduler.fuel_ch2_watchdog= 0;
+            Scheduler.fuel2_triggered= false;
+            Scheduler.watchdogs[Channel]= 0;
 
             scheduler_diag_log_event(SCHEDIAG_FCH2_RESET);
             break;
@@ -389,16 +415,16 @@ void scheduler_reset_channel(scheduler_channel_t target_ch)
 }
 
 
-void scheduler_update_watchdog()
+void scheduler_update_watchdogs()
 {
-    if(Scheduler.ign_ch1_triggered == TRUE)
+    if(Scheduler.ign1_triggered == true)
     {
-        if(Scheduler.ign_ch1_watchdog > 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_IGN1] > 0)
         {
-            Scheduler.ign_ch1_watchdog--;
+            Scheduler.watchdogs[SCHEDULER_CH_IGN1]--;
         }
 
-        if(Scheduler.ign_ch1_watchdog == 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_IGN1] == 0)
         {
             /**
             scheduler delay has expired
@@ -408,14 +434,14 @@ void scheduler_update_watchdog()
         }
     }
 
-    if(Scheduler.ign_ch2_triggered == TRUE)
+    if(Scheduler.ign2_triggered == true)
     {
-        if(Scheduler.ign_ch2_watchdog > 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_IGN2] > 0)
         {
-            Scheduler.ign_ch2_watchdog--;
+            Scheduler.watchdogs[SCHEDULER_CH_IGN2]--;
         }
 
-        if(Scheduler.ign_ch2_watchdog == 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_IGN2] == 0)
         {
             /**
             scheduler delay has expired
@@ -425,14 +451,14 @@ void scheduler_update_watchdog()
         }
     }
 
-    if(Scheduler.fuel_ch1_triggered == TRUE)
+    if(Scheduler.fuel1_triggered == true)
     {
-        if(Scheduler.fuel_ch1_watchdog > 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_FUEL1] > 0)
         {
-            Scheduler.fuel_ch1_watchdog--;
+            Scheduler.watchdogs[SCHEDULER_CH_FUEL1]--;
         }
 
-        if(Scheduler.fuel_ch1_watchdog == 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_FUEL1] == 0)
         {
             /**
             scheduler delay has expired
@@ -442,14 +468,14 @@ void scheduler_update_watchdog()
         }
     }
 
-    if(Scheduler.fuel_ch2_triggered == TRUE)
+    if(Scheduler.fuel2_triggered == true)
     {
-        if(Scheduler.fuel_ch2_watchdog > 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_FUEL2] > 0)
         {
-            Scheduler.fuel_ch2_watchdog--;
+            Scheduler.watchdogs[SCHEDULER_CH_FUEL2]--;
         }
 
-        if(Scheduler.fuel_ch2_watchdog == 0)
+        if(Scheduler.watchdogs[SCHEDULER_CH_FUEL2] == 0)
         {
             /**
             scheduler delay has expired
@@ -477,13 +503,12 @@ void TIM5_IRQHandler(void)
         TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
 
         //save new state
-        Scheduler.ign_ch1_triggered= FALSE;
+        Scheduler.ign1_triggered= false;
 
         /**
         ignition channel 1
-        may trigger further irqs!
         */
-        set_ignition_ch1(Scheduler.ign_ch1_action);
+        set_ignition_ch1(Scheduler.targets[SCHEDULER_CH_IGN1]);
     }
 
 
@@ -498,12 +523,12 @@ void TIM5_IRQHandler(void)
         TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
 
         //save new state
-        Scheduler.ign_ch2_triggered= FALSE;
+        Scheduler.ign2_triggered= false;
 
         /**
         ignition channel 2
         */
-        set_ignition_ch2(Scheduler.ign_ch2_action);
+        set_ignition_ch2(Scheduler.targets[SCHEDULER_CH_IGN2]);
     }
 
     if( TIM5->SR & TIM_SR_CC3IF)
@@ -517,12 +542,12 @@ void TIM5_IRQHandler(void)
         TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
 
         //save new state
-        Scheduler.fuel_ch1_triggered= FALSE;
+        Scheduler.fuel1_triggered= false;
 
         /**
         fuel channel 1
         */
-        set_fuel_ch1(Scheduler.fuel_ch1_action);
+        set_fuel_ch1(Scheduler.targets[SCHEDULER_CH_FUEL1]);
     }
 
     if( TIM5->SR & TIM_SR_CC4IF)
@@ -536,11 +561,11 @@ void TIM5_IRQHandler(void)
         TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
 
         //save new state
-        Scheduler.fuel_ch2_triggered= FALSE;
+        Scheduler.fuel2_triggered= false;
 
         /**
         fuel channel 2
         */
-        set_fuel_ch2(Scheduler.ign_ch2_action);
+        set_fuel_ch2(Scheduler.targets[SCHEDULER_CH_FUEL2]);
     }
 }

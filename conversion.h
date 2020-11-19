@@ -17,7 +17,7 @@ typedef enum {
     TYPE_S16,
     TYPE_S32
 
-} conversion_int_t ;
+} conversion_int_t;
 
 
 

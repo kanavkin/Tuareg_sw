@@ -128,6 +128,6 @@ void SysTick_Handler(void)
     /**
     scheduler watchdog
     */
-    scheduler_update_watchdog();
+    scheduler_update_watchdogs();
 
 }

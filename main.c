@@ -208,6 +208,10 @@ int main(void)
     #endif // TUAREG_MODULE_TEST
 
 
+    #define SPARK_DURATION_US 1500
+    configPage13.spark_duration_us= SPARK_DURATION_US;
+
+
     while(1)
     {
         #ifdef TUAREG_MODULE_TEST
@@ -301,9 +305,6 @@ void EXTI2_IRQHandler(void)
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
-    /**
-    check if this is a decoder timeout (engine has stalled) or a regular crank position update event
-    */
     switch(Tuareg.Runmode)
     {
 
@@ -318,8 +319,18 @@ void EXTI2_IRQHandler(void)
 
                 tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 
-                //trigger dwell or spark
-                Tuareg_trigger_ignition();
+                if(Tuareg.decoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
+                {
+                    Tuareg_update_process_data(&(Tuareg.process));
+                }
+
+                if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+                {
+                    Tuareg_update_ignition_controls(&(Tuareg.ignition_controls));
+                }
+
+                //trigger coils
+                Tuareg_trigger_ignition_actors(Tuareg.decoder->crank_position, Tuareg.decoder->phase, &(Tuareg.ignition_controls));
 
             }
             else
@@ -351,27 +362,32 @@ void EXTI2_IRQHandler(void)
                 Tuareg_set_Runmode(TMODE_CRANKING);
 
             }
-            else
-            {
-                /**
-                decoder timeout
-                */
-                //collect diagnostic information
-                tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
-            }
 
+            ///else: decoder timeout -> nothing to do here, no active actors in this mode
             break;
 
 
         case TMODE_LIMP:
 
-            //if((Tuareg.decoder->engine_rpm > 0) && (Tuareg.decoder->crank_position != CRK_POSITION_UNDEFINED))
+            // no diagnostics in TMODE_LIMP
+
             if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
             {
-                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
+                if(Tuareg.decoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
+                {
+                    Tuareg_update_process_data(&(Tuareg.process));
+                }
 
-                //trigger dwell or spark
-                Tuareg_trigger_ignition();
+                if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+                {
+                    Tuareg_update_ignition_controls(&(Tuareg.ignition_controls));
+                }
+
+                //trigger coils
+                Tuareg_trigger_ignition_actors(Tuareg.decoder->crank_position, Tuareg.decoder->phase, &(Tuareg.ignition_controls));
+
+                //no mode transitions from TMODE_LIMP!
+
             }
 
             break;
@@ -410,11 +426,7 @@ void EXTI3_IRQHandler(void)
     moduletest_irq3_action();
     #else
 
-    /**
-    recalculate ignition timing
-    */
-    Tuareg_update_process_data(&(Tuareg.process));
-    Tuareg_update_ignition_timing();
+
 
     #endif // TUAREG_MODULE_TEST
 }

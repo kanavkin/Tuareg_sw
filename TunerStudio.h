@@ -244,7 +244,7 @@ void mod_sensor_calib(U32 Offset, U32 Value);
 void ts_replaceConfig(U32 valueOffset, U32 newValue);
 
 void ts_diag_process_data(volatile process_data_t * pImage);
-void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming);
+void ts_diag_ignition_timing(volatile ignition_control_t * pTiming);
 void ts_diagPage_ignition();
 void ts_diagPage_decoder();
 void ts_diagPage_calib();

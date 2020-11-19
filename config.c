@@ -6,6 +6,7 @@
 #include "eeprom.h"
 #include "eeprom_layout.h"
 #include "config_pages.h"
+#include "config_tables.h"
 #include "config.h"
 #include "eeprom_layout.h"
 
@@ -29,6 +30,9 @@ volatile configPage11_t configPage11;
 volatile configPage12_t configPage12;
 volatile configPage13_t configPage13;
 
+/**
+these are our config tables
+*/
 
 
 /****************************************************************************************************************************************************
@@ -1272,7 +1276,7 @@ U32 load_DecoderConfig()
 
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-        configPage12.trigger_position_map.a_deg[x]= (U16) data;
+        configPage12.trigger_position_map.crank_angle_deg[x]= (U16) data;
     }
 
 
@@ -1339,14 +1343,14 @@ void load_essential_DecoderConfig()
     /**
     config page 12 - crank decoder
     */
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_A1]= DEFAULT_CONFIG12_POSITION_A1_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_A2]= DEFAULT_CONFIG12_POSITION_A2_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_B1]= DEFAULT_CONFIG12_POSITION_B1_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_B2]= DEFAULT_CONFIG12_POSITION_B2_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_C1]= DEFAULT_CONFIG12_POSITION_C1_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_C2]= DEFAULT_CONFIG12_POSITION_C2_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_D1]= DEFAULT_CONFIG12_POSITION_D1_ANGLE;
-    configPage12.trigger_position_map.a_deg[CRK_POSITION_D2]= DEFAULT_CONFIG12_POSITION_D2_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_A1]= DEFAULT_CONFIG12_POSITION_A1_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_A2]= DEFAULT_CONFIG12_POSITION_A2_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_B1]= DEFAULT_CONFIG12_POSITION_B1_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_B2]= DEFAULT_CONFIG12_POSITION_B2_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_C1]= DEFAULT_CONFIG12_POSITION_C1_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_C2]= DEFAULT_CONFIG12_POSITION_C2_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_D1]= DEFAULT_CONFIG12_POSITION_D1_ANGLE;
+    configPage12.trigger_position_map.crank_angle_deg[CRK_POSITION_D2]= DEFAULT_CONFIG12_POSITION_D2_ANGLE;
 
     configPage12.decoder_offset_deg= DEFAULT_CONFIG12_DECODER_OFFSET;
     configPage12.decoder_delay_us= DEFAULT_CONFIG12_DECODER_DELAY;
@@ -1371,7 +1375,7 @@ U32 write_DecoderConfig()
     for(x=0; x < CRK_POSITION_COUNT; x++)
     {
         //every config item is 2 bytes in width
-        eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, configPage12.trigger_position_map.a_deg[x], 2);
+        eeprom_code= eeprom_update_bytes(EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START + 2*x, configPage12.trigger_position_map.crank_angle_deg[x], 2);
 
         if(eeprom_code) return eeprom_code; //exit on eeprom read failure
     }
@@ -1450,12 +1454,13 @@ U32 load_IgnitionConfig()
 
     configPage13.dynamic_ignition_base_position= eeprom_data;
 
-    //crank_position_t dynamic_dwell_base_position
+    /*crank_position_t dynamic_dwell_base_position
     eeprom_code= eeprom_read_byte(EEPROM_CONFIG13_DYN_DWL_BAS_POS, &eeprom_data);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
     configPage13.dynamic_dwell_base_position= eeprom_data;
+    */
 
     //U16 dynamic_dwell_target_us
     eeprom_code= eeprom_read_bytes(EEPROM_CONFIG13_DYN_DWL_TGT_US, &data, 2);
@@ -1552,10 +1557,12 @@ U32 write_IgnitionConfig()
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
 
-    //crank_position_t dynamic_dwell_base_position
+    /*
+    crank_position_t dynamic_dwell_base_position
     eeprom_code= eeprom_update(EEPROM_CONFIG13_DYN_DWL_BAS_POS, configPage13.dynamic_dwell_base_position);
 
     if(eeprom_code) return eeprom_code; //exit on eeprom read failure
+        */
 
     //U16 dynamic_dwell_target_us
     eeprom_code= eeprom_update_bytes(EEPROM_CONFIG13_DYN_DWL_TGT_US, configPage13.dynamic_dwell_target_us, 2);

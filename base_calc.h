@@ -1,8 +1,9 @@
-#ifndef ROTATIONCALC_H_INCLUDED
-#define ROTATIONCALC_H_INCLUDED
+#ifndef BASECALC_H_INCLUDED
+#define BASECALC_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
 #include "trigger_wheel_layout.h"
+#include "Tuareg_types.h"
 
 U32 calc_rot_duration_us(U32 Angle_deg, U32 Period_us);
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us);
@@ -18,4 +19,6 @@ void setBit_U32(U32 Pos, VU32 * pTarget);
 
 
 void increment_crank_position(volatile crank_position_t * pPosition);
-#endif // ROTATIONCALC_H_INCLUDED
+volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in);
+
+#endif // BASECALC_H_INCLUDED

@@ -39,8 +39,8 @@ Dwell position will default to DYNAMIC_DWELL_EARLIEST_POSITION.
 
 DYNAMIC_DWELL_LATEST_POSITION shall be selected to not interfere with the scheduler allocation, but allow for maximum dwell.
 */
-#define DYNAMIC_DWELL_LATEST_POSITION CRK_POSITION_D2
-#define DYNAMIC_DWELL_EARLIEST_POSITION CRK_POSITION_B2
+#define DYNAMIC_DWELL_LATEST_POSITION_COMP CRK_POSITION_D2
+#define DYNAMIC_DWELL_EARLIEST_POSITION_UNPHASED CRK_POSITION_B2
 
 
 /**
@@ -49,54 +49,70 @@ values to report during cranking
 #define CRANKING_REPORTED_IGNITION_ADVANCE_DEG 3
 #define CRANKING_REPORTED_DWELL_MS 10
 
-
+/**
+values to report during rev limiter action
+*/
+#define REVLIMITER_REPORTED_IGNITION_ADVANCE_DEG 100
+#define REVLIMITER_REPORTED_DWELL_MS 0
 
 /**
 ignition_logic_state_t
 */
-typedef struct {
+typedef union
+{
+     U8 all_flags;
 
-    U8 default_timing :1;
-    U8 cranking_timing :1;
-    U8 rev_limiter :1;
-    U8 dynamic :1;
-    U8 cold_idle :1;
-    U8 advance_map :1;
-    U8 advance_tps :1;
+     struct
+     {
+        U8 default_timing :1;
+        U8 cranking_timing :1;
+        U8 rev_limiter :1;
+        U8 dynamic :1;
+        U8 cold_idle :1;
+        U8 advance_map :1;
+        U8 advance_tps :1;
+        U8 extended_dwell :1;
+     };
 
 } ignition_logic_state_t;
 
 
 
-
 /**
-ignition_timing_t defines a transfer object
+ignition_control_t defines a transfer object
 
-keeps the relevant data for the timing of an ignition channel
+It keeps the relevant data for the timing of all ignition channels.
 */
-typedef struct _ignition_timing_t {
+typedef struct _ignition_control_t {
 
-    //functional data
+    //ignition setup
     U16 ignition_advance_deg;
-    U8 dwell_ms;
+    U32 ignition_timing_us;
+    crank_position_t ignition_pos;
 
-    //functional timing
-    U32 coil_dwell_timing_us;
-    U32 coil_ignition_timing_us;
-    crank_position_t coil_dwell_pos;
-    crank_position_t coil_ignition_pos;
+    //dwell setup in phased mode
+    crank_position_t dwell_pos_phased;
+    engine_phase_t dwell_phase_cyl1;
+    engine_phase_t dwell_phase_cyl2;
+    U8 dwell_ms_phased;
+
+    //dwell setup in unphased mode
+    crank_position_t dwell_pos_unphased;
+    U8 dwell_ms_unphased;
 
     //status data
     ignition_logic_state_t state;
 
-} ignition_timing_t;
+} ignition_control_t;
 
 
+exec_result_t calculate_dynamic_ignition_controls(volatile process_data_t * pImage, volatile ignition_control_t * pTarget);
+exec_result_t calculate_ignition_alignment( VU32 Ignition_AD, VU32 Dwell_target_us, VU32 Crank_T_us, volatile ignition_control_t * pTarget);
 
-void fit_position( VU32 Ign_advance_deg, VU32 Dwell_target_us, volatile process_data_t * pImage, volatile ignition_timing_t * pTarget);
-void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget);
-void default_ignition_timing(volatile ignition_timing_t * pTarget);
-extern void cranking_ignition_timing(volatile ignition_timing_t * pTarget);
+void default_ignition_controls(volatile ignition_control_t * pTarget);
+void cranking_ignition_controls(volatile ignition_control_t * pTarget);
+void revlimiter_ignition_controls(volatile ignition_control_t * pTarget);
+
 void trigger_coil_by_timer(VU32 delay_us, VU32 level);
 
 

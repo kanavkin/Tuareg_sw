@@ -167,30 +167,33 @@ calculate the angle at which the crankshaft will be, when the corresponding engi
 -> the crank angle wraps around at 360°
 -> returns the crank base angles when crank speed is unknown
 */
-void update_crank_position_table(volatile crank_position_table_t * Table)
+void update_crank_position_table(volatile crank_position_table_t * pTable)
 {
     VU32 position, angle;
 
     //collect diagnostic data
     decoder_diag_log_event(DDIAG_CRANKTABLE_CALLS);
 
+    /**
+    the last crank position is assumed to be always bTDC
+    */
     for(position=0; position < CRK_POSITION_COUNT; position++)
     {
         //get trigger position base angle
-        angle= configPage12.trigger_position_map.a_deg[position];
+        angle= configPage12.trigger_position_map.crank_angle_deg[position];
 
         //calculate effective crank angle
         angle += configPage12.decoder_offset_deg;
 
         //calculate VR introduced delay
-        angle += calc_rot_angle_deg(configPage12.decoder_delay_us, DInternals.crank_period_us);
+        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(configPage12.decoder_delay_us, DInternals.crank_period_us);
 
         //wrap around crank angle
         angle= angle % 360;
 
-        //save to table
-        Table->a_deg[position]= angle;
+        pTable->crank_angle_deg[position]= angle;
     }
+
 }
 
 /**
@@ -275,6 +278,9 @@ inline void decoder_update_interface()
 {
     DInterface.crank_position= DInternals.crank_position;
     DInterface.crank_period_us= DInternals.crank_period_us;
+
+    ///DEBUG
+    DInterface.phase= PHASE_UNDEFINED;
 }
 
 inline void reset_timeout_counter()
@@ -463,16 +469,7 @@ void decoder_logic_crank_handler(VU32 Interval)
 
         case DSTATE_SYNC:
 
-            /*
-            //update crank_position
-            DInternals.crank_position++;
-
-            //wrap around
-            if(DInternals.crank_position == CRK_POSITION_COUNT)
-            {
-                DInternals.crank_position= 0;
-            }
-            */
+            // update crank_position
             increment_crank_position(&(DInternals.crank_position));
 
             // update crank sensing
@@ -632,6 +629,9 @@ cylinder identification sensor
 
 void update_cis_sensor()
 {
+    ///DEBUG
+    DInternals.phase= PHASE_UNDEFINED;
+
     /**
             cylinder identification sensor handling
             running only in sync with crank, if we lose sync in POSITION_B1 sync check:

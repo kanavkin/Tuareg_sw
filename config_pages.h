@@ -3,6 +3,7 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "sensors.h"
+#include "Tuareg_ignition.h"
 
 #define INJ_PAIRED          0
 #define INJ_SEMISEQUENTIAL  1
@@ -402,7 +403,7 @@ typedef struct _configPage13_t_ {
     //dynamic ignition function
     U16 dynamic_min_rpm;
     crank_position_t dynamic_ignition_base_position;
-    crank_position_t dynamic_dwell_base_position;
+    //crank_position_t dynamic_dwell_base_position;
     U16 dynamic_dwell_target_us;
 
     //cold idle ignition advance function
@@ -414,6 +415,11 @@ typedef struct _configPage13_t_ {
     //static ignition setup for cranking
     crank_position_t cranking_ignition_position;
     crank_position_t cranking_dwell_position;
+
+    //how many coils are installed?
+    coil_setup_t coil_setup;
+
+    U16 spark_duration_us;
 
 
 } configPage13_t;

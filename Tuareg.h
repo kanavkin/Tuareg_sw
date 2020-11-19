@@ -7,6 +7,7 @@
 #include "table.h"
 #include "ignition_logic.h"
 #include "sensors.h"
+#include "process_table.h"
 
 /**
 
@@ -23,7 +24,8 @@ to allow limp home operation if eeprom has ben corrupted
 
 */
 
-
+#define PROCESS_DATA_UPDATE_POSITION CRK_POSITION_B1
+#define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
 
 
 
@@ -109,36 +111,41 @@ typedef enum {
 
 
 
-typedef struct {
+typedef union
+{
+     U32 all_flags;
 
-    VU32 config_load_error :1;
-    VU32 scheduler_error :1;
-    VU32 sensor_O2_error :1;
-    VU32 sensor_TPS_error :1;
-    VU32 sensor_IAT_error :1;
-    VU32 sensor_CLT_error :1;
-    VU32 sensor_VBAT_error :1;
-    VU32 sensor_KNOCK_error :1;
-    VU32 sensor_BARO_error :1;
-    VU32 sensor_GEAR_error :1;
-    VU32 sensor_MAP_error :1;
-    VU32 sensor_CIS_error :1;
+     struct {
+
+        VU32 config_load_error :1;
+        VU32 scheduler_error :1;
+        VU32 sensor_O2_error :1;
+        VU32 sensor_TPS_error :1;
+        VU32 sensor_IAT_error :1;
+        VU32 sensor_CLT_error :1;
+        VU32 sensor_VBAT_error :1;
+        VU32 sensor_KNOCK_error :1;
+        VU32 sensor_BARO_error :1;
+        VU32 sensor_GEAR_error :1;
+        VU32 sensor_MAP_error :1;
+        VU32 sensor_CIS_error :1;
+     };
 
 } tuareg_error_t;
 
 
-typedef struct {
+typedef union
+{
+     U8 all_flags;
 
-    VU8 crash_sensor :1;
-    VU8 run_switch :1;
-    VU8 sidestand_sensor :1;
+     struct {
+
+        VU8 crash_sensor :1;
+        VU8 run_switch :1;
+        VU8 sidestand_sensor :1;
+     };
 
 } tuareg_haltsrc_t;
-
-
-
-
-
 
 
 
@@ -151,22 +158,29 @@ In current version this is 64 bytes
 typedef struct _Tuareg_t {
 
     /**
-    access to core components
+    the decoder interface is the primary source for crank position and engine phase
+    its data can be considered valid at all time
     */
     volatile decoder_interface_t * decoder;
-    volatile sensor_interface_t * sensors;
-    volatile ignition_timing_t ignition_timing;
 
-    //statemachine and health status
+    /**
+    access to core components
+    */
+    volatile sensor_interface_t * sensors;
+
+    /**
+    current ignition timing and alignment
+    */
+    volatile ignition_control_t ignition_controls;
+
+    /**
+    statemachine and health status
+    */
     volatile tuareg_runmode_t Runmode;
     volatile tuareg_haltsrc_t Halt_source;
     volatile tuareg_error_t Errors;
 
-    //sidestand, crash and run switch counter
-    //VU8 run_switch_counter;
-    VU8 crash_switch_counter;
 
-/// TODO (oli#7#): turn diagnostics on/off per compiler switch
     volatile process_data_t process;
 
     VU8 secl;
@@ -184,8 +198,7 @@ void Tuareg_update_Runmode();
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 void Tuareg_stop_engine();
 void Tuareg_update_process_data();
-void Tuareg_update_ignition_timing();
-void Tuareg_trigger_ignition();
+
 
 VF32 Tuareg_update_MAP_sensor();
 VF32 Tuareg_update_GEAR_sensor();
@@ -203,6 +216,6 @@ VF32 Tuareg_update_MAP_sensor();
 void Tuareg_export_diag(VU32 * pTarget);
 void Tuareg_register_scheduler_error();
 
-VU8 Tuareg_check_halt_sources();
+void Tuareg_update_halt_sources();
 
 #endif // TUAREG_H_INCLUDED

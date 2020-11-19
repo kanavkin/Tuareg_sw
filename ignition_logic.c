@@ -17,6 +17,8 @@ requirements:
 #include "table.h"
 #include "base_calc.h"
 #include "config.h"
+#include "config_pages.h"
+#include "config_tables.h"
 
 
 /**
@@ -27,249 +29,289 @@ finds the best dwell position for the commanded dwell target duration
 
 *** this function shall never be called in LIMP Mode ***
 
+THIS CALCULATION HAS BEEN TAILORED FOR 180° PARALLEL TWIN ENGINE!
+
 */
-void fit_position( VU32 Ign_advance_deg, VU32 Dwell_target_us, volatile process_data_t * pImage, volatile ignition_timing_t * pTarget)
+exec_result_t calculate_ignition_alignment( VU32 Ignition_AD, VU32 Dwell_target_us, VU32 Crank_T_us, volatile ignition_control_t * pTarget)
 {
-    VU32 ignition_angle_deg, base_crank_angle_deg, position, dwell_angle, dwell_prolongation_us;
-    volatile crank_position_table_t dwell_table;
+    process_position_t ignition_POS, dwell_target_POS, spark_end_POS;
+    process_advance_t spark_end_PA, dwell_target_PA;
+    angle_deg_t spark_burn_PD;
+    U32 result;
+
 
     /**
-    calculate ignition (off) timing
+    calculate ignition trigger timing
+
+    Ignition base position and timing is common for cylinder #1 and #2.
+    In phased mode an ignition event for cylinder #1 shall occur at ignition_pos:PHASE_CYL1_COMP
+    In phased mode an ignition event for cylinder #2 shall occur at ignition_pos:PHASE_CYL1_EX
+    In unphased mode an ignition event for cylinder #1 and #2 shall occur at every ignition_pos regardless of engine phase
     */
 
     //use fixed ignition position in dynamic mode
-    pTarget->coil_ignition_pos= configPage13.dynamic_ignition_base_position;
+    ignition_POS.crank_pos= configPage13.dynamic_ignition_base_position;
+    ignition_POS.phase= PHASE_CYL1_COMP;
 
-    //get the expected (ideal) crank angle at ignition trigger position
-    base_crank_angle_deg= pImage->crank_position_table.a_deg[configPage13.dynamic_ignition_base_position];
+    //get the basic advance angle the ignition base position provides
+    result= get_process_advance(&ignition_POS);
 
-    //store ignition advance to timing object
-    pTarget->ignition_advance_deg= Ign_advance_deg;
+    if(result != RETURN_OK)
+    {
+        //logic error
+        return result;
+    }
 
-    //calculate the corresponding crank ignition angle
-    ignition_angle_deg= 360 - Ign_advance_deg;
+    //ignition_timing_us reflects the scheduler delay to set up
+    pTarget->ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_POS.base_PA, Ignition_AD), Crank_T_us);
 
-    //the next ignition event will take place after ca. 360 deg
-    pTarget->coil_ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_angle_deg, base_crank_angle_deg), pImage->crank_T_us);
+    //export trigger crank position
+    pTarget->ignition_pos= ignition_POS.crank_pos;
 
 
     /**
-    dwell calculation
+    calculate the position corresponding to spark burn end across the whole engine cycle
     */
+    spark_burn_PD= calc_rot_angle_deg(configPage13.spark_duration_us, Crank_T_us);
 
-    //because of the crank_position_t order its more convenient to calculate all segments
-    for(position= 0; position < CRK_POSITION_COUNT; position++)
+    //spark end process advance := 720 + ignition advance - spark burn angle
+    spark_end_PA= subtract_VU32(720 + Ignition_AD, spark_burn_PD);
+
+    //calculate spark_end_POS
+    result= find_process_position_after(spark_end_PA, &spark_end_POS);
+
+    if(result != RETURN_OK)
     {
-        //calculate angle from position to ignition
-
-        //check if position is bTDC or aTDC, CRK_POSITION_B2 can be affected
-        if(pImage->crank_position_table.a_deg[position] > 300)
-        {
-            dwell_angle= ignition_angle_deg + (360 - pImage->crank_position_table.a_deg[position]);
-        }
-        else
-        {
-            dwell_angle= ignition_angle_deg - pImage->crank_position_table.a_deg[position];
-        }
-
-        //calculate rotational duration from position to ignition
-        dwell_table.a_deg[position]= calc_rot_duration_us(dwell_angle, pImage->crank_T_us);
+        //logic error
+        return result;
     }
 
     /**
-    loop through the positions and find the first position, that will extent dwell
-    searching from the shortest possible dwell position, the first match is important, all others will be longer
+    calculate dwell target begin position
     */
-    for(position= DYNAMIC_DWELL_LATEST_POSITION; position > DYNAMIC_DWELL_EARLIEST_POSITION; position--)
+    dwell_target_PA= Ignition_AD + calc_rot_angle_deg(Dwell_target_us, Crank_T_us);
+
+    //find the position that will provide minimum the target dwell duration
+    result= find_process_position_before(dwell_target_PA, &dwell_target_POS);
+
+    if(result != RETURN_OK)
     {
-        //calculate, how much the resulting dwell duration is longer then the target dwell duration
-        dwell_prolongation_us= subtract_VU32(dwell_table.a_deg[position], Dwell_target_us);
+        //logic error
+        return result;
+    }
 
-        if(dwell_prolongation_us > 0)
-        {
-            //bingo!
-            break;
-        }
 
-        /**
-        WARNING hard to understand code
-        the for loop will anyways decrement the position variable if it is not left by 'break'
+    /**
+    spark burn duration has priority over dwell
+
+    In unphased mode:
+    -> dwell begins right after spark end target duration dwell_pos_unphased
+    -> this can extend dwell beyond target dwell duration
+
+    In phased mode:
+    Dwell begin for cylinder #1 shall occur at dwell_pos_phased:dwell_phase_cyl1.
+    Dwell begin for cylinder #2 shall occur at dwell_pos_phased:dwell_phase_cyl2.
+    (spark burn end can be in EX or in the far COMP phase)
+
+    Extended dwell means, that the dwell begin is before TDC of exhaust stroke.
+    */
+
+    /**
+    dwell setup in phased mode
+    */
+    if(dwell_target_POS.base_PA > spark_end_POS.base_PA)
+    {
+        /*
+        it has been requested more dwell than available in one engine cycle
+        -> extended dwell condition is present
+        -> clip dwell to end of spark burn
+        -> dwell setup for phased mode
         */
+        pTarget->state.extended_dwell= true;
+
+        pTarget->dwell_pos_phased= spark_end_POS.crank_pos;
+        pTarget->dwell_phase_cyl1= spark_end_POS.phase;
+        pTarget->dwell_phase_cyl2= opposite_phase(spark_end_POS.phase);
+
+        // dwell lies between spark end and ignition
+        pTarget->dwell_ms_phased= calc_rot_duration_us( subtract_VU32(spark_end_POS.base_PA, Ignition_AD), Crank_T_us) / 1000;
+
+    }
+    else
+    {
+        /*
+        standard scenario: target dwell position fits to engine cycle
+        */
+        pTarget->dwell_pos_phased= dwell_target_POS.crank_pos;
+        pTarget->dwell_phase_cyl1= dwell_target_POS.phase;
+        pTarget->dwell_phase_cyl2= opposite_phase(dwell_target_POS.phase);
+
+        //check for extended dwell condition
+        pTarget->state.extended_dwell= (dwell_target_POS.base_PA > 360)? true : false;
     }
 
-    pTarget->coil_dwell_timing_us =0;
-    pTarget->coil_dwell_pos= position;
-    pTarget->dwell_ms= dwell_table.a_deg[position] / 1000;
+    /**
+    dwell setup in unphased mode
+    */
+    pTarget->dwell_pos_unphased= spark_end_POS.crank_pos;
+
+    //spark burn end comes 360° earlier as in phased mode
+    sub_VU32(&spark_burn_PD, 360);
+
+    // dwell lies between spark end and ignition
+    pTarget->dwell_ms_unphased= calc_rot_duration_us( subtract_VU32(spark_burn_PD, Ignition_AD), Crank_T_us) / 1000;
+
+    return EXEC_OK;
 }
 
 /**
 provides a ignition timing which will allow engine operation
 e.g. while LIMP HOME
 */
-void default_ignition_timing(volatile ignition_timing_t * pTarget)
+void default_ignition_controls(volatile ignition_control_t * pTarget)
 {
-    pTarget->coil_dwell_pos= DEFAULT_DWELL_POSITION;
-    pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
-    pTarget->coil_dwell_timing_us= 0;
-    pTarget->coil_ignition_timing_us= 0;
-    pTarget->dwell_ms= DEFAULT_REPORTED_DWELL_MS;
+    //ignition setup
     pTarget->ignition_advance_deg= DEFAULT_IGNITION_ADVANCE_DEG;
+    pTarget->ignition_timing_us= 0;
+    pTarget->ignition_pos= DEFAULT_IGNITION_POSITION;
 
-    pTarget->state.advance_map= FALSE;
-    pTarget->state.advance_tps= FALSE;
-    pTarget->state.dynamic= FALSE;
-    pTarget->state.cold_idle= FALSE;
-    pTarget->state.rev_limiter= FALSE;
-    pTarget->state.cranking_timing= FALSE;
-    pTarget->state.default_timing= TRUE;
+    //dwell setup in phased mode
+    pTarget->dwell_phase_cyl1= PHASE_CYL1_COMP;
+    pTarget->dwell_phase_cyl2= PHASE_CYL1_EX;
+    pTarget->dwell_pos_phased= DEFAULT_DWELL_POSITION;
+    pTarget->dwell_ms_phased= DEFAULT_REPORTED_DWELL_MS;
 
+    //dwell setup in unphased mode
+    pTarget->dwell_pos_unphased= DEFAULT_DWELL_POSITION;
+    pTarget->dwell_ms_unphased= DEFAULT_REPORTED_DWELL_MS;
+
+    //status data
+    pTarget->state.all_flags= 0;
+    pTarget->state.default_timing= true;
 }
 
 /**
 provides a late ignition timing for cranking
 */
-inline void cranking_ignition_timing(volatile ignition_timing_t * pTarget)
+void cranking_ignition_controls(volatile ignition_control_t * pTarget)
 {
-    pTarget->coil_ignition_pos= configPage13.cranking_ignition_position;
-    pTarget->coil_dwell_pos= configPage13.cranking_dwell_position;
+    //ignition setup
     pTarget->ignition_advance_deg= CRANKING_REPORTED_IGNITION_ADVANCE_DEG;
-    pTarget->dwell_ms= CRANKING_REPORTED_DWELL_MS;
-    pTarget->coil_ignition_timing_us =0;
-    pTarget->coil_dwell_timing_us =0;
+    pTarget->ignition_timing_us= 0;
+    pTarget->ignition_pos= configPage13.cranking_ignition_position;
 
-    pTarget->state.advance_map= FALSE;
-    pTarget->state.advance_tps= FALSE;
-    pTarget->state.dynamic= FALSE;
-    pTarget->state.cold_idle= FALSE;
-    pTarget->state.rev_limiter= FALSE;
-    pTarget->state.default_timing= FALSE;
-    pTarget->state.cranking_timing= TRUE;
+    //dwell setup in phased mode
+    pTarget->dwell_phase_cyl1= PHASE_CYL1_COMP;
+    pTarget->dwell_phase_cyl2= PHASE_CYL1_EX;
+    pTarget->dwell_pos_phased= DEFAULT_DWELL_POSITION;
+    pTarget->dwell_ms_phased= CRANKING_REPORTED_DWELL_MS;
+
+    //dwell setup in unphased mode
+    pTarget->dwell_pos_unphased= DEFAULT_DWELL_POSITION;
+    pTarget->dwell_ms_unphased= CRANKING_REPORTED_DWELL_MS;
+
+    //status data
+    pTarget->state.all_flags= 0;
+    pTarget->state.cranking_timing= true;
 }
 
+
 /**
-calculates the ignition timing for the next engine cycle
-at a given rpm (from ignition_timing_t) and writes it there
+rev limiter function activated
+we have to take care that the update process data, update ignition timing function will be executed anyways!
+*/
+void revlimiter_ignition_controls(volatile ignition_control_t * pTarget)
+{
+    //suspend ignition
+    pTarget->ignition_advance_deg= REVLIMITER_REPORTED_IGNITION_ADVANCE_DEG;
+    pTarget->ignition_timing_us= 0;
+    pTarget->ignition_pos= CRK_POSITION_UNDEFINED;
+
+    //dwell setup in phased mode
+    pTarget->dwell_phase_cyl1= PHASE_UNDEFINED;
+    pTarget->dwell_phase_cyl2= PHASE_UNDEFINED;
+    pTarget->dwell_pos_phased= CRK_POSITION_UNDEFINED;
+    pTarget->dwell_ms_phased= REVLIMITER_REPORTED_DWELL_MS;
+
+    //dwell setup in unphased mode
+    pTarget->dwell_pos_unphased= CRK_POSITION_UNDEFINED;
+    pTarget->dwell_ms_unphased= CRANKING_REPORTED_DWELL_MS;
+
+    //status data
+    pTarget->state.all_flags= 0;
+    pTarget->state.rev_limiter= true;
+
+}
+
+
+/**
+calculates the ignition timing for the next engine cycle at a given rpm (from pImage) and writes it to the ignition_control_t provided
+
+dynamic ignition function activated
 
 *** this function shall never be called in LIMP Mode ***
-
-
-The fact that the crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync will not upset
-the ignition logic. Without a suitable engine_rpm figure, cranking_ignition_timing will be used
-
 */
-void update_ignition_timing(volatile process_data_t * pImage, volatile ignition_timing_t * pTarget)
+exec_result_t calculate_dynamic_ignition_controls(volatile process_data_t * pImage, volatile ignition_control_t * pTarget)
 {
     /// TODO (oli#1#):test ignition calculation
 
     VU32 Ign_advance_deg, Dwell_target_us;
+    exec_result_t result;
 
-    if(pImage->crank_rpm > configPage13.max_rpm)
+    //status data
+    pTarget->state.all_flags= 0;
+    pTarget->state.dynamic= true;
+
+    if( (pImage->crank_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
     {
         /**
-        rev limiter function activated
-        we have to take care that the update process data, update ignition timing function will be executed anyways!
+        cold idle function activated
         */
+        pTarget->state.cold_idle= true;
 
-        //suspend ignition
-        pTarget->coil_ignition_pos= DEFAULT_IGNITION_POSITION;
-        pTarget->coil_ignition_timing_us= 0;
-        pTarget->ignition_advance_deg= 0;
-        pTarget->coil_dwell_pos= CRK_POSITION_UNDEFINED;
-        pTarget->coil_dwell_timing_us= 0;
-        pTarget->dwell_ms= 0;
-
-        //set status bit
-        pTarget->state.advance_map= FALSE;
-        pTarget->state.advance_tps= FALSE;
-        pTarget->state.dynamic= FALSE;
-        pTarget->state.cold_idle= FALSE;
-        pTarget->state.default_timing= FALSE;
-        pTarget->state.cranking_timing= FALSE;
-        pTarget->state.rev_limiter= TRUE;
+        Ign_advance_deg= configPage13.cold_idle_ignition_advance_deg;
+        Dwell_target_us= configPage13.cold_idle_dwell_target_us;
 
     }
-    else if(pImage->crank_rpm > configPage13.dynamic_min_rpm)
+    else
     {
-        /**
-        dynamic ignition function activated
-        */
+        ///get ignition advance from table
 
         //set status bit
-        pTarget->state.dynamic= TRUE;
-        pTarget->state.default_timing= FALSE;
-        pTarget->state.cranking_timing= FALSE;
-        pTarget->state.rev_limiter= FALSE;
+        pTarget->state.advance_tps= true;
 
-        if( (pImage->crank_rpm < configPage13.cold_idle_cutoff_rpm) && (pImage->CLT_K < configPage13.cold_idle_cutoff_CLT_K) )
+        //get target ignition advance angle
+        //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
+
+        /// TODO (oli#3#): tps readout not stable yet
+        Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, 30);
+
+
+        ///get dwell from table
+
+        /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
+
+        //get target dwell duration
+        if(pImage->crank_rpm < 2000)
         {
-            /**
-            cold idle function activated
-            */
-            pTarget->state.cold_idle= TRUE;
-
-            Ign_advance_deg= configPage13.cold_idle_ignition_advance_deg;
-            Dwell_target_us= configPage13.cold_idle_dwell_target_us;
-
+            Dwell_target_us = 10000;
         }
         else
         {
-            ///get ignition advance from table
-
-            //set status bit
-            pTarget->state.advance_map= FALSE;
-            pTarget->state.advance_tps= TRUE;
-            pTarget->state.cold_idle= FALSE;
-
-
-            //get target ignition advance angle
-            //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
-
-            /// TODO (oli#3#): tps readout not stable yet
-            Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, 30);
-
-
-            ///get dwell from table
-
-            /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
-
-            //get target dwell duration
-            if(pImage->crank_rpm < 2000)
-            {
-                Dwell_target_us = 10000;
-            }
-            else
-            {
-                Dwell_target_us = configPage13.dynamic_dwell_target_us;
-            }
-
+            Dwell_target_us = configPage13.dynamic_dwell_target_us;
         }
 
-        /**
-        prepare the ignition timing object
-        */
-        fit_position(Ign_advance_deg, Dwell_target_us, pImage, pTarget);
+    }
 
-    }
-    else
-    {
-        /**
-        cranking function activated
-        */
-        cranking_ignition_timing(pTarget);
-    }
+    /**
+    prepare the ignition control object
+    */
+    result= calculate_ignition_alignment(Ign_advance_deg, Dwell_target_us, pImage->crank_T_us, pTarget);
+
+    return result;
+
 }
 
 
-void trigger_coil_by_timer(VU32 delay_us, VU32 level)
-{
-    if(delay_us == 0)
-    {
-        // immediate trigger
-        set_ignition_ch1(level);
-    }
-    else
-    {
-        scheduler_set_channel(IGN_CH1, level, delay_us);
-    }
-}
+
 

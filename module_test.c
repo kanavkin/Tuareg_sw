@@ -68,24 +68,24 @@ void moduletest_initmsg_action()
 
 void moduletest_scheduler_main_action()
 {
-     if(mtest_scheduler_state == 0)
+    if(mtest_scheduler_state == 0)
+    {
+        mtest_scheduler_state= 0xFF;
+
+        dwt_set_begin();
+
+        //ready for test
+        set_ignition_ch1(ACTOR_POWERED);
+        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, mtest_scheduler_delay);
+
+        mtest_scheduler_tests_started++;
+
+        //increase delay
+        if((mtest_scheduler_delay + MODULE_TEST_SCHEDULER_DELAY_INCREMENT) < MODULE_TEST_SCHEDULER_DELAY_MAX)
         {
-            mtest_scheduler_state= 0xFF;
-
-            dwt_set_begin();
-
-            //ready for test
-            set_ignition_ch1(COIL_DWELL);
-            scheduler_set_channel(IGN_CH1, COIL_IGNITION, mtest_scheduler_delay);
-
-            mtest_scheduler_tests_started++;
-
-            //increase delay
-            if((mtest_scheduler_delay + MODULE_TEST_SCHEDULER_DELAY_INCREMENT) < MODULE_TEST_SCHEDULER_DELAY_MAX)
-            {
-                mtest_scheduler_delay += MODULE_TEST_SCHEDULER_DELAY_INCREMENT;
-            }
+            mtest_scheduler_delay += MODULE_TEST_SCHEDULER_DELAY_INCREMENT;
         }
+    }
 }
 
 void moduletest_scheduler_irq3_action()

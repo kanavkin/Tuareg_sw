@@ -14,6 +14,7 @@ TODO
 #include "TunerStudio.h"
 
 #include "config_pages.h"
+#include "config_tables.h"
 #include "config.h"
 #include "Tuareg.h"
 #include "eeprom.h"
@@ -41,9 +42,9 @@ void ts_communication()
 
 
     // reset cmd pending when timeout occurred
-    if((TS_cli.State.cmd_pending == TRUE) && (TS_cli.command_duration == 0))
+    if((TS_cli.State.cmd_pending == true) && (TS_cli.command_duration == 0))
     {
-        TS_cli.State.cmd_pending = FALSE;
+        TS_cli.State.cmd_pending = false;
 
         #ifdef TS_DEBUG
         /// TODO (oli#1#): debug action enabled
@@ -59,7 +60,7 @@ void ts_communication()
     }
 
     //if we have no currently active command the received byte shall be a command
-    if(TS_cli.State.cmd_pending == FALSE)
+    if(TS_cli.State.cmd_pending == false)
     {
         TS_cli.currentCommand= UART_getRX();
         TS_cli.command_duration= COMMAND_MAX_DURATION_S;
@@ -89,7 +90,7 @@ void ts_communication()
             /**
             Burn current configuration data to eeprom if permission has been given
             */
-            if( TS_cli.State.burn_permission == FALSE )
+            if( TS_cli.State.burn_permission == false )
             {
                 UART_Send(DEBUG_PORT, "\r\n*** config write rejected ***\r\n");
             }
@@ -119,7 +120,7 @@ void ts_communication()
             /**
             received debug feature command
             */
-            TS_cli.State.cmd_pending = TRUE;
+            TS_cli.State.cmd_pending = true;
 
             //taking 2 bytes of input data
 
@@ -135,7 +136,7 @@ void ts_communication()
                 //run the desired feature
                 ts_debug_features( word(data_1, data_2) );
 
-                TS_cli.State.cmd_pending = FALSE;
+                TS_cli.State.cmd_pending = false;
             }
             break;
 
@@ -152,7 +153,7 @@ void ts_communication()
                 /**
                 user permission management
                 */
-                TS_cli.State.cmd_pending= TRUE;
+                TS_cli.State.cmd_pending= true;
 
                 if(UART_available() >= 4)
                 {
@@ -165,42 +166,42 @@ void ts_communication()
                     //get modification permission
                     if((data_1 == 'm') && (data_2 == 'o') && (data_3 == 'd') && (data_4 == '#'))
                     {
-                        TS_cli.State.mod_permission = TRUE;
+                        TS_cli.State.mod_permission = true;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config modification ***");
                     }
                     else if((data_1 == 'c') && (data_2 == 'a') && (data_3 == 'l') && (data_4 == '#'))
                     {
-                        TS_cli.State.calib_mod_permission = TRUE;
+                        TS_cli.State.calib_mod_permission = true;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked calibration modification ***");
                     }
                     else if((data_1 == 'd') && (data_2 == 'e') && (data_3 == 'c') && (data_4 == '#'))
                     {
-                        TS_cli.State.decoder_mod_permission = TRUE;
+                        TS_cli.State.decoder_mod_permission = true;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked decoder config modification ***");
                     }
                     else if((data_1 == 'i') && (data_2 == 'g') && (data_3 == 'n') && (data_4 == '#'))
                     {
-                        TS_cli.State.ignition_mod_permission = TRUE;
+                        TS_cli.State.ignition_mod_permission = true;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked ignition config modification ***");
                     }
                     else if((data_1 == 'b') && (data_2 == 'r') && (data_3 == 'n') && (data_4 == '!'))
                     {
-                        TS_cli.State.burn_permission = TRUE;
+                        TS_cli.State.burn_permission = true;
                         UART_Send(DEBUG_PORT, "\r\n *** unlocked config burn ***");
                     }
 
                     else if((data_1 == 'l') && (data_2 == 'o') && (data_3 == 'c') && (data_4 == 'k'))
                     {
-                        TS_cli.State.burn_permission = FALSE;
-                        TS_cli.State.mod_permission = FALSE;
-                        TS_cli.State.calib_mod_permission = FALSE;
-                        TS_cli.State.decoder_mod_permission = FALSE;
-                        TS_cli.State.ignition_mod_permission = FALSE;
+                        TS_cli.State.burn_permission = false;
+                        TS_cli.State.mod_permission = false;
+                        TS_cli.State.calib_mod_permission = false;
+                        TS_cli.State.decoder_mod_permission = false;
+                        TS_cli.State.ignition_mod_permission = false;
                         UART_Send(DEBUG_PORT, "\r\n *** config locked ***");
                     }
 
                     //ready
-                    TS_cli.State.cmd_pending = FALSE;
+                    TS_cli.State.cmd_pending = false;
                 }
 
             break;
@@ -228,7 +229,7 @@ void ts_communication()
             set the current page
             (A 2nd byte of data is required after the 'P' specifying the new page number)
             */
-            TS_cli.State.cmd_pending= TRUE;
+            TS_cli.State.cmd_pending= true;
 
             if( UART_available() )
             {
@@ -247,7 +248,7 @@ void ts_communication()
                     TS_cli.currentPage= data_1;
                 }
 
-                TS_cli.State.cmd_pending = FALSE;
+                TS_cli.State.cmd_pending = false;
             }
 
             break;
@@ -278,7 +279,7 @@ void ts_communication()
                 /**
                 received an update config value command
                 */
-                TS_cli.State.cmd_pending = TRUE;
+                TS_cli.State.cmd_pending = true;
 
                 /// data order: Offset (MSB, LSB), Value (MSB, x, x, LSB)
                 if(UART_available() >= 6)
@@ -307,7 +308,7 @@ void ts_communication()
                     mod_config(TS_cli.currentPage, offset, value);
 
                     //ready
-                    TS_cli.State.cmd_pending = FALSE;
+                    TS_cli.State.cmd_pending = false;
                 }
 
                 break;
@@ -342,7 +343,7 @@ void ts_communication()
                 #endif // TS_DEBUG
 
 
-                TS_cli.State.cmd_pending = TRUE;
+                TS_cli.State.cmd_pending = true;
 
 
 
@@ -375,7 +376,7 @@ void ts_communication()
                             //take the received data to config
                             ts_replaceConfig(data_1, word(data_2, data_3));
 
-                            TS_cli.State.cmd_pending = FALSE;
+                            TS_cli.State.cmd_pending = false;
                         }
 
                         break;
@@ -406,7 +407,7 @@ void ts_communication()
                                 //take the received data to config
                                 ts_replaceConfig(word(data_2, data_1), data_3);
 
-                                TS_cli.State.cmd_pending = FALSE;
+                                TS_cli.State.cmd_pending = false;
                             }
 
                             break;
@@ -435,7 +436,7 @@ void ts_communication()
                                 data_4= UART_getRX();
 
 
-                                if(TS_cli.State.mod_permission == FALSE)
+                                if(TS_cli.State.mod_permission == false)
                                 {
                                     UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
                                     return;
@@ -444,7 +445,7 @@ void ts_communication()
                                 //write to table (boctok 3D coordinates)
                                 modify_3D_table(&ignitionTable_TPS, word(data_1, data_2), word(data_3, data_4));
 
-                                TS_cli.State.cmd_pending = FALSE;
+                                TS_cli.State.cmd_pending = false;
                             }
 
                             break;
@@ -475,7 +476,7 @@ void ts_communication()
                                 data_4= UART_getRX();
 
 
-                                if(TS_cli.State.mod_permission == FALSE)
+                                if(TS_cli.State.mod_permission == false)
                                 {
                                     UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
                                     return;
@@ -484,7 +485,7 @@ void ts_communication()
                                 //write to table (boctok 3D coordinates)
                                 modify_3D_table(&ignitionTable_MAP, word(data_1, data_2), word(data_3, data_4));
 
-                                TS_cli.State.cmd_pending = FALSE;
+                                TS_cli.State.cmd_pending = false;
                             }
 
                             break;
@@ -513,7 +514,7 @@ void ts_communication()
                                 //take the received data to config
                                 ts_replaceConfig(data_1, data_2);
 
-                                TS_cli.State.cmd_pending = FALSE;
+                                TS_cli.State.cmd_pending = false;
                             }
 
                             break;
@@ -531,7 +532,7 @@ void ts_communication()
                 /**
                 New format for the optimized OutputChannels
                 */
-                TS_cli.State.cmd_pending = TRUE;
+                TS_cli.State.cmd_pending = true;
 
 
                 if (UART_available() >= 6)
@@ -575,7 +576,7 @@ void ts_communication()
                         ts_sendValues(word(data_2, data_1), word(data_4, data_3));
                     }
 
-                    TS_cli.State.cmd_pending = FALSE;
+                    TS_cli.State.cmd_pending = false;
                 }
                 break;
 
@@ -711,10 +712,10 @@ void ts_sendOutputChannels()
     serialize_float_U8(0.42, &(output[9]));
 
     //advance          = scalar,   U16,    13, "deg",    1.000, 0.000
-    serialize_U16_U8(Tuareg.ignition_timing.ignition_advance_deg, &(output[13]));
+    serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[13]));
 
     //dwell	        = scalar,   U16,    15, "ms",     0.100, 0.00
-    serialize_U16_U8(Tuareg.ignition_timing.dwell_ms, &(output[15]));
+    serialize_U16_U8(Tuareg.ignition_controls.dwell_ms_phased, &(output[15]));
 
     //map              = scalar,   F32,    17, "kpa",    1.000, 0.000
     serialize_float_U8(Tuareg.process.MAP_kPa, &(output[17]));
@@ -925,7 +926,7 @@ void ts_debug_features(U32 FeatureID)
             /**
             print current ignition setup
             */
-            ts_diag_ignition_timing(&(Tuareg.ignition_timing));
+            ts_diag_ignition_timing(&(Tuareg.ignition_controls));
 
             break;
 
@@ -1162,7 +1163,7 @@ into a buffer and sends it in human readable form.
 void ts_diagPage()
 {
     volatile table3D_t * currentTable;
-    U32 sendComplete = FALSE;
+    U32 sendComplete = false;
     U32 x, i;
     U32 value;
     VU8 * currentVar;
@@ -1251,7 +1252,7 @@ void ts_diagPage()
             UART_Print_U(TS_PORT, configPage1.iacCLmaxDuty, TYPE_U8, NO_PAD);
             UART_Print_U(TS_PORT, configPage1.boostMinDuty, TYPE_U8, NO_PAD);
 
-            sendComplete = TRUE;
+            sendComplete = true;
             break;
 
 
@@ -1341,7 +1342,7 @@ void ts_diagPage()
             UART_Print_U(TS_PORT, configPage2.dfcoTPSThresh, TYPE_U8, NO_PAD);
             UART_Print_U(TS_PORT, configPage2.ignBypassEnabled, TYPE_U8, NO_PAD);
 
-            sendComplete = TRUE;
+            sendComplete = true;
             break;
 
         case AFRMAPPAGE:
@@ -1428,7 +1429,7 @@ void ts_diagPage()
             UART_Print_U(TS_PORT, configPage3.flatSRetard, TYPE_U8, NO_PAD);
             UART_Print_U(TS_PORT, configPage3.flatSArm, TYPE_U8, NO_PAD);
 
-            sendComplete = TRUE;
+            sendComplete = true;
             break;
 
         case IACPAGE:
@@ -1501,7 +1502,7 @@ void ts_diagPage()
                 UART_Print_U(TS_PORT, configPage4.fanPWMBins[i], TYPE_U8, NO_PAD);
             }
 
-            sendComplete = TRUE;
+            sendComplete = true;
             break;
 
 
@@ -1530,27 +1531,27 @@ void ts_diagPage()
                     UART_Send(TS_PORT, "\r\n");
                 }
 
-                sendComplete = TRUE;
+                sendComplete = true;
                 break;
 
         case CALIBPAGE:
 
                 ts_diagPage_calib();
-                sendComplete = TRUE;
+                sendComplete = true;
                 break;
 
 
         case DECODERPAGE:
 
                 ts_diagPage_decoder();
-                sendComplete = TRUE;
+                sendComplete = true;
                 break;
 
 
         case IGNITIONPAGE:
 
                 ts_diagPage_ignition();
-                sendComplete = TRUE;
+                sendComplete = true;
                 break;
 
 
@@ -1567,7 +1568,7 @@ void ts_diagPage()
 
         default:
             UART_Send(TS_PORT, "\n Page has not been implemented yet. Change to another page.");
-            sendComplete = TRUE;
+            sendComplete = true;
             break;
     }
 
@@ -1679,7 +1680,7 @@ void ts_diagPage_decoder()
 
     for(i=0; i< CRK_POSITION_COUNT; i++)
     {
-        UART_Print_U(TS_PORT, configPage12.trigger_position_map.a_deg[i], TYPE_U16, PAD);
+        UART_Print_U(TS_PORT, configPage12.trigger_position_map.crank_angle_deg[i], TYPE_U16, PAD);
     }
 
     //decoder_offset_deg
@@ -1745,9 +1746,11 @@ void ts_diagPage_ignition()
     UART_Send(TS_PORT, "\r\ndynamic ignition base position: ");
     UART_Print_crank_position(TS_PORT, configPage13.dynamic_ignition_base_position);
 
-    //dynamic_dwell_base_position
+    /*
+    dynamic_dwell_base_position
     UART_Send(TS_PORT, "\r\ndynamic dwell base position: ");
     UART_Print_crank_position(TS_PORT, configPage13.dynamic_dwell_base_position);
+    */
 
     //dynamic_dwell_target_us
     UART_Send(TS_PORT, "\r\ndynamic dwell target (us): ");
@@ -1783,7 +1786,6 @@ void ts_diagPage_ignition()
 
 void ts_diag_process_data(volatile process_data_t * pImage)
 {
-    VU32 i;
     /**
     volatile crank_position_t crank_position;
     volatile crank_position_table_t crank_position_table;
@@ -1802,9 +1804,9 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     */
 
     UART_Send(TS_PORT, "\r\n\r\nprocess data image:\r\n");
-
+/*
     UART_Send(TS_PORT, "\r\ncrank position: ");
-    UART_Print_crank_position(TS_PORT, pImage->crank_position);
+   UART_Print_crank_position(TS_PORT, pImage->crank_position);
 
 
     UART_Send(TS_PORT, "\r\ncrank position table: ");
@@ -1813,7 +1815,7 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     {
         UART_Print_U(TS_PORT, pImage->crank_position_table.a_deg[i], TYPE_U16, PAD);
     }
-
+*/
     UART_Send(TS_PORT, "\r\ncrank rotational period: ");
     UART_Print_U(TS_PORT, pImage->crank_T_us, TYPE_U32, NO_PAD);
 
@@ -1837,7 +1839,7 @@ void ts_diag_process_data(volatile process_data_t * pImage)
 
 }
 
-void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming)
+void ts_diag_ignition_timing(volatile ignition_control_t * pTiming)
 {
     /**
     U16 ignition_advance_deg;
@@ -1852,15 +1854,14 @@ void ts_diag_ignition_timing(volatile ignition_timing_t * pTiming)
 
     UART_Send(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
     UART_Print_U(TS_PORT, pTiming->ignition_advance_deg, TYPE_U16, NO_PAD);
-    UART_Print_crank_position(TS_PORT, pTiming->coil_ignition_pos);
+    UART_Print_crank_position(TS_PORT, pTiming->ignition_pos);
     UART_Tx(TS_PORT, ' ');
-    UART_Print_U(TS_PORT, pTiming->coil_ignition_timing_us, TYPE_U32, NO_PAD);
+    UART_Print_U(TS_PORT, pTiming->ignition_timing_us, TYPE_U32, NO_PAD);
 
     UART_Send(TS_PORT, "\r\nduration (ms), position, timing (us): ");
-    UART_Print_U(TS_PORT, pTiming->dwell_ms, TYPE_U16, NO_PAD);
-    UART_Print_crank_position(TS_PORT, pTiming->coil_dwell_pos);
+    UART_Print_U(TS_PORT, pTiming->dwell_ms_phased, TYPE_U16, NO_PAD);
+    UART_Print_crank_position(TS_PORT, pTiming->dwell_pos_phased);
     UART_Tx(TS_PORT, ' ');
-    UART_Print_U(TS_PORT, pTiming->coil_dwell_timing_us, TYPE_U32, NO_PAD);
 
 }
 
@@ -1875,7 +1876,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
     volatile void* pnt_configPage;
     U32 tempOffset;
 
-    if(TS_cli.State.mod_permission == FALSE)
+    if(TS_cli.State.mod_permission == false)
     {
         UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
         return;
@@ -2260,7 +2261,7 @@ replace a calibration value
 void mod_sensor_calib(U32 Offset, U32 Value)
 {
 
-    if(TS_cli.State.calib_mod_permission == FALSE)
+    if(TS_cli.State.calib_mod_permission == false)
     {
         UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (permission) ***\r\n");
         return;
@@ -2397,7 +2398,7 @@ replace an decoder config value
 */
 void mod_decoder_config(U32 Offset, U32 Value)
 {
-    if(TS_cli.State.decoder_mod_permission == FALSE)
+    if(TS_cli.State.decoder_mod_permission == false)
     {
         UART_Send(DEBUG_PORT, "\r\n*** decoder config modification rejected (permission) ***\r\n");
         return;
@@ -2425,7 +2426,7 @@ void mod_decoder_config(U32 Offset, U32 Value)
     case 6:
     case 7:
 
-        configPage12.trigger_position_map.a_deg[Offset]= (U16) Value;
+        configPage12.trigger_position_map.crank_angle_deg[Offset]= (U16) Value;
         break;
 
     case 8:
@@ -2473,7 +2474,7 @@ replace an ignition config value
 */
 void mod_ignition_config(U32 Offset, U32 Value)
 {
-    if(TS_cli.State.ignition_mod_permission == FALSE)
+    if(TS_cli.State.ignition_mod_permission == false)
     {
         UART_Send(DEBUG_PORT, "\r\n*** ignition config modification rejected (permission) ***\r\n");
         return;
@@ -2513,10 +2514,12 @@ void mod_ignition_config(U32 Offset, U32 Value)
         configPage13.dynamic_ignition_base_position= (crank_position_t) Value;
         break;
 
+        /*
     case 3:
 
         configPage13.dynamic_dwell_base_position= (crank_position_t) Value;
         break;
+        */
 
     case 4:
 
@@ -2724,37 +2727,37 @@ VU8 ts_ignition_bits()
 {
     U32 ignitionbits =0;
 
-    if(Tuareg.ignition_timing.state.default_timing)
+    if(Tuareg.ignition_controls.state.default_timing)
     {
         setBit_U32(IGNBIT_DEFAULT_TIMING, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.cranking_timing)
+    if(Tuareg.ignition_controls.state.cranking_timing)
     {
         setBit_U32(IGNBIT_CRANKING_TIMING, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.rev_limiter)
+    if(Tuareg.ignition_controls.state.rev_limiter)
     {
         setBit_U32(IGNBIT_REV_LIMITER, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.dynamic)
+    if(Tuareg.ignition_controls.state.dynamic)
     {
         setBit_U32(IGNBIT_DYNAMIC, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.cold_idle)
+    if(Tuareg.ignition_controls.state.cold_idle)
     {
         setBit_U32(IGNBIT_COLD_IDLE, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.advance_map)
+    if(Tuareg.ignition_controls.state.advance_map)
     {
         setBit_U32(IGNBIT_ADVANCE_MAP, &ignitionbits);
     }
 
-    if(Tuareg.ignition_timing.state.advance_tps)
+    if(Tuareg.ignition_controls.state.advance_tps)
     {
         setBit_U32(IGNBIT_ADVANCE_TPS, &ignitionbits);
     }

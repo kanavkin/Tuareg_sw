@@ -63,8 +63,10 @@ typedef enum {
 
     //Tuareg_trigger_ignition()
     TDIAG_TRIG_IGN_CALLS,
-    TDIAG_TRIG_COIL_DWELL,
-    TDIAG_TRIG_COIL_IGN,
+    TDIAG_TRIG_COIL_DWELL1,
+    TDIAG_TRIG_COIL_DWELL2,
+    TDIAG_TRIG_COIL_IGN1,
+    TDIAG_TRIG_COIL_IGN2,
 
     //Tuareg_update_process_data()
     TDIAG_PROCESSDATA_CALLS,

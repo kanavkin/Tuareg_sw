@@ -4,6 +4,7 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 #include "trigger_wheel_layout.h"
+#include "process_table.h"
 
 /**
 essential config section
@@ -114,7 +115,7 @@ typedef enum {
 typedef struct {
 
     /*
-    decoder syncronisation
+    decoder synchronization
     */
     volatile decoder_state_t state;
 
@@ -133,6 +134,8 @@ typedef struct {
 
     //crank position
     volatile crank_position_t crank_position;
+
+    volatile engine_phase_t phase;
 
 
     /*
@@ -159,8 +162,8 @@ typedef struct {
     //rotational period of crankshaft
     VU32 crank_period_us;
 
-    //crank position
     volatile crank_position_t crank_position;
+    volatile engine_phase_t phase;
 
 } decoder_interface_t;
 
@@ -174,11 +177,11 @@ extern void decoder_logic_timer_update_handler();
 
 extern void reset_position_data();
 extern void reset_crank_timing_data();
-extern void reset_sync_stability();
 
 extern void decoder_set_state(decoder_state_t NewState);
 
-void update_crank_position_table(volatile crank_position_table_t * Table);
+void update_crank_position_table(volatile crank_position_table_t * pTable);
+
 void update_engine_speed(VU32 Interval);
 
 extern void reset_diag_data();

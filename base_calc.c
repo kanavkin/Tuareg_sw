@@ -72,6 +72,23 @@ void sub_VU32(VU32 * pMin, VU32 Subtr)
 
 }
 
+
+/**
+safe subtraction with clipping
+*/
+VU16 subtract_VU16(VU16 Min, VU16 Subtr)
+{
+
+    if(Min > Subtr)
+    {
+        return (Min - Subtr);
+    }
+    else
+    {
+         return 0;
+    }
+}
+
 /**
 safe subtraction with clipping
 */
@@ -112,19 +129,55 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 
 void increment_crank_position(volatile crank_position_t * pPosition)
 {
-    volatile crank_position_t next= *pPosition;
-
-    next++;
-
-    //overflow check
-    if( next >= CRK_POSITION_COUNT )
+    switch(* pPosition)
     {
-        //new cycle
-        *pPosition= 0;
+    case CRK_POSITION_A1:
+        *pPosition= CRK_POSITION_A2;
+        break;
+
+    case CRK_POSITION_A2:
+        *pPosition= CRK_POSITION_B1;
+        break;
+
+    case CRK_POSITION_B1:
+        *pPosition= CRK_POSITION_B2;
+        break;
+
+    case CRK_POSITION_B2:
+        *pPosition= CRK_POSITION_C1;
+        break;
+
+    case CRK_POSITION_C1:
+        *pPosition= CRK_POSITION_C2;
+        break;
+
+    case CRK_POSITION_C2:
+        *pPosition= CRK_POSITION_D1;
+        break;
+
+    case CRK_POSITION_D1:
+        *pPosition= CRK_POSITION_D2;
+        break;
+
+    default:
+        *pPosition= CRK_POSITION_A1;
+        break;
+    }
+}
+
+volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
+{
+    if(Phase_in == PHASE_CYL1_COMP)
+    {
+        return PHASE_CYL1_EX;
+    }
+    else if(Phase_in == PHASE_CYL1_EX)
+    {
+        return PHASE_CYL1_COMP;
     }
     else
     {
-        *pPosition= next;
+        return PHASE_UNDEFINED;
     }
 }
 

@@ -18,11 +18,11 @@
 
 typedef enum {
 
-    IGN_CH1,
-    IGN_CH2,
-
-    FUEL_CH1,
-    FUEL_CH2
+    SCHEDULER_CH_IGN1,
+    SCHEDULER_CH_IGN2,
+    SCHEDULER_CH_FUEL1,
+    SCHEDULER_CH_FUEL2,
+    SCHEDULER_CH_COUNT
 
 } scheduler_channel_t;
 
@@ -31,20 +31,14 @@ typedef enum {
 
 typedef struct _scheduler_t {
 
-    VU32 ign_ch1_action;
-    VU32 ign_ch2_action;
-    VU32 fuel_ch1_action;
-    VU32 fuel_ch2_action;
+    actor_control_t targets[SCHEDULER_CH_COUNT];
 
-    VU32 ign_ch1_triggered :1;
-    VU32 ign_ch2_triggered :1;
-    VU32 fuel_ch1_triggered :1;
-    VU32 fuel_ch2_triggered :1;
+    VU8 watchdogs[SCHEDULER_CH_COUNT];
 
-    VU8 ign_ch1_watchdog;
-    VU8 ign_ch2_watchdog;
-    VU8 fuel_ch1_watchdog;
-    VU8 fuel_ch2_watchdog;
+    VU8 ign1_triggered :1;
+    VU8 ign2_triggered :1;
+    VU8 fuel1_triggered :1;
+    VU8 fuel2_triggered :1;
 
 } scheduler_t;
 
@@ -52,8 +46,8 @@ typedef struct _scheduler_t {
 
 
 void init_scheduler();
-void scheduler_set_channel(scheduler_channel_t target_ch, U32 action, U32 delay_us);
-void scheduler_reset_channel(scheduler_channel_t target_ch);
-void scheduler_update_watchdog();
+void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t TargetState, U32 Delay_us);
+void scheduler_reset_channel(scheduler_channel_t Channel);
+void scheduler_update_watchdogs();
 
 #endif // SCHEDULER_H_INCLUDED

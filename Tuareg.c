@@ -26,6 +26,7 @@
 #include "act_hw.h"
 #include "act_logic.h"
 
+#include "process_table.h"
 
 #include "debug.h"
 #include "diagnostics.h"
@@ -57,8 +58,11 @@ void Tuareg_update_Runmode()
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_MODECTRL);
 
+    Tuareg_update_halt_sources();
+
     switch(Tuareg.Runmode)
     {
+
     case TMODE_DIAG:
 
         ///DIAG mode will persist until reboot
@@ -67,21 +71,25 @@ void Tuareg_update_Runmode()
 
     case TMODE_CRANKING:
 
-        if(Tuareg_check_halt_sources() )
+        // any halt source triggered?
+        if(Tuareg.Halt_source.all_flags)
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if((Tuareg.process.crank_rpm > configPage13.dynamic_min_rpm) && (Tuareg.process.crank_position != CRK_POSITION_UNDEFINED))
+        else if(Tuareg.process.crank_rpm > configPage13.dynamic_min_rpm)
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
         }
 
+        break;
+
 
     case TMODE_RUNNING:
         case TMODE_STB:
 
-        if(Tuareg_check_halt_sources() )
+        // any halt source triggered?
+        if(Tuareg.Halt_source.all_flags)
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
@@ -92,7 +100,7 @@ void Tuareg_update_Runmode()
     case TMODE_HALT:
 
         //allow turning engine on if the RUN switch is engaged AND the CRASH sensor disengaged
-        if( ((Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) == RUN_SENSOR_ENGAGE_LEVEL ) && (Tuareg_check_halt_sources() == FALSE))
+        if(Tuareg.Halt_source.all_flags == 0)
         {
             Tuareg_set_Runmode(TMODE_STB);
 
@@ -106,8 +114,13 @@ void Tuareg_update_Runmode()
 
         /**
         LIMP mode will persist until reboot
-        LIMP mode will ignore HALT sources
+        LIMP mode will ignore all HALT sources BUT run switch
         */
+        if(Tuareg.Halt_source.run_switch)
+        {
+            Tuareg_stop_engine();
+        }
+
         break;
 
     default:
@@ -122,16 +135,26 @@ void Tuareg_update_Runmode()
 
 void Tuareg_register_scheduler_error()
 {
-    Tuareg.Errors.scheduler_error= TRUE;
+    Tuareg.Errors.scheduler_error= true;
 
     UART_Send(DEBUG_PORT, "\r\n*** Registered Scheduler error ***");
 }
+
 
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 {
 
     if(Tuareg.Runmode != Target_runmode)
     {
+        /**
+        LIMP mode protection
+        */
+        if(Target_runmode == TMODE_LIMP)
+        {
+            UART_Send(DEBUG_PORT, "cannot exit LIMP mode!");
+            return;
+        }
+
         /**
         run state transition actions
         */
@@ -150,7 +173,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
                 //set basic config error states
-                Tuareg.Errors.config_load_error= TRUE;
+                Tuareg.Errors.config_load_error= true;
 
                 /**
                 initialize core components
@@ -205,16 +228,16 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 #else
 
                 //set basic sensor error states
-                Tuareg.Errors.sensor_BARO_error= TRUE;
-                Tuareg.Errors.sensor_MAP_error= TRUE;
-                Tuareg.Errors.sensor_O2_error= TRUE;
-                Tuareg.Errors.sensor_TPS_error= TRUE;
-                Tuareg.Errors.sensor_IAT_error= TRUE;
-                Tuareg.Errors.sensor_CLT_error= TRUE;
-                Tuareg.Errors.sensor_VBAT_error= TRUE;
-                Tuareg.Errors.sensor_KNOCK_error= TRUE;
-                Tuareg.Errors.sensor_GEAR_error= TRUE;
-                Tuareg.Errors.sensor_CIS_error= TRUE;
+                Tuareg.Errors.sensor_BARO_error= true;
+                Tuareg.Errors.sensor_MAP_error= true;
+                Tuareg.Errors.sensor_O2_error= true;
+                Tuareg.Errors.sensor_TPS_error= true;
+                Tuareg.Errors.sensor_IAT_error= true;
+                Tuareg.Errors.sensor_CLT_error= true;
+                Tuareg.Errors.sensor_VBAT_error= true;
+                Tuareg.Errors.sensor_KNOCK_error= true;
+                Tuareg.Errors.sensor_GEAR_error= true;
+                Tuareg.Errors.sensor_CIS_error= true;
 
                 /**
                 initialize core components and register interface access pointers
@@ -301,7 +324,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 Tuareg_stop_engine();
 
                 //provide ignition timing for engine startup
-                update_ignition_timing( &(Tuareg.process), &(Tuareg.ignition_timing));
+                cranking_ignition_controls(&(Tuareg.ignition_controls));
 
                 //collect diagnostic information
                 if(Tuareg.Runmode == TMODE_RUNNING)
@@ -336,7 +359,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 set_fuelpump(PIN_ON);
 
                 //provide initial ignition timing for cranking
-                default_ignition_timing(&(Tuareg.ignition_timing));
+                default_ignition_controls(&(Tuareg.ignition_controls));
 
                 //collect diagnostic information
                 tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
@@ -385,23 +408,35 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 void Tuareg_stop_engine()
 {
     //turn off vital engine actors
-    set_fuelpump(PIN_OFF);
-    set_injector_ch1(PIN_OFF);
-    set_injector_ch2(PIN_OFF);
-    set_ignition_ch1(COIL_POWERDOWN);
-    set_ignition_ch2(COIL_POWERDOWN);
+    set_fuelpump(ACTOR_UNPOWERED);
+    set_injector_ch1(ACTOR_UNPOWERED);
+    set_injector_ch2(ACTOR_UNPOWERED);
+    set_ignition_ch1(ACTOR_UNPOWERED);
+    set_ignition_ch2(ACTOR_UNPOWERED);
+
+    scheduler_reset_channel(SCHEDULER_CH_IGN1);
+    scheduler_reset_channel(SCHEDULER_CH_IGN2);
+    scheduler_reset_channel(SCHEDULER_CH_FUEL1);
+    scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
     //reset MAP calculation
     reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);
 }
+
 
 /**
 update engine control strategy based on available sensors and
 */
 void Tuareg_update_process_data(process_data_t * pImage)
 {
+    volatile crank_position_table_t crank_table;
+
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_PROCESSDATA_CALLS);
+
+    /**
+    decoder based process data
+    */
 
     //crank_T_us
     pImage->crank_T_us= Tuareg.decoder->crank_period_us;
@@ -410,11 +445,11 @@ void Tuareg_update_process_data(process_data_t * pImage)
     pImage->crank_rpm= calc_rpm(pImage->crank_T_us);
     pImage->ddt_crank_rpms= 0;
 
-    //crank_position
-    pImage->crank_position= Tuareg.decoder->crank_position;
-
     //crank position table
-    update_crank_position_table(&(pImage->crank_position_table));
+    update_crank_position_table(&crank_table);
+
+    //update process table with data supplied by decoder
+    update_process_table(&crank_table);
 
     //analog sensors
     pImage->MAP_kPa= Tuareg_update_MAP_sensor();
@@ -437,78 +472,9 @@ void Tuareg_update_process_data(process_data_t * pImage)
 
 
 
-/**
-recalculate ignition timing if the run mode allows engine operation
-*/
-void Tuareg_update_ignition_timing()
-{
-
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_IGNITIONCALC_CALLS);
-
-    switch(Tuareg.Runmode)
-     {
-
-        case TMODE_CRANKING:
-        case TMODE_RUNNING:
-        case TMODE_STB:
-
-            update_ignition_timing( &(Tuareg.process), &(Tuareg.ignition_timing));
-            break;
 
 
-        case TMODE_LIMP:
 
-            default_ignition_timing(&(Tuareg.ignition_timing));
-            break;
-
-
-        default:
-
-            /**
-            possible scenario:
-            -engine has been killed by kill switch and the crank shaft is still rotating
-            */
-            break;
-
-     }
-}
-
-
-void Tuareg_trigger_ignition()
-{
-    VU32 age_us, corr_timing_us;
-
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_TRIG_IGN_CALLS);
-
-    /**
-    its a normal situation that ignition and dwell are triggered from the same position
-    */
-    if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_ignition_pos)
-    {
-        //collect diagnostic information
-        tuareg_diag_log_event(TDIAG_TRIG_COIL_IGN);
-
-        //correct timing
-        age_us= decoder_get_data_age_us();
-        corr_timing_us= subtract_VU32(Tuareg.ignition_timing.coil_ignition_timing_us, age_us);
-
-        trigger_coil_by_timer(corr_timing_us, COIL_IGNITION);
-    }
-
-    if(Tuareg.decoder->crank_position == Tuareg.ignition_timing.coil_dwell_pos)
-    {
-        //collect diagnostic information
-        tuareg_diag_log_event(TDIAG_TRIG_COIL_DWELL);
-
-        //correct timing
-        age_us= decoder_get_data_age_us();
-        corr_timing_us= subtract_VU32(Tuareg.ignition_timing.coil_dwell_timing_us, age_us);
-
-        trigger_coil_by_timer(corr_timing_us, COIL_DWELL);
-    }
-}
 
 
 /**
@@ -519,7 +485,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_MAP_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_MAP_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_MAP)) )
+    if( (Tuareg.Errors.sensor_MAP_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_MAP)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_MAP];
@@ -530,7 +496,7 @@ VF32 Tuareg_update_MAP_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_MAP)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_MAP_error= FALSE;
+            Tuareg.Errors.sensor_MAP_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_MAP];
@@ -538,7 +504,7 @@ VF32 Tuareg_update_MAP_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_MAP_error= TRUE;
+            Tuareg.Errors.sensor_MAP_error= true;
 
             //use default value
             return MAP_DEFAULT_KPA;
@@ -555,7 +521,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_O2_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_O2_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_O2)) )
+    if( (Tuareg.Errors.sensor_O2_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_O2)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_O2];
@@ -566,7 +532,7 @@ VF32 Tuareg_update_O2_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_O2)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_O2_error= FALSE;
+            Tuareg.Errors.sensor_O2_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_O2];
@@ -574,7 +540,7 @@ VF32 Tuareg_update_O2_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_O2_error= TRUE;
+            Tuareg.Errors.sensor_O2_error= true;
 
             //use default value
             return O2_DEFAULT_AFR;
@@ -591,7 +557,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_TPS_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_TPS_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_TPS)) )
+    if( (Tuareg.Errors.sensor_TPS_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_TPS)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_TPS];
@@ -602,7 +568,7 @@ VF32 Tuareg_update_TPS_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_TPS)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_TPS_error= FALSE;
+            Tuareg.Errors.sensor_TPS_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_TPS];
@@ -610,7 +576,7 @@ VF32 Tuareg_update_TPS_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_TPS_error= TRUE;
+            Tuareg.Errors.sensor_TPS_error= true;
 
             //use default value
             return TPS_DEFAULT_DEG;
@@ -622,7 +588,7 @@ VF32 Tuareg_update_TPS_sensor()
 VF32 Tuareg_update_ddt_TPS()
 {
     /// must be executed after TPS sensor update!
-    if(Tuareg.Errors.sensor_TPS_error == FALSE)
+    if(Tuareg.Errors.sensor_TPS_error == false)
     {
         //use live value
         return Tuareg.sensors->ddt_TPS;
@@ -642,7 +608,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_IAT_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_IAT_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_IAT)) )
+    if( (Tuareg.Errors.sensor_IAT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_IAT)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_IAT];
@@ -653,7 +619,7 @@ VF32 Tuareg_update_IAT_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_IAT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_IAT_error= FALSE;
+            Tuareg.Errors.sensor_IAT_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_IAT];
@@ -661,7 +627,7 @@ VF32 Tuareg_update_IAT_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_IAT_error= TRUE;
+            Tuareg.Errors.sensor_IAT_error= true;
 
             //use default value
             return IAT_DEFAULT_C;
@@ -678,7 +644,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_CLT_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_CLT_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_CLT)) )
+    if( (Tuareg.Errors.sensor_CLT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_CLT)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_CLT];
@@ -689,7 +655,7 @@ VF32 Tuareg_update_CLT_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_CLT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_CLT_error= FALSE;
+            Tuareg.Errors.sensor_CLT_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_CLT];
@@ -697,7 +663,7 @@ VF32 Tuareg_update_CLT_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_CLT_error= TRUE;
+            Tuareg.Errors.sensor_CLT_error= true;
 
             //use default value
             return CLT_DEFAULT_C;
@@ -714,7 +680,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_VBAT_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_VBAT_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_VBAT)) )
+    if( (Tuareg.Errors.sensor_VBAT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_VBAT)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_VBAT];
@@ -725,7 +691,7 @@ VF32 Tuareg_update_VBAT_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_VBAT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_VBAT_error= FALSE;
+            Tuareg.Errors.sensor_VBAT_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_VBAT];
@@ -733,7 +699,7 @@ VF32 Tuareg_update_VBAT_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_VBAT_error= TRUE;
+            Tuareg.Errors.sensor_VBAT_error= true;
 
             //use default value
             return VBAT_DEFAULT_V;
@@ -751,7 +717,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_KNOCK_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_KNOCK_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_KNOCK)) )
+    if( (Tuareg.Errors.sensor_KNOCK_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_KNOCK)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_KNOCK];
@@ -762,7 +728,7 @@ VF32 Tuareg_update_KNOCK_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_KNOCK)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_KNOCK_error= FALSE;
+            Tuareg.Errors.sensor_KNOCK_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_KNOCK];
@@ -770,7 +736,7 @@ VF32 Tuareg_update_KNOCK_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_KNOCK_error= TRUE;
+            Tuareg.Errors.sensor_KNOCK_error= true;
 
             //use default value
             return KNOCK_DEFAULT;
@@ -787,7 +753,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_BARO_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_BARO_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_BARO)) )
+    if( (Tuareg.Errors.sensor_BARO_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_BARO)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_BARO];
@@ -798,7 +764,7 @@ VF32 Tuareg_update_BARO_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_BARO)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_BARO_error= FALSE;
+            Tuareg.Errors.sensor_BARO_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_BARO];
@@ -806,7 +772,7 @@ VF32 Tuareg_update_BARO_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_BARO_error= TRUE;
+            Tuareg.Errors.sensor_BARO_error= true;
 
             //use default value
             return BARO_DEFAULT_KPA;
@@ -823,7 +789,7 @@ uses a generic default value for disturbed sensors
 VF32 Tuareg_update_GEAR_sensor()
 {
     //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_GEAR_error == FALSE) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) )
+    if( (Tuareg.Errors.sensor_GEAR_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) )
     {
         //use live value
         return Tuareg.sensors->asensors[ASENSOR_GEAR];
@@ -834,7 +800,7 @@ VF32 Tuareg_update_GEAR_sensor()
         if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES) )
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_GEAR_error= FALSE;
+            Tuareg.Errors.sensor_GEAR_error= false;
 
             //use live value
             return Tuareg.sensors->asensors[ASENSOR_GEAR];
@@ -842,7 +808,7 @@ VF32 Tuareg_update_GEAR_sensor()
         else
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_GEAR_error= TRUE;
+            Tuareg.Errors.sensor_GEAR_error= true;
 
             //use default value
             return GEAR_DEFAULT;
@@ -854,19 +820,13 @@ VF32 Tuareg_update_GEAR_sensor()
 
 /**
 checks if the RUN switch, SIDESTAND sensor or CRASH sensor indicate a HALT condition
-
-returns TRUE if a halt condition has been detected
 */
-VU8 Tuareg_check_halt_sources()
+void Tuareg_update_halt_sources()
 {
-    U8 halt_condition= FALSE;
-
     //shut engine off if the RUN switch is disengaged
     if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
     {
-        Tuareg.Halt_source.run_switch= TRUE;
-
-        halt_condition= TRUE;
+        Tuareg.Halt_source.run_switch= true;
 
         //collect diagnostic information
         tuareg_diag_log_event(TDIAG_KILL_RUNSWITCH);
@@ -876,15 +836,13 @@ VU8 Tuareg_check_halt_sources()
     }
     else
     {
-        Tuareg.Halt_source.run_switch= FALSE;
+        Tuareg.Halt_source.run_switch= false;
     }
 
     //shut engine off if the CRASH sensor is engaged
     if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
     {
-        Tuareg.Halt_source.crash_sensor= TRUE;
-
-        halt_condition= TRUE;
+        Tuareg.Halt_source.crash_sensor= true;
 
         //collect diagnostic information
         tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
@@ -894,8 +852,10 @@ VU8 Tuareg_check_halt_sources()
     }
     else
     {
-        Tuareg.Halt_source.crash_sensor= FALSE;
+        Tuareg.Halt_source.crash_sensor= false;
     }
 
-    return halt_condition;
 }
+
+
+
