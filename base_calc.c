@@ -127,40 +127,44 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 }
 
 
-void increment_crank_position(volatile crank_position_t * pPosition)
+crank_position_t next_crank_position(crank_position_t Position)
 {
-    switch(* pPosition)
+    switch(Position)
     {
     case CRK_POSITION_A1:
-        *pPosition= CRK_POSITION_A2;
+        return CRK_POSITION_A2;
         break;
 
     case CRK_POSITION_A2:
-        *pPosition= CRK_POSITION_B1;
+        return  CRK_POSITION_B1;
         break;
 
     case CRK_POSITION_B1:
-        *pPosition= CRK_POSITION_B2;
+        return  CRK_POSITION_B2;
         break;
 
     case CRK_POSITION_B2:
-        *pPosition= CRK_POSITION_C1;
+        return  CRK_POSITION_C1;
         break;
 
     case CRK_POSITION_C1:
-        *pPosition= CRK_POSITION_C2;
+        return  CRK_POSITION_C2;
         break;
 
     case CRK_POSITION_C2:
-        *pPosition= CRK_POSITION_D1;
+        return  CRK_POSITION_D1;
         break;
 
     case CRK_POSITION_D1:
-        *pPosition= CRK_POSITION_D2;
+        return  CRK_POSITION_D2;
+        break;
+
+    case CRK_POSITION_D2:
+        return  CRK_POSITION_A1;
         break;
 
     default:
-        *pPosition= CRK_POSITION_A1;
+        return  CRK_POSITION_UNDEFINED;
         break;
     }
 }

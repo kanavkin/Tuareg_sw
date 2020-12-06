@@ -7,7 +7,6 @@
 #include "Tuareg_types.h"
 #include "Tuareg_process_data.h"
 #include "decoder_logic.h"
-#include "trigger_wheel_layout.h"
 
 
 /**

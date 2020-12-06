@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "scheduler.h"
 #include "uart.h"
+#include "uart_printf.h"
 #include "conversion.h"
 #include "ignition_hw.h"
 #include "diagnostics.h"
@@ -58,10 +59,10 @@ void moduletest_moduleinit_action()
 void moduletest_initmsg_action()
 {
 
-                UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** WARNING This is Tuareg module test unit, no functional release *** \r \n");
+                print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** WARNING This is Tuareg module test unit, no functional release *** \r \n");
 
                 #ifdef TUAREG_MODULE_TEST_SCHEDULER
-                UART_Send(DEBUG_PORT, "\r\n*** Scheduler test ***");
+                print(DEBUG_PORT, "\r\n*** Scheduler test ***");
                 #endif // TUAREG_MODULE_TEST
 }
 
@@ -96,10 +97,10 @@ void moduletest_scheduler_irq3_action()
     mtest_scheduler_tests_finished++;
 
     //print result
-    UART_Send(DEBUG_PORT, "\r\nscheduler tests started, finished, target delay (us): ");
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_started, TYPE_U32, NO_PAD);
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_tests_finished, TYPE_U32, NO_PAD);
-    UART_Print_U(DEBUG_PORT, mtest_scheduler_delay, TYPE_U32, NO_PAD);
+    print(DEBUG_PORT, "\r\nscheduler tests started, finished, target delay (us): ");
+    printf_U(DEBUG_PORT, mtest_scheduler_tests_started, NO_PAD);
+    printf_U(DEBUG_PORT, mtest_scheduler_tests_finished, NO_PAD);
+    printf_U(DEBUG_PORT, mtest_scheduler_delay, NO_PAD);
 
     print_dwt_delay();
 

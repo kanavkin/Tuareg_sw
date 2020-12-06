@@ -9,7 +9,9 @@
 typedef enum {
 
     COILS_SHARED,
-    COILS_SEPARATE
+    COILS_SEPARATE,
+
+    COILS_COUNT
 
 } coil_setup_t;
 

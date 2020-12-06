@@ -63,10 +63,18 @@
 		</Unit>
 		<Unit filename="Tuareg.h" />
 		<Unit filename="Tuareg_ID.h" />
-		<Unit filename="Tuareg_fatal.c">
+		<Unit filename="Tuareg_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Tuareg_fatal.h" />
+		<Unit filename="Tuareg_config.h" />
+		<Unit filename="Tuareg_decoder.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Tuareg_decoder.h" />
+		<Unit filename="Tuareg_errors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Tuareg_errors.h" />
 		<Unit filename="Tuareg_ignition.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -94,11 +102,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="bitfields.h" />
-		<Unit filename="config.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="config.h" />
-		<Unit filename="config_pages.h" />
 		<Unit filename="config_tables.h" />
 		<Unit filename="conversion.c">
 			<Option compilerVar="CC" />
@@ -116,6 +119,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="debug.h" />
+		<Unit filename="decoder_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="decoder_config.h" />
 		<Unit filename="decoder_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -141,6 +148,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="fuel_logic.h" />
+		<Unit filename="ignition_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ignition_config.h" />
 		<Unit filename="ignition_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -149,6 +160,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ignition_logic.h" />
+		<Unit filename="legacy_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="legacy_config.h" />
 		<Unit filename="lowprio_scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -172,6 +187,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="scheduler.h" />
+		<Unit filename="sensor_calibration.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sensor_calibration.h" />
 		<Unit filename="sensors.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -298,11 +317,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="table.h" />
-		<Unit filename="trigger_wheel_layout.h" />
 		<Unit filename="uart.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="uart.h" />
+		<Unit filename="uart_printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="uart_printf.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -3,7 +3,6 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
-#include "trigger_wheel_layout.h"
 
 
 typedef struct _process_data_t {

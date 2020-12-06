@@ -3,7 +3,8 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
-#include "config.h"
+#include "Tuareg_errors.h"
+#include "Tuareg_config.h"
 #include "table.h"
 #include "ignition_logic.h"
 #include "sensors.h"
@@ -111,27 +112,7 @@ typedef enum {
 
 
 
-typedef union
-{
-     U32 all_flags;
 
-     struct {
-
-        VU32 config_load_error :1;
-        VU32 scheduler_error :1;
-        VU32 sensor_O2_error :1;
-        VU32 sensor_TPS_error :1;
-        VU32 sensor_IAT_error :1;
-        VU32 sensor_CLT_error :1;
-        VU32 sensor_VBAT_error :1;
-        VU32 sensor_KNOCK_error :1;
-        VU32 sensor_BARO_error :1;
-        VU32 sensor_GEAR_error :1;
-        VU32 sensor_MAP_error :1;
-        VU32 sensor_CIS_error :1;
-     };
-
-} tuareg_error_t;
 
 
 typedef union
@@ -214,7 +195,7 @@ VF32 Tuareg_update_MAP_sensor();
 
 
 void Tuareg_export_diag(VU32 * pTarget);
-void Tuareg_register_scheduler_error();
+
 
 void Tuareg_update_halt_sources();
 

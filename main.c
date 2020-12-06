@@ -71,10 +71,11 @@ SCHEDULER (ignition)
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
 #include "uart.h"
+#include "uart_printf.h"
 #include "conversion.h"
 #include "lowspeed_timers.h"
 #include "TunerStudio.h"
-#include "config.h"
+#include "Tuareg_config.h"
 #include "table.h"
 #include "eeprom.h"
 #include "sensors.h"
@@ -206,11 +207,6 @@ int main(void)
         Tuareg_set_Runmode(TMODE_HALT);
     }
     #endif // TUAREG_MODULE_TEST
-
-
-    #define SPARK_DURATION_US 1500
-    configPage13.spark_duration_us= SPARK_DURATION_US;
-
 
     while(1)
     {
@@ -422,13 +418,6 @@ void EXTI3_IRQHandler(void)
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
 
-    #ifdef TUAREG_MODULE_TEST
-    moduletest_irq3_action();
-    #else
-
-
-
-    #endif // TUAREG_MODULE_TEST
 }
 
 

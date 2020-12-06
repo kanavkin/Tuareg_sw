@@ -5,9 +5,9 @@
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "uart.h"
+#include "uart_printf.h"
 #include "Tuareg.h"
-#include "trigger_wheel_layout.h"
-#include "config.h"
+#include "decoder_config.h"
 
 #include "base_calc.h"
 #include "conversion.h"
@@ -118,7 +118,7 @@ inline void got_sync_debug_handler()
 inline void decoder_timeout_debug_handler()
 {
 
-    UART_Send(DEBUG_PORT, "\r \n decoder timeout");
+    print(DEBUG_PORT, "\r \n decoder timeout");
 }
 
 
@@ -126,7 +126,7 @@ inline void decoder_timeout_debug_handler()
 /**
 evaluate key/gap ratio to get trigger wheel sync
 */
-inline VU32 check_sync_ratio()
+inline bool check_sync_ratio()
 {
     VU32 sync_ratio;
 
@@ -139,21 +139,21 @@ inline VU32 check_sync_ratio()
         sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
 
-        if( (sync_ratio >= configPage12.sync_ratio_min_pct) && (sync_ratio <= configPage12.sync_ratio_max_pct) )
+        if( (sync_ratio >= Decoder_Config.sync_ratio_min_pct) && (sync_ratio <= Decoder_Config.sync_ratio_max_pct) )
         {
             /**
             check succeeded - its key A!
             */
             decoder_diag_log_event(DDIAG_SYNCCHECK_SUCCESS);
 
-            return RETURN_OK;
+            return true;
         }
 
     }
 
     decoder_diag_log_event(DDIAG_SYNCCHECK_FAILED);
 
-    return RETURN_FAIL;
+    return false;
 }
 
 
@@ -180,13 +180,13 @@ void update_crank_position_table(volatile crank_position_table_t * pTable)
     for(position=0; position < CRK_POSITION_COUNT; position++)
     {
         //get trigger position base angle
-        angle= configPage12.trigger_position_map.crank_angle_deg[position];
+        angle= Decoder_Config.trigger_position_map.crank_angle_deg[position];
 
         //calculate effective crank angle
-        angle += configPage12.decoder_offset_deg;
+        angle += Decoder_Config.trigger_offset_deg;
 
         //calculate VR introduced delay
-        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(configPage12.decoder_delay_us, DInternals.crank_period_us);
+        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(Decoder_Config.vr_delay_us, DInternals.crank_period_us);
 
         //wrap around crank angle
         angle= angle % 360;
@@ -330,7 +330,11 @@ volatile decoder_interface_t * init_decoder_logic()
     reset_timeout_counter();
 
     //calculate the decoder timeout threshold corresponding to the configured timeout value
-    DInternals.decoder_timeout_thrs= ((1000UL * configPage12.decoder_timeout_s) / DECODER_TIMER_OVERFLOW_MS) +1;
+    DInternals.decoder_timeout_thrs= ((1000UL * Decoder_Config.timeout_s) / DECODER_TIMER_OVERFLOW_MS) +1;
+
+
+    ///debug
+    DInternals.phase= PHASE_UNDEFINED;
 
 
     /**
@@ -379,7 +383,7 @@ void decoder_logic_crank_handler(VU32 Interval)
 
             decoder_set_crank_pickup_sensing() will keep the crank irq masked until decoder_logic_timer_compare_handler() enables it
             */
-            decoder_start_timer(configPage12.crank_noise_filter);
+            decoder_start_timer(Decoder_Config.crank_noise_filter);
 
             //prepare to detect a KEY begin
             decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
@@ -437,7 +441,7 @@ void decoder_logic_crank_handler(VU32 Interval)
             DInternals.sync_buffer_gap= Interval;
             decoder_set_crank_pickup_sensing(SENSING_KEY_END);
 
-            if( check_sync_ratio() == RETURN_OK )
+            if( check_sync_ratio() )
             {
                 /**
                 it was key A -> we have SYNC now!
@@ -470,7 +474,7 @@ void decoder_logic_crank_handler(VU32 Interval)
         case DSTATE_SYNC:
 
             // update crank_position
-            increment_crank_position(&(DInternals.crank_position));
+            DInternals.crank_position= next_crank_position(DInternals.crank_position);
 
             // update crank sensing
             decoder_set_crank_pickup_sensing(SENSING_INVERT);
@@ -501,7 +505,7 @@ void decoder_logic_crank_handler(VU32 Interval)
                 //do sync check
                 DInternals.sync_buffer_gap= Interval;
 
-                if( check_sync_ratio() == RETURN_FAIL )
+                if( !check_sync_ratio()  )
                 {
                     //sync check failed!
                     reset_position_data();

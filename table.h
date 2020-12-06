@@ -7,6 +7,8 @@ This file is used for everything related to maps/tables including their definiti
 #include "stm32_libs/boctok_types.h"
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 
+#include "Tuareg_types.h"
+
 #define TABLE_RPM_MULTIPLIER  100
 #define TABLE_LOAD_MULTIPLIER 2
 
@@ -44,6 +46,14 @@ Ignition values from the main spark table are offset 40 degrees downards to allo
 common size for 3D tables
 */
 #define TABLE3D_DIMENSION 16
+
+/**
+helper constants for 3D table data handling
+
+data layout: < Z (0).. (DIMENSION^2 -1)> < X (DIMENSION^2) .. (DIMENSION^2 -1 + DIMENSION)> < Y  (DIMENSION^2 + DIMENSION) .. (DIMENSION^2 -1 + 2*DIMENSION)>
+*/
+#define TABLE3D_Z_END 16
+
 
 
 
@@ -101,20 +111,19 @@ typedef struct _table3D_t {
 
 
 
-void init_3Dtables();
-void init_2Dtables();
-
 VF32 table2D_getValue(volatile table2D *fromTable, VU32 X);
-VF32 table3D_getValue(volatile table3D_t * fromTable, VU32 X, VU32 Y);
 
-U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
-U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
 
-U32 load_tables();
-U32 write_tables();
-
+exec_result_t load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
+exec_result_t write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y);
+exec_result_t modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value);
+VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y);
 void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable);
-void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value);
+
+exec_result_t load_tables();
+exec_result_t write_tables();
+
+
 
 
 

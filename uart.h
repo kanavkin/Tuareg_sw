@@ -56,8 +56,6 @@ void UART_DEBUG_PORT_Init();
 
 //legacy direct hw access
 void UART_Tx(USART_TypeDef * Port, char msg);
-void UART_Send(USART_TypeDef * Port, char messg[] );
-
 
 //buffered TS serial communication
 U32 UART_getRX();

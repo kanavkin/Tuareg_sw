@@ -8,7 +8,7 @@
 #include "uart.h"
 #include "conversion.h"
 #include "table.h"
-#include "config.h"
+#include "sensor_calibration.h"
 #include "decoder_logic.h"
 #include <math.h>
 
@@ -391,7 +391,7 @@ void ADC_IRQHandler()
                 average= *pIntegr / *pCount;
 
                 //calculate MAP and export to interface
-                SInterface.asensors[ASENSOR_MAP]= calc_inverse_lin(average, configPage9.MAP_calib_M, configPage9.MAP_calib_N);
+                SInterface.asensors[ASENSOR_MAP]= calc_inverse_lin(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -509,12 +509,12 @@ void DMA2_Stream0_IRQHandler()
                     {
                         case ASENSOR_ASYNC_O2:
 
-                            result= calc_inverse_lin(average, configPage9.O2_calib_M, configPage9.O2_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.O2_calib_M, Sensor_Calibration.O2_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_TPS:
 
-                            result= calc_inverse_lin(average, configPage9.TPS_calib_M, configPage9.TPS_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.TPS_calib_M, Sensor_Calibration.TPS_calib_N);
 
                             //save old TPS value for ddt_TPS calculation
                             SInternals.last_TPS= SInterface.asensors[ASENSOR_TPS];
@@ -526,29 +526,29 @@ void DMA2_Stream0_IRQHandler()
 
                         case ASENSOR_ASYNC_IAT:
 
-                            result= calc_inverse_lin(average, configPage9.IAT_calib_M, configPage9.IAT_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.IAT_calib_M, Sensor_Calibration.IAT_calib_N);
                             result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_CLT:
 
-                            result= calc_inverse_lin(average, configPage9.CLT_calib_M, configPage9.CLT_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.CLT_calib_M, Sensor_Calibration.CLT_calib_N);
                             result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_VBAT:
 
-                            result= calc_inverse_lin(average, configPage9.VBAT_calib_M, configPage9.VBAT_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.VBAT_calib_M, Sensor_Calibration.VBAT_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_KNOCK:
 
-                            result= calc_inverse_lin(average, configPage9.KNOCK_calib_M, configPage9.KNOCK_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.KNOCK_calib_M, Sensor_Calibration.KNOCK_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_BARO:
 
-                            result= calc_inverse_lin(average, configPage9.BARO_calib_M, configPage9.BARO_calib_N);
+                            result= calc_inverse_lin(average, Sensor_Calibration.BARO_calib_M, Sensor_Calibration.BARO_calib_N);
                             break;
 
                         default:

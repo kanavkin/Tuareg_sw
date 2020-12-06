@@ -6,6 +6,9 @@ typedef enum {
 
     TID_TUAREG_IGNITION,
     TID_IGNITION_LOGIC,
+    TID_BITFIELDS,
+    TID_TABLE,
+    TID_EEPROM,
 
     TID_SCHEDULER,
 

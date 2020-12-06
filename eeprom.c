@@ -3,6 +3,9 @@
 #include "stm32_libs/boctok_types.h"
 #include "eeprom.h"
 
+#include "Tuareg_ID.h"
+#include "Tuareg_errors.h"
+
 
 void eeprom_i2c_deinit(void)
 {
@@ -34,7 +37,6 @@ void init_eeprom(void)
     GPIO_configure(GPIOB, 6, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
     GPIO_configure(GPIOB, 7, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
 
-
     //enable port alternate function 4
     GPIO_SetAF(GPIOB, 6, 4);
     GPIO_SetAF(GPIOB, 7, 4);
@@ -54,26 +56,28 @@ void init_eeprom(void)
 
 
 
-U32 eeprom_write_byte(U32 Address, U32 data)
+eeprom_result_t eeprom_write_byte(U32 Address, U32 data)
 {
     U32 sEETimeout;
+    eeprom_result_t wait_result;
 
     // wait while the bus is busy
     sEETimeout = sEE_LONG_TIMEOUT;
     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY))
     {
-        if((sEETimeout--) == 0) return EE_BUS_BUSY;
+        if((sEETimeout--) == 0) return EERES_BUS_BUSY;
     }
 
     /**
     wait for the previous write cycle to complete
     */
-    sEETimeout= eeprom_wait();
+    wait_result= eeprom_wait();
 
-    if( sEETimeout != 0)
+    if( wait_result != EERES_READY)
     {
-        return sEETimeout;
+        return wait_result;
     }
+
 
     I2C_GenerateSTART(I2C1, ENABLE);
 
@@ -81,7 +85,7 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))
     {
-        if((sEETimeout--) == 0) return EE_MASTER_MODE;
+        if((sEETimeout--) == 0) return EERES_MASTER_MODE;
     }
 
     //Send EEPROM address for write mode
@@ -92,7 +96,7 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
     {
-        if((sEETimeout--) == 0) return EE_MASTER_WRITE;
+        if((sEETimeout--) == 0) return EERES_MASTER_WRITE;
     }
 
 
@@ -103,7 +107,7 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
     {
-        if((sEETimeout--) == 0) return EE_TRANSMIT_FAIL;
+        if((sEETimeout--) == 0) return EERES_TRANSMIT_FAIL;
     }
 
     //Send the EEPROM's internal address: LSB
@@ -113,7 +117,7 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
     {
-        if((sEETimeout--) == 0) return EE_TRANSMIT_FAIL;
+        if((sEETimeout--) == 0) return EERES_TRANSMIT_FAIL;
     }
 
 
@@ -124,7 +128,7 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
     {
-        if((sEETimeout--) == 0) return EE_TRANSMIT_FAIL;
+        if((sEETimeout--) == 0) return EERES_TRANSMIT_FAIL;
     }
 
     I2C_GenerateSTOP(I2C1, ENABLE);
@@ -136,30 +140,31 @@ U32 eeprom_write_byte(U32 Address, U32 data)
     (void)I2C1->SR1;
     (void)I2C1->SR2;
 
-    return 0;
+    return EERES_OK;
 }
 
 
 
-U32 eeprom_read_byte(U32 Address, U8 * Data_read)
+eeprom_result_t eeprom_read_byte(U32 Address, U8 * Data_read)
 {
     U32 sEETimeout;
+    eeprom_result_t wait_result;
 
     // wait while the bus is busy
     sEETimeout = sEE_LONG_TIMEOUT;
     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY))
     {
-        if((sEETimeout--) == 0) return EE_BUS_BUSY;
+        if((sEETimeout--) == 0) return EERES_BUS_BUSY;
     }
 
     /**
     wait for the previous write cycle to complete
     */
-    sEETimeout= eeprom_wait();
+    wait_result= eeprom_wait();
 
-    if( sEETimeout != 0)
+    if( wait_result != EERES_READY)
     {
-        return sEETimeout;
+        return wait_result;
     }
 
     I2C_GenerateSTART(I2C1, ENABLE);
@@ -168,9 +173,8 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))
     {
-        if((sEETimeout--) == 0) return EE_MASTER_MODE;
+        if((sEETimeout--) == 0) return EERES_MASTER_MODE;
     }
-
 
     /**
     Dummy write
@@ -184,9 +188,8 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
     {
-        if((sEETimeout--) == 0) return EE_MASTER_WRITE;
+        if((sEETimeout--) == 0) return EERES_MASTER_WRITE;
     }
-
 
     //Send the EEPROM's internal address: MSB
     I2C_SendData(I2C1, (U8)((Address & 0xFF00) >> 8));
@@ -195,7 +198,7 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
     {
-        if((sEETimeout--) == 0) return EE_TRANSMIT_FAIL;
+        if((sEETimeout--) == 0) return EERES_TRANSMIT_FAIL;
     }
 
     //Send the EEPROM's internal address: LSB
@@ -205,7 +208,7 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
     {
-        if((sEETimeout--) == 0) return EE_TRANSMIT_FAIL;
+        if((sEETimeout--) == 0) return EERES_TRANSMIT_FAIL;
     }
 
     /**
@@ -218,19 +221,17 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))
     {
-        if((sEETimeout--) == 0) return EE_MASTER_MODE;
+        if((sEETimeout--) == 0) return EERES_MASTER_MODE;
     }
-
 
     //send EEPROM address for read
     I2C_Send7bitAddress(I2C1, (U8) (sEE_HW_ADDRESS | 0x01), I2C_Direction_Receiver);
-
 
     //wait until ADDR flag is set (ADDR is still not cleared)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_ADDR) == RESET)
     {
-      if((sEETimeout--) == 0) return EE_ADDR_FAIL;
+      if((sEETimeout--) == 0) return EERES_ADDR_FAIL;
     }
 
     // Disable Acknowledgement
@@ -251,7 +252,7 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_RXNE) == RESET)
     {
-      if((sEETimeout--) == 0) return EE_RX_FAIL;
+      if((sEETimeout--) == 0) return EERES_RX_FAIL;
     }
 
     //read the byte received
@@ -261,21 +262,23 @@ U32 eeprom_read_byte(U32 Address, U8 * Data_read)
     sEETimeout = sEE_FLAG_TIMEOUT;
     while(I2C1->CR1 & I2C_CR1_STOP)
     {
-      if((sEETimeout--) == 0) return EE_STOP_FAIL;
+      if((sEETimeout--) == 0) return EERES_STOP_FAIL;
     }
 
     //Re-Enable Acknowledgement to be ready for another reception
     I2C_AcknowledgeConfig(I2C1, ENABLE);
 
-    return 0;
+    return EERES_OK;
 }
 
 
 
 /**
   * Wait for EEPROM Standby state.
+  *
+  * returns EERES_READY when ready
   */
-U32 eeprom_wait(void)
+eeprom_result_t eeprom_wait(void)
 {
     U32 sEETimeout;
     VU16 tmpSR1 = 0;
@@ -285,14 +288,13 @@ U32 eeprom_wait(void)
     sEETimeout = sEE_LONG_TIMEOUT;
     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY))
     {
-        if((sEETimeout--) == 0) return EE_BUS_BUSY;
+        if((sEETimeout--) == 0) return EERES_BUS_BUSY;
     }
 
     /**
-    Keep looping till the slave acknowledge his address or maximum number
-    of trials is reached
+    Keep looping till the slave acknowledge his address or maximum number of trials is reached
     */
-    while (1)
+    while (sEETrials < sEE_MAX_TRIALS_NUMBER)
     {
         I2C_GenerateSTART(I2C1, ENABLE);
 
@@ -300,7 +302,7 @@ U32 eeprom_wait(void)
         sEETimeout = sEE_FLAG_TIMEOUT;
         while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))
         {
-            if((sEETimeout--) == 0) return EE_MASTER_MODE;
+            if((sEETimeout--) == 0) return EERES_MASTER_MODE;
         }
 
         //send EEPROM address for write */
@@ -312,7 +314,7 @@ U32 eeprom_wait(void)
         {
             tmpSR1 = I2C1->SR1;
 
-            if((sEETimeout--) == 0) return EE_SLAVE_ACK;
+            if((sEETimeout--) == 0) return EERES_SLAVE_ACK;
         }
         while((tmpSR1 & (I2C_SR1_ADDR | I2C_SR1_AF)) == 0);
 
@@ -322,7 +324,7 @@ U32 eeprom_wait(void)
             (void)I2C1->SR2;
             I2C_GenerateSTOP(I2C1, ENABLE);
 
-            return 0;
+            return EERES_READY;
         }
         else
         {
@@ -330,11 +332,10 @@ U32 eeprom_wait(void)
         }
 
 
-        if (sEETrials++ == sEE_MAX_TRIALS_NUMBER)
-        {
-            return EE_MAX_TRIALS;
-        }
+        sEETrials++;
     }
+
+    return EERES_MAX_TRIALS;
 }
 
 
@@ -343,63 +344,53 @@ U32 eeprom_wait(void)
 * eeprom interface
 ***************************************************************************************************************************/
 
-U32 eeprom_read_bytes(U32 Address, U32 * Data, U32 Length)
+eeprom_result_t eeprom_read_bytes(U32 Address, U32 * pTarget, U32 Length)
 {
-    /**
-    Eeprom data order: Little Endian
-    MSB LSB
-    */
-
-    U32 eeprom_data =0, eeprom_code =0, i;
+    U32 eeprom_data =0, i;
+    eeprom_result_t ee_result;
     U8 data;
 
-    if( (Length < 1) || (Length > 4) )
-    {
-        return 1;
-    }
+    Tuareg_Assert(Length > 0, TID_EEPROM, 0);
+    Tuareg_Assert(Length < 5, TID_EEPROM, 1);
+
+    /**
+    Eeprom data order: Little Endian ->  <MSB> <LSB>
+    */
 
     for(i=0; i< Length; i++)
     {
-        eeprom_code += eeprom_read_byte(Address + i, &data);
+        ee_result= eeprom_read_byte(Address + i, &data);
 
-        if(eeprom_code == 0)
-        {
-            eeprom_data |= (data << 8*(Length - (i+1)) );
-        }
+        ASSERT_EEPROM_RESULT_OK(ee_result);
+
+        //data read successfully
+        eeprom_data |= (data << 8*(Length - (i+1)) );
+
     }
 
-    /**
-    do not touch target data pointer if
-    at least one eeprom read failed
-    */
-    if(eeprom_code)
-    {
-        return eeprom_code;
-    }
+    *pTarget= eeprom_data;
 
-    *Data= eeprom_data;
-
-    return 0;
+    return EERES_OK;
 }
 
 
-U32 eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
+eeprom_result_t eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
 {
-    U32 eeprom_code =0, i;
+    U32 i;
+    eeprom_result_t ee_result;
 
-    if( (Length < 1) || (Length > 4) )
-    {
-        return 1;
-    }
+    Tuareg_Assert(Length > 0, TID_EEPROM, 2);
+    Tuareg_Assert(Length < 5, TID_EEPROM, 3);
 
     for(i=0; i< Length; i++)
     {
         //data order: Little Endian MSB LSB
-        eeprom_code += eeprom_write_byte(Address + i, (U8) (Data >> 8*(Length - (i+1))) );
+        ee_result= eeprom_write_byte(Address + i, (U8) (Data >> 8*(Length - (i+1))) );
+
+        ASSERT_EEPROM_RESULT_OK(ee_result);
     }
 
-    return eeprom_code;
-
+    return EERES_OK;
 }
 
 
@@ -407,82 +398,63 @@ U32 eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
 /**
 * Write ONE BYTE to the EEPROM only where needed to save write cycles
 */
-U32 eeprom_update(U32 Address, U32 Data)
+eeprom_result_t eeprom_update_byte(U32 Address, U32 Data)
 {
-    U32 eeprom_code;
+    eeprom_result_t ee_result;
     U8 eeprom_data;
 
     //read current data
-    eeprom_code= eeprom_read_byte(Address, &eeprom_data);
+    ee_result= eeprom_read_byte(Address, &eeprom_data);
 
-    //read return code
-    if(eeprom_code != 0)
-    {
-        return eeprom_code;
-    }
+    ASSERT_EEPROM_RESULT_OK(ee_result);
 
+    //check if eeprom data has to be modified
     if(eeprom_data == Data)
     {
-        //no need to write anything
-        return 0;
+        return EERES_OK;
     }
 
-    /**
-    else
-    continue with writing
-    */
+    //continue with writing
+    ee_result= eeprom_write_byte(Address, Data);
 
-    //write to eeprom
-    eeprom_code= eeprom_write_byte(Address, Data);
-
-    //write return code
-    if(eeprom_code != 0)
-    {
-        return eeprom_code;
-    }
+    ASSERT_EEPROM_RESULT_OK(ee_result);
 
     //read back written data
-    eeprom_code= eeprom_read_byte(Address, &eeprom_data);
+    ee_result= eeprom_read_byte(Address, &eeprom_data);
 
-    //read return code
-    if(eeprom_code != 0)
-    {
-        return eeprom_code;
-    }
+    ASSERT_EEPROM_RESULT_OK(ee_result);
 
     //verify written data
     if(eeprom_data == Data)
     {
         //success
-        return 0;
-    }
-    else
-    {
-        return EE_VERIFICATION;
+        return EERES_OK;
     }
 
+    return EERES_VERIFICATION;
 }
 
 
 /**
-update Length (1 to 4) eeprom bytes, beginning from Address, with the data contained in Data
+update 1 to 4 eeprom bytes, beginning from Address, with the data contained in Data
 */
-U32 eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
+eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
 {
-    U32 eeprom_code =0, i;
+    U32 i;
+    eeprom_result_t ee_result;
 
-    if( (Length < 1) || (Length > 4) )
-    {
-        return 1;
-    }
+    Tuareg_Assert(Length > 0, TID_EEPROM, 4);
+    Tuareg_Assert(Length < 5, TID_EEPROM, 5);
 
     for(i=0; i< Length; i++)
     {
         //data order: Little Endian MSB LSB
-        eeprom_code += eeprom_update(Address + i, (U8) (Data >> 8*(Length - (i+1))) );
+        ee_result= eeprom_update_byte(Address + i, (U8) (Data >> 8*(Length - (i+1))) );
+
+        ASSERT_EEPROM_RESULT_OK(ee_result);
     }
 
-    return eeprom_code;
+    return ee_result;
 }
 
 

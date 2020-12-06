@@ -145,14 +145,6 @@ void UART_Tx(USART_TypeDef * Port, char msg)
     #endif // SERIAL_MONITOR
 }
 
-void UART_Send(USART_TypeDef * Port, char messg[] )
-{
-    for( ; *messg != 0 ; messg++)
-    {
-        UART_Tx(Port, *messg);
-    }
-}
-
 
 void UART_listen(USART_TypeDef * Port)
 {
@@ -294,7 +286,7 @@ U32 serial_buffer_pull(volatile serial_buffer_t * buffer, VU8 * data_out)
     if(buffer->semaphor)
     {
         //debug
-        UART_Send(DEBUG_PORT, "\r\n pl-s!");
+        print(DEBUG_PORT, "\r\n pl-s!");
 
         return BUFFER_PULL_ERROR_SEMAPHOR;
     }

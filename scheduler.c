@@ -20,6 +20,7 @@ a timer update event is expected every ~74 min op scheduler operation
 #include "fuel_hw.h"
 
 #include "diagnostics.h"
+#include "Tuareg_errors.h"
 
 volatile scheduler_t Scheduler;
 
@@ -81,13 +82,9 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t TargetSt
     {
         /**
         take immediate action - no scheduler allocation actually
-
-        this feature allows instantaneous triggering the coils through
-        a common interface
         */
 
-        //
-        //scheduler_diag_log_event(SCHEDIAG_DELAY_ENLARGED);
+        scheduler_diag_log_event(SCHEDIAG_DELAY_BYPASS);
 
         switch(Channel)
         {

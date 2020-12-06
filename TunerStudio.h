@@ -237,17 +237,12 @@ void ts_diagPage();
 void ts_debug_features(U32 feature);
 
 
-void mod_config(U32 Page, U32 Offset, U32 Value);
-void mod_decoder_config(U32 Offset, U32 Value);
-void mod_ignition_config(U32 Offset, U32 Value);
-void mod_sensor_calib(U32 Offset, U32 Value);
+void modify_config(U32 Page, U32 Offset, U32 Value);
 void ts_replaceConfig(U32 valueOffset, U32 newValue);
 
 void ts_diag_process_data(volatile process_data_t * pImage);
 void ts_diag_ignition_timing(volatile ignition_control_t * pTiming);
-void ts_diagPage_ignition();
-void ts_diagPage_decoder();
-void ts_diagPage_calib();
+
 
 VU8 ts_comm_bits();
 VU32 ts_tuareg_bits();

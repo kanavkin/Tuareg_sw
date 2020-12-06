@@ -8,13 +8,18 @@ A full copy of the license may be found in the projects root directory
 
 
 #include "table.h"
-#include "config.h"
+#include "legacy_config.h"
+#include "Tuareg_config.h"
 
 #include "uart.h"
+#include "uart_printf.h"
 #include "conversion.h"
 #include <math.h>
 
 #include "Tuareg.h"
+#include "Tuareg_ID.h"
+#include "Tuareg_errors.h"
+
 #include "eeprom.h"
 #include "eeprom_layout.h"
 
@@ -23,70 +28,12 @@ A full copy of the license may be found in the projects root directory
 tables
 */
 volatile table3D_t ignitionTable_TPS, ignitionTable_MAP;
+
 volatile table3D_t fuelTable, afrTable;
 volatile table3D_t boostTable, vvtTable;
 volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
 volatile table2D taeTable, WUETable, crankingEnrichTable, dwellVCorrectionTable;
 volatile table2D injectorVCorrectionTable, IATDensityCorrectionTable, IATRetardTable, rotarySplitTable;
-
-
-
-/**
-helper constants
-
-const U32 cTable3D_dim= TABLE3D_DIMENSION;
-const U32 cTable3D_dimsq= TABLE3D_DIMENSION * TABLE3D_DIMENSION;
-const U32 cTable3D_dimsqdim= TABLE3D_DIMENSION * TABLE3D_DIMENSION;
-const U32 cTable3D_dimension= TABLE3D_DIMENSION;
-const U32 cTable3D_dimension= TABLE3D_DIMENSION;
-const U32 cTable3D_Z_end= cTable3D_dimension ^2 -1;
-const U32 cTable3D_Y_end= ;
-const U32 cTable3D_X_end= ;
-*/
-
-
-/**
-    Repoint the 2D table structs to the config pages
-    (initialise the 8 table2D structs)
-
-
-    to be reconfigured!
-*/
-void init_2Dtables()
-{
-    taeTable.dimension = 4;
-    taeTable.axisY = (U16 *) configPage2.taeValues;
-    taeTable.axisX = (U16 *)configPage2.taeBins;
-
-    WUETable.dimension = 10;
-    WUETable.axisY = (U16 *) configPage1.wueValues;
-    WUETable.axisX = (U16 *) configPage2.wueBins;
-
-    crankingEnrichTable.dimension = 4;
-    crankingEnrichTable.axisY = (U16 *) configPage11.crankingEnrichValues;
-    crankingEnrichTable.axisX = (U16 *) configPage11.crankingEnrichBins;
-
-    dwellVCorrectionTable.dimension = 6;
-    dwellVCorrectionTable.axisY = (U16 *) configPage2.dwellCorrectionValues;
-    dwellVCorrectionTable.axisX =  (U16 *)configPage3.voltageCorrectionBins;
-
-    injectorVCorrectionTable.dimension = 6;
-    injectorVCorrectionTable.axisY = (U16 *) configPage3.injVoltageCorrectionValues;
-    injectorVCorrectionTable.axisX = (U16 *) configPage3.voltageCorrectionBins;
-
-    IATDensityCorrectionTable.dimension = 9;
-    IATDensityCorrectionTable.axisY = (U16 *) configPage3.airDenRates;
-    IATDensityCorrectionTable.axisX = (U16 *) configPage3.airDenBins;
-
-    IATRetardTable.dimension = 6;
-    IATRetardTable.axisY = (U16 *) configPage2.iatRetValues;
-    IATRetardTable.axisX = (U16 *) configPage2.iatRetBins;
-
-    rotarySplitTable.dimension = 8;
-    rotarySplitTable.axisY = (U16 *) configPage11.rotarySplitValues;
-    rotarySplitTable.axisX = (U16 *) configPage11.rotarySplitBins;
-}
-
 
 
 /**
@@ -187,7 +134,7 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-VF32 table3D_getValue(volatile table3D_t * fromTable, VU32 X, VU32 Y)
+VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
 {
     F32 A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;
@@ -454,11 +401,11 @@ VF32 table3D_getValue(volatile table3D_t * fromTable, VU32 X, VU32 Y)
 * every item is represented by 1 Byte of eeprom data
 * x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
+exec_result_t load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
 {
     U32 data;
     U8 eeprom_data;
-    U32 eeprom_code;
+    eeprom_result_t ee_result;
 
 
     U32 offset, address;
@@ -470,16 +417,11 @@ U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress;
 
         //read 1 byte from eeprom
-        eeprom_code= eeprom_read_byte(address, &eeprom_data);
+        ee_result= eeprom_read_byte(address, &eeprom_data);
 
-        if(eeprom_code == 0)
-        {
-            pTarget->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] = eeprom_data;
-        }
-        else
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
+
+        pTarget->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] = eeprom_data;
     }
 
     //X-axis -> U16 from U8
@@ -488,17 +430,12 @@ U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
 
         //read 1 byte from eeprom
-        eeprom_code= eeprom_read_bytes(address, &data, 1);
+        ee_result= eeprom_read_bytes(address, &data, 1);
 
-        if(eeprom_code == 0)
-        {
-            //scale data read with Scaling_X
-            pTarget->axisX[offset]= (U16) (data * Scaling_X);
-        }
-        else
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
+
+        //scale data read with Scaling_X
+        pTarget->axisX[offset]= (U16) (data * Scaling_X);
     }
 
 
@@ -508,21 +445,16 @@ U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
 
         //read 1 byte from eeprom
-        eeprom_code= eeprom_read_bytes(address, &data, 1);
+        ee_result= eeprom_read_bytes(address, &data, 1);
 
-        if(eeprom_code == 0)
-        {
-            //scale data read with Scaling_Y
-            pTarget->axisY[offset]= (U16) (data * Scaling_Y);
-        }
-        else
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
+
+        //scale data read with Scaling_Y
+        pTarget->axisY[offset]= (U16) (data * Scaling_Y);
     }
 
     //all done
-    return RETURN_OK;
+    return EXEC_OK;
 }
 
 
@@ -534,9 +466,10 @@ U32 load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X
 * every item is represented by 1 Byte of eeprom data
 * x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
+exec_result_t write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
 {
-    U32 offset, address, eeprom_code;
+    U32 offset, address;
+    eeprom_result_t ee_result;
 
     //Z-axis -> U8 from U8
     for(offset=0; offset < (TABLE3D_DIMENSION * TABLE3D_DIMENSION); offset++)
@@ -545,12 +478,9 @@ U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress;
 
         //update 1 byte in eeprom
-        eeprom_code= eeprom_update(address, pTable->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] );
+        ee_result= eeprom_update_byte(address, pTable->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] );
 
-        if(eeprom_code != 0)
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
     }
 
     //X-axis -> U16 from U8
@@ -559,14 +489,10 @@ U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
 
         //update 1 byte in eeprom scaled by Scaling_X
-        eeprom_code= eeprom_update(address, pTable->axisX[offset] / Scaling_X);
+        ee_result= eeprom_update_byte(address, pTable->axisX[offset] / Scaling_X);
 
-        if(eeprom_code != 0)
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
     }
-
 
     //Y-axis -> U16 from U8
     for(offset=0; offset < TABLE3D_DIMENSION; offset++)
@@ -574,67 +500,15 @@ U32 write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X
         address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
 
         //read 1 byte from eeprom scaled by Scaling_Y
-        eeprom_code= eeprom_update(address, pTable->axisY[offset] / Scaling_Y);
+        ee_result= eeprom_update_byte(address, pTable->axisY[offset] / Scaling_Y);
 
-        if(eeprom_code != 0)
-        {
-            return eeprom_code;
-        }
+        ASSERT_CONFIG_SUCESS(ee_result);
     }
 
     //all done
-    return RETURN_OK;
+    return EXEC_OK;
 }
 
-
-/****************************************************************************************************************************************************
-*
-* Load 3D tables from EEPROM
-*
-****************************************************************************************************************************************************/
-U32 load_tables()
-{
-    U32 status;
-
-    //ignition tables
-    status= load_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
-
-    if(status) return status; //exit on eeprom read failure
-
-    status= load_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 1);
-
-    if(status) return status; //exit on eeprom read failure
-
-
-    //init all 2d tables
-    init_2Dtables();
-
-    //all done
-    return RETURN_OK;
-}
-
-
-/****************************************************************************************************************************************************
-*
-* save 3D tables to EEPROM
-*
-****************************************************************************************************************************************************/
-U32 write_tables()
-{
-    U32 status;
-
-    //ignition tables
-    status= write_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
-
-    if(status) return status; //exit on eeprom read failure
-
-    status= write_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 2);
-
-    if(status) return status; //exit on eeprom read failure
-
-    //all done
-    return RETURN_OK;
-}
 
 
 
@@ -659,32 +533,32 @@ void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
     for (row= 0; row < TABLE3D_DIMENSION; row++)
     {
         // Y value for this row
-        UART_Print_U(pPort, pTable->axisY[TABLE3D_DIMENSION -1 - row], TYPE_U16, PAD);
+        printf_U(pPort, pTable->axisY[TABLE3D_DIMENSION -1 - row], PAD_5);
 
         //separator
-        UART_Send(pPort, " . ");
+        print(pPort, " . ");
 
         // Z values of this row, printing from left to right Z[y][0..15]
         for (column = 0; column < TABLE3D_DIMENSION; column++)
         {
-            UART_Print_U(pPort, pTable->axisZ[TABLE3D_DIMENSION -1 - row][column], TYPE_U8, PAD);
-            UART_Send(pPort, "  ");
+            printf_U(pPort, pTable->axisZ[TABLE3D_DIMENSION -1 - row][column], PAD_2);
+            print(pPort, "  ");
         }
 
-        UART_Send(pPort, "\r\n");
+        print(pPort, "\r\n");
     }
 
     //separator
-    UART_Send(pPort, "       ................................................................................................\r\n");
-    UART_Send(pPort, "       ");
+    print(pPort, "       ................................................................................................\r\n");
+    print(pPort, "       ");
 
     // X-axis
     for (column = 0; column < TABLE3D_DIMENSION; column++)
     {
-        UART_Print_U(pPort, pTable->axisX[column], TYPE_U16, PAD);
+        printf_U(pPort, pTable->axisX[column], PAD_5);
     }
 
-    UART_Send(pPort, "\r\n");
+    print(pPort, "\r\n");
 
 }
 
@@ -700,12 +574,17 @@ void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
 *
 *
 ****************************************************************************************************************************************************/
-void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
+exec_result_t modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
 {
+    //range check
+    if(Offset >= TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION)
+    {
+        return EXEC_ERROR;
+    }
 
     if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
     {
-        //New value is part of the ignition map
+        // Z-axis
         pTable->axisZ[Offset / TABLE3D_DIMENSION][Offset % TABLE3D_DIMENSION] = (U8) Value;
     }
     else if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
@@ -713,14 +592,13 @@ void modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
         // X-axis
         pTable->axisX[Offset - TABLE3D_DIMENSION * TABLE3D_DIMENSION] = (U16) Value;
     }
-    else if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION )
+    else
     {
         // Y-axis
         pTable->axisY[Offset - (TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION)] = (U16) Value;
     }
 
-/// TODO (oli#8#): check if we need to log invalid offsets
-
+    return EXEC_OK;
 }
 
 

@@ -18,7 +18,7 @@
 //TODO: remove deprecated arduino types: the only module where they are needed
 #include "arduino_types.h"
 #include "utils.h"
-#include "config.h"
+//#include "config.h"
 
 
 U8 triggerInterrupt; // By default, use the first interrupt

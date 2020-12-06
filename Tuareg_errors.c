@@ -4,8 +4,11 @@
 #include "stm32_libs/boctok_types.h"
 
 #include "uart.h"
+#include "uart_printf.h"
 #include "conversion.h"
 
+#include "Tuareg.h"
+#include "Tuareg_errors.h"
 #include "Tuareg_ID.h"
 
 
@@ -14,10 +17,10 @@ Puts the system to a safe state when a critical error has been detected
 */
 void Tuareg_Fatal(Tuareg_ID Id, U32 Location)
 {
-    UART_Send(DEBUG_PORT, "\r\n*** FATAL ERROR *** in Module ");
-    UART_Print_U(DEBUG_PORT, Id, TYPE_U32, NO_PAD);
-    UART_Send(DEBUG_PORT, "at Location ");
-    UART_Print_U(DEBUG_PORT, Location, TYPE_U32, NO_PAD);
+    print(DEBUG_PORT, "\r\n*** FATAL ERROR *** in Module ");
+    printf_U(DEBUG_PORT, Id, NO_PAD);
+    print(DEBUG_PORT, "at Location ");
+    printf_U(DEBUG_PORT, Location, NO_PAD);
 
     while(1);
 
@@ -32,3 +35,12 @@ void Tuareg_Assert(bool Condition, Tuareg_ID Id, U32 Location)
     }
 
 }
+
+
+void Tuareg_register_scheduler_error()
+{
+    Tuareg.Errors.scheduler_error= true;
+
+    print(DEBUG_PORT, "\r\n*** Registered Scheduler error ***");
+}
+

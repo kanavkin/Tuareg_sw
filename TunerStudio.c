@@ -10,12 +10,16 @@ TODO
 #include "table.h"
 
 #include "uart.h"
+#include "uart_printf.h"
 #include "conversion.h"
 #include "TunerStudio.h"
 
 #include "config_pages.h"
 #include "config_tables.h"
-#include "config.h"
+#include "decoder_config.h"
+#include "ignition_config.h"
+#include "sensor_calibration.h"
+#include "legacy_config.h"
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
@@ -23,6 +27,9 @@ TODO
 #include "debug.h"
 #include "base_calc.h"
 #include "diagnostics.h"
+#include "bitfields.h"
+
+#include "process_table.h"
 
 
 
@@ -39,6 +46,7 @@ All commands that require more than one byte of rx data shall set the TS_cli.Sta
 void ts_communication()
 {
     VU32 data_1, data_2, data_3, data_4, offset, value;
+    exec_result_t result;
 
 
     // reset cmd pending when timeout occurred
@@ -92,14 +100,24 @@ void ts_communication()
             */
             if( TS_cli.State.burn_permission == false )
             {
-                UART_Send(DEBUG_PORT, "\r\n*** config write rejected ***\r\n");
+                print(DEBUG_PORT, "\r\nWARNING config write rejected");
             }
             else
             {
                 /// TODO (oli#8#): evaluate return value!
-                UART_Send(DEBUG_PORT, "\r\n*** writing config to eeprom ***\r\n");
-                config_write();
-                UART_Send(DEBUG_PORT, "\r\n*** config has been written ***\r\n");
+                print(DEBUG_PORT, "\r\nINFO writing config to eeprom");
+
+                result= config_write();
+
+                if(result == EXEC_OK)
+                {
+                    print(DEBUG_PORT, "\r\nINFO config has been written");
+                }
+                else
+                {
+                    print(DEBUG_PORT, "\r\nWARNING config write failed");
+                }
+
             }
 
             break;
@@ -144,7 +162,7 @@ void ts_communication()
                 /**
                 send serial protocol version
                 */
-                UART_Send(TS_PORT, "001");
+                print(TS_PORT, "001");
                 break;
 
 
@@ -167,27 +185,27 @@ void ts_communication()
                     if((data_1 == 'm') && (data_2 == 'o') && (data_3 == 'd') && (data_4 == '#'))
                     {
                         TS_cli.State.mod_permission = true;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked config modification ***");
+                        print(DEBUG_PORT, "\r\nINFO unlocked config modification");
                     }
                     else if((data_1 == 'c') && (data_2 == 'a') && (data_3 == 'l') && (data_4 == '#'))
                     {
                         TS_cli.State.calib_mod_permission = true;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked calibration modification ***");
+                        print(DEBUG_PORT, "\r\nINFO unlocked calibration modification");
                     }
                     else if((data_1 == 'd') && (data_2 == 'e') && (data_3 == 'c') && (data_4 == '#'))
                     {
                         TS_cli.State.decoder_mod_permission = true;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked decoder config modification ***");
+                        print(DEBUG_PORT, "\r\nINFO unlocked decoder config modification");
                     }
                     else if((data_1 == 'i') && (data_2 == 'g') && (data_3 == 'n') && (data_4 == '#'))
                     {
                         TS_cli.State.ignition_mod_permission = true;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked ignition config modification ***");
+                        print(DEBUG_PORT, "\r\nINFOunlocked ignition config modification");
                     }
                     else if((data_1 == 'b') && (data_2 == 'r') && (data_3 == 'n') && (data_4 == '!'))
                     {
                         TS_cli.State.burn_permission = true;
-                        UART_Send(DEBUG_PORT, "\r\n *** unlocked config burn ***");
+                        print(DEBUG_PORT, "\r\nINFO unlocked config burn");
                     }
 
                     else if((data_1 == 'l') && (data_2 == 'o') && (data_3 == 'c') && (data_4 == 'k'))
@@ -197,7 +215,7 @@ void ts_communication()
                         TS_cli.State.calib_mod_permission = false;
                         TS_cli.State.decoder_mod_permission = false;
                         TS_cli.State.ignition_mod_permission = false;
-                        UART_Send(DEBUG_PORT, "\r\n *** config locked ***");
+                        print(DEBUG_PORT, "\r\nINFO config locked");
                     }
 
                     //ready
@@ -219,7 +237,7 @@ void ts_communication()
             /**
             Displays a new line.
             */
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
             break;
 
 
@@ -258,7 +276,7 @@ void ts_communication()
                 /**
                 send code version
                 */
-                UART_Send(TS_PORT, "speeduino 201708");
+                print(TS_PORT, "speeduino 201708");
                 break;
 
 
@@ -266,8 +284,8 @@ void ts_communication()
                 /**
                 send code version
                 */
-                //UART_Send(TS_PORT, "Speeduino 2017.08");
-                UART_Send(TS_PORT, "Tuareg V0.2 2020.10");
+                //print(TS_PORT, "Speeduino 2017.08");
+                print(TS_PORT, "Tuareg V0.2 2020.10");
 
                 //This is required in TS3 due to its stricter timings
                 Tuareg.secl = 0;
@@ -299,13 +317,13 @@ void ts_communication()
 
                     #ifdef TS_DEBUG
                     /// TODO (oli#1#): debug action enabled
-                    UART_Send(DEBUG_PORT, "\r\nU cmd offset, value:");
-                    UART_Print_U(DEBUG_PORT, offset, TYPE_U32, NO_PAD);
-                    UART_Print_U(DEBUG_PORT, value, TYPE_U32, NO_PAD);
+                    print(DEBUG_PORT, "\r\nU cmd offset, value:");
+                    printf_U(DEBUG_PORT, offset, NO_PAD);
+                    printf_U(DEBUG_PORT, value, NO_PAD);
                     #endif // TS_DEBUG
 
                     //try to modify the indicated config page / calibration
-                    mod_config(TS_cli.currentPage, offset, value);
+                    modify_config(TS_cli.currentPage, offset, value);
 
                     //ready
                     TS_cli.State.cmd_pending = false;
@@ -334,10 +352,10 @@ void ts_communication()
                 UART_Tx(DEBUG_PORT, 'W');
                 UART_Tx(DEBUG_PORT, '.');
                 UART_Tx(DEBUG_PORT, 'p');
-                UART_Print_U(DEBUG_PORT, TS_cli.currentPage, TYPE_U32, NO_PAD);
+                printf_U(DEBUG_PORT, TS_cli.currentPage, NO_PAD);
                 UART_Tx(DEBUG_PORT, '.');
                 UART_Tx(DEBUG_PORT, 'a');
-                UART_Print_U(DEBUG_PORT, UART_available(), TYPE_U32, NO_PAD);
+                printf_U(DEBUG_PORT, UART_available(), NO_PAD);
                  UART_Tx(DEBUG_PORT, '\r');
                 UART_Tx(DEBUG_PORT, '\n');
                 #endif // TS_DEBUG
@@ -438,7 +456,7 @@ void ts_communication()
 
                                 if(TS_cli.State.mod_permission == false)
                                 {
-                                    UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
+                                    print(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
                                     return;
                                 }
 
@@ -478,7 +496,7 @@ void ts_communication()
 
                                 if(TS_cli.State.mod_permission == false)
                                 {
-                                    UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
+                                    print(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
                                     return;
                                 }
 
@@ -583,28 +601,28 @@ void ts_communication()
         case '?':
 
             UART_Tx(TS_PORT, '\n');
-            UART_Send(TS_PORT, "===Command Help===\n\r");
-            UART_Send(TS_PORT, "All commands are single character and are concatenated with their parameters \n\r");
-            UART_Send(TS_PORT, "without spaces. Some parameters are binary and cannot be entered through this \n\r");
-            UART_Send(TS_PORT, "prompt by conventional means. \n\r");
-            UART_Send(TS_PORT, "Syntax:  <command>+<parameter1>+<parameter2>+<parameterN>\n\r");
-            UART_Send(TS_PORT, "===List of Commands===\n\r");
-            UART_Send(TS_PORT, "A - Send Tuareg output channels (live data)\n\r");
-            UART_Send(TS_PORT, "B - Burn current map and configPage values to eeprom\n\r");
-            UART_Send(TS_PORT, "C - Test COM port.  Used by Tunerstudio to see whether an ECU is on a given serial \n\r");
-            UART_Send(TS_PORT, "    port. Returns a binary number.\n\r");
-            UART_Send(TS_PORT, "L - Displays map page (aka table) or configPage values.  Use P to change page (not \n\r");
-            UART_Send(TS_PORT, "    every page is a map)\n\r");
-            UART_Send(TS_PORT, "J - get permissions <mod#>, <cal#>, <ign#>, <dec#> or <brn!> \n\r");
-            UART_Send(TS_PORT, "N - Print new line.\n\r");
-            UART_Send(TS_PORT, "P - Set current page.  Syntax:  P+<pageNumber>\n\r");
-            UART_Send(TS_PORT, "S - Display signature number\n\r");
-            UART_Send(TS_PORT, "U - update configuration / calibration value U<Offset MSB, LSB><Value MSB, x, x, LSB> \n\r");
-            UART_Send(TS_PORT, "Q - Same as S command\n\r");
-            UART_Send(TS_PORT, "V - Display map or configPage values in binary\n\r");
-            UART_Send(TS_PORT, "W - Set one byte in map or configPage.  Expects binary parameters. \n\r");
-            UART_Send(TS_PORT, "    Syntax:  W+<offset>+<new byte>\n\r");
-            UART_Send(TS_PORT, "? - Displays this help page\n\r");
+            print(TS_PORT, "===Command Help===\n\r");
+            print(TS_PORT, "All commands are single character and are concatenated with their parameters \n\r");
+            print(TS_PORT, "without spaces. Some parameters are binary and cannot be entered through this \n\r");
+            print(TS_PORT, "prompt by conventional means. \n\r");
+            print(TS_PORT, "Syntax:  <command>+<parameter1>+<parameter2>+<parameterN>\n\r");
+            print(TS_PORT, "===List of Commands===\n\r");
+            print(TS_PORT, "A - Send Tuareg output channels (live data)\n\r");
+            print(TS_PORT, "B - Burn current map and configPage values to eeprom\n\r");
+            print(TS_PORT, "C - Test COM port.  Used by Tunerstudio to see whether an ECU is on a given serial \n\r");
+            print(TS_PORT, "    port. Returns a binary number.\n\r");
+            print(TS_PORT, "L - Displays map page (aka table) or configPage values.  Use P to change page (not \n\r");
+            print(TS_PORT, "    every page is a map)\n\r");
+            print(TS_PORT, "J - get permissions <mod#>, <cal#>, <ign#>, <dec#> or <brn!> \n\r");
+            print(TS_PORT, "N - Print new line.\n\r");
+            print(TS_PORT, "P - Set current page.  Syntax:  P+<pageNumber>\n\r");
+            print(TS_PORT, "S - Display signature number\n\r");
+            print(TS_PORT, "U - update configuration / calibration value U<Offset MSB, LSB><Value MSB, x, x, LSB> \n\r");
+            print(TS_PORT, "Q - Same as S command\n\r");
+            print(TS_PORT, "V - Display map or configPage values in binary\n\r");
+            print(TS_PORT, "W - Set one byte in map or configPage.  Expects binary parameters. \n\r");
+            print(TS_PORT, "    Syntax:  W+<offset>+<new byte>\n\r");
+            print(TS_PORT, "? - Displays this help page\n\r");
 
             break;
 
@@ -679,7 +697,7 @@ void ts_sendOutputChannels()
 
     tSpareBits       = bits,    U32,    1, [19:31]
     */
-    serialize_U32_char(ts_tuareg_bits(), &(output[1]));
+    serialize_U32_char((U32) ts_tuareg_bits(), &(output[1]));
 
     /*
     ignition         = scalar,  U08,    5, "bits",   1.000, 0.000
@@ -692,7 +710,7 @@ void ts_sendOutputChannels()
     ignAdvTps        = bits,    U08,    5, [6:6]
     ignSpare         = bits,    U08,    5, [7:7]
     */
-    output[5] = ts_ignition_bits();
+    output[5] = (U8) ts_ignition_bits();
 
     /*
     comm             = scalar, U08,  6, "bits",   1.000, 0.000
@@ -703,7 +721,7 @@ void ts_sendOutputChannels()
     comBurnPerm      = bits,    U08,    6, [4:4]
     comSpare         = bits,    U08,    6, [5:7]
     */
-    output[6] = ts_comm_bits();
+    output[6] = (U8) ts_comm_bits();
 
     //rpm              = scalar,   U16,    7, "rpm",    1.000, 0.000
     serialize_U16_U8(Tuareg.process.crank_rpm, &(output[7]));
@@ -892,7 +910,7 @@ void ts_debug_features(U32 FeatureID)
             dump eeprom content in binary format
             */
 
-            UART_Send(TS_PORT, "EEprom data:\r\n");
+            print(TS_PORT, "EEprom data:\r\n");
 
             for(data_1=0; data_1 < EEPROM_STORAGE_END; data_1++)
             {
@@ -901,14 +919,14 @@ void ts_debug_features(U32 FeatureID)
                 if(data_2 != 0)
                 {
                     //read error - terminate
-                    UART_Send(TS_PORT, "ERROR!");
+                    print(TS_PORT, "ERROR!");
                     return;
                 }
 
                 UART_Tx(TS_PORT, u8_data);
             }
 
-            UART_Send(TS_PORT, "Transmission complete.\r\n");
+            print(TS_PORT, "Transmission complete.\r\n");
 
             break;
 
@@ -918,6 +936,15 @@ void ts_debug_features(U32 FeatureID)
             print current process data
             */
             ts_diag_process_data(&(Tuareg.process));
+
+            break;
+
+        case 'Pt':
+
+            /**
+            print current process table
+            */
+            print_process_table(TS_PORT);
 
             break;
 
@@ -1082,7 +1109,7 @@ void ts_sendPage()
             break;
 
         default:
-            UART_Send(DEBUG_PORT, "\n Page has not been implemented yet. Change to another page.");
+            print(DEBUG_PORT, "\n Page has not been implemented yet. Change to another page.");
 
             /**
             lets trick the output logic
@@ -1173,7 +1200,7 @@ void ts_diagPage()
     {
         case VEMAPPAGE:
             currentTable = &fuelTable;
-            UART_Send(TS_PORT, "\r \n Volumetric Efficiency Map \r \n");
+            print(TS_PORT, "\r \n Volumetric Efficiency Map \r \n");
             break;
 
         case VESETPAGE:
@@ -1181,76 +1208,76 @@ void ts_diagPage()
             /**
             Display Values from Config Page 1
             */
-            UART_Send(TS_PORT, "\r \n Page 1 Config \r \n");
+            print(TS_PORT, "\r \n Page 1 Config \r \n");
 
-            UART_Print_S(TS_PORT, configPage1.flexBoostLow, TYPE_S8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexBoostHigh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.asePct, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.aseCount, TYPE_U8, NO_PAD);
+            printf_S(TS_PORT, configPage1.flexBoostLow, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexBoostHigh, NO_PAD);
+            printf_U(TS_PORT, configPage1.asePct, NO_PAD);
+            printf_U(TS_PORT, configPage1.aseCount, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 10; i++)
             {
-                UART_Print_U(TS_PORT, configPage1.wueValues[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage1.wueValues[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage1.crankingPct, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.pinMapping, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.tachoPin, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.tdePct, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.taeColdA, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.tpsThresh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.taeTime, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.displayType, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.display3, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.displayB1, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage1.crankingPct, NO_PAD);
+            printf_U(TS_PORT, configPage1.pinMapping, NO_PAD);
+            printf_U(TS_PORT, configPage1.tachoPin, NO_PAD);
+            printf_U(TS_PORT, configPage1.tdePct, NO_PAD);
+            printf_U(TS_PORT, configPage1.taeColdA, NO_PAD);
+            printf_U(TS_PORT, configPage1.tpsThresh, NO_PAD);
+            printf_U(TS_PORT, configPage1.taeTime, NO_PAD);
+            printf_U(TS_PORT, configPage1.displayType, NO_PAD);
+            printf_U(TS_PORT, configPage1.display3, NO_PAD);
+            printf_U(TS_PORT, configPage1.displayB1, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage1.reqFuel, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.divider, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.injTiming, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.injOpen, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.inj1Ang, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.inj2Ang, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.inj3Ang, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.inj4Ang, TYPE_U16, NO_PAD);
+            printf_U(TS_PORT, configPage1.reqFuel, NO_PAD);
+            printf_U(TS_PORT, configPage1.divider, NO_PAD);
+            printf_U(TS_PORT, configPage1.injTiming, NO_PAD);
+            printf_U(TS_PORT, configPage1.injOpen, NO_PAD);
+            printf_U(TS_PORT, configPage1.inj1Ang, NO_PAD);
+            printf_U(TS_PORT, configPage1.inj2Ang, NO_PAD);
+            printf_U(TS_PORT, configPage1.inj3Ang, NO_PAD);
+            printf_U(TS_PORT, configPage1.inj4Ang, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage1.mapSample, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.cltType1, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.engineType, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.primePulse, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.dutyLim, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexFreqLow, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexFreqHigh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.boostMaxDuty, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.tpsMin, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.tpsMax, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage1.mapSample, NO_PAD);
+            printf_U(TS_PORT, configPage1.cltType1, NO_PAD);
+            printf_U(TS_PORT, configPage1.engineType, NO_PAD);
+            printf_U(TS_PORT, configPage1.primePulse, NO_PAD);
+            printf_U(TS_PORT, configPage1.dutyLim, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexFreqLow, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexFreqHigh, NO_PAD);
+            printf_U(TS_PORT, configPage1.boostMaxDuty, NO_PAD);
+            printf_U(TS_PORT, configPage1.tpsMin, NO_PAD);
+            printf_U(TS_PORT, configPage1.tpsMax, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_S(TS_PORT, configPage1.mapMin, TYPE_S8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.mapMax, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.fpPrime, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.stoich, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.oddfire2, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.oddfire3, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.oddfire4, TYPE_U16, NO_PAD);
+            printf_S(TS_PORT, configPage1.mapMin, NO_PAD);
+            printf_U(TS_PORT, configPage1.mapMax, NO_PAD);
+            printf_U(TS_PORT, configPage1.fpPrime, NO_PAD);
+            printf_U(TS_PORT, configPage1.stoich, NO_PAD);
+            printf_U(TS_PORT, configPage1.oddfire2, NO_PAD);
+            printf_U(TS_PORT, configPage1.oddfire3, NO_PAD);
+            printf_U(TS_PORT, configPage1.oddfire4, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage1.flexFuelLow, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexFuelHigh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexAdvLow, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.flexAdvHigh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.iacCLminDuty, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.iacCLmaxDuty, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage1.boostMinDuty, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexFuelLow, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexFuelHigh, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexAdvLow, NO_PAD);
+            printf_U(TS_PORT, configPage1.flexAdvHigh, NO_PAD);
+            printf_U(TS_PORT, configPage1.iacCLminDuty, NO_PAD);
+            printf_U(TS_PORT, configPage1.iacCLmaxDuty, NO_PAD);
+            printf_U(TS_PORT, configPage1.boostMinDuty, NO_PAD);
 
             sendComplete = true;
             break;
@@ -1258,7 +1285,7 @@ void ts_diagPage()
 
         case IGNMAPPAGE:
             currentTable = &ignitionTable_TPS;
-            UART_Send(TS_PORT, "\r \n Ignition Map \r \n");
+            print(TS_PORT, "\r \n Ignition Map \r \n");
             break;
 
         case IGNSETPAGE:
@@ -1266,88 +1293,88 @@ void ts_diagPage()
             /**
             Display Values from Config Page 2
             */
-            UART_Send(TS_PORT, "\r \n Page 2 Config \r \n");
+            print(TS_PORT, "\r \n Page 2 Config \r \n");
 
-            UART_Print_U(TS_PORT, configPage2.triggerAngle, TYPE_U16, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.FixAng, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.CrankAng, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.TrigAngMul, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.TrigEdge, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.TrigEdgeSec, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.sparkDur, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.IdleAdvRPM, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.IdleAdvCLT, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.IdleDelayTime, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage2.triggerAngle, NO_PAD);
+            printf_U(TS_PORT, configPage2.FixAng, NO_PAD);
+            printf_U(TS_PORT, configPage2.CrankAng, NO_PAD);
+            printf_U(TS_PORT, configPage2.TrigAngMul, NO_PAD);
+            printf_U(TS_PORT, configPage2.TrigEdge, NO_PAD);
+            printf_U(TS_PORT, configPage2.TrigEdgeSec, NO_PAD);
+            printf_U(TS_PORT, configPage2.sparkDur, NO_PAD);
+            printf_U(TS_PORT, configPage2.IdleAdvRPM, NO_PAD);
+            printf_U(TS_PORT, configPage2.IdleAdvCLT, NO_PAD);
+            printf_U(TS_PORT, configPage2.IdleDelayTime, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage2.StgCycles, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.dwellCont, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.dwellCrank, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.dwellRun, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.triggerTeeth, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.triggerMissingTeeth, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.crankRPM, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.floodClear, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.SoftRevLim, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.SoftLimRetard, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage2.StgCycles, NO_PAD);
+            printf_U(TS_PORT, configPage2.dwellCont, NO_PAD);
+            printf_U(TS_PORT, configPage2.dwellCrank, NO_PAD);
+            printf_U(TS_PORT, configPage2.dwellRun, NO_PAD);
+            printf_U(TS_PORT, configPage2.triggerTeeth, NO_PAD);
+            printf_U(TS_PORT, configPage2.triggerMissingTeeth, NO_PAD);
+            printf_U(TS_PORT, configPage2.crankRPM, NO_PAD);
+            printf_U(TS_PORT, configPage2.floodClear, NO_PAD);
+            printf_U(TS_PORT, configPage2.SoftRevLim, NO_PAD);
+            printf_U(TS_PORT, configPage2.SoftLimRetard, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage2.SoftLimMax, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.HardRevLim, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage2.SoftLimMax, NO_PAD);
+            printf_U(TS_PORT, configPage2.HardRevLim, NO_PAD);
 
             for (i= 0; i < 4; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.taeBins[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.taeBins[i], NO_PAD);
             }
 
             for (i= 0; i < 4; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.taeValues[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.taeValues[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 10; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.wueBins[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.wueBins[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage2.dwellLimit, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage2.dwellLimit, NO_PAD);
 
             for (i= 0; i < 6; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.dwellCorrectionValues[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.dwellCorrectionValues[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 6; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.iatRetBins[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.iatRetBins[i], NO_PAD);
             }
 
             for (i= 0; i < 6; i++)
             {
-                UART_Print_U(TS_PORT, configPage2.iatRetValues[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage2.iatRetValues[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage2.dfcoRPM, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.dfcoHyster, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.dfcoTPSThresh, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage2.ignBypassEnabled, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage2.dfcoRPM, NO_PAD);
+            printf_U(TS_PORT, configPage2.dfcoHyster, NO_PAD);
+            printf_U(TS_PORT, configPage2.dfcoTPSThresh, NO_PAD);
+            printf_U(TS_PORT, configPage2.ignBypassEnabled, NO_PAD);
 
             sendComplete = true;
             break;
 
         case AFRMAPPAGE:
             currentTable = &afrTable;
-            UART_Send(TS_PORT, "\r \n Air/Fuel Ratio Map \r \n");
+            print(TS_PORT, "\r \n Air/Fuel Ratio Map \r \n");
             break;
 
         case AFRSETPAGE:
@@ -1355,79 +1382,79 @@ void ts_diagPage()
             /**
             Display Values from Config Page 3
             */
-            UART_Send(TS_PORT, "\r \n Page 3 Config \r \n");
+            print(TS_PORT, "\r \n Page 3 Config \r \n");
 
-            UART_Print_U(TS_PORT, configPage3.egoAlgorithm, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoKP, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoKI, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoKD, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoTemp, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoCount, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoDelta, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoLimit, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.ego_min, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.ego_max, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoAlgorithm, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoKP, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoKI, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoKD, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoTemp, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoCount, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoDelta, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoLimit, NO_PAD);
+            printf_U(TS_PORT, configPage3.ego_min, NO_PAD);
+            printf_U(TS_PORT, configPage3.ego_max, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage3.ego_sdelay, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoRPM, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.egoTPSMax, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.vvtPin, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.boostPin, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage3.ego_sdelay, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoRPM, NO_PAD);
+            printf_U(TS_PORT, configPage3.egoTPSMax, NO_PAD);
+            printf_U(TS_PORT, configPage3.vvtPin, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostPin, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
-
-            for (i= 0; i < 6; i++)
-            {
-                UART_Print_U(TS_PORT, configPage3.voltageCorrectionBins[i], TYPE_U8, NO_PAD);
-            }
-
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 6; i++)
             {
-                UART_Print_U(TS_PORT, configPage3.injVoltageCorrectionValues[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage3.voltageCorrectionBins[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
+
+            for (i= 0; i < 6; i++)
+            {
+                printf_U(TS_PORT, configPage3.injVoltageCorrectionValues[i], NO_PAD);
+            }
+
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 9; i++)
             {
-                UART_Print_U(TS_PORT, configPage3.airDenBins[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage3.airDenBins[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
             for (i= 0; i < 9; i++)
             {
-                UART_Print_U(TS_PORT, configPage3.airDenRates[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage3.airDenRates[i], NO_PAD);
             }
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage3.boostFreq, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.vvtFreq, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.idleFreq, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.launchPin, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.lnchSoftLim, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.lnchRetard, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.lnchHardLim, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.lnchFuelAdd, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.idleKP, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.idleKI, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostFreq, NO_PAD);
+            printf_U(TS_PORT, configPage3.vvtFreq, NO_PAD);
+            printf_U(TS_PORT, configPage3.idleFreq, NO_PAD);
+            printf_U(TS_PORT, configPage3.launchPin, NO_PAD);
+            printf_U(TS_PORT, configPage3.lnchSoftLim, NO_PAD);
+            printf_U(TS_PORT, configPage3.lnchRetard, NO_PAD);
+            printf_U(TS_PORT, configPage3.lnchHardLim, NO_PAD);
+            printf_U(TS_PORT, configPage3.lnchFuelAdd, NO_PAD);
+            printf_U(TS_PORT, configPage3.idleKP, NO_PAD);
+            printf_U(TS_PORT, configPage3.idleKI, NO_PAD);
 
-            UART_Send(TS_PORT, "\r\n");
+            print(TS_PORT, "\r\n");
 
-            UART_Print_U(TS_PORT, configPage3.idleKD, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.boostLimit, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.boostKP, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.boostKI, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.boostKD, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.lnchPullRes, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.flatSSoftWin, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.flatSRetard, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage3.flatSArm, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage3.idleKD, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostLimit, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostKP, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostKI, NO_PAD);
+            printf_U(TS_PORT, configPage3.boostKD, NO_PAD);
+            printf_U(TS_PORT, configPage3.lnchPullRes, NO_PAD);
+            printf_U(TS_PORT, configPage3.flatSSoftWin, NO_PAD);
+            printf_U(TS_PORT, configPage3.flatSRetard, NO_PAD);
+            printf_U(TS_PORT, configPage3.flatSArm, NO_PAD);
 
             sendComplete = true;
             break;
@@ -1437,7 +1464,7 @@ void ts_diagPage()
             /**
             Display Values from Config Page 4
             */
-            UART_Send(TS_PORT, "\r \n Page 4 Config \r \n");
+            print(TS_PORT, "\r \n Page 4 Config \r \n");
 
             /**
             Display four equally sized arrays at once
@@ -1460,10 +1487,10 @@ void ts_diagPage()
 
                 for(x = 10; x; x--)
                 {
-                    UART_Print_U(TS_PORT, currentVar[10 - x], TYPE_U8, NO_PAD);
+                    printf_U(TS_PORT, currentVar[10 - x], NO_PAD);
                 }
 
-                UART_Send(TS_PORT, "\r\n");
+                print(TS_PORT, "\r\n");
             }
 
             // Three equally sized arrays
@@ -1482,24 +1509,24 @@ void ts_diagPage()
 
                 for (x= 4; x; x--)
                 {
-                    UART_Print_U(TS_PORT, currentVar[4 - x], TYPE_U8, NO_PAD);
+                    printf_U(TS_PORT, currentVar[4 - x], NO_PAD);
                 }
 
-                UART_Send(TS_PORT, "\r\n");
+                print(TS_PORT, "\r\n");
             }
 
-            UART_Print_U(TS_PORT, configPage4.iacAlgorithm, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.iacFastTemp, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.iacStepHome, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.iacStepHyster, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.fanInv, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.fanSP, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.fanHyster, TYPE_U8, NO_PAD);
-            UART_Print_U(TS_PORT, configPage4.fanFreq, TYPE_U8, NO_PAD);
+            printf_U(TS_PORT, configPage4.iacAlgorithm, NO_PAD);
+            printf_U(TS_PORT, configPage4.iacFastTemp, NO_PAD);
+            printf_U(TS_PORT, configPage4.iacStepHome, NO_PAD);
+            printf_U(TS_PORT, configPage4.iacStepHyster, NO_PAD);
+            printf_U(TS_PORT, configPage4.fanInv, NO_PAD);
+            printf_U(TS_PORT, configPage4.fanSP, NO_PAD);
+            printf_U(TS_PORT, configPage4.fanHyster, NO_PAD);
+            printf_U(TS_PORT, configPage4.fanFreq, NO_PAD);
 
             for (i= 0; i < 4; i++)
             {
-                UART_Print_U(TS_PORT, configPage4.fanPWMBins[i], TYPE_U8, NO_PAD);
+                printf_U(TS_PORT, configPage4.fanPWMBins[i], NO_PAD);
             }
 
             sendComplete = true;
@@ -1508,27 +1535,27 @@ void ts_diagPage()
 
         case BOOSTVVCPAGE:
                 currentTable= &boostTable;
-                UART_Send(TS_PORT, "\r \n Boost Map \r \n");
+                print(TS_PORT, "\r \n Boost Map \r \n");
                 break;
 
 
         case SEQFUELPAGE:
 
                 currentTable= &trim1Table;
-                UART_Send(TS_PORT, "\r \n VVT Map \r \n");
+                print(TS_PORT, "\r \n VVT Map \r \n");
 
                 for (i = 0; i < TABLE3D_DIMENSION; i++)
                 {
                     value= (U8) (currentTable->axisY[i]);
-                    UART_Print_U(TS_PORT, value, TYPE_U8, NO_PAD);
+                    printf_U(TS_PORT, value, NO_PAD);
 
                     for (x = 0; x < TABLE3D_DIMENSION; x++)
                     {
                         value= currentTable->axisZ[i][x];
-                        UART_Print_U(TS_PORT, value, TYPE_U8, NO_PAD);
+                        printf_U(TS_PORT, value, NO_PAD);
                     }
 
-                    UART_Send(TS_PORT, "\r\n");
+                    print(TS_PORT, "\r\n");
                 }
 
                 sendComplete = true;
@@ -1536,38 +1563,38 @@ void ts_diagPage()
 
         case CALIBPAGE:
 
-                ts_diagPage_calib();
+                show_Sensor_Calibration(TS_PORT);
                 sendComplete = true;
                 break;
 
 
         case DECODERPAGE:
 
-                ts_diagPage_decoder();
+                show_Decoder_Config(TS_PORT);
                 sendComplete = true;
                 break;
 
 
         case IGNITIONPAGE:
 
-                ts_diagPage_ignition();
+                show_Ignition_Config(TS_PORT);
                 sendComplete = true;
                 break;
 
 
         case IGNITIONMAP_TPS:
             currentTable = &ignitionTable_TPS;
-            UART_Send(TS_PORT, "\r \nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r \nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
             break;
 
         case IGNITIONMAP_MAP:
             currentTable = &ignitionTable_MAP;
-            UART_Send(TS_PORT, "\r \nIgnition Map MAP (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r \nIgnition Map MAP (in boctok 3D coordinate system)\r\n");
             break;
 
 
         default:
-            UART_Send(TS_PORT, "\n Page has not been implemented yet. Change to another page.");
+            print(TS_PORT, "\n Page has not been implemented yet. Change to another page.");
             sendComplete = true;
             break;
     }
@@ -1582,207 +1609,11 @@ void ts_diagPage()
 }
 
 
-void ts_diagPage_calib()
-{
-    /**
-    Display Values from Config Page 9
-    */
-    UART_Send(TS_PORT, "\r\n\r\nsensors calibration:\r\n");
-
-    /*
-    IAT
-    */
-    UART_Send(TS_PORT, "\r\nIAT M N: ");
-    UART_Print_F32(TS_PORT, configPage9.IAT_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.IAT_calib_N);
 
 
 
-    /*
-    CLT
-    */
-    UART_Send(TS_PORT, "\r\nCLT M N: ");
-    UART_Print_F32(TS_PORT, configPage9.CLT_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.CLT_calib_N);
 
 
-    /*
-    TPS
-    */
-    UART_Send(TS_PORT, "\r\nTPS M N: ");
-    UART_Print_F32(TS_PORT, configPage9.TPS_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.TPS_calib_N);
-
-    /*
-    MAP
-    */
-    UART_Send(TS_PORT, "\r\nMAP M N: ");
-    UART_Print_F32(TS_PORT, configPage9.MAP_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.MAP_calib_N);
-
-
-    /*
-    BARO
-    */
-    UART_Send(TS_PORT, "\r\nBARO M N: ");
-    UART_Print_F32(TS_PORT, configPage9.BARO_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.BARO_calib_N);
-
-
-    /*
-    O2
-    */
-    UART_Send(TS_PORT, "\r\nO2 M N: ");
-    UART_Print_F32(TS_PORT, configPage9.O2_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.O2_calib_N);
-
-
-    /*
-    VBAT
-    */
-    UART_Send(TS_PORT, "\r\nVBAT M N: ");
-    UART_Print_F32(TS_PORT, configPage9.VBAT_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.VBAT_calib_N);
-
-
-    /*
-    KNOCK
-    */
-    UART_Send(TS_PORT, "\r\nKNOCK M N: ");
-    UART_Print_F32(TS_PORT, configPage9.KNOCK_calib_M);
-    UART_Print_F32(TS_PORT, configPage9.KNOCK_calib_N);
-
-}
-
-void ts_diagPage_decoder()
-{
-    U32 i;
-
-    /**
-    U16 trigger_position_map[POSITION_COUNT];
-    S16 decoder_offset_deg;
-    U16 decoder_delay_us;
-    U8 crank_noise_filter;
-    U8 sync_ratio_min_pct;
-    U8 sync_ratio_max_pct;
-    U8 decoder_timeout_s;
-    */
-
-    /**
-    Display Values from Config Page 12
-    */
-    UART_Send(TS_PORT, "\r\n\r\ndecoderpage:\r\n\r\n");
-
-    /*
-    trigger_position_map[CRK_POSITION_COUNT]
-    */
-    UART_Send(TS_PORT, "Trigger position map A1 .. D2: \r\n");
-
-    for(i=0; i< CRK_POSITION_COUNT; i++)
-    {
-        UART_Print_U(TS_PORT, configPage12.trigger_position_map.crank_angle_deg[i], TYPE_U16, PAD);
-    }
-
-    //decoder_offset_deg
-    UART_Send(TS_PORT, "\r\ndecoder offset (deg): ");
-    UART_Print_S(TS_PORT, configPage12.decoder_offset_deg, TYPE_S16, NO_PAD);
-
-    //decoder_delay_us
-    UART_Send(TS_PORT, "\r\ndecoder delay (us): ");
-    UART_Print_U(TS_PORT, configPage12.decoder_delay_us, TYPE_U16, NO_PAD);
-
-    //crank_noise_filter
-    UART_Send(TS_PORT, "\r\ncrank noise filter: ");
-    UART_Print_U(TS_PORT, configPage12.crank_noise_filter, TYPE_U8, NO_PAD);
-
-    //sync_ratio_min_pct
-    UART_Send(TS_PORT, "\r\nsync ratio min (pct): ");
-    UART_Print_U(TS_PORT, configPage12.sync_ratio_min_pct, TYPE_U8, NO_PAD);
-
-
-    //sync_ratio_max_pct
-    UART_Send(TS_PORT, "\r\nsync ratio max (pct): ");
-    UART_Print_U(TS_PORT, configPage12.sync_ratio_max_pct, TYPE_U8, NO_PAD);
-
-    //decoder_timeout_s
-    UART_Send(TS_PORT, "\r\ndecoder timeout (s): ");
-    UART_Print_U(TS_PORT, configPage12.decoder_timeout_s, TYPE_U8, NO_PAD);
-}
-
-void ts_diagPage_ignition()
-{
-    /**
-    U16 max_rpm;
-
-    U16 dynamic_min_rpm;
-    crank_position_t dynamic_ignition_base_position;
-    crank_position_t dynamic_dwell_base_position;
-    U16 dynamic_dwell_target_us;
-
-    U16 cold_idle_cutoff_rpm;
-    U16 cold_idle_cutoff_CLT_K;
-    U8 cold_idle_ignition_advance_deg;
-    U16 cold_idle_dwell_target_us;
-
-    crank_position_t cranking_ignition_position;
-    crank_position_t cranking_dwell_position;
-    */
-
-    /**
-    Display Values from Config Page 13
-    */
-    UART_Send(TS_PORT, "\r\n\r\nignitionpage:\r\n");
-
-    //max_rpm
-    UART_Send(TS_PORT, "\r\nrev limiter (rpm): ");
-    UART_Print_U(TS_PORT, configPage13.max_rpm, TYPE_U16, NO_PAD);
-
-
-    //dynamic_min_rpm
-    UART_Send(TS_PORT, "\r\ndynamic ignition function minimum rpm: ");
-    UART_Print_U(TS_PORT, configPage13.dynamic_min_rpm, TYPE_U16, NO_PAD);
-
-    //dynamic_ignition_base_position
-    UART_Send(TS_PORT, "\r\ndynamic ignition base position: ");
-    UART_Print_crank_position(TS_PORT, configPage13.dynamic_ignition_base_position);
-
-    /*
-    dynamic_dwell_base_position
-    UART_Send(TS_PORT, "\r\ndynamic dwell base position: ");
-    UART_Print_crank_position(TS_PORT, configPage13.dynamic_dwell_base_position);
-    */
-
-    //dynamic_dwell_target_us
-    UART_Send(TS_PORT, "\r\ndynamic dwell target (us): ");
-    UART_Print_U(TS_PORT, configPage13.dynamic_dwell_target_us, TYPE_U16, NO_PAD);
-
-
-    //cold_idle_cutoff_rpm
-    UART_Send(TS_PORT, "\r\ncold idle cutoff (rpm): ");
-    UART_Print_U(TS_PORT, configPage13.cold_idle_cutoff_rpm, TYPE_U16, NO_PAD);
-
-    //cold_idle_cutoff_CLT_K
-    UART_Send(TS_PORT, "\r\ncold idle cutoff CLT (K): ");
-    UART_Print_U(TS_PORT, configPage13.cold_idle_cutoff_CLT_K, TYPE_U16, NO_PAD);
-
-    //cold_idle_ignition_advance_deg
-    UART_Send(TS_PORT, "\r\ncold idle ignition advance (deg): ");
-    UART_Print_U(TS_PORT, configPage13.cold_idle_ignition_advance_deg, TYPE_U8, NO_PAD);
-
-    //cold_idle_dwell_target_us
-    UART_Send(TS_PORT, "\r\ncold idle dwell target (us): ");
-    UART_Print_U(TS_PORT, configPage13.cold_idle_dwell_target_us, TYPE_U16, NO_PAD);
-
-
-    //cranking_ignition_position
-    UART_Send(TS_PORT, "\r\ncranking ignition position: ");
-    UART_Print_crank_position(TS_PORT, configPage13.cranking_ignition_position);
-
-    //cranking_dwell_position
-    UART_Send(TS_PORT, "\r\ncranking dwell position: ");
-    UART_Print_crank_position(TS_PORT, configPage13.cranking_dwell_position);
-
-}
 
 void ts_diag_process_data(volatile process_data_t * pImage)
 {
@@ -1803,65 +1634,104 @@ void ts_diag_process_data(volatile process_data_t * pImage)
     VF32 VBAT_V;
     */
 
-    UART_Send(TS_PORT, "\r\n\r\nprocess data image:\r\n");
+    print(TS_PORT, "\r\n\r\nprocess data image:\r\n");
 /*
-    UART_Send(TS_PORT, "\r\ncrank position: ");
-   UART_Print_crank_position(TS_PORT, pImage->crank_position);
+    print(TS_PORT, "\r\ncrank position: ");
+   printf_crkpos(TS_PORT, pImage->crank_position);
 
 
-    UART_Send(TS_PORT, "\r\ncrank position table: ");
+    print(TS_PORT, "\r\ncrank position table: ");
 
     for(i=0; i< CRK_POSITION_COUNT; i++)
     {
-        UART_Print_U(TS_PORT, pImage->crank_position_table.a_deg[i], TYPE_U16, PAD);
+        printf_U(TS_PORT, pImage->crank_position_table.a_deg[i], TYPE_U16, PAD);
     }
 */
-    UART_Send(TS_PORT, "\r\ncrank rotational period: ");
-    UART_Print_U(TS_PORT, pImage->crank_T_us, TYPE_U32, NO_PAD);
+    print(TS_PORT, "\r\ncrank rotational period: ");
+    printf_U(TS_PORT, pImage->crank_T_us, NO_PAD);
 
-    UART_Send(TS_PORT, "rpm: ");
-    UART_Print_U(TS_PORT, pImage->crank_rpm, TYPE_U32, NO_PAD);
+    print(TS_PORT, "rpm: ");
+    printf_U(TS_PORT, pImage->crank_rpm, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nstrategy: ");
-    UART_Print_U(TS_PORT, pImage->ctrl_strategy, TYPE_U8, NO_PAD);
+    print(TS_PORT, "\r\nstrategy: ");
+    printf_U(TS_PORT, pImage->ctrl_strategy, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");
+    print(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");
 
-    UART_Print_F32(TS_PORT, pImage->MAP_kPa);
-    UART_Print_F32(TS_PORT, pImage->Baro_kPa);
-    UART_Print_F32(TS_PORT, pImage->TPS_deg);
-    UART_Print_F32(TS_PORT, pImage->ddt_TPS);
-    UART_Print_F32(TS_PORT, pImage->IAT_K - cKelvin_offset);
-    UART_Print_F32(TS_PORT, pImage->CLT_K - cKelvin_offset);
-    UART_Print_F32(TS_PORT, pImage->VBAT_V);
-    UART_Print_F32(TS_PORT, pImage->O2_AFR);
-    UART_Print_U(TS_PORT, pImage->Gear, TYPE_U8, NO_PAD);
+    printf_F32(TS_PORT, pImage->MAP_kPa);
+    printf_F32(TS_PORT, pImage->Baro_kPa);
+    printf_F32(TS_PORT, pImage->TPS_deg);
+    printf_F32(TS_PORT, pImage->ddt_TPS);
+    printf_F32(TS_PORT, pImage->IAT_K - cKelvin_offset);
+    printf_F32(TS_PORT, pImage->CLT_K - cKelvin_offset);
+    printf_F32(TS_PORT, pImage->VBAT_V);
+    printf_F32(TS_PORT, pImage->O2_AFR);
+    printf_U(TS_PORT, pImage->Gear, NO_PAD);
 
 }
 
 void ts_diag_ignition_timing(volatile ignition_control_t * pTiming)
 {
     /**
+
     U16 ignition_advance_deg;
-    U16 dwell_deg;
-    U32 coil_dwell_timing_us;
-    U32 coil_ignition_timing_us;
-    crank_position_t coil_dwell_pos;
-    crank_position_t coil_ignition_pos;
+    U32 ignition_timing_us;
+    crank_position_t ignition_pos;
+
+    crank_position_t dwell_pos_phased;
+    engine_phase_t dwell_phase_cyl1;
+    engine_phase_t dwell_phase_cyl2;
+    U8 dwell_ms_phased;
+
+    crank_position_t dwell_pos_unphased;
+    U8 dwell_ms_unphased;
+
+    ignition_logic_state_t state;
+
+    U8 default_timing :1;
+        U8 cranking_timing :1;
+        U8 rev_limiter :1;
+        U8 dynamic :1;
+        U8 cold_idle :1;
+        U8 advance_map :1;
+        U8 advance_tps :1;
+        U8 extended_dwell :1;
     */
 
-    UART_Send(TS_PORT, "\r\n\r\nignition setup:\r\n");
+    print(TS_PORT, "\r\n\r\nignition setup:");
 
-    UART_Send(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
-    UART_Print_U(TS_PORT, pTiming->ignition_advance_deg, TYPE_U16, NO_PAD);
-    UART_Print_crank_position(TS_PORT, pTiming->ignition_pos);
-    UART_Tx(TS_PORT, ' ');
-    UART_Print_U(TS_PORT, pTiming->ignition_timing_us, TYPE_U32, NO_PAD);
+    print(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
+    printf_U(TS_PORT, pTiming->ignition_advance_deg, NO_PAD);
+    printf_crkpos(TS_PORT, pTiming->ignition_pos);
+    printf_U(TS_PORT, pTiming->ignition_timing_us, NO_PAD);
 
-    UART_Send(TS_PORT, "\r\nduration (ms), position, timing (us): ");
-    UART_Print_U(TS_PORT, pTiming->dwell_ms_phased, TYPE_U16, NO_PAD);
-    UART_Print_crank_position(TS_PORT, pTiming->dwell_pos_phased);
-    UART_Tx(TS_PORT, ' ');
+    print(TS_PORT, "\r\ndwell -phased- duration (ms), position, phase cyl #1, phase cyl #2: ");
+    printf_U(TS_PORT, pTiming->dwell_ms_phased, NO_PAD);
+    printf_crkpos(TS_PORT, pTiming->dwell_pos_phased);
+    printf_phase(TS_PORT, pTiming->dwell_phase_cyl1);
+    printf_phase(TS_PORT, pTiming->dwell_phase_cyl2);
+
+    print(TS_PORT, "\r\ndefault-cranking-rev_limiter-dyn-cold_idle-a_map-a_tps-ext_dwell: ");
+
+    UART_Tx(TS_PORT, (pTiming->state.default_timing? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.cranking_timing? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.rev_limiter? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.dynamic? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.cold_idle? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.advance_map? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.advance_tps? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.extended_dwell? '1' :'0'));
+
+    print(TS_PORT, "\r\ndwell -unphased- duration (ms), position: ");
+    printf_U(TS_PORT, pTiming->dwell_ms_unphased, NO_PAD);
+    printf_crkpos(TS_PORT, pTiming->dwell_pos_unphased);
 
 }
 
@@ -1878,7 +1748,7 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
     if(TS_cli.State.mod_permission == false)
     {
-        UART_Send(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
+        print(DEBUG_PORT, "\r\n*** config modification rejected ***\r\n");
         return;
     }
 
@@ -1887,9 +1757,9 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
     UART_Tx(DEBUG_PORT, '\r');
     UART_Tx(DEBUG_PORT, '\n');
     UART_Tx(DEBUG_PORT, 'r');
-    UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
+    printf_U(DEBUG_PORT, valueOffset, NO_PAD);
     UART_Tx(DEBUG_PORT, '.');
-    UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+    printf_U(DEBUG_PORT, newValue, NO_PAD);
     #endif //TS_DEBUG
 
     switch(TS_cli.currentPage)
@@ -1948,9 +1818,9 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
                 // Z-axis
                 #ifdef TS_DEBUG
                 /// TODO (oli#1#): debug action enabled
-                UART_Send(DEBUG_PORT, "\r\nIGN Z: ");
-                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
-                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                print(DEBUG_PORT, "\r\nIGN Z: ");
+                printf_U(DEBUG_PORT, valueOffset, NO_PAD);
+                printf_U(DEBUG_PORT, newValue, NO_PAD);
                 #endif //TS_DEBUG
 
                 //all values are offset by 40
@@ -1965,9 +1835,9 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
                 // X-axis
                 #ifdef TS_DEBUG
                 /// TODO (oli#1#): debug action enabled
-                UART_Send(DEBUG_PORT, "\r\nIGN X: ");
-                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
-                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                print(DEBUG_PORT, "\r\nIGN X: ");
+                printf_U(DEBUG_PORT, valueOffset, NO_PAD);
+                printf_U(DEBUG_PORT, newValue, NO_PAD);
                 #endif //TS_DEBUG
 
                 // the RPM values sent by megasquirt are divided by 100
@@ -1979,9 +1849,9 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
                 // Y-axis
                 #ifdef TS_DEBUG
                 /// TODO (oli#1#): debug action enabled
-                UART_Send(DEBUG_PORT, "\r\nIGN Y: ");
-                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
-                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                print(DEBUG_PORT, "\r\nIGN Y: ");
+                printf_U(DEBUG_PORT, valueOffset, NO_PAD);
+                printf_U(DEBUG_PORT, newValue, NO_PAD);
                 #endif //TS_DEBUG
 
                 // the RPM values sent by megasquirt are divided by 2
@@ -1992,9 +1862,9 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
                 //invalid offset, do not attempt to modify anything
                 #ifdef TS_DEBUG
                 /// TODO (oli#1#): debug action enabled
-                UART_Send(DEBUG_PORT, "received invalid ignition bin: ");
-                UART_Print_U(DEBUG_PORT, valueOffset, TYPE_U32, NO_PAD);
-                UART_Print_U(DEBUG_PORT, newValue, TYPE_U32, NO_PAD);
+                print(DEBUG_PORT, "received invalid ignition bin: ");
+                printf_U(DEBUG_PORT, valueOffset, NO_PAD);
+                printf_U(DEBUG_PORT, newValue, NO_PAD);
                 #endif //TS_DEBUG
 
                 return;
@@ -2233,19 +2103,19 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
         case CALIBPAGE:
 
-            UART_Send(DEBUG_PORT, "\r\n*** use U command for calibration modification! ***\r\n");
+            print(DEBUG_PORT, "\r\n*** use U command for calibration modification! ***\r\n");
             break;
 
 
         case DECODERPAGE:
 
-            UART_Send(DEBUG_PORT, "\r\n*** use U command for decoder config modification! ***\r\n");
+            print(DEBUG_PORT, "\r\n*** use U command for decoder config modification! ***\r\n");
             break;
 
 
         case IGNITIONPAGE:
 
-            UART_Send(DEBUG_PORT, "\r\n*** use U command for ignition config modification! ***\r\n");
+            print(DEBUG_PORT, "\r\n*** use U command for ignition config modification! ***\r\n");
             break;
 
 
@@ -2255,341 +2125,55 @@ void ts_replaceConfig(U32 valueOffset, U32 newValue)
 
 }
 
-/**
-replace a calibration value
-*/
-void mod_sensor_calib(U32 Offset, U32 Value)
-{
 
-    if(TS_cli.State.calib_mod_permission == false)
-    {
-        UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (permission) ***\r\n");
-        return;
-    }
 
-    /**
-    calibration layout:
 
-    float IAT_calib_M;
-    float IAT_calib_N;
 
-    float CLT_calib_M;
-    float CLT_calib_N;
-
-    float TPS_calib_M;
-    float TPS_calib_N;
-
-    float MAP_calib_M;
-    float MAP_calib_N;
-
-    float BARO_calib_M;
-    float BARO_calib_N;
-
-    float O2_calib_M;
-    float O2_calib_N;
-
-    float VBAT_calib_M;
-    float VBAT_calib_N;
-
-    float KNOCK_calib_M;
-    float KNOCK_calib_N;
-    */
-
-    switch(Offset)
-    {
-    case CALIB_OS_IAT_M:
-
-        configPage9.IAT_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_IAT_N:
-
-        configPage9.IAT_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_CLT_M:
-
-        configPage9.CLT_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_CLT_N:
-
-        configPage9.CLT_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_TPS_M:
-
-        configPage9.TPS_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_TPS_N:
-
-        configPage9.TPS_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_MAP_M:
-
-        configPage9.MAP_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_MAP_N:
-
-        configPage9.MAP_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_BARO_M:
-
-        configPage9.BARO_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_BARO_N:
-
-        configPage9.BARO_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_O2_M:
-
-        configPage9.O2_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_O2_N:
-
-        configPage9.O2_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_VBAT_M:
-
-        configPage9.VBAT_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_VBAT_N:
-
-        configPage9.VBAT_calib_N= compose_float(Value);
-        break;
-
-
-    case CALIB_OS_KNOCK_M:
-
-        configPage9.KNOCK_calib_M= compose_float(Value);
-        break;
-
-    case CALIB_OS_KNOCK_N:
-
-        configPage9.KNOCK_calib_N= compose_float(Value);
-        break;
-
-    default:
-        UART_Send(DEBUG_PORT, "\r\n*** calibration modification rejected (invalid offset) ***\r\n");
-        break;
-
-    }
-
-}
-
-
-/**
-replace an decoder config value
-*/
-void mod_decoder_config(U32 Offset, U32 Value)
-{
-    if(TS_cli.State.decoder_mod_permission == false)
-    {
-        UART_Send(DEBUG_PORT, "\r\n*** decoder config modification rejected (permission) ***\r\n");
-        return;
-    }
-
-    /**
-    U16 trigger_position_map[CRK_POSITION_COUNT];
-    S16 decoder_offset_deg;
-    U16 decoder_delay_us;
-    U8 crank_noise_filter;
-    U8 sync_ratio_min_pct;
-    U8 sync_ratio_max_pct;
-    U8 sync_stability_thrs;
-    U8 decoder_timeout_s;
-    */
-
-    switch(Offset)
-    {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-
-        configPage12.trigger_position_map.crank_angle_deg[Offset]= (U16) Value;
-        break;
-
-    case 8:
-
-        configPage12.decoder_offset_deg= (S16) Value;
-        break;
-
-    case 9:
-
-        configPage12.decoder_delay_us= (U16) Value;
-        break;
-
-    case 10:
-
-        configPage12.crank_noise_filter= (U8) Value;
-        break;
-
-    case 11:
-
-        configPage12.sync_ratio_min_pct= (U8) Value;
-        break;
-
-    case 12:
-
-        configPage12.sync_ratio_max_pct= (U8) Value;
-        break;
-
-    case 13:
-
-        configPage12.decoder_timeout_s= (U8) Value;
-        break;
-
-    default:
-
-        UART_Send(DEBUG_PORT, "\r\n*** decoder config modification rejected (invalid offset) ***\r\n");
-        break;
-
-    }
-
-}
-
-
-/**
-replace an ignition config value
-*/
-void mod_ignition_config(U32 Offset, U32 Value)
-{
-    if(TS_cli.State.ignition_mod_permission == false)
-    {
-        UART_Send(DEBUG_PORT, "\r\n*** ignition config modification rejected (permission) ***\r\n");
-        return;
-    }
-
-    /**
-    U16 max_rpm;
-
-    U16 dynamic_min_rpm;
-    crank_position_t dynamic_ignition_base_position;
-    crank_position_t dynamic_dwell_base_position;
-    U16 dynamic_dwell_target_us;
-
-    U16 cold_idle_cutoff_rpm;
-    U16 cold_idle_cutoff_CLT_K;
-    U8 cold_idle_ignition_advance_deg;
-    U16 cold_idle_dwell_target_us;
-
-    crank_position_t cranking_ignition_position;
-    crank_position_t cranking_dwell_position;
-    */
-
-    switch(Offset)
-    {
-    case 0:
-
-        configPage13.max_rpm= (U16) Value;
-        break;
-
-    case 1:
-
-        configPage13.dynamic_min_rpm= (U16) Value;
-        break;
-
-    case 2:
-
-        configPage13.dynamic_ignition_base_position= (crank_position_t) Value;
-        break;
-
-        /*
-    case 3:
-
-        configPage13.dynamic_dwell_base_position= (crank_position_t) Value;
-        break;
-        */
-
-    case 4:
-
-        configPage13.dynamic_dwell_target_us= (U16) Value;
-        break;
-
-    case 5:
-
-        configPage13.cold_idle_cutoff_rpm= (U16) Value;
-        break;
-
-    case 6:
-
-        configPage13.cold_idle_cutoff_CLT_K= (U16) Value;
-        break;
-
-    case 7:
-
-        configPage13.cold_idle_ignition_advance_deg= (U8) Value;
-        break;
-
-    case 8:
-
-        configPage13.cold_idle_dwell_target_us= (U16) Value;
-        break;
-
-    case 9:
-
-        configPage13.cranking_ignition_position= (crank_position_t) Value;
-        break;
-
-    case 10:
-
-        configPage13.cranking_dwell_position= (crank_position_t) Value;
-        break;
-
-    default:
-        UART_Send(DEBUG_PORT, "\r\n*** ignition config modification rejected (invalid offset) ***\r\n");
-        break;
-
-    }
-
-}
 
 
 
 /**
 update a configuration value
 */
-void mod_config(U32 Page, U32 Offset, U32 Value)
+void modify_config(U32 Page, U32 Offset, U32 Value)
 {
     switch(Page)
     {
     case DECODERPAGE:
 
-        mod_decoder_config(Offset, Value);
+        if(TS_cli.State.decoder_mod_permission == false)
+        {
+            print(DEBUG_PORT, "\r\n*** decoder config modification rejected (permission) ***\r\n");
+            return;
+        }
+
+        modify_Decoder_Config(Offset, Value);
         break;
 
     case IGNITIONPAGE:
 
-        mod_ignition_config(Offset, Value);
+        if(TS_cli.State.ignition_mod_permission == false)
+        {
+            print(DEBUG_PORT, "\r\n*** ignition config modification rejected (permission) ***\r\n");
+            return;
+        }
+
+        modify_Ignition_Config(Offset, Value);
         break;
 
     case CALIBPAGE:
 
-        mod_sensor_calib(Offset, Value);
+        if(TS_cli.State.calib_mod_permission == false)
+        {
+            print(DEBUG_PORT, "\r\n*** calibration modification rejected (permission) ***\r\n");
+            return;
+        }
+
+        modify_Sensor_Calibration(Offset, Value);
         break;
 
     default:
-        UART_Send(DEBUG_PORT, "\r\n*** modification rejected (invalid page) ***\r\n");
+        print(DEBUG_PORT, "\r\n*** modification rejected (invalid page) ***\r\n");
         break;
 
     }
@@ -2601,33 +2185,33 @@ void mod_config(U32 Page, U32 Offset, U32 Value)
 /**
 prepare OutputChannel "comm" field
 */
-VU8 ts_comm_bits()
+BF8 ts_comm_bits()
 {
-    U8 commbits =0;
+    BF8 commbits =0;
 
     if(TS_cli.State.burn_permission)
     {
-        setBit_U8(COMMBIT_BURN_PERMISSION, &commbits);
+        setBit_BF8(COMMBIT_BURN_PERMISSION, &commbits);
     }
 
     if(TS_cli.State.mod_permission)
     {
-        setBit_U8(COMMBIT_MOD_PERMISSION, &commbits);
+        setBit_BF8(COMMBIT_MOD_PERMISSION, &commbits);
     }
 
     if(TS_cli.State.calib_mod_permission)
     {
-        setBit_U8(COMMBIT_CALMOD_PERMISSION, &commbits);
+        setBit_BF8(COMMBIT_CALMOD_PERMISSION, &commbits);
     }
 
     if(TS_cli.State.ignition_mod_permission)
     {
-        setBit_U8(COMMBIT_IGNMOD_PERMISSION, &commbits);
+        setBit_BF8(COMMBIT_IGNMOD_PERMISSION, &commbits);
     }
 
     if(TS_cli.State.decoder_mod_permission)
     {
-        setBit_U8(COMMBIT_DECMOD_PERMISSION, &commbits);
+        setBit_BF8(COMMBIT_DECMOD_PERMISSION, &commbits);
     }
 
     return commbits;
@@ -2638,81 +2222,81 @@ VU8 ts_comm_bits()
 prepare OutputChannel "tuareg" field
 
 */
-VU32 ts_tuareg_bits()
+BF32 ts_tuareg_bits()
 {
-    U32 tuaregbits =0;
+    BF32 tuaregbits =0;
 
     if(Tuareg.Errors.config_load_error)
     {
-        setBit_U32(TBIT_CONFIGLOAD_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_CONFIGLOAD_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.scheduler_error)
     {
-        setBit_U32(TBIT_SCHEDULER_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_SCHEDULER_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_O2_error)
     {
-        setBit_U32(TBIT_O2SENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_O2SENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_TPS_error)
     {
-        setBit_U32(TBIT_TPSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_TPSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_IAT_error)
     {
-        setBit_U32(TBIT_IATSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_IATSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_CLT_error)
     {
-        setBit_U32(TBIT_CLTSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_CLTSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_VBAT_error)
     {
-        setBit_U32(TBIT_VBATSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_VBATSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_KNOCK_error)
     {
-        setBit_U32(TBIT_KNOCKSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_KNOCKSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_BARO_error)
     {
-        setBit_U32(TBIT_BAROSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_BAROSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_GEAR_error)
     {
-        setBit_U32(TBIT_GEARSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_GEARSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_MAP_error)
     {
-        setBit_U32(TBIT_MAPSENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_MAPSENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_CIS_error)
     {
-        setBit_U32(TBIT_CISENSOR_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_CISENSOR_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Runmode == TMODE_CRANKING)
     {
-        setBit_U32(TBIT_CRANKING_MODE, &tuaregbits);
+        setBit_BF32(TBIT_CRANKING_MODE, &tuaregbits);
     }
     else if(Tuareg.Runmode == TMODE_LIMP)
     {
-        setBit_U32(TBIT_LIMP_MODE, &tuaregbits);
+        setBit_BF32(TBIT_LIMP_MODE, &tuaregbits);
     }
     else if(Tuareg.Runmode == TMODE_DIAG)
     {
-        setBit_U32(TBIT_DIAG_MODE, &tuaregbits);
+        setBit_BF32(TBIT_DIAG_MODE, &tuaregbits);
     }
 
     return tuaregbits;
@@ -2725,41 +2309,41 @@ prepare OutputChannel "ignition" field
 */
 VU8 ts_ignition_bits()
 {
-    U32 ignitionbits =0;
+    BF32 ignitionbits =0;
 
     if(Tuareg.ignition_controls.state.default_timing)
     {
-        setBit_U32(IGNBIT_DEFAULT_TIMING, &ignitionbits);
+        setBit_BF32(IGNBIT_DEFAULT_TIMING, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.cranking_timing)
     {
-        setBit_U32(IGNBIT_CRANKING_TIMING, &ignitionbits);
+        setBit_BF32(IGNBIT_CRANKING_TIMING, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.rev_limiter)
     {
-        setBit_U32(IGNBIT_REV_LIMITER, &ignitionbits);
+        setBit_BF32(IGNBIT_REV_LIMITER, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.dynamic)
     {
-        setBit_U32(IGNBIT_DYNAMIC, &ignitionbits);
+        setBit_BF32(IGNBIT_DYNAMIC, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.cold_idle)
     {
-        setBit_U32(IGNBIT_COLD_IDLE, &ignitionbits);
+        setBit_BF32(IGNBIT_COLD_IDLE, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.advance_map)
     {
-        setBit_U32(IGNBIT_ADVANCE_MAP, &ignitionbits);
+        setBit_BF32(IGNBIT_ADVANCE_MAP, &ignitionbits);
     }
 
     if(Tuareg.ignition_controls.state.advance_tps)
     {
-        setBit_U32(IGNBIT_ADVANCE_TPS, &ignitionbits);
+        setBit_BF32(IGNBIT_ADVANCE_TPS, &ignitionbits);
     }
 
     return ignitionbits;

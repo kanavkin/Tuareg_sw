@@ -4,17 +4,20 @@
 #include "stm32_libs/boctok_types.h"
 
 #include "base_calc.h"
-#include "decoder_hw.h"
-#include "decoder_logic.h"
+
+#include "Tuareg_decoder.h"
+
 #include "ignition_logic.h"
 #include "ignition_hw.h"
+
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
 #include "uart.h"
 #include "conversion.h"
 #include "lowspeed_timers.h"
 #include "TunerStudio.h"
-#include "config.h"
+#include "Tuareg_config.h"
+#include "legacy_config.h"
 #include "table.h"
 #include "eeprom.h"
 #include "sensors.h"
@@ -31,7 +34,7 @@
 #include "debug.h"
 #include "diagnostics.h"
 #include "Tuareg.h"
-
+#include "uart_printf.h"
 #include "module_test.h"
 
 
@@ -41,8 +44,8 @@ void Tuareg_print_init_message()
     moduletest_initmsg_action();
     #else
 
-    UART_Send(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    UART_Send(DEBUG_PORT, "V 0.2");
+    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
+    print(DEBUG_PORT, "V 0.2");
     #endif
 }
 
@@ -76,7 +79,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if(Tuareg.process.crank_rpm > configPage13.dynamic_min_rpm)
+        else if(Tuareg.process.crank_rpm > Ignition_Config.dynamic_min_rpm)
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -125,7 +128,7 @@ void Tuareg_update_Runmode()
 
     default:
         //very strange
-        UART_Send(DEBUG_PORT, "ERROR! default branch in TMODE machine reached");
+        print(DEBUG_PORT, "ERROR! default branch in TMODE machine reached");
         Tuareg_stop_engine();
         break;
 
@@ -133,25 +136,18 @@ void Tuareg_update_Runmode()
 }
 
 
-void Tuareg_register_scheduler_error()
-{
-    Tuareg.Errors.scheduler_error= true;
-
-    UART_Send(DEBUG_PORT, "\r\n*** Registered Scheduler error ***");
-}
-
-
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 {
+    exec_result_t result;
 
     if(Tuareg.Runmode != Target_runmode)
     {
         /**
         LIMP mode protection
         */
-        if(Target_runmode == TMODE_LIMP)
+        if(Tuareg.Runmode == TMODE_LIMP)
         {
-            UART_Send(DEBUG_PORT, "cannot exit LIMP mode!");
+            print(DEBUG_PORT, "cannot exit LIMP mode!");
             return;
         }
 
@@ -172,13 +168,12 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //use 16 preemption priority levels
                 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-                //set basic config error states
-                Tuareg.Errors.config_load_error= true;
+                //set basic error states
+                Tuareg.Errors.all_flags= 0xFFFFFFFF;
 
                 /**
                 initialize core components
                 */
-                init_decoder_hw();
                 init_ignition_hw();
                 init_fuel_hw();
                 init_dash_hw();
@@ -194,30 +189,22 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_CONFIGLOAD:
 
                 //loading the config data is important to us, failure in loading forces "limp home mode"
-                Tuareg.Errors.config_load_error= config_load();
+                result= config_load();
 
-                /**
-                /// TODO (oli#1#): DEBUG: limp home test
-                config_load_status= RETURN_FAIL;
-                */
-
-                if(Tuareg.Errors.config_load_error)
+                if(result != EXEC_OK)
                 {
+                    Tuareg.Errors.config_load_error= true;
+
                     //as we can hardly save some error logs in this system condition, print some debug messages only
-                    UART_Send(DEBUG_PORT, "\r \n *** FAILED to load config data !");
+                    print(DEBUG_PORT, "\r \n *** FAILED to load config data !");
 
                     //provide default values to ensure limp home operation even without eeprom
                     config_load_essentials();
-                }
-                else
-                {
-                    /**
-                    prepare config data
-                    */
 
-                    //set 2D table dimension and link table data to config pages
-                    init_2Dtables();
+                    return;
                 }
+
+                Tuareg.Errors.config_load_error= false;
 
                 break;
 
@@ -242,8 +229,10 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 /**
                 initialize core components and register interface access pointers
                 */
+                Tuareg.decoder= init_Decoder();
+
                 Tuareg.sensors= init_sensors();
-                Tuareg.decoder= init_decoder_logic();
+
                 init_scheduler();
                 init_lowspeed_timers();
                 init_lowprio_scheduler();
@@ -276,21 +265,21 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     tuareg_diag_log_event(TDIAG_RUNNING_HALT_TR);
 
                      /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_HALT");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_HALT");
                 }
                 else if(Tuareg.Runmode == TMODE_HWINIT)
                 {
                     tuareg_diag_log_event(TDIAG_INIT_HALT_TR);
 
                      /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HWINIT --> TMODE_HALT");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_HWINIT --> TMODE_HALT");
                 }
                 else if(Tuareg.Runmode == TMODE_STB)
                 {
                     tuareg_diag_log_event(TDIAG_STB_HALT_TR);
 
                      /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_HALT");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_HALT");
                 }
 
 
@@ -310,7 +299,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     tuareg_diag_log_event(TDIAG_CRANKING_RUNNING_TR);
 
                     /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_RUNNING");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_RUNNING");
                 }
 
                 tuareg_diag_log_event(TDIAG_ENTER_RUNNING);
@@ -332,21 +321,21 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     tuareg_diag_log_event(TDIAG_RUNNING_STB_TR);
 
                     /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_STB");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_STB");
                 }
                 else if(Tuareg.Runmode == TMODE_HALT)
                 {
                     tuareg_diag_log_event(TDIAG_HALT_STB_TR);
 
                     /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
                 }
                 else if(Tuareg.Runmode == TMODE_CRANKING)
                 {
                     tuareg_diag_log_event(TDIAG_CRANKING_STB_TR);
 
                     /// TODO (oli#9#): debug message enabled
-                    UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
+                    print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
                 }
 
                 tuareg_diag_log_event(TDIAG_ENTER_STB);
@@ -365,7 +354,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
 
                 /// TODO (oli#9#): debug message enabled
-                UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
+                print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
 
                 break;
 
@@ -377,7 +366,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 tuareg_diag_log_event(TDIAG_ENTER_MTEST);
 
                 /// TODO (oli#9#): debug message enabled
-                UART_Send(DEBUG_PORT, "\r\nstate transition TMODE_MODULE_TEST");
+                print(DEBUG_PORT, "\r\nstate transition TMODE_MODULE_TEST");
 
                 break;
 
@@ -388,7 +377,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 tuareg_diag_log_event(TDIAG_INVALID_RUNMODE);
 
                 //very strange
-                UART_Send(DEBUG_PORT, "ERROR! default branch in Tuareg_set_Runmode reached");
+                print(DEBUG_PORT, "ERROR! default branch in Tuareg_set_Runmode reached");
                 Tuareg_set_Runmode(TMODE_LIMP);
                 break;
 
@@ -832,7 +821,7 @@ void Tuareg_update_halt_sources()
         tuareg_diag_log_event(TDIAG_KILL_RUNSWITCH);
 
         /// TODO (oli#9#): debug message enabled
-        UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
+        print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_RUN");
     }
     else
     {
@@ -848,7 +837,7 @@ void Tuareg_update_halt_sources()
         tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
 
         /// TODO (oli#9#): debug message enabled
-        UART_Send(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
+        print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
     }
     else
     {

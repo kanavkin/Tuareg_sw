@@ -1,6 +1,11 @@
 #ifndef EEPROM_LAYOUT_H_INCLUDED
 #define EEPROM_LAYOUT_H_INCLUDED
 
+#include "Tuareg_config.h"
+#include "decoder_config.h"
+#include "ignition_config.h"
+#include "sensor_calibration.h"
+
 /**
 Current layout of EEPROM data (Version 3) is as follows (All sizes are in bytes):
 |---------------------------------------------------|
@@ -46,9 +51,7 @@ Current layout of EEPROM data (Version 3) is as follows (All sizes are in bytes)
 | 1500  |128  | CANBUS config and data (Table 10_)  |
 | 1628  |192  | Table 11 - General settings         |
 |                                                   |
-| 2559  |512  | Calibration data (O2)               |
-| 3071  |512  | Calibration data (IAT)              |
-| 3583  |512  | Calibration data (CLT)              |
+|             |
 -----------------------------------------------------
 */
 
@@ -115,110 +118,33 @@ Current layout of EEPROM data (Version 3) is as follows (All sizes are in bytes)
 #define EEPROM_CONFIG11_END   1820
 
 /**
-calibration data
+sensor calibration data
 */
-#define EEPROM_CALIBRATION_START 2559
+#define EEPROM_SENSOR_CALIBRATION_BEGIN_ADDRESS 1821
 
-#define EEPROM_CALIBRATION_IAT_M EEPROM_CALIBRATION_START
-#define EEPROM_CALIBRATION_IAT_N (EEPROM_CALIBRATION_IAT_M + 4)
-
-#define EEPROM_CALIBRATION_CLT_M (EEPROM_CALIBRATION_IAT_N + 4)
-#define EEPROM_CALIBRATION_CLT_N (EEPROM_CALIBRATION_CLT_M + 4)
-
-#define EEPROM_CALIBRATION_TPS_M (EEPROM_CALIBRATION_CLT_N + 4)
-#define EEPROM_CALIBRATION_TPS_N (EEPROM_CALIBRATION_TPS_M + 4)
-
-#define EEPROM_CALIBRATION_MAP_M (EEPROM_CALIBRATION_TPS_N + 4)
-#define EEPROM_CALIBRATION_MAP_N (EEPROM_CALIBRATION_MAP_M + 4)
-
-#define EEPROM_CALIBRATION_BARO_M (EEPROM_CALIBRATION_MAP_N + 4)
-#define EEPROM_CALIBRATION_BARO_N (EEPROM_CALIBRATION_BARO_M + 4)
-
-#define EEPROM_CALIBRATION_O2_M (EEPROM_CALIBRATION_BARO_N + 4)
-#define EEPROM_CALIBRATION_O2_N (EEPROM_CALIBRATION_O2_M + 4)
-
-#define EEPROM_CALIBRATION_VBAT_M (EEPROM_CALIBRATION_O2_N + 4)
-#define EEPROM_CALIBRATION_VBAT_N (EEPROM_CALIBRATION_VBAT_M + 4)
+/**
+decoder configuration
+*/
+#define EEPROM_DECODER_CONFIG_BEGIN_ADDRESS (EEPROM_SENSOR_CALIBRATION_BEGIN_ADDRESS + SENSOR_CALIB_EE_NEXT_FREE_OFFSET)
 
 
 /**
-decoder config data for configpage 12
+ignition configuration
 */
-
-#define EEPROM_CONFIG12_START (EEPROM_CALIBRATION_VBAT_N + 4)
-
-//U16 trigger_position_map[POSITION_COUNT]
-#define EEPROM_CONFIG12_TRIGGER_POSITION_MAP_START EEPROM_CONFIG12_START
-
-//S16 decoder_offset_deg
-#define EEPROM_CONFIG12_DECODER_OFFSET (EEPROM_CONFIG12_START + 2* CRK_POSITION_COUNT)
-
-//U16 decoder_delay_us
-#define EEPROM_CONFIG12_DECODER_DELAY (EEPROM_CONFIG12_START + 18)
-
-//U8 crank_noise_filter
-#define EEPROM_CONFIG12_CRANK_NOISE_FILTER (EEPROM_CONFIG12_START + 20)
-
-//U8 sync_ratio_min_pct
-#define EEPROM_CONFIG12_SYNC_RATIO_MIN (EEPROM_CONFIG12_START + 21)
-
-//U8 sync_ratio_max_pct
-#define EEPROM_CONFIG12_SYNC_RATIO_MAX (EEPROM_CONFIG12_START + 22)
-
-//U8 decoder_timeout_s
-#define EEPROM_CONFIG12_DECODER_TIMEOUT (EEPROM_CONFIG12_START + 23)
-
-/**
-ignition config data for configpage 13
-*/
-
-#define EEPROM_CONFIG13_START (EEPROM_CONFIG12_DECODER_TIMEOUT + 1)
-
-//U16 max_rpm
-#define EEPROM_CONFIG13_MAX_RPM EEPROM_CONFIG13_START
-
-//U16 dynamic_min_rpm
-#define EEPROM_CONFIG13_DYN_MIN_RPM (EEPROM_CONFIG13_START + 2)
-
-//crank_position_t dynamic_ignition_base_position;
-#define EEPROM_CONFIG13_DYN_IGN_BAS_POS (EEPROM_CONFIG13_START + 4)
-
-//crank_position_t dynamic_dwell_base_position;
-#define EEPROM_CONFIG13_DYN_DWL_BAS_POS (EEPROM_CONFIG13_START + 5)
-
-//U16 dynamic_dwell_target_us
-#define EEPROM_CONFIG13_DYN_DWL_TGT_US (EEPROM_CONFIG13_START + 6)
-
-//U16 cold_idle_cutoff_rpm
-#define EEPROM_CONFIG13_CLD_IDL_COF_RPM (EEPROM_CONFIG13_START + 8)
-
-//U16 cold_idle_cutoff_CLT_K
-#define EEPROM_CONFIG13_CLD_IDL_COF_CLT_K (EEPROM_CONFIG13_START + 10)
-
-//U8 cold_idle_ignition_advance_deg
-#define EEPROM_CONFIG13_CLD_IDL_IGN_ADV_DEG (EEPROM_CONFIG13_START + 12)
-
-//U16 cold_idle_dwell_target_us
-#define EEPROM_CONFIG13_CLD_IDL_DWL_TGT_US (EEPROM_CONFIG13_START + 13)
-
-//crank_position_t cranking_ignition_position
-#define EEPROM_CONFIG13_CRK_IGN_POS (EEPROM_CONFIG13_START + 15)
-
-//crank_position_t cranking_dwell_position;
-#define EEPROM_CONFIG13_CRK_DWELL_POS (EEPROM_CONFIG13_START + 16)
+#define EEPROM_IGNITION_CONFIG_BEGIN_ADDRESS (EEPROM_DECODER_CONFIG_BEGIN_ADDRESS + DECODER_CONFIG_EE_NEXT_FREE_OFFSET)
 
 
 /**
 Ignition map (MAP based)
 */
-#define EEPROM_IGNITIONTABLE_MAP_Z (EEPROM_CONFIG13_START + 9)
+#define EEPROM_IGNITIONTABLE_MAP_Z (EEPROM_IGNITION_CONFIG_BEGIN_ADDRESS + IGNITION_CONFIG_EE_NEXT_FREE_OFFSET)
 #define EEPROM_IGNITIONTABLE_MAP_X (EEPROM_IGNITIONTABLE_MAP_Z + 256)
 #define EEPROM_IGNITIONTABLE_MAP_Y (EEPROM_IGNITIONTABLE_MAP_X + 16)
 
 /**
 This is the last used eeprom address -> memory dump will be read until here
 */
-#define EEPROM_STORAGE_END (EEPROM_CONFIG13_START + 9)
+#define EEPROM_STORAGE_END (EEPROM_IGNITIONTABLE_MAP_Y + 16)
 
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

@@ -1,7 +1,9 @@
 /**
 */
+#include "uart.h"
+#include "uart_printf.h"
+#include "conversion.h"
 #include "Tuareg_types.h"
-#include "trigger_wheel_layout.h"
 #include "process_table.h"
 
 /**
@@ -22,7 +24,6 @@ void update_process_table(volatile crank_position_table_t * pCrankTable)
     {
         base_advance_deg= pCrankTable->crank_angle_deg[crank_pos];
 
-
         //compression stroke directly before the reference cTDC
         ProcessTable[crank_pos]= 360 - base_advance_deg ;
 
@@ -37,6 +38,8 @@ void update_process_table(volatile crank_position_table_t * pCrankTable)
 
 /*
 helper function to find the process position corresponding to the process table index provided
+
+in case of error the state of pTarget will be unchanged
 */
 exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * pTarget)
 {
@@ -65,14 +68,9 @@ exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * 
 
         return EXEC_OK;
     }
-    else
-    {
-        //invalid index supplied
-        pTarget->crank_pos= CRK_POSITION_UNDEFINED;
-        pTarget->phase= PHASE_UNDEFINED;
 
-        return EXEC_ERROR;
-    }
+    //invalid index supplied
+    return EXEC_ERROR;
 }
 
 
@@ -109,6 +107,8 @@ exec_result_t get_index_from_position(volatile process_position_t * pPosition, v
 /**
 find the first position that comes directly BEFORE OR AT the desired absolute process advance angle (relative to compression TDC)
 so that an actor, triggering on this position can provide a proper timing by adding a delay
+
+in case of error the state of pTarget will be unchanged
 */
 exec_result_t find_process_position_before(volatile process_advance_t Reference_PA, volatile process_position_t * pTarget)
 {
@@ -128,61 +128,50 @@ exec_result_t find_process_position_before(volatile process_advance_t Reference_
             //bingo!
             result= get_position_from_index(index, pTarget);
 
-            if(result == EXEC_OK)
-            {
-                //add base angle data
-                pTarget->base_PA= base_PA;
-            }
+            ASSERT_EXEC_OK(result);
 
-            return result;
+            //add base angle data
+            pTarget->base_PA= base_PA;
+
+            return EXEC_OK;
         }
     }
-
-    //search failed, set safe defaults
-    pTarget->crank_pos= CRK_POSITION_UNDEFINED;
-    pTarget->phase= PHASE_UNDEFINED;
-    pTarget->base_PA= 0;
 
     return EXEC_ERROR;
 }
 
 
 /**
-find the first position that comes directly AFTER OR AT the desired absolute process advance angle (relative to compression TDC)
+find the first position that comes directly AFTER the desired absolute process advance angle (relative to compression TDC)
 so that an actor, triggering directly (with no delay) on this position, executes after the completion of the process, terminating at Reference_PA
+
+in case of error the state of pTarget will be unchanged
 */
 exec_result_t find_process_position_after(VU32 Reference_PA, volatile process_position_t * pTarget)
 {
     U32 index;
     exec_result_t result;
-    process_advance_t base_PA;
 
     /*
-    loop through the crank positions and find the first that comes directly before or at the desired advance angle (relative to compression TDC)
+    check if the first position in table is already before Reference_PA
+    (because then the following position would be "now" (undefined in terms of advance)
     */
-    for(index= 0; index < PROCESS_TABLE_LENGTH; index++)
+    if(ProcessTable[0] >= Reference_PA)
     {
-        base_PA= ProcessTable[index];
-
-        if((base_PA > Reference_PA) && (index > 0))
-        {
-            //found position clearly before Reference_PA
-            result= get_position_from_index(index, pTarget);
-
-            if(result == EXEC_OK)
-            {
-                //add base angle data
-                pTarget->base_PA= base_PA;
-            }
-
-            return result;
-        }
+        return EXEC_ERROR;
     }
 
-    //search failed, set safe defaults
-    pTarget->crank_pos= CRK_POSITION_UNDEFINED;
-    pTarget->phase= PHASE_UNDEFINED;
-    pTarget->base_PA= 0;
+    for(index= 1; index < PROCESS_TABLE_LENGTH; index++)
+    {
+        result= get_position_from_index(index -1, pTarget);
+
+        ASSERT_EXEC_OK(result);
+
+        //add base angle data
+        pTarget->base_PA= ProcessTable[index -1];
+
+        return EXEC_OK;
+    }
 
     return EXEC_ERROR;
 }
@@ -198,11 +187,39 @@ exec_result_t get_process_advance(volatile process_position_t * pPosition)
 
     result= get_index_from_position(pPosition, &index);
 
-    if(result == EXEC_OK)
-    {
-        pPosition->base_PA= ProcessTable[index];
-    }
+    ASSERT_EXEC_OK(result);
 
-    return result;
+    pPosition->base_PA= ProcessTable[index];
+
+    return EXEC_OK;
+}
+
+
+void print_process_table(USART_TypeDef * Port)
+{
+    U32 index;
+
+    print(Port, "\r\n\r\n*** Process Table *** Index:Advance (deg)\r\n");
+
+    for(index=0; index < PROCESS_TABLE_LENGTH; index++)
+    {
+        printf_U(Port, index, PAD_2 | NO_TRAIL);
+        UART_Tx(Port, ':');
+        printf_U(Port, ProcessTable[index], PAD_4);
+
+        if(index == CRK_POSITION_COUNT -1 )
+        {
+            print(Port, "(COMP)\r\n");
+        }
+        else if(index == 2* CRK_POSITION_COUNT -1 )
+        {
+            print(Port, "(EX)\r\n");
+        }
+        else if(index == 3* CRK_POSITION_COUNT -1 )
+        {
+            print(Port, "(far COMP)\r\n");
+        }
+
+    }
 }
 

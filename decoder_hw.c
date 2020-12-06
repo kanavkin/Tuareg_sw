@@ -5,7 +5,7 @@
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 
-#include "config.h"
+//#include "config.h"
 #include "diagnostics.h"
 
 volatile decoder_hw_t Decoder_hw;

@@ -3,18 +3,6 @@
 
 #include "stm32_libs/boctok_types.h"
 
-void init_eeprom(void);
-void eeprom_i2c_deinit(void);
-U32 eeprom_read_byte(U32 Address, U8 * Data_read);
-U32 eeprom_read_bytes(U32 Address, U32 * Data, U32 Length);
-U32 eeprom_write_byte(U32 Address, U32 data);
-U32 eeprom_write_bytes(U32 Address, U32 Data, U32 Length);
-U32 eeprom_update(U32 Address, U32 Data);
-U32 eeprom_update_bytes(U32 Address, U32 Data, U32 Length);
-U32 eeprom_wait(void);
-
-
-
 // E0 = E1 = E2 = 0
 #define sEE_HW_ADDRESS      0xA0
 #define I2C_OWN_ADDRESS     0xA0
@@ -37,25 +25,41 @@ U32 eeprom_wait(void);
 #define sEE_MAX_TRIALS_NUMBER     150
 
 
-
-
-
-
 /**
-i2c communication
-error codes
+eeprom read/write operation result / i2c communication error codes
 */
-#define EE_BUS_BUSY 1
-#define EE_MASTER_MODE 5
-#define EE_MASTER_WRITE 6
-#define EE_TRANSMIT_FAIL 8
-#define EE_ADDR_FAIL 9
-#define EE_RX_FAIL 10
-#define EE_STOP_FAIL 11
-#define EE_SLAVE_ACK 12
-#define EE_MAX_TRIALS 13
-#define EE_VERIFICATION 14
+typedef enum {
 
+    EERES_OK =0,
+    EERES_BUS_BUSY,
+    EERES_MASTER_MODE,
+    EERES_MASTER_WRITE,
+    EERES_TRANSMIT_FAIL,
+    EERES_ADDR_FAIL,
+    EERES_RX_FAIL,
+    EERES_STOP_FAIL,
+    EERES_SLAVE_ACK,
+    EERES_MAX_TRIALS,
+    EERES_VERIFICATION,
+    EERES_READY
+
+} eeprom_result_t;
+
+#define ASSERT_EEPROM_RESULT_OK(code) if((code) != EERES_OK) return (code)
+
+void init_eeprom(void);
+void eeprom_i2c_deinit(void);
+
+eeprom_result_t eeprom_read_byte(U32 Address, U8 * Data_read);
+eeprom_result_t eeprom_read_bytes(U32 Address, U32 * Data, U32 Length);
+
+eeprom_result_t eeprom_write_byte(U32 Address, U32 data);
+eeprom_result_t eeprom_write_bytes(U32 Address, U32 Data, U32 Length);
+
+eeprom_result_t eeprom_update_byte(U32 Address, U32 Data);
+eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length);
+
+eeprom_result_t eeprom_wait(void);
 
 
 #endif // EEPROM_H_INCLUDED
