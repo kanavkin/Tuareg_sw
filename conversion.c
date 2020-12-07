@@ -99,6 +99,26 @@ void serialize_float_U8(float Value, U8 * pTarget)
     }
 }
 
+//writes 4 bytes to pTarget, LSB first
+void send_float(USART_TypeDef * Port, float Value)
+{
+    U32 i;
+
+    union {
+
+        float in;
+        U8  out[4];
+
+    } u;
+
+    u.in = Value;
+
+    for(i=0; i<4; i++)
+    {
+        UART_Tx(Port, u.out[i]);
+    }
+}
+
 
 //writes 2 bytes to pTarget, LSB first
 void serialize_U16_U8(U16 Value, U8 * pTarget)

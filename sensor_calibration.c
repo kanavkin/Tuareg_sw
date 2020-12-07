@@ -461,3 +461,43 @@ exec_result_t modify_Sensor_Calibration(U32 Offset, U32 Value)
     return EXEC_OK;
 }
 
+
+void send_Sensor_Calibration(USART_TypeDef * Port)
+{
+    /*
+    Version
+    */
+   // printf_U(Port, Sensor_Calibration.Version, NO_PAD | NO_TRAIL);
+
+    //IAT
+    send_float(Port, Sensor_Calibration.IAT_calib_M);
+    send_float(Port, Sensor_Calibration.IAT_calib_N);
+
+    //CLT
+    send_float(Port, Sensor_Calibration.CLT_calib_M);
+    send_float(Port, Sensor_Calibration.CLT_calib_N);
+
+    //TPS
+    send_float(Port, Sensor_Calibration.TPS_calib_M);
+    send_float(Port, Sensor_Calibration.TPS_calib_N);
+
+    //MAP
+    send_float(Port, Sensor_Calibration.MAP_calib_M);
+    send_float(Port, Sensor_Calibration.MAP_calib_N);
+
+    //BARO
+    send_float(Port, Sensor_Calibration.BARO_calib_M);
+    send_float(Port, Sensor_Calibration.BARO_calib_N);
+
+    //O2
+    send_float(Port, Sensor_Calibration.O2_calib_M);
+    send_float(Port, Sensor_Calibration.O2_calib_N);
+
+    //VBAT
+    send_float(Port, Sensor_Calibration.VBAT_calib_M);
+    send_float(Port, Sensor_Calibration.VBAT_calib_N);
+
+    //KNOCK
+    send_float(Port, Sensor_Calibration.KNOCK_calib_M);
+    send_float(Port, Sensor_Calibration.KNOCK_calib_N);
+}

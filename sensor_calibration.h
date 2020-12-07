@@ -106,6 +106,7 @@ void show_Sensor_Calibration(USART_TypeDef * Port);
 
 exec_result_t modify_Sensor_Calibration(U32 Offset, U32 Value);
 
+void send_Sensor_Calibration(USART_TypeDef * Port);
 
 /***************************************************************************************************************************************************
 *   helper macros

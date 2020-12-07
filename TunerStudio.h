@@ -16,6 +16,7 @@
 #define SEQFUELPAGE_NR  9
 #define CANBUSPAGE_NR   10 //Config Page 10
 #define WARMUPPAGE_NR   11
+
 #define CALIBPAGE_NR    12 // echo -ne \\x50\\x3c > /dev/ttyACM0
 */
 
@@ -61,6 +62,8 @@ typedef enum {
     SEQFUELPAGE, // 9
     CANBUSPAGE, // 10 -> Config Page 10
     WARMUPPAGE, // 11
+
+
     CALIBPAGE,  // 12 '<' 60
 
     DECODERPAGE, // 13 '=' 61

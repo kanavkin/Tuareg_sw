@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Mon Dec 07 02:42:34 CET 2020"/>
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Mon Dec 07 01:52:05 CET 2020"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="11" signature="speeduino 201708"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -881,23 +881,15 @@
          255.0 
       </constant>
 </page>
-<page number="10" size="64">
-<constant digits="0" name="IATcalibM" units="#/°C">30.0</constant>
-<constant digits="0" name="IATcalibN" units="#">587.0</constant>
-<constant digits="0" name="CLTcalibM" units="#/°C">27.5</constant>
-<constant digits="0" name="CLTcalibN" units="#">600.0</constant>
-<constant digits="0" name="TPScalibM" units="#/°">25.0</constant>
-<constant digits="0" name="TPScalibN" units="#">159.0</constant>
-<constant digits="0" name="MAPcalibM" units="#/Pa">18.800048828125</constant>
-<constant digits="0" name="MAPcalibN" units="#">358.0</constant>
-<constant digits="0" name="BAROcalibM" units="#/Pa">18.64990234375</constant>
-<constant digits="0" name="BAROcalibN" units="#">359.0</constant>
-<constant digits="0" name="O2calibM" units="#/AFR">1.0</constant>
-<constant digits="0" name="O2calibN" units="#">0.0</constant>
-<constant digits="0" name="VBATcalibM" units="#/V">209.0</constant>
-<constant digits="0" name="VBATcalibN" units="#">-141.0</constant>
-<constant digits="0" name="KNOCKcalibM" units="#/#">0.0</constant>
-<constant digits="0" name="KNOCKcalibN" units="#">0.0</constant>
+<page number="10" size="8">
+<constant digits="0" name="IATcalibM" units="#">27.50012969970703</constant>
+<constant digits="0" name="IATcalibN" units="#">27.50012969970703</constant>
+<constant cols="1" digits="0" name="UNALLOCATED_TOP_10" rows="4" units="RAW">
+         4.0 
+         0.0 
+         0.0 
+         0.0 
+      </constant>
 </page>
 <settings Comment="These setting are only used if this msq is opened without a project.">
 <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>

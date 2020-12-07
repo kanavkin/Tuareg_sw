@@ -1108,6 +1108,10 @@ void ts_sendPage()
             configPage_size= WARMUPPAGE_SIZE;
             break;
 
+        case CALIBPAGE:
+            send_Sensor_Calibration(TS_PORT);
+            break;
+
         default:
             print(DEBUG_PORT, "\n Page has not been implemented yet. Change to another page.");
 

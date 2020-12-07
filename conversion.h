@@ -24,8 +24,11 @@ typedef union
 crank_position_t parse_position(U32 Input);
 
 U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb);
+
 float compose_float(U32 Buffer);
 U32 serialize_float_U32(float Value);
+void send_float(USART_TypeDef * Port, float Value);
+
 void serialize_float_U8(float Value, U8 * pTarget);
 void serialize_U16_U8(U16 Value, U8 * pTarget);
 void serialize_U32_char(VU32 Value, U8 * pTarget);
