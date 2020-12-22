@@ -2,11 +2,10 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 #include "lowspeed_timers.h"
+
 #include "Tuareg.h"
 #include "sensors.h"
-
-#include "TunerStudio.h"
-
+#include "Tuareg_console.h"
 #include "scheduler.h"
 
 
@@ -97,23 +96,11 @@ void SysTick_Handler(void)
     //1Hz loop
     if (loopSec == 1000)
     {
-        /**
-        SECL timer
-        */
-        if(Tuareg.secl < 0xFF)
-        {
-            Tuareg.secl++;
-        }
-        else
-        {
-            Tuareg.secl= 0;
-        }
+        //console timer
+        cli_update_secl();
 
-        //keep tunerstudio from freezing
-        if(TS_cli.command_duration)
-        {
-            TS_cli.command_duration--;
-        }
+        //console watchdog
+        cli_update_watchdog();
 
         loopSec = 0;
         ls_timer |= BIT_TIMER_1HZ;

@@ -29,5 +29,9 @@ void printf_phase(USART_TypeDef * Port, engine_phase_t Phase);
 
 void print(USART_TypeDef * Port, char messg[] );
 
+void Print_U8Hex(USART_TypeDef * Port, U8 value);
+void printf_U8(USART_TypeDef * Port, U32 Value);
+
+void printf_U32hex(USART_TypeDef * Port, U32 value);
 
 #endif // UARTPRINTF_H_INCLUDED

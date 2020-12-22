@@ -63,8 +63,10 @@ U32 UART_available();
 
 //void UART_reset();
 
+void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length);
 
-void UART_periodic();
+
+//void UART_periodic();
 
 
 

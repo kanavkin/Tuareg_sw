@@ -266,6 +266,55 @@ void Print_U8Hex(USART_TypeDef * Port, U8 value)
 }
 
 
+void printf_U32hex(USART_TypeDef * Port, U32 value)
+{
+//    U32 i;
+    const char digits[]= "0123456789ABCDEF";
+
+    print(Port, "0x");
+
+    /*
+    TODO optimise
+    for(i=0; i<8; i++)
+    {
+        UART_Tx(Port, digits[(value >> 28) & 0x0f] );
+    }
+    */
+
+    //high nibble
+    UART_Tx(Port, digits[(value >> 28) & 0x0f] );
+
+    //low nibble
+    UART_Tx(Port, digits[(value >> 24) & 0x0f] );
+
+    //--
+
+    //high nibble
+    UART_Tx(Port, digits[(value >> 20) & 0x0f] );
+
+    //low nibble
+    UART_Tx(Port, digits[(value >> 16) & 0x0f] );
+
+    //--
+
+    //high nibble
+    UART_Tx(Port, digits[(value >> 12) & 0x0f] );
+
+    //low nibble
+    UART_Tx(Port, digits[(value >> 8) & 0x0f] );
+
+    //--
+
+    //high nibble
+    UART_Tx(Port, digits[(value >> 4) & 0x0f] );
+
+    //low nibble
+    UART_Tx(Port, digits[(value) & 0x0f] );
+
+    //trailing space
+    UART_Tx(Port, ' ');
+}
+
 
 void printf_crkpos(USART_TypeDef * Port, crank_position_t Position)
 {
@@ -327,7 +376,32 @@ void printf_phase(USART_TypeDef * Port, engine_phase_t Phase)
 
 
 
+/**
+minimalistic U8 printout (padded)
+*/
+void printf_U8(USART_TypeDef * Port, U32 Value)
+{
+    U32 number;
 
+    //hundred
+    for(number=0; Value > 99; number++)
+    {
+        Value -= 100;
+    }
+
+    UART_Tx(Port, number + 0x30);
+
+    //tens
+    for(number=0; Value > 9; number++)
+    {
+        Value -= 10;
+    }
+
+    UART_Tx(Port, number + 0x30);
+
+    //one
+    UART_Tx(Port, Value + 0x30);
+}
 
 
 

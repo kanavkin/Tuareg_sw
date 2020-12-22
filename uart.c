@@ -7,10 +7,15 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 #include "uart.h"
+#include "uart_printf.h"
+
 #include "lowspeed_timers.h"
 #include "conversion.h"
 
 #include "debug.h"
+
+//#define UART_PUSH_DEBUG
+//#define UART_SEND_DEBUG
 
 VU8 TS_Rx_Buffer_data[TS_RX_BUFFER_SIZE];
 //VU8 Debug_Tx_Buffer_data[DEBUG_TX_BUFFER_SIZE];
@@ -49,7 +54,6 @@ void UART_TS_PORT_Init()
 
     //GPIOA alternative functions 9 > Tx, 10 > Rx
     GPIO_configure(GPIOA, 9, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
-/// TODO (oli#1#): observe sporadic uart errors: GPIOA 10 GPIO_MODE_IN / GPIO_MODE_AF config dependant
     GPIO_configure(GPIOA, 10, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_DOWN);
 
     //connect USART1 to PA9/10 and USART6 to PA11
@@ -96,11 +100,9 @@ void UART_DEBUG_PORT_Init()
 
     //GPIOA alternative functions 11 > Tx, RX not connected
     GPIO_configure(GPIOA, 11, GPIO_MODE_AF, GPIO_OUT_PP, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
-    //GPIO_configure(GPIOA, 12, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_HIGH, GPIO_PULL_NONE);
 
     //connect USART1 to PA9/10 and USART6 to PA11
     GPIO_SetAF(GPIOA, 11, 8);
-    //GPIO_SetAF(GPIOA, 12, 8);
 
     /**
     8-bit data, one stop bit, no parity,
@@ -263,10 +265,25 @@ U32 serial_buffer_push(volatile serial_buffer_t * buffer, VU8 data_in)
 
     buffer->available++;
 
-    #ifdef UART_DEBUG
+    #ifdef UART_PUSH_DEBUG
     /// TODO (oli#1#): debug action enabled
-    UART_Tx(DEBUG_PORT, '+');
-    UART_Tx(DEBUG_PORT, data_in);
+    if(data_in != 'A')
+    {
+        print(DEBUG_PORT, "\r\n+");
+        Print_U8Hex(DEBUG_PORT, data_in);
+
+        if(data_in >= 0x20)
+        {
+            UART_Tx(DEBUG_PORT, 0x60);
+            UART_Tx(DEBUG_PORT, data_in);
+            UART_Tx(DEBUG_PORT, 0x60);
+        }
+
+        UART_Tx(DEBUG_PORT, ' ');
+        UART_Tx(DEBUG_PORT, 0x28);
+        printf_U8(DEBUG_PORT, data_in);
+        UART_Tx(DEBUG_PORT, 0x29);
+    }
     #endif //UART_DEBUG
 
 
@@ -345,6 +362,37 @@ void UART_periodic()
 
 
 
+/****************************************************************************************************************************************************
+*
+* send out binary data
+*
+****************************************************************************************************************************************************/
+void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length)
+{
+    U32 i;
+    U8 msg;
+
+    #ifdef UART_SEND_DEBUG
+    /// TODO (oli#1#): debug action enabled
+    print(DEBUG_PORT, "\r\nsending l:");
+    printf_U(DEBUG_PORT, Length, NO_PAD | NO_TRAIL);
+    #endif //UART_DEBUG
+
+    for(i=0; i < Length; i++)
+    {
+        msg= *(pData + i);
+
+        #ifdef UART_SEND_DEBUG
+        /// TODO (oli#1#): debug action enabled
+        print(DEBUG_PORT, "\r\n");
+        printf_U(DEBUG_PORT, i, NO_PAD);
+        print(DEBUG_PORT, ": ");
+        Print_U8Hex(DEBUG_PORT, msg);
+        #endif //UART_DEBUG
+
+        UART_Tx(pPort, msg);
+    }
+}
 
 
 

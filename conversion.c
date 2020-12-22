@@ -79,7 +79,10 @@ U32 serialize_float_U32(float Value)
 }
 
 
-//writes 4 bytes to pTarget, LSB first
+/*
+serializes input float to 4 bytes output
+system (FPU) byte order is little endian
+*/
 void serialize_float_U8(float Value, U8 * pTarget)
 {
     U32 i;
@@ -129,6 +132,10 @@ void serialize_U16_U8(U16 Value, U8 * pTarget)
 
 
 
+/*
+composes 4 bytes input bytes to float
+FPU byte order is little endian, so input data (Buffer) byte order shall be little-endian too!
+*/
 float compose_float(U32 Buffer)
 {
     union {
@@ -164,7 +171,10 @@ U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb)
     return u.out;
 }
 
-//writes 4 bytes to pTarget, MSB first
+/*
+writes 4 bytes to pTarget
+keeps the input byte order
+*/
 void serialize_U32_char(VU32 Value, U8 * pTarget)
 {
     U32 i;

@@ -1,20 +1,9 @@
-/*
-Speeduino - Simple engine management for the Arduino Mega 2560 platform
-Copyright (C) Josh Stewart
-A full copy of the license may be found in the projects root directory
-*/
-
-#include <stdlib.h>
-
+#include <math.h>
 
 #include "table.h"
-#include "legacy_config.h"
-#include "Tuareg_config.h"
-
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
-#include <math.h>
 
 #include "Tuareg.h"
 #include "Tuareg_ID.h"
@@ -24,22 +13,14 @@ A full copy of the license may be found in the projects root directory
 #include "eeprom_layout.h"
 
 
-/**
-tables
-*/
-volatile table3D_t ignitionTable_TPS, ignitionTable_MAP;
-
-volatile table3D_t fuelTable, afrTable;
-volatile table3D_t boostTable, vvtTable;
-volatile table3D_t trim1Table, trim2Table, trim3Table, trim4Table;
-volatile table2D taeTable, WUETable, crankingEnrichTable, dwellVCorrectionTable;
-volatile table2D injectorVCorrectionTable, IATDensityCorrectionTable, IATRetardTable, rotarySplitTable;
+const U32 ct2D_data_size= sizeof(t2D_data_t);
+const U32 ct3D_data_size= sizeof(t3D_data_t);
 
 
 /**
 This function pulls a 1D linear interpolated value from a 2D table
 */
-VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
+VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 {
     S32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
     F32 m, y;
@@ -48,28 +29,28 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
     clip the requested X to fit the interval covered by this table
     (borrowing xM variables)
     */
-    xMin = fromTable->axisX[0];
-    xMax = fromTable->axisX[ fromTable->dimension -1 ];
+    xMin = fromTable->data.axisX[0];
+    xMax = fromTable->data.axisX[ T2D_DATA_DIMENSION -1 ];
     if(X > xMax) { X = xMax; }
     if(X < xMin) { X = xMin; }
 
     /**
     check if we're still in the same X interval as last time
     */
-    xMax = fromTable->axisX[fromTable->last_Xmax_index];
-    xMin = fromTable->axisX[fromTable->last_Xmax_index -1];
+    xMax = fromTable->data.axisX[fromTable->mgr.last_Xmax_index];
+    xMin = fromTable->data.axisX[fromTable->mgr.last_Xmax_index -1];
 
     if ( (X < xMax) && (X > xMin) )
     {
         //xM already set
-        xMax_index = fromTable->last_Xmax_index;
+        xMax_index = fromTable->mgr.last_Xmax_index;
     }
     else
     {
         /**
         Loop from the table end to find a suitable x interval
         */
-        for(i = fromTable->dimension-1; i >= 0; i--)
+        for(i = T2D_DATA_DIMENSION -1; i >= 0; i--)
         {
             /**
             quick exit: direct fit
@@ -82,10 +63,10 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
             -> take the minimum defined Y value
 
             */
-            if( (X == fromTable->axisX[i]) || (i == 0) )
+            if( (X == fromTable->data.axisX[i]) || (i == 0) )
             {
                 //exit here taking the Y value from table
-                return fromTable->axisY[i];
+                return fromTable->data.axisY[i];
             }
 
             /**
@@ -96,13 +77,13 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
 
             because of the quick exit for (i==0) above this code is reached only for [1 < i < dimension -1]
             */
-            if( (X < fromTable->axisX[i]) && (X > fromTable->axisX[i-1]) )
+            if( (X < fromTable->data.axisX[i]) && (X > fromTable->data.axisX[i-1]) )
             {
                 //found!
                 xMax_index= i;
 
                 //store X value for next time
-                fromTable->last_Xmax_index= xMax_index;
+                fromTable->mgr.last_Xmax_index= xMax_index;
 
                 //exit the search loop
                 break;
@@ -113,10 +94,10 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
     /**
     xMin/Max indexes found, look up data for calculation
     */
-    xMax= fromTable->axisX[xMax_index];
-    xMin= fromTable->axisX[xMax_index -1];
-    yMax= fromTable->axisY[xMax_index];
-    yMin= fromTable->axisY[xMax_index -1];
+    xMax= fromTable->data.axisX[xMax_index];
+    xMin= fromTable->data.axisX[xMax_index -1];
+    yMax= fromTable->data.axisY[xMax_index];
+    yMin= fromTable->data.axisY[xMax_index -1];
 
     /**
     y=  m * X + n
@@ -134,7 +115,7 @@ VF32 table2D_getValue(volatile table2D *fromTable, VU32 X)
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
+VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
 {
     F32 A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;
@@ -149,8 +130,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     clip the requested X to fit the interval covered by this table
     (borrowing xM variables)
     */
-    xMin = fromTable->axisX[0];
-    xMax = fromTable->axisX[ TABLE3D_DIMENSION -1 ];
+    xMin = fromTable->data.axisX[0];
+    xMax = fromTable->data.axisX[ T3D_DATA_DIMENSION -1 ];
     if(X > xMax) { X = xMax; }
     if(X < xMin) { X = xMin; }
 
@@ -158,8 +139,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     check if we're still in the same X interval as last time
     preset xM with the ones from last request
     */
-    xMax = fromTable->axisX[fromTable->last_Xmax_index];
-    xMin = fromTable->axisX[fromTable->last_Xmax_index -1];
+    xMax = fromTable->data.axisX[fromTable->mgr.last_Xmax_index];
+    xMin = fromTable->data.axisX[fromTable->mgr.last_Xmax_index -1];
 
     /**
     check if we're still in the same X environment as last time
@@ -169,45 +150,45 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     if( (X < xMax) && (X > xMin) )
     {
         //xM already set
-        xMax_index = fromTable->last_Xmax_index;
+        xMax_index = fromTable->mgr.last_Xmax_index;
         xMin_index = xMax_index -1;
         //last_xMax_index remains valid
 
     }
-    else if ( ((fromTable->last_Xmax_index + 1) < TABLE3D_DIMENSION ) && (X > xMax) && (X < fromTable->axisX[fromTable->last_Xmax_index +1 ])  )
+    else if ( ((fromTable->mgr.last_Xmax_index + 1) < T3D_DATA_DIMENSION ) && (X > xMax) && (X < fromTable->data.axisX[fromTable->mgr.last_Xmax_index +1 ])  )
     {
         //x is in right neighbor interval
-        xMax_index= fromTable->last_Xmax_index + 1;
-        xMin_index= fromTable->last_Xmax_index;
-        xMax= fromTable->axisX[xMax_index];
-        xMin= fromTable->axisX[xMin_index];
+        xMax_index= fromTable->mgr.last_Xmax_index + 1;
+        xMin_index= fromTable->mgr.last_Xmax_index;
+        xMax= fromTable->data.axisX[xMax_index];
+        xMin= fromTable->data.axisX[xMin_index];
 
         //store for next time
-        fromTable->last_Xmax_index= xMax_index;
+        fromTable->mgr.last_Xmax_index= xMax_index;
     }
-    else if ( (fromTable->last_Xmax_index > 1 ) && (X < xMin) && (X > fromTable->axisX[fromTable->last_Xmax_index -2]) )
+    else if ( (fromTable->mgr.last_Xmax_index > 1 ) && (X < xMin) && (X > fromTable->data.axisX[fromTable->mgr.last_Xmax_index -2]) )
     {
         //x is in left neighbor interval
-        xMax_index= fromTable->last_Xmax_index -1;
-        xMin_index= fromTable->last_Xmin_index -2;
-        xMax= fromTable->axisX[xMax_index];
-        xMin= fromTable->axisX[xMin_index];
+        xMax_index= fromTable->mgr.last_Xmax_index -1;
+        xMin_index= fromTable->mgr.last_Xmin_index -2;
+        xMax= fromTable->data.axisX[xMax_index];
+        xMin= fromTable->data.axisX[xMin_index];
 
         //store for next time
-        fromTable->last_Xmax_index= xMax_index;
+        fromTable->mgr.last_Xmax_index= xMax_index;
     }
     else
     {
         /**
         Loop from the end to find a suitable x interval
         */
-        for(i = TABLE3D_DIMENSION -1; i >= 0; i--)
+        for(i = T3D_DATA_DIMENSION -1; i >= 0; i--)
         {
             /**
             If the requested X value has been directly found on the x axis
             but we have to provide a suitable x interval for interpolation
             */
-            if ( (X == fromTable->axisX[i]) || (i == 0) )
+            if ( (X == fromTable->data.axisX[i]) || (i == 0) )
             {
                 if(i == 0)
                 {
@@ -228,8 +209,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
                     xMin_index= i-1;
                 }
 
-                xMax= fromTable->axisX[xMax_index];
-                xMin= fromTable->axisX[xMin_index];
+                xMax= fromTable->data.axisX[xMax_index];
+                xMin= fromTable->data.axisX[xMin_index];
                 break;
             }
 
@@ -237,13 +218,13 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
             Standard scenario
             The requested X value is between axisX[i] and axisX[i-1]
             */
-            if ( (X < fromTable->axisX[i]) && (X > fromTable->axisX[i-1]) )
+            if ( (X < fromTable->data.axisX[i]) && (X > fromTable->data.axisX[i-1]) )
             {
-                xMax= fromTable->axisX[i];
-                xMin= fromTable->axisX[i-1];
+                xMax= fromTable->data.axisX[i];
+                xMin= fromTable->data.axisX[i-1];
                 xMax_index= i;
                 xMin_index= i-1;
-                fromTable->last_Xmax_index= xMax_index;
+                fromTable->mgr.last_Xmax_index= xMax_index;
                 break;
             }
         }
@@ -257,8 +238,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     clip the requested Y to fit the interval covered by this table
     (borrowing yM variables)
     */
-    yMin = fromTable->axisY[0];
-    yMax = fromTable->axisY[ TABLE3D_DIMENSION -1 ];
+    yMin = fromTable->data.axisY[0];
+    yMax = fromTable->data.axisY[ T3D_DATA_DIMENSION -1 ];
     if(Y > yMax) { Y = yMax; }
     if(Y < yMin) { Y = yMin; }
 
@@ -266,8 +247,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     check if we're still in the same Y interval as last time
     preset xM with the ones from last request
     */
-    yMax = fromTable->axisY[fromTable->last_Ymax_index];
-    yMin = fromTable->axisY[fromTable->last_Ymax_index -1];
+    yMax = fromTable->data.axisY[fromTable->mgr.last_Ymax_index];
+    yMin = fromTable->data.axisY[fromTable->mgr.last_Ymax_index -1];
 
     /**
     check if we're still in the same Y environment as last time
@@ -277,45 +258,45 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     if( (Y < yMax) && (Y > yMin) )
     {
         //yM already set
-        yMax_index = fromTable->last_Ymax_index;
+        yMax_index = fromTable->mgr.last_Ymax_index;
         yMin_index = yMax_index -1;
         //last_yMax_index remains valid
 
     }
-    else if ( ((fromTable->last_Ymax_index + 1) < TABLE3D_DIMENSION ) && (Y > yMax) && (Y < fromTable->axisY[fromTable->last_Ymax_index +1 ])  )
+    else if ( ((fromTable->mgr.last_Ymax_index + 1) < T3D_DATA_DIMENSION ) && (Y > yMax) && (Y < fromTable->data.axisY[fromTable->mgr.last_Ymax_index +1 ])  )
     {
         //y is in right neighbor interval
-        yMax_index= fromTable->last_Ymax_index + 1;
-        yMin_index= fromTable->last_Ymax_index;
-        yMax= fromTable->axisY[yMax_index];
-        yMin= fromTable->axisY[yMin_index];
+        yMax_index= fromTable->mgr.last_Ymax_index + 1;
+        yMin_index= fromTable->mgr.last_Ymax_index;
+        yMax= fromTable->data.axisY[yMax_index];
+        yMin= fromTable->data.axisY[yMin_index];
 
         //store for next time
-        fromTable->last_Ymax_index= yMax_index;
+        fromTable->mgr.last_Ymax_index= yMax_index;
     }
-    else if ( (fromTable->last_Ymax_index > 1 ) && (Y < yMin) && (Y > fromTable->axisY[fromTable->last_Ymax_index -2]) )
+    else if ( (fromTable->mgr.last_Ymax_index > 1 ) && (Y < yMin) && (Y > fromTable->data.axisY[fromTable->mgr.last_Ymax_index -2]) )
     {
         //y is in left neighbor interval
-        yMax_index= fromTable->last_Ymax_index -1;
-        yMin_index= fromTable->last_Ymin_index -2;
-        yMax= fromTable->axisY[yMax_index];
-        yMin= fromTable->axisY[yMin_index];
+        yMax_index= fromTable->mgr.last_Ymax_index -1;
+        yMin_index= fromTable->mgr.last_Ymin_index -2;
+        yMax= fromTable->data.axisY[yMax_index];
+        yMin= fromTable->data.axisY[yMin_index];
 
         //store for next time
-        fromTable->last_Ymax_index= yMax_index;
+        fromTable->mgr.last_Ymax_index= yMax_index;
     }
     else
     {
         /**
         Loop from the end to find a suitable y interval
         */
-        for(i = TABLE3D_DIMENSION -1; i >= 0; i--)
+        for(i = T3D_DATA_DIMENSION -1; i >= 0; i--)
         {
             /**
             If the requested Y value has been directly found on the y axis
             but we have to provide a suitable y interval for interpolation
             */
-            if ( (Y == fromTable->axisY[i]) || (i == 0) )
+            if ( (Y == fromTable->data.axisY[i]) || (i == 0) )
             {
                 if(i == 0)
                 {
@@ -336,8 +317,8 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
                     yMin_index= i-1;
                 }
 
-                yMax= fromTable->axisY[yMax_index];
-                yMin= fromTable->axisY[yMin_index];
+                yMax= fromTable->data.axisY[yMax_index];
+                yMin= fromTable->data.axisY[yMin_index];
                 break;
             }
 
@@ -345,13 +326,13 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
             Standard scenario
             The requested Y value is between axisY[i] and axisY[i-1]
             */
-            if ( (Y < fromTable->axisY[i]) && (Y > fromTable->axisY[i-1]) )
+            if ( (Y < fromTable->data.axisY[i]) && (Y > fromTable->data.axisY[i-1]) )
             {
-                yMax= fromTable->axisY[i];
-                yMin= fromTable->axisY[i-1];
+                yMax= fromTable->data.axisY[i];
+                yMin= fromTable->data.axisY[i-1];
                 yMax_index= i;
                 yMin_index= i-1;
-                fromTable->last_Ymax_index= yMax_index;
+                fromTable->mgr.last_Ymax_index= yMax_index;
                 break;
             }
         }
@@ -364,10 +345,10 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     C(yMax,xMin)  D(yMax,xMax)
     A(yMin,xMin)  B(yMin,xMax)
     ************************************************/
-    A= fromTable->axisZ[yMin_index][xMin_index];
-    B= fromTable->axisZ[yMin_index][xMax_index];
-    C= fromTable->axisZ[yMax_index][xMin_index];
-    D= fromTable->axisZ[yMax_index][xMax_index];
+    A= fromTable->data.axisZ[yMin_index][xMin_index];
+    B= fromTable->data.axisZ[yMin_index][xMax_index];
+    C= fromTable->data.axisZ[yMax_index][xMin_index];
+    D= fromTable->data.axisZ[yMax_index][xMax_index];
 
     /**
     Check that all values aren't just the same
@@ -389,7 +370,24 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
     C *= (xMax - X) * (Y - yMin);
     D *= (X - xMin) * (Y -yMin);
 
-    return (U32) ( (A + B + C +D) / ((xMax - xMin) * (yMax - yMin)) );
+    return (A + B + C +D) / ((xMax - xMin) * (yMax - yMin));
+}
+
+
+/****************************************************************************************************************************************************
+*
+* Load 2D table data from EEPROM
+*
+****************************************************************************************************************************************************/
+exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
+{
+    exec_result_t load_result;
+
+    volatile U8 * const pData= (volatile U8 *) pTableData;
+
+    load_result= Eeprom_load_data(BaseAddress, pData, ct2D_data_size);
+
+    return load_result;
 }
 
 
@@ -397,64 +395,29 @@ VF32 lookup_3D_table(volatile table3D_t * fromTable, VU32 X, VU32 Y)
 *
 * Load 3D table data from EEPROM
 *
-* table dimension is fixed to TABLE3D_DIMENSION
-* every item is represented by 1 Byte of eeprom data
-* x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-exec_result_t load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
+exec_result_t load_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress)
 {
-    U32 data;
-    U8 eeprom_data;
-    eeprom_result_t ee_result;
+    exec_result_t load_result;
+
+    volatile U8 * const pData= (volatile U8 *) pTableData;
+
+    load_result= Eeprom_load_data(BaseAddress, pData, ct3D_data_size);
+
+    return load_result;
+}
 
 
-    U32 offset, address;
+/****************************************************************************************************************************************************
+*
+* Save 2D table data to EEPROM
+*
+****************************************************************************************************************************************************/
+exec_result_t store_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
+{
+    volatile U8 * const pData= (volatile U8 *) pTableData;
 
-    //Z-axis -> U8 from U8
-    for(offset=0; offset < (TABLE3D_DIMENSION * TABLE3D_DIMENSION); offset++)
-    {
-        //resulting eeprom memory address
-        address= offset + BaseAddress;
-
-        //read 1 byte from eeprom
-        ee_result= eeprom_read_byte(address, &eeprom_data);
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-
-        pTarget->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] = eeprom_data;
-    }
-
-    //X-axis -> U16 from U8
-    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
-    {
-        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
-
-        //read 1 byte from eeprom
-        ee_result= eeprom_read_bytes(address, &data, 1);
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-
-        //scale data read with Scaling_X
-        pTarget->axisX[offset]= (U16) (data * Scaling_X);
-    }
-
-
-    //Y-axis -> U16 from U8
-    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
-    {
-        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
-
-        //read 1 byte from eeprom
-        ee_result= eeprom_read_bytes(address, &data, 1);
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-
-        //scale data read with Scaling_Y
-        pTarget->axisY[offset]= (U16) (data * Scaling_Y);
-    }
-
-    //all done
-    return EXEC_OK;
+    return Eeprom_update_data(BaseAddress, pData, ct2D_data_size);
 }
 
 
@@ -462,53 +425,13 @@ exec_result_t load_3D_table(volatile table3D_t * pTarget, VU32 BaseAddress, VU32
 *
 * Save 3D table data to EEPROM
 *
-* table dimension is fixed to TABLE3D_DIMENSION
-* every item is represented by 1 Byte of eeprom data
-* x and y axis are scaled by their scaling factors
 ****************************************************************************************************************************************************/
-exec_result_t write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32 Scaling_X, VU32 Scaling_Y)
+exec_result_t store_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress)
 {
-    U32 offset, address;
-    eeprom_result_t ee_result;
+    volatile U8 * const pData= (volatile U8 *) pTableData;
 
-    //Z-axis -> U8 from U8
-    for(offset=0; offset < (TABLE3D_DIMENSION * TABLE3D_DIMENSION); offset++)
-    {
-        //resulting eeprom memory address
-        address= offset + BaseAddress;
-
-        //update 1 byte in eeprom
-        ee_result= eeprom_update_byte(address, pTable->axisZ[offset / TABLE_3D_ARRAYSIZE][offset % TABLE_3D_ARRAYSIZE] );
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-    }
-
-    //X-axis -> U16 from U8
-    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
-    {
-        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION);
-
-        //update 1 byte in eeprom scaled by Scaling_X
-        ee_result= eeprom_update_byte(address, pTable->axisX[offset] / Scaling_X);
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-    }
-
-    //Y-axis -> U16 from U8
-    for(offset=0; offset < TABLE3D_DIMENSION; offset++)
-    {
-        address= offset + BaseAddress + (TABLE3D_DIMENSION * TABLE3D_DIMENSION) + TABLE3D_DIMENSION;
-
-        //read 1 byte from eeprom scaled by Scaling_Y
-        ee_result= eeprom_update_byte(address, pTable->axisY[offset] / Scaling_Y);
-
-        ASSERT_CONFIG_SUCESS(ee_result);
-    }
-
-    //all done
-    return EXEC_OK;
+    return Eeprom_update_data(BaseAddress, pData, ct3D_data_size);
 }
-
 
 
 
@@ -517,7 +440,7 @@ exec_result_t write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32
 * print 3D table in human readable form
 *
 * assuming that the title has already been printed
-* assuming fixed table dimension of TABLE3D_DIMENSION
+* assuming fixed table dimension of T3D_DATA_DIMENSION
 * layout:
 * left column: Y-Axis
 * row below: X-Axis
@@ -525,23 +448,23 @@ exec_result_t write_3D_table(volatile table3D_t * pTable, VU32 BaseAddress, VU32
 * orientation (order from low to high) of Y-axis: top to bottom
 * orientation (order from low to high) of X-axis: left to right
 ****************************************************************************************************************************************************/
-void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
+void show_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTableData)
 {
     U32 row, column;
 
     // for every row, printing the top row first (highest value) Z[0..15][x]
-    for (row= 0; row < TABLE3D_DIMENSION; row++)
+    for (row= 0; row < T3D_DATA_DIMENSION; row++)
     {
         // Y value for this row
-        printf_U(pPort, pTable->axisY[TABLE3D_DIMENSION -1 - row], PAD_5);
+        printf_U(pPort, pTableData->axisY[T3D_DATA_DIMENSION -1 - row], PAD_5);
 
         //separator
         print(pPort, " . ");
 
         // Z values of this row, printing from left to right Z[y][0..15]
-        for (column = 0; column < TABLE3D_DIMENSION; column++)
+        for (column = 0; column < T3D_DATA_DIMENSION; column++)
         {
-            printf_U(pPort, pTable->axisZ[TABLE3D_DIMENSION -1 - row][column], PAD_2);
+            printf_U(pPort, pTableData->axisZ[T3D_DATA_DIMENSION -1 - row][column], PAD_2);
             print(pPort, "  ");
         }
 
@@ -553,9 +476,9 @@ void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
     print(pPort, "       ");
 
     // X-axis
-    for (column = 0; column < TABLE3D_DIMENSION; column++)
+    for (column = 0; column < T3D_DATA_DIMENSION; column++)
     {
-        printf_U(pPort, pTable->axisX[column], PAD_5);
+        printf_U(pPort, pTableData->axisX[column], PAD_5);
     }
 
     print(pPort, "\r\n");
@@ -565,41 +488,74 @@ void print_3D_table(USART_TypeDef * pPort, volatile table3D_t * pTable)
 
 /****************************************************************************************************************************************************
 *
-* replace one item in 3D table
-*
-* offsets:
-* 0 .. TABLE3D_DIMENSION² -> z-axis (U8)
-* TABLE3D_DIMENSION² .. TABLE3D_DIMENSION² + TABLE3D_DIMENSION -> X-axis (U16)
-* TABLE3D_DIMENSION² + TABLE3D_DIMENSION .. TABLE3D_DIMENSION² + 2* TABLE3D_DIMENSION  -> Y-axis (U16)
-*
+* replace one byte in 2D table
 *
 ****************************************************************************************************************************************************/
-exec_result_t modify_3D_table(volatile table3D_t * pTable, U32 Offset, U32 Value)
+exec_result_t modify_t2D_data(volatile t2D_data_t * pTableData, U32 Offset, U32 Value)
 {
+    volatile U8 * const pData= (volatile U8 *) pTableData;
+
     //range check
-    if(Offset >= TABLE3D_DIMENSION * TABLE3D_DIMENSION + 2 * TABLE3D_DIMENSION)
+    if(Offset >= ct2D_data_size)
     {
         return EXEC_ERROR;
     }
 
-    if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION)
-    {
-        // Z-axis
-        pTable->axisZ[Offset / TABLE3D_DIMENSION][Offset % TABLE3D_DIMENSION] = (U8) Value;
-    }
-    else if(Offset < TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION )
-    {
-        // X-axis
-        pTable->axisX[Offset - TABLE3D_DIMENSION * TABLE3D_DIMENSION] = (U16) Value;
-    }
-    else
-    {
-        // Y-axis
-        pTable->axisY[Offset - (TABLE3D_DIMENSION * TABLE3D_DIMENSION + TABLE3D_DIMENSION)] = (U16) Value;
-    }
+    *(pData + Offset)= (U8) Value;
 
     return EXEC_OK;
 }
+
+
+/****************************************************************************************************************************************************
+*
+* replace one byte in 3D table
+*
+****************************************************************************************************************************************************/
+exec_result_t modify_t3D_data(volatile t3D_data_t * pTableData, U32 Offset, U32 Value)
+{
+    volatile U8 * const pData= (volatile U8 *) pTableData;
+
+    //range check
+    if(Offset >= ct3D_data_size)
+    {
+        return EXEC_ERROR;
+    }
+
+    *(pData + Offset)= (U8) Value;
+
+    return EXEC_OK;
+}
+
+
+/****************************************************************************************************************************************************
+*
+* send 2D table to Tuner Studio
+*
+* data will be sent "as is" (no scaling, offset, etc ...)
+****************************************************************************************************************************************************/
+void send_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTable)
+{
+    volatile U8 * const pData= (volatile U8 *) pTable;
+
+    UART_send_data(pPort, pData, ct2D_data_size);
+}
+
+
+/****************************************************************************************************************************************************
+*
+* send 3D table to Tuner Studio
+*
+* data will be sent "as is" (no scaling, offset, etc ...)
+****************************************************************************************************************************************************/
+void send_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTable)
+{
+    volatile U8 * const pData= (volatile U8 *) pTable;
+
+    UART_send_data(pPort, pData, ct3D_data_size);
+}
+
+
 
 
 

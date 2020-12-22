@@ -164,7 +164,7 @@ typedef struct _Tuareg_t {
 
     volatile process_data_t process;
 
-    VU8 secl;
+
 
 } Tuareg_t;
 

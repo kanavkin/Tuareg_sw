@@ -2,6 +2,8 @@
 #define EEPROM_H_INCLUDED
 
 #include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
+
 
 // E0 = E1 = E2 = 0
 #define sEE_HW_ADDRESS      0xA0
@@ -26,7 +28,7 @@
 
 
 /**
-eeprom read/write operation result / i2c communication error codes
+eeprom read/write operation result / i2c communication error codes for maximum debugging information
 */
 typedef enum {
 
@@ -45,7 +47,8 @@ typedef enum {
 
 } eeprom_result_t;
 
-#define ASSERT_EEPROM_RESULT_OK(code) if((code) != EERES_OK) return (code)
+//map eeprom result to common exec result code
+#define ASSERT_EEPROM_RESULT_OK(eeres_code) if((eeres_code) != EERES_OK) return EXEC_ERROR
 
 void init_eeprom(void);
 void eeprom_i2c_deinit(void);
@@ -60,6 +63,11 @@ eeprom_result_t eeprom_update_byte(U32 Address, U32 Data);
 eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length);
 
 eeprom_result_t eeprom_wait(void);
+
+
+exec_result_t Eeprom_load_data(U32 BaseAddress, VU8 * const pTarget, U32 Length);
+exec_result_t Eeprom_write_data(U32 BaseAddress, VU8 * const pSource, U32 Length);
+exec_result_t Eeprom_update_data(U32 BaseAddress, VU8 * const pSource, U32 Length);
 
 
 #endif // EEPROM_H_INCLUDED

@@ -13,13 +13,13 @@
 #define PAGE_SIZE 64
 
 
-#define ASSERT_CONFIG_SUCESS(eeres_code) if((eeres_code) != EERES_OK) return EXEC_ERROR
+
 
 
 /**
 config handling
 */
-exec_result_t config_write();
+exec_result_t config_tables_write();
 exec_result_t config_load();
 
 exec_result_t check_config();

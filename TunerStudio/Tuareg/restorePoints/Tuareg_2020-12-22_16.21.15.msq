@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Dec 22 16:37:43 CET 2020"/>
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: TunerStudio settings before accepting Controller values in a Difference Report. - &lt;br&gt;" writeDate="Tue Dec 22 16:21:15 CET 2020"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="4" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -25,21 +25,7 @@
 <constant digits="0" name="calibVersion" units="#">1.0</constant>
 </page>
 <page number="1" size="25">
-<constant digits="0" name="DecCrkPosTbl_B2" units="deg">98.0</constant>
-<constant digits="0" name="DecCrkPosTbl_B1" units="deg">90.0</constant>
-<constant digits="0" name="DecCrkPosTbl_A2" units="deg">40.0</constant>
-<constant digits="0" name="DecCrkPosTbl_A1" units="deg">0.0</constant>
-<constant digits="0" name="DecCrkPosTbl_D2" units="deg">278.0</constant>
-<constant digits="0" name="DecCrkPosTbl_D1" units="deg">270.0</constant>
-<constant digits="0" name="DecCrkPosTbl_C2" units="deg">188.0</constant>
-<constant digits="0" name="DecCrkPosTbl_C1" units="deg">180.0</constant>
-<constant digits="0" name="DecTriggerOffset" units="deg">260.0</constant>
-<constant digits="0" name="DecVrDelay" units="µs">40.0</constant>
-<constant digits="0" name="DecCrankNoiseFilter" units="#">8.0</constant>
-<constant digits="0" name="DecSyncRatioMin" units="%">30.0</constant>
-<constant digits="0" name="DecSyncRatioMax" units="%">50.0</constant>
-<constant digits="0" name="DecTimeout" units="s">3.0</constant>
-<constant digits="0" name="DecoderVersion" units="#">1.0</constant>
+<constant digits="0" name="DecoderVersion" units="#">35.0</constant>
 </page>
 <page number="2" size="20">
 <constant digits="0" name="IgnMaxRpm" units="rpm">9000.0</constant>

@@ -50,7 +50,7 @@ exec_result_t calculate_ignition_alignment( VU32 Ignition_AD, VU32 Dwell_target_
     */
 
     //prepare transfer object for process table lookup (model: fixed ignition position in dynamic mode)
-    ignition_POS.crank_pos= Ignition_Config.dynamic_ignition_base_position;
+    ignition_POS.crank_pos= Ignition_Setup.dynamic_ignition_base_position;
     ignition_POS.phase= PHASE_CYL1_COMP;
 
     //get the basic advance angle the ignition base position provides
@@ -69,7 +69,7 @@ exec_result_t calculate_ignition_alignment( VU32 Ignition_AD, VU32 Dwell_target_
     /**
     calculate the position corresponding to spark burn end across the whole engine cycle
     */
-    spark_burn_PD= calc_rot_angle_deg(Ignition_Config.spark_duration_us, Crank_T_us);
+    spark_burn_PD= calc_rot_angle_deg(Ignition_Setup.spark_duration_us, Crank_T_us);
 
     //spark end process advance := 720 + ignition advance - spark burn angle
     spark_end_PA= subtract_VU32(720 + Ignition_AD, spark_burn_PD);
@@ -187,7 +187,7 @@ void cranking_ignition_controls(volatile ignition_control_t * pTarget)
     //ignition setup
     pTarget->ignition_advance_deg= CRANKING_REPORTED_IGNITION_ADVANCE_DEG;
     pTarget->ignition_timing_us= 0;
-    pTarget->ignition_pos= Ignition_Config.cranking_ignition_position;
+    pTarget->ignition_pos= Ignition_Setup.cranking_ignition_position;
 
     //dwell setup in phased mode
     pTarget->dwell_phase_cyl1= PHASE_CYL1_COMP;
@@ -251,15 +251,15 @@ exec_result_t calculate_dynamic_ignition_controls(volatile process_data_t * pIma
     pTarget->state.all_flags= 0;
     pTarget->state.dynamic= true;
 
-    if( (pImage->crank_rpm < Ignition_Config.cold_idle_cutoff_rpm) && (pImage->CLT_K < Ignition_Config.cold_idle_cutoff_CLT_K) )
+    if( (pImage->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) && (pImage->CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) )
     {
         /**
         cold idle function activated
         */
         pTarget->state.cold_idle= true;
 
-        Ign_advance_deg= Ignition_Config.cold_idle_ignition_advance_deg;
-        Dwell_target_us= Ignition_Config.cold_idle_dwell_target_us;
+        Ign_advance_deg= Ignition_Setup.cold_idle_ignition_advance_deg;
+        Dwell_target_us= Ignition_Setup.cold_idle_dwell_target_us;
 
     }
     else
@@ -273,7 +273,7 @@ exec_result_t calculate_dynamic_ignition_controls(volatile process_data_t * pIma
         //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
 
         /// TODO (oli#3#): tps readout not stable yet
-        Ign_advance_deg= lookup_3D_table(&ignitionTable_TPS, pImage->crank_rpm, 30);
+        Ign_advance_deg= getValue_ignAdvTable_TPS(pImage->crank_rpm, 30);
 
 
         ///get dwell from table
@@ -287,7 +287,7 @@ exec_result_t calculate_dynamic_ignition_controls(volatile process_data_t * pIma
         }
         else
         {
-            Dwell_target_us = Ignition_Config.dynamic_dwell_target_us;
+            Dwell_target_us = Ignition_Setup.dynamic_dwell_target_us;
         }
 
     }

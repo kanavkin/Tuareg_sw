@@ -1,12 +1,14 @@
 #ifndef DECODER_CONFIG_H_INCLUDED
 #define DECODER_CONFIG_H_INCLUDED
 
+#define DECODER_CONFIG_SIZE 24
+
 /***************************************************************************************************************************************************
 *   decoder configuration page
 ***************************************************************************************************************************************************/
-typedef struct _Decoder_Config_t {
+typedef struct __attribute__ ((__packed__)) _Decoder_Setup_t {
 
-    //contains the trigger wheel layout (angles corresp. to positions A1 .. D2)
+    //contains the trigger wheel layout (angles corresp. to crank_position_t)
     crank_position_table_t trigger_position_map;
 
     //static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and crank angle
@@ -27,54 +29,7 @@ typedef struct _Decoder_Config_t {
 
     U8 Version;
 
-} Decoder_Config_t;
-
-
-
-/***************************************************************************************************************************************************
-*   data offset constants for modification via CLI
-***************************************************************************************************************************************************/
-typedef enum {
-
-    DECODER_CONFIG_CLI_TRIGGERMAP_A1,
-    DECODER_CONFIG_CLI_TRIGGERMAP_A2,
-    DECODER_CONFIG_CLI_TRIGGERMAP_B1,
-    DECODER_CONFIG_CLI_TRIGGERMAP_B2,
-    DECODER_CONFIG_CLI_TRIGGERMAP_C1,
-    DECODER_CONFIG_CLI_TRIGGERMAP_C2,
-    DECODER_CONFIG_CLI_TRIGGERMAP_D1,
-    DECODER_CONFIG_CLI_TRIGGERMAP_D2,
-
-    DECODER_CONFIG_CLI_TRIGGER_OFFSET,
-    DECODER_CONFIG_CLI_VR_DELAY,
-    DECODER_CONFIG_CLI_CRANK_NOISE_FILTER,
-    DECODER_CONFIG_CLI_SYNC_RATIO_MIN,
-    DECODER_CONFIG_CLI_SYNC_RATIO_MAX,
-    DECODER_CONFIG_CLI_TIMEOUT
-
-} Decoder_Config_CLI_offset;
-
-
-/***************************************************************************************************************************************************
-*   data offsets for for eeprom layout based on the stored data size
-***************************************************************************************************************************************************/
-typedef enum {
-
-    DECODER_CONFIG_EE_VERSION =0,               // 1 byte
-
-    DECODER_CONFIG_EE_TRIGGERMAP =1,            // 8*2 bytes 1..16
-
-    DECODER_CONFIG_EE_TRIGGER_OFFSET =17,       // 2 bytes 17..18
-    DECODER_CONFIG_EE_VR_DELAY =19,             // 2 bytes 19..20
-    DECODER_CONFIG_EE_CRANK_NOISE_FILTER =20,   // 1 byte
-    DECODER_CONFIG_EE_SYNC_RATIO_MIN =21,       // 1 byte
-    DECODER_CONFIG_EE_SYNC_RATIO_MAX =22,       // 1 byte
-    DECODER_CONFIG_EE_TIMEOUT =23,              // 1 byte
-
-    DECODER_CONFIG_EE_NEXT_FREE_OFFSET =24      // next free offset after the page
-
-} Decoder_Config_Eeprom_offset;
-
+} Decoder_Setup_t;
 
 
 /***************************************************************************************************************************************************
@@ -90,7 +45,7 @@ counting from the position closest to TDC against the normal rotation direction
 (reflecting ignition advance)
 
 config item:
-Decoder_Config.trigger_position_map[POSITION_COUNT]
+Decoder_Setup.trigger_position_map[POSITION_COUNT]
 
 default:
 DECODER_CONFIG_DEFAULT_POSITION_A1_ANGLE
@@ -119,7 +74,7 @@ static correction angle between the trigger wheel key (POSITION_xx_ANGLE) and cr
 the angle the crank shaft is actually at significantly differs from the trigger wheel key position angle
 
 config item:
-Decoder_Config.trigger_offset_deg
+Decoder_Setup.trigger_offset_deg
 
 default:
 DECODER_CONFIG_DEFAULT_TRIGGER_OFFSET
@@ -134,7 +89,7 @@ dynamic delay introduced by VR interface schematics (between key passing sensor 
 the VR interface hw introduces a delay of about 300 us from the key edge passing the sensor until the CRANK signal is triggered
 
 config item:
-Decoder_Config.vr_delay_us
+Decoder_Setup.vr_delay_us
 
 default:
 DECODER_CONFIG_DEFAULT_VR_DELAY
@@ -151,7 +106,7 @@ adjusted to about 2° crank shaft at 9500 rpm
 (setting: ps 400 at 100 MHz)
 
 config item:
-Decoder_Config.crank_noise_filter
+Decoder_Setup.crank_noise_filter
 
 default:
 DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER
@@ -168,8 +123,8 @@ this config defines the interval, which measured sync ratios will be considered 
 a relaxed sync check will be applied, when less than sync_stability_thrs consecutive positions have been captured with sync
 
 config items:
-Decoder_Config.sync_ratio_min_pct
-Decoder_Config.sync_ratio_max_pct
+Decoder_Setup.sync_ratio_min_pct
+Decoder_Setup.sync_ratio_max_pct
 
 defaults:
 DECODER_CONFIG_DEFAULT_SYNC_RATIO_MIN
@@ -185,7 +140,7 @@ decoder timeout detection
 amount of seconds until a decoder timeout will be detected, when no trigger event has occurred
 
 config items:
-Decoder_Config.timeout_s
+Decoder_Setup.timeout_s
 
 defaults:
 DECODER_CONFIG_DEFAULT_TIMEOUT
@@ -198,15 +153,17 @@ DECODER_CONFIG_DEFAULT_TIMEOUT
 *   API section
 ***************************************************************************************************************************************************/
 
-extern volatile Decoder_Config_t Decoder_Config;
+extern volatile Decoder_Setup_t Decoder_Setup;
 
-exec_result_t load_Decoder_Config();
-void load_essential_Decoder_Config();
-exec_result_t write_Decoder_Config();
+exec_result_t load_Decoder_Setup();
+void load_essential_Decoder_Setup();
+exec_result_t store_Decoder_Setup();
 
-void show_Decoder_Config(USART_TypeDef * Port);
+void show_Decoder_Setup(USART_TypeDef * Port);
 
-exec_result_t modify_Decoder_Config(U32 Offset, U32 Value);
+exec_result_t modify_Decoder_Setup(U32 Offset, U32 Value);
+
+void send_Decoder_Setup(USART_TypeDef * Port);
 
 
 /***************************************************************************************************************************************************

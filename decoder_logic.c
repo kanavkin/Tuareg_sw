@@ -139,7 +139,7 @@ inline bool check_sync_ratio()
         sync_ratio= (DInternals.sync_buffer_key * 100) / (DInternals.sync_buffer_key + DInternals.sync_buffer_gap);
 
 
-        if( (sync_ratio >= Decoder_Config.sync_ratio_min_pct) && (sync_ratio <= Decoder_Config.sync_ratio_max_pct) )
+        if( (sync_ratio >= Decoder_Setup.sync_ratio_min_pct) && (sync_ratio <= Decoder_Setup.sync_ratio_max_pct) )
         {
             /**
             check succeeded - its key A!
@@ -180,13 +180,13 @@ void update_crank_position_table(volatile crank_position_table_t * pTable)
     for(position=0; position < CRK_POSITION_COUNT; position++)
     {
         //get trigger position base angle
-        angle= Decoder_Config.trigger_position_map.crank_angle_deg[position];
+        angle= Decoder_Setup.trigger_position_map.crank_angle_deg[position];
 
         //calculate effective crank angle
-        angle += Decoder_Config.trigger_offset_deg;
+        angle += Decoder_Setup.trigger_offset_deg;
 
         //calculate VR introduced delay
-        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(Decoder_Config.vr_delay_us, DInternals.crank_period_us);
+        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(Decoder_Setup.vr_delay_us, DInternals.crank_period_us);
 
         //wrap around crank angle
         angle= angle % 360;
@@ -330,7 +330,7 @@ volatile decoder_interface_t * init_decoder_logic()
     reset_timeout_counter();
 
     //calculate the decoder timeout threshold corresponding to the configured timeout value
-    DInternals.decoder_timeout_thrs= ((1000UL * Decoder_Config.timeout_s) / DECODER_TIMER_OVERFLOW_MS) +1;
+    DInternals.decoder_timeout_thrs= ((1000UL * Decoder_Setup.timeout_s) / DECODER_TIMER_OVERFLOW_MS) +1;
 
 
     ///debug
@@ -383,7 +383,7 @@ void decoder_logic_crank_handler(VU32 Interval)
 
             decoder_set_crank_pickup_sensing() will keep the crank irq masked until decoder_logic_timer_compare_handler() enables it
             */
-            decoder_start_timer(Decoder_Config.crank_noise_filter);
+            decoder_start_timer(Decoder_Setup.crank_noise_filter);
 
             //prepare to detect a KEY begin
             decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);

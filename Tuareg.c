@@ -15,7 +15,7 @@
 #include "uart.h"
 #include "conversion.h"
 #include "lowspeed_timers.h"
-#include "TunerStudio.h"
+#include "Tuareg_console.h"
 #include "Tuareg_config.h"
 #include "legacy_config.h"
 #include "table.h"
@@ -79,7 +79,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if(Tuareg.process.crank_rpm > Ignition_Config.dynamic_min_rpm)
+        else if(Tuareg.process.crank_rpm > Ignition_Setup.dynamic_min_rpm)
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -181,8 +181,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 init_eeprom();
 
                 UART_DEBUG_PORT_Init();
-                UART_TS_PORT_Init();
-
                 Tuareg_print_init_message();
                 break;
 
@@ -239,6 +237,8 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 init_fuel_logic();
                 init_dash_logic();
                 init_act_logic();
+
+                Tuareg_init_console();
 
                 #endif
                 break;

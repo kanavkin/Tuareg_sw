@@ -34,16 +34,6 @@ exec_result_t config_load()
     exec_result_t result;
 
 
-    /****************
-    * legacy config *
-    *****************/
-    result= load_legacy_config();
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO legacy config has been loaded");
-
-
     /********************
     * Tuareg config     *
     ********************/
@@ -62,25 +52,6 @@ exec_result_t config_load()
     ASSERT_EXEC_OK(result);
 
 
-    /********************
-    * tables            *
-    ********************/
-
-    //ignition tables
-    result= load_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO ignition table TPS has been loaded");
-
-    result= load_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 1);
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO ignition table MAP has been loaded");
-
-    //init all 2d tables
-    init_2Dtables();
 
 
     return EXEC_OK;
@@ -90,62 +61,11 @@ exec_result_t config_load()
 
 /****************************************************************************************************************************************************
 *
-* Takes the current configuration (config pages and maps) and writes them to EEPROM as per the layout defined in eeprom_layout.h
+* Takes the current configuration tables and writes them to EEPROM as per the layout defined in eeprom_layout.h
 *
 ****************************************************************************************************************************************************/
-exec_result_t config_write()
+exec_result_t config_tables_write()
 {
-    exec_result_t result;
-
-    /********************
-    * legacy config  *
-    ********************/
-    result= write_legacy_config();
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO legacy config has been written");
-
-    /********************
-    * Tuareg config     *
-    ********************/
-    result= write_Decoder_Config();
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO Decoder Config has been written");
-
-    result= write_Ignition_Config();
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO Ignition Config has been written");
-
-    result= write_Sensor_Calibration();
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO Sensor Calibration has been written");
-
-
-    /********************
-    * tables            *
-    ********************/
-
-    //ignition tables
-    result= write_3D_table(&ignitionTable_TPS, EEPROM_CONFIG3_MAP, 100, 2);
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO ignition table TPS has been written");
-
-    result= write_3D_table(&ignitionTable_MAP, EEPROM_IGNITIONTABLE_MAP_Z, 100, 2);
-
-    ASSERT_EXEC_OK(result);
-
-    print(DEBUG_PORT, "\r\nINFO ignition table MAP has been written");
-
-
     return EXEC_OK;
 }
 
@@ -197,7 +117,7 @@ exec_result_t check_config()
 */
 void config_load_essentials()
 {
-    load_essential_Decoder_Config();
+    load_essential_Decoder_Setup();
     load_essential_Ignition_Config();
 
 }

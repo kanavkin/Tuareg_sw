@@ -74,7 +74,7 @@ SCHEDULER (ignition)
 #include "uart_printf.h"
 #include "conversion.h"
 #include "lowspeed_timers.h"
-#include "TunerStudio.h"
+#include "Tuareg_console.h"
 #include "Tuareg_config.h"
 #include "table.h"
 #include "eeprom.h"
@@ -243,7 +243,7 @@ int main(void)
         }
 
         /**
-        handle TS communication
+        handle console
         */
         if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
@@ -261,7 +261,7 @@ int main(void)
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
 
-            ts_communication();
+            Tuareg_update_console();
         }
 
     }

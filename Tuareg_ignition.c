@@ -59,7 +59,7 @@ void Tuareg_trigger_ignition_actors(volatile crank_position_t CrankPosition, vol
             corr_timing_us= subtract_VU32(pIgnitionControls->ignition_timing_us, age_us);
 
             //check coil setup
-            if(Ignition_Config.coil_setup == COILS_SEPARATE)
+            if(Ignition_Setup.coil_setup == COILS_SEPARATE)
             {
                 ///ignition event for cylinder #1 or #2
                 if(Phase == PHASE_CYL1_COMP)
@@ -97,7 +97,7 @@ void Tuareg_trigger_ignition_actors(volatile crank_position_t CrankPosition, vol
         if(CrankPosition == pIgnitionControls->dwell_pos_phased)
         {
             //check coil setup
-            if(Ignition_Config.coil_setup == COILS_SEPARATE)
+            if(Ignition_Setup.coil_setup == COILS_SEPARATE)
             {
                 ///dwell event for cylinder #1 or #2
                 if(Phase == pIgnitionControls->dwell_phase_cyl1)
@@ -193,11 +193,11 @@ void Tuareg_update_ignition_controls()
     case TMODE_RUNNING:
     case TMODE_STB:
 
-        if(Tuareg.process.crank_rpm < Ignition_Config.dynamic_min_rpm)
+        if(Tuareg.process.crank_rpm < Ignition_Setup.dynamic_min_rpm)
         {
             cranking_ignition_controls(&(Tuareg.ignition_controls));
         }
-        else if(Tuareg.process.crank_rpm > Ignition_Config.max_rpm)
+        else if(Tuareg.process.crank_rpm > Ignition_Setup.max_rpm)
         {
             revlimiter_ignition_controls(&(Tuareg.ignition_controls));
         }

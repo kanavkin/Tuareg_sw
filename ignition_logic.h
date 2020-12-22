@@ -51,7 +51,7 @@ values to report during cranking
 /**
 values to report during rev limiter action
 */
-#define REVLIMITER_REPORTED_IGNITION_ADVANCE_DEG 100
+#define REVLIMITER_REPORTED_IGNITION_ADVANCE_DEG 0
 #define REVLIMITER_REPORTED_DWELL_MS 0
 
 /**

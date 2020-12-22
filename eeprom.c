@@ -435,6 +435,8 @@ eeprom_result_t eeprom_update_byte(U32 Address, U32 Data)
 }
 
 
+
+
 /**
 update 1 to 4 eeprom bytes, beginning from Address, with the data contained in Data
 */
@@ -455,6 +457,65 @@ eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
     }
 
     return ee_result;
+}
+
+
+/***************************************************************************************************************************
+* new byte stream oriented Eeprom interface
+*
+* these functions read/write eeprom data "as is", so padding bytes will be written as well
+* the source / target data area shall be packed __attribute__ ((__packed__))
+***************************************************************************************************************************/
+
+exec_result_t Eeprom_load_data(U32 BaseAddress, VU8 * const pTarget, U32 Length)
+{
+    U32 i;
+    eeprom_result_t ee_result;
+    U8 data;
+
+    for(i=0; i< Length; i++)
+    {
+        ee_result= eeprom_read_byte(BaseAddress + i, &data);
+
+        ASSERT_EEPROM_RESULT_OK(ee_result);
+
+        //data read successfully
+        *(pTarget + i)= data;
+    }
+
+    return EXEC_OK;
+}
+
+
+exec_result_t Eeprom_write_data(U32 BaseAddress, VU8 * const pSource, U32 Length)
+{
+    U32 i;
+    eeprom_result_t ee_result;
+
+    for(i=0; i< Length; i++)
+    {
+        ee_result= eeprom_write_byte(BaseAddress + i, *(pSource +i) );
+
+        ASSERT_EEPROM_RESULT_OK(ee_result);
+    }
+
+    return EXEC_OK;
+}
+
+
+exec_result_t Eeprom_update_data(U32 BaseAddress, VU8 * const pSource, U32 Length)
+{
+    U32 i;
+    eeprom_result_t ee_result;
+
+    for(i=0; i< Length; i++)
+    {
+        ee_result= eeprom_update_byte(BaseAddress + i, *(pSource +i) );
+
+        ASSERT_EEPROM_RESULT_OK(ee_result);
+    }
+
+    return EXEC_OK;
 }
 
 

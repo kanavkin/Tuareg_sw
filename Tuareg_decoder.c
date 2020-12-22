@@ -20,16 +20,16 @@ volatile decoder_interface_t * init_Decoder()
     volatile decoder_interface_t * pInterface;
 
     //decoder logic uses configuration values -> config shall be loaded first
-    result= load_Decoder_Config();
+    result= load_Decoder_Setup();
 
     if(result != EXEC_OK)
     {
-        load_essential_Decoder_Config();
+        load_essential_Decoder_Setup();
 
         print(DEBUG_PORT, "\r\nWARNING Decoder essential Config has been loaded");
     }
 
-    if(Decoder_Config.Version != DECODER_REQUIRED_CONFIG_VERSION)
+    if(Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION)
     {
         print(DEBUG_PORT, "\r\nWARNING Decoder Config version does not match");
     }
