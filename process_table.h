@@ -25,7 +25,7 @@ typedef struct {
 } process_position_t;
 
 
-void update_process_table(volatile crank_position_table_t * pCrankTable);
+void update_process_table(VU32 Crank_period_us);
 
 exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * pTarget);
 exec_result_t get_index_from_position(volatile process_position_t * pPosition, volatile U32 * pTargetIndex);
@@ -36,5 +36,6 @@ exec_result_t find_process_position_after(VU32 Reference_PA, volatile process_po
 exec_result_t get_process_advance(volatile process_position_t * pPosition);
 
 void print_process_table(USART_TypeDef * Port);
+void print_process_table_fancy();
 
 #endif // PROCESS_TABLE_H

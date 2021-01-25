@@ -12,7 +12,9 @@ void sub_VU32(VU32 * pMin, VU32 Subtr);
 VU32 subtract_VU32(VU32 Min, VU32 Subtr);
 VU32 abs_delta_VU32(VU32 Val1, VU32 Val2);
 
-crank_position_t next_crank_position(crank_position_t Position);
+VU32 divide_VU32(VU32 Dividend, VU32 Divisor);
+
+crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);
 
 #endif // BASECALC_H_INCLUDED

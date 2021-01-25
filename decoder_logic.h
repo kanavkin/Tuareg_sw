@@ -17,6 +17,7 @@ when to enable cylinder identification sensor irq
 
 typedef enum {
 
+    DSTATE_TIMEOUT,
     DSTATE_INIT,
     DSTATE_ASYNC,
     DSTATE_ASYNC_KEY,
@@ -72,10 +73,27 @@ typedef struct {
 } decoder_internals_t;
 
 
+
 typedef struct {
+
+    VU8 timeout :1;
+    VU8 position_valid :1;
+    VU8 phase_valid :1;
+    VU8 period_valid :1;
+    VU8 rpm_valid :1;
+
+} decoder_opstate_t;
+
+
+
+typedef struct {
+
+    //state
+    decoder_opstate_t state;
 
     //rotational period of crankshaft
     VU32 crank_period_us;
+    VU32 crank_rpm;
 
     volatile crank_position_t crank_position;
     volatile engine_phase_t phase;
@@ -94,8 +112,6 @@ extern void reset_position_data();
 extern void reset_crank_timing_data();
 
 extern void decoder_set_state(decoder_state_t NewState);
-
-void update_crank_position_table(volatile crank_position_table_t * pTable);
 
 void update_engine_speed(VU32 Interval);
 

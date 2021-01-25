@@ -3,7 +3,7 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
-#include "ignition_logic.h"
+#include "Tuareg_ignition_controls.h"
 
 
 typedef enum {
@@ -16,9 +16,9 @@ typedef enum {
 } coil_setup_t;
 
 
+void Tuareg_ignition_update_crankpos_handler();
+void Tuareg_ignition_irq_handler();
 
-void Tuareg_update_ignition_controls();
-void Tuareg_trigger_ignition_actors(volatile crank_position_t CrankPosition, volatile engine_phase_t Phase, volatile ignition_control_t * pIgnitionControls);
 
 
 #endif // TUAREG_IGNITION_H_INCLUDED

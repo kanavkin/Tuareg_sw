@@ -41,14 +41,38 @@ typedef enum {
 } scheduler_diag_t;
 
 
+
+
 typedef enum {
 
+    IGNDIAG_CRKPOSH_CALLS,
+    IGNDIAG_CRKPOSH_PRECOND_FAIL,
+    IGNDIAG_CRKPOSH_IGNPOS,
+    IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER,
+    IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER,
+    IGNDIAG_CRKPOSH_IGN1_UNPOWER,
+    IGNDIAG_CRKPOSH_IGN2_UNPOWER,
+    IGNDIAG_CRKPOSH_IGN1_POWER,
+    IGNDIAG_CRKPOSH_IGN2_POWER,
 
-    IGNHWDIAG_SWIER3_TRIGGERED,
+    IGNDIAG_IRQ3H_CALLS,
+    IGNDIAG_IRQ3H_PRECOND_FAIL,
+    IGNDIAG_IRQ3H_IGN1SCHED_POWER,
+    IGNDIAG_IRQ3H_IGN2SCHED_POWER,
+    IGNDIAG_IRQ3H_IGN1_POWER,
+    IGNDIAG_IRQ3H_IGN2_POWER,
 
-    IGNHWDIAG_COUNT
+    IGNDIAG_UPDIGNCTRL_CALLS,
+    IGNDIAG_UPDIGNCTRL_REVLIM,
+    IGNDIAG_UPDIGNCTRL_DYN,
+    IGNDIAG_UPDIGNCTRL_DYN_FAIL,
 
-} ignhw_diag_t;
+    IGNDIAG_COUNT
+
+} ignition_diag_t;
+
+
+
 
 typedef enum {
 
@@ -153,9 +177,9 @@ void scheduler_diag_log_event(scheduler_diag_t event);
 void print_scheduler_diag(USART_TypeDef * Port);
 void print_scheduler_diag_legend(USART_TypeDef * Port);
 
-void ignhw_diag_log_event(ignhw_diag_t event);
-void print_ignhw_diag(USART_TypeDef * Port);
-void print_ignhw_diag_legend(USART_TypeDef * Port);
+void ignition_diag_log_event(ignition_diag_t event);
+void print_ignition_diag(USART_TypeDef * Port);
+void print_ignition_diag_legend(USART_TypeDef * Port);
 
 void tuareg_diag_log_event(tuareg_diag_t event);
 void tuareg_diag_log_parameter(tuareg_diag_t Parameter, U32 Value);

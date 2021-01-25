@@ -6,10 +6,10 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
-extern void init_ignition_hw();
+void init_ignition_hw();
 
-extern void set_ignition_ch1(actor_control_t level);
-extern void set_ignition_ch2(actor_control_t level);
+void set_ignition_ch1(actor_control_t level);
+void set_ignition_ch2(actor_control_t level);
 
 //extern void trigger_ignition_irq();
 

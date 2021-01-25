@@ -42,6 +42,10 @@ volatile serial_buffer_t Debug_Tx_Buffer= {
 
 
 
+VU32 TS_char_count =0;
+
+
+
 /**
 UART initialisation functions
 */
@@ -85,6 +89,8 @@ void UART_TS_PORT_Init()
 	mrx_ptr =0;
 	mrd_ptr =0;
 	#endif // SERIAL_MONITOR
+
+	TS_char_count =0;
 }
 
 
@@ -145,7 +151,46 @@ void UART_Tx(USART_TypeDef * Port, char msg)
     #ifdef SERIAL_MONITOR
     UART_listen();
     #endif // SERIAL_MONITOR
+
+    if(Port == TS_PORT)
+    {
+        TS_char_count++;
+    }
 }
+
+
+
+void UART_Tx_n(USART_TypeDef * Port, char Message, U32 Times)
+{
+    U32 i;
+
+    for(i=0; i < Times; i++)
+    {
+        UART_Tx(Port, Message);
+    }
+}
+
+
+void UART_TS_PORT_NEXT_LINE()
+{
+    UART_Tx(TS_PORT, '\r');
+    UART_Tx(TS_PORT, '\n');
+
+    TS_char_count =0;
+}
+
+void UART_TS_PORT_reset_char_count()
+{
+    TS_char_count =0;
+}
+
+
+VU32 UART_TS_PORT_get_char_count()
+{
+    return TS_char_count;
+}
+
+
 
 
 void UART_listen(USART_TypeDef * Port)

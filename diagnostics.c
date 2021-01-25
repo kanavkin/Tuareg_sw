@@ -7,7 +7,7 @@
 #include "uart_printf.h"
 
 VU32 scheduler_diag[SCHEDIAG_COUNT];
-VU32 ignhw_diag[IGNHWDIAG_COUNT];
+VU32 ignition_diag[IGNDIAG_COUNT];
 VU32 tuareg_diag[TDIAG_COUNT];
 VU32 decoder_diag[DDIAG_COUNT];
 
@@ -56,26 +56,26 @@ void print_scheduler_diag_legend(USART_TypeDef * Port)
 
 
 /******************************************************************************************************
-ignition hardware diag
+ignition diag
 *******************************************************************************************************/
-void ignhw_diag_log_event(ignhw_diag_t event)
+void ignition_diag_log_event(ignition_diag_t event)
 {
-    if(event < IGNHWDIAG_COUNT)
+    if(event < IGNDIAG_COUNT)
     {
-        ignhw_diag[event] += 1;
+        ignition_diag[event] += 1;
     }
 }
 
 
-void print_ignhw_diag(USART_TypeDef * Port)
+void print_ignition_diag(USART_TypeDef * Port)
 {
     U32 cnt;
 
-    print(Port, "\r\nignition hardware diag: \r\n");
+    print(Port, "\r\nTuareg ignition diag: \r\n");
 
-    for(cnt=0; cnt < IGNHWDIAG_COUNT; cnt++)
+    for(cnt=0; cnt < IGNDIAG_COUNT; cnt++)
     {
-        printf_U(Port, ignhw_diag[cnt], PAD_10);
+        printf_U(Port, ignition_diag[cnt], PAD_10);
 
         if((cnt != 0) && ((cnt % 5) == 0))
         {
@@ -86,7 +86,7 @@ void print_ignhw_diag(USART_TypeDef * Port)
 }
 
 
-void print_ignhw_diag_legend(USART_TypeDef * Port)
+void print_ignition_diag_legend(USART_TypeDef * Port)
 {
     print(TS_PORT, "\r\nIGNHWDIAG_SWIER3_TRIGGERED");
 }
@@ -196,3 +196,6 @@ void print_decoder_diag_legend(USART_TypeDef * Port)
     print(TS_PORT, "\r\nDDIAG_TIMEOUT_EVENTS, DDIAG_SYNCCHECK_CALLS, DDIAG_SYNCCHECK_SUCCESS, DDIAG_SYNCCHECK_FAILED, DDIAG_CRANKTABLE_CALLS,");
     print(TS_PORT, "\r\nDDIAG_ROTSPEED_CALLS, DDIAG_HW_EXTI1_CALLS,");
 }
+
+
+

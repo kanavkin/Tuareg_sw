@@ -350,7 +350,7 @@ void printf_crkpos(USART_TypeDef * Port, crank_position_t Position)
     }
 
     //trailing space
-    UART_Tx(Port, ' ');
+    //UART_Tx(Port, ' ');
 }
 
 void printf_phase(USART_TypeDef * Port, engine_phase_t Phase)

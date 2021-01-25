@@ -7,11 +7,7 @@
 
 typedef struct _process_data_t {
 
-    VU32 crank_T_us;
-    VU32 crank_rpm;
-    VU32 ddt_crank_rpms;
-
-    volatile ctrl_strategy_t ctrl_strategy;
+    U16 crank_rpm;
 
     VF32 MAP_kPa;
     VF32 Baro_kPa;
@@ -26,6 +22,20 @@ typedef struct _process_data_t {
 } process_data_t;
 
 
+extern void Tuareg_update_process_data();
+
+
+VF32 Tuareg_update_MAP_sensor();
+VF32 Tuareg_update_GEAR_sensor();
+VF32 Tuareg_update_BARO_sensor();
+VF32 Tuareg_update_KNOCK_sensor();
+VF32 Tuareg_update_VBAT_sensor();
+VF32 Tuareg_update_CLT_sensor();
+VF32 Tuareg_update_IAT_sensor();
+VF32 Tuareg_update_TPS_sensor();
+VF32 Tuareg_update_ddt_TPS();
+VF32 Tuareg_update_O2_sensor();
+VF32 Tuareg_update_MAP_sensor();
 
 
 #endif // TUAREGPDATA_H_INCLUDED

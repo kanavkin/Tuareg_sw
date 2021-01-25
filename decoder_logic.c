@@ -2,6 +2,8 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
+#include "Tuareg_types.h"
+
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "uart.h"
@@ -142,7 +144,7 @@ inline bool check_sync_ratio()
         if( (sync_ratio >= Decoder_Setup.sync_ratio_min_pct) && (sync_ratio <= Decoder_Setup.sync_ratio_max_pct) )
         {
             /**
-            check succeeded - its key A!
+            check succeeded
             */
             decoder_diag_log_event(DDIAG_SYNCCHECK_SUCCESS);
 
@@ -158,43 +160,7 @@ inline bool check_sync_ratio()
 
 
 
-/**
-calculate the angle at which the crankshaft will be, when the corresponding engine position will be detected be the decoder at the current
 
--> the angle the crank shaft is actually at significantly differs from the trigger wheel key position angle
--> the VR interface hw introduces a delay of about 300 us from the key edge passing the sensor until the CRANK signal is triggered
-
--> the crank angle wraps around at 360°
--> returns the crank base angles when crank speed is unknown
-*/
-void update_crank_position_table(volatile crank_position_table_t * pTable)
-{
-    VU32 position, angle;
-
-    //collect diagnostic data
-    decoder_diag_log_event(DDIAG_CRANKTABLE_CALLS);
-
-    /**
-    the last crank position is assumed to be always bTDC
-    */
-    for(position=0; position < CRK_POSITION_COUNT; position++)
-    {
-        //get trigger position base angle
-        angle= Decoder_Setup.trigger_position_map.crank_angle_deg[position];
-
-        //calculate effective crank angle
-        angle += Decoder_Setup.trigger_offset_deg;
-
-        //calculate VR introduced delay
-        angle += (position == (CRK_POSITION_COUNT -1)) ? 0 : calc_rot_angle_deg(Decoder_Setup.vr_delay_us, DInternals.crank_period_us);
-
-        //wrap around crank angle
-        angle= angle % 360;
-
-        pTable->crank_angle_deg[position]= angle;
-    }
-
-}
 
 /**
 crank rotational speed calculation
@@ -274,14 +240,43 @@ inline void decoder_set_state(decoder_state_t NewState)
     DInternals.state=NewState;
 }
 
+
 inline void decoder_update_interface()
 {
+    __disable_irq();
+
+    //copy data
     DInterface.crank_position= DInternals.crank_position;
     DInterface.crank_period_us= DInternals.crank_period_us;
 
+    //calculate rpm figure
+    DInterface.crank_rpm= calc_rpm(DInternals.crank_period_us);
+
     ///DEBUG
     DInterface.phase= PHASE_UNDEFINED;
+
+    //set state
+    DInterface.state.timeout= (DInternals.state == DSTATE_TIMEOUT)? true : false;
+
+    if(DInternals.state == DSTATE_SYNC)
+    {
+        DInterface.state.position_valid= (DInterface.crank_position < CRK_POSITION_COUNT)? true : false;
+        DInterface.state.phase_valid= (DInterface.phase < PHASE_UNDEFINED)? true : false;
+        DInterface.state.period_valid= (DInterface.crank_period_us > 6000)? true : false;
+        DInterface.state.rpm_valid= (DInterface.crank_rpm > 100)? true : false;
+    }
+    else
+    {
+        DInterface.state.position_valid= false;
+        DInterface.state.phase_valid= false;
+        DInterface.state.period_valid= false;
+        DInterface.state.rpm_valid= false;
+    }
+
+
+    __enable_irq();
 }
+
 
 inline void reset_timeout_counter()
 {
@@ -435,19 +430,16 @@ void decoder_logic_crank_handler(VU32 Interval)
         case DSTATE_ASYNC_GAP:
 
             /**
-            we are at the beginning of a key -> next int will be on key end
-            timer captured gap duration
+            we are at the beginning of a key -> next int will be on key end -> timer captured gap duration
             */
             DInternals.sync_buffer_gap= Interval;
             decoder_set_crank_pickup_sensing(SENSING_KEY_END);
 
             if( check_sync_ratio() )
             {
-                /**
-                it was key A -> we have SYNC now!
-                */
+                /// SYNC
                 decoder_set_state(DSTATE_SYNC);
-                DInternals.crank_position= CRK_POSITION_B1;
+                DInternals.crank_position= crank_position_after(Decoder_Setup.sync_check_begin_pos);
 
                 //collect diagnostic data
                 decoder_diag_log_event(DDIAG_ASYNC_SYNC_TR);
@@ -474,7 +466,7 @@ void decoder_logic_crank_handler(VU32 Interval)
         case DSTATE_SYNC:
 
             // update crank_position
-            DInternals.crank_position= next_crank_position(DInternals.crank_position);
+            DInternals.crank_position= crank_position_after(DInternals.crank_position);
 
             // update crank sensing
             decoder_set_crank_pickup_sensing(SENSING_INVERT);
@@ -490,18 +482,16 @@ void decoder_logic_crank_handler(VU32 Interval)
             /**
             per-position decoder housekeeping actions:
             crank_position is the crank position that was reached at the beginning of this interrupt
+
+            hint: implemented as if-else-ladder for variable labels
             */
-            switch(DInternals.crank_position) {
-
-            case CRK_POSITION_A2:
-
+            if(DInternals.crank_position == Decoder_Setup.sync_check_begin_pos)
+            {
                 // store key length for sync check
                 DInternals.sync_buffer_key= Interval;
-                break;
-
-
-            case CRK_POSITION_B1:
-
+            }
+            else if(DInternals.crank_position == crank_position_after(Decoder_Setup.sync_check_begin_pos))
+            {
                 //do sync check
                 DInternals.sync_buffer_gap= Interval;
 
@@ -520,15 +510,16 @@ void decoder_logic_crank_handler(VU32 Interval)
                     //run desired debug actions
                     sync_lost_debug_handler();
                 }
-                break;
-
-            default:
-                //any other position
-                break;
-
-            } //switch DInternals.crank_position
+            }
 
             break; //SYNC
+
+
+        case DSTATE_TIMEOUT:
+
+            //recover from timeout
+            decoder_set_state(DSTATE_INIT);
+            break;
 
 
         default:
@@ -590,25 +581,28 @@ void decoder_logic_timer_update_handler()
     if(DInternals.timeout_count >= DInternals.decoder_timeout_thrs)
     {
         //reset decoder
-        decoder_set_state(DSTATE_INIT);
+        decoder_set_state(DSTATE_TIMEOUT);
 
         reset_position_data();
         reset_crank_timing_data();
 
-        //run desired debug action
-        decoder_timeout_debug_handler();
+        //export position data
+        decoder_update_interface();
 
-        //stopping the decoder timer will leave the crank noise filter on
+
+        //stopping the decoder timer will leave the crank noise filter enabled
         decoder_stop_timer();
 
         //so prepare for the next trigger condition
         decoder_unmask_crank_irq();
 
+
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_TIMEOUT_EVENTS);
 
-        //export process data
-        decoder_update_interface();
+        //run desired debug action
+        decoder_timeout_debug_handler();
+
 
         /**
         trigger sw irq for decoder output processing

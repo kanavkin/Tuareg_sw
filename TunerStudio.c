@@ -50,6 +50,10 @@ void ts_readPage(U32 Page)
             send_Decoder_Setup(TS_PORT);
             break;
 
+        case TSETUP_PAGE:
+            send_Tuareg_Setup(TS_PORT);
+            break;
+
 
         case IGNITIONPAGE:
             send_Ignition_Setup(TS_PORT);
@@ -85,6 +89,17 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             }
 
             result= modify_Decoder_Setup(Offset, Value);
+            break;
+
+        case TSETUP_PAGE:
+
+            if(Tuareg_console.cli_permissions.tsetup_mod_permission == false)
+            {
+                print(DEBUG_PORT, "\r\n*** tuareg setup modification rejected (permission) ***\r\n");
+                return;
+            }
+
+            result= modify_Tuareg_Setup(Offset, Value);
             break;
 
         case IGNITIONPAGE:
@@ -164,6 +179,11 @@ void ts_burnPage(U32 Page)
         case DECODERPAGE:
 
             result= store_Decoder_Setup();
+            break;
+
+        case TSETUP_PAGE:
+
+            result= store_Tuareg_Setup();
             break;
 
         case IGNITIONPAGE:

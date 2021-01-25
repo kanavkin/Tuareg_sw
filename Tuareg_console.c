@@ -332,6 +332,11 @@ inline void cli_showPage(U32 Page)
             break;
 */
 
+        case TSETUP_PAGE:
+
+                show_Tuareg_Setup(TS_PORT);
+                break;
+
         default:
             print(TS_PORT, "\r\nPage has not been implemented yet. Change to another page.");
             break;
@@ -361,7 +366,12 @@ inline void cli_checkPermissions(U32 Value)
 
     case 'ign#':
         Tuareg_console.cli_permissions.ignition_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFOunlocked ignition config modification");
+        print(DEBUG_PORT, "\r\nINFO unlocked ignition config modification");
+        break;
+
+    case 'tua#':
+        Tuareg_console.cli_permissions.tsetup_mod_permission = true;
+        print(DEBUG_PORT, "\r\nINFO unlocked tuareg setup modification");
         break;
 
     case 'brn!':
@@ -375,6 +385,7 @@ inline void cli_checkPermissions(U32 Value)
         Tuareg_console.cli_permissions.calib_mod_permission = false;
         Tuareg_console.cli_permissions.decoder_mod_permission = false;
         Tuareg_console.cli_permissions.ignition_mod_permission = false;
+        Tuareg_console.cli_permissions.tsetup_mod_permission = false;
         print(DEBUG_PORT, "\r\nINFO config locked");
         break;
 

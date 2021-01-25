@@ -14,6 +14,7 @@ typedef enum {
     IGNITIONPAGE,
     IGNITIONMAP_TPS,
     //IGNITIONMAP_MAP,
+    TSETUP_PAGE,
 
     TSPAGE_COUNT
 

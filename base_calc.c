@@ -9,6 +9,9 @@
 
 #include "Tuareg.h"
 
+#include "uart.h"
+#include "uart_printf.h"
+
 
 /// TODO (oli#1#): add range check and clipping
 
@@ -27,14 +30,12 @@ a given interval at a given rpm
 */
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
-    if(Period_us > 0)
-    {
-        return (360 * Interval_us) / Period_us;
-    }
-    else
+    if(Period_us == 0)
     {
         return 0;
     }
+
+    return (360 * Interval_us) / Period_us;
 }
 
 
@@ -127,46 +128,43 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 }
 
 
-crank_position_t next_crank_position(crank_position_t Position)
+
+/**
+safe division with halt
+*/
+VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 {
-    switch(Position)
+/// TODO (oli#1#): add assert
+
+    if(Divisor == 0)
     {
-    case CRK_POSITION_A1:
-        return CRK_POSITION_A2;
-        break;
-
-    case CRK_POSITION_A2:
-        return  CRK_POSITION_B1;
-        break;
-
-    case CRK_POSITION_B1:
-        return  CRK_POSITION_B2;
-        break;
-
-    case CRK_POSITION_B2:
-        return  CRK_POSITION_C1;
-        break;
-
-    case CRK_POSITION_C1:
-        return  CRK_POSITION_C2;
-        break;
-
-    case CRK_POSITION_C2:
-        return  CRK_POSITION_D1;
-        break;
-
-    case CRK_POSITION_D1:
-        return  CRK_POSITION_D2;
-        break;
-
-    case CRK_POSITION_D2:
-        return  CRK_POSITION_A1;
-        break;
-
-    default:
-        return  CRK_POSITION_UNDEFINED;
-        break;
+        print(DEBUG_PORT, "\r\n *** ERRORO *** DIV0!");
+        return 0;
     }
+
+    return (Dividend / Divisor);
+}
+
+
+
+/*
+returns the crank position that will follow the indicated position, when the crank rotates in nominal direction
+*/
+crank_position_t crank_position_after(crank_position_t Position)
+{
+    if(Position >= CRK_POSITION_COUNT)
+    {
+        /// TODO (oli#3#): use assert for this argument error
+        return CRK_POSITION_UNDEFINED;
+    }
+
+    if(Position == 0)
+    {
+        //after the first position in cycle follows the last one
+        return CRK_POSITION_COUNT -1;
+    }
+
+    return (Position -1);
 }
 
 volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)

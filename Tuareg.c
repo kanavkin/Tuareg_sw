@@ -7,8 +7,11 @@
 
 #include "Tuareg_decoder.h"
 
-#include "ignition_logic.h"
+#include "Tuareg_ignition.h"
 #include "ignition_hw.h"
+#include "ignition_config.h"
+
+#include "sensor_calibration.h"
 
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
@@ -79,7 +82,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if(Tuareg.process.crank_rpm > Ignition_Setup.dynamic_min_rpm)
+        else if((Tuareg.decoder->state.rpm_valid == true) && (Tuareg.decoder->crank_rpm > Ignition_Setup.dynamic_min_rpm))
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -187,9 +190,11 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_CONFIGLOAD:
 
                 //loading the config data is important to us, failure in loading forces "limp home mode"
-                result= config_load();
+                result= load_Ignition_Config();
+                result += load_Sensor_Calibration();
+                result += load_Tuareg_Setup();
 
-                if(result != EXEC_OK)
+                if(result != 3)
                 {
                     Tuareg.Errors.config_load_error= true;
 
@@ -197,7 +202,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                     print(DEBUG_PORT, "\r \n *** FAILED to load config data !");
 
                     //provide default values to ensure limp home operation even without eeprom
-                    config_load_essentials();
+                    load_essential_Tuareg_Setup();
 
                     return;
                 }
@@ -207,10 +212,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 break;
 
             case TMODE_MODULEINIT:
-
-                #ifdef TUAREG_MODULE_TEST
-                moduletest_moduleinit_action();
-                #else
 
                 //set basic sensor error states
                 Tuareg.Errors.sensor_BARO_error= true;
@@ -240,7 +241,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 Tuareg_init_console();
 
-                #endif
+                Tuareg.actors.ignition_inhibit= true;
+                Tuareg.actors.fueling_inhibit= true;
+
                 break;
 
             case TMODE_LIMP:
@@ -252,9 +255,16 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_DIAG:
 
                 //perform diagnostic functions triggered by user, no engine operation
+
+                Tuareg.actors.ignition_inhibit= true;
+                Tuareg.actors.fueling_inhibit= true;
+
                 break;
 
             case TMODE_HALT:
+
+                Tuareg.actors.ignition_inhibit= true;
+                Tuareg.actors.fueling_inhibit= true;
 
                 //engine operation prohibited due to kill switch or crash sensor
                 Tuareg_stop_engine();
@@ -293,6 +303,9 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 begin normal engine operation
                 */
 
+                Tuareg.actors.ignition_inhibit= false;
+                Tuareg.actors.fueling_inhibit= false;
+
                 //collect diagnostic information
                 if(Tuareg.Runmode == TMODE_CRANKING)
                 {
@@ -307,13 +320,11 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_STB:
 
-                /// TODO (oli#9#): check if we need fuel pump priming
-
-                //engine stalled, system ready for start
+                //engine stalled, turn off vital actors
                 Tuareg_stop_engine();
 
                 //provide ignition timing for engine startup
-                cranking_ignition_controls(&(Tuareg.ignition_controls));
+                //Tuareg_update_ignition_controls();
 
                 //collect diagnostic information
                 if(Tuareg.Runmode == TMODE_RUNNING)
@@ -343,30 +354,21 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_CRANKING:
 
+                Tuareg.actors.ignition_inhibit= false;
+                Tuareg.actors.fueling_inhibit= false;
+
                 /// TODO (oli#9#): check if we need fuel pump priming
                 //turn fuel pump on to maintain fuel pressure
                 set_fuelpump(PIN_ON);
 
                 //provide initial ignition timing for cranking
-                default_ignition_controls(&(Tuareg.ignition_controls));
+                //Tuareg_update_ignition_controls();
 
                 //collect diagnostic information
-                tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
+                //tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
 
                 /// TODO (oli#9#): debug message enabled
                 print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
-
-                break;
-
-            case TMODE_MODULE_TEST:
-
-                Tuareg_stop_engine();
-
-                //collect diagnostic information
-                tuareg_diag_log_event(TDIAG_ENTER_MTEST);
-
-                /// TODO (oli#9#): debug message enabled
-                print(DEBUG_PORT, "\r\nstate transition TMODE_MODULE_TEST");
 
                 break;
 
@@ -392,10 +394,12 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
 
 
-
-
-void Tuareg_stop_engine()
+inline void Tuareg_stop_engine()
 {
+    //set inhibit state
+    Tuareg.actors.ignition_inhibit= true;
+    Tuareg.actors.fueling_inhibit= true;
+
     //turn off vital engine actors
     set_fuelpump(ACTOR_UNPOWERED);
     set_injector_ch1(ACTOR_UNPOWERED);
@@ -412,399 +416,6 @@ void Tuareg_stop_engine()
     reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);
 }
 
-
-/**
-update engine control strategy based on available sensors and
-*/
-void Tuareg_update_process_data(process_data_t * pImage)
-{
-    volatile crank_position_table_t crank_table;
-
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_PROCESSDATA_CALLS);
-
-    /**
-    decoder based process data
-    */
-
-    //crank_T_us
-    pImage->crank_T_us= Tuareg.decoder->crank_period_us;
-
-    //engine_rpm
-    pImage->crank_rpm= calc_rpm(pImage->crank_T_us);
-    pImage->ddt_crank_rpms= 0;
-
-    //crank position table
-    update_crank_position_table(&crank_table);
-
-    //update process table with data supplied by decoder
-    update_process_table(&crank_table);
-
-    //analog sensors
-    pImage->MAP_kPa= Tuareg_update_MAP_sensor();
-    pImage->Baro_kPa= Tuareg_update_BARO_sensor();
-    pImage->TPS_deg= Tuareg_update_TPS_sensor();
-    pImage->IAT_K= Tuareg_update_IAT_sensor();
-    pImage->CLT_K= Tuareg_update_CLT_sensor();
-    pImage->VBAT_V= Tuareg_update_VBAT_sensor();
-    pImage->ddt_TPS= Tuareg_update_ddt_TPS();
-    pImage->O2_AFR= Tuareg_update_O2_sensor();
-    pImage->Gear= Tuareg_update_GEAR_sensor();
-
-    // strategy?
-
-    //delay
-    //pImage->data_age= decoder_get_data_age_us();
-
-
-}
-
-
-
-
-
-
-
-
-/**
-checks the health state of the MAP sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_MAP_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_MAP_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_MAP)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_MAP];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_MAP)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_MAP_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_MAP];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_MAP_error= true;
-
-            //use default value
-            return MAP_DEFAULT_KPA;
-        }
-
-    }
-}
-
-/**
-checks the health state of the O2 sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_O2_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_O2_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_O2)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_O2];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_O2)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_O2_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_O2];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_O2_error= true;
-
-            //use default value
-            return O2_DEFAULT_AFR;
-        }
-
-    }
-}
-
-/**
-checks the health state of the TPS sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_TPS_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_TPS_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_TPS)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_TPS];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_TPS)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_TPS_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_TPS];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_TPS_error= true;
-
-            //use default value
-            return TPS_DEFAULT_DEG;
-        }
-
-    }
-}
-
-VF32 Tuareg_update_ddt_TPS()
-{
-    /// must be executed after TPS sensor update!
-    if(Tuareg.Errors.sensor_TPS_error == false)
-    {
-        //use live value
-        return Tuareg.sensors->ddt_TPS;
-    }
-    else
-    {
-        return 0;
-    }
-
-}
-
-/**
-checks the health state of the IAT sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_IAT_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_IAT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_IAT)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_IAT];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_IAT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_IAT_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_IAT];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_IAT_error= true;
-
-            //use default value
-            return IAT_DEFAULT_C;
-        }
-
-    }
-}
-
-/**
-checks the health state of the CLT sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_CLT_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_CLT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_CLT)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_CLT];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_CLT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_CLT_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_CLT];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_CLT_error= true;
-
-            //use default value
-            return CLT_DEFAULT_C;
-        }
-
-    }
-}
-
-/**
-checks the health state of the VBAT sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_VBAT_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_VBAT_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_VBAT)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_VBAT];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_VBAT)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_VBAT_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_VBAT];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_VBAT_error= true;
-
-            //use default value
-            return VBAT_DEFAULT_V;
-        }
-
-    }
-}
-
-
-/**
-checks the health state of the KNOCK sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_KNOCK_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_KNOCK_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_KNOCK)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_KNOCK];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_KNOCK)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_KNOCK_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_KNOCK];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_KNOCK_error= true;
-
-            //use default value
-            return KNOCK_DEFAULT;
-        }
-
-    }
-}
-
-/**
-checks the health state of the BARO sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_BARO_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_BARO_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_BARO)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_BARO];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_BARO)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_BARO_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_BARO];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_BARO_error= true;
-
-            //use default value
-            return BARO_DEFAULT_KPA;
-        }
-
-    }
-}
-
-/**
-checks the health state of the GEAR sensor
-if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
-uses a generic default value for disturbed sensors
-*/
-VF32 Tuareg_update_GEAR_sensor()
-{
-    //if sensor has already been validated and is still healthy
-    if( (Tuareg.Errors.sensor_GEAR_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) )
-    {
-        //use live value
-        return Tuareg.sensors->asensors[ASENSOR_GEAR];
-    }
-    else
-    {
-        //maybe sensor can be validated in this cycle?
-        if( (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) && (Tuareg.sensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES) )
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_GEAR_error= false;
-
-            //use live value
-            return Tuareg.sensors->asensors[ASENSOR_GEAR];
-        }
-        else
-        {
-            //sensor temporarily disturbed
-            Tuareg.Errors.sensor_GEAR_error= true;
-
-            //use default value
-            return GEAR_DEFAULT;
-        }
-
-    }
-}
 
 
 /**
@@ -845,6 +456,3 @@ void Tuareg_update_halt_sources()
     }
 
 }
-
-
-

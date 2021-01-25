@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Mon Jan 25 17:06:50 CET 2021"/>
-<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="5" signature="rusEFI v1.04"/>
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Wed Dec 23 02:54:20 CET 2020"/>
+<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="4" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
 </page>
@@ -24,9 +24,18 @@
 <constant digits="2" name="KNOCKcalibN" units="#">0.0</constant>
 <constant digits="0" name="calibVersion" units="#">1.0</constant>
 </page>
-<page number="1" size="6">
+<page number="1" size="25">
+<constant digits="0" name="DecCrkPosTbl_B2" units="deg">98.0</constant>
+<constant digits="0" name="DecCrkPosTbl_B1" units="deg">90.0</constant>
+<constant digits="0" name="DecCrkPosTbl_A2" units="deg">40.0</constant>
+<constant digits="0" name="DecCrkPosTbl_A1" units="deg">0.0</constant>
+<constant digits="0" name="DecCrkPosTbl_D2" units="deg">278.0</constant>
+<constant digits="0" name="DecCrkPosTbl_D1" units="deg">270.0</constant>
+<constant digits="0" name="DecCrkPosTbl_C2" units="deg">188.0</constant>
+<constant digits="0" name="DecCrkPosTbl_C1" units="deg">180.0</constant>
+<constant digits="0" name="DecTriggerOffset" units="deg">260.0</constant>
+<constant digits="0" name="DecVrDelay" units="µs">40.0</constant>
 <constant digits="0" name="DecCrankNoiseFilter" units="#">8.0</constant>
-<constant name="DecSyncCheckBeginPos">"CRK_POSITION_A2"</constant>
 <constant digits="0" name="DecSyncRatioMin" units="%">30.0</constant>
 <constant digits="0" name="DecSyncRatioMax" units="%">50.0</constant>
 <constant digits="0" name="DecTimeout" units="s">3.0</constant>
@@ -102,17 +111,6 @@
          10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
          10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
       </constant>
-</page>
-<page number="4" size="18">
-<constant digits="0" name="TuaregSetupCrkPosTbl_B2" units="deg">3.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_B1" units="deg">10.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_A2" units="deg">60.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_A1" units="deg">98.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_D2" units="deg">180.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_D1" units="deg">188.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_C2" units="deg">270.0</constant>
-<constant digits="0" name="TuaregSetupCrkPosTbl_C1" units="deg">278.0</constant>
-<constant digits="0" name="TuaregSetupDecoderDelay" units="µs">40.0</constant>
 </page>
 <settings Comment="These setting are only used if this msq is opened without a project.">
 <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>

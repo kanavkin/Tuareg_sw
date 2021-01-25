@@ -73,6 +73,7 @@
 		</Unit>
 		<Unit filename="Tuareg.h" />
 		<Unit filename="Tuareg_ID.h" />
+		<Unit filename="Tuareg_actors_state.h" />
 		<Unit filename="Tuareg_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -93,6 +94,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Tuareg_ignition.h" />
+		<Unit filename="Tuareg_ignition_controls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Tuareg_ignition_controls.h" />
+		<Unit filename="Tuareg_process_data.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Tuareg_process_data.h" />
 		<Unit filename="Tuareg_types.h" />
 		<Unit filename="TunerStudio.c">
@@ -177,10 +185,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ignition_hw.h" />
-		<Unit filename="ignition_logic.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="ignition_logic.h" />
 		<Unit filename="lowprio_scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>

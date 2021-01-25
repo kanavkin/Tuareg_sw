@@ -30,8 +30,6 @@ typedef enum {
 } actor_control_t;
 
 
-
-
 /**
 trigger positions
 
@@ -55,14 +53,6 @@ typedef enum {
     CRK_POSITION_UNDEFINED
 
 } crank_position_t;
-
-
-
-typedef struct {
-
-    VU16 crank_angle_deg[CRK_POSITION_COUNT];
-
-} crank_position_table_t;
 
 
 typedef enum {
@@ -89,6 +79,9 @@ basic type to handle an absolute angular difference in degree
 variables of this type have to be designated with xxxx_PD
 */
 typedef uint32_t angle_deg_t;
+
+
+
 
 
 

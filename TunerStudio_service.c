@@ -74,12 +74,12 @@ void ts_service_features(U32 FeatureID)
 
         case 'dI':
 
-            print_ignhw_diag(TS_PORT);
+            print_ignition_diag(TS_PORT);
             break;
 
         case 'di':
 
-            print_ignhw_diag_legend(TS_PORT);
+            print_ignition_diag_legend(TS_PORT);
             break;
 
 
@@ -126,12 +126,30 @@ void ts_service_features(U32 FeatureID)
             print_process_table(TS_PORT);
             break;
 
+        case 'PT':
+
+            /**
+            print current process table fancy
+            */
+            print_process_table_fancy(TS_PORT);
+            break;
+
+
         case 'Ig':
 
             /**
             print current ignition setup
             */
             cli_show_ignition_timing(&(Tuareg.ignition_controls));
+
+            break;
+
+        case 'DI':
+
+            /**
+            print current ignition setup
+            */
+            cli_show_decoder_interface(Tuareg.decoder);
 
             break;
 
@@ -173,26 +191,11 @@ void cli_show_process_data(volatile process_data_t * pImage)
     */
 
     print(TS_PORT, "\r\n\r\nprocess data image:\r\n");
-/*
-    print(TS_PORT, "\r\ncrank position: ");
-   printf_crkpos(TS_PORT, pImage->crank_position);
-
-
-    print(TS_PORT, "\r\ncrank position table: ");
-
-    for(i=0; i< CRK_POSITION_COUNT; i++)
-    {
-        printf_U(TS_PORT, pImage->crank_position_table.a_deg[i], TYPE_U16, PAD);
-    }
-*/
-    print(TS_PORT, "\r\ncrank rotational period: ");
-    printf_U(TS_PORT, pImage->crank_T_us, NO_PAD);
 
     print(TS_PORT, "rpm: ");
     printf_U(TS_PORT, pImage->crank_rpm, NO_PAD);
 
-    print(TS_PORT, "\r\nstrategy: ");
-    printf_U(TS_PORT, pImage->ctrl_strategy, NO_PAD);
+
 
     print(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");
 
@@ -210,65 +213,75 @@ void cli_show_process_data(volatile process_data_t * pImage)
 
 void cli_show_ignition_timing(volatile ignition_control_t * pTiming)
 {
-    /**
-
-    U16 ignition_advance_deg;
-    U32 ignition_timing_us;
-    crank_position_t ignition_pos;
-
-    crank_position_t dwell_pos_phased;
-    engine_phase_t dwell_phase_cyl1;
-    engine_phase_t dwell_phase_cyl2;
-    U8 dwell_ms_phased;
-
-    crank_position_t dwell_pos_unphased;
-    U8 dwell_ms_unphased;
-
-    ignition_logic_state_t state;
-
-    U8 default_timing :1;
-        U8 cranking_timing :1;
-        U8 rev_limiter :1;
-        U8 dynamic :1;
-        U8 cold_idle :1;
-        U8 advance_map :1;
-        U8 advance_tps :1;
-        U8 extended_dwell :1;
-    */
-
     print(TS_PORT, "\r\n\r\nignition setup:");
 
-    print(TS_PORT, "\r\nadvance (deg), position, timing (us): ");
+    print(TS_PORT, "\r\nadvance (deg), base pos, timing (us): ");
     printf_U(TS_PORT, pTiming->ignition_advance_deg, NO_PAD);
     printf_crkpos(TS_PORT, pTiming->ignition_pos);
+    UART_Tx(TS_PORT, ' ');
     printf_U(TS_PORT, pTiming->ignition_timing_us, NO_PAD);
 
-    print(TS_PORT, "\r\ndwell -phased- duration (ms), position, phase cyl #1, phase cyl #2: ");
-    printf_U(TS_PORT, pTiming->dwell_ms_phased, NO_PAD);
-    printf_crkpos(TS_PORT, pTiming->dwell_pos_phased);
-    printf_phase(TS_PORT, pTiming->dwell_phase_cyl1);
-    printf_phase(TS_PORT, pTiming->dwell_phase_cyl2);
+    print(TS_PORT, "\r\ndwell base pos, timing seq, batch: ");
+    printf_crkpos(TS_PORT, pTiming->dwell_pos);
+    UART_Tx(TS_PORT, ' ');
+    printf_U(TS_PORT, pTiming->dwell_timing_sequential_us, NO_PAD);
+    printf_U(TS_PORT, pTiming->dwell_timing_batch_us, NO_PAD);
 
-    print(TS_PORT, "\r\ndefault-cranking-rev_limiter-dyn-cold_idle-a_map-a_tps-ext_dwell: ");
+    print(TS_PORT, "\r\ndwell duration seq, batch: ");
+    printf_U(TS_PORT, pTiming->dwell_sequential_us, NO_PAD);
+    printf_U(TS_PORT, pTiming->dwell_batch_us, NO_PAD);
 
-    UART_Tx(TS_PORT, (pTiming->state.default_timing? '1' :'0'));
+    print(TS_PORT, "\r\nstate: valid default cranking dyn rev_limit seq_mode cold_idle a_map a_tps: ");
+
+    UART_Tx(TS_PORT, (pTiming->state.valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.cranking_timing? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->state.default_controls? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.cranking_controls? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pTiming->state.dynamic_controls? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pTiming->state.rev_limiter? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.dynamic? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->state.sequential_mode? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pTiming->state.cold_idle? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pTiming->state.advance_map? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pTiming->state.advance_tps? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.extended_dwell? '1' :'0'));
-
-    print(TS_PORT, "\r\ndwell -unphased- duration (ms), position: ");
-    printf_U(TS_PORT, pTiming->dwell_ms_unphased, NO_PAD);
-    printf_crkpos(TS_PORT, pTiming->dwell_pos_unphased);
 
 }
+
+
+void cli_show_decoder_interface(volatile decoder_interface_t * pInterface)
+{
+    print(TS_PORT, "\r\n\r\ndecoder interface:");
+
+    print(TS_PORT, "\r\ncrank period (us): ");
+    printf_U(TS_PORT, pInterface->crank_period_us, NO_PAD);
+
+    print(TS_PORT, "\r\ncrank rpm: ");
+    printf_U(TS_PORT, pInterface->crank_rpm, NO_PAD);
+
+    print(TS_PORT, "\r\ncrank position: ");
+    printf_crkpos(TS_PORT, pInterface->crank_position);
+
+    print(TS_PORT, "\r\nphase: ");
+    printf_phase(TS_PORT, pInterface->phase);
+
+    print(TS_PORT, "\r\nstate: timeout pos_valid phase_valid period_valid rpm_valid: ");
+
+    UART_Tx(TS_PORT, (pInterface->state.timeout? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pInterface->state.position_valid? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pInterface->state.phase_valid? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pInterface->state.period_valid? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pInterface->state.rpm_valid? '1' :'0'));
+
+}
+
+

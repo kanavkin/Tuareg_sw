@@ -5,10 +5,15 @@
 #include "Tuareg_types.h"
 #include "Tuareg_errors.h"
 #include "Tuareg_config.h"
+
+#include "Tuareg_process_data.h"
+
 #include "table.h"
-#include "ignition_logic.h"
 #include "sensors.h"
 #include "process_table.h"
+
+#include "Tuareg_ignition.h"
+#include "Tuareg_ignition_controls.h"
 
 /**
 
@@ -25,7 +30,6 @@ to allow limp home operation if eeprom has ben corrupted
 
 */
 
-#define PROCESS_DATA_UPDATE_POSITION CRK_POSITION_B1
 #define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
 
 
@@ -103,10 +107,7 @@ typedef enum {
     TMODE_CRANKING,
 
     //normal engine operation
-    TMODE_RUNNING,
-
-    //run internal checks
-    TMODE_MODULE_TEST
+    TMODE_RUNNING
 
 } tuareg_runmode_t;
 
@@ -130,11 +131,29 @@ typedef union
 
 
 
+typedef struct {
+
+    //ignition
+    U32 ignition_inhibit :1;
+    U32 ignition_coil_1 :1;
+    U32 ignition_coil_2 :1;
+    U32 ignition_scheduler_1 :1;
+    U32 ignition_scheduler_2 :1;
+
+    //fueling
+    U32 fueling_inhibit :1;
+    U32 fuel_injector_1 :1;
+    U32 fuel_injector_2 :1;
+    U32 fuel_scheduler_1 :1;
+    U32 fuel_scheduler_2 :1;
+    U32 fuel_pump :1;
+
+} tuareg_actors_state_t;
+
 
 
 /**
 The status struct contains the current values for all 'live' variables
-In current version this is 64 bytes
 */
 typedef struct _Tuareg_t {
 
@@ -155,7 +174,7 @@ typedef struct _Tuareg_t {
     volatile ignition_control_t ignition_controls;
 
     /**
-    statemachine and health status
+    state machine and health status
     */
     volatile tuareg_runmode_t Runmode;
     volatile tuareg_haltsrc_t Halt_source;
@@ -164,7 +183,8 @@ typedef struct _Tuareg_t {
 
     volatile process_data_t process;
 
-
+    //mirrors the actual state of vital actors
+    volatile tuareg_actors_state_t actors;
 
 } Tuareg_t;
 
@@ -174,24 +194,18 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+
+
+
+
+
 void Tuareg_print_init_message();
+
 void Tuareg_update_Runmode();
 void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
-void Tuareg_stop_engine();
-void Tuareg_update_process_data();
 
+extern void Tuareg_stop_engine();
 
-VF32 Tuareg_update_MAP_sensor();
-VF32 Tuareg_update_GEAR_sensor();
-VF32 Tuareg_update_BARO_sensor();
-VF32 Tuareg_update_KNOCK_sensor();
-VF32 Tuareg_update_VBAT_sensor();
-VF32 Tuareg_update_CLT_sensor();
-VF32 Tuareg_update_IAT_sensor();
-VF32 Tuareg_update_TPS_sensor();
-VF32 Tuareg_update_ddt_TPS();
-VF32 Tuareg_update_O2_sensor();
-VF32 Tuareg_update_MAP_sensor();
 
 
 void Tuareg_export_diag(VU32 * pTarget);

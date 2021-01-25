@@ -54,11 +54,12 @@ OutputChannel ignition bits
 */
 typedef enum {
 
-
-    IGNBIT_DEFAULT_TIMING,
-    IGNBIT_CRANKING_TIMING,
-    IGNBIT_REV_LIMITER,
+    IGNBIT_VALID,
+    IGNBIT_DEFAULT_CTRL,
+    IGNBIT_CRANKING_CTRL,
     IGNBIT_DYNAMIC,
+    IGNBIT_REV_LIMITER,
+    IGNBIT_SEQ_MODE,
     IGNBIT_COLD_IDLE,
     IGNBIT_ADVANCE_MAP,
     IGNBIT_ADVANCE_TPS,
@@ -68,14 +69,14 @@ typedef enum {
 
 
 
-#define TS_OCHBLOCKSIZE 49
+#define TS_OCHBLOCKSIZE 50
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port);
 
 VU8 ts_comm_bits();
 VU32 ts_tuareg_bits();
-VU8 ts_ignition_bits();
+VU16 ts_ignition_bits();
 
 
 #endif // TUNERSTUDIO_OUTCHANNEL_H_INCLUDED

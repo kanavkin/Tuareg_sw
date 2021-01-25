@@ -41,26 +41,11 @@ exec_result_t load_Decoder_Setup()
 */
 void load_essential_Decoder_Setup()
 {
-
-    /**
-    trigger position map initialisation shall be done in a way independent of CRK_POSITION_XX enumerator order
-    */
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_A1]= DECODER_CONFIG_DEFAULT_POSITION_A1_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_A2]= DECODER_CONFIG_DEFAULT_POSITION_A2_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_B1]= DECODER_CONFIG_DEFAULT_POSITION_B1_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_B2]= DECODER_CONFIG_DEFAULT_POSITION_B2_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_C1]= DECODER_CONFIG_DEFAULT_POSITION_C1_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_C2]= DECODER_CONFIG_DEFAULT_POSITION_C2_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_D1]= DECODER_CONFIG_DEFAULT_POSITION_D1_ANGLE;
-    Decoder_Setup.trigger_position_map.crank_angle_deg[CRK_POSITION_D2]= DECODER_CONFIG_DEFAULT_POSITION_D2_ANGLE;
-
-    Decoder_Setup.trigger_offset_deg= DECODER_CONFIG_DEFAULT_TRIGGER_OFFSET;
-    Decoder_Setup.vr_delay_us= DECODER_CONFIG_DEFAULT_VR_DELAY;
     Decoder_Setup.crank_noise_filter= DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER;
+    Decoder_Setup.sync_check_begin_pos= DECODER_CONFIG_DEFAULT_SYNC_CHECK_BEGIN_POS;
     Decoder_Setup.sync_ratio_min_pct= DECODER_CONFIG_DEFAULT_SYNC_RATIO_MIN;
     Decoder_Setup.sync_ratio_max_pct= DECODER_CONFIG_DEFAULT_SYNC_RATIO_MAX;
     Decoder_Setup.timeout_s= DECODER_CONFIG_DEFAULT_TIMEOUT;
-
 }
 
 /**
@@ -76,35 +61,13 @@ exec_result_t store_Decoder_Setup()
 
 void show_Decoder_Setup(USART_TypeDef * Port)
 {
-    U32 pos;
-
     print(Port, "\r\n\r\nDecoder Config:");
 
     /*
     Version
     */
     print(Port, "\r\nVersion: ");
-    printf_U(Port, Sensor_Calibration.Version, NO_PAD | NO_TRAIL);
-
-    /*
-    trigger_position_map[CRK_POSITION_COUNT]
-    */
-    print(Port, "\r\nTrigger position map (deg after A1) \r\n");
-
-    for(pos=0; pos< CRK_POSITION_COUNT; pos++)
-    {
-        printf_crkpos(Port, pos);
-        UART_Tx(Port, ':');
-        printf_U(Port, Decoder_Setup.trigger_position_map.crank_angle_deg[pos], NO_PAD);
-    }
-
-    print(Port, "\r\ntrigger offset (deg): ");
-    printf_S(Port, Decoder_Setup.trigger_offset_deg, NO_PAD);
-
-
-    print(Port, "\r\nvr delay (us): ");
-    printf_U(Port, Decoder_Setup.vr_delay_us, NO_PAD);
-
+    printf_U(Port, Decoder_Setup.Version, NO_PAD | NO_TRAIL);
 
     print(Port, "\r\ncrank noise filter: ");
     printf_U(Port, Decoder_Setup.crank_noise_filter, NO_PAD);

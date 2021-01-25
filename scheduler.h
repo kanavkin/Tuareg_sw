@@ -4,13 +4,15 @@
 #include "Tuareg.h"
 
 
-#define SCHEDULER_PERIOD_US 1
+#define SCHEDULER_PERIOD_US 8
 
 //we are using a 32 bit timer now
 //#define SCHEDULER_MAX_PERIOD_US (U32) ((0xFFFFFFFF * SCHEDULER_PERIOD_US) -1)
-#define SCHEDULER_MAX_PERIOD_US 100000
 
-#define SCHEDULER_MIN_PERIOD_US 10
+//witch maximum interval will make sense? the technically maximum possible one is not needed
+#define SCHEDULER_MAX_PERIOD_US 500000
+
+#define SCHEDULER_MIN_PERIOD_US 8
 
 //scheduler watchdog
 #define SCHEDULER_WATCHDOG_RESET_VALUE 250
@@ -34,11 +36,6 @@ typedef struct _scheduler_t {
     actor_control_t targets[SCHEDULER_CH_COUNT];
 
     VU8 watchdogs[SCHEDULER_CH_COUNT];
-
-    VU8 ign1_triggered :1;
-    VU8 ign2_triggered :1;
-    VU8 fuel1_triggered :1;
-    VU8 fuel2_triggered :1;
 
 } scheduler_t;
 

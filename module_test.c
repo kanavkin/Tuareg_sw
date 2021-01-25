@@ -10,6 +10,10 @@
 #include "ignition_hw.h"
 #include "diagnostics.h"
 
+
+#define TUAREG_MODULE_TEST_SCHEDULER
+
+
 /**
 variables for module test
 */

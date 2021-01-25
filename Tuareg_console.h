@@ -5,8 +5,8 @@
 #include "TunerStudio.h"
 
 #include "process_table.h"
-#include "ignition_logic.h"
-
+#include "Tuareg_ignition.h"
+#include "Tuareg_ignition_controls.h"
 
 
 typedef struct
@@ -17,6 +17,7 @@ typedef struct
     U8 calib_mod_permission :1;
     U8 ignition_mod_permission :1;
     U8 decoder_mod_permission :1;
+    U8 tsetup_mod_permission :1;
 
     U8 burn_permission :1;
 

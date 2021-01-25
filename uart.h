@@ -56,6 +56,7 @@ void UART_DEBUG_PORT_Init();
 
 //legacy direct hw access
 void UART_Tx(USART_TypeDef * Port, char msg);
+void UART_Tx_n(USART_TypeDef * Port, char Message, U32 Times);
 
 //buffered TS serial communication
 U32 UART_getRX();
@@ -69,7 +70,9 @@ void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length
 //void UART_periodic();
 
 
-
+void UART_TS_PORT_reset_char_count();
+VU32 UART_TS_PORT_get_char_count();
+void UART_TS_PORT_NEXT_LINE();
 
 
 #endif // UART_H_INCLUDED

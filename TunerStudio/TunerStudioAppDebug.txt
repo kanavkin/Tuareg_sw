@@ -535,3 +535,1517 @@ java.lang.NullPointerException
 12/22/20 4:37:44 PM :Debug: ############################################# Save Project Backup ##########################################
 12/22/20 4:37:44 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Wed Dec 23 02:42:00 CET 2020
+JRE 1.8.0_275, Linux 4.15.0-128-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+12/23/20 2:42:01 AM :Info: Loading Language Content.
+12/23/20 2:42:03 AM :Info: Initializing File Dialogs.
+12/23/20 2:42:03 AM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+12/23/20 2:42:03 AM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+12/23/20 2:42:03 AM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+12/23/20 2:42:03 AM :Info: Initializing Plugin Services.
+12/23/20 2:42:03 AM :Info: Loading Plugins.
+12/23/20 2:42:03 AM :Info: Initializing Help.
+12/23/20 2:42:03 AM :Info: Initializing Edition Features.
+12/23/20 2:42:03 AM :Info: Initializing App Events.
+12/23/20 2:42:03 AM :Debug: App Name:TunerStudio, appEdition:MS
+12/23/20 2:42:03 AM :Info: Initializing User Interface
+12/23/20 2:42:04 AM :Info: Checking for updates
+12/23/20 2:42:05 AM :Info: Loading Font list.
+12/23/20 2:42:05 AM :Debug: Time to retreive font name list: 35 ms.
+12/23/20 2:42:05 AM :Info: 
+12/23/20 2:42:05 AM :Info: Initializing UI Components.
+12/23/20 2:42:05 AM :Info: Ready
+12/23/20 2:42:06 AM :Info: Opening Project ...
+12/23/20 2:42:06 AM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/23/20 2:42:06 AM :Debug: EventTrigger Data log Reset. expression: 
+12/23/20 2:42:06 AM :Debug: EventTrigger Stop Data log Reset. expression: 
+12/23/20 2:42:06 AM :Debug: Reading translation file as plain text
+12/23/20 2:42:06 AM :Info: Supported iniSpecVersion=3.67
+12/23/20 2:42:06 AM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+12/23/20 2:42:06 AM :Info: Supported iniSpecVersion=3.67
+12/23/20 2:42:06 AM :Info: Read file canPcVariables.ini: 1.35172ms
+12/23/20 2:42:06 AM :Info: Filtered ini: 0.091049ms
+12/23/20 2:42:06 AM :Info: No iniVersion defined
+12/23/20 2:42:06 AM :Info: Loading Trigger Wheels
+12/23/20 2:42:06 AM :Info: Loaded All known ini sections
+12/23/20 2:42:06 AM :Info: Parsed and validated ini "canPcVariables.ini" in : 22ms.
+12/23/20 2:42:06 AM :Info: Read file mainController.ini: 0.885721ms
+12/23/20 2:42:06 AM :Info: Filtered ini: 0.175119ms
+12/23/20 2:42:06 AM :Info: No iniVersion defined
+12/23/20 2:42:06 AM :Debug: ini signature: rusEFI v1.04
+12/23/20 2:42:06 AM :Info: Loading Trigger Wheels
+12/23/20 2:42:06 AM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+12/23/20 2:42:06 AM :Info: Loaded All known ini sections
+12/23/20 2:42:06 AM :Info: Parsed and validated ini "mainController.ini" in : 23ms.
+12/23/20 2:42:06 AM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+12/23/20 2:42:06 AM :Info: Time to load primary config: 120.0614ms. used cached config: false
+12/23/20 2:42:06 AM :Debug: Adding Configuration: Tuareg
+12/23/20 2:42:06 AM :Debug: controllerOnline = 0.0
+12/23/20 2:42:06 AM :Debug: Fill Constants: 1
+12/23/20 2:42:06 AM :Info: Tune opened, 365 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/23/20 2:42:06 AM :Info: Tune opened, 365 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/23/20 2:42:06 AM :Info: dirtyData.size(): 0
+12/23/20 2:42:06 AM :Info: dirtyData.size(): 0
+12/23/20 2:42:06 AM :Debug: Flush lasted: 1ms.
+12/23/20 2:42:06 AM :Info: dirtyData.size(): 0
+12/23/20 2:42:06 AM :Info: dirtyData.size(): 0
+12/23/20 2:42:06 AM :Debug: Flush lasted: 1ms.
+12/23/20 2:42:06 AM :Debug: Skip Burn, last write page: -2
+12/23/20 2:42:06 AM :Info: !!! Loaded config in 235
+12/23/20 2:42:07 AM :Info: !!! Activated Project 862
+12/23/20 2:42:07 AM :Info: Opening Gauge Cluster..
+MSmain: No check, last update check=Tue Dec 22 11:50:07 CET 2020
+12/23/20 2:42:07 AM :Info: Time to load uncached dash: 204.02797ms, file: dashboard.dash
+12/23/20 2:42:07 AM :Debug: High Speed Paint: true
+12/23/20 2:42:07 AM :Info: 
+12/23/20 2:42:07 AM :Info: Com Thread created: COMM Thread85828.22851829507
+12/23/20 2:42:07 AM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+12/23/20 2:42:07 AM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread85828.22851829507
+12/23/20 2:42:07 AM :Debug: !!! Opened Dash 1152
+12/23/20 2:42:07 AM :Info: Tuareg Ready
+12/23/20 2:42:07 AM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread85828.22851829507
+12/23/20 2:42:07 AM :Debug: Tuning View Files loaded in 119.2678ms.
+12/23/20 2:42:09 AM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/23/20 2:42:10 AM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/23/20 2:42:10 AM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/23/20 2:42:10 AM :Debug: controllerOnline = 1.0
+12/23/20 2:42:10 AM :Info: Activating page: 1
+12/23/20 2:42:10 AM :Debug: Read page time: 178ms.
+12/23/20 2:42:10 AM :Info: Activating page: 2
+MSad: No check, last update check=Tue Dec 22 11:50:10 CET 2020
+12/23/20 2:42:10 AM :Debug: Read page time: 177ms.
+12/23/20 2:42:10 AM :Info: Activating page: 3
+12/23/20 2:42:10 AM :Debug: Read page time: 178ms.
+12/23/20 2:42:10 AM :Info: Activating page: 4
+12/23/20 2:42:10 AM :Info: Update Check Completed
+Saved user properties successfully
+12/23/20 2:42:10 AM :Debug: Read page time: 203ms.
+12/23/20 2:42:10 AM :Debug: Read All Data
+12/23/20 2:42:10 AM :Debug: isBlank Time: 0 ms.
+12/23/20 2:42:10 AM :Debug: DiffTime: 4 ms.
+12/23/20 2:42:10 AM :Info: Difference Report disabling shared table Models
+12/23/20 2:42:25 AM :Debug: Fill Constants: 1
+12/23/20 2:42:25 AM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-22_16.29.50.msq
+12/23/20 2:42:26 AM :Info: Time to save msq: 77.39729
+12/23/20 2:42:26 AM :Info: Difference Report enabling shared table Models
+12/23/20 2:54:20 AM :Info: Time to save msq: 6.221572
+12/23/20 2:54:20 AM :Info: closeApp Called
+12/23/20 2:54:20 AM :Debug: TuneLog Editor set text
+12/23/20 2:54:20 AM :Debug: Fill Constants: 0
+12/23/20 2:54:20 AM :Debug: File does not exist, creating new:
+/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/restorePoints/Tuareg_2020-12-23_02.54.20.msq
+12/23/20 2:54:20 AM :Info: Time to save msq: 7.615466
+12/23/20 2:54:20 AM :Info: Tuareg Restore point saved
+12/23/20 2:54:20 AM :Info: Tuareg Restore point saved to: Tuareg_2020-12-23_02.54.20.msq
+12/23/20 2:54:20 AM :Info: Time to save msq: 6.966863
+12/23/20 2:54:20 AM :Debug: goOffline Starting, Time:0
+12/23/20 2:54:20 AM :Info: Deactivated Turbo Baud, goOffline
+12/23/20 2:54:20 AM :Debug: Burn Page anonymous: -1
+12/23/20 2:54:20 AM :Debug: Received Instruction: , Page: 4
+12/23/20 2:54:20 AM :Info: skip burn to page:4, lastWritePage = -2
+12/23/20 2:54:20 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 4
+12/23/20 2:54:20 AM :Debug: goOffline about to stopProcessing, Time:268
+12/23/20 2:54:20 AM :Debug: controllerOnline = 0.0
+12/23/20 2:54:20 AM :Debug: goOffline Notified offline, Time:276
+12/23/20 2:54:20 AM :Debug: goOffline closed port, Time:277
+12/23/20 2:54:20 AM :Info: Tuareg ComThread stopped COMM Thread85828.22851829507
+12/23/20 2:54:20 AM :Debug: goOffline comm thread stopped, Time:427
+12/23/20 2:54:20 AM :Debug: No Remaining Queue Write instructions
+12/23/20 2:54:20 AM :Debug: removing Configuration: Tuareg
+12/23/20 2:54:20 AM :Debug: ############################################# Save Project Backup ##########################################
+12/23/20 2:54:20 AM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Wed Dec 23 12:49:35 CET 2020
+JRE 1.8.0_275, Linux 4.15.0-128-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+12/23/20 12:49:36 PM :Info: Loading Language Content.
+12/23/20 12:49:38 PM :Info: Initializing File Dialogs.
+12/23/20 12:49:38 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+12/23/20 12:49:38 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+12/23/20 12:49:38 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+12/23/20 12:49:38 PM :Info: Initializing Plugin Services.
+12/23/20 12:49:38 PM :Info: Loading Plugins.
+12/23/20 12:49:38 PM :Info: Initializing Help.
+12/23/20 12:49:38 PM :Info: Initializing Edition Features.
+12/23/20 12:49:38 PM :Info: Initializing App Events.
+12/23/20 12:49:38 PM :Debug: App Name:TunerStudio, appEdition:MS
+12/23/20 12:49:39 PM :Info: Initializing User Interface
+12/23/20 12:49:39 PM :Info: Checking for updates
+12/23/20 12:49:41 PM :Info: Loading Font list.
+12/23/20 12:49:41 PM :Debug: Time to retreive font name list: 22 ms.
+12/23/20 12:49:41 PM :Info: 
+12/23/20 12:49:41 PM :Info: Initializing UI Components.
+12/23/20 12:49:41 PM :Info: Ready
+12/23/20 12:49:41 PM :Info: Opening Project ...
+12/23/20 12:49:41 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/23/20 12:49:41 PM :Debug: EventTrigger Data log Reset. expression: 
+12/23/20 12:49:41 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+12/23/20 12:49:42 PM :Debug: Reading translation file as plain text
+12/23/20 12:49:42 PM :Info: Supported iniSpecVersion=3.67
+12/23/20 12:49:42 PM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+12/23/20 12:49:42 PM :Info: Supported iniSpecVersion=3.67
+12/23/20 12:49:42 PM :Info: Read file canPcVariables.ini: 0.923976ms
+12/23/20 12:49:42 PM :Info: Filtered ini: 0.081715ms
+12/23/20 12:49:42 PM :Info: No iniVersion defined
+12/23/20 12:49:42 PM :Info: Loading Trigger Wheels
+12/23/20 12:49:42 PM :Info: Loaded All known ini sections
+12/23/20 12:49:42 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 22ms.
+12/23/20 12:49:42 PM :Info: Read file mainController.ini: 0.8902ms
+12/23/20 12:49:42 PM :Info: Filtered ini: 0.197656ms
+12/23/20 12:49:42 PM :Info: No iniVersion defined
+12/23/20 12:49:42 PM :Debug: ini signature: rusEFI v1.04
+12/23/20 12:49:42 PM :Info: Loading Trigger Wheels
+12/23/20 12:49:42 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+12/23/20 12:49:42 PM :Info: Loaded All known ini sections
+12/23/20 12:49:42 PM :Info: Parsed and validated ini "mainController.ini" in : 25ms.
+12/23/20 12:49:42 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+12/23/20 12:49:42 PM :Info: Time to load primary config: 132.0668ms. used cached config: false
+12/23/20 12:49:42 PM :Debug: Adding Configuration: Tuareg
+12/23/20 12:49:42 PM :Debug: controllerOnline = 0.0
+12/23/20 12:49:42 PM :Debug: Fill Constants: 1
+12/23/20 12:49:42 PM :Info: Tune opened, 365 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/23/20 12:49:42 PM :Info: Tune opened, 365 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/23/20 12:49:42 PM :Info: dirtyData.size(): 0
+12/23/20 12:49:42 PM :Info: dirtyData.size(): 0
+12/23/20 12:49:42 PM :Debug: Flush lasted: 1ms.
+12/23/20 12:49:42 PM :Info: dirtyData.size(): 0
+12/23/20 12:49:42 PM :Info: dirtyData.size(): 0
+12/23/20 12:49:42 PM :Debug: Flush lasted: 0ms.
+12/23/20 12:49:42 PM :Debug: Skip Burn, last write page: -2
+12/23/20 12:49:42 PM :Info: !!! Loaded config in 259
+12/23/20 12:49:42 PM :Info: !!! Activated Project 813
+12/23/20 12:49:42 PM :Info: Opening Gauge Cluster..
+MSmain: No check, last update check=Tue Dec 22 11:50:07 CET 2020
+12/23/20 12:49:43 PM :Info: Time to load uncached dash: 254.84819ms, file: dashboard.dash
+12/23/20 12:49:43 PM :Debug: High Speed Paint: true
+12/23/20 12:49:43 PM :Info: 
+12/23/20 12:49:43 PM :Info: Com Thread created: COMM Thread27323.91778386275
+12/23/20 12:49:43 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+12/23/20 12:49:43 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread27323.91778386275
+12/23/20 12:49:43 PM :Debug: !!! Opened Dash 1461
+12/23/20 12:49:43 PM :Info: Tuareg Ready
+12/23/20 12:49:43 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread27323.91778386275
+12/23/20 12:49:43 PM :Debug: Tuning View Files loaded in 217.5293ms.
+12/23/20 12:49:44 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+MSad: No check, last update check=Tue Dec 22 11:50:10 CET 2020
+12/23/20 12:49:45 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/23/20 12:49:45 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/23/20 12:49:45 PM :Debug: controllerOnline = 1.0
+12/23/20 12:49:45 PM :Info: Activating page: 1
+12/23/20 12:49:46 PM :Debug: Read page time: 178ms.
+12/23/20 12:49:46 PM :Info: Activating page: 2
+12/23/20 12:49:46 PM :Debug: Read page time: 177ms.
+12/23/20 12:49:46 PM :Info: Activating page: 3
+12/23/20 12:49:46 PM :Debug: Read page time: 178ms.
+12/23/20 12:49:46 PM :Info: Activating page: 4
+12/23/20 12:49:46 PM :Debug: Read page time: 202ms.
+12/23/20 12:49:46 PM :Debug: Read All Data
+12/23/20 12:49:46 PM :Debug: isBlank Time: 0 ms.
+12/23/20 12:49:46 PM :Debug: DiffTime: 6 ms.
+12/23/20 12:49:47 PM :Info: Update Check Completed
+Saved user properties successfully
+12/23/20 12:57:56 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:57:56 PM :Warning: Failed to re-establish connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:57:56 PM :Info: Connection Check failed, forcing offline.
+12/23/20 12:57:58 PM :Debug: controllerOnline = 0.0
+12/23/20 12:57:58 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:57:58 PM :Debug: Went offline
+12/23/20 12:57:58 PM :Debug: controllerOnline = 0.0
+12/23/20 12:57:58 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:57:58 PM :Info: Went offline 2
+12/23/20 12:57:58 PM :Debug: Port not valid: Unable to open port: /dev/ttyACM0
+Please check your Communications Settings. 
+12/23/20 12:58:15 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/23/20 12:58:16 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/23/20 12:58:16 PM :Debug: controllerOnline = 1.0
+12/23/20 12:58:46 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:58:46 PM :Warning: Failed to re-establish connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:58:46 PM :Info: Connection Check failed, forcing offline.
+12/23/20 12:58:47 PM :Debug: controllerOnline = 0.0
+12/23/20 12:58:47 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:58:47 PM :Debug: Went offline
+12/23/20 12:58:47 PM :Debug: controllerOnline = 0.0
+12/23/20 12:58:47 PM :Debug: Deactivated fast paint Main Dashboard
+12/23/20 12:58:48 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:58:48 PM :Info: Went offline 2
+12/23/20 12:58:48 PM :Debug: Port not valid: Unable to open port: /dev/ttyACM0
+Please check your Communications Settings. 
+12/23/20 12:58:53 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/23/20 12:58:54 PM :Info: Communicating with sig:rusEFI v1.04, Serial Signature: rusEFI v1.04
+12/23/20 12:58:54 PM :Debug: controllerOnline = 1.0
+12/23/20 12:58:54 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:58:57 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:58:59 PM :Debug: expected secl =2, secl = 65, secDelta = 63
+12/23/20 12:58:59 PM :Debug: Detected Bad och read on Tuareg, increased delay to 52, increase extra wait between to 1, secl = 65
+12/23/20 12:58:59 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+12/23/20 12:59:01 PM :Debug: controllerOnline = 0.0
+12/23/20 12:59:01 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:59:01 PM :Debug: Went offline
+12/23/20 12:59:01 PM :Debug: controllerOnline = 0.0
+12/23/20 12:59:01 PM :Debug: No Remaining Queue Write instructions
+12/23/20 12:59:01 PM :Info: Went offline 2
+12/23/20 12:59:10 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/23/20 12:59:11 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/23/20 12:59:11 PM :Debug: controllerOnline = 1.0
+12/23/20 12:59:21 PM :Debug: 100 good och reads, decreased delay to 50, set extra wait between to 0
+12/23/20 2:27:29 PM :Info: dirtyData.size(): 0
+12/23/20 2:27:29 PM :Info: dirtyData.size(): 0
+12/23/20 2:27:29 PM :Debug: Flush lasted: 0ms.
+12/23/20 2:27:29 PM :Debug: Skip Burn, last write page: -2
+12/23/20 2:27:29 PM :Debug: goOffline Starting, Time:0
+12/23/20 2:27:29 PM :Info: Deactivated Turbo Baud, goOffline
+12/23/20 2:27:29 PM :Debug: Skip Burn, last write page: -2
+12/23/20 2:27:29 PM :Debug: goOffline about to stopProcessing, Time:251
+12/23/20 2:27:29 PM :Debug: controllerOnline = 0.0
+12/23/20 2:27:29 PM :Debug: goOffline Notified offline, Time:254
+12/23/20 2:27:29 PM :Debug: goOffline closed port, Time:255
+12/23/20 2:27:29 PM :Info: Tuareg ComThread stopped COMM Thread27323.91778386275
+12/23/20 2:27:29 PM :Debug: goOffline comm thread stopped, Time:405
+12/23/20 2:27:29 PM :Debug: No Remaining Queue Write instructions
+12/23/20 4:47:58 PM :Info: Time to save msq: 65.82598
+12/23/20 4:47:58 PM :Info: closeApp Called
+12/23/20 4:47:58 PM :Debug: TuneLog Editor set text
+12/23/20 4:47:58 PM :Debug: Fill Constants: 1
+12/23/20 4:47:58 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-23_02.54.20.msq
+12/23/20 4:47:58 PM :Info: Time to save msq: 7.615056
+12/23/20 4:47:58 PM :Debug: goOffline Starting, Time:0
+12/23/20 4:47:58 PM :Info: Deactivated Turbo Baud, goOffline
+12/23/20 4:47:58 PM :Debug: goOffline about to stopProcessing, Time:1
+12/23/20 4:47:58 PM :Debug: goOffline closed port, Time:1
+12/23/20 4:47:59 PM :Debug: goOffline comm thread stopped, Time:501
+12/23/20 4:47:59 PM :Debug: No Remaining Queue Write instructions
+12/23/20 4:47:59 PM :Debug: removing Configuration: Tuareg
+12/23/20 4:47:59 PM :Debug: ############################################# Save Project Backup ##########################################
+12/23/20 4:47:59 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Sun Dec 27 00:58:25 CET 2020
+JRE 1.8.0_275, Linux 4.15.0-128-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+12/27/20 12:58:26 AM :Info: Loading Language Content.
+12/27/20 12:58:28 AM :Info: Initializing File Dialogs.
+12/27/20 12:58:28 AM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+12/27/20 12:58:28 AM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+12/27/20 12:58:28 AM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+12/27/20 12:58:28 AM :Info: Initializing Plugin Services.
+12/27/20 12:58:28 AM :Info: Loading Plugins.
+12/27/20 12:58:28 AM :Info: Initializing Help.
+12/27/20 12:58:28 AM :Info: Initializing Edition Features.
+12/27/20 12:58:28 AM :Info: Initializing App Events.
+12/27/20 12:58:28 AM :Debug: App Name:TunerStudio, appEdition:MS
+12/27/20 12:58:28 AM :Info: Initializing User Interface
+12/27/20 12:58:29 AM :Info: Checking for updates
+12/27/20 12:58:30 AM :Info: Loading Font list.
+12/27/20 12:58:30 AM :Debug: Time to retreive font name list: 17 ms.
+12/27/20 12:58:30 AM :Info: 
+12/27/20 12:58:30 AM :Info: Initializing UI Components.
+12/27/20 12:58:30 AM :Info: Ready
+12/27/20 12:58:32 AM :Info: Opening Project ...
+12/27/20 12:58:32 AM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/27/20 12:58:32 AM :Debug: EventTrigger Data log Reset. expression: 
+12/27/20 12:58:32 AM :Debug: EventTrigger Stop Data log Reset. expression: 
+12/27/20 12:58:32 AM :Debug: Reading translation file as plain text
+12/27/20 12:58:32 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 12:58:32 AM :Debug: Filtered ConfigurationOptionGroup in 5ms.
+12/27/20 12:58:32 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 12:58:32 AM :Info: Read file canPcVariables.ini: 0.841361ms
+12/27/20 12:58:32 AM :Info: Filtered ini: 0.085586ms
+12/27/20 12:58:32 AM :Info: No iniVersion defined
+12/27/20 12:58:32 AM :Info: Loading Trigger Wheels
+12/27/20 12:58:32 AM :Info: Loaded All known ini sections
+12/27/20 12:58:32 AM :Info: Parsed and validated ini "canPcVariables.ini" in : 17ms.
+12/27/20 12:58:32 AM :Info: Read file mainController.ini: 2.009124ms
+12/27/20 12:58:32 AM :Info: Filtered ini: 0.266345ms
+12/27/20 12:58:32 AM :Info: No iniVersion defined
+12/27/20 12:58:32 AM :Debug: ini signature: rusEFI v1.04
+java.lang.ArrayIndexOutOfBoundsException: 4
+	at F.Y.a(Unknown Source)
+	at F.Y.a(Unknown Source)
+	at F.Y.<init>(Unknown Source)
+	at F.R.j(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at aI.hj.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.D.run(Unknown Source)
+U.g: Invalid Ini row in Initializing offline data store
+Root Problem:4
+	at V.Z.a(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at aI.hj.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.D.run(Unknown Source)
+Nested Exception - Root cause:
+java.lang.ArrayIndexOutOfBoundsException: 4
+	at F.Y.a(Unknown Source)
+	at F.Y.a(Unknown Source)
+	at F.Y.<init>(Unknown Source)
+	at F.R.j(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at aI.hj.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.D.run(Unknown Source)
+	Invalid Ini row in Initializing offline data store
+Root Problem:4
+U.g: Invalid Ini row in Initializing offline data store
+Root Problem:4
+	at V.Z.a(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at aI.hj.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.D.run(Unknown Source)
+Nested Exception - Root cause:
+java.lang.ArrayIndexOutOfBoundsException: 4
+	at F.Y.a(Unknown Source)
+	at F.Y.a(Unknown Source)
+	at F.Y.<init>(Unknown Source)
+	at F.R.j(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at V.Z.a(Unknown Source)
+	at aI.hj.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.g.a(Unknown Source)
+	at aI.D.run(Unknown Source)
+12/27/20 12:58:32 AM :Debug: Running speed test
+MSmain: No check, last update check=Tue Dec 22 11:50:07 CET 2020
+12/27/20 12:58:33 AM :Debug: Processor Score:1147283
+12/27/20 12:58:34 AM :Info: Update Check Completed
+Saved user properties successfully
+MSad: No check, last update check=Tue Dec 22 11:50:10 CET 2020
+12/27/20 12:58:44 AM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+12/27/20 12:59:13 AM :Info: Opening Project ...
+12/27/20 12:59:13 AM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/27/20 12:59:13 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 12:59:13 AM :Debug: Filtered ConfigurationOptionGroup in 5ms.
+12/27/20 12:59:13 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 12:59:13 AM :Info: Read file canPcVariables.ini: 0.223258ms
+12/27/20 12:59:13 AM :Info: Filtered ini: 0.007541ms
+12/27/20 12:59:13 AM :Info: No iniVersion defined
+12/27/20 12:59:13 AM :Info: Loading Trigger Wheels
+12/27/20 12:59:13 AM :Info: Loaded All known ini sections
+12/27/20 12:59:13 AM :Info: Parsed and validated ini "canPcVariables.ini" in : 1ms.
+12/27/20 12:59:13 AM :Info: Read file mainController.ini: 0.666134ms
+12/27/20 12:59:13 AM :Info: Filtered ini: 0.16636ms
+12/27/20 12:59:13 AM :Info: No iniVersion defined
+12/27/20 12:59:13 AM :Debug: ini signature: rusEFI v1.04
+12/27/20 12:59:13 AM :Info: Loading Trigger Wheels
+12/27/20 12:59:13 AM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+12/27/20 12:59:13 AM :Info: Loaded All known ini sections
+12/27/20 12:59:13 AM :Info: Parsed and validated ini "mainController.ini" in : 26ms.
+12/27/20 12:59:13 AM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+12/27/20 12:59:13 AM :Info: Time to load primary config: 44.169666ms. used cached config: false
+12/27/20 12:59:13 AM :Debug: Adding Configuration: Tuareg
+12/27/20 12:59:13 AM :Debug: controllerOnline = 0.0
+12/27/20 12:59:13 AM :Debug: Fill Constants: 1
+12/27/20 12:59:13 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 12:59:13 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 12:59:13 AM :Info: dirtyData.size(): 0
+12/27/20 12:59:13 AM :Info: dirtyData.size(): 0
+12/27/20 12:59:13 AM :Debug: Flush lasted: 2ms.
+12/27/20 12:59:13 AM :Info: dirtyData.size(): 0
+12/27/20 12:59:13 AM :Info: dirtyData.size(): 0
+12/27/20 12:59:13 AM :Debug: Flush lasted: 1ms.
+12/27/20 12:59:13 AM :Debug: Skip Burn, last write page: -2
+12/27/20 12:59:13 AM :Info: !!! Loaded config in 148
+12/27/20 12:59:13 AM :Info: !!! Activated Project 540
+12/27/20 12:59:13 AM :Info: Opening Gauge Cluster..
+12/27/20 12:59:14 AM :Info: Time to load uncached dash: 261.69833ms, file: dashboard.dash
+12/27/20 12:59:14 AM :Debug: High Speed Paint: true
+12/27/20 12:59:14 AM :Info: 
+12/27/20 12:59:14 AM :Info: Com Thread created: COMM Thread733.4750433143911
+12/27/20 12:59:14 AM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+12/27/20 12:59:14 AM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread733.4750433143911
+12/27/20 12:59:14 AM :Debug: !!! Opened Dash 1137
+12/27/20 12:59:14 AM :Info: Tuareg Ready
+12/27/20 12:59:14 AM :Debug: Tuning View Files loaded in 97.862366ms.
+12/27/20 12:59:14 AM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread733.4750433143911
+12/27/20 12:59:15 AM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/27/20 12:59:16 AM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/27/20 12:59:16 AM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/27/20 12:59:16 AM :Debug: controllerOnline = 1.0
+12/27/20 12:59:16 AM :Info: Activating page: 1
+12/27/20 12:59:17 AM :Debug: Read page time: 179ms.
+12/27/20 12:59:17 AM :Info: Activating page: 2
+12/27/20 12:59:17 AM :Debug: Read page time: 177ms.
+12/27/20 12:59:17 AM :Info: Activating page: 3
+12/27/20 12:59:17 AM :Debug: Read page time: 177ms.
+12/27/20 12:59:17 AM :Info: Activating page: 4
+12/27/20 12:59:17 AM :Debug: Read page time: 202ms.
+12/27/20 12:59:17 AM :Info: Activating page: 5
+12/27/20 12:59:17 AM :Debug: Read page time: 177ms.
+12/27/20 12:59:17 AM :Debug: Read All Data
+12/27/20 12:59:17 AM :Debug: isBlank Time: 0 ms.
+12/27/20 12:59:17 AM :Debug: DiffTime: 4 ms.
+
+12/27/20 12:59:17 AM :Debug: Purged 1 orphaned bytes:
+12/27/20 12:59:17 AM :Debug: Time:4.502s. 0x0 
+12/27/20 12:59:17 AM :Debug: Time:4.502s. 
+
+12/27/20 12:59:17 AM :Debug: Time:4.503s.   .  
+12/27/20 12:59:17 AM :Info: Difference Report disabling shared table Models
+12/27/20 12:59:34 AM :Debug: goOffline Starting, Time:0
+12/27/20 12:59:34 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 12:59:34 AM :Debug: Burn Page anonymous: -1
+12/27/20 12:59:34 AM :Debug: Received Instruction: , Page: 5
+12/27/20 12:59:34 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 12:59:34 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 12:59:34 AM :Debug: goOffline about to stopProcessing, Time:281
+12/27/20 12:59:34 AM :Debug: controllerOnline = 0.0
+12/27/20 12:59:34 AM :Debug: goOffline Notified offline, Time:296
+12/27/20 12:59:34 AM :Debug: goOffline closed port, Time:296
+12/27/20 12:59:34 AM :Info: Tuareg ComThread stopped COMM Thread733.4750433143911
+12/27/20 12:59:34 AM :Debug: goOffline comm thread stopped, Time:447
+12/27/20 12:59:34 AM :Debug: No Remaining Queue Write instructions
+12/27/20 12:59:34 AM :Info: Difference Report enabling shared table Models
+12/27/20 1:00:45 AM :Info: Opening Project ...
+12/27/20 1:00:45 AM :Debug: TuneLog Editor set text
+12/27/20 1:00:45 AM :Debug: Fill Constants: 1
+12/27/20 1:00:45 AM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-23_02.54.20.msq
+12/27/20 1:00:45 AM :Info: Time to save msq: 56.32558
+12/27/20 1:00:45 AM :Debug: goOffline Starting, Time:0
+12/27/20 1:00:45 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 1:00:45 AM :Debug: goOffline about to stopProcessing, Time:1
+12/27/20 1:00:45 AM :Debug: goOffline closed port, Time:1
+12/27/20 1:00:45 AM :Debug: goOffline comm thread stopped, Time:501
+12/27/20 1:00:45 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:00:45 AM :Debug: removing Configuration: Tuareg
+12/27/20 1:00:46 AM :Debug: ############################################# Save Project Backup ##########################################
+12/27/20 1:00:46 AM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/27/20 1:00:46 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 1:00:46 AM :Debug: Filtered ConfigurationOptionGroup in 1ms.
+12/27/20 1:00:46 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 1:00:46 AM :Info: Read file canPcVariables.ini: 0.268909ms
+12/27/20 1:00:46 AM :Info: Filtered ini: 0.011337ms
+12/27/20 1:00:46 AM :Info: No iniVersion defined
+12/27/20 1:00:46 AM :Info: Loading Trigger Wheels
+12/27/20 1:00:46 AM :Info: Loaded All known ini sections
+12/27/20 1:00:46 AM :Info: Parsed and validated ini "canPcVariables.ini" in : 1ms.
+12/27/20 1:00:46 AM :Info: Read file mainController.ini: 2.032272ms
+12/27/20 1:00:46 AM :Info: Filtered ini: 0.278644ms
+12/27/20 1:00:46 AM :Info: No iniVersion defined
+12/27/20 1:00:46 AM :Debug: ini signature: rusEFI v1.04
+12/27/20 1:00:46 AM :Info: Loading Trigger Wheels
+12/27/20 1:00:46 AM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+12/27/20 1:00:46 AM :Info: Loaded All known ini sections
+12/27/20 1:00:46 AM :Info: Parsed and validated ini "mainController.ini" in : 23ms.
+12/27/20 1:00:46 AM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+12/27/20 1:00:46 AM :Info: Time to load primary config: 30.28172ms. used cached config: false
+12/27/20 1:00:46 AM :Debug: Adding Configuration: Tuareg
+12/27/20 1:00:46 AM :Debug: controllerOnline = 0.0
+12/27/20 1:00:46 AM :Debug: controllerOnline = 0.0
+12/27/20 1:00:46 AM :Debug: Fill Constants: 0
+12/27/20 1:00:46 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 1:00:46 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 1:00:46 AM :Info: dirtyData.size(): 0
+12/27/20 1:00:46 AM :Info: dirtyData.size(): 0
+12/27/20 1:00:46 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:00:46 AM :Info: dirtyData.size(): 0
+12/27/20 1:00:46 AM :Info: dirtyData.size(): 0
+12/27/20 1:00:46 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:00:46 AM :Debug: Skip Burn, last write page: -2
+12/27/20 1:00:46 AM :Info: !!! Loaded config in 90
+12/27/20 1:00:46 AM :Info: !!! Activated Project 279
+12/27/20 1:00:46 AM :Info: Opening Gauge Cluster..
+12/27/20 1:00:46 AM :Info: Time to load uncached dash: 144.02644ms, file: dashboard.dash
+12/27/20 1:00:46 AM :Debug: High Speed Paint: true
+12/27/20 1:00:46 AM :Debug: Deactivated fast paint Main Dashboard
+12/27/20 1:00:46 AM :Info: 
+12/27/20 1:00:46 AM :Info: Com Thread created: COMM Thread96519.61169788691
+12/27/20 1:00:46 AM :Debug: !!! Opened Dash 645
+12/27/20 1:00:46 AM :Info: Tuareg Ready
+12/27/20 1:00:46 AM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread96519.61169788691
+12/27/20 1:00:46 AM :Debug: Tuning View Files loaded in 75.066055ms.
+12/27/20 1:00:46 AM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread96519.61169788691
+12/27/20 1:00:48 AM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/27/20 1:00:49 AM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/27/20 1:00:49 AM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/27/20 1:00:49 AM :Debug: controllerOnline = 1.0
+12/27/20 1:00:49 AM :Info: Activating page: 1
+12/27/20 1:00:49 AM :Debug: Read page time: 177ms.
+12/27/20 1:00:49 AM :Info: Activating page: 2
+12/27/20 1:00:49 AM :Debug: Read page time: 177ms.
+12/27/20 1:00:49 AM :Info: Activating page: 3
+12/27/20 1:00:49 AM :Debug: Read page time: 180ms.
+12/27/20 1:00:49 AM :Info: Activating page: 4
+12/27/20 1:00:49 AM :Debug: Read page time: 216ms.
+12/27/20 1:00:50 AM :Info: Activating page: 5
+12/27/20 1:00:50 AM :Debug: Read page time: 177ms.
+12/27/20 1:00:50 AM :Debug: Read All Data
+12/27/20 1:00:50 AM :Debug: isBlank Time: 0 ms.
+12/27/20 1:00:50 AM :Debug: DiffTime: 3 ms.
+
+12/27/20 1:00:50 AM :Debug: Purged 1 orphaned bytes:
+12/27/20 1:00:50 AM :Debug: Time:3.989s. 0x0 
+12/27/20 1:00:50 AM :Info: Difference Report disabling shared table Models
+12/27/20 1:00:50 AM :Debug: Time:3.989s. 
+
+12/27/20 1:00:50 AM :Debug: Time:3.99s.   .  
+12/27/20 1:01:34 AM :Debug: goOffline Starting, Time:0
+12/27/20 1:01:34 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 1:01:34 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:01:34 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:01:34 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 1:01:34 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 1:01:34 AM :Debug: goOffline about to stopProcessing, Time:337
+12/27/20 1:01:34 AM :Debug: controllerOnline = 0.0
+12/27/20 1:01:34 AM :Debug: goOffline Notified offline, Time:354
+12/27/20 1:01:34 AM :Debug: goOffline closed port, Time:354
+12/27/20 1:01:35 AM :Info: Tuareg ComThread stopped COMM Thread96519.61169788691
+12/27/20 1:01:35 AM :Debug: goOffline comm thread stopped, Time:505
+12/27/20 1:01:35 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:01:35 AM :Info: Difference Report enabling shared table Models
+12/27/20 1:10:25 AM :Info: Opening Project ...
+12/27/20 1:10:25 AM :Debug: TuneLog Editor set text
+12/27/20 1:10:25 AM :Debug: Fill Constants: 0
+12/27/20 1:10:25 AM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-23_02.54.20.msq
+12/27/20 1:10:25 AM :Info: Time to save msq: 13.241938
+12/27/20 1:10:25 AM :Debug: goOffline Starting, Time:0
+12/27/20 1:10:25 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 1:10:25 AM :Debug: goOffline about to stopProcessing, Time:0
+12/27/20 1:10:25 AM :Debug: goOffline closed port, Time:0
+12/27/20 1:10:25 AM :Debug: goOffline comm thread stopped, Time:500
+12/27/20 1:10:25 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:10:25 AM :Debug: removing Configuration: Tuareg
+12/27/20 1:10:26 AM :Debug: ############################################# Save Project Backup ##########################################
+12/27/20 1:10:26 AM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+12/27/20 1:10:26 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 1:10:26 AM :Debug: Filtered ConfigurationOptionGroup in 1ms.
+12/27/20 1:10:26 AM :Info: Supported iniSpecVersion=3.67
+12/27/20 1:10:26 AM :Info: Read file canPcVariables.ini: 0.25827ms
+12/27/20 1:10:26 AM :Info: Filtered ini: 0.011766ms
+12/27/20 1:10:26 AM :Info: No iniVersion defined
+12/27/20 1:10:26 AM :Info: Loading Trigger Wheels
+12/27/20 1:10:26 AM :Info: Loaded All known ini sections
+12/27/20 1:10:26 AM :Info: Parsed and validated ini "canPcVariables.ini" in : 2ms.
+12/27/20 1:10:26 AM :Info: Read file mainController.ini: 0.960084ms
+12/27/20 1:10:26 AM :Info: Filtered ini: 0.259299ms
+12/27/20 1:10:26 AM :Info: No iniVersion defined
+12/27/20 1:10:26 AM :Debug: ini signature: rusEFI v1.04
+12/27/20 1:10:26 AM :Info: Loading Trigger Wheels
+12/27/20 1:10:26 AM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+12/27/20 1:10:26 AM :Info: Loaded All known ini sections
+12/27/20 1:10:26 AM :Info: Parsed and validated ini "mainController.ini" in : 18ms.
+12/27/20 1:10:26 AM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+12/27/20 1:10:26 AM :Info: Time to load primary config: 25.088749ms. used cached config: false
+12/27/20 1:10:26 AM :Debug: Adding Configuration: Tuareg
+12/27/20 1:10:26 AM :Debug: controllerOnline = 0.0
+12/27/20 1:10:26 AM :Debug: controllerOnline = 0.0
+12/27/20 1:10:26 AM :Debug: Fill Constants: 0
+12/27/20 1:10:26 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 1:10:26 AM :Info: Tune opened, 345 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+12/27/20 1:10:26 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:26 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:26 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:10:26 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:26 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:26 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:10:26 AM :Debug: Skip Burn, last write page: -2
+12/27/20 1:10:26 AM :Info: !!! Loaded config in 53
+12/27/20 1:10:26 AM :Info: !!! Activated Project 228
+12/27/20 1:10:26 AM :Info: Opening Gauge Cluster..
+12/27/20 1:10:26 AM :Info: Time to load uncached dash: 106.29739ms, file: dashboard.dash
+12/27/20 1:10:26 AM :Debug: High Speed Paint: true
+12/27/20 1:10:26 AM :Debug: Deactivated fast paint Main Dashboard
+12/27/20 1:10:26 AM :Info: 
+12/27/20 1:10:26 AM :Info: Com Thread created: COMM Thread80233.60290049069
+12/27/20 1:10:26 AM :Debug: !!! Opened Dash 516
+12/27/20 1:10:26 AM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread80233.60290049069
+12/27/20 1:10:26 AM :Info: Tuareg Ready
+12/27/20 1:10:26 AM :Debug: Tuning View Files loaded in 44.434944ms.
+12/27/20 1:10:26 AM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread80233.60290049069
+12/27/20 1:10:27 AM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+12/27/20 1:10:28 AM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+12/27/20 1:10:28 AM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/27/20 1:10:28 AM :Debug: controllerOnline = 1.0
+12/27/20 1:10:28 AM :Info: Activating page: 1
+12/27/20 1:10:29 AM :Debug: Read page time: 177ms.
+12/27/20 1:10:29 AM :Info: Activating page: 2
+12/27/20 1:10:29 AM :Debug: Read page time: 177ms.
+12/27/20 1:10:29 AM :Info: Activating page: 3
+12/27/20 1:10:29 AM :Debug: Read page time: 177ms.
+12/27/20 1:10:29 AM :Info: Activating page: 4
+12/27/20 1:10:29 AM :Debug: Read page time: 198ms.
+12/27/20 1:10:29 AM :Info: Activating page: 5
+12/27/20 1:10:29 AM :Debug: Read page time: 177ms.
+12/27/20 1:10:29 AM :Debug: Read All Data
+12/27/20 1:10:29 AM :Debug: isBlank Time: 0 ms.
+12/27/20 1:10:29 AM :Debug: DiffTime: 3 ms.
+
+12/27/20 1:10:29 AM :Debug: Purged 1 orphaned bytes:
+12/27/20 1:10:29 AM :Debug: Time:3.845s. 0x0 
+12/27/20 1:10:29 AM :Debug: Time:3.845s. 
+
+12/27/20 1:10:29 AM :Debug: Time:3.845s.   .  
+12/27/20 1:10:29 AM :Info: Difference Report disabling shared table Models
+12/27/20 1:10:35 AM :Info: Time to save msq: 6.907984
+12/27/20 1:10:35 AM :Info: dirtyData.size(): 9
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 3
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Info: Activating page: 1
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: Write byte, Page: 4
+12/27/20 1:10:35 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:35 AM :Debug: Flush lasted: 341ms.
+12/27/20 1:10:35 AM :Debug: Burn Page anonymous: 4
+12/27/20 1:10:35 AM :Debug: Received Instruction: , Page: 4
+12/27/20 1:10:35 AM :Info: Queueing burn to page:4
+12/27/20 1:10:35 AM :Info: Sending, 372 bytes.
+12/27/20 1:10:35 AM :Info: Loaded Restore point /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+	Sending, 372 bytes.
+12/27/20 1:10:35 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:35 AM :Info: dirtyData.size(): 0
+12/27/20 1:10:35 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:10:35 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:10:35 AM :Debug: Received Instruction: , Page: 4
+12/27/20 1:10:35 AM :Info: skip burn to page:4, lastWritePage = -2
+12/27/20 1:10:35 AM :Info: Difference Report enabling shared table Models
+12/27/20 1:10:35 AM :Debug: Received Instruction: Read All Tune Data, Page: 0
+12/27/20 1:10:37 AM :Debug: Activate Page, burn page 1 new active page=2
+12/27/20 1:10:37 AM :Debug: Burn time:10ms.
+12/27/20 1:10:37 AM :Debug: burned page 1
+12/27/20 1:10:37 AM :Info: Activating page: 2
+12/27/20 1:10:38 AM :Debug: Activate Page, burn page 2 new active page=3
+12/27/20 1:10:38 AM :Debug: Burn time:10ms.
+12/27/20 1:10:38 AM :Debug: burned page 2
+12/27/20 1:10:38 AM :Info: Activating page: 3
+12/27/20 1:10:39 AM :Debug: Activate Page, burn page 3 new active page=4
+12/27/20 1:10:39 AM :Debug: Burn time:10ms.
+12/27/20 1:10:39 AM :Debug: burned page 3
+12/27/20 1:10:39 AM :Info: Activating page: 4
+12/27/20 1:10:55 AM :Debug: Burn time:10ms.
+12/27/20 1:10:55 AM :Debug: burned page 4
+12/27/20 1:10:55 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:10:55 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:10:55 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:10:55 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 4
+Exception in thread "SendBlockCleanup" java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+	at java.util.ArrayList.rangeCheck(ArrayList.java:659)
+	at java.util.ArrayList.get(ArrayList.java:435)
+	at java.awt.Container.createHierarchyEvents(Container.java:1444)
+	at java.awt.Container.createHierarchyEvents(Container.java:1444)
+	at java.awt.Component.hide(Component.java:1709)
+	at javax.swing.JComponent.hide(JComponent.java:5564)
+	at java.awt.Component.show(Component.java:1673)
+	at java.awt.Component.setVisible(Component.java:1623)
+	at javax.swing.JComponent.setVisible(JComponent.java:2644)
+	at com.efiAnalytics.ui.dp.setVisible(Unknown Source)
+	at aI.g.b(Unknown Source)
+	at aI.g.l(Unknown Source)
+	at aI.hB.c(Unknown Source)
+	at aI.hB.a(Unknown Source)
+	at aI.hC.run(Unknown Source)
+Exception in thread "SendBlockCleanup" java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+	at java.util.ArrayList.rangeCheck(ArrayList.java:659)
+	at java.util.ArrayList.get(ArrayList.java:435)
+	at java.awt.Container.createHierarchyEvents(Container.java:1444)
+	at java.awt.Container.createHierarchyEvents(Container.java:1444)
+	at java.awt.Component.hide(Component.java:1709)
+	at javax.swing.JComponent.hide(JComponent.java:5564)
+	at java.awt.Component.show(Component.java:1673)
+	at java.awt.Component.setVisible(Component.java:1623)
+	at javax.swing.JComponent.setVisible(JComponent.java:2644)
+	at com.efiAnalytics.ui.dp.setVisible(Unknown Source)
+	at aI.g.b(Unknown Source)
+	at aI.g.l(Unknown Source)
+	at aI.hB.c(Unknown Source)
+	at aI.hB.a(Unknown Source)
+	at aI.hC.run(Unknown Source)
+12/27/20 1:10:55 AM :Info: Activating page: 1
+12/27/20 1:10:57 AM :Debug: Read page time: 1743ms.
+12/27/20 1:10:57 AM :Info: Activating page: 2
+12/27/20 1:10:57 AM :Info: Time to save msq: 15.287071
+12/27/20 1:10:57 AM :Debug: Read page time: 185ms.
+12/27/20 1:10:57 AM :Info: Activating page: 3
+12/27/20 1:10:57 AM :Debug: Read page time: 191ms.
+12/27/20 1:10:57 AM :Info: Activating page: 4
+12/27/20 1:10:57 AM :Debug: Read page time: 216ms.
+12/27/20 1:10:57 AM :Info: Activating page: 5
+12/27/20 1:10:57 AM :Debug: Read page time: 177ms.
+12/27/20 1:10:57 AM :Debug: Read All Data
+12/27/20 1:10:57 AM :Debug: isBlank Time: 0 ms.
+12/27/20 1:10:57 AM :Debug: DiffTime: 3 ms.
+
+12/27/20 1:10:57 AM :Debug: Purged 1 orphaned bytes:
+12/27/20 1:10:57 AM :Debug: Time:31.845s. 0x0 
+12/27/20 1:10:57 AM :Debug: Time:31.845s. 
+
+12/27/20 1:10:57 AM :Debug: Time:31.845s.   .  
+12/27/20 1:11:25 AM :Debug: Received Instruction: Read Page 2, Page: 2
+12/27/20 1:11:25 AM :Info: Initiating read page 2
+12/27/20 1:11:25 AM :Info: Activating page: 2
+12/27/20 1:12:24 AM :Debug: Received Instruction: Write byte, Page: 2
+12/27/20 1:12:27 AM :Info: dirtyData.size(): 0
+12/27/20 1:12:27 AM :Info: dirtyData.size(): 0
+12/27/20 1:12:27 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:12:27 AM :Debug: Burn Page anonymous: 2
+12/27/20 1:12:27 AM :Debug: Received Instruction: , Page: 2
+12/27/20 1:12:27 AM :Info: Queueing burn to page:2
+12/27/20 1:12:27 AM :Debug: Burn time:10ms.
+12/27/20 1:12:27 AM :Debug: burned page 2
+12/27/20 1:12:27 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:12:27 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:12:29 AM :Info: Time to save msq: 7.727182
+12/27/20 1:12:34 AM :Info: dirtyData.size(): 0
+12/27/20 1:12:34 AM :Info: dirtyData.size(): 0
+12/27/20 1:12:34 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:12:34 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:12:34 AM :Debug: Received Instruction: , Page: 2
+12/27/20 1:12:34 AM :Info: skip burn to page:2, lastWritePage = -2
+12/27/20 1:12:34 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 2
+12/27/20 1:12:38 AM :Debug: Received Instruction: Read Page 5, Page: 5
+12/27/20 1:12:38 AM :Info: Initiating read page 5
+12/27/20 1:12:38 AM :Info: Activating page: 5
+
+12/27/20 1:12:39 AM :Debug: Purged 1 orphaned bytes:
+12/27/20 1:12:39 AM :Debug: Time:132.943s. 0x0 
+12/27/20 1:12:39 AM :Debug: Time:132.943s. 
+
+12/27/20 1:12:39 AM :Debug: Time:132.943s.   .  
+12/27/20 1:12:45 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:12:45 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:12:47 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:12:47 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:12:59 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:12:59 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:13:01 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:13:01 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:13:03 AM :Info: dirtyData.size(): 0
+12/27/20 1:13:03 AM :Info: dirtyData.size(): 0
+12/27/20 1:13:03 AM :Debug: Flush lasted: 1ms.
+12/27/20 1:13:03 AM :Debug: Burn Page anonymous: 5
+12/27/20 1:13:03 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:13:03 AM :Info: Queueing burn to page:5
+12/27/20 1:13:03 AM :Debug: Burn time:10ms.
+12/27/20 1:13:03 AM :Debug: burned page 5
+12/27/20 1:13:03 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:13:05 AM :Info: Time to save msq: 5.769703
+12/27/20 1:13:06 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:13:06 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:13:53 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:14:07 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:14:07 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:16:42 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:16:42 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:16:49 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:12 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:12 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:28 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:28 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:36 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:39 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:40 AM :Debug: Received Instruction: Write byte, Page: 5
+12/27/20 1:17:40 AM :Info: dirtyData.size(): 0
+12/27/20 1:17:40 AM :Info: dirtyData.size(): 0
+12/27/20 1:17:40 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:17:40 AM :Debug: Burn Page anonymous: 5
+12/27/20 1:17:40 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:17:40 AM :Info: Queueing burn to page:5
+12/27/20 1:17:40 AM :Debug: Burn time:10ms.
+12/27/20 1:17:40 AM :Debug: burned page 5
+12/27/20 1:17:40 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:17:41 AM :Info: Time to save msq: 2.950518
+12/27/20 1:19:35 AM :Info: dirtyData.size(): 0
+12/27/20 1:19:35 AM :Info: dirtyData.size(): 0
+12/27/20 1:19:35 AM :Debug: Flush lasted: 1ms.
+12/27/20 1:19:35 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:19:35 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:19:35 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 1:19:35 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 1:20:19 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:22 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:26 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:29 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:31 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:34 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:36 AM :Debug: Received Instruction: , Page: 0
+12/27/20 1:20:38 AM :Info: dirtyData.size(): 0
+12/27/20 1:20:38 AM :Info: dirtyData.size(): 0
+12/27/20 1:20:38 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:20:38 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:20:38 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:20:38 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 1:20:38 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 1:20:57 AM :Info: dirtyData.size(): 0
+12/27/20 1:20:57 AM :Info: dirtyData.size(): 0
+12/27/20 1:20:57 AM :Debug: Flush lasted: 0ms.
+12/27/20 1:20:57 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:20:57 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:20:57 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 1:20:57 AM :Debug: goOffline Starting, Time:0
+12/27/20 1:20:57 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 1:20:57 AM :Debug: Burn Page anonymous: -1
+12/27/20 1:20:57 AM :Debug: Received Instruction: , Page: 5
+12/27/20 1:20:57 AM :Info: skip burn to page:5, lastWritePage = -2
+12/27/20 1:20:57 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 1:20:57 AM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 5
+12/27/20 1:20:57 AM :Debug: goOffline about to stopProcessing, Time:251
+12/27/20 1:20:57 AM :Debug: controllerOnline = 0.0
+12/27/20 1:20:57 AM :Debug: goOffline Notified offline, Time:263
+12/27/20 1:20:57 AM :Debug: goOffline closed port, Time:263
+12/27/20 1:20:57 AM :Info: Tuareg ComThread stopped COMM Thread80233.60290049069
+12/27/20 1:20:57 AM :Debug: goOffline comm thread stopped, Time:413
+12/27/20 1:20:57 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:58:28 AM :Info: Time to save msq: 5.300839
+12/27/20 1:58:28 AM :Info: closeApp Called
+12/27/20 1:58:28 AM :Debug: TuneLog Editor set text
+12/27/20 1:58:28 AM :Debug: Fill Constants: 0
+12/27/20 1:58:28 AM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-23_02.54.20.msq
+12/27/20 1:58:28 AM :Info: Time to save msq: 3.502075
+12/27/20 1:58:28 AM :Debug: goOffline Starting, Time:0
+12/27/20 1:58:28 AM :Info: Deactivated Turbo Baud, goOffline
+12/27/20 1:58:28 AM :Debug: goOffline about to stopProcessing, Time:0
+12/27/20 1:58:28 AM :Debug: goOffline closed port, Time:0
+12/27/20 1:58:29 AM :Debug: goOffline comm thread stopped, Time:500
+12/27/20 1:58:29 AM :Debug: No Remaining Queue Write instructions
+12/27/20 1:58:29 AM :Debug: removing Configuration: Tuareg
+12/27/20 1:58:29 AM :Debug: ############################################# Save Project Backup ##########################################
+12/27/20 1:58:29 AM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.04 started on Mon Jan 25 16:59:31 CET 2021
+JRE 1.8.0_275, Linux 4.15.0-132-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+1/25/21 4:59:34 PM :Info: Loading Language Content.
+1/25/21 4:59:36 PM :Info: Initializing File Dialogs.
+1/25/21 4:59:36 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+1/25/21 4:59:36 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+1/25/21 4:59:36 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+1/25/21 4:59:36 PM :Info: Initializing Plugin Services.
+1/25/21 4:59:36 PM :Info: Loading Plugins.
+1/25/21 4:59:36 PM :Info: Initializing Help.
+1/25/21 4:59:36 PM :Info: Initializing Edition Features.
+1/25/21 4:59:36 PM :Info: Initializing App Events.
+1/25/21 4:59:36 PM :Debug: App Name:TunerStudio, appEdition:MS
+1/25/21 4:59:36 PM :Info: Initializing User Interface
+1/25/21 4:59:36 PM :Info: Checking for updates
+1/25/21 4:59:38 PM :Info: Loading Font list.
+1/25/21 4:59:38 PM :Debug: Time to retreive font name list: 24 ms.
+1/25/21 4:59:38 PM :Info: 
+1/25/21 4:59:38 PM :Info: Initializing UI Components.
+1/25/21 4:59:38 PM :Info: Ready
+1/25/21 4:59:40 PM :Info: Opening Project ...
+1/25/21 4:59:40 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg
+1/25/21 4:59:40 PM :Debug: EventTrigger Data log Reset. expression: 
+1/25/21 4:59:40 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+1/25/21 4:59:40 PM :Debug: Reading translation file as plain text
+1/25/21 4:59:40 PM :Info: Supported iniSpecVersion=3.67
+1/25/21 4:59:40 PM :Debug: Filtered ConfigurationOptionGroup in 4ms.
+1/25/21 4:59:40 PM :Info: Supported iniSpecVersion=3.67
+1/25/21 4:59:40 PM :Info: Read file canPcVariables.ini: 0.989671ms
+1/25/21 4:59:40 PM :Info: Filtered ini: 0.102567ms
+1/25/21 4:59:40 PM :Info: No iniVersion defined
+1/25/21 4:59:40 PM :Info: Loading Trigger Wheels
+1/25/21 4:59:40 PM :Info: Loaded All known ini sections
+1/25/21 4:59:40 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 24ms.
+1/25/21 4:59:40 PM :Info: Read file mainController.ini: 2.311814ms
+1/25/21 4:59:40 PM :Info: Filtered ini: 0.274889ms
+1/25/21 4:59:40 PM :Info: No iniVersion defined
+1/25/21 4:59:40 PM :Debug: ini signature: rusEFI v1.04
+1/25/21 4:59:40 PM :Info: Loading Trigger Wheels
+1/25/21 4:59:40 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+Saved user properties successfully
+1/25/21 4:59:40 PM :Info: Loaded All known ini sections
+1/25/21 4:59:40 PM :Info: Parsed and validated ini "mainController.ini" in : 30ms.
+1/25/21 4:59:40 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+1/25/21 4:59:40 PM :Info: Time to load primary config: 136.13742ms. used cached config: false
+1/25/21 4:59:40 PM :Debug: Adding Configuration: Tuareg
+1/25/21 4:59:40 PM :Debug: controllerOnline = 0.0
+1/25/21 4:59:40 PM :Debug: Fill Constants: 1
+1/25/21 4:59:40 PM :Info: Tune opened, 364 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+1/25/21 4:59:40 PM :Info: Tune opened, 364 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg/CurrentTune.msq
+1/25/21 4:59:40 PM :Info: dirtyData.size(): 0
+1/25/21 4:59:40 PM :Info: dirtyData.size(): 0
+1/25/21 4:59:40 PM :Debug: Flush lasted: 4ms.
+1/25/21 4:59:40 PM :Info: dirtyData.size(): 0
+1/25/21 4:59:40 PM :Info: dirtyData.size(): 0
+1/25/21 4:59:40 PM :Debug: Flush lasted: 1ms.
+1/25/21 4:59:40 PM :Debug: Skip Burn, last write page: -2
+1/25/21 4:59:40 PM :Info: !!! Loaded config in 294
+1/25/21 4:59:41 PM :Info: !!! Activated Project 835
+1/25/21 4:59:41 PM :Info: Opening Gauge Cluster..
+1/25/21 4:59:41 PM :Info: Time to load uncached dash: 265.1773ms, file: dashboard.dash
+1/25/21 4:59:41 PM :Debug: High Speed Paint: true
+1/25/21 4:59:41 PM :Info: 
+1/25/21 4:59:41 PM :Info: Com Thread created: COMM Thread74020.97659466644
+1/25/21 4:59:41 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+1/25/21 4:59:41 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread74020.97659466644
+1/25/21 4:59:41 PM :Debug: !!! Opened Dash 1176
+1/25/21 4:59:41 PM :Info: Tuareg Ready
+1/25/21 4:59:41 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread74020.97659466644
+1/25/21 4:59:41 PM :Debug: Tuning View Files loaded in 128.57672ms.
+1/25/21 4:59:42 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 4:59:43 PM :Info: Update Check Completed
+Saved user properties successfully
+1/25/21 4:59:43 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 4:59:43 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+1/25/21 4:59:43 PM :Debug: controllerOnline = 1.0
+1/25/21 4:59:43 PM :Info: Activating page: 1
+Saved user properties successfully
+1/25/21 4:59:44 PM :Debug: Read page time: 193ms.
+1/25/21 4:59:44 PM :Info: Activating page: 2
+1/25/21 4:59:44 PM :Debug: Read page time: 185ms.
+1/25/21 4:59:44 PM :Info: Activating page: 3
+1/25/21 4:59:44 PM :Debug: Read page time: 190ms.
+1/25/21 4:59:44 PM :Info: Activating page: 4
+1/25/21 4:59:44 PM :Debug: Read page time: 216ms.
+1/25/21 4:59:44 PM :Info: Activating page: 5
+1/25/21 4:59:44 PM :Debug: Read page time: 177ms.
+1/25/21 4:59:44 PM :Debug: Read All Data
+1/25/21 4:59:44 PM :Debug: isBlank Time: 0 ms.
+
+1/25/21 4:59:44 PM :Debug: Purged 1 orphaned bytes:
+1/25/21 4:59:44 PM :Debug: Time:4.395s. 0x0 
+1/25/21 4:59:44 PM :Debug: Time:4.395s. 
+
+1/25/21 4:59:44 PM :Debug: Time:4.395s.   .  
+1/25/21 4:59:44 PM :Debug: DiffTime: 12 ms.
+1/25/21 4:59:45 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 4:59:47 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 4:59:48 PM :Debug: controllerOnline = 0.0
+1/25/21 4:59:48 PM :Debug: No Remaining Queue Write instructions
+1/25/21 4:59:48 PM :Debug: Went offline
+1/25/21 4:59:48 PM :Debug: controllerOnline = 0.0
+1/25/21 4:59:48 PM :Debug: Deactivated fast paint Main Dashboard
+1/25/21 4:59:49 PM :Debug: No Remaining Queue Write instructions
+1/25/21 4:59:49 PM :Info: Went offline 2
+1/25/21 4:59:50 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 4:59:51 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 4:59:51 PM :Debug: controllerOnline = 1.0
+1/25/21 4:59:52 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 4:59:54 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 4:59:55 PM :Debug: controllerOnline = 0.0
+1/25/21 4:59:55 PM :Debug: No Remaining Queue Write instructions
+1/25/21 4:59:55 PM :Debug: Went offline
+1/25/21 4:59:55 PM :Debug: controllerOnline = 0.0
+1/25/21 4:59:56 PM :Debug: No Remaining Queue Write instructions
+1/25/21 4:59:56 PM :Info: Went offline 2
+1/25/21 4:59:57 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 4:59:58 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 4:59:58 PM :Debug: controllerOnline = 1.0
+1/25/21 4:59:59 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:01 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:02 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:02 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:02 PM :Debug: Went offline
+1/25/21 5:00:02 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:03 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:03 PM :Info: Went offline 2
+1/25/21 5:00:05 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 5:00:06 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 5:00:06 PM :Debug: controllerOnline = 1.0
+1/25/21 5:00:06 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:08 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:09 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:10 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:10 PM :Debug: Went offline
+1/25/21 5:00:10 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:10 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:10 PM :Info: Went offline 2
+1/25/21 5:00:12 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 5:00:13 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 5:00:13 PM :Debug: controllerOnline = 1.0
+1/25/21 5:00:13 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:15 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:16 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:17 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:17 PM :Debug: Went offline
+1/25/21 5:00:17 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:17 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:17 PM :Info: Went offline 2
+1/25/21 5:00:19 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 5:00:20 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 5:00:20 PM :Debug: controllerOnline = 1.0
+1/25/21 5:00:20 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:22 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:115200
+1/25/21 5:00:24 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:24 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:24 PM :Debug: Went offline
+1/25/21 5:00:24 PM :Debug: controllerOnline = 0.0
+1/25/21 5:00:24 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:00:24 PM :Info: Went offline 2
+1/25/21 5:00:29 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+1/25/21 5:00:30 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+1/25/21 5:00:30 PM :Debug: controllerOnline = 1.0
+1/25/21 5:01:09 PM :Debug: Received Instruction: Read Page 2, Page: 2
+1/25/21 5:01:09 PM :Info: Initiating read page 2
+1/25/21 5:01:09 PM :Info: Activating page: 2
+1/25/21 5:01:13 PM :Info: dirtyData.size(): 0
+1/25/21 5:01:13 PM :Info: dirtyData.size(): 0
+1/25/21 5:01:13 PM :Debug: Flush lasted: 0ms.
+1/25/21 5:01:13 PM :Debug: Burn Page anonymous: -1
+1/25/21 5:01:13 PM :Debug: Received Instruction: , Page: 2
+1/25/21 5:01:13 PM :Info: skip burn to page:2, lastWritePage = -2
+1/25/21 5:01:14 PM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 2
+1/25/21 5:01:20 PM :Debug: Time
+1/25/21 5:01:20 PM :Debug: RPM
+1/25/21 5:01:20 PM :Debug: rpm/s
+1/25/21 5:01:20 PM :Debug: Advance deg
+1/25/21 5:01:20 PM :Debug: Dwell ms
+1/25/21 5:01:20 PM :Debug: MAP kPa
+1/25/21 5:01:20 PM :Debug: BARO kPa
+1/25/21 5:01:20 PM :Debug: TPS deg
+1/25/21 5:01:20 PM :Debug: TPS DOT
+1/25/21 5:01:20 PM :Debug: IAT
+1/25/21 5:01:20 PM :Debug: CLT
+1/25/21 5:01:20 PM :Debug: Battery V
+1/25/21 5:01:20 PM :Debug: AFR
+1/25/21 5:01:20 PM :Debug: invac kPa
+1/25/21 5:02:25 PM :Debug: Received Instruction: Read Page 4, Page: 4
+1/25/21 5:02:25 PM :Info: Initiating read page 4
+1/25/21 5:02:25 PM :Info: Activating page: 4
+1/25/21 5:02:56 PM :Info: dirtyData.size(): 0
+1/25/21 5:02:56 PM :Info: dirtyData.size(): 0
+1/25/21 5:02:56 PM :Debug: Flush lasted: 0ms.
+1/25/21 5:02:56 PM :Debug: Burn Page anonymous: -1
+1/25/21 5:02:56 PM :Debug: Received Instruction: , Page: 4
+1/25/21 5:02:56 PM :Info: skip burn to page:4, lastWritePage = -2
+1/25/21 5:02:56 PM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 4
+1/25/21 5:06:50 PM :Info: Time to save msq: 78.08584
+1/25/21 5:06:50 PM :Info: closeApp Called
+1/25/21 5:06:50 PM :Debug: TuneLog Editor set text
+1/25/21 5:06:50 PM :Debug: Fill Constants: 0
+1/25/21 5:06:50 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2020-12-23_02.54.20.msq
+1/25/21 5:06:50 PM :Info: Time to save msq: 7.681653
+1/25/21 5:06:50 PM :Debug: goOffline Starting, Time:0
+1/25/21 5:06:50 PM :Info: Deactivated Turbo Baud, goOffline
+1/25/21 5:06:50 PM :Debug: Burn Page anonymous: -1
+1/25/21 5:06:50 PM :Debug: Received Instruction: , Page: 4
+1/25/21 5:06:50 PM :Info: skip burn to page:4, lastWritePage = -2
+1/25/21 5:06:50 PM :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 4
+1/25/21 5:06:50 PM :Debug: goOffline about to stopProcessing, Time:266
+1/25/21 5:06:50 PM :Debug: controllerOnline = 0.0
+1/25/21 5:06:50 PM :Debug: goOffline Notified offline, Time:281
+1/25/21 5:06:50 PM :Debug: goOffline closed port, Time:281
+1/25/21 5:06:50 PM :Info: Tuareg ComThread stopped COMM Thread74020.97659466644
+1/25/21 5:06:50 PM :Debug: goOffline comm thread stopped, Time:432
+1/25/21 5:06:50 PM :Debug: No Remaining Queue Write instructions
+1/25/21 5:06:50 PM :Debug: removing Configuration: Tuareg
+1/25/21 5:06:50 PM :Debug: ############################################# Save Project Backup ##########################################
+1/25/21 5:06:50 PM :Info: Finalizing Sensors
+Saved user properties successfully

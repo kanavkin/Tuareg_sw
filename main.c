@@ -66,7 +66,8 @@ SCHEDULER (ignition)
 
 #include "decoder_hw.h"
 #include "decoder_logic.h"
-#include "ignition_logic.h"
+#include "Tuareg_ignition.h"
+#include "Tuareg_ignition.h"
 #include "ignition_hw.h"
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
@@ -166,8 +167,6 @@ sensors: no timers
 
 
 */
-
-
 int main(void)
 {
     Tuareg.Runmode= TMODE_BOOT;
@@ -180,11 +179,6 @@ int main(void)
     set_debug_pin(PIN_ON);
     dwt_init();
 
-    //serial monitor
-    #ifdef SERIAL_MONITOR
-    UART1_Send("\r \n serial monitor loaded!");
-    #endif
-
     //set up config data
     Tuareg_set_Runmode(TMODE_CONFIGLOAD);
 
@@ -194,10 +188,6 @@ int main(void)
     /**
     system initialization has been completed, but never leave LIMP mode!
     */
-    #ifdef TUAREG_MODULE_TEST
-    Tuareg_set_Runmode(TMODE_MODULE_TEST);
-    #else
-
     if(Tuareg.Errors.config_load_error)
     {
         Tuareg_set_Runmode(TMODE_LIMP);
@@ -206,16 +196,10 @@ int main(void)
     {
         Tuareg_set_Runmode(TMODE_HALT);
     }
-    #endif // TUAREG_MODULE_TEST
+
 
     while(1)
     {
-        #ifdef TUAREG_MODULE_TEST
-        moduletest_main_action();
-        #else
-
-        //debug
-        //poll_dwt_printout();
 
         /**
         4 Hz actions
@@ -238,7 +222,6 @@ int main(void)
             //calculate new system state
             Tuareg_update_Runmode();
 
-            //print_sensor_data(DEBUG_PORT);
 
         }
 
@@ -249,15 +232,6 @@ int main(void)
         {
             ls_timer &= ~BIT_TIMER_10HZ;
 
-            //serial monitor
-            #ifdef SERIAL_MONITOR
-            while( monitor_available() )
-            {
-                monitor_print();
-            }
-            #endif // SERIAL_MONITOR
-
-
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
 
@@ -266,7 +240,7 @@ int main(void)
 
     }
 
-    #endif // TUAREG_MODULE_TEST
+
     return 0;
 }
 
@@ -275,11 +249,11 @@ int main(void)
 
 
 /******************************************************************************************************************************
-sw generated irq when decoder has
-updated crank_position based on crank pickup signal
-or decoder timeout occurred!
+Update crankpos irq
 
-The crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync!
+sw generated irq when decoder has updated crank_position based on crank pickup signal or decoder timeout occurred
+
+The crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync
 
 The irq can be entered in HALT Mode when the crank is still spinning but the RUN switch has not yet been evaluated.
 
@@ -291,135 +265,79 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
-    #ifdef TUAREG_MODULE_TEST
-    moduletest_irq2_action();
-    #else
-
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
     //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_DECODER_IRQ);
+    //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
-    switch(Tuareg.Runmode)
+    //check for decoder timeout
+    if(Tuareg.decoder->state.timeout == true)
     {
+        //collect diagnostic information
+        //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
 
-        case TMODE_CRANKING:
-        case TMODE_RUNNING:
+        Tuareg_set_Runmode(TMODE_STB);
+        return;
+    }
 
-            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
-            {
-                /**
-                normal engine operation
-                */
+    //check if the reported position is valid
+    if(Tuareg.decoder->state.position_valid == false)
+    {
+        /// TODO (oli#1#): what does this means?
+        return;
+    }
 
-                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
+    //trigger coils if we are in a run mode that permits engine operation
+    if( (Tuareg.Runmode == TMODE_CRANKING) || (Tuareg.Runmode == TMODE_RUNNING) || (Tuareg.Runmode == TMODE_LIMP) )
+    {
+        Tuareg_ignition_update_crankpos_handler();
+    }
 
-                if(Tuareg.decoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
-                {
-                    Tuareg_update_process_data(&(Tuareg.process));
-                }
+    //check if ignition controls shall be updated
+    if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+    {
+        //update process table with data supplied by decoder
+        update_process_table(Tuareg.decoder->crank_period_us);
 
-                if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
-                {
-                    Tuareg_update_ignition_controls(&(Tuareg.ignition_controls));
-                }
+        //update process data
+        Tuareg_update_process_data();
 
-                //trigger coils
-                Tuareg_trigger_ignition_actors(Tuareg.decoder->crank_position, Tuareg.decoder->phase, &(Tuareg.ignition_controls));
+        //update ignition controls
+        Tuareg_update_ignition_controls();
+    }
 
-            }
-            else
-            {
-                /**
-                decoder timeout
-                */
-
-                //collect diagnostic information
-                tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
-
-                Tuareg_set_Runmode(TMODE_STB);
-
-            }
-
-            break;
+    // check if cranking has just begun
+    if(Tuareg.Runmode == TMODE_STB)
+    {
+        Tuareg_set_Runmode(TMODE_CRANKING);
+    }
 
 
-        case TMODE_STB:
+    ///tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 
-
-            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
-            {
-                tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
-
-                /**
-                first position detected -> cranking has begun
-                */
-                Tuareg_set_Runmode(TMODE_CRANKING);
-
-            }
-
-            ///else: decoder timeout -> nothing to do here, no active actors in this mode
-            break;
-
-
-        case TMODE_LIMP:
-
-            // no diagnostics in TMODE_LIMP
-
-            if(Tuareg.decoder->crank_position < CRK_POSITION_COUNT)
-            {
-                if(Tuareg.decoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
-                {
-                    Tuareg_update_process_data(&(Tuareg.process));
-                }
-
-                if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
-                {
-                    Tuareg_update_ignition_controls(&(Tuareg.ignition_controls));
-                }
-
-                //trigger coils
-                Tuareg_trigger_ignition_actors(Tuareg.decoder->crank_position, Tuareg.decoder->phase, &(Tuareg.ignition_controls));
-
-                //no mode transitions from TMODE_LIMP!
-
-            }
-
-            break;
-
-
-        default:
-
-            /**
-            possible scenario:
-            -engine has been killed by kill switch and the crank shaft is still rotating
-            -in DIAG mode we will benefit from the updated crank data...
-            */
-
-            //collect diagnostic information
-            tuareg_diag_log_event(TDIAG_DECODER_PASSIVE);
-            break;
-
-     }
-
-     #endif // TUAREG_MODULE_TEST
 }
 
+
+
 /******************************************************************************************************************************
-sw generated irq when spark has fired
--> recalculate ignition timing
- ******************************************************************************************************************************/
+sw generated irq when a spark has fired
+******************************************************************************************************************************/
 void EXTI3_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line3;
 
+    /*
+    main task here is to turn on the coils for dwell in dynamic mode
+    */
+    Tuareg_ignition_irq_handler();
+
+
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
 
 }
-
 
 
 

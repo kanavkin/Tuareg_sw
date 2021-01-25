@@ -6,6 +6,8 @@ this module covers the ignition hardware layer
 #include "stm32_libs/boctok_types.h"
 #include "ignition_hw.h"
 
+#include "Tuareg.h"
+
 //#include "diagnostics.h"
 //#include "debug.h"
 
@@ -18,32 +20,46 @@ performance analysis revealed:
 one set_ignition_ch1(ON) + set_ignition_ch1(OFF) cycle generates a pulse of about 1 us +/- 50ns
 execution time about 120 cycles
  ******************************************************************************************************************************/
-inline void set_ignition_ch1(actor_control_t level)
+void set_ignition_ch1(actor_control_t level)
 {
-    if(level == ACTOR_POWERED)
+    if((level == ACTOR_POWERED) && (Tuareg.actors.ignition_inhibit == false))
     {
         //ON
         gpio_set_pin(GPIOC, 6, PIN_ON);
+
+        Tuareg.actors.ignition_coil_1= true;
     }
     else
     {
         // OFF
         gpio_set_pin(GPIOC, 6, PIN_OFF);
+
+        Tuareg.actors.ignition_coil_1= false;
+
+        ///trigger sw irq
+        EXTI->SWIER= EXTI_SWIER_SWIER3;
     }
 }
 
 
-inline void set_ignition_ch2(actor_control_t level)
+void set_ignition_ch2(actor_control_t level)
 {
-   if(level == ACTOR_POWERED)
+    if((level == ACTOR_POWERED) && (Tuareg.actors.ignition_inhibit == false))
     {
         //ON
         gpio_set_pin(GPIOC, 7, PIN_ON);
+
+        Tuareg.actors.ignition_coil_2= true;
     }
     else
     {
         // OFF
         gpio_set_pin(GPIOC, 7, PIN_OFF);
+
+        Tuareg.actors.ignition_coil_2= false;
+
+        ///trigger sw irq
+        EXTI->SWIER= EXTI_SWIER_SWIER3;
     }
 }
 
@@ -70,12 +86,12 @@ inline void trigger_ignition_irq()
 /**
     using
     -GPIOC6 for ignition coil 1
+    -GPIOC7 for ignition coil 2
 
-    -use EXTI IRQ 2 for ignition timing
-     recalculation after spark has fired
+    -use EXTI IRQ 3 after spark has fired
 
 */
-inline void init_ignition_hw()
+void init_ignition_hw()
 {
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
@@ -86,7 +102,6 @@ inline void init_ignition_hw()
     set_ignition_ch1(ACTOR_UNPOWERED);
     set_ignition_ch2(ACTOR_UNPOWERED);
 
-    /*
     //sw irq on exti line 3
     EXTI->IMR |= EXTI_IMR_MR3;
 
@@ -94,5 +109,5 @@ inline void init_ignition_hw()
     NVIC_SetPriority(EXTI3_IRQn, 10UL);
     NVIC_ClearPendingIRQ(EXTI3_IRQn);
     NVIC_EnableIRQ(EXTI3_IRQn);
-    */
+
 }

@@ -10,7 +10,8 @@ production version
 
 #include "debug.h"
 #include "decoder_logic.h"
-#include "ignition_logic.h"
+#include "Tuareg_ignition.h"
+#include "Tuareg_ignition_controls.h"
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
@@ -31,7 +32,7 @@ VU32 Debug_DWT_End =0;
 dbug led on GPIOC-1
 (this is led2 on nucleo64)
 */
-void set_debug_led(volatile output_pin_t level)
+void set_debug_led(output_pin_t level)
 {
     gpio_set_pin(GPIOC, 1, level);
 }

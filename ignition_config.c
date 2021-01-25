@@ -1,6 +1,7 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
+#include "base_calc.h"
 #include "table.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
@@ -40,6 +41,8 @@ exec_result_t load_Ignition_Config()
    ASSERT_EXEC_OK(load_result);
 
    load_result= load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE);
+   ignAdvTable_TPS.mgr.div_X_lookup= 1;
+   ignAdvTable_TPS.mgr.div_Y_lookup= 1;
 
    return load_result;
 }
@@ -195,7 +198,7 @@ void send_ignAdvTable_TPS(USART_TypeDef * Port)
 
 VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
 {
-    return (VU32) getValue_t3D(&ignAdvTable_TPS, (Rpm / ignAdvTable_TPS.mgr.div_X_lookup), TPS);
+    return (VU32) getValue_t3D(&ignAdvTable_TPS, divide_VU32(Rpm, ignAdvTable_TPS.mgr.div_X_lookup), TPS);
 }
 
 

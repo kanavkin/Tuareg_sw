@@ -464,7 +464,7 @@ void show_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTableData)
         // Z values of this row, printing from left to right Z[y][0..15]
         for (column = 0; column < T3D_DATA_DIMENSION; column++)
         {
-            printf_U(pPort, pTableData->axisZ[T3D_DATA_DIMENSION -1 - row][column], PAD_2);
+            printf_U(pPort, pTableData->axisZ[T3D_DATA_DIMENSION -1 - row][column], PAD_3);
             print(pPort, "  ");
         }
 

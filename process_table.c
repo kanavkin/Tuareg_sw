@@ -1,38 +1,92 @@
 /**
 */
+#include "base_calc.h"
+
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
 #include "Tuareg_types.h"
 #include "process_table.h"
 
+#include "Tuareg_config.h"
+
 /**
 absolute process advance angles for the crank positions at the current engine speed
 */
 volatile process_advance_t ProcessTable[PROCESS_TABLE_LENGTH];
+volatile bool ProcessTable_valid= false;
 
 
 /**
 calculates the absolute process advance angles based on the information provided in pCrankTable
 */
-void update_process_table(volatile crank_position_table_t * pCrankTable)
+void update_process_table(VU32 Crank_period_us)
 {
-    U32 crank_pos, base_advance_deg;
+    U32 pos, index, advance_deg, delay_deg;
 
     //fill table according to crank angle data
-    for(crank_pos= 0; crank_pos < CRK_POSITION_COUNT; crank_pos++)
+    for(pos= 0; pos < CRK_POSITION_COUNT; pos++)
     {
-        base_advance_deg= pCrankTable->crank_angle_deg[crank_pos];
+        /// TODO (oli#1#): check if this access is correct (packed structure)
+        advance_deg= Tuareg_Setup.trigger_advance_map[pos];
 
-        //compression stroke directly before the reference cTDC
-        ProcessTable[crank_pos]= 360 - base_advance_deg ;
+        /// TODO (oli#1#): add vr delay range check?
+        //calculate VR introduced delay
+        delay_deg= calc_rot_angle_deg(Tuareg_Setup.decoder_delay_us, Crank_period_us);
 
-        //exhaust stroke
-        ProcessTable[crank_pos + CRK_POSITION_COUNT]= 720 - base_advance_deg;
+        /*
+        Position 0 is our TDC reference position
+        * Its base advance angle (the one defined by trigger wheel geometric) is the smallest among all trigger positions.
+        * The delay, introduced by the VR interface circuit, makes the effective advance angle even smaller
+        * When the VR delay is greater than our TDC reference positions base advance angle, it appears that the reference position gets shifted to a previous cycle
+        * with an advance angle ~360° -> becoming the position with the largest advance angle -> "reference inversion"
+        *
+        * Further, the TDC reference position shall not leave its phase
+        *
+        */
+        if(pos == 0)
+        {
+            //compression stroke directly before the reference cTDC
+            ProcessTable[0]= subtract_VU32(advance_deg, delay_deg);
 
-        //previous compression stroke
-        ProcessTable[crank_pos + 2* CRK_POSITION_COUNT]= 1080 - base_advance_deg;
+            //exhaust stroke
+            ProcessTable[CRK_POSITION_COUNT]= 360 + subtract_VU32(advance_deg, delay_deg);
+
+            //previous compression stroke
+            ProcessTable[2* CRK_POSITION_COUNT]= 720 + subtract_VU32(advance_deg, delay_deg);
+        }
+        else
+        {
+            //compression stroke directly before the reference cTDC
+            ProcessTable[pos]= subtract_VU32(advance_deg, delay_deg);
+
+            //exhaust stroke
+            ProcessTable[pos + CRK_POSITION_COUNT]= 360 + advance_deg - delay_deg;
+
+            //previous compression stroke
+            ProcessTable[pos + 2* CRK_POSITION_COUNT]= 720 + advance_deg - delay_deg;
+        }
     }
+
+    //check process table
+    for(index= 0; index < (PROCESS_TABLE_LENGTH -1); index++)
+    {
+        if(ProcessTable[index] >= ProcessTable[index +1])
+        {
+            ProcessTable_valid= false;
+
+           /* print(DEBUG_PORT, "\r\nError Process Table inconsistent at index ");
+            printf_U(DEBUG_PORT, index, NO_PAD | NO_TRAIL);
+            */
+
+            return;
+        }
+
+    }
+
+    //all done
+    ProcessTable_valid= true;
+
 }
 
 
@@ -43,6 +97,10 @@ in case of error the state of pTarget will be unchanged
 */
 exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * pTarget)
 {
+    if(!ProcessTable_valid)
+    {
+        return EXEC_ERROR;
+    }
 
     if(Index < CRK_POSITION_COUNT)
     {
@@ -116,6 +174,11 @@ exec_result_t find_process_position_before(volatile process_advance_t Reference_
     exec_result_t result;
     process_advance_t base_PA;
 
+    if(!ProcessTable_valid)
+    {
+        return EXEC_ERROR;
+    }
+
     /*
     loop through the positions
     */
@@ -152,6 +215,11 @@ exec_result_t find_process_position_after(VU32 Reference_PA, volatile process_po
     U32 index;
     exec_result_t result;
 
+    if(!ProcessTable_valid)
+    {
+        return EXEC_ERROR;
+    }
+
     /*
     check if the first position in table is already before Reference_PA
     (because then the following position would be "now" (undefined in terms of advance)
@@ -185,6 +253,11 @@ exec_result_t get_process_advance(volatile process_position_t * pPosition)
     exec_result_t result;
     U32 index;
 
+    if(!ProcessTable_valid)
+    {
+        return EXEC_ERROR;
+    }
+
     result= get_index_from_position(pPosition, &index);
 
     ASSERT_EXEC_OK(result);
@@ -199,12 +272,24 @@ void print_process_table(USART_TypeDef * Port)
 {
     U32 index;
 
-    print(Port, "\r\n\r\n*** Process Table *** Index:Advance (deg)\r\n");
+    if(!ProcessTable_valid)
+    {
+        print(Port, "\r\n\r\n*** Process Table (!INVALID!) ***\r\n");
+    }
+    else
+    {
+        print(Port, "\r\n\r\n*** Process Table ***\r\n");
+    }
+
+
 
     for(index=0; index < PROCESS_TABLE_LENGTH; index++)
     {
-        printf_U(Port, index, PAD_2 | NO_TRAIL);
-        UART_Tx(Port, ':');
+        printf_U(Port, index, PAD_2);
+        UART_Tx(Port, '(');
+        printf_crkpos(TS_PORT, (index % CRK_POSITION_COUNT));
+        print(Port, "): ");
+
         printf_U(Port, ProcessTable[index], PAD_4);
 
         if(index == CRK_POSITION_COUNT -1 )
@@ -219,6 +304,136 @@ void print_process_table(USART_TypeDef * Port)
         {
             print(Port, "(far COMP)\r\n");
         }
+
+    }
+}
+
+#define PROCESS_TABLE_FANCY_RES 2
+
+/*
+
+-|+++|-------------------------|+++++++++++++++++++|-----------------------------------------|++++|-----------------------------------------|++++|
+*/
+void print_process_table_fancy()
+{
+    U32 phase, pos, index;
+    bool print_key= false;
+    char fill_space;
+    U32 dist[CRK_POSITION_COUNT];
+    U32 x_count;
+    U32 x_pos[CRK_POSITION_COUNT];
+
+    if(!ProcessTable_valid)
+    {
+        print(TS_PORT, "\r\n\r\n*** Process Table (!INVALID!) ***\r\n");
+    }
+    else
+    {
+        print(TS_PORT, "\r\n\r\n*** Process Table ***\r\n");
+    }
+
+    //distance until first position
+    dist[0]= ProcessTable[0] / PROCESS_TABLE_FANCY_RES;
+
+    //distance until the other positions
+    for(pos=1; pos < CRK_POSITION_COUNT; pos++)
+    {
+        dist[pos]= (ProcessTable[pos] - ProcessTable[pos -1]) / PROCESS_TABLE_FANCY_RES;
+    }
+
+    //get the x coordinate of each position
+    x_count= 0;
+
+    for(pos=0; pos < CRK_POSITION_COUNT; pos++)
+    {
+        x_count= x_count + dist[pos] +1;
+        x_pos[pos]= x_count;
+    }
+
+
+    UART_TS_PORT_NEXT_LINE();
+
+    for(pos=0; pos < CRK_POSITION_COUNT; pos++)
+    {
+        UART_Tx(TS_PORT, '(');
+        printf_crkpos(TS_PORT, pos);
+        UART_Tx(TS_PORT, ')');
+
+        UART_Tx_n(TS_PORT, ' ', 6);
+    }
+
+    UART_TS_PORT_NEXT_LINE();
+
+    for(index=0; index < PROCESS_TABLE_LENGTH; index++)
+    {
+        UART_Tx(TS_PORT, '[');
+        printf_U(TS_PORT, index, PAD_2 | NO_TRAIL);
+        UART_Tx(TS_PORT, ']');
+        UART_Tx(TS_PORT, ' ');
+        printf_U(TS_PORT, ProcessTable[index], PAD_4);
+
+        if(index == CRK_POSITION_COUNT -1 )
+        {
+            print(TS_PORT, "(COMP)\r\n");
+        }
+        else if(index == 2* CRK_POSITION_COUNT -1 )
+        {
+            print(TS_PORT, "(EX)\r\n");
+        }
+        else if(index == 3* CRK_POSITION_COUNT -1 )
+        {
+            print(TS_PORT, "(far COMP)\r\n");
+        }
+
+    }
+
+    UART_TS_PORT_NEXT_LINE();
+
+    for(phase=0; phase < 3; phase++)
+    {
+        UART_TS_PORT_reset_char_count();
+
+        //process advance numbers - top
+        for(pos=0; pos < CRK_POSITION_COUNT; pos++)
+        {
+            x_count= UART_TS_PORT_get_char_count();
+
+            //print space until position
+            UART_Tx_n(TS_PORT, ' ', subtract_VU32(x_pos[pos], x_count +1) );
+
+            UART_Tx(TS_PORT, '[');
+            printf_U(TS_PORT, phase * CRK_POSITION_COUNT + pos, NO_PAD | NO_TRAIL);
+            UART_Tx(TS_PORT, ']');
+        }
+
+        UART_TS_PORT_NEXT_LINE();
+
+        //lines
+        for(pos=0; pos < CRK_POSITION_COUNT; pos++)
+        {
+            fill_space= print_key? '+': '-';
+
+            //print '-' until position
+            UART_Tx_n(TS_PORT, fill_space, dist[pos]);
+
+            //print '|' at position
+            UART_Tx(TS_PORT, '|');
+
+            print_key= !print_key;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        print(TS_PORT, "\r\n\r\n\r\n");
 
     }
 }
