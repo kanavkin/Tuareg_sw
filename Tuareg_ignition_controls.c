@@ -52,7 +52,7 @@ void Tuareg_update_ignition_controls()
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_CALLS);
 
 
-    if((Tuareg.decoder->state.rpm_valid == false) || (Tuareg.decoder->state.timeout == true) || (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB))
+    if((Tuareg.decoder->outputs.rpm_valid == false) || (Tuareg.decoder->outputs.timeout == true) || (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB))
     {
         default_ignition_controls();
         return;
@@ -238,7 +238,7 @@ inline exec_result_t dynamic_ignition_controls()
     /**
     check for sequential / batch mode capabilities
     */
-    if((Tuareg.decoder->state.phase_valid == true) && (Ignition_Setup.coil_setup == COILS_SEPARATE))
+    if((Tuareg.decoder->outputs.phase_valid == true) && (Ignition_Setup.coil_setup == COILS_SEPARATE))
     {
         Tuareg.ignition_controls.state.sequential_mode= true;
     }

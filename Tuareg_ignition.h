@@ -16,6 +16,9 @@ typedef enum {
 } coil_setup_t;
 
 
+
+void init_Ignition();
+
 void Tuareg_ignition_update_crankpos_handler();
 void Tuareg_ignition_irq_handler();
 

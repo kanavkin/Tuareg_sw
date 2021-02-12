@@ -1,6 +1,9 @@
 #ifndef TUAREG_CONFIG_H_INCLUDED
 #define TUAREG_CONFIG_H_INCLUDED
 
+#include "uart.h"
+
+
 #define TUAREG_SETUP_SIZE 24
 
 /***************************************************************************************************************************************************

@@ -11,7 +11,6 @@
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
 
-#include "utils.h"
 #include "table.h"
 
 #include "config_pages.h"
@@ -113,10 +112,7 @@ void Tuareg_update_console()
 
     case 'D':
 
-        /**
-        received debug feature command
-        taking 2 bytes of input data
-        */
+        //received debug feature command takes 2 bytes of input data
         if(UART_available() < 2)
         {
             return;
@@ -138,6 +134,32 @@ void Tuareg_update_console()
 
         //run the desired feature
         ts_service_features(value);
+        break;
+
+    case 'I':
+
+        //received service info command takes 2 bytes of input data
+        if(UART_available() < 2)
+        {
+            return;
+        }
+
+        /**
+        format:
+        MSB, LSB
+        */
+        value= UART_getRX();
+        value <<= 8;
+        value |= UART_getRX();
+
+        #ifdef CONSOLE_DEBUG
+        /// TODO (oli#1#): TS debugging enabled
+        print(DEBUG_PORT, "\r\n@");
+        printf_U(DEBUG_PORT, value, NO_PAD | NO_TRAIL);
+        #endif // CONSOLE_DEBUG
+
+        //run the desired feature
+        ts_service_info(value);
         break;
 
 

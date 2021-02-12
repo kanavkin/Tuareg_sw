@@ -3,6 +3,7 @@
 
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "Tuareg_types.h"
+#include "decoder_hw.h"
 
 
 typedef enum {
@@ -26,6 +27,7 @@ void printf_U(USART_TypeDef * Port, U32 Value, BF32 Format);
 void printf_F32(USART_TypeDef * Port, F32 Value);
 void printf_crkpos(USART_TypeDef * Port, crank_position_t Position);
 void printf_phase(USART_TypeDef * Port, engine_phase_t Phase);
+void printf_decoder_sensing(USART_TypeDef * Port, decoder_sensing_t Sensing);
 
 void print(USART_TypeDef * Port, char messg[] );
 

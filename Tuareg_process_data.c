@@ -39,8 +39,7 @@
 inline void Tuareg_update_process_data()
 {
 
-    //this information is included for diagnostic purposes only
-    Tuareg.process.crank_rpm= (Tuareg.decoder->state.rpm_valid == true)? (Tuareg.decoder->crank_rpm): 0;
+
 
 
     //collect diagnostic information

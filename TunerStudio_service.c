@@ -11,7 +11,6 @@
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
 
-#include "utils.h"
 #include "table.h"
 
 #include "config_pages.h"
@@ -42,47 +41,6 @@ void ts_service_features(U32 FeatureID)
 
     switch (FeatureID)
     {
-        case 'dD':
-
-            print_decoder_diag(TS_PORT);
-            break;
-
-        case 'dd':
-
-            print_decoder_diag_legend(TS_PORT);
-            break;
-
-        case 'dT':
-
-            print_tuareg_diag(TS_PORT);
-            break;
-
-        case 'dt':
-
-            print_tuareg_diag_legend(TS_PORT);
-            break;
-
-        case 'dS':
-
-            print_scheduler_diag(TS_PORT);
-            break;
-
-        case 'ds':
-
-            print_scheduler_diag_legend(TS_PORT);
-            break;
-
-        case 'dI':
-
-            print_ignition_diag(TS_PORT);
-            break;
-
-        case 'di':
-
-            print_ignition_diag_legend(TS_PORT);
-            break;
-
-
 
         case 'ep':
 
@@ -110,54 +68,6 @@ void ts_service_features(U32 FeatureID)
 
             break;
 
-        case 'Pr':
-
-            /**
-            print current process data
-            */
-            cli_show_process_data(&(Tuareg.process));
-            break;
-
-        case 'Pt':
-
-            /**
-            print current process table
-            */
-            print_process_table(TS_PORT);
-            break;
-
-        case 'PT':
-
-            /**
-            print current process table fancy
-            */
-            print_process_table_fancy(TS_PORT);
-            break;
-
-
-        case 'Ig':
-
-            /**
-            print current ignition setup
-            */
-            cli_show_ignition_timing(&(Tuareg.ignition_controls));
-
-            break;
-
-        case 'DI':
-
-            /**
-            print current ignition setup
-            */
-            cli_show_decoder_interface(Tuareg.decoder);
-
-            break;
-
-        case 'sn':
-
-            //show analog and digital sensor values
-            print_sensor_data(TS_PORT);
-            break;
 
         case 'rs':
 
@@ -170,6 +80,97 @@ void ts_service_features(U32 FeatureID)
       break;
   }
 }
+
+
+
+void ts_service_info(U32 InfoID)
+{
+    switch (InfoID)
+    {
+        case 'DD':
+
+            print_decoder_diag(TS_PORT);
+            break;
+
+        case 'Dd':
+
+            print_decoder_diag_legend(TS_PORT);
+            break;
+
+        case 'DI':
+
+            cli_show_decoder_interface(Tuareg.decoder);
+
+            break;
+
+        case 'TD':
+
+            print_tuareg_diag(TS_PORT);
+            break;
+
+        case 'Td':
+
+            print_tuareg_diag_legend(TS_PORT);
+            break;
+
+        case 'SD':
+
+            print_scheduler_diag(TS_PORT);
+            break;
+
+        case 'Sd':
+
+            print_scheduler_diag_legend(TS_PORT);
+            break;
+
+        case 'ID':
+
+            print_ignition_diag(TS_PORT);
+            break;
+
+        case 'Id':
+
+            print_ignition_diag_legend(TS_PORT);
+            break;
+
+        case 'IC':
+
+            cli_show_ignition_controls(&(Tuareg.ignition_controls));
+            break;
+
+
+        case 'PR':
+
+            /**
+            print current process data
+            */
+            cli_show_process_data(&(Tuareg.process));
+            break;
+
+
+        case 'PT':
+
+            /**
+            print current process table fancy
+            */
+            print_process_table_fancy(TS_PORT);
+            break;
+
+
+
+        case 'se':
+
+            //show analog and digital sensor values
+            print_sensor_data(TS_PORT);
+            break;
+
+
+    default:
+      break;
+  }
+}
+
+
 
 void cli_show_process_data(volatile process_data_t * pImage)
 {
@@ -211,7 +212,7 @@ void cli_show_process_data(volatile process_data_t * pImage)
 
 }
 
-void cli_show_ignition_timing(volatile ignition_control_t * pTiming)
+void cli_show_ignition_controls(volatile ignition_control_t * pTiming)
 {
     print(TS_PORT, "\r\n\r\nignition setup:");
 
@@ -254,15 +255,9 @@ void cli_show_ignition_timing(volatile ignition_control_t * pTiming)
 }
 
 
-void cli_show_decoder_interface(volatile decoder_interface_t * pInterface)
+void cli_show_decoder_interface(volatile Tuareg_decoder_t * pInterface)
 {
     print(TS_PORT, "\r\n\r\ndecoder interface:");
-
-    print(TS_PORT, "\r\ncrank period (us): ");
-    printf_U(TS_PORT, pInterface->crank_period_us, NO_PAD);
-
-    print(TS_PORT, "\r\ncrank rpm: ");
-    printf_U(TS_PORT, pInterface->crank_rpm, NO_PAD);
 
     print(TS_PORT, "\r\ncrank position: ");
     printf_crkpos(TS_PORT, pInterface->crank_position);
@@ -270,17 +265,28 @@ void cli_show_decoder_interface(volatile decoder_interface_t * pInterface)
     print(TS_PORT, "\r\nphase: ");
     printf_phase(TS_PORT, pInterface->phase);
 
-    print(TS_PORT, "\r\nstate: timeout pos_valid phase_valid period_valid rpm_valid: ");
+    print(TS_PORT, "\r\ncrank period (us): ");
+    printf_U(TS_PORT, pInterface->crank_period_us, NO_PAD);
 
-    UART_Tx(TS_PORT, (pInterface->state.timeout? '1' :'0'));
+    print(TS_PORT, "\r\ncrank rpm: ");
+    printf_U(TS_PORT, pInterface->crank_rpm, NO_PAD);
+
+    print(TS_PORT, "\r\ncrank acceleration: ");
+    printf_F32(TS_PORT, pInterface->crank_acceleration);
+
+    print(TS_PORT, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid timeout: ");
+    UART_Tx(TS_PORT, (pInterface->outputs.position_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->state.position_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->outputs.phase_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->state.phase_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->outputs.period_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->state.period_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->outputs.rpm_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->state.rpm_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->outputs.accel_valid? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pInterface->outputs.timeout? '1' :'0'));
+
 
 }
 

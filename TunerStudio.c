@@ -7,7 +7,6 @@
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
 
-#include "utils.h"
 #include "table.h"
 
 #include "uart.h"

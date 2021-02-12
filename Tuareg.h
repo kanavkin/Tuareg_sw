@@ -34,6 +34,10 @@ to allow limp home operation if eeprom has ben corrupted
 
 
 
+#define DECODER_WATCHDOG_UPDATE_INTERVAL_MS 100
+#define DECODER_WATCHDOG_TIMEOUT_MS 3000
+
+
 /// TODO (oli#8#): find elegant solution for configuration values
 
 //level at which the crash sensor reports a crash event
@@ -44,25 +48,6 @@ to allow limp home operation if eeprom has ben corrupted
 
 //amount of consecutive valid captures an analog senor has to provide until he is considered valid
 #define ASENSOR_VALIDITY_THRES 150
-
-
-
-//#define CYLINDER_SENSOR_POSITION POSITION_D2
-
-//TODO: remove deprecated arduino type definitions in Tuareg_t
-#include "arduino_types.h"
-
-#define CRANK_ANGLE_MAX  720
-#define CRANK_ANGLE_MAX_IGN  360
-#define CRANK_ANGLE_MAX_INJ  360 // The number of crank degrees that the system track over. 360 for wasted / timed batch and 720 for sequential
-
-
-/**
-This is the maximum rpm that the ECU will attempt to run at.
-It is NOT related to the rev limiter, but is instead dictates how fast certain operations will be allowed to run.
-Lower number gives better performance
-*/
-#define MAX_RPM 9000
 
 
 /**
@@ -137,15 +122,13 @@ typedef struct {
     U32 ignition_inhibit :1;
     U32 ignition_coil_1 :1;
     U32 ignition_coil_2 :1;
-    U32 ignition_scheduler_1 :1;
-    U32 ignition_scheduler_2 :1;
+    U32 ign1_irq_flag :1;
+    U32 ign2_irq_flag :1;
 
     //fueling
     U32 fueling_inhibit :1;
     U32 fuel_injector_1 :1;
     U32 fuel_injector_2 :1;
-    U32 fuel_scheduler_1 :1;
-    U32 fuel_scheduler_2 :1;
     U32 fuel_pump :1;
 
 } tuareg_actors_state_t;
@@ -153,7 +136,7 @@ typedef struct {
 
 
 /**
-The status struct contains the current values for all 'live' variables
+
 */
 typedef struct _Tuareg_t {
 
@@ -161,7 +144,7 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    volatile decoder_interface_t * decoder;
+    volatile Tuareg_decoder_t * decoder;
 
     /**
     access to core components
@@ -186,6 +169,9 @@ typedef struct _Tuareg_t {
     //mirrors the actual state of vital actors
     volatile tuareg_actors_state_t actors;
 
+    //decoder watchdog
+    VU32 decoder_watchdog_ms;
+
 } Tuareg_t;
 
 
@@ -194,11 +180,6 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
-
-
-
-
-
 void Tuareg_print_init_message();
 
 void Tuareg_update_Runmode();
@@ -206,11 +187,10 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
 
 extern void Tuareg_stop_engine();
 
-
-
 void Tuareg_export_diag(VU32 * pTarget);
-
-
 void Tuareg_update_halt_sources();
+
+extern void reset_decoder_watchdog();
+extern void update_decoder_watchdog();
 
 #endif // TUAREG_H_INCLUDED

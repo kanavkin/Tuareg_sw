@@ -203,10 +203,9 @@ VF32 calc_inverse_lin(VU32 Arg, VF32 M, VF32 N)
 
 /**
 throttle transient calculation
-as the change in airflow restriction past the throttle is a inverse logarithmic curve
-we use a weighted measure:
+
+implemented as weighted measure with a filter to suppress little spikes:
 ddt_TPS= (tps_new - tps_old) * (101 - tps_old)
-but suppress little spikes
 
 calculation relies on the converted TPS value (0..100)!
 */

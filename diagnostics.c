@@ -26,33 +26,37 @@ void scheduler_diag_log_event(scheduler_diag_t event)
 
 void print_scheduler_diag(USART_TypeDef * Port)
 {
-    U32 cnt;
+    U32 cnt, column = 1;
 
-    print(Port, "\r\nscheduler diag: \r\n");
+    print(Port, "\r\nScheduler diag: \r\n");
 
     for(cnt=0; cnt < SCHEDIAG_COUNT; cnt++)
     {
         printf_U(Port, scheduler_diag[cnt], PAD_10);
 
-        if((cnt != 0) && ((cnt % 5) == 0))
+        if(column == 7)
         {
             print(Port, "\r\n");
+            column = 1;
         }
-
+        else
+        {
+            column++;
+        }
     }
 }
 
 
 void print_scheduler_diag_legend(USART_TypeDef * Port)
 {
-    print(Port, "\r\nDELAY_CLIPPED, DELAY_BYPASS, ICH1_SET, ICH1_CURRC_SET, ICH1_NEXTC_PRELOAD_SET,");
-    print(Port, "\r\nICH1_NEXTC_UPDATE_SET, ICH2_SET, FCH1_SET, FCH2_SET, ICH1_TRIG,");
-    print(Port, "\r\nICH2_TRIG, FCH1_TRIG, FCH2_TRIG, ICH1_RESET, ICH2_RESET,");
-    print(Port, "\r\nFCH1_RESET, FCH2_RESET, ICH1_RETRIGD, ICH2_RETRIGD, FCH1_RETRIGD,");
-    print(Port, "\r\nFCH2_RETRIGD");
+    print(Port, "\r\n\r\nScheduler Diagnostics Legend:");
+    print(Port, "\r\nICH1 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
+    print(Port, "\r\nICH2 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
+    print(Port, "\r\nFCH1 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
+    print(Port, "\r\nFCH2 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
+
+    print(Port, "\r\nSCHEDIAG_DELAY_CLIPPED, SCHEDIAG_DELAY_BYPASS");
 }
-
-
 
 
 /******************************************************************************************************
@@ -69,7 +73,7 @@ void ignition_diag_log_event(ignition_diag_t event)
 
 void print_ignition_diag(USART_TypeDef * Port)
 {
-    U32 cnt;
+    U32 cnt, column = 1;
 
     print(Port, "\r\nTuareg ignition diag: \r\n");
 
@@ -77,20 +81,26 @@ void print_ignition_diag(USART_TypeDef * Port)
     {
         printf_U(Port, ignition_diag[cnt], PAD_10);
 
-        if((cnt != 0) && ((cnt % 5) == 0))
+        if(column == DIAG_PRINT_LEGEND_COLUMNS)
         {
             print(Port, "\r\n");
+            column = 1;
         }
-
+        else
+        {
+            column++;
+        }
     }
 }
 
 
 void print_ignition_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nIGNHWDIAG_SWIER3_TRIGGERED");
+    print(TS_PORT, "\r\nIGNDIAG_CRKPOSH_CALLS, IGNDIAG_CRKPOSH_PRECOND_FAIL, IGNDIAG_CRKPOSH_IGNPOS, IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER, IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER, ");
+    print(TS_PORT, "\r\nIGNDIAG_CRKPOSH_IGN1_UNPOWER, IGNDIAG_CRKPOSH_IGN2_UNPOWER, IGNDIAG_CRKPOSH_IGN1_POWER, IGNDIAG_CRKPOSH_IGN2_POWER, IGNDIAG_IRQ3H_CALLS,");
+    print(TS_PORT, "\r\nIGNDIAG_IRQ3H_PRECOND_FAIL, IGNDIAG_IRQ3H_IGN1SCHED_POWER, IGNDIAG_IRQ3H_IGN2SCHED_POWER, IGNDIAG_IRQ3H_IGN1_POWER, IGNDIAG_IRQ3H_IGN2_POWER,");
+    print(TS_PORT, "\r\n IGNDIAG_UPDIGNCTRL_CALLS, IGNDIAG_UPDIGNCTRL_REVLIM, IGNDIAG_UPDIGNCTRL_DYN, IGNDIAG_UPDIGNCTRL_DYN_FAIL");
 }
-
 
 
 /******************************************************************************************************
@@ -188,14 +198,14 @@ void print_decoder_diag(USART_TypeDef * Port)
     }
 }
 
+
 void print_decoder_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nDDIAG_HW_EXTI0_CALLS, DDIAG_CRANKHANDLER_CALLS, DDIAG_CRANKPOS_INIT, DDIAG_CRANKPOS_SYNC, DDIAG_CRANKPOS_ASYNC,");
-    print(TS_PORT, "\r\nDDIAG_CRANKPOS_ASYNC_KEY, DDIAG_CRANKPOS_ASYNC_GAP, DDIAG_ASYNC_SYNC_TR, DDIAG_SYNC_ASYNC_TR, DDIAG_HW_SWIER2_CALLS,");
-    print(TS_PORT, "\r\nDDIAG_TRIGGER_IRQ_SYNC, DDIAG_HW_TIM9_CC1_CALLS, DDIAG_TIMER_COMPARE_EVENTS, DDIAG_HW_TIM9_UE_CALLS, DDIAG_TIMER_UPDATE_EVENTS,");
-    print(TS_PORT, "\r\nDDIAG_TIMEOUT_EVENTS, DDIAG_SYNCCHECK_CALLS, DDIAG_SYNCCHECK_SUCCESS, DDIAG_SYNCCHECK_FAILED, DDIAG_CRANKTABLE_CALLS,");
-    print(TS_PORT, "\r\nDDIAG_ROTSPEED_CALLS, DDIAG_HW_EXTI1_CALLS,");
+    print(TS_PORT, "\r\nDDIAG_CRK_EXTI_EVENTS, DDIAG_CRKPOS_INIT, DDIAG_CRKPOS_ASYNC, DDIAG_CRKPOS_ASYNC_KEY, DDIAG_CRKPOS_ASYNC_GAP, ");
+    print(TS_PORT, "\r\nDDIAG_CRKPOS_SYNC, DDIAG_SYNCHK_ASYN_FAIL, DDIAG_SYNCHK_ASYN_PASS, DDIAG_SYNCHK_SYN_FAIL, DDIAG_SYNCHK_SYN_PASS,");
+    print(TS_PORT, "\r\nDDIAG_UPDATE_IRQ_CALLS, DDIAG_CRK_NOISEF_EVENTS, DDIAG_CAM_NOISEF_EVENTS, DDIAG_TIM_UPDATE_EVENTS, DDIAG_TIMEOUT_EVENTS,");
+    print(TS_PORT, "\r\nDDIAG_CAM_EXTI_EVENTS, DDIAG_CISHDL_PRECOND_FAIL, DDIAG_CISUPD_PRECOND_FAIL, DDIAG_CISUPD_INTERVAL_FAIL, DDIAG_CISUPD_PHASE_FAIL,");
+    print(TS_PORT, "\r\nDDIAG_CISUPD_PHASE_PASS");
 }
-
 
 

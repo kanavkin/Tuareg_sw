@@ -4,8 +4,8 @@
 
 #include "decoder_hw.h"
 #include "decoder_logic.h"
+#include "decoder_config.h"
 
-//#include "config.h"
 #include "diagnostics.h"
 
 volatile decoder_hw_t Decoder_hw;
@@ -24,7 +24,7 @@ how the decoder works:
 -   after each sensing event the timer gets a reset
 -   a noise filter has been implemented: crank pickup signal edge detection irq gets enabled after some delay time after each
     irq execution to suppress signal noise
--   if a timer overflow occures, the engine most certainly has stalled / is not running
+-   if a timer overflow occurs, the engine most certainly has stalled / is not running
 
 */
 
@@ -35,7 +35,7 @@ the timer is started as a crank pickup signal edge is detected
 the crank noise filter masks the crank pickup irq until the compare event is triggered
 the required timer compare value is part of the config and must be provided as a parameter
 */
-void decoder_start_timer(U16 Noise_filter)
+void decoder_start_timer()
 {
     // clear flags
     TIM9->SR= (U16) 0;
@@ -47,7 +47,10 @@ void decoder_start_timer(U16 Noise_filter)
     TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
 
     //enable output compare for exti
-    TIM9->CCR1= (U16) Noise_filter;
+    TIM9->CCR1= (U16) Decoder_Setup.crank_noise_filter;
+
+    //switch decoder mode to discontinuous
+    decoder_set_timer_continuous_mode_off();
 
     //enable overflow interrupt
     TIM9->DIER |= TIM_DIER_UIE;
@@ -57,6 +60,8 @@ void decoder_start_timer(U16 Noise_filter)
 
     //start timer counter
     TIM9->CR1 |= TIM_CR1_CEN;
+
+    Decoder_hw.state.timer_overflow= false;
 }
 
 
@@ -70,6 +75,53 @@ void decoder_stop_timer()
     //delete interrupt flags
     TIM9->SR = (U16) 0;
 }
+
+
+void update_crank_noisefilter()
+{
+    VU32 timer_buffer;
+
+    //save timer value
+    timer_buffer= TIM9->CNT;
+    timer_buffer += Decoder_Setup.crank_noise_filter;
+
+    //disable compare 1 event
+    TIM9->DIER &= ~TIM_DIER_CC1IE;
+
+    //enable output compare for exti
+    TIM9->CCR1= (U16) timer_buffer;
+
+    //clear the pending flag
+    TIM9->SR = (U16) ~TIM_FLAG_CC1;
+
+    //enable compare 1 event
+    TIM9->DIER |= TIM_DIER_CC1IE;
+
+}
+
+
+void update_cam_noisefilter()
+{
+    VU32 timer_buffer;
+
+    //save timer value
+    timer_buffer= TIM9->CNT;
+    timer_buffer += Decoder_Setup.cam_noise_filter;
+
+    //disable compare 2 event
+    TIM9->DIER &= ~TIM_DIER_CC2IE;
+
+    //enable output compare for exti
+    TIM9->CCR2= (U16) timer_buffer;
+
+    //clear the pending flag
+    TIM9->SR = (U16) ~TIM_FLAG_CC2;
+
+    //enable compare 1 event
+    TIM9->DIER |= TIM_DIER_CC2IE;
+
+}
+
 
 
 /**
@@ -164,7 +216,7 @@ static inline void set_cis_sensing_disabled()
 select the signal edge that will trigger the decoder (pickup sensing)
 masks the crank pickup irq!
 */
-void decoder_set_crank_pickup_sensing(sensing_t sensing)
+void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing)
 {
     //disable irq for setup
     decoder_mask_crank_irq();
@@ -208,7 +260,7 @@ void decoder_set_crank_pickup_sensing(sensing_t sensing)
 select the signal edge that will trigger the cylinder identification sensor
 masks the cis irq!
 */
-void decoder_set_cis_sensing(sensing_t sensing)
+void decoder_set_cis_sensing(decoder_sensing_t sensing)
 {
     //disable irq for setup
     decoder_mask_cis_irq();
@@ -254,7 +306,7 @@ void trigger_decoder_irq()
     /**
     diagnostics
     */
-    decoder_diag_log_event(DDIAG_HW_SWIER2_CALLS);
+    decoder_diag_log_event(DDIAG_UPDATE_IRQ_CALLS);
 
     EXTI->SWIER= EXTI_SWIER_SWIER2;
 }
@@ -275,9 +327,6 @@ void trigger_decoder_irq()
     - cis irq masked
     - timer configured but stopped
     - decoder irq configured but not triggered
-
-
-
 */
 void init_decoder_hw()
 {
@@ -297,7 +346,7 @@ void init_decoder_hw()
     configure crank pickup sensor EXTI
     decoder_set_crank_pickup_sensing() keeps irq masked!
     */
-    decoder_set_crank_pickup_sensing(SENSING_KEY_BEGIN);
+    decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
 
     /**
     configure cylinder identification sensor EXTI
@@ -305,6 +354,13 @@ void init_decoder_hw()
     decoder_set_cis_sensing() keep cis irq masked!
     */
     decoder_set_cis_sensing(SENSING_RISE);
+
+    //reset timer values until TDC has been detected
+    Decoder_hw.state.timer_continuous_mode= false;
+    Decoder_hw.current_timer_value= 0;
+    Decoder_hw.prev1_timer_value= 0;
+    Decoder_hw.prev2_timer_value= 0;
+    Decoder_hw.captured_positions_cont= 0;
 
     //enable sw irq on exti line 2
     EXTI->IMR |= EXTI_IMR_MR2;
@@ -332,16 +388,31 @@ void init_decoder_hw()
 }
 
 
-//returns the current decoder timer value
-VU32 decoder_get_data_age_us()
+//returns the current decoder timestamp
+VU32 decoder_get_timestamp()
 {
-
-    VU32 timestamp;
-
-    timestamp=  TIM9->CNT;
-
-    return DECODER_TIMER_PERIOD_US * timestamp;
+    return TIM9->CNT;
 }
+
+
+void decoder_set_timer_continuous_mode_on()
+{
+    Decoder_hw.state.timer_continuous_mode= true;
+}
+
+
+void decoder_set_timer_continuous_mode_off()
+{
+    Decoder_hw.state.timer_continuous_mode= false;
+}
+
+
+void decoder_request_timer_reset()
+{
+    Decoder_hw.state.timer_reset_req= true;
+    Decoder_hw.state.timer_overflow= false;
+}
+
 
 
 /******************************************************************************************************************************
@@ -351,32 +422,44 @@ void EXTI0_IRQHandler(void)
 {
     VU32 timer_buffer;
 
-    /**
-    hw dependent part
-    */
+    __disable_irq();
 
-    //save timer value and start over
+    //save timer value
     timer_buffer= TIM9->CNT;
-    TIM9->CNT= (U16) 0;
 
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
 
-    /**
-    crank noise filter
-    -> mask crank interrupt line against spikes
-    */
-    decoder_mask_crank_irq();
+    //reset decoder timer only if commanded
+    if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
+    {
+        TIM9->CNT= (U16) 0;
+        Decoder_hw.captured_positions_cont= 1;
+        Decoder_hw.state.timer_overflow= false;
+    }
+    else
+    {
+        //counter continues counting
+        Decoder_hw.captured_positions_cont += 1;
+    }
 
-    /**
-    diagnostics
-    */
-    decoder_diag_log_event(DDIAG_HW_EXTI0_CALLS);
+    Decoder_hw.state.timer_reset_req= false;
 
-    /**
-    hw independent part
-    */
-    decoder_logic_crank_handler(timer_buffer);
+    //update the timer values
+    Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
+    Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
+    Decoder_hw.current_timer_value= timer_buffer;
+
+    update_crank_noisefilter();
+
+    //diagnostics
+    decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
+
+    __enable_irq();
+
+
+    //call the logic handler
+    decoder_crank_handler();
 
 }
 
@@ -384,51 +467,58 @@ void EXTI0_IRQHandler(void)
 /******************************************************************************************************************************
 Timer 9 - decoder control:
     -timer 9 compare event 1 --> enable external interrupt for pickup sensor
+    -timer 9 compare event 2 --> enable external interrupt for cis
     -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
  ******************************************************************************************************************************/
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
     //TIM9 compare event
-    if(TIM9->SR & TIM_IT_CC1)
+    if((TIM9->DIER & TIM_DIER_CC1IE) && (TIM9->SR & TIM_FLAG_CC1))
     {
-        /**
-        hw dependent part
-        */
-
         //clear the pending flag
-        TIM9->SR = (U16) ~TIM_IT_CC1;
+        TIM9->SR = (U16) ~TIM_FLAG_CC1;
 
-        /**
-        diagnostics
-        */
-        decoder_diag_log_event(DDIAG_HW_TIM9_CC1_CALLS);
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CRK_NOISEF_EVENTS);
 
-        /**
-        hw independent part
-        */
-        decoder_logic_timer_compare_handler();
+        //call the logic handler
+        decoder_crank_noisefilter_handler();
+    }
+
+
+    //TIM9 compare event
+    if((TIM9->DIER & TIM_DIER_CC2IE) && (TIM9->SR & TIM_FLAG_CC2))
+    {
+        //clear the pending flag
+        TIM9->SR = (U16) ~TIM_FLAG_CC2;
+
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CAM_NOISEF_EVENTS);
+
+        //call the logic handler
+        decoder_cis_noisefilter_handler();
     }
 
 
     //TIM9 update event
-    if(TIM9->SR & TIM_IT_Update)
+    if((TIM9->DIER & TIM_DIER_UIE) && (TIM9->SR & TIM_FLAG_Update))
     {
-        /**
-        hw dependent part
-        */
-
         //clear the pending flag
-        TIM9->SR = (U16) ~TIM_IT_Update;
+        TIM9->SR = (U16) ~TIM_FLAG_Update;
 
-        /**
-        diagnostics
-        */
-        decoder_diag_log_event(DDIAG_HW_TIM9_UE_CALLS);
+        //timing destroyed
+        Decoder_hw.prev2_timer_value= 0;
+        Decoder_hw.prev1_timer_value= 0;
+        Decoder_hw.current_timer_value= 0;
+        Decoder_hw.captured_positions_cont= 0;
+        Decoder_hw.state.timer_overflow= true;
 
-        /**
-        hw independent part
-        */
-        decoder_logic_timer_update_handler();
+        //diagnostics
+        decoder_diag_log_event(DDIAG_TIM_UPDATE_EVENTS);
+
+        //call the logic handler
+        decoder_crank_timeout_handler();
+
     }
 
 }
@@ -439,28 +529,14 @@ cylinder identification sensor
  ******************************************************************************************************************************/
 void EXTI1_IRQHandler(void)
 {
-    /**
-    hw dependent part
-    */
-
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
 
-    /**
-    noise filter
-    -> mask cis interrupt line against spikes
-    */
-    decoder_mask_cis_irq();
+    //diagnostics
+    decoder_diag_log_event(DDIAG_CAM_EXTI_EVENTS);
 
-    /**
-    diagnostics
-    */
-    decoder_diag_log_event(DDIAG_HW_EXTI1_CALLS);
-
-    /**
-    hw independent part
-    */
-    decoder_logic_cam_handler();
+    //call the logic handler
+    decoder_cis_handler();
 }
 
 

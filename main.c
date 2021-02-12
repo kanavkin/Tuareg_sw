@@ -272,7 +272,7 @@ void EXTI2_IRQHandler(void)
     //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
     //check for decoder timeout
-    if(Tuareg.decoder->state.timeout == true)
+    if((Tuareg.decoder->outputs.timeout == true) || (Tuareg.decoder->outputs.position_valid == false))
     {
         //collect diagnostic information
         //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
@@ -281,18 +281,9 @@ void EXTI2_IRQHandler(void)
         return;
     }
 
-    //check if the reported position is valid
-    if(Tuareg.decoder->state.position_valid == false)
-    {
-        /// TODO (oli#1#): what does this means?
-        return;
-    }
+    //trigger the ignition actors
+    Tuareg_ignition_update_crankpos_handler();
 
-    //trigger coils if we are in a run mode that permits engine operation
-    if( (Tuareg.Runmode == TMODE_CRANKING) || (Tuareg.Runmode == TMODE_RUNNING) || (Tuareg.Runmode == TMODE_LIMP) )
-    {
-        Tuareg_ignition_update_crankpos_handler();
-    }
 
     //check if ignition controls shall be updated
     if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)

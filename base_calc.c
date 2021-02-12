@@ -130,7 +130,7 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 
 
 /**
-safe division with halt
+safe division
 */
 VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 {
@@ -138,11 +138,28 @@ VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 
     if(Divisor == 0)
     {
-        print(DEBUG_PORT, "\r\n *** ERRORO *** DIV0!");
+        print(DEBUG_PORT, "\r\n *** ERROR *** divide_VU32 *** DIV0!");
         return 0;
     }
 
     return (Dividend / Divisor);
+}
+
+
+/**
+safe division with conversion to float
+*/
+VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
+{
+/// TODO (oli#1#): add assert
+
+    if(Divisor == 0)
+    {
+        print(DEBUG_PORT, "\r\n *** ERROR *** divide_VF32 *** DIV0!");
+        return 0;
+    }
+
+    return ((VF32) Dividend) / ((VF32) Divisor);
 }
 
 
@@ -210,6 +227,25 @@ void setBit_U32(U32 Pos, VU32 * pTarget)
 }
 
 
+U8 lowByte(U16 in)
+{
+    return (U8)(in & 0x00FF);
+}
+
+U8 highByte(U16 in)
+{
+    return (U8)(in >> 8);
+}
+
+U16 word(U8 high, U8 low)
+{
+    return ((high << 8) | low);
+}
+
+U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb)
+{
+    return ( (Msb << 24) | (Mid1 << 16) | (Mid2 << 8) | Lsb );
+}
 
 
 

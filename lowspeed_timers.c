@@ -86,9 +86,6 @@ void SysTick_Handler(void)
     //4Hz loop
     if (loop250ms == 250)
     {
-        //Reset watchdog timer (Not active currently)
-        //wdt_reset();
-
         loop250ms = 0;
         ls_timer |= BIT_TIMER_4HZ;
     }
@@ -111,10 +108,5 @@ void SysTick_Handler(void)
     T= 1ms
     */
     system_time++;
-
-    /**
-    scheduler watchdog
-    */
-    scheduler_update_watchdogs();
 
 }

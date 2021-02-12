@@ -12,6 +12,8 @@ typedef union
      struct {
 
         VU32 config_load_error :1;
+        VU32 decoder_config_error :1;
+        VU32 ignition_config_error :1;
         VU32 scheduler_error :1;
         VU32 sensor_O2_error :1;
         VU32 sensor_TPS_error :1;

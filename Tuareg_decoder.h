@@ -4,8 +4,10 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
+
+
 #include "decoder_logic.h"
 
-volatile decoder_interface_t * init_Decoder();
+volatile Tuareg_decoder_t * init_Decoder();
 
 #endif // TUAREG_DECODER_H_INCLUDED

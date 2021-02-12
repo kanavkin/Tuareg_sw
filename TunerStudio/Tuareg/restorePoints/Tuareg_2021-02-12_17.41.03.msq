@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="" writeDate="Fri Feb 12 17:44:46 CET 2021"/>
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Fri Feb 12 17:41:03 CET 2021"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="5" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -24,22 +24,13 @@
 <constant digits="2" name="KNOCKcalibN" units="#">0.0</constant>
 <constant digits="0" name="calibVersion" units="#">1.0</constant>
 </page>
-<page number="1" size="15">
-<constant digits="0" name="DecoderVersion" units="#">3.0</constant>
+<page number="1" size="6">
+<constant digits="0" name="DecCrankNoiseFilter" units="#">8.0</constant>
+<constant name="DecSyncCheckBeginPos">"CRK_POSITION_A2"</constant>
+<constant digits="0" name="DecSyncRatioMin" units="%">30.0</constant>
+<constant digits="0" name="DecSyncRatioMax" units="%">50.0</constant>
 <constant digits="0" name="DecTimeout" units="s">3.0</constant>
-<constant digits="0" name="DecCrankNoiseFilter" units="#">4.0</constant>
-<constant name="DecKeyBeginSensing">"FALL"</constant>
-<constant name="DecKeyEndSensing">"RISE"</constant>
-<constant digits="0" name="DecSyncRatioMin" units="%">20.0</constant>
-<constant digits="0" name="DecSyncRatioMax" units="%">60.0</constant>
-<constant digits="0" name="DecCamNoiseFilter" units="#">25.0</constant>
-<constant name="DecLobeBeginSensing">"RISE"</constant>
-<constant name="DecLobeEndSensing">"FALL"</constant>
-<constant name="DecCisEnablePos">"CRK_POSITION_C1"</constant>
-<constant name="DecCisDisablePos">"CRK_POSITION_D2"</constant>
-<constant name="DecCisTriggeredPhase">"CYL1_EX"</constant>
-<constant digits="0" name="DecCisMinAngle" units="deg">40.0</constant>
-<constant digits="0" name="DecCisSyncThres" units="#">100.0</constant>
+<constant digits="0" name="DecoderVersion" units="#">1.0</constant>
 </page>
 <page number="2" size="20">
 <constant digits="0" name="IgnMaxRpm" units="rpm">8961.0</constant>

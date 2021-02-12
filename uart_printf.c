@@ -375,6 +375,39 @@ void printf_phase(USART_TypeDef * Port, engine_phase_t Phase)
 }
 
 
+void printf_decoder_sensing(USART_TypeDef * Port, decoder_sensing_t Sensing)
+{
+    switch(Sensing)
+    {
+    case SENSING_DISABLED:
+        print(Port, "DISABLED");
+        break;
+
+    case SENSING_RISE:
+        print(Port, "RISE");
+        break;
+
+    case SENSING_FALL:
+        print(Port, "FALL");
+        break;
+
+    case SENSING_EDGE:
+        print(Port, "EDGE");
+        break;
+
+    case SENSING_INVERT:
+        print(Port, "INVERT");
+        break;
+
+    default:
+        print(Port, "XX");
+        break;
+    }
+
+    //trailing space
+    UART_Tx(Port, ' ');
+}
+
 
 /**
 minimalistic U8 printout (padded)

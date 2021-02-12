@@ -123,7 +123,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="act_logic.h" />
-		<Unit filename="arduino_types.h" />
 		<Unit filename="base_calc.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -346,10 +345,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="uart_printf.h" />
-		<Unit filename="utils.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="utils.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

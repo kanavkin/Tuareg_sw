@@ -82,7 +82,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if((Tuareg.decoder->state.rpm_valid == true) && (Tuareg.decoder->crank_rpm > Ignition_Setup.dynamic_min_rpm))
+        else if((Tuareg.decoder->outputs.rpm_valid == true) && (Tuareg.decoder->crank_rpm > Ignition_Setup.dynamic_min_rpm))
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -171,13 +171,12 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //use 16 preemption priority levels
                 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-                //set basic error states
+                //set all errors
                 Tuareg.Errors.all_flags= 0xFFFFFFFF;
 
                 /**
                 initialize core components
                 */
-                init_ignition_hw();
                 init_fuel_hw();
                 init_dash_hw();
                 init_act_hw();
@@ -190,11 +189,10 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
             case TMODE_CONFIGLOAD:
 
                 //loading the config data is important to us, failure in loading forces "limp home mode"
-                result= load_Ignition_Config();
-                result += load_Sensor_Calibration();
+                result= load_Sensor_Calibration();
                 result += load_Tuareg_Setup();
 
-                if(result != 3)
+                if(result != 2)
                 {
                     Tuareg.Errors.config_load_error= true;
 
@@ -213,24 +211,14 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_MODULEINIT:
 
-                //set basic sensor error states
-                Tuareg.Errors.sensor_BARO_error= true;
-                Tuareg.Errors.sensor_MAP_error= true;
-                Tuareg.Errors.sensor_O2_error= true;
-                Tuareg.Errors.sensor_TPS_error= true;
-                Tuareg.Errors.sensor_IAT_error= true;
-                Tuareg.Errors.sensor_CLT_error= true;
-                Tuareg.Errors.sensor_VBAT_error= true;
-                Tuareg.Errors.sensor_KNOCK_error= true;
-                Tuareg.Errors.sensor_GEAR_error= true;
-                Tuareg.Errors.sensor_CIS_error= true;
-
                 /**
                 initialize core components and register interface access pointers
                 */
                 Tuareg.decoder= init_Decoder();
 
                 Tuareg.sensors= init_sensors();
+
+                init_Ignition();
 
                 init_scheduler();
                 init_lowspeed_timers();
@@ -256,42 +244,15 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 //perform diagnostic functions triggered by user, no engine operation
 
-                Tuareg.actors.ignition_inhibit= true;
-                Tuareg.actors.fueling_inhibit= true;
+                //turn off vital actors
+                Tuareg_stop_engine();
 
                 break;
 
             case TMODE_HALT:
 
-                Tuareg.actors.ignition_inhibit= true;
-                Tuareg.actors.fueling_inhibit= true;
-
-                //engine operation prohibited due to kill switch or crash sensor
+                //turn off vital actors
                 Tuareg_stop_engine();
-
-                //collect diagnostic information
-                if(Tuareg.Runmode == TMODE_RUNNING)
-                {
-                    tuareg_diag_log_event(TDIAG_RUNNING_HALT_TR);
-
-                     /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_HALT");
-                }
-                else if(Tuareg.Runmode == TMODE_HWINIT)
-                {
-                    tuareg_diag_log_event(TDIAG_INIT_HALT_TR);
-
-                     /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_HWINIT --> TMODE_HALT");
-                }
-                else if(Tuareg.Runmode == TMODE_STB)
-                {
-                    tuareg_diag_log_event(TDIAG_STB_HALT_TR);
-
-                     /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_STB --> TMODE_HALT");
-                }
-
 
                 //collect diagnostic information
                 tuareg_diag_log_event(TDIAG_ENTER_HALT);
@@ -318,37 +279,13 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 tuareg_diag_log_event(TDIAG_ENTER_RUNNING);
                 break;
 
+
             case TMODE_STB:
 
-                //engine stalled, turn off vital actors
+                //engine stalled, turn off vital actors, set inhibit state
                 Tuareg_stop_engine();
 
-                //provide ignition timing for engine startup
-                //Tuareg_update_ignition_controls();
-
                 //collect diagnostic information
-                if(Tuareg.Runmode == TMODE_RUNNING)
-                {
-                    tuareg_diag_log_event(TDIAG_RUNNING_STB_TR);
-
-                    /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_RUNNING --> TMODE_STB");
-                }
-                else if(Tuareg.Runmode == TMODE_HALT)
-                {
-                    tuareg_diag_log_event(TDIAG_HALT_STB_TR);
-
-                    /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_HALT --> TMODE_STB");
-                }
-                else if(Tuareg.Runmode == TMODE_CRANKING)
-                {
-                    tuareg_diag_log_event(TDIAG_CRANKING_STB_TR);
-
-                    /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_STB");
-                }
-
                 tuareg_diag_log_event(TDIAG_ENTER_STB);
                 break;
 
@@ -400,17 +337,18 @@ inline void Tuareg_stop_engine()
     Tuareg.actors.ignition_inhibit= true;
     Tuareg.actors.fueling_inhibit= true;
 
-    //turn off vital engine actors
-    set_fuelpump(ACTOR_UNPOWERED);
-    set_injector_ch1(ACTOR_UNPOWERED);
-    set_injector_ch2(ACTOR_UNPOWERED);
+    //turn off ignition system
     set_ignition_ch1(ACTOR_UNPOWERED);
     set_ignition_ch2(ACTOR_UNPOWERED);
 
-    scheduler_reset_channel(SCHEDULER_CH_IGN1);
-    scheduler_reset_channel(SCHEDULER_CH_IGN2);
-    scheduler_reset_channel(SCHEDULER_CH_FUEL1);
-    scheduler_reset_channel(SCHEDULER_CH_FUEL2);
+    //turn off fueling system
+    set_fuelpump(ACTOR_UNPOWERED);
+    set_injector_ch1(ACTOR_UNPOWERED);
+    set_injector_ch2(ACTOR_UNPOWERED);
+
+    //reset scheduler
+    scheduler_reset_ign1();
+    scheduler_reset_ign2();
 
     //reset MAP calculation
     reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);
@@ -456,3 +394,32 @@ void Tuareg_update_halt_sources()
     }
 
 }
+
+
+
+inline void reset_decoder_watchdog()
+{
+    Tuareg.decoder_watchdog_ms= 0;
+}
+
+inline void update_decoder_watchdog()
+{
+
+
+    if(Tuareg.decoder_watchdog_ms < DECODER_WATCHDOG_TIMEOUT_MS)
+    {
+        Tuareg.decoder_watchdog_ms += DECODER_WATCHDOG_UPDATE_INTERVAL_MS;
+    }
+    else
+    {
+        //BANG!
+    }
+
+
+
+
+
+}
+
+
+

@@ -81,7 +81,7 @@ void moduletest_scheduler_main_action()
 
         //ready for test
         set_ignition_ch1(ACTOR_POWERED);
-        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, mtest_scheduler_delay);
+        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, mtest_scheduler_delay, 0);
 
         mtest_scheduler_tests_started++;
 

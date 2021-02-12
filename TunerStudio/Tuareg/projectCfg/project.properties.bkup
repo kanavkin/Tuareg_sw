@@ -1,10 +1,10 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Sun Dec 27 01:58:29 CET 2020
-#Sun Dec 27 01:58:29 CET 2020
+#Last Saved on: Fri Feb 12 17:41:04 CET 2021
+#Fri Feb 12 17:41:04 CET 2021
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
 idleSettingsIdle\ Settings_Y=227
-ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_width=1936
+ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_width=1920
 iat_retard_curveIAT\ timing\ retard_Y=369
 idleSettingsIdle\ Settings_X=776
 iat_retard_curveIAT\ timing\ retard_X=776
@@ -21,7 +21,7 @@ dwellSettingsDwell\ Settings_Y=309
 dwellSettingsDwell\ Settings_X=769
 datalogProfiles=|
 iat_retard_curveIAT\ timing\ retard_height=325
-ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_height=1062
+ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_height=1050
 config_permissionGet\ Permissions_width=372
 CommSettingBaud\ Rate=115200
 sparkSettingsSpark\ Settings_width=372
@@ -77,7 +77,7 @@ CommSettingCom\ Port=
 fuelpumpFuel\ pump_X=777
 ignition_setupIgnition\ Setup_height=432
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=0
-ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=-8
+ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=0
 config_permissionConfig\ Permissions_width=372
 sensor_calibrationSensor\ Calibration_Y=65
 sensor_calibrationSensor\ Calibration_X=26

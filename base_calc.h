@@ -13,8 +13,20 @@ VU32 subtract_VU32(VU32 Min, VU32 Subtr);
 VU32 abs_delta_VU32(VU32 Val1, VU32 Val2);
 
 VU32 divide_VU32(VU32 Dividend, VU32 Divisor);
+VF32 divide_VF32(VU32 Dividend, VU32 Divisor);
 
 crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);
+
+//Handy bitsetting macros
+#define BIT_SET(a,b) ((a) |= (1<<(b)))
+#define BIT_CLEAR(a,b) ((a) &= ~(1<<(b)))
+#define BIT_CHECK(var,pos) !!((var) & (1<<(pos)))
+
+
+U16 word(U8 high, U8 low);
+U8 lowByte(U16);
+U8 highByte(U16);
+U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb);
 
 #endif // BASECALC_H_INCLUDED
