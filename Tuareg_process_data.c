@@ -57,6 +57,16 @@ inline void Tuareg_update_process_data()
     Tuareg.process.O2_AFR= Tuareg_update_O2_sensor();
     Tuareg.process.Gear= Tuareg_update_GEAR_sensor();
 
+    if(Tuareg.decoder->outputs.rpm_valid)
+    {
+        Tuareg.process.ground_speed_kmh= Tuareg.decoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
+    }
+    else
+    {
+        Tuareg.process.ground_speed_kmh= 0;
+    }
+
+
 
 }
 
@@ -386,7 +396,7 @@ checks the health state of the GEAR sensor
 if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
 uses a generic default value for disturbed sensors
 */
-VF32 Tuareg_update_GEAR_sensor()
+gears_t Tuareg_update_GEAR_sensor()
 {
     //if sensor has already been validated and is still healthy
     if( (Tuareg.Errors.sensor_GEAR_error == false) && (Tuareg.sensors->asensors_health & (1<< ASENSOR_GEAR)) )
@@ -411,7 +421,7 @@ VF32 Tuareg_update_GEAR_sensor()
             Tuareg.Errors.sensor_GEAR_error= true;
 
             //use default value
-            return GEAR_DEFAULT;
+            return GEAR_NEUTRAL;
         }
 
     }

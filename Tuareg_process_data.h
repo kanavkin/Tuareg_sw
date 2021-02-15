@@ -17,7 +17,11 @@ typedef struct _process_data_t {
     VF32 CLT_K;
     VF32 VBAT_V;
     VF32 O2_AFR;
-    VU8 Gear;
+
+    gears_t Gear;
+
+    VU8 ground_speed_kmh;
+
 
 } process_data_t;
 
@@ -26,7 +30,7 @@ extern void Tuareg_update_process_data();
 
 
 VF32 Tuareg_update_MAP_sensor();
-VF32 Tuareg_update_GEAR_sensor();
+gears_t Tuareg_update_GEAR_sensor();
 VF32 Tuareg_update_BARO_sensor();
 VF32 Tuareg_update_KNOCK_sensor();
 VF32 Tuareg_update_VBAT_sensor();

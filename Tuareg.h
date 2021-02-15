@@ -33,21 +33,20 @@ to allow limp home operation if eeprom has ben corrupted
 #define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
 
 
-
-#define DECODER_WATCHDOG_UPDATE_INTERVAL_MS 100
-#define DECODER_WATCHDOG_TIMEOUT_MS 3000
-
-
-/// TODO (oli#8#): find elegant solution for configuration values
-
 //level at which the crash sensor reports a crash event
 #define CRASH_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_CRASH)
 
 //level at which the run sensor reports a run permission
 #define RUN_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_RUN)
 
-//amount of consecutive valid captures an analog senor has to provide until he is considered valid
+
+/*
+ASENSOR_VALIDITY_THRES of consecutive valid captures an analog sensor has to provide until he is considered valid
+
+the counter will be initialized with ASENSOR_VALIDITY_FASTINIT to provide sensor data for startup
+*/
 #define ASENSOR_VALIDITY_THRES 150
+#define ASENSOR_VALIDITY_FASTINIT 100
 
 
 /**
@@ -58,7 +57,7 @@ if an analog sensor is not available, use these defaults
 #define MAP_DEFAULT_KPA 100
 #define BARO_DEFAULT_KPA 100
 #define TPS_DEFAULT_DEG 45
-#define O2_DEFAULT_AFR 145
+#define O2_DEFAULT_AFR 14.5
 #define IAT_DEFAULT_C 20
 #define CLT_DEFAULT_C 85
 #define VBAT_DEFAULT_V 14
@@ -97,10 +96,6 @@ typedef enum {
 } tuareg_runmode_t;
 
 
-
-
-
-
 typedef union
 {
      U8 all_flags;
@@ -113,7 +108,6 @@ typedef union
      };
 
 } tuareg_haltsrc_t;
-
 
 
 typedef struct {

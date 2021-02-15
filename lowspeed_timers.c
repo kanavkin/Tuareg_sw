@@ -9,13 +9,13 @@
 #include "scheduler.h"
 
 
+VU32 loop10ms;
 VU32 loop20ms;
 VU32 loop33ms;
 VU32 loop66ms;
 VU32 loop100ms;
 VU32 loop250ms;
-VS32 loopSec;
-
+VU32 loopSec;
 
 VU32 ls_timer;
 
@@ -41,6 +41,7 @@ void init_lowspeed_timers()
 
 void SysTick_Handler(void)
 {
+    loop10ms++;
     loop20ms++;
     loop33ms++;
     loop66ms++;
@@ -49,14 +50,34 @@ void SysTick_Handler(void)
     loopSec++;
 
 
-    //50Hz loop
-    if (loop20ms == 20)
+    //100Hz loop
+    if (loop10ms == 10)
     {
         //trigger ADC conversion for analog sensors
         adc_start_regular_group(SENSOR_ADC);
 
+        loop10ms = 0;
+        ls_timer |= BIT_TIMER_100HZ;
+    }
+
+
+    //50Hz loop
+    if (loop20ms == 20)
+    {
+        //update digital sensor values
+        read_digital_sensors();
+
         loop20ms = 0;
         ls_timer |= BIT_TIMER_50HZ;
+    }
+
+
+    //30Hz loop
+    if (loop33ms == 33)
+    {
+
+        loop33ms = 0;
+        ls_timer |= BIT_TIMER_30HZ;
     }
 
     //15Hz loop
@@ -66,15 +87,6 @@ void SysTick_Handler(void)
         ls_timer |= BIT_TIMER_15HZ;
     }
 
-    //30Hz loop
-    if (loop33ms == 33)
-    {
-        //update digital sensor values
-        read_digital_sensors();
-
-        loop33ms = 0;
-        ls_timer |= BIT_TIMER_30HZ;
-    }
 
     //10Hz loop
     if (loop100ms == 100)

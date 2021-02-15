@@ -15,17 +15,12 @@
 volatile sensor_interface_t SInterface;
 volatile sensor_internals_t SInternals;
 
-const float cKelvin_offset= 273.15;
-
-/**
-see sensors.h for sensor layout!
-*/
 
 
 /**
 bring up analog and digital sensors
 */
-volatile sensor_interface_t * init_sensors()
+volatile sensor_interface_t * init_sensors(U32 Init_count)
 {
     DMA_InitTypeDef DMA_InitStructure;
 
@@ -101,7 +96,7 @@ volatile sensor_interface_t * init_sensors()
     adc_set_sample_time(ADC1, ADC_VBAT_CH, SAMPLE_TIME_7_5);
     adc_set_sample_time(ADC1, ADC_KNOCK_CH, SAMPLE_TIME_7_5);
     adc_set_sample_time(ADC1, ADC_BARO_CH, SAMPLE_TIME_7_5);
-    adc_set_sample_time(ADC1, ADC_SPARE_CH, SAMPLE_TIME_7_5);
+    adc_set_sample_time(ADC1, ADC_GEAR_CH, SAMPLE_TIME_7_5);
 
     /**
     the order specified here shall match the enumerator order in asensors_async_t !
@@ -113,7 +108,7 @@ volatile sensor_interface_t * init_sensors()
     adc_set_regular_group(ADC1, 5, ADC_VBAT_CH);
     adc_set_regular_group(ADC1, 6, ADC_KNOCK_CH);
     adc_set_regular_group(ADC1, 7, ADC_BARO_CH);
-    adc_set_regular_group(ADC1, 8, ADC_SPARE_CH);
+    adc_set_regular_group(ADC1, 8, ADC_GEAR_CH);
 
     //set the number of channels in the regular group in sensors.h!
     adc_set_regular_group_length(ADC1, ASENSOR_ASYNC_COUNT);
@@ -172,8 +167,31 @@ volatile sensor_interface_t * init_sensors()
     NVIC_ClearPendingIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_IRQn);
 
+    //do fast init
+    prepare_fastsync_init(Init_count);
+
     return &SInterface;
 }
+
+
+
+/*
+implements the fast init feature:
+
+initialize the valid sample count with its fast init value "init_count"
+this makes sensor data available earlier in case of engine startup
+*/
+inline void prepare_fastsync_init(U32 init_count)
+{
+    VU32 channel;
+
+    for(channel =0; channel < ASENSOR_COUNT; channel++)
+    {
+        SInterface.asensors_valid_samples[channel]= init_count;
+    }
+
+}
+
 
 
 /**
@@ -373,7 +391,7 @@ void ADC_IRQHandler()
         pCount= &(SInternals.asensors_sync_integrator_count[ASENSOR_SYNC_MAP]);
 
         //validate sample
-        if( (sample >= ASENSOR_MIN_VALID) && (sample <= ASENSOR_MAX_VALID) )
+        if( (sample >= Sensor_Calibration.MAP_min_valid) && (sample <= Sensor_Calibration.MAP_max_valid) )
         {
             /**
             valid sample
@@ -448,16 +466,16 @@ void ADC_IRQHandler()
 
 
 /**
-The regular group conversion is triggered by lowspeed_timer every 20 ms (50Hz)
-with 5x oversampling this gives an update interval of 100 ms
+The regular group conversion is triggered by lowspeed_timer every 10 ms (100Hz)
+with 5x oversampling this gives an update interval of 50 ms
 */
-/// TODO (oli#1#): is 100ms to slow?
 void DMA2_Stream0_IRQHandler()
 {
 
     U32 average, sample, sensor, result;
     VU16 * pIntegr= NULL;
     VU8 * pCount= NULL;
+    VU32 min_valid, max_valid;
 
     //collect diagnostic data
     SInternals.diag[SDIAG_DMAIRQ_CALLS] += 1;
@@ -485,7 +503,71 @@ void DMA2_Stream0_IRQHandler()
             pIntegr= &(SInternals.asensors_async_integrator[sensor]);
             pCount= &(SInternals.asensors_async_integrator_count[sensor]);
 
-            if( (sample >= ASENSOR_MIN_VALID) && (sample <= ASENSOR_MAX_VALID) )
+
+            //get the individual sensor readout validity thresholds
+            switch(sensor)
+            {
+                case ASENSOR_ASYNC_O2:
+
+                    min_valid= Sensor_Calibration.O2_min_valid;
+                    max_valid= Sensor_Calibration.O2_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_TPS:
+
+                    min_valid= Sensor_Calibration.TPS_min_valid;
+                    max_valid= Sensor_Calibration.TPS_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_IAT:
+
+                    min_valid= Sensor_Calibration.IAT_min_valid;
+                    max_valid= Sensor_Calibration.IAT_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_CLT:
+
+                    min_valid= Sensor_Calibration.CLT_min_valid;
+                    max_valid= Sensor_Calibration.CLT_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_VBAT:
+
+                    min_valid= Sensor_Calibration.VBAT_min_valid;
+                    max_valid= Sensor_Calibration.VBAT_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_KNOCK:
+
+                    min_valid= Sensor_Calibration.KNOCK_min_valid;
+                    max_valid= Sensor_Calibration.KNOCK_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_BARO:
+
+                    min_valid= Sensor_Calibration.BARO_min_valid;
+                    max_valid= Sensor_Calibration.BARO_max_valid;
+                    break;
+
+                case ASENSOR_ASYNC_GEAR:
+
+                    min_valid= Sensor_Calibration.GEAR_min_valid;
+                    max_valid= Sensor_Calibration.GEAR_max_valid;
+                    break;
+
+                default:
+
+                    min_valid= 0;
+                    max_valid= 0;
+                    break;
+
+            }
+
+
+
+
+
+            if( (sample >= min_valid) && (sample <= max_valid) )
             {
                 /**
                 valid reading

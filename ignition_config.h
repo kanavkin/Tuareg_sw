@@ -12,6 +12,8 @@
 
 typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
 
+    U8 Version;
+
     //rev limiter function
     U16 max_rpm;
 
@@ -34,8 +36,6 @@ typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
     coil_setup_t coil_setup;
 
     U16 spark_duration_us;
-
-    U8 Version;
 
 } Ignition_Setup_t;
 

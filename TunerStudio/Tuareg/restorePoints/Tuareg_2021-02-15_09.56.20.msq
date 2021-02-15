@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<msq xmlns="http://www.msefi.com/:msq">
+<bibliography author="TunerStudio MS 3.1.04 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Mon Feb 15 09:56:20 CET 2021"/>
+<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="5" signature="rusEFI v1.04"/>
+<page>
+<pcVariable name="tsCanId">"0"</pcVariable>
+</page>
+<page number="0" size="65">
+<constant digits="0" name="calibVersion" units="#">1.0</constant>
+<constant digits="2" name="IATcalibM" units="#/°C">27.5</constant>
+<constant digits="2" name="IATcalibN" units="#">587.0</constant>
+<constant digits="2" name="CLTcalibM" units="#/°C">27.5</constant>
+<constant digits="2" name="CLTcalibN" units="#">600.0</constant>
+<constant digits="2" name="TPScalibM" units="#/°">-25.0</constant>
+<constant digits="2" name="TPScalibN" units="#">2150.0</constant>
+<constant digits="2" name="MAPcalibM" units="#/Pa">18.800048828125</constant>
+<constant digits="2" name="MAPcalibN" units="#">359.0</constant>
+<constant digits="2" name="BAROcalibM" units="#/Pa">1865.0</constant>
+<constant digits="2" name="BAROcalibN" units="#">359.0</constant>
+<constant digits="2" name="O2calibM" units="#/AFR">1.0</constant>
+<constant digits="2" name="O2calibN" units="#">0.0</constant>
+<constant digits="2" name="VBATcalibM" units="#/V">209.0</constant>
+<constant digits="2" name="VBATcalibN" units="#">-141.0</constant>
+<constant digits="2" name="KNOCKcalibM" units="#/#">1.0</constant>
+<constant digits="2" name="KNOCKcalibN" units="#">0.0</constant>
+</page>
+<page number="1" size="15">
+<constant digits="0" name="DecoderVersion" units="#">3.0</constant>
+<constant digits="0" name="DecTimeout" units="s">4.0</constant>
+<constant digits="0" name="DecCrankNoiseFilter" units="#">4.0</constant>
+<constant name="DecKeyBeginSensing">"FALL"</constant>
+<constant name="DecKeyEndSensing">"RISE"</constant>
+<constant digits="0" name="DecSyncRatioMin" units="%">20.0</constant>
+<constant digits="0" name="DecSyncRatioMax" units="%">60.0</constant>
+<constant digits="0" name="DecCamNoiseFilter" units="#">25.0</constant>
+<constant name="DecLobeBeginSensing">"RISE"</constant>
+<constant name="DecLobeEndSensing">"FALL"</constant>
+<constant name="DecCisEnablePos">"CRK_POSITION_C2"</constant>
+<constant name="DecCisDisablePos">"CRK_POSITION_D2"</constant>
+<constant name="DecCisTriggeredPhase">"CYL1_EX"</constant>
+<constant digits="0" name="DecCisMinAngle" units="deg">40.0</constant>
+<constant digits="0" name="DecCisSyncThres" units="#">100.0</constant>
+</page>
+<page number="2" size="20">
+<constant digits="0" name="IgnitionVersion" units="#">1.0</constant>
+<constant digits="0" name="IgnMaxRpm" units="rpm">8961.0</constant>
+<constant digits="0" name="IgnDynMinRpm" units="rpm">500.0</constant>
+<constant name="IgnDynBasePos">"CRK_POSITION_A2"</constant>
+<constant digits="0" name="IgnDynDwell" units="µs">6000.0</constant>
+<constant digits="0" name="IgnColdIdleCutoffRpm" units="rpm">1500.0</constant>
+<constant digits="0" name="IgnColdIdleCutoffClt" units="K">323.0</constant>
+<constant digits="0" name="IgnColdIdleIgnAdv" units="deg">20.0</constant>
+<constant digits="0" name="IgnColdIdleDwell" units="µs">10000.0</constant>
+<constant name="IgnCrankIgnPos">"CRK_POSITION_B2"</constant>
+<constant name="IgnCrankDwellPos">"CRK_POSITION_D2"</constant>
+<constant name="IgnCoilSetup">"separate"</constant>
+<constant digits="0" name="IgnSparkDuration" units="µs">1500.0</constant>
+</page>
+<page number="3" size="320">
+<constant cols="1" digits="0" name="ignAdv_TPS_x" rows="16" units="Rpm">
+         1500.0 
+         2000.0 
+         2500.0 
+         3000.0 
+         3500.0 
+         4000.0 
+         4500.0 
+         5000.0 
+         5500.0 
+         6000.0 
+         6500.0 
+         7000.0 
+         7500.0 
+         8000.0 
+         8500.0 
+         9000.0 
+      </constant>
+<constant cols="1" digits="0" name="ignAdv_TPS_y" rows="16" units="TPS">
+         10.0 
+         15.0 
+         20.0 
+         25.0 
+         30.0 
+         35.0 
+         40.0 
+         45.0 
+         50.0 
+         55.0 
+         60.0 
+         65.0 
+         70.0 
+         75.0 
+         80.0 
+         85.0 
+      </constant>
+<constant cols="16" digits="0" name="ignAdv_TPS_z" rows="16" units="deg">
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+      </constant>
+</page>
+<page number="4" size="43">
+<constant digits="0" name="TuaregSetupVersion" units="#">3.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_B2" units="deg">3.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_B1" units="deg">10.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_A2" units="deg">60.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_A1" units="deg">98.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_D2" units="deg">180.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_D1" units="deg">188.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_C2" units="deg">270.0</constant>
+<constant digits="0" name="TuaregSetupCrkPosTbl_C1" units="deg">278.0</constant>
+<constant digits="0" name="TuaregSetupDecoderDelay" units="µs">40.0</constant>
+<constant digits="2" name="TuaregSetupGear_1" units="kmh/rpm">3.673541759286045E-39</constant>
+<constant digits="2" name="TuaregSetupGear_2" units="kmh/rpm">0.0</constant>
+<constant digits="2" name="TuaregSetupGear_3" units="kmh/rpm">0.0</constant>
+<constant digits="2" name="TuaregSetupGear_4" units="kmh/rpm">0.0</constant>
+<constant digits="2" name="TuaregSetupGear_5" units="kmh/rpm">0.0</constant>
+<constant digits="2" name="TuaregSetupGear_N" units="kmh/rpm">0.0</constant>
+</page>
+<settings Comment="These setting are only used if this msq is opened without a project.">
+<setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>
+<setting name="SPEED_DENSITY" value="SPEED_DENSITY"/>
+<setting name="CAN_COMMANDS_OFF" value="CAN_COMMANDS_OFF"/>
+<setting name="CELSIUS" value="CELSIUS"/>
+<setting name="AFR" value="AFR"/>
+</settings>
+<userComments Comment="These are user comments that can be related to a particular setting or dialog.">
+<userComment name="ignAdv_TPS_z" value=""/>
+</userComments>
+</msq>

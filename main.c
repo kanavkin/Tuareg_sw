@@ -200,6 +200,24 @@ int main(void)
 
     while(1)
     {
+        /**
+        50 Hz actions
+        */
+        if( ls_timer & BIT_TIMER_50HZ)
+        {
+            ls_timer &= ~BIT_TIMER_50HZ;
+
+            //provide sensor data
+            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
+            {
+                /// TODO (oli#8#): who will provide process data in limp mode with engine halted?
+
+                //start MAP sensor conversion
+                adc_start_injected_group(SENSOR_ADC);
+
+                Tuareg_update_process_data(&(Tuareg.process));
+            }
+        }
 
         /**
         4 Hz actions
@@ -208,22 +226,10 @@ int main(void)
         {
             ls_timer &= ~BIT_TIMER_4HZ;
 
-            //provide sensor data
-            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
-            {
-/// TODO (oli#8#): who will provide process data in limp mode with engine halted?
-
-                //start MAP sensor conversion
-                adc_start_injected_group(SENSOR_ADC);
-
-                Tuareg_update_process_data(&(Tuareg.process));
-            }
-
             //calculate new system state
             Tuareg_update_Runmode();
-
-
         }
+
 
         /**
         handle console

@@ -216,7 +216,7 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 */
                 Tuareg.decoder= init_Decoder();
 
-                Tuareg.sensors= init_sensors();
+                Tuareg.sensors= init_sensors(ASENSOR_VALIDITY_FASTINIT);
 
                 init_Ignition();
 
@@ -383,7 +383,7 @@ void Tuareg_update_halt_sources()
         Tuareg.Halt_source.crash_sensor= true;
 
         //collect diagnostic information
-        tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
+        tuareg_diag_log_event(TDIAG_KILL_CRASH);
 
         /// TODO (oli#9#): debug message enabled
         print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
@@ -393,31 +393,21 @@ void Tuareg_update_halt_sources()
         Tuareg.Halt_source.crash_sensor= false;
     }
 
-}
-
-
-
-inline void reset_decoder_watchdog()
-{
-    Tuareg.decoder_watchdog_ms= 0;
-}
-
-inline void update_decoder_watchdog()
-{
-
-
-    if(Tuareg.decoder_watchdog_ms < DECODER_WATCHDOG_TIMEOUT_MS)
+    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
+    if(( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL) && (Tuareg.process.Gear != GEAR_NEUTRAL) )
     {
-        Tuareg.decoder_watchdog_ms += DECODER_WATCHDOG_UPDATE_INTERVAL_MS;
+        Tuareg.Halt_source.sidestand_sensor= true;
+
+        //collect diagnostic information
+        tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
+
+        /// TODO (oli#9#): debug message enabled
+        print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_SIDESTAND");
     }
     else
     {
-        //BANG!
+        Tuareg.Halt_source.sidestand_sensor= false;
     }
-
-
-
-
 
 }
 

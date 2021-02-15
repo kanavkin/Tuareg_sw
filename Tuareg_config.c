@@ -40,6 +40,7 @@ exec_result_t load_Tuareg_Setup()
 */
 void load_essential_Tuareg_Setup()
 {
+    Tuareg_Setup.Version= 0;
 
     /**
     trigger position map initialization
@@ -54,6 +55,15 @@ void load_essential_Tuareg_Setup()
     Tuareg_Setup.trigger_advance_map[CRK_POSITION_D2]= TUAREG_SETUP_DEFAULT_POSITION_D2_ADVANCE;
 
     Tuareg_Setup.decoder_delay_us= TUAREG_SETUP_DEFAULT_DECODER_DELAY;
+
+    Tuareg_Setup.gear_ratio[GEAR_1]= 0.0;
+    Tuareg_Setup.gear_ratio[GEAR_2]= 0.0;
+    Tuareg_Setup.gear_ratio[GEAR_3]= 0.0;
+    Tuareg_Setup.gear_ratio[GEAR_4]= 0.0;
+    Tuareg_Setup.gear_ratio[GEAR_5]= 0.0;
+    Tuareg_Setup.gear_ratio[GEAR_NEUTRAL]= 0.0;
+
+
 
 }
 
@@ -70,7 +80,7 @@ exec_result_t store_Tuareg_Setup()
 
 void show_Tuareg_Setup(USART_TypeDef * Port)
 {
-    U32 pos;
+    U32 pos, gear;
 
     print(Port, "\r\n\r\nTuareg Config:");
 
@@ -94,6 +104,18 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
 
     print(Port, "\r\nDecoder Delay (us): ");
     printf_U(Port, Tuareg_Setup.decoder_delay_us, NO_PAD);
+
+    /*
+    gear_ratio[GEAR_COUNT]
+    */
+    print(Port, "\r\ngear ratio map\r\n");
+
+    for(gear=0; gear< GEAR_COUNT; gear++)
+    {
+        printf_U(Port, Tuareg_Setup.gear_ratio[gear], PAD_2 | NO_TRAIL);
+        UART_Tx(Port, ':');
+        printf_F32(Port, Tuareg_Setup.gear_ratio[gear]);
+    }
 
 
 }

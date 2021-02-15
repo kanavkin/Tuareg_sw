@@ -19,10 +19,11 @@ typedef enum {
 
 /**
 OutputChannel Tuareg bits
+32 bits
 */
 typedef enum {
 
-    //16 error bits
+    //error bits
     TBIT_CONFIGLOAD_ERROR,
     TBIT_SCHEDULER_ERROR,
     TBIT_O2SENSOR_ERROR,
@@ -40,14 +41,25 @@ typedef enum {
     TBIT_SPARE3_ERROR,
     TBIT_SPARE4_ERROR,
 
-    //16 status bits
+    // status bits
     TBIT_CRANKING_MODE,
     TBIT_LIMP_MODE,
     TBIT_DIAG_MODE,
 
+    //halt sources
+    TBIT_HSRC_CRASH,
+    TBIT_HSRC_RUN,
+    TBIT_HSRC_SIDESTAND,
+
+    //actors
+    TBIT_ACT_IGN_INH,
+    TBIT_ACT_FUEL_INH,
+    TBIT_ACT_FUEL_PUMP,
+
     TBIT_COUNT
 
 } tuareg_bits_t;
+
 
 /**
 OutputChannel ignition bits
@@ -69,7 +81,7 @@ typedef enum {
 
 
 
-#define TS_OCHBLOCKSIZE 50
+#define TS_OCHBLOCKSIZE 52
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port);

@@ -4,12 +4,14 @@
 #include "uart.h"
 
 
-#define TUAREG_SETUP_SIZE 24
+#define TUAREG_SETUP_SIZE 42
 
 /***************************************************************************************************************************************************
 *   decoder configuration page
 ***************************************************************************************************************************************************/
 typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
+
+    U8 Version;
 
     //advance angles corresp. to crank_position_t
     VU16 trigger_advance_map[CRK_POSITION_COUNT];
@@ -17,7 +19,8 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     //dynamic delay introduced by VR interface schematics (between key passing sensor and decoder event generation)
     U16 decoder_delay_us;
 
-    U8 Version;
+    //conversion factors for ground speed calculation
+    VF32 gear_ratio[GEAR_COUNT];
 
 } Tuareg_Setup_t;
 

@@ -115,6 +115,7 @@ typedef enum {
     TDIAG_MODECTRL,
     TDIAG_KILL_SIDESTAND,
     TDIAG_KILL_RUNSWITCH,
+    TDIAG_KILL_CRASH,
 
     //Tuareg_set_Runmode()
     TDIAG_ENTER_INIT,

@@ -102,6 +102,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Tuareg_process_data.h" />
+		<Unit filename="Tuareg_types.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Tuareg_types.h" />
 		<Unit filename="TunerStudio.c">
 			<Option compilerVar="CC" />

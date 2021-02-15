@@ -23,13 +23,13 @@ sensor calibration data
 /**
 decoder configuration
 */
-#define EEPROM_DECODER_CONFIG_BASE 200
+#define EEPROM_DECODER_CONFIG_BASE 220
 
 
 /**
 ignition configuration
 */
-#define EEPROM_IGNITION_SETUP_BASE 220
+#define EEPROM_IGNITION_SETUP_BASE 240
 
 
 /**

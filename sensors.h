@@ -37,7 +37,7 @@ ADC channels vs analog sensors
 5   -> PORTA5  -> ASENSOR_VBAT
 6   -> PORTA6  -> ASENSOR_KNOCK
 7   -> PORTA7  -> ASENSOR_BARO
-14  -> PORTC4  -> ASENSOR_SPARE
+14  -> PORTC4  -> ASENSOR_GEAR
 */
 
 /*
@@ -60,14 +60,12 @@ ADC channels vs analog sensors
 #define ADC_VBAT_CH     ADC_Channel_5
 #define ADC_KNOCK_CH    ADC_Channel_6
 #define ADC_BARO_CH     ADC_Channel_7
-#define ADC_SPARE_CH    ADC_Channel_14
+#define ADC_GEAR_CH     ADC_Channel_14
 
 
 
 /**
 generic values
-TODO set more specific ones
-TODO make values configurable (config page)
 
 sensor timing considerations:
 with an average buffer of 16 bit width we can fit up to 8
@@ -76,59 +74,12 @@ keep good balance between CPU load and accuracy!
 
 T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
 */
-#define ASENSOR_MAP_MIN_THRES 302
-#define ASENSOR_MAP_MAX_THRES 4095
-#define ASENSOR_MAP_ERROR_THRES 0xFF
-#define ASENSOR_MAP_AVG_THRES 16
-
-#define ASENSOR_BARO_MIN_THRES 302
-#define ASENSOR_BARO_MAX_THRES 4095
-#define ASENSOR_BARO_ERROR_THRES 0xFF
-#define ASENSOR_BARO_AVG_THRES 5
-
-#define ASENSOR_TPS_MIN_THRES 1
-#define ASENSOR_TPS_MAX_THRES 4095
-#define ASENSOR_TPS_ERROR_THRES 0xFF
-#define ASENSOR_TPS_AVG_THRES 5
-#define DELTA_TPS_THRES 5
-
-#define ASENSOR_O2_MIN_THRES 1
-#define ASENSOR_O2_MAX_THRES 4095
-#define ASENSOR_O2_ERROR_THRES 0xFF
-#define ASENSOR_O2_AVG_THRES 5
-
-#define ASENSOR_VBAT_MIN_THRES 1
-#define ASENSOR_VBAT_MAX_THRES 4095
-#define ASENSOR_VBAT_ERROR_THRES 0xFF
-#define ASENSOR_VBAT_AVG_THRES 5
-
-#define ASENSOR_IAT_MIN_THRES 1
-#define ASENSOR_IAT_MAX_THRES 4095
-#define ASENSOR_IAT_ERROR_THRES 0xFF
-#define ASENSOR_IAT_AVG_THRES 5
-#define IAT_OFFSET 40
-
-#define ASENSOR_CLT_MIN_THRES 1
-#define ASENSOR_CLT_MAX_THRES 4095
-#define ASENSOR_CLT_ERROR_THRES 0xFF
-#define ASENSOR_CLT_AVG_THRES 5
-#define CLT_OFFSET 40
-
-#define ASENSOR_SPARE_MIN_THRES 1
-#define ASENSOR_SPARE_MAX_THRES 4095
-#define ASENSOR_SPARE_ERROR_THRES 0xFF
-#define ASENSOR_SPARE_AVG_THRES 5
-
-//------- new generic structure:
-
-#define ASENSOR_MIN_VALID 1
-#define ASENSOR_MAX_VALID 4095
-
 #define ASENSOR_ASYNC_SAMPLE_LEN 5
 #define ASENSOR_SYNC_SAMPLE_LEN 16
 
 #define ASENSOR_ERROR_THRES 0xFF
 
+#define DELTA_TPS_THRES 5
 
 /**
 sensor module internal type
@@ -146,9 +97,8 @@ typedef enum {
     ASENSOR_ASYNC_VBAT,
     ASENSOR_ASYNC_KNOCK,
     ASENSOR_ASYNC_BARO,
-    ASENSOR_ASYNC_SPARE,
+    ASENSOR_ASYNC_GEAR,
     ASENSOR_ASYNC_COUNT
-
 
 } asensors_async_t;
 
@@ -163,7 +113,6 @@ typedef enum {
     //ADC based sensors in injected group:
     ASENSOR_SYNC_MAP,
     ASENSOR_SYNC_COUNT
-
 
 } asensors_sync_t;
 
@@ -287,13 +236,18 @@ typedef struct {
 
 } sensor_interface_t;
 
-volatile sensor_interface_t * init_sensors();
+
+
+volatile sensor_interface_t * init_sensors(U32 Init_count);
+extern void prepare_fastsync_init(U32 init_count);
+
+
 VU32 read_dsensors();
 void read_digital_sensors();
 VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
 VF32 calculate_ddt_TPS(VF32 Last_TPS, VF32 Current_TPS);
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
-extern const float cKelvin_offset;
+
 
 #endif // SENSORS_H_INCLUDED

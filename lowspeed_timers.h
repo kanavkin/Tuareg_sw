@@ -9,6 +9,7 @@
 #define BIT_TIMER_15HZ            0x08
 #define BIT_TIMER_30HZ            0x10
 #define BIT_TIMER_50HZ            0x20
+#define BIT_TIMER_100HZ           0x40
 
 extern VU32 ls_timer;
 extern VU32 system_time;

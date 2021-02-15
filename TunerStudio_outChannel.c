@@ -101,9 +101,13 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     serialize_float_U8(Tuareg.process.VBAT_V, &(output[42]));
 
     //afr              = scalar,   F32,    46, "O2",     0.100, 0.000
-    serialize_float_U8(14.5, &(output[46]));
+    serialize_float_U8(Tuareg.process.O2_AFR, &(output[46]));
 
-    //afr 46, 47, 48, 49;
+    //gear             = scalar,   U08,    50, "gear",    1.000, 0.000
+    output[50]= Tuareg.process.Gear;
+
+    //ground_speed     = scalar,   U08,    51, "kmh",    1.000, 0.000
+    output[50]= Tuareg.process.ground_speed_kmh;
 
 
     /**
@@ -153,6 +157,8 @@ prepare OutputChannel "tuareg" field
 BF32 ts_tuareg_bits()
 {
     BF32 tuaregbits =0;
+
+    //errors
 
     if(Tuareg.Errors.config_load_error)
     {
@@ -214,6 +220,8 @@ BF32 ts_tuareg_bits()
         setBit_BF32(TBIT_CISENSOR_ERROR, &tuaregbits);
     }
 
+    //runmode
+
     if(Tuareg.Runmode == TMODE_CRANKING)
     {
         setBit_BF32(TBIT_CRANKING_MODE, &tuaregbits);
@@ -225,6 +233,40 @@ BF32 ts_tuareg_bits()
     else if(Tuareg.Runmode == TMODE_DIAG)
     {
         setBit_BF32(TBIT_DIAG_MODE, &tuaregbits);
+    }
+
+    //halt sources
+
+    if(Tuareg.Halt_source.crash_sensor)
+    {
+        setBit_BF32(TBIT_HSRC_CRASH, &tuaregbits);
+    }
+
+    if(Tuareg.Halt_source.run_switch)
+    {
+        setBit_BF32(TBIT_HSRC_RUN, &tuaregbits);
+    }
+
+    if(Tuareg.Halt_source.sidestand_sensor)
+    {
+        setBit_BF32(TBIT_HSRC_SIDESTAND, &tuaregbits);
+    }
+
+    //actors
+
+    if(Tuareg.actors.ignition_inhibit)
+    {
+        setBit_BF32(TBIT_ACT_IGN_INH, &tuaregbits);
+    }
+
+    if(Tuareg.actors.fueling_inhibit)
+    {
+        setBit_BF32(TBIT_ACT_FUEL_INH, &tuaregbits);
+    }
+
+    if(Tuareg.actors.fuel_pump)
+    {
+        setBit_BF32(TBIT_ACT_FUEL_PUMP, &tuaregbits);
     }
 
     return tuaregbits;

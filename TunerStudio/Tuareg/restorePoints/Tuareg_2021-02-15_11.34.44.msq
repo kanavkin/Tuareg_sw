@@ -1,80 +1,60 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Mon Feb 15 17:31:19 CET 2021"/>
+    <bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Mon Feb 15 11:34:44 CET 2021"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="5" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
     </page>
-    <page number="0" size="109">
+    <page number="0" size="65">
         <constant digits="0" name="calibVersion" units="#">1.0</constant>
         <constant digits="2" name="IATcalibM" units="#/°C">27.5</constant>
         <constant digits="2" name="IATcalibN" units="#">587.0</constant>
-        <constant digits="0" name="IATcalibMin" units="#">10.0</constant>
-        <constant digits="0" name="IATcalibMax" units="#">2200.0</constant>
         <constant digits="2" name="CLTcalibM" units="#/°C">27.5</constant>
         <constant digits="2" name="CLTcalibN" units="#">600.0</constant>
-        <constant digits="0" name="CLTcalibMin" units="#">10.0</constant>
-        <constant digits="0" name="CLTcalibMax" units="#">3500.0</constant>
-        <constant digits="2" name="TPScalibM" units="#/°">-29.0</constant>
-        <constant digits="2" name="TPScalibN" units="#">3300.0</constant>
-        <constant digits="0" name="TPScalibMin" units="#">400.0</constant>
-        <constant digits="0" name="TPScalibMax" units="#">3500.0</constant>
-        <constant digits="2" name="MAPcalibM" units="#/kPA">18.800048828125</constant>
+        <constant digits="2" name="TPScalibM" units="#/°">-25.0</constant>
+        <constant digits="2" name="TPScalibN" units="#">2150.0</constant>
+        <constant digits="2" name="MAPcalibM" units="#/Pa">18.800048828125</constant>
         <constant digits="2" name="MAPcalibN" units="#">359.0</constant>
-        <constant digits="0" name="MAPcalibMin" units="#">300.0</constant>
-        <constant digits="0" name="MAPcalibMax" units="#">3000.0</constant>
-        <constant digits="2" name="BAROcalibM" units="#/kPA">18.64990234375</constant>
+        <constant digits="2" name="BAROcalibM" units="#/Pa">1865.0</constant>
         <constant digits="2" name="BAROcalibN" units="#">359.0</constant>
-        <constant digits="0" name="BAROcalibMin" units="#">1800.0</constant>
-        <constant digits="0" name="BAROcalibMax" units="#">2800.0</constant>
         <constant digits="2" name="O2calibM" units="#/AFR">1.0</constant>
         <constant digits="2" name="O2calibN" units="#">0.0</constant>
-        <constant digits="0" name="O2calibMin" units="#">1000.0</constant>
-        <constant digits="0" name="O2calibMax" units="#">1200.0</constant>
         <constant digits="2" name="VBATcalibM" units="#/V">209.0</constant>
         <constant digits="2" name="VBATcalibN" units="#">-141.0</constant>
-        <constant digits="0" name="VBATcalibMin" units="#">1200.0</constant>
-        <constant digits="0" name="VBATcalibMax" units="#">3000.0</constant>
-        <constant digits="2" name="KNOCKcalibM" units="#">1.0</constant>
+        <constant digits="2" name="KNOCKcalibM" units="#/#">1.0</constant>
         <constant digits="2" name="KNOCKcalibN" units="#">0.0</constant>
-        <constant digits="0" name="KNOCKcalibMin" units="#">1000.0</constant>
-        <constant digits="0" name="KNOCKcalibMax" units="#">1200.0</constant>
-        <constant digits="2" name="GEARcalibM" units="#">-0.009999990463256836</constant>
-        <constant digits="2" name="GEARcalibN" units="#">3000.0</constant>
-        <constant digits="0" name="GEARcalibMin" units="#">100.0</constant>
-        <constant digits="0" name="GEARcalibMax" units="#">3500.0</constant>
     </page>
     <page number="1" size="15">
         <constant digits="0" name="DecoderVersion" units="#">3.0</constant>
-        <constant digits="0" name="DecTimeout" units="s">3.0</constant>
+        <constant digits="0" name="DecTimeout" units="s">4.0</constant>
         <constant digits="0" name="DecCrankNoiseFilter" units="#">4.0</constant>
         <constant name="DecKeyBeginSensing">"FALL"</constant>
         <constant name="DecKeyEndSensing">"RISE"</constant>
         <constant digits="0" name="DecSyncRatioMin" units="%">20.0</constant>
         <constant digits="0" name="DecSyncRatioMax" units="%">60.0</constant>
-        <constant digits="0" name="DecCamNoiseFilter" units="#">4.0</constant>
+        <constant digits="0" name="DecCamNoiseFilter" units="#">25.0</constant>
         <constant name="DecLobeBeginSensing">"RISE"</constant>
         <constant name="DecLobeEndSensing">"FALL"</constant>
         <constant name="DecCisEnablePos">"CRK_POSITION_C1"</constant>
         <constant name="DecCisDisablePos">"CRK_POSITION_D2"</constant>
         <constant name="DecCisTriggeredPhase">"CYL1_EX"</constant>
-        <constant digits="0" name="DecCisMinAngle" units="deg">30.0</constant>
+        <constant digits="0" name="DecCisMinAngle" units="deg">40.0</constant>
         <constant digits="0" name="DecCisSyncThres" units="#">100.0</constant>
     </page>
     <page number="2" size="20">
-        <constant digits="0" name="IgnitionVersion" units="#">0.0</constant>
-        <constant digits="0" name="IgnMaxRpm" units="rpm">9200.0</constant>
+        <constant digits="0" name="IgnitionVersion" units="#">1.0</constant>
+        <constant digits="0" name="IgnMaxRpm" units="rpm">8961.0</constant>
         <constant digits="0" name="IgnDynMinRpm" units="rpm">500.0</constant>
         <constant name="IgnDynBasePos">"CRK_POSITION_A2"</constant>
         <constant digits="0" name="IgnDynDwell" units="µs">6000.0</constant>
-        <constant digits="0" name="IgnColdIdleCutoffRpm" units="rpm">2000.0</constant>
-        <constant digits="0" name="IgnColdIdleCutoffClt" units="K">310.0</constant>
+        <constant digits="0" name="IgnColdIdleCutoffRpm" units="rpm">1500.0</constant>
+        <constant digits="0" name="IgnColdIdleCutoffClt" units="K">323.0</constant>
         <constant digits="0" name="IgnColdIdleIgnAdv" units="deg">20.0</constant>
         <constant digits="0" name="IgnColdIdleDwell" units="µs">10000.0</constant>
-        <constant name="IgnCrankIgnPos">"CRK_POSITION_B1"</constant>
+        <constant name="IgnCrankIgnPos">"CRK_POSITION_B2"</constant>
         <constant name="IgnCrankDwellPos">"CRK_POSITION_D2"</constant>
-        <constant name="IgnCoilSetup">"shared"</constant>
-        <constant digits="0" name="IgnSparkDuration" units="µs">1280.0</constant>
+        <constant name="IgnCoilSetup">"221"</constant>
+        <constant digits="0" name="IgnSparkDuration" units="µs">1500.0</constant>
     </page>
     <page number="3" size="320">
         <constant cols="1" digits="0" name="ignAdv_TPS_x" rows="16" units="Rpm">

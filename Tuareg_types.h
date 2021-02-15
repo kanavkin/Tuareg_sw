@@ -73,6 +73,20 @@ typedef enum {
 } ctrl_strategy_t;
 
 
+typedef enum {
+
+    GEAR_1,
+    GEAR_2,
+    GEAR_3,
+    GEAR_4,
+    GEAR_5,
+    GEAR_NEUTRAL,
+
+    GEAR_COUNT
+
+} gears_t;
+
+
 /**
 basic type to handle an absolute angular difference in degree
 
@@ -81,7 +95,7 @@ variables of this type have to be designated with xxxx_PD
 typedef uint32_t angle_deg_t;
 
 
-
+extern const float cKelvin_offset;
 
 
 
