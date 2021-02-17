@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Tuareg" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_compiler_for_stm32" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Tuareg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_compiler_for_stm32" />
+				<Compiler>
+					<Add option="-g3" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Tuareg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_compiler_for_stm32" />
+				<Compiler>
+					<Add option="-Os" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="module_test">
+				<Option output="bin/Debug/Tuareg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_compiler_for_stm32" />
+				<Compiler>
+					<Add option="-g3" />
+					<Add option="-DTUAREG_MODULE_TEST" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mthumb-interwork" />
+			<Add option="-mlittle-endian" />
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-Wfloat-equal" />
+			<Add option="-Winline" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wall" />
+			<Add option="-std=c99" />
+			<Add option="-march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
+			<Add option="-Wdouble-promotion -fsingle-precision-constant" />
+			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
+			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
+			<Add option="-DSTM32F410xx" />
+			<Add option='-DHSE_VALUE=&quot;((uint32_t)8000000)&quot;' />
+			<Add option="-DUSE_STDPERIPH_DRIVER" />
+			<Add directory="../../src/stm32_libs" />
+			<Add directory="../../src/stm32_libs/stm32f4xx/cmsis" />
+			<Add directory="../../src/stm32_libs/stm32f4xx/spl" />
+			<Add directory="../../src/stm32_libs/stm32f4xx" />
+			<Add directory="../../src" />
+			<Add directory="../../src/com" />
+			<Add directory="../../src/dash" />
+			<Add directory="../../src/debug" />
+			<Add directory="../../src/decoder" />
+			<Add directory="../../src/diagnostics" />
+			<Add directory="../../src/ignition" />
+			<Add directory="../../src/main" />
+			<Add directory="../../src/module_test" />
+			<Add directory="../../src/process_table" />
+			<Add directory="../../src/sensors" />
+			<Add directory="../../src/storage" />
+			<Add directory="../../src/timing" />
+			<Add directory="../../src/utils" />
+			<Add directory="../../src/fuelling" />
+			<Add directory="../../src/actors" />
+		</Compiler>
+		<Linker>
+			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
+			<Add option="-I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/boctok" />
+			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />
+			<Add after="arm-none-eabi-objcopy $(TARGET_OUTPUT_FILE) -Obinary $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).bin" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<Unit filename="../../src/actors/act_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/actors/act_hw.h" />
+		<Unit filename="../../src/actors/act_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/actors/act_logic.h" />
+		<Unit filename="../../src/com/Tuareg_console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/Tuareg_console.h" />
+		<Unit filename="../../src/com/TunerStudio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/TunerStudio.h" />
+		<Unit filename="../../src/com/TunerStudio_outChannel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/TunerStudio_outChannel.h" />
+		<Unit filename="../../src/com/TunerStudio_service.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/TunerStudio_service.h" />
+		<Unit filename="../../src/com/serial_monitor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/serial_monitor.h" />
+		<Unit filename="../../src/com/uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/uart.h" />
+		<Unit filename="../../src/com/uart_printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/uart_printf.h" />
+		<Unit filename="../../src/dash/dash_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/dash/dash_hw.h" />
+		<Unit filename="../../src/dash/dash_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/dash/dash_logic.h" />
+		<Unit filename="../../src/debug/debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/debug/debug.h" />
+		<Unit filename="../../src/debug/dwt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/debug/dwt.h" />
+		<Unit filename="../../src/decoder/Tuareg_decoder.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/Tuareg_decoder.h" />
+		<Unit filename="../../src/decoder/decoder_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_config.h" />
+		<Unit filename="../../src/decoder/decoder_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_hw.h" />
+		<Unit filename="../../src/decoder/decoder_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_logic.h" />
+		<Unit filename="../../src/diagnostics/diagnostics.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/diagnostics/diagnostics.h" />
+		<Unit filename="../../src/fuelling/fuel_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fuelling/fuel_hw.h" />
+		<Unit filename="../../src/fuelling/fuel_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fuelling/fuel_logic.h" />
+		<Unit filename="../../src/ignition/Tuareg_ignition.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/ignition/Tuareg_ignition.h" />
+		<Unit filename="../../src/ignition/Tuareg_ignition_controls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/ignition/Tuareg_ignition_controls.h" />
+		<Unit filename="../../src/ignition/ignition_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/ignition/ignition_config.h" />
+		<Unit filename="../../src/ignition/ignition_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/ignition/ignition_hw.h" />
+		<Unit filename="../../src/main/Tuareg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg.h" />
+		<Unit filename="../../src/main/Tuareg_ID.h" />
+		<Unit filename="../../src/main/Tuareg_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_config.h" />
+		<Unit filename="../../src/main/Tuareg_errors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_errors.h" />
+		<Unit filename="../../src/main/Tuareg_process_data.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_process_data.h" />
+		<Unit filename="../../src/main/Tuareg_types.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_types.h" />
+		<Unit filename="../../src/main/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/module_test/module_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/module_test/module_test.h" />
+		<Unit filename="../../src/process_table/process_table.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/process_table/process_table.h" />
+		<Unit filename="../../src/sensors/sensor_calibration.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/sensor_calibration.h" />
+		<Unit filename="../../src/sensors/sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/sensors.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/system_stm32f4xx.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/eeprom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/eeprom.h" />
+		<Unit filename="../../src/storage/eeprom_layout.h" />
+		<Unit filename="../../src/storage/table.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/table.h" />
+		<Unit filename="../../src/timing/lowprio_scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timing/lowprio_scheduler.h" />
+		<Unit filename="../../src/timing/lowspeed_timers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timing/lowspeed_timers.h" />
+		<Unit filename="../../src/timing/scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timing/scheduler.h" />
+		<Unit filename="../../src/utils/base_calc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/utils/base_calc.h" />
+		<Unit filename="../../src/utils/bitfields.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/utils/bitfields.h" />
+		<Unit filename="../../src/utils/conversion.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/utils/conversion.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<lib_finder disable_auto="1" />
+			<debugger>
+				<remote_debugging>
+					<options conn_type="0" serial_baud="115200" ip_address="localhost" ip_port="4242" additional_cmds="load" additional_cmds_before="file $(TARGET_OUTPUT_BASENAME)" extended_remote="1" />
+				</remote_debugging>
+			</debugger>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

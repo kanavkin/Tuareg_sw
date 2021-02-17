@@ -1,5 +1,0 @@
-EEprom:
-violet (white pin) -> p16 (3,3V)
-grey (white pin) -> p19 (GND)
-grey -> p21 (PB7)
-white -> p17 (PB6)
