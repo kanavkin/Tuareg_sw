@@ -3,72 +3,88 @@
 #include "stm32_libs/boctok_types.h"
 
 #include "Tuareg_types.h"
+#include "Tuareg.h"
 
 #include "decoder_hw.h"
 #include "decoder_logic.h"
-#include "uart.h"
-#include "uart_printf.h"
-#include "Tuareg.h"
 #include "decoder_config.h"
 
 #include "base_calc.h"
-#include "conversion.h"
+#include "uart.h"
+#include "uart_printf.h"
+
 #include "diagnostics.h"
 
-#include "debug.h"
 
 volatile Tuareg_decoder_t Decoder;
 
 
 /**
 how the decoder works:
-
--   on initialisation we enable crank pickup irq
--   with first crank pickup irq execution we start crank timer to measure time delay between
-    crank pickup events
--   the timer keeps on counting till the next irq, providing a stable time base for processing delay measurement
--   because we know sensing (rising or falling edge), we can tell if a gap or a key on trigger wheel
-    has been detected
--   syncronisation we get when a certain time ratio (key/gap ratio) is detected - thats the cycle beginning
--   from cycle beginning every rise/fall event takes us further in engine cycle - decoder keeps track of engine
-    position and expects synchronization events after position D2
--   after each sensing event the timer gets a reset
--   a noise filter has been implemented: crank pickup signal edge detection irq gets enabled after some delay time after each
-    irq execution to suppress signal noise
--   if a timer overflow occures, the engine most certainly has stalled / is not running
-
+-   add description!!!
 */
 
+/******************************************************************************************************************************
+decoder helper functions - debug actions
+******************************************************************************************************************************/
 
-inline void sync_lost_debug_handler()
+void decoder_process_debug_events()
 {
-    UART_Tx(DEBUG_PORT, '!');
+    if(Decoder.debug.all_flags > 0)
+    {
+        print(DEBUG_PORT, "\r\nINFO Decoder Debug Events occurred (sync_lost got_sync timer_overflow timeout): ");
+        UART_Tx(DEBUG_PORT, (Decoder.debug.lost_sync? '1' :'0'));
+        UART_Tx(DEBUG_PORT, '-');
+        UART_Tx(DEBUG_PORT, (Decoder.debug.got_sync? '1' :'0'));
+        UART_Tx(DEBUG_PORT, '-');
+        UART_Tx(DEBUG_PORT, (Decoder.debug.timer_overflow? '1' :'0'));
+        UART_Tx(DEBUG_PORT, '-');
+        UART_Tx(DEBUG_PORT, (Decoder.debug.timeout? '1' :'0'));
 
+        //reset flags
+        Decoder.debug.all_flags= 0;
+    }
+}
+
+inline void register_sync_lost_debug_event()
+{
+    //set flag
+    Decoder.debug.lost_sync= true;
 }
 
 
-inline void got_sync_debug_handler()
+inline void register_got_sync_debug_event()
 {
-    UART_Tx(DEBUG_PORT, '+');
-
+    //set flag
+    Decoder.debug.got_sync= true;
 }
 
 
-inline void decoder_timeout_debug_handler()
+inline void register_timer_overflow_debug_event()
 {
-    print(DEBUG_PORT, "\r \n decoder timeout");
+    //set flag
+    Decoder.debug.timer_overflow= true;
+}
+
+
+inline void register_timeout_debug_event()
+{
+    //set flag
+    Decoder.debug.timeout= true;
 }
 
 
 
-/**
-evaluate key/gap ratio to get trigger wheel sync
-*/
+/******************************************************************************************************************************
+decoder helper functions - sync checker
+******************************************************************************************************************************/
+
+//evaluate key/gap ratio to keep trigger wheel sync state
 inline bool check_sync_ratio()
 {
     VU32 sync_ratio, sync_interval, key_interval;
 
-    if((Decoder_hw.current_timer_value == 0) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.prev2_timer_value == 0) || (Decoder_hw.captured_positions_cont < 7) || (Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_overflow == true))
+    if((Decoder_hw.current_timer_value == 0) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.prev2_timer_value == 0) || (Decoder_hw.captured_positions_cont < 7) || (Decoder_hw.state.timer_continuous_mode == false))
     {
         decoder_diag_log_event(DDIAG_SYNCHK_SYN_FAIL);
         return false;
@@ -95,15 +111,14 @@ inline bool check_sync_ratio()
 
 
 
-/**
-evaluate key/gap ratio to get trigger wheel sync in timer discontinuous mode to get SYNC
-*/
+
+//evaluate key/gap ratio to get trigger wheel sync in timer discontinuous mode to get SYNC
 inline bool check_sync_ratio_async()
 {
     VU32 sync_ratio;
 
 
-    if((Decoder_hw.current_timer_value == 0) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.captured_positions_cont != 1) || (Decoder_hw.state.timer_continuous_mode == true) || (Decoder_hw.state.timer_overflow == true))
+    if((Decoder_hw.current_timer_value == 0) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.captured_positions_cont != 1) || (Decoder_hw.state.timer_continuous_mode == true))
     {
         decoder_diag_log_event(DDIAG_SYNCHK_ASYN_FAIL);
         return false;
@@ -125,26 +140,23 @@ inline bool check_sync_ratio_async()
 }
 
 
-/**
-crank rotational speed
-*/
-inline void update_engine_speed()
+
+/******************************************************************************************************************************
+decoder helper functions - timing data calculation
+******************************************************************************************************************************/
+
+inline void update_timing_data()
 {
     VU32 period_us, rpm, delta_rpm;
     VF32 accel =0;
 
 
     //set invalid output data initially
-    Decoder.crank_period_us= 0;
-    Decoder.outputs.period_valid= false;
-    Decoder.crank_rpm= 0;
-    Decoder.outputs.rpm_valid= false;
-    Decoder.crank_acceleration= 0;
-    Decoder.outputs.accel_valid= false;
+    reset_timing_data();
 
 
     //precondition check
-    if( (Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.captured_positions_cont != 1) || (Decoder_hw.state.timer_overflow == true))
+    if( (Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.captured_positions_cont != 1))
     {
         //exit with invalid outputs
         return;
@@ -166,7 +178,7 @@ inline void update_engine_speed()
     //calculate crank rpm based on the valid period figure
     rpm= calc_rpm(period_us);
 
-    if(rpm < 100)
+    if((rpm < 100) || (rpm > 10000))
     {
         return;
     }
@@ -194,25 +206,52 @@ inline void update_engine_speed()
 
 
     /// TODO (oli#5#): add range check and set the output flag
-    Decoder.crank_acceleration= accel;
+    //Decoder.crank_acceleration= accel;
+    Decoder.crank_acceleration= 0;
 
 }
 
+
+inline void reset_timing_data()
+{
+    Decoder.crank_period_us= 0;
+    Decoder.crank_rpm= 0;
+    Decoder.crank_acceleration= 0;
+
+    Decoder.prev1_crank_rpm= 0;
+
+    Decoder.outputs.period_valid= false;
+    Decoder.outputs.rpm_valid= false;
+    Decoder.outputs.accel_valid= false;
+}
+
+/******************************************************************************************************************************
+cylinder identification sensor
+******************************************************************************************************************************/
+
+inline void reset_timeout_counter()
+{
+    Decoder.timeout_count =0;
+    Decoder.outputs.timeout= false;
+}
+
+
+inline void reset_position_data()
+{
+    Decoder.crank_position= CRK_POSITION_UNDEFINED;
+    Decoder.phase= PHASE_UNDEFINED;
+
+    Decoder.outputs.phase_valid= false;
+    Decoder.outputs.position_valid= false;
+}
 
 
 inline void reset_internal_data()
 {
-    Decoder.crank_position= CRK_POSITION_UNDEFINED;
-    Decoder.phase= PHASE_UNDEFINED;
-    Decoder.crank_period_us= 0;
-    Decoder.prev1_crank_rpm= 0;
-    Decoder.crank_rpm= 0;
-
-    Decoder.outputs.phase_valid= false;
-    Decoder.outputs.position_valid= false;
-    Decoder.outputs.period_valid= false;
-    Decoder.outputs.rpm_valid= false;
+    reset_position_data();
+    reset_timing_data();
 }
+
 
 
 inline void decoder_set_state(decoder_internal_state_t NewState)
@@ -224,15 +263,17 @@ inline void decoder_set_state(decoder_internal_state_t NewState)
         return;
     }
 
+    //collect debug information
+    if((Decoder.state == DSTATE_SYNC) && (NewState != DSTATE_SYNC))
+    {
+        register_sync_lost_debug_event();
+    }
+
     Decoder.state= NewState;
 }
 
 
-inline void reset_timeout_counter()
-{
-    Decoder.timeout_count =0;
-    Decoder.outputs.timeout= false;
-}
+
 
 
 /******************************************************************************************************************************
@@ -348,15 +389,16 @@ void decoder_crank_handler()
 
             if( check_sync_ratio_async() == true )
             {
-                /// SYNC
+                /// got SYNC
                 decoder_set_state(DSTATE_SYNC);
-
-                //Decoder.crank_position= crank_position_after(Decoder_Setup.sync_check_begin_pos);
                 Decoder.crank_position= CRK_POSITION_B1;
 
                 //switch decoder timer mode to continuous
                 decoder_request_timer_reset();
                 decoder_set_timer_continuous_mode_on();
+
+                //collect debug information
+                register_got_sync_debug_event();
 
             }
             else
@@ -364,9 +406,8 @@ void decoder_crank_handler()
                 //then check the next key
                 decoder_set_state(DSTATE_ASYNC_KEY);
 
-                decoder_set_timer_continuous_mode_off();
-
                 //clean up
+                decoder_set_timer_continuous_mode_off();
                 reset_internal_data();
             }
 
@@ -416,8 +457,8 @@ void decoder_crank_handler()
 
                 case CRK_POSITION_B2:
 
-                    //update rotational speed calculation
-                    update_engine_speed();
+                    //update engine rotational speed calculation
+                    update_timing_data();
 
                     break;
 
@@ -496,16 +537,20 @@ has been received for more than the configured interval
  ******************************************************************************************************************************/
 void decoder_crank_timeout_handler()
 {
+    //reset decoder
+    decoder_set_state(DSTATE_TIMEOUT);
+    reset_internal_data();
+
+    //collect debug information
+    register_timer_overflow_debug_event();
+
+
     /**
     timer update indicates unstable engine operation
     */
     if(Decoder.timeout_count >= Decoder.decoder_timeout_thrs)
     {
-        //reset decoder
-        decoder_set_state(DSTATE_TIMEOUT);
 
-        //report invalid data in timeout state
-        reset_internal_data();
         Decoder.outputs.timeout= true;
 
         //stopping the decoder timer will leave the crank noise filter enabled
@@ -517,6 +562,9 @@ void decoder_crank_timeout_handler()
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_TIMEOUT_EVENTS);
 
+        //collect debug information
+        register_timeout_debug_event();
+
 
         /**
         trigger sw irq for decoder output processing
@@ -527,9 +575,6 @@ void decoder_crank_timeout_handler()
     else
     {
         Decoder.timeout_count++;
-
-        //reset the reported rpm figure
-        update_engine_speed();
     }
 
 }
@@ -538,7 +583,6 @@ void decoder_crank_timeout_handler()
 /******************************************************************************************************************************
 cylinder identification sensor
 ******************************************************************************************************************************/
-
 inline void decoder_update_cis()
 {
     engine_phase_t detected_phase;

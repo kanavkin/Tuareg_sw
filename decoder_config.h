@@ -105,7 +105,7 @@ crank noise filter
 the amount of timer  ticks until we re enable the crank pickup irq
 adjusted to about 2° crank shaft at 9500 rpm
 (smallest segment is about 5° in length)
-(setting: ps 800 at 100 MHz)
+(setting: ps 1000 at 100 MHz)
 
 config item:
 Decoder_Setup.crank_noise_filter
@@ -113,7 +113,7 @@ Decoder_Setup.crank_noise_filter
 default:
 DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER
 */
-#define DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER 4
+#define DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER 3
 
 
 /**

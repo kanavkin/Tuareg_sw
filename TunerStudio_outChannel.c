@@ -68,16 +68,45 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     output[7] = (U8) ts_comm_bits();
 
     //rpm              = scalar,   U16,    8, "rpm",    1.000, 0.000
-    serialize_U16_U8(Tuareg.decoder->crank_rpm, &(output[8]));
+    if(Tuareg.decoder->outputs.rpm_valid == true)
+    {
+        serialize_U16_U8(Tuareg.decoder->crank_rpm, &(output[8]));
+    }
+    else
+    {
+        output[8]= 0;
+        output[9]= 0;
+    }
 
     //rpmDOT           = scalar,   F32,    10, "rpm/s",  1.000, 0.000
-    serialize_float_U8(0.42, &(output[10]));
+    if(Tuareg.decoder->outputs.accel_valid == true)
+    {
+        serialize_float_U8(0.42, &(output[10]));
+    }
+    else
+    {
+        output[10]= 0;
+    }
 
-    //advance          = scalar,   U16,    14, "deg",    1.000, 0.000
-    serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[14]));
+    if(Tuareg.ignition_controls.state.valid == true)
+    {
+        //advance          = scalar,   U16,    14, "deg",    1.000, 0.000
+        serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[14]));
 
-    //dwell	        = scalar,   U16,    16, "ms",     0.100, 0.00
-    serialize_U16_U8(Tuareg.ignition_controls.dwell_batch_us, &(output[16]));
+        //dwell	        = scalar,   U16,    16, "ms",     0.100, 0.00
+        serialize_U16_U8(Tuareg.ignition_controls.dwell_batch_us, &(output[16]));
+    }
+    else
+    {
+        //advance          = scalar,   U16,    14, "deg",    1.000, 0.000
+        output[14]= 0;
+        output[15]= 0;
+
+        //dwell	        = scalar,   U16,    16, "ms",     0.100, 0.00
+        output[16]= 0;
+        output[17]= 0;
+    }
+
 
     //map              = scalar,   F32,    18, "kpa",    1.000, 0.000
     serialize_float_U8(Tuareg.process.MAP_kPa, &(output[18]));

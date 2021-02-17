@@ -6,21 +6,14 @@
 /**
 decoder timer prescaler
 
-decoder timer resolution affects the timestamp accuracy and the key/gap ratio and rotational speed calculation
-its absolute accuracy has no effect on ignition/fuel timing!
-
-for example: t_1° @ 9000 rpm := ~16 us
-
-T.timer := 8 us @ 100 MHz
-
 WARNING:
 when changing, adjust CRANK_NOISE_FILTER accordingly!
-
-this configuration parameter intentionally kept as built in config
 */
-#define DECODER_TIMER_PSC 800UL
-#define DECODER_TIMER_PERIOD_US 8
-#define DECODER_TIMER_OVERFLOW_MS 524
+#define DECODER_TIMER_PSC 1000UL
+#define DECODER_TIMER_PERIOD_US 10
+#define DECODER_TIMER_OVERFLOW_MS 655
+
+
 
 
 typedef enum {
@@ -41,7 +34,6 @@ typedef struct {
 
      U8 timer_continuous_mode :1;
      U8 timer_reset_req :1;
-     U8 timer_overflow :1;
 
 } decoder_hw_state_t;
 

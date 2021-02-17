@@ -43,6 +43,21 @@ typedef struct {
 } decoder_cis_state_t;
 
 
+typedef union
+{
+     U8 all_flags;
+
+     struct {
+
+        VU8 got_sync :1;
+        VU8 lost_sync :1;
+        VU8 timer_overflow :1;
+        VU8 timeout :1;
+     };
+
+} decoder_debug_flags_t;
+
+
 typedef struct {
 
     /*
@@ -78,6 +93,9 @@ typedef struct {
     //timeout_count indicates how much consecutive timer update events have occurred
     U32 timeout_count;
 
+    //occurred debug events to process
+    decoder_debug_flags_t debug;
+
     /*
     CIS internals
     */
@@ -91,31 +109,39 @@ typedef struct {
 
 
 volatile Tuareg_decoder_t * init_decoder_logic();
-
-//extern volatile Tuareg_decoder_t Decoder;
-
 extern void decoder_set_state(decoder_internal_state_t NewState);
-extern void update_engine_speed();
+
+//timing data
+extern void update_timing_data();
+extern void reset_timing_data();
+
+extern void reset_position_data();
 extern void reset_internal_data();
 extern void reset_timeout_counter();
 
+//sync checker
 extern bool check_sync_ratio();
 extern bool check_sync_ratio_async();
 
+//Decoder_hw callback functions
 extern void decoder_crank_handler();
 extern void decoder_crank_noisefilter_handler();
 extern void decoder_crank_timeout_handler();
 
+//CIS
 extern void enable_cis();
 extern void disable_cis();
 extern void decoder_update_cis();
 extern void decoder_cis_handler();
 extern void decoder_cis_noisefilter_handler();
 
+//decoder debug
+void decoder_process_debug_events();
+extern void register_sync_lost_debug_event();
+extern void register_got_sync_debug_event();
+extern void register_timer_overflow_debug_event();
+extern void register_timeout_debug_event();
 
-extern void sync_lost_debug_handler();
-extern void got_sync_debug_handler();
-extern void decoder_timeout_debug_handler();
 
 
 

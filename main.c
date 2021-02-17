@@ -217,6 +217,9 @@ int main(void)
 
                 Tuareg_update_process_data(&(Tuareg.process));
             }
+
+            //print debug messages from decoder
+            decoder_process_debug_events();
         }
 
         /**

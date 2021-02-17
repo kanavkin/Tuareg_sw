@@ -60,8 +60,6 @@ void decoder_start_timer()
 
     //start timer counter
     TIM9->CR1 |= TIM_CR1_CEN;
-
-    Decoder_hw.state.timer_overflow= false;
 }
 
 
@@ -410,7 +408,6 @@ void decoder_set_timer_continuous_mode_off()
 void decoder_request_timer_reset()
 {
     Decoder_hw.state.timer_reset_req= true;
-    Decoder_hw.state.timer_overflow= false;
 }
 
 
@@ -435,7 +432,6 @@ void EXTI0_IRQHandler(void)
     {
         TIM9->CNT= (U16) 0;
         Decoder_hw.captured_positions_cont= 1;
-        Decoder_hw.state.timer_overflow= false;
     }
     else
     {
@@ -511,7 +507,6 @@ void TIM1_BRK_TIM9_IRQHandler(void)
         Decoder_hw.prev1_timer_value= 0;
         Decoder_hw.current_timer_value= 0;
         Decoder_hw.captured_positions_cont= 0;
-        Decoder_hw.state.timer_overflow= true;
 
         //diagnostics
         decoder_diag_log_event(DDIAG_TIM_UPDATE_EVENTS);
