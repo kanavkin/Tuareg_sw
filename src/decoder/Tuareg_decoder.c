@@ -48,9 +48,8 @@ volatile Tuareg_decoder_t * init_Decoder()
     {
         //loaded Decoder Config with correct Version
         Tuareg.Errors.decoder_config_error= false;
+        print(DEBUG_PORT, "\r\nII Decoder Config has been loaded");
     }
-
-    print(DEBUG_PORT, "\r\nII Decoder Config has been loaded");
 
 
     //init hw part

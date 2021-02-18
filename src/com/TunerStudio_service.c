@@ -95,7 +95,7 @@ void ts_service_info(U32 InfoID)
 
         case 'DI':
 
-            cli_show_decoder_interface(Tuareg.decoder);
+            cli_show_decoder_interface(Tuareg.pDecoder);
 
             break;
 
@@ -296,9 +296,9 @@ void cli_print_sensor_data(USART_TypeDef * Port)
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.sensors->asensors_health & (1<< sensor))
+        if(Tuareg.pSensors->asensors_health & (1<< sensor))
         {
-            printf_F32(Port, Tuareg.sensors->asensors[sensor]);
+            printf_F32(Port, Tuareg.pSensors->asensors[sensor]);
         }
         else
         {
@@ -310,9 +310,9 @@ void cli_print_sensor_data(USART_TypeDef * Port)
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.sensors->asensors_health & (1<< sensor))
+        if(Tuareg.pSensors->asensors_health & (1<< sensor))
         {
-            printf_U(Port, Tuareg.sensors->asensors_raw[sensor], PAD_5);
+            printf_U(Port, Tuareg.pSensors->asensors_raw[sensor], PAD_5);
         }
         else
         {
@@ -326,7 +326,7 @@ void cli_print_sensor_data(USART_TypeDef * Port)
 
     for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
     {
-        if(Tuareg.sensors->dsensors & (1<< sensor))
+        if(Tuareg.pSensors->dsensors & (1<< sensor))
         {
             UART_Tx(Port, '1');
         }

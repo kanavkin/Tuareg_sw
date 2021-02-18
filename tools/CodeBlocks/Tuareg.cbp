@@ -157,6 +157,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/diagnostics/diagnostics.h" />
+		<Unit filename="../../src/diagnostics/syslog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/diagnostics/syslog.h" />
 		<Unit filename="../../src/fuelling/fuel_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -198,6 +202,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_process_data.h" />
+		<Unit filename="../../src/main/Tuareg_syslog_locations.h" />
 		<Unit filename="../../src/main/Tuareg_types.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -213,6 +218,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/process_table/process_table.h" />
+		<Unit filename="../../src/sensors/Tuareg_sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/Tuareg_sensors.h" />
 		<Unit filename="../../src/sensors/sensor_calibration.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -263,14 +272,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/lowprio_scheduler.h" />
-		<Unit filename="../../src/timing/lowspeed_timers.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/timing/lowspeed_timers.h" />
 		<Unit filename="../../src/timing/scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/scheduler.h" />
+		<Unit filename="../../src/timing/systick_timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timing/systick_timer.h" />
 		<Unit filename="../../src/utils/base_calc.c">
 			<Option compilerVar="CC" />
 		</Unit>

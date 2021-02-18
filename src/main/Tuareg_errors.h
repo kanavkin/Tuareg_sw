@@ -11,10 +11,11 @@ typedef union
 
      struct {
 
-        VU32 config_load_error :1;
         VU32 decoder_config_error :1;
         VU32 ignition_config_error :1;
-        VU32 scheduler_error :1;
+        VU32 sensor_calibration_error :1;
+        VU32 tuareg_config_error :1;
+
         VU32 sensor_O2_error :1;
         VU32 sensor_TPS_error :1;
         VU32 sensor_IAT_error :1;
@@ -31,7 +32,6 @@ typedef union
 
 void Tuareg_Assert(bool Condition, Tuareg_ID Id, U32 Location);
 void Tuareg_Fatal(Tuareg_ID Id, U32 Location);
-void Tuareg_register_scheduler_error();
 
 
 #endif // TUAREG_ERRORS_H_INCLUDED

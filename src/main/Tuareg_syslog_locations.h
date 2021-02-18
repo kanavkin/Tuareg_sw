@@ -1,0 +1,16 @@
+#ifndef TUAREG_SYSLOC_LOCATIONS_H_INCLUDED
+#define TUAREG_SYSLOC_LOCATIONS_H_INCLUDED
+
+typedef enum {
+
+    TUAREG_LOC_,
+    TUAREG_LOC_COUNT
+
+
+
+} Tuareg_sysloc_locations_t;
+
+
+
+
+#endif // TUAREG_SYSLOC_LOCATIONS_H_INCLUDED

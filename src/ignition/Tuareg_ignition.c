@@ -106,7 +106,7 @@ void Tuareg_ignition_update_crankpos_handler()
 
     //check preconditions
     if((Tuareg.ignition_controls.state.valid == false)  || (Tuareg.ignition_controls.state.rev_limiter == true) ||
-       (Tuareg.decoder->outputs.position_valid == false) || (Tuareg.decoder->outputs.timeout == true))
+       (Tuareg.pDecoder->outputs.position_valid == false) || (Tuareg.pDecoder->outputs.timeout == true))
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -116,7 +116,7 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
     //check if the crank is at the ignition base position
-    if(Tuareg.decoder->crank_position == Tuareg.ignition_controls.ignition_pos)
+    if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
     {
 
         //collect diagnostic information
@@ -128,7 +128,7 @@ void Tuareg_ignition_update_crankpos_handler()
         corr_timing_us= Tuareg.ignition_controls.ignition_timing_us;
 
         //check if sequential mode has been requested and sufficient information for this mode is available
-        if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.decoder->outputs.phase_valid == true))
+        if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == true))
         {
 
             /*
@@ -136,7 +136,7 @@ void Tuareg_ignition_update_crankpos_handler()
             */
 
             //coil #1
-            if(Tuareg.decoder->phase == PHASE_CYL1_COMP)
+            if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP)
             {
                 scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, corr_timing_us, true);
 
@@ -145,7 +145,7 @@ void Tuareg_ignition_update_crankpos_handler()
             }
 
             //coil #2
-            if(Tuareg.decoder->phase == PHASE_CYL1_EX)
+            if(Tuareg.pDecoder->phase == PHASE_CYL1_EX)
             {
                 scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_UNPOWERED, corr_timing_us, true);
 
@@ -176,7 +176,7 @@ void Tuareg_ignition_update_crankpos_handler()
     /*
     check if the crank is at the ignition dwell position
     */
-    else if((Tuareg.ignition_controls.state.dynamic_controls == false) && (Tuareg.ignition_controls.state.sequential_mode == false) && (Tuareg.decoder->crank_position == Tuareg.ignition_controls.dwell_pos))
+    else if((Tuareg.ignition_controls.state.dynamic_controls == false) && (Tuareg.ignition_controls.state.sequential_mode == false) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos))
     {
         set_ignition_ch1(ACTOR_POWERED);
         set_ignition_ch2(ACTOR_POWERED);
@@ -204,7 +204,7 @@ void Tuareg_ignition_irq_handler()
     //check preconditions
     if((Tuareg.actors.ignition_inhibit == true) ||
         (Tuareg.ignition_controls.state.valid == false) || (Tuareg.ignition_controls.state.rev_limiter == true) || (Tuareg.ignition_controls.state.dynamic_controls == false) ||
-        (Tuareg.decoder->outputs.position_valid == false) || (Tuareg.decoder->outputs.timeout == true) )
+        (Tuareg.pDecoder->outputs.position_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) )
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_IRQ3H_PRECOND_FAIL);
@@ -219,14 +219,14 @@ void Tuareg_ignition_irq_handler()
 
 
     //check if sequential mode has been requested and sufficient information for this mode is available
-    if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.decoder->outputs.phase_valid == true))
+    if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == true))
     {
         /*
         sequential mode
         */
 
         //coil #1
-        if((Tuareg.actors.ignition_coil_1 == false) && (Tuareg.actors.ign1_irq_flag == true) && (Tuareg.decoder->phase == PHASE_CYL1_COMP))
+        if((Tuareg.actors.ignition_coil_1 == false) && (Tuareg.actors.ign1_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_COMP))
         {
             //acknowledge irq flag
             Tuareg.actors.ign1_irq_flag= false;
@@ -239,7 +239,7 @@ void Tuareg_ignition_irq_handler()
         }
 
         //coil #2
-        if((Tuareg.actors.ignition_coil_2 == false) && (Tuareg.actors.ign2_irq_flag == true) && (Tuareg.decoder->phase == PHASE_CYL1_EX))
+        if((Tuareg.actors.ignition_coil_2 == false) && (Tuareg.actors.ign2_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_EX))
         {
             //acknowledge irq flag
             Tuareg.actors.ign2_irq_flag= false;

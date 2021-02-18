@@ -186,6 +186,18 @@ typedef enum {
 
 
 
+typedef enum {
+
+    SNDIAG_READ_DSENSORS_CALLS,
+    SNDIAG_ADCIRQ_CALLS,
+    SNDIAG_ADCIRQ_INJECTEDGR_CALLS,
+    SNDIAG_DMAIRQ_CALLS,
+    SNDIAG_DMAIRQ_CH1_CALLS,
+
+    SNDIAG_COUNT
+
+} sensors_diag_t;
+
 
 
 void scheduler_diag_log_event(scheduler_diag_t event);
@@ -197,12 +209,15 @@ void print_ignition_diag(USART_TypeDef * Port);
 void print_ignition_diag_legend(USART_TypeDef * Port);
 
 void tuareg_diag_log_event(tuareg_diag_t event);
-void tuareg_diag_log_parameter(tuareg_diag_t Parameter, U32 Value);
 void print_tuareg_diag(USART_TypeDef * Port);
 void print_tuareg_diag_legend(USART_TypeDef * Port);
 
 void decoder_diag_log_event(decoder_diag_t Event);
-void decoder_diag_log_parameter(decoder_diag_t Parameter, U32 Value);
 void print_decoder_diag(USART_TypeDef * Port);
 void print_decoder_diag_legend(USART_TypeDef * Port);
+
+void sensors_diag_log_event(sensors_diag_t event);
+void print_sensors_diag(USART_TypeDef * Port);
+void print_sensors_diag_legend(USART_TypeDef * Port);
+
 #endif // DIAGNOSTICS_H_INCLUDED

@@ -9,7 +9,7 @@
 #include "uart.h"
 #include "uart_printf.h"
 
-#include "lowspeed_timers.h"
+#include "systick_timer.h"
 #include "conversion.h"
 
 //#include "debug.h"

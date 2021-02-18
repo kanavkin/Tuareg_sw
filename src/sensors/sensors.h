@@ -3,7 +3,7 @@
 
 
 #include "stm32_libs/boctok_types.h"
-#include "decoder_logic.h"
+//#include "decoder_logic.h"
 
 
 /**
@@ -171,18 +171,6 @@ typedef enum {
 } dsensors_t;
 
 
-typedef enum {
-
-    SDIAG_READ_DSENSORS_CALLS,
-    SDIAG_ADCIRQ_CALLS,
-    SDIAG_ADCIRQ_INJECTEDGR_CALLS,
-    SDIAG_DMAIRQ_CALLS,
-    SDIAG_DMAIRQ_CH1_CALLS,
-
-    SDIAG_COUNT
-
-} sensors_diag_t;
-
 
 /**
 sensor control
@@ -212,8 +200,6 @@ typedef struct {
 
     VU8 async_loop_count;
 
-    VU32 diag[SDIAG_COUNT];
-
     /**
     where DMA will drop ADC data from regular group
     */
@@ -238,9 +224,8 @@ typedef struct {
 
 
 
-volatile sensor_interface_t * init_sensors(U32 Init_count);
+volatile sensor_interface_t * init_sensor_inputs(U32 Init_count);
 extern void prepare_fastsync_init(U32 init_count);
-
 
 VU32 read_dsensors();
 void read_digital_sensors();

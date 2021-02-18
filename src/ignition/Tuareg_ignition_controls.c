@@ -38,13 +38,13 @@ void Tuareg_update_ignition_controls()
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_CALLS);
 
 
-    if((Tuareg.decoder->outputs.rpm_valid == false) || (Tuareg.decoder->outputs.timeout == true) || (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB))
+    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) || (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB))
     {
         default_ignition_controls();
         return;
     }
 
-    if(Tuareg.decoder->crank_rpm > Ignition_Setup.max_rpm)
+    if(Tuareg.pDecoder->crank_rpm > Ignition_Setup.max_rpm)
     {
         revlimiter_ignition_controls();
 
@@ -54,7 +54,7 @@ void Tuareg_update_ignition_controls()
         return;
     }
 
-    if((Tuareg.decoder->crank_rpm < Ignition_Setup.dynamic_min_rpm) || (Tuareg.Runmode == TMODE_CRANKING))
+    if((Tuareg.pDecoder->crank_rpm < Ignition_Setup.dynamic_min_rpm) || (Tuareg.Runmode == TMODE_CRANKING))
     {
         cranking_ignition_controls();
         return;
@@ -162,7 +162,7 @@ calculates the ignition timing for the next engine cycle at a given rpm
 dynamic ignition function activated
 
 preconditions:
-- Tuareg.decoder.state.rpm_valid := true
+- Tuareg.pDecoder.state.rpm_valid := true
 - Process table valid
 */
 inline exec_result_t dynamic_ignition_controls()
@@ -182,7 +182,7 @@ inline exec_result_t dynamic_ignition_controls()
     /**
     select ignition advance and dwell
     */
-    if( (Tuareg.decoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) )
+    if( (Tuareg.pDecoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) )
     {
         //cold idle function activated
         Tuareg.ignition_controls.state.cold_idle= true;
@@ -202,7 +202,7 @@ inline exec_result_t dynamic_ignition_controls()
         //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
 
         /// TODO (oli#3#): tps readout not stable yet
-        Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.decoder->crank_rpm, 30);
+        Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, 30);
 
 
         ///get dwell from table
@@ -210,7 +210,7 @@ inline exec_result_t dynamic_ignition_controls()
         /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
 
         //get target dwell duration
-        if(Tuareg.decoder->crank_rpm < 2000)
+        if(Tuareg.pDecoder->crank_rpm < 2000)
         {
             Dwell_target_us = 10000;
         }
@@ -224,7 +224,7 @@ inline exec_result_t dynamic_ignition_controls()
     /**
     check for sequential / batch mode capabilities
     */
-    if((Tuareg.decoder->outputs.phase_valid == true) && (Ignition_Setup.coil_setup == COILS_SEPARATE))
+    if((Tuareg.pDecoder->outputs.phase_valid == true) && (Ignition_Setup.coil_setup == COILS_SEPARATE))
     {
         Tuareg.ignition_controls.state.sequential_mode= true;
     }
@@ -247,7 +247,7 @@ inline exec_result_t dynamic_ignition_controls()
     ASSERT_EXEC_OK(result);
 
     //ignition_timing_us reflects the scheduler delay to set up
-    Tuareg.ignition_controls.ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.decoder->crank_period_us);
+    Tuareg.ignition_controls.ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.pDecoder->crank_period_us);
 
 
     /**
@@ -257,15 +257,15 @@ inline exec_result_t dynamic_ignition_controls()
     batch mode: delay := T360 - spark duration - target dwell duration
     */
     Tuareg.ignition_controls.dwell_timing_sequential_us= Ignition_Setup.spark_duration_us;
-    dwell_avail_us= subtract_VU32( 2* Tuareg.decoder->crank_period_us, Ignition_Setup.spark_duration_us);
+    dwell_avail_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
     Tuareg.ignition_controls.dwell_timing_sequential_us += subtract_VU32( dwell_avail_us, Dwell_target_us);
-    Tuareg.ignition_controls.dwell_sequential_us= subtract_VU32( 2* Tuareg.decoder->crank_period_us, Tuareg.ignition_controls.dwell_timing_sequential_us);
+    Tuareg.ignition_controls.dwell_sequential_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Tuareg.ignition_controls.dwell_timing_sequential_us);
 
 
     Tuareg.ignition_controls.dwell_timing_batch_us= Ignition_Setup.spark_duration_us;
-    dwell_avail_us= subtract_VU32( Tuareg.decoder->crank_period_us, Ignition_Setup.spark_duration_us);
+    dwell_avail_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
     Tuareg.ignition_controls.dwell_timing_batch_us += subtract_VU32( dwell_avail_us, Dwell_target_us);
-    Tuareg.ignition_controls.dwell_batch_us= subtract_VU32( Tuareg.decoder->crank_period_us, Tuareg.ignition_controls.dwell_timing_batch_us);
+    Tuareg.ignition_controls.dwell_batch_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Tuareg.ignition_controls.dwell_timing_batch_us);
 
 
     //enable controls

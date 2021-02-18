@@ -10,6 +10,7 @@ VU32 scheduler_diag[SCHEDIAG_COUNT];
 VU32 ignition_diag[IGNDIAG_COUNT];
 VU32 tuareg_diag[TDIAG_COUNT];
 VU32 decoder_diag[DDIAG_COUNT];
+VU32 sensors_diag[SNDIAG_COUNT];
 
 
 /******************************************************************************************************
@@ -96,10 +97,10 @@ void print_ignition_diag(USART_TypeDef * Port)
 
 void print_ignition_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nIGNDIAG_CRKPOSH_CALLS, IGNDIAG_CRKPOSH_PRECOND_FAIL, IGNDIAG_CRKPOSH_IGNPOS, IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER, IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER, ");
-    print(TS_PORT, "\r\nIGNDIAG_CRKPOSH_IGN1_UNPOWER, IGNDIAG_CRKPOSH_IGN2_UNPOWER, IGNDIAG_CRKPOSH_IGN1_POWER, IGNDIAG_CRKPOSH_IGN2_POWER, IGNDIAG_IRQ3H_CALLS,");
-    print(TS_PORT, "\r\nIGNDIAG_IRQ3H_PRECOND_FAIL, IGNDIAG_IRQ3H_IGN1SCHED_POWER, IGNDIAG_IRQ3H_IGN2SCHED_POWER, IGNDIAG_IRQ3H_IGN1_POWER, IGNDIAG_IRQ3H_IGN2_POWER,");
-    print(TS_PORT, "\r\n IGNDIAG_UPDIGNCTRL_CALLS, IGNDIAG_UPDIGNCTRL_REVLIM, IGNDIAG_UPDIGNCTRL_DYN, IGNDIAG_UPDIGNCTRL_DYN_FAIL");
+    print(TS_PORT, "\r\nCRKPOSH_CALLS, CRKPOSH_PRECOND_FAIL, CRKPOSH_IGNPOS, CRKPOSH_IGN1SCHED_UNPOWER, CRKPOSH_IGN2SCHED_UNPOWER, ");
+    print(TS_PORT, "\r\nCRKPOSH_IGN1_UNPOWER, CRKPOSH_IGN2_UNPOWER, CRKPOSH_IGN1_POWER, CRKPOSH_IGN2_POWER, IRQ3H_CALLS,");
+    print(TS_PORT, "\r\nIRQ3H_PRECOND_FAIL, IRQ3H_IGN1SCHED_POWER, IRQ3H_IGN2SCHED_POWER, IRQ3H_IGN1_POWER, IRQ3H_IGN2_POWER,");
+    print(TS_PORT, "\r\n UPDIGNCTRL_CALLS, UPDIGNCTRL_REVLIM, UPDIGNCTRL_DYN, UPDIGNCTRL_DYN_FAIL");
 }
 
 
@@ -111,15 +112,6 @@ void tuareg_diag_log_event(tuareg_diag_t event)
     if(event < TDIAG_COUNT)
     {
         tuareg_diag[event] += 1;
-    }
-}
-
-
-void tuareg_diag_log_parameter(tuareg_diag_t Parameter, U32 Value)
-{
-    if(Parameter < TDIAG_COUNT)
-    {
-        tuareg_diag[Parameter]= Value;
     }
 }
 
@@ -145,13 +137,13 @@ void print_tuareg_diag(USART_TypeDef * Port)
 
 void print_tuareg_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nTDIAG_DECODER_IRQ, TDIAG_DECODER_UPDATE, TDIAG_DECODER_TIMEOUT, TDIAG_DECODER_PASSIVE, TDIAG_IGNITION_IRQ,");
-    print(TS_PORT, "\r\nTDIAG_TRIG_IGN_CALLS, TDIAG_TRIG_COIL_DWELL1, TDIAG_TRIG_COIL_DWELL2, TDIAG_TRIG_COIL_IGN1, TDIAG_TRIG_COIL_IGN2,");
-    print(TS_PORT, "\r\nTDIAG_PROCESSDATA_CALLS, TDIAG_IGNITIONCALC_CALLS, TDIAG_TSTUDIO_CALLS, TDIAG_MODECTRL, TDIAG_KILL_SIDESTAND,");
-    print(TS_PORT, "\r\nTDIAG_KILL_RUNSWITCH, TDIAG_ENTER_INIT, TDIAG_ENTER_HALT, TDIAG_RUNNING_HALT_TR, TDIAG_STB_HALT_TR,");
-    print(TS_PORT, "\r\nTDIAG_INIT_HALT_TR, TDIAG_ENTER_RUNNING, TDIAG_CRANKING_RUNNING_TR, TDIAG_HALT_RUNNING_TR, TDIAG_ENTER_STB,");
-    print(TS_PORT, "\r\nTDIAG_RUNNING_STB_TR, TDIAG_CRANKING_STB_TR, TDIAG_HALT_STB_TR, TDIAG_ENTER_CRANKING, TDIAG_ENTER_MTEST");
-    print(TS_PORT, "\r\nTDIAG_INVALID_RUNMODE");
+    print(TS_PORT, "\r\nDECODER_IRQ, DECODER_UPDATE, DECODER_TIMEOUT, DECODER_PASSIVE, IGNITION_IRQ,");
+    print(TS_PORT, "\r\nTRIG_IGN_CALLS, TRIG_COIL_DWELL1, TRIG_COIL_DWELL2, TRIG_COIL_IGN1, TRIG_COIL_IGN2,");
+    print(TS_PORT, "\r\nPROCESSDATA_CALLS, IGNITIONCALC_CALLS, TSTUDIO_CALLS, MODECTRL, KILL_SIDESTAND,");
+    print(TS_PORT, "\r\nKILL_RUNSWITCH, ENTER_INIT, ENTER_HALT, RUNNING_HALT_TR, STB_HALT_TR,");
+    print(TS_PORT, "\r\nINIT_HALT_TR, ENTER_RUNNING, CRANKING_RUNNING_TR, HALT_RUNNING_TR, ENTER_STB,");
+    print(TS_PORT, "\r\nRUNNING_STB_TR, CRANKING_STB_TR, HALT_STB_TR, ENTER_CRANKING, ENTER_MTEST");
+    print(TS_PORT, "\r\nINVALID_RUNMODE");
 }
 
 
@@ -163,15 +155,6 @@ void decoder_diag_log_event(decoder_diag_t Event)
     if(Event < DDIAG_COUNT)
     {
         decoder_diag[Event] += 1;
-    }
-}
-
-
-void decoder_diag_log_parameter(decoder_diag_t Parameter, U32 Value)
-{
-    if(Parameter < DDIAG_COUNT)
-    {
-        decoder_diag[Parameter]= Value;
     }
 }
 
@@ -201,11 +184,52 @@ void print_decoder_diag(USART_TypeDef * Port)
 
 void print_decoder_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nDDIAG_CRK_EXTI_EVENTS, DDIAG_CRKPOS_INIT, DDIAG_CRKPOS_ASYNC, DDIAG_CRKPOS_ASYNC_KEY, DDIAG_CRKPOS_ASYNC_GAP, ");
-    print(TS_PORT, "\r\nDDIAG_CRKPOS_SYNC, DDIAG_SYNCHK_ASYN_FAIL, DDIAG_SYNCHK_ASYN_PASS, DDIAG_SYNCHK_SYN_FAIL, DDIAG_SYNCHK_SYN_PASS,");
-    print(TS_PORT, "\r\nDDIAG_UPDATE_IRQ_CALLS, DDIAG_CRK_NOISEF_EVENTS, DDIAG_CAM_NOISEF_EVENTS, DDIAG_TIM_UPDATE_EVENTS, DDIAG_TIMEOUT_EVENTS,");
-    print(TS_PORT, "\r\nDDIAG_CAM_EXTI_EVENTS, DDIAG_CISHDL_PRECOND_FAIL, DDIAG_CISUPD_PRECOND_FAIL, DDIAG_CISUPD_INTERVAL_FAIL, DDIAG_CISUPD_PHASE_FAIL,");
-    print(TS_PORT, "\r\nDDIAG_CISUPD_PHASE_PASS");
+    print(TS_PORT, "\r\nCRK_EXTI_EVENTS, CRKPOS_INIT, CRKPOS_ASYNC, CRKPOS_ASYNC_KEY, CRKPOS_ASYNC_GAP, ");
+    print(TS_PORT, "\r\nCRKPOS_SYNC, SYNCHK_ASYN_FAIL, SYNCHK_ASYN_PASS, SYNCHK_SYN_FAIL, SYNCHK_SYN_PASS,");
+    print(TS_PORT, "\r\nUPDATE_IRQ_CALLS, CRK_NOISEF_EVENTS, CAM_NOISEF_EVENTS, TIM_UPDATE_EVENTS, TIMEOUT_EVENTS,");
+    print(TS_PORT, "\r\nCAM_EXTI_EVENTS, CISHDL_PRECOND_FAIL, CISUPD_PRECOND_FAIL, CISUPD_INTERVAL_FAIL, CISUPD_PHASE_FAIL,");
+    print(TS_PORT, "\r\nCISUPD_PHASE_PASS");
+}
+
+
+/******************************************************************************************************
+sensors diag
+*******************************************************************************************************/
+void sensors_diag_log_event(sensors_diag_t Event)
+{
+    if(Event < SNDIAG_COUNT)
+    {
+        sensors_diag[Event] += 1;
+    }
+}
+
+
+void print_sensors_diag(USART_TypeDef * Port)
+{
+    U32 cnt, column = 1;
+
+    print(Port, "\r\nSensors diag: \r\n");
+
+    for(cnt=0; cnt < SNDIAG_COUNT; cnt++)
+    {
+        printf_U(Port, sensors_diag[cnt], PAD_10);
+
+        if(column == DIAG_PRINT_LEGEND_COLUMNS)
+        {
+            print(Port, "\r\n");
+            column = 1;
+        }
+        else
+        {
+            column++;
+        }
+    }
+}
+
+
+void print_sensors_diag_legend(USART_TypeDef * Port)
+{
+    print(TS_PORT, "\r\nREAD_DSENSORS_CALLS, ADCIRQ_CALLS, ADCIRQ_INJECTEDGR_CALLS, DMAIRQ_CALLS, DMAIRQ_CH1_CALLS");
 }
 
 

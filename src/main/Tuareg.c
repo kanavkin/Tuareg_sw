@@ -11,13 +11,13 @@
 #include "ignition_hw.h"
 #include "ignition_config.h"
 
-#include "sensor_calibration.h"
+#include "Tuareg_sensors.h"
 
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
 #include "uart.h"
 #include "conversion.h"
-#include "lowspeed_timers.h"
+#include "systick_timer.h"
 #include "Tuareg_console.h"
 #include "Tuareg_config.h"
 #include "table.h"
@@ -81,7 +81,7 @@ void Tuareg_update_Runmode()
         {
             Tuareg_set_Runmode(TMODE_HALT);
         }
-        else if((Tuareg.decoder->outputs.rpm_valid == true) && (Tuareg.decoder->crank_rpm > Ignition_Setup.dynamic_min_rpm))
+        else if((Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Ignition_Setup.dynamic_min_rpm))
         {
             /// engine has finished cranking
             Tuareg_set_Runmode(TMODE_RUNNING);
@@ -176,10 +176,15 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 /**
                 initialize core components
                 */
-                init_fuel_hw();
-                init_dash_hw();
-                init_act_hw();
-                init_eeprom();
+
+                //initialize systick timer to provide system timestamp
+                Tuareg.pTimer= init_systick_timer();
+
+                Eeprom_init();
+                //init_fuel_hw();
+                //init_dash_hw();
+                //init_act_hw();
+
 
                 UART_DEBUG_PORT_Init();
                 Tuareg_print_init_message();
@@ -187,24 +192,34 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_CONFIGLOAD:
 
-                //loading the config data is important to us, failure in loading forces "limp home mode"
-                result= load_Sensor_Calibration();
-                result += load_Tuareg_Setup();
+                Tuareg.Errors.tuareg_config_error= true;
 
-                if(result != 2)
+                //loading the config data is essential, failure forces "limp home mode"
+                result= load_Tuareg_Setup();
+
+                //check if config has been loaded
+                if(result != EXEC_OK)
                 {
-                    Tuareg.Errors.config_load_error= true;
-
-                    //as we can hardly save some error logs in this system condition, print some debug messages only
-                    print(DEBUG_PORT, "\r \n *** FAILED to load config data !");
-
-                    //provide default values to ensure limp home operation even without eeprom
                     load_essential_Tuareg_Setup();
 
-                    return;
+                    //failed to load config
+                    print(DEBUG_PORT, "\r\nEE Failed to load Tuareg config!");
+                    print(DEBUG_PORT, "\r\nWW Tuareg essential Config has been loaded");
                 }
+                else if(Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION)
+                {
+                    load_essential_Tuareg_Setup();
 
-                Tuareg.Errors.config_load_error= false;
+                    //loaded wrong config version
+                    print(DEBUG_PORT, "\r\nEE Tuareg config version does not match");
+                    print(DEBUG_PORT, "\r\nWW Tuareg essential Config has been loaded");
+                }
+                else
+                {
+                    //loaded config with correct version
+                    Tuareg.Errors.tuareg_config_error= false;
+                    print(DEBUG_PORT, "\r\nII Tuareg config has been loaded");
+                }
 
                 break;
 
@@ -213,14 +228,14 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 /**
                 initialize core components and register interface access pointers
                 */
-                Tuareg.decoder= init_Decoder();
+                Tuareg.pDecoder= init_Decoder();
 
-                Tuareg.sensors= init_sensors(ASENSOR_VALIDITY_FASTINIT);
+                Tuareg.pSensors= init_Sensors();
 
                 init_Ignition();
 
                 init_scheduler();
-                init_lowspeed_timers();
+
                 init_lowprio_scheduler();
                 init_fuel_logic();
                 init_dash_logic();
@@ -297,12 +312,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //turn fuel pump on to maintain fuel pressure
                 set_fuelpump(PIN_ON);
 
-                //provide initial ignition timing for cranking
-                //Tuareg_update_ignition_controls();
-
-                //collect diagnostic information
-                //tuareg_diag_log_event(TDIAG_ENTER_CRANKING);
-
                 /// TODO (oli#9#): debug message enabled
                 print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
 
@@ -361,7 +370,7 @@ checks if the RUN switch, SIDESTAND sensor or CRASH sensor indicate a HALT condi
 void Tuareg_update_halt_sources()
 {
     //shut engine off if the RUN switch is disengaged
-    if( (Tuareg.sensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
+    if( (Tuareg.pSensors->dsensors & (1<< DSENSOR_RUN)) != RUN_SENSOR_ENGAGE_LEVEL )
     {
         Tuareg.Halt_source.run_switch= true;
 
@@ -377,7 +386,7 @@ void Tuareg_update_halt_sources()
     }
 
     //shut engine off if the CRASH sensor is engaged
-    if( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
+    if( (Tuareg.pSensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL)
     {
         Tuareg.Halt_source.crash_sensor= true;
 
@@ -393,7 +402,7 @@ void Tuareg_update_halt_sources()
     }
 
     //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
-    if(( (Tuareg.sensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL) && (Tuareg.process.Gear != GEAR_NEUTRAL) )
+    if(( (Tuareg.pSensors->dsensors & (1<< DSENSOR_CRASH)) == CRASH_SENSOR_ENGAGE_LEVEL) && (Tuareg.process.Gear != GEAR_NEUTRAL) )
     {
         Tuareg.Halt_source.sidestand_sensor= true;
 
@@ -409,6 +418,7 @@ void Tuareg_update_halt_sources()
     }
 
 }
+
 
 
 

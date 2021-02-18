@@ -50,8 +50,7 @@ typedef enum {
 //map eeprom result to common exec result code
 #define ASSERT_EEPROM_RESULT_OK(eeres_code) if((eeres_code) != EERES_OK) return EXEC_ERROR
 
-void init_eeprom(void);
-void eeprom_i2c_deinit(void);
+
 
 eeprom_result_t eeprom_read_byte(U32 Address, U8 * Data_read);
 eeprom_result_t eeprom_read_bytes(U32 Address, U32 * Data, U32 Length);
@@ -64,6 +63,9 @@ eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length);
 
 eeprom_result_t eeprom_wait(void);
 
+
+void Eeprom_init();
+void Eeprom_deinit();
 
 exec_result_t Eeprom_load_data(U32 BaseAddress, VU8 * const pTarget, U32 Length);
 exec_result_t Eeprom_write_data(U32 BaseAddress, VU8 * const pSource, U32 Length);

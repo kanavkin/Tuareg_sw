@@ -74,7 +74,7 @@ SCHEDULER (ignition)
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
-#include "lowspeed_timers.h"
+#include "systick_timer.h"
 #include "Tuareg_console.h"
 #include "Tuareg_config.h"
 #include "table.h"
@@ -189,7 +189,7 @@ int main(void)
     /**
     system initialization has been completed, but never leave LIMP mode!
     */
-    if(Tuareg.Errors.config_load_error)
+    if((Tuareg.Errors.tuareg_config_error == true) || (Tuareg.Errors.decoder_config_error == true) || (Tuareg.Errors.ignition_config_error == true) || (Tuareg.Errors.sensor_calibration_error == true))
     {
         Tuareg_set_Runmode(TMODE_LIMP);
     }
@@ -204,9 +204,9 @@ int main(void)
         /**
         50 Hz actions
         */
-        if( ls_timer & BIT_TIMER_50HZ)
+        if( Tuareg.pTimer->flags.cycle_20_ms == true)
         {
-            ls_timer &= ~BIT_TIMER_50HZ;
+            Tuareg.pTimer->flags.cycle_20_ms= false;
 
             //provide sensor data
             if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
@@ -226,9 +226,9 @@ int main(void)
         /**
         4 Hz actions
         */
-        if( ls_timer & BIT_TIMER_4HZ)
+        if( Tuareg.pTimer->flags.cycle_250_ms == true)
         {
-            ls_timer &= ~BIT_TIMER_4HZ;
+            Tuareg.pTimer->flags.cycle_250_ms= false;
 
             //calculate new system state
             Tuareg_update_Runmode();
@@ -238,9 +238,9 @@ int main(void)
         /**
         handle console
         */
-        if( (ls_timer & BIT_TIMER_10HZ) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
+        if( (Tuareg.pTimer->flags.cycle_66_ms == true) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
         {
-            ls_timer &= ~BIT_TIMER_10HZ;
+            Tuareg.pTimer->flags.cycle_66_ms= false;
 
             //collect diagnostic information
             tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
@@ -282,7 +282,7 @@ void EXTI2_IRQHandler(void)
     //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
     //check for decoder timeout
-    if((Tuareg.decoder->outputs.timeout == true) || (Tuareg.decoder->outputs.position_valid == false))
+    if((Tuareg.pDecoder->outputs.timeout == true) || (Tuareg.pDecoder->outputs.position_valid == false))
     {
         //collect diagnostic information
         //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
@@ -296,10 +296,10 @@ void EXTI2_IRQHandler(void)
 
 
     //check if ignition controls shall be updated
-    if(Tuareg.decoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+    if(Tuareg.pDecoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
     {
         //update process table with data supplied by decoder
-        update_process_table(Tuareg.decoder->crank_period_us);
+        update_process_table(Tuareg.pDecoder->crank_period_us);
 
         //update process data
         Tuareg_update_process_data();

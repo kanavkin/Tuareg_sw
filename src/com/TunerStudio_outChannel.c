@@ -61,9 +61,9 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     output[7] = (U8) ts_comm_bits();
 
     //rpm              = scalar,   U16,    8, "rpm",    1.000, 0.000
-    if(Tuareg.decoder->outputs.rpm_valid == true)
+    if(Tuareg.pDecoder->outputs.rpm_valid == true)
     {
-        serialize_U16_U8(Tuareg.decoder->crank_rpm, &(output[8]));
+        serialize_U16_U8(Tuareg.pDecoder->crank_rpm, &(output[8]));
     }
     else
     {
@@ -72,7 +72,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     }
 
     //rpmDOT           = scalar,   F32,    10, "rpm/s",  1.000, 0.000
-    if(Tuareg.decoder->outputs.accel_valid == true)
+    if(Tuareg.pDecoder->outputs.accel_valid == true)
     {
         serialize_float_U8(0.42, &(output[10]));
     }
@@ -181,16 +181,26 @@ BF32 ts_tuareg_bits()
     BF32 tuaregbits =0;
 
     //errors
-
-    if(Tuareg.Errors.config_load_error)
+    if(Tuareg.Errors.decoder_config_error)
     {
-        setBit_BF32(TBIT_CONFIGLOAD_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_DECODERCONFIG_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.scheduler_error)
+    if(Tuareg.Errors.ignition_config_error)
     {
-        setBit_BF32(TBIT_SCHEDULER_ERROR, &tuaregbits);
+        setBit_BF32(TBIT_IGNITIONCONFIG_ERROR, &tuaregbits);
     }
+
+    if(Tuareg.Errors.sensor_calibration_error)
+    {
+        setBit_BF32(TBIT_SENSORCALIB_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.tuareg_config_error)
+    {
+        setBit_BF32(TBIT_TUAREGCONFIG_ERROR, &tuaregbits);
+    }
+
 
     if(Tuareg.Errors.sensor_O2_error)
     {

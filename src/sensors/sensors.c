@@ -4,13 +4,14 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
+
 #include "sensors.h"
-#include "uart.h"
-#include "conversion.h"
-#include "table.h"
 #include "sensor_calibration.h"
-#include "decoder_logic.h"
-#include <math.h>
+
+#include "Tuareg.h"
+
+#include "diagnostics.h"
+
 
 volatile sensor_interface_t SInterface;
 volatile sensor_internals_t SInternals;
@@ -20,11 +21,11 @@ volatile sensor_internals_t SInternals;
 /**
 bring up analog and digital sensors
 */
-volatile sensor_interface_t * init_sensors(U32 Init_count)
+volatile sensor_interface_t * init_sensor_inputs(U32 Init_count)
 {
     DMA_InitTypeDef DMA_InitStructure;
 
-    //set ADC prescaler to 2 (source: APB2/PCLK2 @ 50 MHz) -> 25 MHz
+    //set ADC pre scaler to 2 (source: APB2/PCLK2 @ 50 MHz) -> 25 MHz
     ADC->CCR &= ~ADC_CCR_ADCPRE;
 
     //clock
@@ -287,15 +288,14 @@ VU32 read_dsensors()
 
 
 /**
-handling digital sensors seems so easy
-compared to analog ones ;)
+this function parses the raw digital input data from DSENSORS (hardware independent part)
 */
 void read_digital_sensors()
 {
     U32 cnt, level, sensor =0;
 
     //collect diagnostic data
-    SInternals.diag[SDIAG_READ_DSENSORS_CALLS] += 1;
+    sensors_diag_log_event(SNDIAG_READ_DSENSORS_CALLS);
 
     if(SInternals.dsensor_cycle < DSENSOR_CYCLE_LEN)
     {
@@ -372,13 +372,13 @@ void ADC_IRQHandler()
     VU8 * pCount= NULL;
 
     //collect diagnostic data
-    SInternals.diag[SDIAG_ADCIRQ_CALLS] += 1;
+    sensors_diag_log_event(SNDIAG_ADCIRQ_CALLS);
 
     //MAP sensor handled by injected group
     if(ADC1->SR & ADC_SR_JEOC)
     {
         //collect diagnostic data
-        SInternals.diag[SDIAG_ADCIRQ_INJECTEDGR_CALLS] += 1;
+        sensors_diag_log_event(SNDIAG_ADCIRQ_INJECTEDGR_CALLS);
 
         //clear JEOC by write 0
         ADC1->SR &= ~(U32) ADC_SR_JEOC;
@@ -391,7 +391,7 @@ void ADC_IRQHandler()
         pCount= &(SInternals.asensors_sync_integrator_count[ASENSOR_SYNC_MAP]);
 
         //validate sample
-        if( (sample >= Sensor_Calibration.MAP_min_valid) && (sample <= Sensor_Calibration.MAP_max_valid) )
+        if( (sample >= Sensor_Calibration.MAP_min_valid) && (sample <= Sensor_Calibration.MAP_max_valid) && (Tuareg.Errors.sensor_calibration_error == false))
         {
             /**
             valid sample
@@ -478,13 +478,13 @@ void DMA2_Stream0_IRQHandler()
     VU32 min_valid, max_valid;
 
     //collect diagnostic data
-    SInternals.diag[SDIAG_DMAIRQ_CALLS] += 1;
+    sensors_diag_log_event(SNDIAG_DMAIRQ_CALLS);
 
     //DMA1 Channel1 Transfer Complete interrupt
     if(DMA2->LISR & DMA_LISR_TCIF0)
     {
         //collect diagnostic data
-        SInternals.diag[SDIAG_DMAIRQ_CH1_CALLS] += 1;
+        sensors_diag_log_event(SNDIAG_DMAIRQ_CH1_CALLS);
 
         //Clear all DMA2 stream0 interrupt pending bits
         DMA2->LIFCR |= DMA_LIFCR_CTCIF0 | DMA_LIFCR_CHTIF0 | DMA_LIFCR_CTEIF0 | DMA_LIFCR_CDMEIF0 | DMA_LIFCR_CFEIF0;
@@ -563,11 +563,8 @@ void DMA2_Stream0_IRQHandler()
 
             }
 
-
-
-
-
-            if( (sample >= min_valid) && (sample <= max_valid) )
+            //validate the sensor channel with its individual threshold, if the threshold itself is valid
+            if( (sample >= min_valid) && (sample <= max_valid) && (Tuareg.Errors.sensor_calibration_error == false) )
             {
                 /**
                 valid reading

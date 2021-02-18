@@ -50,8 +50,7 @@ void Tuareg_init_console();
 
 extern void cli_show_help();
 
-void cli_update_watchdog();
-void cli_update_secl();
+void cli_cyclic_update();
 
 extern void cli_showPage(U32 Page);
 

@@ -15,6 +15,14 @@
 #include "Tuareg_ignition.h"
 #include "Tuareg_ignition_controls.h"
 
+#include "Tuareg_decoder.h"
+
+#include "systick_timer.h"
+
+
+#define TUAREG_REQUIRED_CONFIG_VERSION 3
+
+
 /**
 
 REQ_UNITS_DEF:
@@ -138,12 +146,13 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    volatile Tuareg_decoder_t * decoder;
+    volatile Tuareg_decoder_t * pDecoder;
 
     /**
     access to core components
     */
-    volatile sensor_interface_t * sensors;
+    volatile sensor_interface_t * pSensors;
+    volatile systick_t * pTimer;
 
     /**
     current ignition timing and alignment

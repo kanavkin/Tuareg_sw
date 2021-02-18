@@ -448,16 +448,19 @@ inline void cli_show_help()
 }
 
 
-void cli_update_watchdog()
+
+/*
+this function shall be called every second
+*/
+void cli_cyclic_update()
 {
     sub_VU32(&(Tuareg_console.ts_cmd_watchdog), 1);
-}
 
-void cli_update_secl()
-{
     //VU8 SECL timer simply wraps around at 255
     Tuareg_console.secl++;
 }
+
+
 
 
 void Tuareg_init_console()

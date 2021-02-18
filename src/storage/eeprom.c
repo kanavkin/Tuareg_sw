@@ -7,7 +7,10 @@
 #include "Tuareg_errors.h"
 
 
-void eeprom_i2c_deinit(void)
+volatile bool Eeprom_Init_done= false;
+
+
+void Eeprom_deinit()
 {
     I2C_Cmd(I2C1, DISABLE);
     I2C_DeInit(I2C1);
@@ -18,16 +21,27 @@ void eeprom_i2c_deinit(void)
     //SCL and SDA
     GPIO_configure(GPIOB, 6, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOB, 7, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+
+    //Init can be executed again
+    Eeprom_Init_done= false;
 }
 
 
 
 /**
-using I2C_1 for eeprom
+using I2C_1 for main data storage eeprom
 */
-void init_eeprom(void)
+void Eeprom_init()
 {
     I2C_InitTypeDef  I2C_InitStructure;
+
+    //reinit protection
+    if(Eeprom_Init_done == true)
+    {
+        return;
+    }
+
+    Eeprom_Init_done= true;
 
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;

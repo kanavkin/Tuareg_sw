@@ -29,17 +29,6 @@ typedef struct _process_data_t {
 extern void Tuareg_update_process_data();
 
 
-VF32 Tuareg_update_MAP_sensor();
-gears_t Tuareg_update_GEAR_sensor();
-VF32 Tuareg_update_BARO_sensor();
-VF32 Tuareg_update_KNOCK_sensor();
-VF32 Tuareg_update_VBAT_sensor();
-VF32 Tuareg_update_CLT_sensor();
-VF32 Tuareg_update_IAT_sensor();
-VF32 Tuareg_update_TPS_sensor();
-VF32 Tuareg_update_ddt_TPS();
-VF32 Tuareg_update_O2_sensor();
-VF32 Tuareg_update_MAP_sensor();
 
 
 #endif // TUAREGPDATA_H_INCLUDED

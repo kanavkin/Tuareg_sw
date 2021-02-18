@@ -35,12 +35,3 @@ void Tuareg_Assert(bool Condition, Tuareg_ID Id, U32 Location)
     }
 
 }
-
-
-void Tuareg_register_scheduler_error()
-{
-    Tuareg.Errors.scheduler_error= true;
-
-    print(DEBUG_PORT, "\r\n*** Registered Scheduler error ***");
-}
-
