@@ -43,12 +43,12 @@ VU32 debug_compare_cnt =0;
 
 static inline void set_fuel_ch1(output_pin_t level)
 {
-    set_injector_ch1(level);
+    set_injector1(level);
 }
 
 static inline void set_fuel_ch2(output_pin_t level)
 {
-    set_injector_ch2(level);
+    set_injector2(level);
 }
 
 

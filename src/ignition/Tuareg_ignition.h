@@ -3,8 +3,9 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
-#include "Tuareg_ignition_controls.h"
 
+#include "ignition_hw.h"
+#include "Tuareg_ignition_controls.h"
 
 typedef enum {
 

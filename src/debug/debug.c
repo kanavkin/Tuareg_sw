@@ -69,7 +69,3 @@ void enable_sysclk_check()
 }
 
 
-
-
-
-

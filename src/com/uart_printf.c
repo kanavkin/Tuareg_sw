@@ -6,6 +6,7 @@
 #include "uart_printf.h"
 #include "bitfields.h"
 
+const char printf_hex_digits[]= "0123456789ABCDEF";
 
 
 void printf_S(USART_TypeDef * Port, S32 Value, BF32 Format)
@@ -249,17 +250,36 @@ void printf_F32(USART_TypeDef * Port, F32 Value)
 
 
 
-void Print_U8Hex(USART_TypeDef * Port, U8 value)
+inline void printf_nib(USART_TypeDef * Port, U32 Value)
 {
-    const char digits[]= "0123456789ABCDEF";
+    //print only low nibble
+    UART_Tx(Port, printf_hex_digits[Value & 0x0f]);
+}
 
+void printf_U8hex_new(USART_TypeDef * Port, U8 value)
+{
     print(Port, "0x");
 
     //high nibble
-    UART_Tx(Port, digits[(value >> 4) & 0x0f] );
+    printf_nib(Port, (value >> 4));
 
     //low nibble
-    UART_Tx(Port, digits[(value) & 0x0f] );
+    printf_nib(Port, value);
+
+    //trailing space
+    UART_Tx(Port, ' ');
+}
+
+
+void Print_U8Hex(USART_TypeDef * Port, U8 value)
+{
+    print(Port, "0x");
+
+    //high nibble
+    UART_Tx(Port, printf_hex_digits[(value >> 4) & 0x0f] );
+
+    //low nibble
+    UART_Tx(Port, printf_hex_digits[(value) & 0x0f] );
 
     //trailing space
     UART_Tx(Port, ' ');
@@ -268,48 +288,14 @@ void Print_U8Hex(USART_TypeDef * Port, U8 value)
 
 void printf_U32hex(USART_TypeDef * Port, U32 value)
 {
-//    U32 i;
-    const char digits[]= "0123456789ABCDEF";
+    U32 i;
 
     print(Port, "0x");
 
-    /*
-    TODO optimise
     for(i=0; i<8; i++)
     {
-        UART_Tx(Port, digits[(value >> 28) & 0x0f] );
+        printf_nib(Port, (value >> (28 - 4*i)) );
     }
-    */
-
-    //high nibble
-    UART_Tx(Port, digits[(value >> 28) & 0x0f] );
-
-    //low nibble
-    UART_Tx(Port, digits[(value >> 24) & 0x0f] );
-
-    //--
-
-    //high nibble
-    UART_Tx(Port, digits[(value >> 20) & 0x0f] );
-
-    //low nibble
-    UART_Tx(Port, digits[(value >> 16) & 0x0f] );
-
-    //--
-
-    //high nibble
-    UART_Tx(Port, digits[(value >> 12) & 0x0f] );
-
-    //low nibble
-    UART_Tx(Port, digits[(value >> 8) & 0x0f] );
-
-    //--
-
-    //high nibble
-    UART_Tx(Port, digits[(value >> 4) & 0x0f] );
-
-    //low nibble
-    UART_Tx(Port, digits[(value) & 0x0f] );
 
     //trailing space
     UART_Tx(Port, ' ');

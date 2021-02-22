@@ -7,6 +7,8 @@
 #include "sensors.h"
 #include "Tuareg_console.h"
 #include "scheduler.h"
+#include "Tuareg_service_functions.h"
+
 
 
 volatile systick_mgr_t Systick_Mgr;
@@ -44,6 +46,13 @@ void SysTick_Handler(void)
     //1 ms cycle - 1 kHz
     Systick_Mgr.system_time++;
     Systick_Mgr.out.system_time= Systick_Mgr.system_time;
+
+    //run service functions update in irq context
+    if(Tuareg.Runmode == TMODE_SERVICE)
+    {
+        service_functions_periodic_update();
+    }
+
 
 
     //10 ms cycle - 100 Hz

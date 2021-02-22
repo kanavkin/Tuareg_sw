@@ -2,6 +2,7 @@
 #define TIMERS_H
 
 #include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
 
 
 typedef union
@@ -24,7 +25,7 @@ typedef union
 
 typedef struct _systick_t {
 
-    U32 system_time;
+    timestamp_t system_time;
     systicks_flags_t flags;
 
 } systick_t;
@@ -33,7 +34,7 @@ typedef struct _systick_t {
 
 typedef struct _systick_mgr_t {
 
-    U32 system_time;
+    timestamp_t system_time;
 
     U32 counter_10_ms;
     U32 counter_20_ms;

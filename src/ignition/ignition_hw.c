@@ -14,8 +14,8 @@ this module covers the ignition hardware layer
 ignition actuator control - helper functions
 
 - the coils will not be powered, if ignition operation is not permitted
- ******************************************************************************************************************************/
-inline void set_ignition_ch1_powered()
+******************************************************************************************************************************/
+void set_coil1_powered()
 {
     if(Tuareg.actors.ignition_inhibit == false)
     {
@@ -26,7 +26,7 @@ inline void set_ignition_ch1_powered()
     }
 }
 
-inline void set_ignition_ch1_unpowered()
+void set_coil1_unpowered()
 {
     // OFF
     gpio_set_pin(GPIOC, 6, PIN_OFF);
@@ -34,7 +34,7 @@ inline void set_ignition_ch1_unpowered()
     Tuareg.actors.ignition_coil_1= false;
 }
 
-inline void set_ignition_ch2_powered()
+void set_coil2_powered()
 {
     if(Tuareg.actors.ignition_inhibit == false)
     {
@@ -45,7 +45,7 @@ inline void set_ignition_ch2_powered()
     }
 }
 
-inline void set_ignition_ch2_unpowered()
+void set_coil2_unpowered()
 {
     // OFF
     gpio_set_pin(GPIOC, 7, PIN_OFF);
@@ -60,7 +60,7 @@ ignition irq control - helper function
 - no irq will be triggered, if ignition operation is not permitted
 
 ******************************************************************************************************************************/
-inline void trigger_ignition_irq()
+void trigger_ignition_irq()
 {
     if(Tuareg.actors.ignition_inhibit == false)
     {
@@ -80,11 +80,11 @@ void set_ignition_ch1(actor_control_t level)
 {
     if(level == ACTOR_POWERED)
     {
-        set_ignition_ch1_powered();
+        set_coil1_powered();
     }
     else
     {
-        set_ignition_ch1_unpowered();
+        set_coil1_unpowered();
 
         //prepare irq
         Tuareg.actors.ign1_irq_flag= true;
@@ -97,11 +97,11 @@ void set_ignition_ch2(actor_control_t level)
 {
     if(level == ACTOR_POWERED)
     {
-        set_ignition_ch2_powered();
+        set_coil2_powered();
     }
     else
     {
-        set_ignition_ch2_unpowered();
+        set_coil2_unpowered();
 
         //prepare irq
         Tuareg.actors.ign2_irq_flag= true;
@@ -131,8 +131,8 @@ void init_ignition_hw()
     GPIO_configure(GPIOC, 7, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     //this will not trigger the ignition irq right away
-    set_ignition_ch1_unpowered();
-    set_ignition_ch2_unpowered();
+    set_coil1_unpowered();
+    set_coil2_unpowered();
 
     //sw irq on exti line 3
     EXTI->IMR |= EXTI_IMR_MR3;
@@ -142,4 +142,6 @@ void init_ignition_hw()
     NVIC_ClearPendingIRQ(EXTI3_IRQn);
     NVIC_EnableIRQ(EXTI3_IRQn);
 
+    set_coil1_unpowered();
+    set_coil2_unpowered();
 }

@@ -3,14 +3,13 @@
 
 
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
 
 #include "Tuareg.h"
 
-#include "uart.h"
-#include "uart_printf.h"
+#include "debug_port_messages.h"
+#include "syslog.h"
+#include "base_calc_syslog_locations.h"
 
 
 /// TODO (oli#1#): add range check and clipping
@@ -32,6 +31,9 @@ U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
     if(Period_us == 0)
     {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
+        DebugMsg_Error("DIV/0 in calc_rot_angle_deg");
+
         return 0;
     }
 
@@ -44,14 +46,15 @@ calculate the rpm figure from rotational period
 */
 U32 calc_rpm(U32 Period_us)
 {
-    if(Period_us > 0)
+    if(Period_us == 0)
     {
-        return (60000000UL) / Period_us;
-    }
-    else
-    {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
+        DebugMsg_Error("DIV/0 in calc_rpm");
+
         return 0;
     }
+
+    return (60000000UL) / Period_us;
 }
 
 
@@ -60,7 +63,6 @@ safe subtraction with clipping
 */
 void sub_VU32(VU32 * pMin, VU32 Subtr)
 {
-
     if(*pMin > Subtr)
     {
         *pMin -= Subtr;
@@ -69,8 +71,6 @@ void sub_VU32(VU32 * pMin, VU32 Subtr)
     {
         *pMin= 0;
     }
-
-
 }
 
 
@@ -79,7 +79,6 @@ safe subtraction with clipping
 */
 VU16 subtract_VU16(VU16 Min, VU16 Subtr)
 {
-
     if(Min > Subtr)
     {
         return (Min - Subtr);
@@ -89,6 +88,7 @@ VU16 subtract_VU16(VU16 Min, VU16 Subtr)
          return 0;
     }
 }
+
 
 /**
 safe subtraction with clipping
@@ -138,7 +138,8 @@ VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 
     if(Divisor == 0)
     {
-        print(DEBUG_PORT, "\r\n *** ERROR *** divide_VU32 *** DIV0!");
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
+        DebugMsg_Error("DIV/0 in divide_VU32");
         return 0;
     }
 
@@ -155,7 +156,8 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
 
     if(Divisor == 0)
     {
-        print(DEBUG_PORT, "\r\n *** ERROR *** divide_VF32 *** DIV0!");
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
+        DebugMsg_Error("DIV/0 in divide_VF32");
         return 0;
     }
 
@@ -172,6 +174,7 @@ crank_position_t crank_position_after(crank_position_t Position)
     if(Position >= CRK_POSITION_COUNT)
     {
         /// TODO (oli#3#): use assert for this argument error
+        Syslog_Warning(TID_BASE_CALC, BASECALC_LOC_CRKPOS_AFTER_UNDEF);
         return CRK_POSITION_UNDEFINED;
     }
 
@@ -196,12 +199,14 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
     }
     else
     {
+        /// TODO (oli#3#): use assert for this argument error
+        Syslog_Warning(TID_BASE_CALC, BASECALC_LOC_OPPOSITE_PHASE_UNDEF);
         return PHASE_UNDEFINED;
     }
 }
 
 
-
+/*
 void setBit_U8(U32 Pos, VU8 * pTarget)
 {
     if(Pos < 8)
@@ -248,4 +253,4 @@ U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb)
 }
 
 
-
+*/

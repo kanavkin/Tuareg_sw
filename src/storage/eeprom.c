@@ -364,8 +364,8 @@ eeprom_result_t eeprom_read_bytes(U32 Address, U32 * pTarget, U32 Length)
     eeprom_result_t ee_result;
     U8 data;
 
-    Tuareg_Assert(Length > 0, TID_EEPROM, 0);
-    Tuareg_Assert(Length < 5, TID_EEPROM, 1);
+    Assert(Length > 0, TID_EEPROM, 0);
+    Assert(Length < 5, TID_EEPROM, 1);
 
     /**
     Eeprom data order: Little Endian ->  <MSB> <LSB>
@@ -393,8 +393,8 @@ eeprom_result_t eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
     U32 i;
     eeprom_result_t ee_result;
 
-    Tuareg_Assert(Length > 0, TID_EEPROM, 2);
-    Tuareg_Assert(Length < 5, TID_EEPROM, 3);
+    Assert(Length > 0, TID_EEPROM, 2);
+    Assert(Length < 5, TID_EEPROM, 3);
 
     for(i=0; i< Length; i++)
     {
@@ -459,8 +459,8 @@ eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
     U32 i;
     eeprom_result_t ee_result;
 
-    Tuareg_Assert(Length > 0, TID_EEPROM, 4);
-    Tuareg_Assert(Length < 5, TID_EEPROM, 5);
+    Assert(Length > 0, TID_EEPROM, 4);
+    Assert(Length < 5, TID_EEPROM, 5);
 
     for(i=0; i< Length; i++)
     {

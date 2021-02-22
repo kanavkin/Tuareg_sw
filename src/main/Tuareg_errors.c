@@ -11,27 +11,31 @@
 #include "Tuareg_errors.h"
 #include "Tuareg_ID.h"
 
+#include "syslog.h"
+#include "debug_port_messages.h"
 
 /**
 Puts the system to a safe state when a critical error has been detected
 */
-void Tuareg_Fatal(Tuareg_ID Id, U32 Location)
+void Fatal(Tuareg_ID Id, U8 Location)
 {
-    print(DEBUG_PORT, "\r\n*** FATAL ERROR *** in Module ");
-    printf_U(DEBUG_PORT, Id, NO_PAD);
-    print(DEBUG_PORT, "at Location ");
-    printf_U(DEBUG_PORT, Location, NO_PAD);
+
+    Syslog_Error(Id, Location);
+
+    DebugMsg_Error("FATAL --");
+
+
+/// TODO (oli#3#): implement FATAL mode with only defensive debug printouts enabled
 
     while(1);
 
 }
 
 
-void Tuareg_Assert(bool Condition, Tuareg_ID Id, U32 Location)
+inline void Assert(bool Condition, Tuareg_ID Id, U8 Location)
 {
     if(!Condition)
     {
-        Tuareg_Fatal(Id, Location);
+        Fatal(Id, Location);
     }
-
 }

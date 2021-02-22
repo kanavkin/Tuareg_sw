@@ -133,6 +133,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/debug/debug.h" />
+		<Unit filename="../../src/debug/debug_port_messages.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/debug/debug_port_messages.h" />
 		<Unit filename="../../src/debug/dwt.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -169,6 +173,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fuelling/fuel_logic.h" />
+		<Unit filename="../../src/ignition/Ignition_syslog_locations.h" />
 		<Unit filename="../../src/ignition/Tuareg_ignition.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -202,6 +207,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_process_data.h" />
+		<Unit filename="../../src/main/Tuareg_service_functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_service_functions.h" />
 		<Unit filename="../../src/main/Tuareg_syslog_locations.h" />
 		<Unit filename="../../src/main/Tuareg_types.c">
 			<Option compilerVar="CC" />
@@ -284,6 +293,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/utils/base_calc.h" />
+		<Unit filename="../../src/utils/base_calc_syslog_locations.h" />
 		<Unit filename="../../src/utils/bitfields.c">
 			<Option compilerVar="CC" />
 		</Unit>

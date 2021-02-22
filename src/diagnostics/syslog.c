@@ -3,7 +3,7 @@
 
 #include "Tuareg.h"
 #include "syslog.h"
-#include "conversion.h"
+#include "bitfields.h"
 #include "uart.h"
 #include "uart_printf.h"
 
@@ -133,3 +133,84 @@ void Syslog_Data(Tuareg_ID Src, U8 Location)
 }
 
 
+/******************************************************************************************************************************
+syslog output in human readable form
+******************************************************************************************************************************/
+void show_syslog(USART_TypeDef * Port)
+{
+    U32 msg;
+
+
+    //header
+    print(Port, "\r\n*** Syslog ***\r\n");
+
+
+    for(msg=0; msg < SYSLOG_LENGTH; msg++)
+    {
+        //skip empty lines
+        if(Syslog[msg].src != 0)
+        {
+            //timestamp
+            print(Port, "\r\n[");
+            printf_U(Port, Syslog[msg].timestamp, PAD_10 | NO_TRAIL);
+            print(Port, "] ");
+
+            //type
+            if( getBit_BF8(SYSLOG_LOC_BIT_E, Syslog[msg].location))
+            {
+                print(Port, "EE");
+            }
+            else if( getBit_BF8(SYSLOG_LOC_BIT_W, Syslog[msg].location) )
+            {
+                print(Port, "WW");
+            }
+            else
+            {
+                print(Port, "II");
+            }
+
+            //src
+            print(Port, " Mod: ");
+            printf_U(Port, Syslog[msg].src, PAD_3);
+
+            //location (mask EE/WW bits)
+            print(Port, "Loc: ");
+            printf_U(Port, Syslog[msg].location & 0x3F, PAD_3 | NO_TRAIL);
+        }
+    }
+}
+
+void show_datalog(USART_TypeDef * Port)
+{
+    U32 entry, byte;
+
+
+    //header
+    print(Port, "\r\n*** Datalog ***\r\n");
+
+
+    for(entry=0; entry < DATALOG_LENGTH; entry++)
+    {
+        if(Datalog[entry].src != 0)
+        {
+            //timestamp
+            print(Port, "\r\n[");
+            printf_U(Port, Datalog[entry].timestamp, PAD_10 | NO_TRAIL);
+            print(Port, "]");
+
+            //src
+            print(Port, "Mod: ");
+            printf_U(Port, Datalog[entry].src, PAD_3);
+
+            //location
+            print(Port, "] Loc: ");
+            printf_U(Port, Datalog[entry].location, PAD_3 | NO_TRAIL);
+
+            //data
+            for(byte=0; byte < 24; byte++)
+            {
+                Print_U8Hex(Port, Datalog[entry].data.as_U8[byte]);
+            }
+        }
+    }
+}

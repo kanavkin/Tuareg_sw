@@ -14,7 +14,4 @@ void init_debug_pins();
 void enable_sysclk_check();
 
 
-
-
-
 #endif // DEBUG_H_INCLUDED

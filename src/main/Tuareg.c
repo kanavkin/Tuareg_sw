@@ -33,11 +33,14 @@
 
 #include "process_table.h"
 
-//#include "debug.h"
 #include "diagnostics.h"
 #include "Tuareg.h"
 #include "uart_printf.h"
 #include "module_test.h"
+
+#include "syslog.h"
+#include "debug_port_messages.h"
+#include "Tuareg_syslog_locations.h"
 
 
 void Tuareg_print_init_message()
@@ -68,9 +71,9 @@ void Tuareg_update_Runmode()
     switch(Tuareg.Runmode)
     {
 
-    case TMODE_DIAG:
+    case TMODE_SERVICE:
 
-        ///DIAG mode will persist until reboot
+        ///TMODE_SERVICE mode will persist until reboot
         break;
 
 
@@ -129,9 +132,8 @@ void Tuareg_update_Runmode()
         break;
 
     default:
-        //very strange
-        print(DEBUG_PORT, "ERROR! default branch in TMODE machine reached");
-        Tuareg_stop_engine();
+
+        Fatal(TID_TUAREG, TUAREG_LOC_UPDATE_RUNMODE_DEFAULT_BRANCH);
         break;
 
     }
@@ -144,12 +146,11 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
     if(Tuareg.Runmode != Target_runmode)
     {
-        /**
-        LIMP mode protection
-        */
+        //LIMP mode protection
         if(Tuareg.Runmode == TMODE_LIMP)
         {
-            print(DEBUG_PORT, "cannot exit LIMP mode!");
+            Syslog_Warning(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_LIMP_EXIT);
+            DebugMsg_Warning("trapped in LIMP mode");
             return;
         }
 
@@ -170,15 +171,13 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 //use 16 preemption priority levels
                 NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-                //set all errors
-                Tuareg.Errors.all_flags= 0xFFFFFFFF;
-
                 /**
                 initialize core components
                 */
 
                 //initialize systick timer to provide system timestamp
                 Tuareg.pTimer= init_systick_timer();
+                Syslog_init();
 
                 Eeprom_init();
                 //init_fuel_hw();
@@ -192,33 +191,38 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
             case TMODE_CONFIGLOAD:
 
-                Tuareg.Errors.tuareg_config_error= true;
-
                 //loading the config data is essential, failure forces "limp home mode"
                 result= load_Tuareg_Setup();
 
                 //check if config has been loaded
                 if(result != EXEC_OK)
                 {
+                    Tuareg.Errors.tuareg_config_error= true;
                     load_essential_Tuareg_Setup();
 
                     //failed to load config
-                    print(DEBUG_PORT, "\r\nEE Failed to load Tuareg config!");
-                    print(DEBUG_PORT, "\r\nWW Tuareg essential Config has been loaded");
+                    Syslog_Error(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_LOAD_CONFIG_FAIL);
+                    Syslog_Warning(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_ESSENTIALS_CONFIG_LOADED);
+                    DebugMsg_Error("Failed to load Tuareg config");
+                    DebugMsg_Warning("Tuareg essential config has been loaded");
                 }
                 else if(Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION)
                 {
+                    Tuareg.Errors.tuareg_config_error= true;
                     load_essential_Tuareg_Setup();
 
                     //loaded wrong config version
-                    print(DEBUG_PORT, "\r\nEE Tuareg config version does not match");
-                    print(DEBUG_PORT, "\r\nWW Tuareg essential Config has been loaded");
+                    Syslog_Error(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_LOAD_CONFIG_VERSION_FAIL);
+                    Syslog_Warning(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_ESSENTIALS_CONFIG_LOADED);
+                    DebugMsg_Error("Tuareg config loaded version does not match");
+                    DebugMsg_Warning("Tuareg essential config has been loaded");
                 }
                 else
                 {
                     //loaded config with correct version
                     Tuareg.Errors.tuareg_config_error= false;
-                    print(DEBUG_PORT, "\r\nII Tuareg config has been loaded");
+
+                    Syslog_Info(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_LOAD_CONFIG_SUCCESS);
                 }
 
                 break;
@@ -254,12 +258,14 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 break;
 
-            case TMODE_DIAG:
+            case TMODE_SERVICE:
 
-                //perform diagnostic functions triggered by user, no engine operation
+                Syslog_Info(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_SERVICE);
+                DebugMsg_Warning("Entering Service Mode");
 
-                //turn off vital actors
-                Tuareg_stop_engine();
+                //allow vital actor activation
+                Tuareg.actors.ignition_inhibit= false;
+                Tuareg.actors.fueling_inhibit= false;
 
                 break;
 
@@ -285,9 +291,6 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 if(Tuareg.Runmode == TMODE_CRANKING)
                 {
                     tuareg_diag_log_event(TDIAG_CRANKING_RUNNING_TR);
-
-                    /// TODO (oli#9#): debug message enabled
-                    print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING --> TMODE_RUNNING");
                 }
 
                 tuareg_diag_log_event(TDIAG_ENTER_RUNNING);
@@ -310,22 +313,14 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 /// TODO (oli#9#): check if we need fuel pump priming
                 //turn fuel pump on to maintain fuel pressure
-                set_fuelpump(PIN_ON);
-
-                /// TODO (oli#9#): debug message enabled
-                print(DEBUG_PORT, "\r\nstate transition TMODE_CRANKING");
+                set_fuel_pump_powered();
 
                 break;
 
 
             default:
 
-                //collect diagnostic information
-                tuareg_diag_log_event(TDIAG_INVALID_RUNMODE);
-
-                //very strange
-                print(DEBUG_PORT, "ERROR! default branch in Tuareg_set_Runmode reached");
-                Tuareg_set_Runmode(TMODE_LIMP);
+                Fatal(TID_TUAREG, TUAREG_LOC_SET_RUNMODE_DEFAULT_BRANCH);
                 break;
 
         }
@@ -350,9 +345,9 @@ inline void Tuareg_stop_engine()
     set_ignition_ch2(ACTOR_UNPOWERED);
 
     //turn off fueling system
-    set_fuelpump(ACTOR_UNPOWERED);
-    set_injector_ch1(ACTOR_UNPOWERED);
-    set_injector_ch2(ACTOR_UNPOWERED);
+    set_fuel_pump(ACTOR_UNPOWERED);
+    set_injector1(ACTOR_UNPOWERED);
+    set_injector2(ACTOR_UNPOWERED);
 
     //reset scheduler
     scheduler_reset_ign1();
@@ -394,6 +389,7 @@ void Tuareg_update_halt_sources()
         tuareg_diag_log_event(TDIAG_KILL_CRASH);
 
         /// TODO (oli#9#): debug message enabled
+        //TUAREG_LOC_UPDATE_HALTSRC_CRASH_DETECTED
         print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_CRASH");
     }
     else
@@ -410,6 +406,7 @@ void Tuareg_update_halt_sources()
         tuareg_diag_log_event(TDIAG_KILL_SIDESTAND);
 
         /// TODO (oli#9#): debug message enabled
+        //TUAREG_LOC_UPDATE_HALTSRC_SIDESTAND_DETECTED
         print(DEBUG_PORT, "\r\nHALT! reason: DSENSOR_SIDESTAND");
     }
     else

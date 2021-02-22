@@ -46,28 +46,28 @@ void decoder_process_debug_events()
     }
 }
 
-inline void register_sync_lost_debug_event()
+ void register_sync_lost_debug_event()
 {
     //set flag
     Decoder.debug.lost_sync= true;
 }
 
 
-inline void register_got_sync_debug_event()
+ void register_got_sync_debug_event()
 {
     //set flag
     Decoder.debug.got_sync= true;
 }
 
 
-inline void register_timer_overflow_debug_event()
+ void register_timer_overflow_debug_event()
 {
     //set flag
     Decoder.debug.timer_overflow= true;
 }
 
 
-inline void register_timeout_debug_event()
+ void register_timeout_debug_event()
 {
     //set flag
     Decoder.debug.timeout= true;
@@ -80,7 +80,7 @@ decoder helper functions - sync checker
 ******************************************************************************************************************************/
 
 //evaluate key/gap ratio to keep trigger wheel sync state
-inline bool check_sync_ratio()
+ bool check_sync_ratio()
 {
     VU32 sync_ratio, sync_interval, key_interval;
 
@@ -113,7 +113,7 @@ inline bool check_sync_ratio()
 
 
 //evaluate key/gap ratio to get trigger wheel sync in timer discontinuous mode to get SYNC
-inline bool check_sync_ratio_async()
+ bool check_sync_ratio_async()
 {
     VU32 sync_ratio;
 
@@ -145,10 +145,10 @@ inline bool check_sync_ratio_async()
 decoder helper functions - timing data calculation
 ******************************************************************************************************************************/
 
-inline void update_timing_data()
+ void update_timing_data()
 {
     VU32 period_us, rpm, delta_rpm;
-    VF32 accel =0;
+  //  VF32 accel =0;
 
 
     //set invalid output data initially
@@ -212,7 +212,7 @@ inline void update_timing_data()
 }
 
 
-inline void reset_timing_data()
+ void reset_timing_data()
 {
     Decoder.crank_period_us= 0;
     Decoder.crank_rpm= 0;
@@ -229,14 +229,14 @@ inline void reset_timing_data()
 cylinder identification sensor
 ******************************************************************************************************************************/
 
-inline void reset_timeout_counter()
+ void reset_timeout_counter()
 {
     Decoder.timeout_count =0;
     Decoder.outputs.timeout= false;
 }
 
 
-inline void reset_position_data()
+ void reset_position_data()
 {
     Decoder.crank_position= CRK_POSITION_UNDEFINED;
     Decoder.phase= PHASE_UNDEFINED;
@@ -246,7 +246,7 @@ inline void reset_position_data()
 }
 
 
-inline void reset_internal_data()
+ void reset_internal_data()
 {
     reset_position_data();
     reset_timing_data();
@@ -254,7 +254,7 @@ inline void reset_internal_data()
 
 
 
-inline void decoder_set_state(decoder_internal_state_t NewState)
+ void decoder_set_state(decoder_internal_state_t NewState)
 {
     if(NewState >= DSTATE_COUNT)
     {
@@ -466,7 +466,10 @@ void decoder_crank_handler()
                 case CRK_POSITION_C1:
 
                     //update engine phase
-                    Decoder.phase= opposite_phase(Decoder.phase);
+                    if(Decoder.outputs.phase_valid == true)
+                    {
+                        Decoder.phase= opposite_phase(Decoder.phase);
+                    }
 
                     break;
 
@@ -583,7 +586,7 @@ void decoder_crank_timeout_handler()
 /******************************************************************************************************************************
 cylinder identification sensor
 ******************************************************************************************************************************/
-inline void decoder_update_cis()
+ void decoder_update_cis()
 {
     engine_phase_t detected_phase;
     U32 lobe_angle_deg, lobe_interval_us;
@@ -675,7 +678,7 @@ inline void decoder_update_cis()
 }
 
 
-inline void decoder_cis_handler()
+ void decoder_cis_handler()
 {
     //precondition check
     if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder.cis.cis_failure == true))
@@ -714,13 +717,13 @@ inline void decoder_cis_handler()
 }
 
 
-inline void decoder_cis_noisefilter_handler()
+ void decoder_cis_noisefilter_handler()
 {
     decoder_unmask_cis_irq();
 }
 
 
-inline void enable_cis()
+ void enable_cis()
 {
     //set sensing for lobe beginning
     decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
@@ -736,7 +739,7 @@ inline void enable_cis()
 
 
 
-inline void disable_cis()
+ void disable_cis()
 {
     //disable irq
     decoder_mask_cis_irq();

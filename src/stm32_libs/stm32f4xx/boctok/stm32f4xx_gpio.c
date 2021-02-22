@@ -100,7 +100,27 @@ void gpio_set_pin_low(GPIO_TypeDef * Port, VU32 Pin)
     Port->BSRR= (U32) (1<< (Pin + 16));
 }
 
+/**
+read back the output pin state
+*/
+bool gpio_get_pin(GPIO_TypeDef * Port, VU32 Pin)
+{
+    //GPIO port pin range 0..15!
+    if(Pin > 15)
+    {
+        return false;
+        //TODO log warning
+    }
 
+    if(Port->ODR & (U32) (1<< Pin))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 /**

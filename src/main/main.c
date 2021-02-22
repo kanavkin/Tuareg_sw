@@ -63,38 +63,18 @@ SCHEDULER (ignition)
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 
-
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition.h"
-#include "ignition_hw.h"
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "Tuareg_console.h"
-#include "Tuareg_config.h"
-#include "table.h"
-#include "eeprom.h"
-#include "sensors.h"
-#include "fuel_hw.h"
-#include "fuel_logic.h"
-
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "act_hw.h"
-#include "act_logic.h"
-
-
-#include "debug.h"
-#include "dwt.h"
-#include "diagnostics.h"
+#include "Tuareg_types.h"
 #include "Tuareg.h"
 
-#include "module_test.h"
+#include "Tuareg_decoder.h"
+#include "Tuareg_ignition.h"
+#include "scheduler.h"
+#include "Tuareg_console.h"
+
+#include "diagnostics.h"
+#include "debug_port_messages.h"
+#include "syslog.h"
+
 
 /**
 global status object
@@ -176,9 +156,9 @@ int main(void)
     Tuareg_set_Runmode(TMODE_HWINIT);
 
     //DEBUG
-    init_debug_pins();
-    set_debug_pin(PIN_ON);
-    dwt_init();
+    //init_debug_pins();
+    //set_debug_pin(PIN_ON);
+    //dwt_init();
 
     //set up config data
     Tuareg_set_Runmode(TMODE_CONFIGLOAD);

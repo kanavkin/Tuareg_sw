@@ -95,6 +95,16 @@ variables of this type have to be designated with xxxx_PD
 typedef uint32_t angle_deg_t;
 
 
+/**
+basic type to handle the system time stamp
+*/
+typedef uint32_t timestamp_t;
+
+
+
+
+
+
 extern const float cKelvin_offset;
 
 

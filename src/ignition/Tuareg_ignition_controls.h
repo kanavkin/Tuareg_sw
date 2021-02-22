@@ -28,7 +28,7 @@ rev limiter ignition controls reported values
 
 
 
-#define IGNITION_REQUIRED_CONFIG_VERSION 1
+#define IGNITION_REQUIRED_CONFIG_VERSION 3
 
 
 /**

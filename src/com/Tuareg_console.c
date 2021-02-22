@@ -19,14 +19,15 @@
 #include "eeprom.h"
 #include "eeprom_layout.h"
 #include "sensors.h"
-//#include "debug.h"
 #include "base_calc.h"
+
 #include "diagnostics.h"
 #include "bitfields.h"
 
 #include "process_table.h"
 
-
+#include "debug_port_messages.h"
+#include "syslog.h"
 
 //#define CONSOLE_DEBUG
 
@@ -39,7 +40,7 @@ The (current) active command will be reset, once the function reaches its end.
 */
 void Tuareg_update_console()
 {
-    VU32 offset, value;
+    VU32 offset, value, on, off;
 
     // reset active command when timeout occurred
     if((Tuareg_console.active_cmd > 0) && (Tuareg_console.ts_cmd_watchdog == 0))
@@ -129,7 +130,7 @@ void Tuareg_update_console()
         #endif // CONSOLE_DEBUG
 
         //run the desired feature
-        ts_service_features(value);
+        ts_debug_features(value);
         break;
 
     case 'I':
@@ -155,7 +156,7 @@ void Tuareg_update_console()
         #endif // CONSOLE_DEBUG
 
         //run the desired feature
-        ts_service_info(value);
+        ts_debug_info(value);
         break;
 
 
@@ -190,10 +191,52 @@ void Tuareg_update_console()
 
         break;
 
+    case 'K':
+
+        show_syslog(TS_PORT);
+        break;
 
     case 'L':
         //show the content of the current page in human readable form
         cli_showPage(Tuareg_console.ts_active_page);
+        break;
+
+    case 'M':
+
+        //service feature command takes 6 bytes of input data
+        if(UART_available() < 6)
+        {
+            return;
+        }
+
+        /**
+        byte format: <actor MSB, LSB> <on> <off> <end MSB, LSB>
+
+        variable allocation:
+
+                <offset> <on> <off> <value>
+        */
+        offset= UART_getRX();
+        offset <<= 8;
+        offset |= UART_getRX();
+
+        on= UART_getRX();
+        off= UART_getRX();
+
+        value= UART_getRX();
+        value <<= 8;
+        value |= UART_getRX();
+
+        //check if the received command is a "service mode request"
+        if( (offset == 0xFF00) && (on == 0) && (off == 0) && (value == 0x00FF) )
+        {
+            request_service_mode();
+        }
+        else
+        {
+            //activate the desired actor
+            request_service_activation(offset, on, off, value);
+        }
         break;
 
 /*
@@ -201,6 +244,9 @@ void Tuareg_update_console()
         print(TS_PORT, "\r\n");
         break;
 */
+
+
+
 
     case 'P':
 

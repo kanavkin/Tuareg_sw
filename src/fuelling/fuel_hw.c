@@ -1,78 +1,141 @@
 /**
-this module covers the ignition HAL
-
-
+this module covers the ignition hardware layer control
 */
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/boctok_types.h"
-#include "fuel_hw.h"
+#include "Tuareg_types.h"
+
+#include "Tuareg.h"
+//#include "fuel_hw.h"
 
 /******************************************************************************************************************************
-fueling actuator control
+injector hardware control
+******************************************************************************************************************************/
+ void set_injector1_powered()
+{
+    if(Tuareg.actors.fueling_inhibit == false)
+    {
+        //ON
+        gpio_set_pin(GPIOC, 8, PIN_ON);
 
-performance analysis revealed:
+        Tuareg.actors.fuel_injector_1 = true;
+    }
+}
+
+ void set_injector1_unpowered()
+{
+    // OFF
+    gpio_set_pin(GPIOC, 8, PIN_OFF);
+
+    Tuareg.actors.fuel_injector_1= false;
+}
+
+ void set_injector2_powered()
+{
+    if(Tuareg.actors.fueling_inhibit == false)
+    {
+        //ON
+        gpio_set_pin(GPIOC, 9, PIN_ON);
+
+        Tuareg.actors.fuel_injector_2= true;
+    }
+}
+
+ void set_injector2_unpowered()
+{
+    // OFF
+    gpio_set_pin(GPIOC, 9, PIN_OFF);
+
+    Tuareg.actors.fuel_injector_2= false;
+}
+
+/******************************************************************************************************************************
+fuel pump hardware control
+******************************************************************************************************************************/
+
+ void set_fuel_pump_powered()
+{
+    if(Tuareg.actors.fueling_inhibit == false)
+    {
+        //ON
+        gpio_set_pin(GPIOC, 10, PIN_ON);
+
+        Tuareg.actors.fuel_pump= true;
+    }
+}
+
+ void set_fuel_pump_unpowered()
+{
+    // OFF
+    gpio_set_pin(GPIOC, 10, PIN_OFF);
+
+    Tuareg.actors.fuel_pump= false;
+}
+
+
+
+/******************************************************************************************************************************
+ignition actuator control
+******************************************************************************************************************************/
+void set_injector1(actor_control_t level)
+{
+    if(level == ACTOR_POWERED)
+    {
+        set_injector1_powered();
+    }
+    else
+    {
+        set_injector1_unpowered();
+    }
+}
+
+
+void set_injector2(actor_control_t level)
+{
+    if(level == ACTOR_POWERED)
+    {
+        set_injector2_powered();
+    }
+    else
+    {
+        set_injector2_unpowered();
+    }
+}
+
+
+void set_fuel_pump(actor_control_t level)
+{
+    if(level == ACTOR_POWERED)
+    {
+        set_fuel_pump_powered();
+    }
+    else
+    {
+        set_fuel_pump_unpowered();
+    }
+}
+
+
+/******************************************************************************************************************************
+ignition hardware initialization
+
+using
+-GPIOC8 for injector 1
+-GPIOC9 for injector 2
+-GPIOC10 for fuel pump
 
  ******************************************************************************************************************************/
-inline void set_injector_ch1(output_pin_t level)
-{
-    if(level == PIN_ON)
-    {
-        gpio_set_pin(GPIOC, 8, PIN_ON);
-    }
-    else
-    {
-        // OFF
-        gpio_set_pin(GPIOC, 8, PIN_OFF);
-    }
-}
-
-
-inline void set_injector_ch2(output_pin_t level)
-{
-    if(level == PIN_ON)
-    {
-        gpio_set_pin(GPIOC, 9, PIN_ON);
-    }
-    else
-    {
-        // OFF
-        gpio_set_pin(GPIOC, 9, PIN_OFF);
-    }
-}
-
-
-inline void set_fuelpump(output_pin_t level)
-{
-    if(level == PIN_ON)
-    {
-        gpio_set_pin(GPIOC, 10, PIN_ON);
-    }
-    else
-    {
-        // OFF
-        gpio_set_pin(GPIOC, 10, PIN_OFF);
-    }
-}
-
-
-
-/**
-    using
-    -GPIOC8 for injector 1
-    -GPIOC9 for injector 2
-    -GPIOC10 for fuel pump
-*/
-inline void init_fuel_hw()
+void init_fuel_hw()
 {
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
-    //coil1,2
     GPIO_configure(GPIOC, 8, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 9, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 10, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    set_injector_ch1(PIN_OFF);
-    set_injector_ch2(PIN_OFF);
-    set_fuelpump(PIN_OFF);
+
+    set_injector1_unpowered();
+    set_injector2_unpowered();
+    set_fuel_pump_unpowered();
 }

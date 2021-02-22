@@ -54,4 +54,15 @@ typedef struct _syslog_mgr_t {
 } syslog_mgr_t;
 
 
+
+
+void Syslog_init();
+void Syslog_Error(Tuareg_ID Src, U8 Location);
+void Syslog_Warning(Tuareg_ID Src, U8 Location);
+void Syslog_Info(Tuareg_ID Src, U8 Location);
+void Syslog_Data(Tuareg_ID Src, U8 Location);
+
+void show_syslog(USART_TypeDef * Port);
+void show_datalog(USART_TypeDef * Port);
+
 #endif // SYSLOG_H_INCLUDED

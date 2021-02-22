@@ -9,6 +9,7 @@
 #include "TunerStudio.h"
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
+#include "Tuareg_service_functions.h"
 
 #include "table.h"
 
@@ -19,7 +20,7 @@
 #include "eeprom.h"
 #include "eeprom_layout.h"
 #include "sensors.h"
-//#include "debug.h"
+#include "debug_port_messages.h"
 #include "base_calc.h"
 #include "diagnostics.h"
 #include "bitfields.h"
@@ -29,7 +30,7 @@
 #define TS_SERVICE_DEBUG
 
 
-void ts_service_features(U32 FeatureID)
+void ts_debug_features(U32 FeatureID)
 {
     U8 u8_data =0;
     U32 data_1 =0;
@@ -79,7 +80,7 @@ void ts_service_features(U32 FeatureID)
 
 
 
-void ts_service_info(U32 InfoID)
+void ts_debug_info(U32 InfoID)
 {
     switch (InfoID)
     {
@@ -339,3 +340,61 @@ void cli_print_sensor_data(USART_TypeDef * Port)
     }
 
 }
+
+
+void request_service_mode()
+{
+    ///DEBUG lowered service mode entry
+    //enter service only if the engine has been halted and the crank has stopped spinning
+    if((Tuareg.Runmode != TMODE_HALT) || (Tuareg.pDecoder->outputs.timeout == false))
+    {
+      //  return;
+    }
+
+    Tuareg_set_Runmode(TMODE_SERVICE);
+}
+
+
+void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
+{
+    //precondition check
+    if(Tuareg.Runmode != TMODE_SERVICE)
+    {
+        return;
+    }
+
+    switch (Actor)
+    {
+
+        case SACT_FUEL_PUMP:
+
+            activate_fuel_pump(End);
+            break;
+
+        case SACT_COIL_1:
+
+            activate_coil1(On, Off, End);
+            break;
+
+        case SACT_COIL_2:
+
+            activate_coil2(On, Off, End);
+            break;
+
+        case SACT_INJECTOR_1:
+
+            activate_injector1(On, Off, End);
+            break;
+
+        case SACT_INJECTOR_2:
+
+            activate_injector2(On, Off, End);
+            break;
+
+
+    default:
+      break;
+  }
+}
+
+

@@ -3,6 +3,7 @@
 
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
+
 #include "Tuareg_errors.h"
 #include "Tuareg_config.h"
 
@@ -87,7 +88,7 @@ typedef enum {
     TMODE_LIMP,
 
     //perform diagnostic functions triggered by user, no engine operation
-    TMODE_DIAG,
+    TMODE_SERVICE,
 
     //engine operation prohibited due to kill switch or crash sensor
     TMODE_HALT,

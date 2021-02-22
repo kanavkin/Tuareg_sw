@@ -40,8 +40,6 @@ typedef enum {
     TBIT_MAPSENSOR_ERROR,
     TBIT_CISENSOR_ERROR,
     TBIT_SPARE1_ERROR,
-    TBIT_SPARE2_ERROR,
-    TBIT_SPARE3_ERROR,
 
     // status bits
     TBIT_CRANKING_MODE,

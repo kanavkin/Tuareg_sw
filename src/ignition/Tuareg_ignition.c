@@ -17,7 +17,9 @@
 #include "table.h"
 #include "eeprom.h"
 
-//#include "debug.h"
+#include "syslog.h"
+#include "Ignition_syslog_locations.h"
+#include "debug_port_messages.h"
 #include "diagnostics.h"
 #include "Tuareg.h"
 
@@ -49,28 +51,32 @@ void init_Ignition()
     //setup shall be loaded first
     result= load_Ignition_Config();
 
+    //check if config has been loaded
     if(result != EXEC_OK)
     {
+        //failed to load Decoder Config
         load_essential_Ignition_Config();
 
-        Tuareg.Errors.ignition_config_error= true;
-
-        print(DEBUG_PORT, "\r\nWARNING Ignition essential Config has been loaded");
+        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
+        DebugMsg_Error("Failed to load Ignition config!");
+        DebugMsg_Warning("Ignition essential config has been loaded");
     }
-
-    if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
+    else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
     {
-        Tuareg.Errors.ignition_config_error= true;
+        //loaded wrong Decoder Config Version
+        load_essential_Ignition_Config();
 
-        print(DEBUG_PORT, "\r\nWARNING Ignition Config version does not match");
+        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
+        DebugMsg_Error("Ignition config version does not match");
+        DebugMsg_Warning("Ignition essential config has been loaded");
     }
     else
     {
+        //loaded Ignition config with correct Version
         Tuareg.Errors.ignition_config_error= false;
+
+        Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
     }
-
-    print(DEBUG_PORT, "\r\nINFO Ignition Config has been loaded");
-
 
     //init hw part
     init_ignition_hw();
@@ -122,10 +128,11 @@ void Tuareg_ignition_update_crankpos_handler()
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
+/// TODO (oli#2#): fix the decoder execution delay compensator
         //compensate timing for execution delay
         //age_us= decoder_get_data_age_us();
-        //corr_timing_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, age_us);
-        corr_timing_us= Tuareg.ignition_controls.ignition_timing_us;
+        age_us= 0;
+        corr_timing_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, age_us);
 
         //check if sequential mode has been requested and sufficient information for this mode is available
         if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == true))

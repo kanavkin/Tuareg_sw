@@ -14,6 +14,7 @@
 we use ascii format for positions in config items in Tunerstudio interface
 
 */
+/*
 crank_position_t parse_position(U32 Input)
 {
     crank_position_t parsed_pos = CRK_POSITION_UNDEFINED;
@@ -61,7 +62,7 @@ crank_position_t parse_position(U32 Input)
     return parsed_pos;
 
 }
-
+*/
 
 
 U32 serialize_float_U32(float Value)

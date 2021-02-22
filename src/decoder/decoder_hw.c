@@ -163,21 +163,21 @@ void decoder_unmask_cis_irq()
 pickup sensing helper functions
 (the hardware dependent part)
 */
-static inline void set_crank_pickup_sensing_rise()
+void set_crank_pickup_sensing_rise()
 {
     EXTI->RTSR |= EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
     Decoder_hw.crank_pickup_sensing= SENSING_RISE;
 }
 
-static inline void set_crank_pickup_sensing_fall()
+void set_crank_pickup_sensing_fall()
 {
     EXTI->FTSR |= EXTI_FTSR_TR0;
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     Decoder_hw.crank_pickup_sensing= SENSING_FALL;
 }
 
-static inline void set_crank_pickup_sensing_disabled()
+void set_crank_pickup_sensing_disabled()
 {
     EXTI->RTSR &= ~EXTI_RTSR_TR0;
     EXTI->FTSR &= ~EXTI_FTSR_TR0;
@@ -188,21 +188,21 @@ static inline void set_crank_pickup_sensing_disabled()
 cis sensing helper functions
 (the hardware dependent part)
 */
-static inline void set_cis_sensing_rise()
+void set_cis_sensing_rise()
 {
     EXTI->RTSR |= EXTI_RTSR_TR1;
     EXTI->FTSR &= ~EXTI_FTSR_TR1;
     Decoder_hw.cis_sensing= SENSING_RISE;
 }
 
-static inline void set_cis_sensing_fall()
+void set_cis_sensing_fall()
 {
     EXTI->FTSR |= EXTI_FTSR_TR1;
     EXTI->RTSR &= ~EXTI_RTSR_TR1;
     Decoder_hw.cis_sensing= SENSING_FALL;
 }
 
-static inline void set_cis_sensing_disabled()
+void set_cis_sensing_disabled()
 {
     EXTI->RTSR &= ~EXTI_RTSR_TR1;
     EXTI->FTSR &= ~EXTI_FTSR_TR1;

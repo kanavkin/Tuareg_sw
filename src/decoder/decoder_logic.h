@@ -109,38 +109,38 @@ typedef struct {
 
 
 volatile Tuareg_decoder_t * init_decoder_logic();
-extern void decoder_set_state(decoder_internal_state_t NewState);
+void decoder_set_state(decoder_internal_state_t NewState);
 
 //timing data
-extern void update_timing_data();
-extern void reset_timing_data();
+void update_timing_data();
+void reset_timing_data();
 
-extern void reset_position_data();
-extern void reset_internal_data();
-extern void reset_timeout_counter();
+void reset_position_data();
+void reset_internal_data();
+void reset_timeout_counter();
 
 //sync checker
-extern bool check_sync_ratio();
-extern bool check_sync_ratio_async();
+bool check_sync_ratio();
+bool check_sync_ratio_async();
 
 //Decoder_hw callback functions
-extern void decoder_crank_handler();
-extern void decoder_crank_noisefilter_handler();
-extern void decoder_crank_timeout_handler();
+void decoder_crank_handler();
+void decoder_crank_noisefilter_handler();
+void decoder_crank_timeout_handler();
 
 //CIS
-extern void enable_cis();
-extern void disable_cis();
-extern void decoder_update_cis();
-extern void decoder_cis_handler();
-extern void decoder_cis_noisefilter_handler();
+void enable_cis();
+void disable_cis();
+void decoder_update_cis();
+void decoder_cis_handler();
+void decoder_cis_noisefilter_handler();
 
 //decoder debug
 void decoder_process_debug_events();
-extern void register_sync_lost_debug_event();
-extern void register_got_sync_debug_event();
-extern void register_timer_overflow_debug_event();
-extern void register_timeout_debug_event();
+void register_sync_lost_debug_event();
+void register_got_sync_debug_event();
+void register_timer_overflow_debug_event();
+void register_timeout_debug_event();
 
 
 

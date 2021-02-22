@@ -16,7 +16,7 @@
 
 void setBit_BF8(U32 Pos, VBF8 * pTarget)
 {
-    Tuareg_Assert(Pos < BF8_LEN, TID_BITFIELDS, 0);
+    Assert(Pos < BF8_LEN, TID_BITFIELDS, 0);
 
     *pTarget |= (1 << Pos);
 
@@ -24,14 +24,14 @@ void setBit_BF8(U32 Pos, VBF8 * pTarget)
 
 void setBit_BF16(U32 Pos, VBF16 * pTarget)
 {
-    Tuareg_Assert(Pos < BF16_LEN, TID_BITFIELDS, 1);
+    Assert(Pos < BF16_LEN, TID_BITFIELDS, 1);
 
     *pTarget |= (1 << Pos);
 }
 
 void setBit_BF32(U32 Pos, VBF32 * pTarget)
 {
-    Tuareg_Assert(Pos < BF32_LEN, TID_BITFIELDS, 2);
+    Assert(Pos < BF32_LEN, TID_BITFIELDS, 2);
 
     *pTarget |= (1 << Pos);
 }
@@ -39,7 +39,7 @@ void setBit_BF32(U32 Pos, VBF32 * pTarget)
 
 bool getBit_BF8(U32 Pos, VBF8 Target)
 {
-    Tuareg_Assert(Pos < BF8_LEN, TID_BITFIELDS, 3);
+    Assert(Pos < BF8_LEN, TID_BITFIELDS, 3);
 
     return (Target & (1 << Pos))? true : false;
 }
@@ -47,14 +47,14 @@ bool getBit_BF8(U32 Pos, VBF8 Target)
 
 bool getBit_BF16(U32 Pos, VBF16 Target)
 {
-    Tuareg_Assert(Pos < BF16_LEN, TID_BITFIELDS, 4);
+    Assert(Pos < BF16_LEN, TID_BITFIELDS, 4);
 
     return (Target & (1 << Pos))? true : false;
 }
 
 bool getBit_BF32(U32 Pos, VBF32 Target)
 {
-    Tuareg_Assert(Pos < BF32_LEN, TID_BITFIELDS, 5);
+    Assert(Pos < BF32_LEN, TID_BITFIELDS, 5);
 
     return (Target & (1 << Pos))? true : false;
 }

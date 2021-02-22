@@ -262,7 +262,7 @@ BF32 ts_tuareg_bits()
     {
         setBit_BF32(TBIT_LIMP_MODE, &tuaregbits);
     }
-    else if(Tuareg.Runmode == TMODE_DIAG)
+    else if(Tuareg.Runmode == TMODE_SERVICE)
     {
         setBit_BF32(TBIT_DIAG_MODE, &tuaregbits);
     }

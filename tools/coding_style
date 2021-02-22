@@ -1,0 +1,20 @@
+
+
+functional:
+
+acceptance criteria:
+
+- debug output shall be sent with DebugMsg_Error() or DebugMsg_Warning()
+-> what is not a warning or an error condition shall not be printed to debug port
+-> use Syslog_Info() instead
+
+
+formatting:
+
+- variables shall carry their physical unit in its name. e.g. "_kPa"
+- pointer names shall have a prefix "p", followed by a capital letter
+- function Parameters start with capital letter
+
+naming conventions
+
+- functions prefixed with "show_" are expected to print information in human readable form (associated with cli)

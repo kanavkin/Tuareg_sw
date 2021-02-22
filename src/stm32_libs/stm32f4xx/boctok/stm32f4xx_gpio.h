@@ -67,6 +67,7 @@ typedef enum {
 void GPIO_configure(GPIO_TypeDef * Port, U32 Pin, U32 Mode, U32 OutputType, U32 Speed, U32 Pud);
 void SYSCFG_map_EXTI(U32 line, U32 port);
 void gpio_set_pin(GPIO_TypeDef * Port, VU32 Pin, output_pin_t Level);
+bool gpio_get_pin(GPIO_TypeDef * Port, VU32 Pin);
 void GPIO_SetAF(GPIO_TypeDef* Port, U16 Pin, U8 Function);
 
 #endif // STM32_GPIO_H_INCLUDED

@@ -4,6 +4,7 @@
 
 typedef enum {
 
+    TID_INVALID,
     TID_ACTORS_HW,
     TID_ACTORS_LOGIC,
     TID_SERIAL_MONITOR,
