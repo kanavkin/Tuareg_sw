@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Mon Feb 22 18:51:43 CET 2021
-#Mon Feb 22 18:51:43 CET 2021
+#Last Saved on: Tue Feb 23 16:29:22 CET 2021
+#Tue Feb 23 16:29:22 CET 2021
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBaud\ Rate=115200
 idleSettingsIdle\ Settings_Y=227
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_width=1920
@@ -108,8 +108,8 @@ airdensity_curveIAT\ density\ correction_X=704
 iat_retard_curveIAT\ timing\ retard_width=374
 dwellSettingsDwell\ Settings_height=444
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
-tool_boxService\ Tools_Y=451
-tool_boxService\ Tools_X=777
+tool_boxService\ Tools_Y=449
+tool_boxService\ Tools_X=1064
 dashBoardFile=/dashboard//dashboard.dash
 afrTable1TblAFR\ Table_height=430
 tuneFileDir=/home/oli/tenere/efi/Tuareg_sw/TunerStudio/Tuareg

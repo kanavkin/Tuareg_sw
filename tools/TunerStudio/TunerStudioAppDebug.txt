@@ -9147,3 +9147,213 @@ java.lang.NumberFormatException: For input string: "0x00"
 2/22/21 6:55:01 PM :Debug: ############################################# Save Project Backup ##########################################
 2/22/21 6:55:01 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.05 started on Tue Feb 23 16:28:41 CET 2021
+JRE 1.8.0_282, Linux 4.15.0-135-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+2/23/21 4:28:41 PM :Info: Loading Language Content.
+2/23/21 4:28:43 PM :Info: Initializing File Dialogs.
+2/23/21 4:28:44 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+2/23/21 4:28:44 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+2/23/21 4:28:44 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+2/23/21 4:28:44 PM :Info: Initializing Plugin Services.
+2/23/21 4:28:44 PM :Info: Loading Plugins.
+2/23/21 4:28:44 PM :Info: Initializing Help.
+2/23/21 4:28:44 PM :Info: Initializing Edition Features.
+2/23/21 4:28:44 PM :Info: Initializing App Events.
+2/23/21 4:28:44 PM :Debug: App Name:TunerStudio, appEdition:MS
+2/23/21 4:28:44 PM :Info: Initializing User Interface
+2/23/21 4:28:46 PM :Info: Loading Font list.
+2/23/21 4:28:46 PM :Debug: Time to retreive font name list: 18 ms.
+2/23/21 4:28:46 PM :Info: 
+2/23/21 4:28:46 PM :Info: Initializing UI Components.
+2/23/21 4:28:46 PM :Info: Ready
+2/23/21 4:28:46 PM :Info: Opening Project ...
+2/23/21 4:28:46 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+2/23/21 4:28:46 PM :Debug: EventTrigger Data log Reset. expression: 
+2/23/21 4:28:46 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+2/23/21 4:28:46 PM :Debug: Reading translation file as plain text
+2/23/21 4:28:46 PM :Info: Supported iniSpecVersion=3.68
+2/23/21 4:28:46 PM :Debug: Filtered ConfigurationOptionGroup in 5ms.
+2/23/21 4:28:46 PM :Info: Supported iniSpecVersion=3.68
+2/23/21 4:28:46 PM :Info: Read file canPcVariables.ini: 0.895434ms
+2/23/21 4:28:46 PM :Info: Filtered ini: 0.077704ms
+2/23/21 4:28:46 PM :Info: No iniVersion defined
+2/23/21 4:28:46 PM :Info: Loading Trigger Wheels
+2/23/21 4:28:46 PM :Info: Loaded All known ini sections
+2/23/21 4:28:46 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 21ms.
+2/23/21 4:28:47 PM :Info: Read file mainController.ini: 1.154982ms
+2/23/21 4:28:47 PM :Info: Filtered ini: 0.332987ms
+2/23/21 4:28:47 PM :Info: No iniVersion defined
+2/23/21 4:28:47 PM :Debug: ini signature: rusEFI v1.04
+2/23/21 4:28:47 PM :Info: Loading Trigger Wheels
+2/23/21 4:28:47 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+2/23/21 4:28:47 PM :Info: Loaded All known ini sections
+2/23/21 4:28:47 PM :Info: Parsed and validated ini "mainController.ini" in : 28ms.
+2/23/21 4:28:47 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+2/23/21 4:28:47 PM :Info: Time to load primary config: 131.06319ms. used cached config: false
+2/23/21 4:28:47 PM :Debug: Adding Configuration: Tuareg
+2/23/21 4:28:47 PM :Debug: controllerOnline = 0.0
+2/23/21 4:28:47 PM :Debug: Fill Constants: 2
+2/23/21 4:28:47 PM :Info: Tune opened, 398 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+2/23/21 4:28:47 PM :Info: Tune opened, 398 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+2/23/21 4:28:47 PM :Info: dirtyData.size(): 0
+2/23/21 4:28:47 PM :Info: dirtyData.size(): 0
+2/23/21 4:28:47 PM :Debug: Flush lasted: 0ms.
+2/23/21 4:28:47 PM :Info: dirtyData.size(): 0
+2/23/21 4:28:47 PM :Info: dirtyData.size(): 0
+2/23/21 4:28:47 PM :Debug: Flush lasted: 0ms.
+2/23/21 4:28:47 PM :Debug: Skip Burn, last write page: -2
+2/23/21 4:28:47 PM :Info: !!! Loaded config in 249
+2/23/21 4:28:47 PM :Info: !!! Activated Project 761
+2/23/21 4:28:47 PM :Info: Opening Gauge Cluster..
+MSmain: No check, last update check=Mon Feb 22 10:05:55 CET 2021
+2/23/21 4:28:47 PM :Info: Time to load uncached dash: 202.99065ms, file: dashboard.dash
+2/23/21 4:28:47 PM :Debug: High Speed Paint: true
+2/23/21 4:28:47 PM :Debug: Running speed test
+2/23/21 4:28:48 PM :Info: 
+2/23/21 4:28:48 PM :Info: Com Thread created: COMM Thread30149.74320984283
+2/23/21 4:28:48 PM :Debug: Processor Score:798813
+2/23/21 4:28:48 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+2/23/21 4:28:48 PM :Debug: !!! Opened Dash 2093
+2/23/21 4:28:48 PM :Info: Tuareg Ready
+2/23/21 4:28:48 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread30149.74320984283
+2/23/21 4:28:48 PM :Debug: Port not valid: Unable to open port: /dev/ttyACM0
+Please check your Communications Settings. 
+2/23/21 4:28:49 PM :Debug: Tuning View Files loaded in 87.314125ms.
+MSad: No check, last update check=Mon Feb 22 10:05:58 CET 2021
+2/23/21 4:29:22 PM :Info: Time to save msq: 64.01934
+2/23/21 4:29:22 PM :Info: closeApp Called
+2/23/21 4:29:22 PM :Debug: TuneLog Editor set text
+2/23/21 4:29:22 PM :Debug: Fill Constants: 1
+2/23/21 4:29:22 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-02-22_18.20.34.msq
+2/23/21 4:29:22 PM :Info: Time to save msq: 10.065408
+2/23/21 4:29:22 PM :Debug: goOffline Starting, Time:0
+2/23/21 4:29:22 PM :Info: Deactivated Turbo Baud, goOffline
+2/23/21 4:29:22 PM :Debug: goOffline about to stopProcessing, Time:1
+2/23/21 4:29:22 PM :Debug: goOffline closed port, Time:1
+2/23/21 4:29:22 PM :Info: Tuareg ComThread stopped COMM Thread30149.74320984283
+2/23/21 4:29:22 PM :Debug: goOffline comm thread stopped, Time:402
+2/23/21 4:29:22 PM :Debug: No Remaining Queue Write instructions
+2/23/21 4:29:22 PM :Debug: removing Configuration: Tuareg
+2/23/21 4:29:22 PM :Debug: ############################################# Save Project Backup ##########################################
+2/23/21 4:29:22 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.05 started on Tue Feb 23 16:29:30 CET 2021
+JRE 1.8.0_282, Linux 4.15.0-135-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+2/23/21 4:29:30 PM :Info: Loading Language Content.
+2/23/21 4:29:33 PM :Info: Initializing File Dialogs.
+2/23/21 4:29:33 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+2/23/21 4:29:33 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+2/23/21 4:29:33 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+2/23/21 4:29:33 PM :Info: Initializing Plugin Services.
+2/23/21 4:29:33 PM :Info: Loading Plugins.
+2/23/21 4:29:33 PM :Info: Initializing Help.
+2/23/21 4:29:33 PM :Info: Initializing Edition Features.
+2/23/21 4:29:33 PM :Info: Initializing App Events.
+2/23/21 4:29:33 PM :Debug: App Name:TunerStudio, appEdition:MS
+2/23/21 4:29:33 PM :Info: Initializing User Interface
+2/23/21 4:29:35 PM :Info: Loading Font list.
+2/23/21 4:29:35 PM :Debug: Time to retreive font name list: 20 ms.
+2/23/21 4:29:35 PM :Info: 
+2/23/21 4:29:35 PM :Info: Initializing UI Components.
+2/23/21 4:29:35 PM :Info: Ready
+2/23/21 4:29:36 PM :Info: Opening Project ...
+2/23/21 4:29:36 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+2/23/21 4:29:36 PM :Debug: EventTrigger Data log Reset. expression: 
+2/23/21 4:29:36 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+2/23/21 4:29:36 PM :Debug: Reading translation file as plain text
+2/23/21 4:29:36 PM :Info: Supported iniSpecVersion=3.68
+2/23/21 4:29:36 PM :Debug: Filtered ConfigurationOptionGroup in 6ms.
+2/23/21 4:29:36 PM :Info: Supported iniSpecVersion=3.68
+2/23/21 4:29:36 PM :Info: Read file canPcVariables.ini: 0.602837ms
+2/23/21 4:29:36 PM :Info: Filtered ini: 0.105886ms
+2/23/21 4:29:36 PM :Info: No iniVersion defined
+2/23/21 4:29:36 PM :Info: Loading Trigger Wheels
+2/23/21 4:29:36 PM :Info: Loaded All known ini sections
+2/23/21 4:29:36 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 25ms.
+2/23/21 4:29:36 PM :Info: Read file mainController.ini: 2.445909ms
+2/23/21 4:29:36 PM :Info: Filtered ini: 0.487232ms
+2/23/21 4:29:36 PM :Info: No iniVersion defined
+2/23/21 4:29:36 PM :Debug: ini signature: rusEFI v1.04
+2/23/21 4:29:36 PM :Info: Loading Trigger Wheels
+2/23/21 4:29:36 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+2/23/21 4:29:36 PM :Info: Loaded All known ini sections
+2/23/21 4:29:36 PM :Info: Parsed and validated ini "mainController.ini" in : 30ms.
+2/23/21 4:29:36 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+2/23/21 4:29:36 PM :Info: Time to load primary config: 132.49525ms. used cached config: false
+2/23/21 4:29:36 PM :Debug: Adding Configuration: Tuareg
+2/23/21 4:29:36 PM :Debug: controllerOnline = 0.0
+2/23/21 4:29:36 PM :Debug: Fill Constants: 3
+2/23/21 4:29:36 PM :Info: Tune opened, 398 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+2/23/21 4:29:36 PM :Info: Tune opened, 398 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+2/23/21 4:29:36 PM :Info: dirtyData.size(): 0
+2/23/21 4:29:36 PM :Info: dirtyData.size(): 0
+2/23/21 4:29:36 PM :Debug: Flush lasted: 1ms.
+2/23/21 4:29:36 PM :Info: dirtyData.size(): 0
+2/23/21 4:29:36 PM :Info: dirtyData.size(): 0
+2/23/21 4:29:36 PM :Debug: Flush lasted: 1ms.
+2/23/21 4:29:36 PM :Debug: Skip Burn, last write page: -2
+2/23/21 4:29:36 PM :Info: !!! Loaded config in 245
+MSmain: No check, last update check=Mon Feb 22 10:05:55 CET 2021
+2/23/21 4:29:37 PM :Debug: Running speed test
+2/23/21 4:29:37 PM :Info: !!! Activated Project 799
+2/23/21 4:29:37 PM :Info: Opening Gauge Cluster..
+2/23/21 4:29:37 PM :Info: Time to load uncached dash: 859.73474ms, file: dashboard.dash
+2/23/21 4:29:38 PM :Debug: Processor Score:593749
+2/23/21 4:29:38 PM :Debug: High Speed Paint: true
+2/23/21 4:29:38 PM :Info: 
+2/23/21 4:29:38 PM :Info: Com Thread created: COMM Thread40611.01577745212
+2/23/21 4:29:38 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+2/23/21 4:29:38 PM :Debug: !!! Opened Dash 1731
+2/23/21 4:29:38 PM :Info: Tuareg Ready
+2/23/21 4:29:38 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread40611.01577745212
+2/23/21 4:29:38 PM :Debug: Port not valid: Unable to open port: /dev/ttyACM0
+Please check your Communications Settings. 
+2/23/21 4:29:38 PM :Debug: Tuning View Files loaded in 126.12751ms.
+MSad: No check, last update check=Mon Feb 22 10:05:58 CET 2021
+2/23/21 4:29:56 PM :Debug: Received Instruction: , Page: 0
+2/23/21 4:29:58 PM :Debug: Received Instruction: , Page: 0
+2/23/21 4:30:00 PM :Debug: Received Instruction: , Page: 0
+2/23/21 4:30:02 PM :Debug: Received Instruction: , Page: 0
+2/23/21 4:30:03 PM :Info: dirtyData.size(): 0
+2/23/21 4:30:03 PM :Info: dirtyData.size(): 0
+2/23/21 4:30:03 PM :Debug: Flush lasted: 2ms.
+2/23/21 4:30:03 PM :Debug: Skip Burn, last write page: -2
+2/23/21 4:30:16 PM :Info: dirtyData.size(): 0
+2/23/21 4:30:16 PM :Info: dirtyData.size(): 0
+2/23/21 4:30:16 PM :Debug: Flush lasted: 2ms.
+2/23/21 4:30:16 PM :Debug: Skip Burn, last write page: -2
+2/23/21 4:32:03 PM :Info: Time to save msq: 52.329517
+2/23/21 4:32:03 PM :Info: closeApp Called
+2/23/21 4:32:03 PM :Debug: TuneLog Editor set text
+2/23/21 4:32:03 PM :Debug: Fill Constants: 1
+2/23/21 4:32:03 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-02-22_18.20.34.msq
+2/23/21 4:32:03 PM :Info: Time to save msq: 10.578021
+2/23/21 4:32:03 PM :Debug: goOffline Starting, Time:0
+2/23/21 4:32:03 PM :Info: Deactivated Turbo Baud, goOffline
+2/23/21 4:32:03 PM :Debug: goOffline about to stopProcessing, Time:1
+2/23/21 4:32:03 PM :Debug: goOffline closed port, Time:1
+2/23/21 4:32:04 PM :Info: Tuareg ComThread stopped COMM Thread40611.01577745212
+2/23/21 4:32:04 PM :Debug: goOffline comm thread stopped, Time:252
+2/23/21 4:32:04 PM :Debug: No Remaining Queue Write instructions
+2/23/21 4:32:04 PM :Debug: removing Configuration: Tuareg
+2/23/21 4:32:04 PM :Debug: ############################################# Save Project Backup ##########################################
+2/23/21 4:32:04 PM :Info: Finalizing Sensors
+Saved user properties successfully

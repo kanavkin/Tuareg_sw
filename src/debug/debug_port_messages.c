@@ -37,7 +37,21 @@ void DebugMsg_Warning(char messg[])
 }
 
 
+/**
+function to print debug messages supporting the developers work
 
+For a final release none of this messages are allowed!
+*/
+void DevMsg(char messg[])
+{
+    #warning Debug port message enabled
+
+    //header
+    print(DEBUG_PORT, "\r\n ");
+
+    //message
+    print(DEBUG_PORT, messg);
+}
 
 
 

@@ -203,22 +203,19 @@ void Tuareg_update_console()
 
     case 'M':
 
-        //service feature command takes 6 bytes of input data
-        if(UART_available() < 6)
+        if(UART_available() < 5)
         {
             return;
         }
 
         /**
-        byte format: <actor MSB, LSB> <on> <off> <end MSB, LSB>
+        byte format: <actor> <on> <off> <end MSB, LSB>
 
         variable allocation:
 
                 <offset> <on> <off> <value>
         */
         offset= UART_getRX();
-        offset <<= 8;
-        offset |= UART_getRX();
 
         on= UART_getRX();
         off= UART_getRX();
@@ -228,7 +225,7 @@ void Tuareg_update_console()
         value |= UART_getRX();
 
         //check if the received command is a "service mode request"
-        if( (offset == 0xFF00) && (on == 0) && (off == 0) && (value == 0x00FF) )
+        if( (offset == 0xFF) && (on == 0xFF) && (off == 0) && (value == 0x00FF) )
         {
             request_service_mode();
         }

@@ -219,6 +219,7 @@
 		<Unit filename="../../src/main/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../src/main/service_syslog_locations.h" />
 		<Unit filename="../../src/module_test/module_test.c">
 			<Option compilerVar="CC" />
 		</Unit>

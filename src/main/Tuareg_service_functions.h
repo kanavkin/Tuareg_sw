@@ -7,10 +7,10 @@
 #include "Tuareg_ignition.h"
 
 
-#define SERVICE_FUELPUMP_MAX_TIMEOUT 5000
+#define SERVICE_FUELPUMP_MAX_TIMEOUT_S 180
 
-#define SERVICE_ACTOR_MAX_ON 1000
-#define SERVICE_ACTOR_MAX_OFF 50000
+#define SERVICE_ACTOR_MAX_ON_MS 1000
+#define SERVICE_ACTOR_MAX_OFF_MS 50000
 #define SERVICE_ACTOR_MAX_CYCLES 5000
 
 
@@ -57,11 +57,20 @@ typedef struct _service_mgr_t {
 void init_service_functions();
 void service_functions_periodic_update();
 
-void activate_fuel_pump(U32 Timeout_ms);
+void activate_fuel_pump(U32 Timeout_s);
+void fuel_pump_periodic_update(U32 now);
+
 void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
+void injector1_periodic_update(U32 now);
+
 void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
+void injector2_periodic_update(U32 now);
+
 void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
+void coil1_periodic_update(U32 now);
+
 void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
+void coil2_periodic_update(U32 now);
 
 
 
