@@ -177,10 +177,10 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
 
                 //initialize systick timer to provide system timestamp
                 Tuareg.pTimer= init_systick_timer();
-                Syslog_init();
+                Tuareg.pSyslog= Syslog_init();
 
                 Eeprom_init();
-                //init_fuel_hw();
+
                 //init_dash_hw();
                 //init_act_hw();
 
@@ -241,7 +241,11 @@ void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode)
                 init_scheduler();
 
                 init_lowprio_scheduler();
+
+                init_fuel_hw();
                 init_fuel_logic();
+
+
                 init_dash_logic();
                 init_act_logic();
 

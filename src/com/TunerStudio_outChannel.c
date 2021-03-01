@@ -144,9 +144,9 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
 /**
 prepare OutputChannel "comm" field
 */
-BF8 ts_comm_bits()
+volatile BF8 ts_comm_bits()
 {
-    BF8 commbits =0;
+    volatile BF8 commbits =0;
 
     if(Tuareg_console.cli_permissions.burn_permission)
     {
@@ -168,6 +168,16 @@ BF8 ts_comm_bits()
         setBit_BF8(COMMBIT_DECMOD_PERMISSION, &commbits);
     }
 
+    if(Tuareg.pSyslog->syslog_new_entry)
+    {
+        setBit_BF8(COMMBIT_SYSLOG_UPDATE, &commbits);
+    }
+
+    if(Tuareg.pSyslog->datalog_new_entry)
+    {
+        setBit_BF8(COMMBIT_DATALOG_UPDATE, &commbits);
+    }
+
     return commbits;
 }
 
@@ -176,9 +186,9 @@ BF8 ts_comm_bits()
 prepare OutputChannel "tuareg" field
 
 */
-BF32 ts_tuareg_bits()
+volatile BF32 ts_tuareg_bits()
 {
-    BF32 tuaregbits =0;
+    volatile BF32 tuaregbits =0;
 
     //errors
     if(Tuareg.Errors.decoder_config_error)
@@ -310,7 +320,7 @@ prepare OutputChannel "ignition" field
 */
 VU16 ts_ignition_bits()
 {
-    BF32 ignitionbits =0;
+    volatile BF32 ignitionbits =0;
 
     if(Tuareg.ignition_controls.state.valid)
     {

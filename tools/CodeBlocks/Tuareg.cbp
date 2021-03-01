@@ -161,6 +161,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/diagnostics/diagnostics.h" />
+		<Unit filename="../../src/diagnostics/highspeed_loggers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/diagnostics/highspeed_loggers.h" />
 		<Unit filename="../../src/diagnostics/syslog.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -44,6 +44,16 @@ typedef struct __attribute__ ((__packed__)) _syslog_datagram_t {
 } syslog_datagram_t;
 
 
+
+typedef struct _syslog_mgr_flags_t {
+
+    U8 syslog_new_entry :1;
+    U8 datalog_new_entry :1;
+
+} syslog_mgr_flags_t;
+
+
+
 typedef struct _syslog_mgr_t {
 
     U32 Msg_E_ptr;
@@ -51,12 +61,13 @@ typedef struct _syslog_mgr_t {
 
     U32 D_ptr;
 
+    syslog_mgr_flags_t flags;
+
 } syslog_mgr_t;
 
 
+volatile syslog_mgr_flags_t * Syslog_init();
 
-
-void Syslog_init();
 void Syslog_Error(Tuareg_ID Src, U8 Location);
 void Syslog_Warning(Tuareg_ID Src, U8 Location);
 void Syslog_Info(Tuareg_ID Src, U8 Location);
@@ -64,5 +75,10 @@ void Syslog_Data(Tuareg_ID Src, U8 Location);
 
 void show_syslog(USART_TypeDef * Port);
 void show_datalog(USART_TypeDef * Port);
+
+void send_syslog(USART_TypeDef * Port);
+
+void clear_syslog();
+void clear_datalog();
 
 #endif // SYSLOG_H_INCLUDED

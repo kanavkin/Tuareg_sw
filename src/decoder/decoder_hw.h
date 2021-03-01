@@ -9,7 +9,7 @@ decoder timer prescaler
 WARNING:
 when changing, adjust CRANK_NOISE_FILTER accordingly!
 */
-#define DECODER_TIMER_PSC 1000UL
+#define DECODER_TIMER_PRESCALER 1000UL
 #define DECODER_TIMER_PERIOD_US 10
 #define DECODER_TIMER_OVERFLOW_MS 655
 
@@ -40,6 +40,10 @@ typedef struct {
 
 typedef struct {
 
+    VU32 timer_prescaler;
+    VU32 timer_period_us;
+    VU32 timer_overflow_ms;
+
     VU32 current_timer_value;
     VU32 prev1_timer_value;
     VU32 prev2_timer_value;
@@ -57,6 +61,7 @@ extern volatile decoder_hw_t Decoder_hw;
 
 void init_decoder_hw();
 void decoder_start_timer();
+void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms);
 void update_decoder_timer_compare();
 void decoder_stop_timer();
 void decoder_mask_crank_irq();

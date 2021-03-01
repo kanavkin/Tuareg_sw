@@ -16,6 +16,8 @@ typedef enum {
     //IGNITIONMAP_MAP,
     TSETUP_PAGE,
 
+    SYSLOG_PAGE,
+
     TSPAGE_COUNT
 
 } TS_page_t;

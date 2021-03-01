@@ -9,6 +9,8 @@ this module covers the ignition hardware layer
 
 #include "Tuareg.h"
 
+#include "highspeed_loggers.h"
+
 
 /******************************************************************************************************************************
 ignition actuator control - helper functions
@@ -23,6 +25,8 @@ void set_coil1_powered()
         gpio_set_pin(GPIOC, 6, PIN_ON);
 
         Tuareg.actors.ignition_coil_1= true;
+
+        highspeedlog_register_coil1_power();
     }
 }
 
@@ -32,6 +36,8 @@ void set_coil1_unpowered()
     gpio_set_pin(GPIOC, 6, PIN_OFF);
 
     Tuareg.actors.ignition_coil_1= false;
+
+    highspeedlog_register_coil1_unpower();
 }
 
 void set_coil2_powered()
@@ -42,6 +48,8 @@ void set_coil2_powered()
         gpio_set_pin(GPIOC, 7, PIN_ON);
 
         Tuareg.actors.ignition_coil_2= true;
+
+        highspeedlog_register_coil2_power();
     }
 }
 
@@ -51,6 +59,8 @@ void set_coil2_unpowered()
     gpio_set_pin(GPIOC, 7, PIN_OFF);
 
     Tuareg.actors.ignition_coil_2= false;
+
+    highspeedlog_register_coil2_unpower();
 }
 
 

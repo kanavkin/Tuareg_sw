@@ -10,10 +10,13 @@
 #include "decoder_config.h"
 
 #include "base_calc.h"
+
 #include "uart.h"
 #include "uart_printf.h"
+#include "debug_port_messages.h"
 
 #include "diagnostics.h"
+#include "highspeed_loggers.h"
 
 
 volatile Tuareg_decoder_t Decoder;
@@ -24,6 +27,7 @@ how the decoder works:
 -   add description!!!
 */
 
+
 /******************************************************************************************************************************
 decoder helper functions - debug actions
 ******************************************************************************************************************************/
@@ -32,7 +36,7 @@ void decoder_process_debug_events()
 {
     if(Decoder.debug.all_flags > 0)
     {
-        print(DEBUG_PORT, "\r\nINFO Decoder Debug Events occurred (sync_lost got_sync timer_overflow timeout): ");
+        DebugMsg_Warning("Decoder Debug Events (sync_lost got_sync timer_overflow timeout): ");
         UART_Tx(DEBUG_PORT, (Decoder.debug.lost_sync? '1' :'0'));
         UART_Tx(DEBUG_PORT, '-');
         UART_Tx(DEBUG_PORT, (Decoder.debug.got_sync? '1' :'0'));
@@ -73,6 +77,52 @@ void decoder_process_debug_events()
     Decoder.debug.timeout= true;
 }
 
+
+
+/******************************************************************************************************************************
+decoder helper functions - cycle timing
+******************************************************************************************************************************/
+
+VU32 decoder_get_time_since_TDC_us()
+{
+    VU32 now_ts, interval_us;
+
+    now_ts= decoder_get_timestamp();
+
+    //precondition check
+    if(Decoder_hw.state.timer_continuous_mode == false)
+    {
+        return 0;
+    }
+
+    interval_us= Decoder_hw.timer_period_us * now_ts;
+
+    return interval_us;
+}
+
+
+VU32 decoder_get_position_data_age_us()
+{
+    VU32 now_ts, update_ts, interval_us;
+
+    now_ts= decoder_get_timestamp();
+    update_ts= Decoder_hw.current_timer_value;
+
+    //check counting mode
+    if(Decoder_hw.state.timer_continuous_mode == true)
+    {
+        //timer continuously counting since last position update
+        interval_us= Decoder_hw.timer_period_us * subtract_VU32(now_ts, update_ts);
+    }
+    else
+    {
+        //timer has been reset on last position update
+        interval_us= Decoder_hw.timer_period_us * now_ts;
+    }
+
+    return interval_us;
+
+}
 
 
 /******************************************************************************************************************************
@@ -163,7 +213,7 @@ decoder helper functions - timing data calculation
     }
 
     //the timer value after an reset in continuous mode reflects T360
-    period_us= Decoder_hw.current_timer_value * DECODER_TIMER_PERIOD_US;
+    period_us= Decoder_hw.current_timer_value * Decoder_hw.timer_period_us;
 
     if(period_us < 6000)
     {
@@ -294,7 +344,7 @@ volatile Tuareg_decoder_t * init_decoder_logic()
     reset_timeout_counter();
 
     //calculate the decoder timeout threshold corresponding to the configured timeout value
-    Decoder.decoder_timeout_thrs= ((1000UL * Decoder_Setup.timeout_s) / DECODER_TIMER_OVERFLOW_MS) +1;
+    Decoder.decoder_timeout_thrs= ((1000UL * Decoder_Setup.timeout_s) / Decoder_hw.timer_overflow_ms) +1;
 
     /**
     we are now ready to process decoder events
@@ -451,6 +501,9 @@ void decoder_crank_handler()
 
                         //prepare for the next trigger condition
                         decoder_set_state(DSTATE_INIT);
+
+                        //notify high speed logger about error condition
+                        highspeedlog_register_error();
                     }
 
                     break;
@@ -514,6 +567,9 @@ void decoder_crank_handler()
         */
         if(Decoder.state == DSTATE_SYNC)
         {
+            //notify high speed logger about new crank position
+            highspeedlog_register_crankpos(Decoder.crank_position, Decoder_hw.current_timer_value);
+
             trigger_decoder_irq();
         }
 
@@ -616,7 +672,7 @@ cylinder identification sensor
 
     if( (Decoder.cis.lobe_begin_detected == true) && (Decoder.cis.lobe_end_detected == true))
     {
-        lobe_interval_us= DECODER_TIMER_PERIOD_US * subtract_VU32(Decoder.lobe_end_timestamp, Decoder.lobe_begin_timestamp);
+        lobe_interval_us= Decoder_hw.timer_period_us * subtract_VU32(Decoder.lobe_end_timestamp, Decoder.lobe_begin_timestamp);
 
         lobe_angle_deg= calc_rot_angle_deg(lobe_interval_us, Decoder.crank_period_us);
 
@@ -702,6 +758,9 @@ cylinder identification sensor
         //invert cam sensing
         decoder_set_cis_sensing(Decoder_Setup.lobe_end_sensing);
 
+        //notify high speed log
+        highspeedlog_register_cis_lobe_begin();
+
     }
     else if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_end_sensing)
     {
@@ -710,6 +769,9 @@ cylinder identification sensor
 
         //invert cam sensing
         decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
+
+        //notify high speed log
+        highspeedlog_register_cis_lobe_end();
     }
 
 

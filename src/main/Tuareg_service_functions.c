@@ -46,6 +46,12 @@
 
 #define SERVICE_VERBOSE_OUTPUT
 
+#define SERVICE_DEBUG_OUTPUT
+
+#ifdef SERVICE_DEBUG_OUTPUT
+#warning debug outputs enabled
+#endif // SERVICE_DEBUG_OUTPUT
+
 
 service_mgr_t Service_mgr;
 
@@ -53,11 +59,111 @@ service_mgr_t Service_mgr;
 
 /**********************************************************************************************************************
 These service functions assume a linear system time with 1 ms increment and cyclic updates at 1 ms!
+
+API functions
+
 **********************************************************************************************************************/
+
+void request_service_mode()
+{
+    ///DEBUG lowered service mode entry
+    //enter service only if the engine has been halted and the crank has stopped spinning
+    if((Tuareg.Runmode != TMODE_HALT) || (Tuareg.pDecoder->outputs.timeout == false))
+    {
+      //  return;
+      #ifdef SERVICE_DEBUG_OUTPUT
+      DebugMsg_Warning("service mode activation permitted only due to developer version!");
+      #endif // SERVICE_DEBUG_OUTPUT
+    }
+
+    Tuareg_set_Runmode(TMODE_SERVICE);
+}
+
+
+void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
+{
+    //precondition check
+    if(Tuareg.Runmode != TMODE_SERVICE)
+    {
+        return;
+    }
+
+    //check if deactivation command received
+    if((On == 0) || (Off == 0) || (End == 0))
+    {
+        switch (Actor)
+        {
+
+            case SACT_FUEL_PUMP:
+
+                deactivate_fuel_pump();
+                break;
+
+            case SACT_COIL_1:
+
+                deactivate_coil1();
+                break;
+
+            case SACT_COIL_2:
+
+                deactivate_coil2();
+                break;
+
+            case SACT_INJECTOR_1:
+
+                deactivate_injector1();
+                break;
+
+            case SACT_INJECTOR_2:
+
+                deactivate_injector2();
+                break;
+
+
+        default:
+          break;
+      }
+    }
+    else
+    {
+        switch (Actor)
+        {
+
+            case SACT_FUEL_PUMP:
+
+                activate_fuel_pump(End);
+                break;
+
+            case SACT_COIL_1:
+
+                activate_coil1(On, Off, End);
+                break;
+
+            case SACT_COIL_2:
+
+                activate_coil2(On, Off, End);
+                break;
+
+            case SACT_INJECTOR_1:
+
+                activate_injector1(On, Off, End);
+                break;
+
+            case SACT_INJECTOR_2:
+
+                activate_injector2(On, Off, End);
+                break;
+
+
+            default:
+                break;
+        }
+    }
+}
 
 void service_functions_periodic_update()
 {
-    timestamp_t now;
+    volatile timestamp_t now;
 
     now= Tuareg.pTimer->system_time;
 
@@ -78,12 +184,15 @@ void service_functions_periodic_update()
 void init_service_functions()
 {
 
+    #ifdef SERVICE_DEBUG_OUTPUT
+    Syslog_Warning(TID_SERVICE, SERVICE_LOC_DEBUGOUTPUT_ENABLED);
+    #endif // SERVICE_DEBUG_OUTPUT
 
 }
 
 
 /**********************************************************************************************************************
-fuel pump
+helper functions - fuel pump
 **********************************************************************************************************************/
 
 void activate_fuel_pump(U32 Timeout_s)
@@ -92,14 +201,11 @@ void activate_fuel_pump(U32 Timeout_s)
     if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_PERMISSION);
-        DebugMsg_Warning("fuel pump service activation not permitted!");
-        return;
-    }
 
-    if(Timeout_s == 0)
-    {
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_END_LOW);
-        DebugMsg_Warning("fuel pump service activation parameter invalid");
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("fuel pump service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
         return;
     }
 
@@ -108,7 +214,10 @@ void activate_fuel_pump(U32 Timeout_s)
         Timeout_s= SERVICE_FUELPUMP_MAX_TIMEOUT_S;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_END_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("fuel pump service activation interval clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
     //store deactivation timestamp
@@ -126,11 +235,8 @@ void activate_fuel_pump(U32 Timeout_s)
 }
 
 
-void fuel_pump_periodic_update(U32 now)
+void deactivate_fuel_pump()
 {
-    //check fuel pump timeout
-    if((Service_mgr.flags.fuel_pump_control == true) && (now >= Service_mgr.fuel_pump_timeout))
-    {
         Service_mgr.flags.fuel_pump_control= false;
         Service_mgr.fuel_pump_timeout= 0;
 
@@ -138,8 +244,17 @@ void fuel_pump_periodic_update(U32 now)
         set_fuel_pump_unpowered();
 
         #ifdef SERVICE_VERBOSE_OUTPUT
-        Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_END);
+        Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_FUEL_PUMP);
         #endif // SERVICE_VERBOSE_OUTPUT
+}
+
+
+void fuel_pump_periodic_update(VU32 now)
+{
+    //check fuel pump timeout
+    if((Service_mgr.flags.fuel_pump_control == true) && (now >= Service_mgr.fuel_pump_timeout))
+    {
+       deactivate_fuel_pump();
     }
 }
 
@@ -149,50 +264,57 @@ void fuel_pump_periodic_update(U32 now)
 injector 1
 **********************************************************************************************************************/
 
-void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
+void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
     if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_PERMISSION);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("injector 1 service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
         return;
     }
 
-    if((Cycles == 0) || (On_time_ms == 0) || (Off_time_ms == 0))
-    {
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_PARAMETER_INVALID);
-        DebugMsg_Warning("injector 1 service activation parameters invalid");
-        return;
-    }
 
     if(On_time_ms > SERVICE_ACTOR_MAX_ON_MS)
     {
         On_time_ms= SERVICE_ACTOR_MAX_ON_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_ON_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("injector 1 service activation on time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_OFF_MS)
+    if(Off_time_ms > SERVICE_ACTOR_MAX_OFF_MS)
     {
         Off_time_ms= SERVICE_ACTOR_MAX_OFF_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_OFF_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("injector 1 service activation off time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_CYCLES)
+    if(On_target_s > SERVICE_INJECTOR_MAX_ONTIME)
     {
-        Cycles= SERVICE_ACTOR_MAX_CYCLES;
+        On_target_s= SERVICE_INJECTOR_MAX_ONTIME;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_END_CLIP);
-        DebugMsg_Warning("injector 1 service activation cycles clipped!");
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("injector 1 service activation on target clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
     Service_mgr.injector1_on_ms= On_time_ms;
     Service_mgr.injector1_off_ms= Off_time_ms;
-    Service_mgr.injector1_cycle_count= Cycles;
+    Service_mgr.injector1_on_remain_ms= 1000 * On_target_s;
 
     //store toggle timestamp
     Service_mgr.injector1_toggle= Tuareg.pTimer->system_time + On_time_ms;
@@ -209,7 +331,19 @@ void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
 }
 
 
-void injector1_periodic_update(U32 now)
+void deactivate_injector1()
+{
+    set_injector1_unpowered();
+    Service_mgr.injector1_on_remain_ms= 0;
+    Service_mgr.flags.injector1_control= false;
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_INJECTOR1);
+    #endif // SERVICE_VERBOSE_OUTPUT
+}
+
+
+void injector1_periodic_update(VU32 now)
 {
     //update injector 1
     if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_toggle))
@@ -217,21 +351,15 @@ void injector1_periodic_update(U32 now)
         //check if the actor has been powered
         if(Tuareg.actors.fuel_injector_1 == true)
         {
-
             set_injector1_unpowered();
 
-            //actor has been on -> cycle completed!
-            sub_VU32(&(Service_mgr.injector1_cycle_count), 1);
+            //actor has been on -> less remaining on time
+            sub_VU32(&(Service_mgr.injector1_on_remain_ms), Service_mgr.injector1_on_ms);
 
-            //check if the commanded amount of cycles have been executed
-            if(Service_mgr.injector1_cycle_count == 0)
+            //check if the commanded on time has been reached
+            if(Service_mgr.injector1_on_remain_ms == 0)
             {
-                //reset controls
-                Service_mgr.flags.injector1_control= false;
-
-                #ifdef SERVICE_VERBOSE_OUTPUT
-                Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_END);
-                #endif // SERVICE_VERBOSE_OUTPUT
+                deactivate_injector1();
             }
             else
             {
@@ -259,20 +387,17 @@ void injector1_periodic_update(U32 now)
 injector 2
 **********************************************************************************************************************/
 
-void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
+void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
     if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
-        DebugMsg_Warning("injector 2 service activation not permitted!");
-        return;
-    }
 
-    if((Cycles == 0) || (On_time_ms == 0) || (Off_time_ms == 0))
-    {
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
-        DebugMsg_Warning("injector 2 service activation parameters invalid");
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("injector 2 service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
         return;
     }
 
@@ -281,28 +406,37 @@ void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
         On_time_ms= SERVICE_ACTOR_MAX_ON_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("injector 2 service activation on time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_OFF_MS)
+    if(Off_time_ms > SERVICE_ACTOR_MAX_OFF_MS)
     {
         Off_time_ms= SERVICE_ACTOR_MAX_OFF_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("injector 2 service activation off time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_CYCLES)
+    if(On_target_s > SERVICE_INJECTOR_MAX_ONTIME)
     {
-        Cycles= SERVICE_ACTOR_MAX_CYCLES;
+        On_target_s= SERVICE_INJECTOR_MAX_ONTIME;
 
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
-        DebugMsg_Warning("injector 2 service activation cycles clipped!");
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_END_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("injector 2 service activation on target clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
     Service_mgr.injector2_on_ms= On_time_ms;
     Service_mgr.injector2_off_ms= Off_time_ms;
-    Service_mgr.injector2_cycle_count= Cycles;
+    Service_mgr.injector2_on_remain_ms= 1000 * On_target_s;
 
     //store toggle timestamp
     Service_mgr.injector2_toggle= Tuareg.pTimer->system_time + On_time_ms;
@@ -319,7 +453,19 @@ void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
 }
 
 
-void injector2_periodic_update(U32 now)
+void deactivate_injector2()
+{
+    set_injector2_unpowered();
+    Service_mgr.injector2_on_remain_ms= 0;
+    Service_mgr.flags.injector2_control= false;
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_INJECTOR2);
+    #endif // SERVICE_VERBOSE_OUTPUT
+}
+
+
+void injector2_periodic_update(VU32 now)
 {
     if((Service_mgr.flags.injector2_control == true) && (now >= Service_mgr.injector2_toggle))
     {
@@ -328,18 +474,13 @@ void injector2_periodic_update(U32 now)
         {
             set_injector2_unpowered();
 
-            //actor has been on -> cycle completed!
-            sub_VU32(&(Service_mgr.injector2_cycle_count), 1);
+            //actor has been on -> less remaining on time
+            sub_VU32(&(Service_mgr.injector2_on_remain_ms), Service_mgr.injector2_on_ms);
 
-            //check if the commanded amount of cycles have been executed
-            if(Service_mgr.injector2_cycle_count == 0)
+            //check if the commanded on time has been reached
+            if(Service_mgr.injector2_on_remain_ms == 0)
             {
-                //reset controls
-                Service_mgr.flags.injector2_control= false;
-
-                #ifdef SERVICE_VERBOSE_OUTPUT
-                Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_END);
-                #endif // SERVICE_VERBOSE_OUTPUT
+                deactivate_injector2();
             }
             else
             {
@@ -360,24 +501,23 @@ void injector2_periodic_update(U32 now)
     }
 }
 
+
+
 /**********************************************************************************************************************
 coil 1
 **********************************************************************************************************************/
 
-void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
+void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
     if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_PERMISSION);
-        DebugMsg_Warning("coil 1 service activation not permitted!");
-        return;
-    }
 
-    if((Cycles == 0) || (On_time_ms == 0) || (Off_time_ms == 0))
-    {
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_PERMISSION);
-        DebugMsg_Warning("coil 1 service activation parameters invalid");
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("coil 1 service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
         return;
     }
 
@@ -386,28 +526,37 @@ void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
         On_time_ms= SERVICE_ACTOR_MAX_ON_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_ON_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("coil 1 service activation on time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_OFF_MS)
+    if(Off_time_ms > SERVICE_ACTOR_MAX_OFF_MS)
     {
         Off_time_ms= SERVICE_ACTOR_MAX_OFF_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_OFF_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("coil 1 service activation off time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_CYCLES)
+    if(On_target_s > SERVICE_COIL_MAX_ONTIME)
     {
-        Cycles= SERVICE_ACTOR_MAX_CYCLES;
+        On_target_s= SERVICE_COIL_MAX_ONTIME;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_END_CLIP);
-        DebugMsg_Warning("coil 1 service activation cycles clipped!");
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("coil 1 service activation on target clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
     Service_mgr.coil1_on_ms= On_time_ms;
     Service_mgr.coil1_off_ms= Off_time_ms;
-    Service_mgr.coil1_cycle_count= Cycles;
+    Service_mgr.coil1_on_remain_ms= 1000 * On_target_s;
 
     //store toggle timestamp
     Service_mgr.coil1_toggle= Tuareg.pTimer->system_time + On_time_ms;
@@ -424,7 +573,19 @@ void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
 }
 
 
-void coil1_periodic_update(U32 now)
+void deactivate_coil1()
+{
+    set_coil1_unpowered();
+    Service_mgr.coil1_on_remain_ms= 0;
+    Service_mgr.flags.coil1_control= false;
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_COIL1);
+    #endif // SERVICE_VERBOSE_OUTPUT
+}
+
+
+void coil1_periodic_update(VU32 now)
 {
     if((Service_mgr.flags.coil1_control == true) && (now >= Service_mgr.coil1_toggle))
     {
@@ -433,18 +594,13 @@ void coil1_periodic_update(U32 now)
         {
             set_coil1_unpowered();
 
-            //actor has been on -> cycle completed!
-            sub_VU32(&(Service_mgr.coil1_cycle_count), 1);
+            //actor has been on -> less remaining on time
+            sub_VU32(&(Service_mgr.coil1_on_remain_ms), Service_mgr.coil1_on_ms);
 
-            //check if the commanded amount of cycles have been executed
-            if(Service_mgr.coil1_cycle_count == 0)
+            //check if the commanded on time has been reached
+            if(Service_mgr.coil1_on_remain_ms == 0)
             {
-                //reset controls
-                Service_mgr.flags.coil1_control= false;
-
-                #ifdef SERVICE_VERBOSE_OUTPUT
-                Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_END);
-                #endif // SERVICE_VERBOSE_OUTPUT
+                deactivate_coil1();
             }
             else
             {
@@ -470,20 +626,17 @@ void coil1_periodic_update(U32 now)
 coil 2
 **********************************************************************************************************************/
 
-void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
+void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
     if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_PERMISSION);
-        DebugMsg_Warning("coil 2 service activation not permitted!");
-        return;
-    }
 
-    if((Cycles == 0) || (On_time_ms == 0) || (Off_time_ms == 0))
-    {
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_PARAMETER_INVALID);
-        DebugMsg_Warning("coil 2 service activation parameters invalid");
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("coil 2 service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
         return;
     }
 
@@ -492,28 +645,37 @@ void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
         On_time_ms= SERVICE_ACTOR_MAX_ON_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_ON_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("coil 2 service activation on time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_OFF_MS)
+    if(Off_time_ms > SERVICE_ACTOR_MAX_OFF_MS)
     {
         Off_time_ms= SERVICE_ACTOR_MAX_OFF_MS;
 
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_OFF_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
         DebugMsg_Warning("coil 2 service activation off time clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
-    if(Cycles > SERVICE_ACTOR_MAX_CYCLES)
+    if(On_target_s > SERVICE_COIL_MAX_ONTIME)
     {
-        Cycles= SERVICE_ACTOR_MAX_CYCLES;
+        On_target_s= SERVICE_COIL_MAX_ONTIME;
 
-        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_END_CLIP);
-        DebugMsg_Warning("coil 2 service activation cycles clipped!");
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_END_CLIP);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("coil 2 service activation on target clipped!");
+        #endif // SERVICE_DEBUG_OUTPUT
     }
 
     Service_mgr.coil2_on_ms= On_time_ms;
     Service_mgr.coil2_off_ms= Off_time_ms;
-    Service_mgr.coil2_cycle_count= Cycles;
+    Service_mgr.coil2_on_remain_ms= 1000 * On_target_s;
 
     //store toggle timestamp
     Service_mgr.coil2_toggle= Tuareg.pTimer->system_time + On_time_ms;
@@ -530,7 +692,19 @@ void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles)
 }
 
 
-void coil2_periodic_update(U32 now)
+void deactivate_coil2()
+{
+    set_coil2_unpowered();
+    Service_mgr.coil2_on_remain_ms= 0;
+    Service_mgr.flags.coil2_control= false;
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_COIL2);
+    #endif // SERVICE_VERBOSE_OUTPUT
+}
+
+
+void coil2_periodic_update(VU32 now)
 {
     if((Service_mgr.flags.coil2_control == true) && (now >= Service_mgr.coil2_toggle))
     {
@@ -539,18 +713,13 @@ void coil2_periodic_update(U32 now)
         {
             set_coil2_unpowered();
 
-            //actor has been on -> cycle completed!
-            sub_VU32(&(Service_mgr.coil2_cycle_count), 1);
+            //actor has been on -> less remaining on time
+            sub_VU32(&(Service_mgr.coil2_on_remain_ms), Service_mgr.coil2_on_ms);
 
-            //check if the commanded amount of cycles have been executed
-            if(Service_mgr.coil2_cycle_count == 0)
+            //check if the commanded on time has been reached
+            if(Service_mgr.coil2_on_remain_ms == 0)
             {
-                //reset controls
-                Service_mgr.flags.coil2_control= false;
-
-                #ifdef SERVICE_VERBOSE_OUTPUT
-                Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_END);
-                #endif // SERVICE_VERBOSE_OUTPUT
+                deactivate_coil2();
             }
             else
             {

@@ -12,6 +12,8 @@ fi
 #stty -F /dev/ttyUSB0 115200 raw 
 
 # M  0xFF 0xFF 0x00 0x00FF
-printf '\x4D\xFF\xFF\x00\x00\xFF' > $DEV
+printf '\x4D\x02\x02\x06\x1D\x4C' > $DEV
+
+
 
 

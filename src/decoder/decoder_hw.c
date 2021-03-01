@@ -44,7 +44,8 @@ void decoder_start_timer()
     TIM9->CNT= (U16) 0;
 
     //set prescaler
-    TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
+    //TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
+    decoder_set_timer_prescaler(DECODER_TIMER_PRESCALER, DECODER_TIMER_PERIOD_US, DECODER_TIMER_OVERFLOW_MS);
 
     //enable output compare for exti
     TIM9->CCR1= (U16) Decoder_Setup.crank_noise_filter;
@@ -60,6 +61,18 @@ void decoder_start_timer()
 
     //start timer counter
     TIM9->CR1 |= TIM_CR1_CEN;
+}
+
+
+void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms)
+{
+    TIM9->PSC= (U16) (Prescaler -1);
+
+    //store prescaler value with respect to 16 Bit hw register
+    Decoder_hw.timer_prescaler= Prescaler & 0xFFFF;
+
+    Decoder_hw.timer_period_us= Period_us;
+    Decoder_hw.timer_overflow_ms= Overflow_ms;
 }
 
 

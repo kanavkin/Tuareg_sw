@@ -1,0 +1,217 @@
+
+************************************* Menu top level - CAN-bus/ Testmodes **************************************************************************
+
+
+
+ menu = "CAN-bus/ Testmodes"
+         subMenu = canparams, "CAN Parameters"
+         subMenu = canbroadcast, "CAN Broadcasting",0, {can_enable_on}
+         subMenu = canbcast_userdef, "CAN Broadcast Testing", 0, {can_enable_on && can_bcast1_on && can_bcast2_xxx}
+         subMenu = can_outpc_bcast,"CAN Realtime Data Broadcasting", 0, {can_enable_on}
+         subMenu = can_outpc_bcast_2,"CAN Realtime Data Broadcasting 2", 0, {can_enable_on && can_outpc_gp00_master}
+         subMenu = can_outpc_bcast_3,"CAN Realtime Data Broadcasting 3", 0, {can_enable_on && can_outpc_gp00_master}
+         subMenu = can_outpc_bcast_4,"CAN Realtime Data Broadcasting 4", 0, {can_enable_on && can_outpc_gp00_master}
+         subMenu = can_rcv, "CAN Receiving", 0, {can_enable_on}
+         subMenu = canvss, "CAN VSS, Gear",0, {can_enable_on}
+         subMenu = canego, "CAN EGO, GPS",0, {can_enable_on}
+         subMenu = realtimeclock, "Real Time Clock"
+         subMenu = iobox, "IO-Box Settings"
+         subMenu = dashbcast, "Dash Broadcasting"
+         subMenu = std_separator    ;----------------------------------------------
+         subMenu = checkengine, "Check Engine Light"
+         subMenu = limpmode, "Limp Mode", 0, {cel_opt_on}
+         subMenu = alphaMAPTbl, "Fallback MAP Table", 0, {cel_opt_on && cel_opt2_map && cel_action1_map && cel_action1_map_an}
+         subMenu = std_separator    ;----------------------------------------------
+         subMenu = outputtest, "Output Test Mode - Inj/Spk"
+
+         subMenu = outputtest_io_1, "Output Test Mode - I/O"
+
+         subMenu = outputtest_io_2, "Output Test Mode - I/O 2"
+         subMenu = outputtest_io_3, "Output Test Mode - I/O 3"
+         subMenu = outputtest_io_4, "Output Test Mode - CAN I/O"
+         subMenu = iactest, "Output Test Mode - Idle Valve ", 0, {IdleCtl && (etc_opt_on == 0)}
+         subMenu = injseqtest, "Injector Sequential Testing"
+         subMenu = injspkonoff, "Inj/Spk Disabling Test Mode"
+         subMenu = std_separator    ;----------------------------------------------
+         subMenu = engine_control, "Engine Control"
+         subMenu = special, "Special Options"
+         subMenu = std_separator
+        subMenu = lttrim, "Long Term Trim Settings"        
+        subMenu = ltt_Table1Tbl,     "Long Term Trim Table &1", 0
+         subMenu = std_separator
+        subMenu = etc, "Throttle control (DBW)"
+        subMenu = etctest, "Throttle Test Mode", 0, {etc_opt_on}
+#if OUTMSG_EDITING
+         subMenu = std_separator 
+         subMenu = outmsg1,   "Outmsg 1"
+         subMenu = outmsg2,   "Outmsg 2"
+         subMenu = outmsg3,   "Outmsg 3"
+         subMenu = outmsg4,   "Outmsg 4"
+#endif
+
+
+
+
+************************************* Main dialog level - outputtest_io_1 **************************************************************************
+
+
+
+dialog = outputtest_io_1, "", yAxis
+	topicHelp = "file://$getProjectsDirPath()/docs/Megasquirt3_TunerStudio_MS_Lite_Reference-1.5.pdf#testio"
+	panel = outputTestbuttons1
+        panel = outputtest_io_pwm
+        panel = outputtest_io1
+        panel = outputtest_io2
+        panel = outputtest_io_warning
+
+
+
+************************************* outputTestbuttons1 *************************************************************************************
+
+
+
+	dialog = outputTestbuttons1, "Test Mode Controls", yAxis
+		panel = outputTestbuttons1a
+		panel = outputTestbuttons1b
+
+
+		dialog = outputTestbuttons1a, "", xAxis
+			;commandButton = "Label Text", command, { Enabled Condition }, optionalFlags
+			; The rem > 0 expression is just for testing.. It works when the MS is on the Stim with rpm.
+			; a status bit there would be the expected real expression
+			commandButton = "Enable Test Mode", cmdEnterTestMode, { (!(status3 & 8)) && (rpm == 0)}
+
+			; if clickOnCloseIfEnabled is set, then the command assigned to this button will be run on the 
+			; dialog close, but only if the enable condition is true
+			; valid click flags are:
+			; clickOnCloseIfEnabled - the command will be sent on dialog close if active condition is true
+			; clickOnCloseIfDisabled - the command will be sent on dialog close if active condition is false
+			; clickOnClose - the command will be sent on dialog close always
+			commandButton = "Disable Test Mode", cmdStopTestmode, { status3 & 8 }, clickOnCloseIfEnabled
+
+
+		dialog = outputTestbuttons1b, ""
+			field = "Ensure engine is stationary or stim RPM is 0 before testing injectors or coils"
+
+
+
+************************************* outputtest_io_pwm *************************************************************************************
+
+
+
+	dialog = outputtest_io_pwm, "Pulse Settings", xAxis
+            	field = "Pulse Frequency", pwm_testio
+            	field = "Pulse Duty Cycle", duty_testio
+
+
+
+************************************* outputtest_io1 *************************************************************************************
+
+
+
+	dialog = outputtest_io1, "Outputs", xAxis
+		panel = outputtest9
+            	panel = outputtest16
+            	panel = outputtest10
+            	panel = outputtest11
+            	panel = outputtest12
+            	panel = outputtest13
+           	panel = outputtest14
+            	panel = outputtest15
+
+
+		dialog = outputtest9, "Fuel Pump", yAxis
+			commandButton = "Off", cmdtest17off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest17pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest17on, { status3 & 8 }
+
+		dialog = outputtest16, "PWM Out 2", yAxis
+			commandButton = "Off", cmdtest16off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest16pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest16on, { status3 & 8 }
+
+		dialog = outputtest10, "High Curr 3", yAxis
+			commandButton = "Off", cmdtest10off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest10pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest10on, { status3 & 8 }
+
+		  dialog = outputtest11, "High Curr 1", yAxis
+			commandButton = "Off", cmdtest11off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest11pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest11on, { status3 & 8 }
+
+		  dialog = outputtest12, "High Curr 2", yAxis
+			commandButton = "Off", cmdtest12off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest12pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest12on, { status3 & 8 }
+
+		  dialog = outputtest13, "PWM Out 3", yAxis
+			commandButton = "Off", cmdtest13off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest13pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest13on, { status3 & 8 }
+
+		  dialog = outputtest14, "PWM/Idle 1", yAxis
+			commandButton = "Off", cmdtest14off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest14pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest14on, { status3 & 8 }
+
+		  dialog = outputtest15, "Tach Out", yAxis
+			commandButton = "Off", cmdtest15off, { status3 & 8 }
+			commandButton = "Pulsed", cmdtest15pulsed, { status3 & 8 }
+			commandButton = "On", cmdtest15on, { status3 & 8 }
+
+
+
+
+************************************* outputtest_io2 *************************************************************************************
+
+
+
+	dialog = outputtest_io2, "Outputs", xAxis
+		panel = outputteste0
+	    	panel = outputteste4
+	   	panel = outputteste8
+	    	panel = outputtestec
+
+
+		dialog = outputteste0, "IAC1", yAxis
+		    	commandButton = "Off", cmdteste0off, { status3 & 8 }
+		    	commandButton = "Pulsed", cmdteste0pulsed, { status3 & 8 }
+		    	commandButton = "On", cmdteste0on, { status3 & 8 }
+
+		dialog = outputteste4, "IAC2", yAxis
+		    	commandButton = "Off", cmdteste4off, { status3 & 8 }
+		    	commandButton = "Pulsed", cmdteste4pulsed, { status3 & 8 }
+		    	commandButton = "On", cmdteste4on, { status3 & 8 }
+
+		dialog = outputteste8, "InjI", yAxis
+		    	commandButton = "Off", cmdteste8off, { status3 & 8 }
+		    	commandButton = "Pulsed", cmdteste8pulsed, { status3 & 8 }
+		    	commandButton = "On", cmdteste8on, { status3 & 8 }
+
+		dialog = outputtestec, "InjJ", yAxis
+		    	commandButton = "Off", cmdtestecoff, { status3 & 8 }
+		    	commandButton = "Pulsed", cmdtestecpulsed, { status3 & 8 }
+		    	commandButton = "On", cmdtestecon, { status3 & 8 }
+
+
+
+************************************* outputtest_io_warning *************************************************************************************
+
+
+
+	dialog = outputtest_io_warning, ""
+		field = "Caution! Used incorrectly this can cause hardware damage. USE AT YOUR OWN RISK."
+	    	field = "The pin/port will be forced into an output overriding any other configuration."
+		field = "The Inj/Spk outputs must be used with additional caution to avoid flooding your engine or melting coils."
+		field = "After testing, turn off/on the ECU to restore normal settings."
+
+
+**********************************************************************************************************************************************************************************************************************************
+
+
+
+page = 2
+      pwm_testio   = bits, U08, 0, [0:2], "INVALID", "78Hz", "39Hz", "26Hz", "19.5Hz", "15.6Hz", "13Hz", "11.1Hz"
+      duty_testio  = scalar,   U08,    1,   "%", 1, 0, 0, 100, 1
+

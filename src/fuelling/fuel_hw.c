@@ -7,7 +7,9 @@ this module covers the ignition hardware layer control
 #include "Tuareg_types.h"
 
 #include "Tuareg.h"
-//#include "fuel_hw.h"
+#include "fuel_hw.h"
+#include "highspeed_loggers.h"
+
 
 /******************************************************************************************************************************
 injector hardware control
@@ -20,6 +22,8 @@ injector hardware control
         gpio_set_pin(GPIOC, 8, PIN_ON);
 
         Tuareg.actors.fuel_injector_1 = true;
+
+        highspeedlog_register_injector1_power();
     }
 }
 
@@ -29,6 +33,8 @@ injector hardware control
     gpio_set_pin(GPIOC, 8, PIN_OFF);
 
     Tuareg.actors.fuel_injector_1= false;
+
+    highspeedlog_register_injector1_unpower();
 }
 
  void set_injector2_powered()
@@ -39,6 +45,8 @@ injector hardware control
         gpio_set_pin(GPIOC, 9, PIN_ON);
 
         Tuareg.actors.fuel_injector_2= true;
+
+        highspeedlog_register_injector2_power();
     }
 }
 
@@ -48,6 +56,8 @@ injector hardware control
     gpio_set_pin(GPIOC, 9, PIN_OFF);
 
     Tuareg.actors.fuel_injector_2= false;
+
+    highspeedlog_register_injector2_unpower();
 }
 
 /******************************************************************************************************************************

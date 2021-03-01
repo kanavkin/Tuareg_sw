@@ -20,6 +20,7 @@
 
 #include "systick_timer.h"
 
+#include "syslog.h"
 
 #define TUAREG_REQUIRED_CONFIG_VERSION 3
 
@@ -175,6 +176,9 @@ typedef struct _Tuareg_t {
 
     //decoder watchdog
     VU32 decoder_watchdog_ms;
+
+    //syslog
+    volatile syslog_mgr_flags_t * pSyslog;
 
 } Tuareg_t;
 

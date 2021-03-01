@@ -24,6 +24,12 @@
 #include "Tuareg.h"
 
 
+#define IGNITION_DEBUG_OUTPUT
+
+#ifdef IGNITION_DEBUG_OUTPUT
+#warning debug outputs enabled
+#endif // IGNITION_DEBUG_OUTPUT
+
 
 /**
 How the Tuareg Ignition system works:
@@ -58,8 +64,11 @@ void init_Ignition()
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
+
+        #ifdef IGNITION_DEBUG_OUTPUT
         DebugMsg_Error("Failed to load Ignition config!");
         DebugMsg_Warning("Ignition essential config has been loaded");
+        #endif // IGNITION_DEBUG_OUTPUT
     }
     else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
     {
@@ -67,8 +76,11 @@ void init_Ignition()
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
+
+        #ifdef IGNITION_DEBUG_OUTPUT
         DebugMsg_Error("Ignition config version does not match");
         DebugMsg_Warning("Ignition essential config has been loaded");
+        #endif // IGNITION_DEBUG_OUTPUT
     }
     else
     {
@@ -128,10 +140,8 @@ void Tuareg_ignition_update_crankpos_handler()
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
-/// TODO (oli#2#): fix the decoder execution delay compensator
         //compensate timing for execution delay
-        //age_us= decoder_get_data_age_us();
-        age_us= 0;
+        age_us= decoder_get_position_data_age_us();
         corr_timing_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, age_us);
 
         //check if sequential mode has been requested and sufficient information for this mode is available
@@ -197,11 +207,6 @@ void Tuareg_ignition_update_crankpos_handler()
 
 /*
 The ignition system will set up the scheduler channels for dwell in dynamic mode
-
-BIG QUESTION:
-shal irq3 be triggered on every spark? or only on coil #1?
-
-
 */
 void Tuareg_ignition_irq_handler()
 {

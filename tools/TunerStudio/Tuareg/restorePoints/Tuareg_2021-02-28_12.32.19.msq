@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Mon Mar 01 14:02:47 CET 2021"/>
+<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;" writeDate="Sun Feb 28 12:32:19 CET 2021"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="6" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -136,7 +136,7 @@
       </constant>
 </page>
 <page number="4" size="43">
-<constant digits="0" name="TuaregSetupVersion" units="#">3.0</constant>
+<constant digits="0" name="TuaregSetupVersion" units="#">0.0</constant>
 <constant digits="0" name="TuaregSetupCrkPosTbl_B2" units="deg">3.0</constant>
 <constant digits="0" name="TuaregSetupCrkPosTbl_B1" units="deg">10.0</constant>
 <constant digits="0" name="TuaregSetupCrkPosTbl_A2" units="deg">60.0</constant>
@@ -155,29 +155,29 @@
 </page>
 <page number="5" size="180">
 <constant digits="0" name="Syslog_00_ts" units="Timestamp">15.0</constant>
-<constant name="Syslog_00_type">"II"</constant>
-<constant name="Syslog_00_loc">"2"</constant>
+<constant name="Syslog_00_type">"WW"</constant>
+<constant name="Syslog_00_loc">"4"</constant>
 <constant digits="0" name="Syslog_00_src" units="Module-ID">26.0</constant>
-<constant digits="0" name="Syslog_01_ts" units="Timestamp">113.0</constant>
+<constant digits="0" name="Syslog_01_ts" units="Timestamp">121.0</constant>
 <constant name="Syslog_01_type">"II"</constant>
 <constant name="Syslog_01_loc">"2"</constant>
 <constant digits="0" name="Syslog_01_src" units="Module-ID">23.0</constant>
-<constant digits="0" name="Syslog_02_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_02_type">"II"</constant>
+<constant digits="0" name="Syslog_02_ts" units="Timestamp">46728.0</constant>
+<constant name="Syslog_02_type">"WW"</constant>
 <constant name="Syslog_02_loc">"0"</constant>
-<constant digits="0" name="Syslog_02_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_03_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_03_type">"II"</constant>
+<constant digits="0" name="Syslog_02_src" units="Module-ID">26.0</constant>
+<constant digits="0" name="Syslog_03_ts" units="Timestamp">127776.0</constant>
+<constant name="Syslog_03_type">"WW"</constant>
 <constant name="Syslog_03_loc">"0"</constant>
-<constant digits="0" name="Syslog_03_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_04_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_04_type">"II"</constant>
+<constant digits="0" name="Syslog_03_src" units="Module-ID">26.0</constant>
+<constant digits="0" name="Syslog_04_ts" units="Timestamp">136686.0</constant>
+<constant name="Syslog_04_type">"WW"</constant>
 <constant name="Syslog_04_loc">"0"</constant>
-<constant digits="0" name="Syslog_04_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_05_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_05_type">"II"</constant>
+<constant digits="0" name="Syslog_04_src" units="Module-ID">26.0</constant>
+<constant digits="0" name="Syslog_05_ts" units="Timestamp">143616.0</constant>
+<constant name="Syslog_05_type">"WW"</constant>
 <constant name="Syslog_05_loc">"0"</constant>
-<constant digits="0" name="Syslog_05_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_05_src" units="Module-ID">26.0</constant>
 <constant digits="0" name="Syslog_06_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_06_type">"II"</constant>
 <constant name="Syslog_06_loc">"0"</constant>
@@ -270,10 +270,10 @@
 <constant name="Syslog_28_type">"II"</constant>
 <constant name="Syslog_28_loc">"0"</constant>
 <constant digits="0" name="Syslog_28_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_29_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_29_type">"II"</constant>
-<constant name="Syslog_29_loc">"0"</constant>
-<constant digits="0" name="Syslog_29_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_29_ts" units="Timestamp">15.0</constant>
+<constant name="Syslog_29_type">"EE"</constant>
+<constant name="Syslog_29_loc">"3"</constant>
+<constant digits="0" name="Syslog_29_src" units="Module-ID">26.0</constant>
 </page>
 <settings Comment="These setting are only used if this msq is opened without a project.">
 <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>

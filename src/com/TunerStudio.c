@@ -26,6 +26,8 @@
 
 #include "process_table.h"
 
+#include "syslog.h"
+
 #define TS_DEBUG
 
 
@@ -39,7 +41,6 @@ void ts_readPage(U32 Page)
         case CALIBPAGE:
             send_Sensor_Calibration(TS_PORT);
             break;
-
 
         case DECODERPAGE:
             send_Decoder_Setup(TS_PORT);
@@ -58,6 +59,9 @@ void ts_readPage(U32 Page)
             send_ignAdvTable_TPS(TS_PORT);
             break;
 
+        case SYSLOG_PAGE:
+            send_syslog(TS_PORT);
+            break;
 
         default:
             break;

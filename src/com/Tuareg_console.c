@@ -10,6 +10,8 @@
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
 
+#include "Tuareg_service_functions.h"
+
 #include "table.h"
 
 #include "decoder_config.h"
@@ -203,13 +205,13 @@ void Tuareg_update_console()
 
     case 'M':
 
-        if(UART_available() < 5)
+        if(UART_available() < 4)
         {
             return;
         }
 
         /**
-        byte format: <actor> <on> <off> <end MSB, LSB>
+        byte format: <actor> <on> <off> <end>
 
         variable allocation:
 
@@ -221,11 +223,9 @@ void Tuareg_update_console()
         off= UART_getRX();
 
         value= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
 
         //check if the received command is a "service mode request"
-        if( (offset == 0xFF) && (on == 0xFF) && (off == 0) && (value == 0x00FF) )
+        if( (offset == 0xFF) && (on == 0xFF) && (off == 0x00) && (value == 0x00) )
         {
             request_service_mode();
         }
@@ -242,7 +242,9 @@ void Tuareg_update_console()
         break;
 */
 
-
+    case 'O':
+        send_syslog(TS_PORT);
+        break;
 
 
     case 'P':
@@ -398,8 +400,14 @@ inline void cli_showPage(U32 Page)
                 show_Tuareg_Setup(TS_PORT);
                 break;
 
+        case SYSLOG_PAGE:
+
+                show_syslog(TS_PORT);
+                break;
+
+
         default:
-            print(TS_PORT, "\r\nPage has not been implemented yet. Change to another page.");
+            show_syslog(TS_PORT);
             break;
     }
 }
