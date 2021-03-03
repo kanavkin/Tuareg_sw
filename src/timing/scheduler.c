@@ -20,7 +20,7 @@ a timer update event is expected every ~74 min op scheduler operation
 
 #include "scheduler.h"
 #include "ignition_hw.h"
-#include "fuel_hw.h"
+#include "fueling_hw.h"
 
 #include "diagnostics.h"
 #include "Tuareg_errors.h"

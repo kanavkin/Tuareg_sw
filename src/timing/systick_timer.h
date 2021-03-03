@@ -51,4 +51,7 @@ typedef struct _systick_mgr_t {
 
 volatile systick_t * init_systick_timer();
 
+VU32 get_timestamp_fraction_us();
+volatile logging_timestamp_t get_logging_timestamp();
+
 #endif // TIMERS_H

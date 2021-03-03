@@ -23,8 +23,8 @@
 #include "table.h"
 #include "eeprom.h"
 #include "sensors.h"
-#include "fuel_hw.h"
-#include "fuel_logic.h"
+#include "fueling_hw.h"
+#include "fueling_logic.h"
 
 #include "dash_hw.h"
 #include "dash_logic.h"
@@ -170,7 +170,7 @@ void service_functions_periodic_update()
     //check other restrictions needed?
 
 
-    //update fuelling system
+    //update fueling system
     fuel_pump_periodic_update(now);
     injector1_periodic_update(now);
     injector1_periodic_update(now);

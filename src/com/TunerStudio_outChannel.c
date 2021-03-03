@@ -178,6 +178,11 @@ volatile BF8 ts_comm_bits()
         setBit_BF8(COMMBIT_DATALOG_UPDATE, &commbits);
     }
 
+    if(Tuareg.pHighspeedlog->log_full)
+    {
+        setBit_BF8(COMMBIT_HSPDLOG_FULL, &commbits);
+    }
+
     return commbits;
 }
 

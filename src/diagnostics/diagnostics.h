@@ -112,10 +112,9 @@ typedef enum {
     TDIAG_TSTUDIO_CALLS,
 
     //Tuareg_update_Runmode()
-    TDIAG_MODECTRL,
-    TDIAG_KILL_SIDESTAND,
-    TDIAG_KILL_RUNSWITCH,
-    TDIAG_KILL_CRASH,
+    TDIAG_UPDATE_RUNMODE_CALLS,
+    TDIAG_HALTSRC_PRESENT,
+    TDIAG_HALTSRC_CLEAR,
 
     //Tuareg_set_Runmode()
     TDIAG_ENTER_INIT,

@@ -21,6 +21,7 @@
 #include "systick_timer.h"
 
 #include "syslog.h"
+#include "highspeed_loggers.h"
 
 #define TUAREG_REQUIRED_CONFIG_VERSION 3
 
@@ -32,58 +33,23 @@ every variable shall provide the name of the corresponding physical unit, if app
 e.g. timeout_us, map_kPa, ...
 
 REQ_CONFIGVALUE_DEF:
-every module that uses config in eeprom storage shall provide default values for all essential items
-to allow limp home operation if eeprom has ben corrupted
-
-
-
+every module that uses configuration in eeprom storage shall provide default values for all essential items
+to allow limp home operation if eeprom has been corrupted
 
 */
 
 #define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
 
 
-//level at which the crash sensor reports a crash event
-#define CRASH_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_CRASH)
-
-//level at which the run sensor reports a run permission
-#define RUN_SENSOR_ENGAGE_LEVEL (1<< DSENSOR_RUN)
 
 
-/*
-ASENSOR_VALIDITY_THRES of consecutive valid captures an analog sensor has to provide until he is considered valid
 
-the counter will be initialized with ASENSOR_VALIDITY_FASTINIT to provide sensor data for startup
-*/
-#define ASENSOR_VALIDITY_THRES 150
-#define ASENSOR_VALIDITY_FASTINIT 100
-
-
-/**
-default sensor values
-
-if an analog sensor is not available, use these defaults
-*/
-#define MAP_DEFAULT_KPA 100
-#define BARO_DEFAULT_KPA 100
-#define TPS_DEFAULT_DEG 45
-#define O2_DEFAULT_AFR 14.5
-#define IAT_DEFAULT_C 20
-#define CLT_DEFAULT_C 85
-#define VBAT_DEFAULT_V 14
-#define KNOCK_DEFAULT 0
-#define GEAR_DEFAULT 0
 
 
 typedef enum {
 
-    //boot time
-    TMODE_BOOT,
-
     //system init
-    TMODE_HWINIT,
-    TMODE_CONFIGLOAD,
-    TMODE_MODULEINIT,
+    TMODE_INIT,
 
     //control engine with minimum sensor input available
     TMODE_LIMP,
@@ -101,7 +67,10 @@ typedef enum {
     TMODE_CRANKING,
 
     //normal engine operation
-    TMODE_RUNNING
+    TMODE_RUNNING,
+
+    //provide error logs for debugging
+    TMODE_FATAL
 
 } tuareg_runmode_t;
 
@@ -180,6 +149,9 @@ typedef struct _Tuareg_t {
     //syslog
     volatile syslog_mgr_flags_t * pSyslog;
 
+    //high speed log
+    volatile highspeedlog_flags_t * pHighspeedlog;
+
 } Tuareg_t;
 
 
@@ -198,7 +170,18 @@ extern void Tuareg_stop_engine();
 void Tuareg_export_diag(VU32 * pTarget);
 void Tuareg_update_halt_sources();
 
-extern void reset_decoder_watchdog();
-extern void update_decoder_watchdog();
+
+void Tuareg_Init();
+
+void Tuareg_HWINIT_transition();
+void Tuareg_CONFIGLOAD_transition();
+void Tuareg_MODULEINIT_transition();
+void Tuareg_LIMP_transition();
+void Tuareg_SERVICE_transition();
+void Tuareg_HALT_transition();
+void Tuareg_RUNNING_transition();
+void Tuareg_STB_transition();
+void Tuareg_CRANKING_transition();
+void Tuareg_FATAL_transition();
 
 #endif // TUAREG_H_INCLUDED

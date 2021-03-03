@@ -162,7 +162,7 @@ typedef enum {
 
     //digital sensors
     DSENSOR_SPARE2,
-    DSENSOR_NEUTRAL,
+    DSENSOR_SIDESTAND,
     DSENSOR_RUN,
     DSENSOR_CRASH,
     DSENSOR_DEBUG,
@@ -212,12 +212,18 @@ typedef struct {
 
     VF32 ddt_TPS;
 
-    VU16 asensors_health;
+    //VU16 asensors_health;
 
+    //converted sensor value
     VF32 asensors[ASENSOR_COUNT];
+
+    //raw adc value of this channel
     VU16 asensors_raw[ASENSOR_COUNT];
+
+    //amount of consecutive, valid readouts
     VU16 asensors_valid_samples[ASENSOR_COUNT];
 
+    //digital sensors
     VU8 dsensors;
 
 } sensor_interface_t;

@@ -31,6 +31,8 @@
 #include "debug_port_messages.h"
 #include "syslog.h"
 
+#include "highspeed_loggers.h"
+
 //#define CONSOLE_DEBUG
 
 volatile Tuareg_console_t Tuareg_console;
@@ -169,6 +171,11 @@ void Tuareg_update_console()
         break;
 
 
+    case 'H':
+        send_highspeedlog(TS_PORT);
+        break;
+
+
     case 'J':
 
         /**
@@ -236,15 +243,7 @@ void Tuareg_update_console()
         }
         break;
 
-/*
-    case 'N':
-        print(TS_PORT, "\r\n");
-        break;
-*/
 
-    case 'O':
-        send_syslog(TS_PORT);
-        break;
 
 
     case 'P':

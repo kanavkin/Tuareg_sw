@@ -7,6 +7,10 @@
 #include "ignition_hw.h"
 #include "Tuareg_ignition_controls.h"
 
+
+#define IGNITION_REQUIRED_CONFIG_VERSION 3
+
+
 typedef enum {
 
     COILS_SHARED,

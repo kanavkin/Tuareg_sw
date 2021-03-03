@@ -10,7 +10,7 @@ the 4 scheduler channels can be allocated freely to callback functions that can 
 #include "stm32_libs/boctok_types.h"
 #include "lowprio_scheduler.h"
 #include "ignition_hw.h"
-#include "fuel_hw.h"
+#include "fueling_hw.h"
 
 volatile lowprio_scheduler_t Lowprio_Scheduler;
 

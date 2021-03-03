@@ -27,10 +27,6 @@ rev limiter ignition controls reported values
 #define REVLIMITER_REPORTED_DWELL_US 0
 
 
-
-#define IGNITION_REQUIRED_CONFIG_VERSION 3
-
-
 /**
 ignition_logic_state_t
 */

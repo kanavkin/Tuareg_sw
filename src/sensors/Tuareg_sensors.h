@@ -7,6 +7,33 @@
 
 #define SENSORS_REQUIRED_CALIBRATION_VERSION 2
 
+
+/*
+ASENSOR_VALIDITY_THRES of consecutive valid captures an analog sensor has to provide until he is considered valid
+
+the counter will be initialized with ASENSOR_VALIDITY_FASTINIT to provide sensor data for startup
+*/
+#define ASENSOR_VALIDITY_THRES 150
+#define ASENSOR_VALIDITY_FASTINIT 100
+
+
+/**
+default sensor values
+
+if an analog sensor is not available, use these defaults
+*/
+#define MAP_DEFAULT_KPA 100
+#define BARO_DEFAULT_KPA 100
+#define TPS_DEFAULT_DEG 45
+#define O2_DEFAULT_AFR 14.5
+#define IAT_DEFAULT_C 20
+#define CLT_DEFAULT_C 85
+#define VBAT_DEFAULT_V 14
+#define KNOCK_DEFAULT 0
+#define GEAR_DEFAULT 0
+
+
+
 volatile sensor_interface_t * init_Sensors();
 
 

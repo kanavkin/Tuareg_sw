@@ -68,7 +68,8 @@ void UART_TS_PORT_Init()
     8-bit data, one stop bit, no parity,
     do both Rx and Tx, no HW flow control
     */
-    usart_conf.USART_BaudRate = 115200;
+    //usart_conf.USART_BaudRate = 115200;
+    usart_conf.USART_BaudRate = 230400;
     usart_conf.USART_WordLength = USART_WordLength_8b;
     usart_conf.USART_StopBits = USART_StopBits_1;
     usart_conf.USART_Parity = USART_Parity_No ;

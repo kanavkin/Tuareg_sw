@@ -108,8 +108,11 @@ void Tuareg_ignition_update_crankpos_handler()
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
 
-    //check vital precondition
-    if(Tuareg.actors.ignition_inhibit == true)
+    /**
+    check vital precondition
+    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    */
+    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE))
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -213,8 +216,11 @@ void Tuareg_ignition_irq_handler()
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_IRQ3H_CALLS);
 
-    //check preconditions
-    if((Tuareg.actors.ignition_inhibit == true) ||
+    /**
+    check vital precondition
+    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    */
+    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE) ||
         (Tuareg.ignition_controls.state.valid == false) || (Tuareg.ignition_controls.state.rev_limiter == true) || (Tuareg.ignition_controls.state.dynamic_controls == false) ||
         (Tuareg.pDecoder->outputs.position_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) )
     {

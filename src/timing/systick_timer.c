@@ -13,22 +13,89 @@
 
 volatile systick_mgr_t Systick_Mgr;
 
+const U32 cSystickLoadValue= 12500UL;
+
+/**
+see PM0214 Rev 8:
+
+"When the processor is halted for debugging the counter does not decrement."
+
+"The SysTick counter runs on the processor clock. If this clock signal is stopped for low
+power mode, the SysTick counter stops.
+Ensure software uses aligned word accesses to access the SysTick registers."
+
+"The SysTick counter reload and current value are undefined at reset, the correct
+initialization sequence for the SysTick counter is:
+1. Program reload value.
+2. Clear current value.
+3. Program Control and Status register."
+
+*/
 
 volatile systick_t * init_systick_timer()
 {
     /**
-    using AHPB/8
-    SysTick provides a 1ms time base
+    using AHPB/8 -> T := 0,08 us
+    SysTick irq provides a 1ms time base
     irq priority 5
     */
-    SysTick->LOAD = (12500UL & SysTick_LOAD_RELOAD_Msk);
-    SysTick->VAL  = 0;
-    SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
+    SysTick->LOAD = (U32) (12500UL & SysTick_LOAD_RELOAD_Msk);
+    SysTick->VAL  = (U32) 0;
+    SysTick->CTRL = (U32) SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 
     NVIC_SetPriority(SysTick_IRQn, 5);
 
     return &(Systick_Mgr.out);
 }
+
+
+
+/**
+The systick timer is a 24 bit down counter, T := 0,08 us
+it is reset every 1 ms
+
+fraction := (0xFFFFFF - STV_VAL) * 8 / 100
+*/
+VU32 get_timestamp_fraction_us()
+{
+    VU32 interval;
+
+    //get the amount of timer ticks since the last timer reset
+    interval= cSystickLoadValue - SysTick->VAL;
+
+    //multiply *2 and divide by 25
+    interval= (interval << 1) / 25;
+
+    return interval;
+}
+
+
+/**
+The systick timer is a 24 bit down counter, T := 0,08 us
+it is reset every 1 ms
+
+fraction_us := (0xFFFFFF - STV_VAL) * 8 / 100
+fraction_4us_interval := (0xFFFFFF - STV_VAL) / 50
+
+*/
+volatile logging_timestamp_t get_logging_timestamp()
+{
+    volatile timestamp_t system_ts;
+    VU32 fraction;
+    volatile logging_timestamp_t logging_ts;
+
+    //get the amount of timer ticks since the last timer reset
+    fraction= cSystickLoadValue - SysTick->VAL;
+
+    system_ts= Systick_Mgr.system_time;
+
+
+    logging_ts= (system_ts << 8) | (fraction / 50);
+
+    return logging_ts;
+}
+
+
 
 
 

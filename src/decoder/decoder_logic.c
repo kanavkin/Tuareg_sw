@@ -83,24 +83,6 @@ void decoder_process_debug_events()
 decoder helper functions - cycle timing
 ******************************************************************************************************************************/
 
-VU32 decoder_get_time_since_TDC_us()
-{
-    VU32 now_ts, interval_us;
-
-    now_ts= decoder_get_timestamp();
-
-    //precondition check
-    if(Decoder_hw.state.timer_continuous_mode == false)
-    {
-        return 0;
-    }
-
-    interval_us= Decoder_hw.timer_period_us * now_ts;
-
-    return interval_us;
-}
-
-
 VU32 decoder_get_position_data_age_us()
 {
     VU32 now_ts, update_ts, interval_us;
@@ -568,7 +550,7 @@ void decoder_crank_handler()
         if(Decoder.state == DSTATE_SYNC)
         {
             //notify high speed logger about new crank position
-            highspeedlog_register_crankpos(Decoder.crank_position, Decoder_hw.current_timer_value);
+            highspeedlog_register_crankpos(Decoder.crank_position);
 
             trigger_decoder_irq();
         }

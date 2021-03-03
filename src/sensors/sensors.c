@@ -259,10 +259,10 @@ VU32 read_dsensors()
         readout |= (1 << DSENSOR_SPARE2);
     }
 
-    //DSENSOR_NEUTRAL
+    //DSENSOR_SIDESTAND
     if(GPIOC->IDR & GPIO_IDR_IDR0)
     {
-        readout |= (1 << DSENSOR_NEUTRAL);
+        readout |= (1 << DSENSOR_SIDESTAND);
     }
 
     //DSENSOR_RUN
@@ -361,9 +361,10 @@ void reset_asensor_sync_integrator(asensors_sync_t Sensor)
 }
 
 
+
 /**
 MAP sensor readout as injected conversion
-(can be triggered synchronous to crank movement)
+(intended to be triggered synchronous to crank movement)
 */
 void ADC_IRQHandler()
 {
@@ -414,15 +415,18 @@ void ADC_IRQHandler()
                 *pIntegr= 0;
                 *pCount= 0;
 
-                //mark sensor as active, reset error counter
-                SInterface.asensors_health |= (1<< ASENSOR_MAP);
-                SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] =0;
-
                 //export raw value
                 SInterface.asensors_raw[ASENSOR_MAP]= average;
 
-                //count the amount of consecutive valid readings
-                SInterface.asensors_valid_samples[ASENSOR_MAP]++;
+                //notify valid readout
+                SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] =0;
+
+                //count the amount of consecutive valid readings, do not roll over
+                if(SInterface.asensors_valid_samples[ASENSOR_MAP] < 0xFF)
+                {
+                    SInterface.asensors_valid_samples[ASENSOR_MAP]++;
+                }
+
             }
 
         }
@@ -444,7 +448,6 @@ void ADC_IRQHandler()
 
                 //report to interface
                 SInterface.asensors[ASENSOR_MAP] =0;
-                SInterface.asensors_health &= ~(1<< ASENSOR_MAP);
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -644,8 +647,10 @@ void DMA2_Stream0_IRQHandler()
                     //export calculated value to interface
                     SInterface.asensors[sensor]= result;
 
+                    //export raw value
+                    SInterface.asensors_raw[sensor]= average;
+
                     //mark sensor as active, reset error counter
-                    SInterface.asensors_health |= (1<< sensor);
                     SInternals.asensors_async_error_counter[sensor] =0;
 
                     //count the amount of consecutive valid readings, do not roll over
@@ -654,8 +659,6 @@ void DMA2_Stream0_IRQHandler()
                         SInterface.asensors_valid_samples[sensor]++;
                     }
 
-                    //export raw value
-                    SInterface.asensors_raw[sensor]= average;
                 }
 
             }
@@ -677,14 +680,13 @@ void DMA2_Stream0_IRQHandler()
 
                     //report to interface
                     SInterface.asensors[sensor] =0;
-                    SInterface.asensors_health &= ~(1<< sensor);
+
+                    //delete raw value
+                    SInterface.asensors_raw[sensor]= 0;
 
                     //reset average buffer
                     *pIntegr= 0;
                     *pCount= 0;
-
-                    //delete raw value
-                    SInterface.asensors_raw[sensor]= 0;
 
                     //no more consecutive valid readings
                     SInterface.asensors_valid_samples[sensor] =0;

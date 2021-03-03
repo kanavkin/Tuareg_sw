@@ -97,8 +97,17 @@ typedef uint32_t angle_deg_t;
 
 /**
 basic type to handle the system time stamp
+increment is 1 ms
 */
 typedef uint32_t timestamp_t;
+
+
+/**
+basic type to handle the logging time stamp
+format
+24 bit system time in ms, 8 bit fraction in 4 us increments
+*/
+typedef uint32_t logging_timestamp_t;
 
 
 

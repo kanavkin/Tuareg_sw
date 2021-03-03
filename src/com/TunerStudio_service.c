@@ -297,28 +297,14 @@ void cli_print_sensor_data(USART_TypeDef * Port)
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.pSensors->asensors_health & (1<< sensor))
-        {
-            printf_F32(Port, Tuareg.pSensors->asensors[sensor]);
-        }
-        else
-        {
-            print(Port, " - ");
-        }
+        printf_F32(Port, Tuareg.pSensors->asensors[sensor]);
     }
 
     print(Port, "\r\n(raw:)\r\n");
 
     for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
     {
-        if(Tuareg.pSensors->asensors_health & (1<< sensor))
-        {
-            printf_U(Port, Tuareg.pSensors->asensors_raw[sensor], PAD_5);
-        }
-        else
-        {
-            print(Port, " - ");
-        }
+        printf_U(Port, Tuareg.pSensors->asensors_raw[sensor], PAD_5);
     }
 
 

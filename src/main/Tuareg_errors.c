@@ -12,27 +12,47 @@
 #include "Tuareg_ID.h"
 
 #include "syslog.h"
+#include "Tuareg_syslog_locations.h"
 #include "debug_port_messages.h"
+
+
+#define ERRORS_DEBUG_OUTPUT
+
+#ifdef ERRORS_DEBUG_OUTPUT
+#warning debug outputs enabled
+#endif // ERRORS_DEBUG_OUTPUT
+
+
 
 /**
 Puts the system to a safe state when a critical error has been detected
+
+This function has to be very restrictive.
+BUT
+An error could upset the program logic in a way that RunMode will not be updated to FATAL.
+
+So vital actors operation is inhibited already here.
 */
 void Fatal(Tuareg_ID Id, U8 Location)
 {
+    __disable_irq();
+
+    Tuareg.Errors.fatal_error= true;
+    Tuareg.actors.fueling_inhibit= true;
+    Tuareg.actors.ignition_inhibit= true;
 
     Syslog_Error(Id, Location);
 
+    #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("FATAL --");
+    #endif // ERRORS_DEBUG_OUTPUT
 
-
-/// TODO (oli#3#): implement FATAL mode with only defensive debug printouts enabled
-
-    while(1);
+    Tuareg_set_Runmode(TMODE_FATAL);
 
 }
 
 
-inline void Assert(bool Condition, Tuareg_ID Id, U8 Location)
+void Assert(bool Condition, Tuareg_ID Id, U8 Location)
 {
     if(!Condition)
     {

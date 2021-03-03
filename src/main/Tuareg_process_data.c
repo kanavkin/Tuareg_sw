@@ -20,8 +20,8 @@
 #include "eeprom.h"
 #include "Tuareg_sensors.h"
 #include "sensors.h"
-#include "fuel_hw.h"
-#include "fuel_logic.h"
+#include "fueling_hw.h"
+#include "fueling_logic.h"
 
 
 

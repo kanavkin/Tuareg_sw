@@ -150,25 +150,9 @@ sensors: no timers
 */
 int main(void)
 {
-    Tuareg.Runmode= TMODE_BOOT;
+    Tuareg_Init();
 
-    //primary hardware initialization
-    Tuareg_set_Runmode(TMODE_HWINIT);
-
-    //DEBUG
-    //init_debug_pins();
-    //set_debug_pin(PIN_ON);
-    //dwt_init();
-
-    //set up config data
-    Tuareg_set_Runmode(TMODE_CONFIGLOAD);
-
-    //initialize Tuareg modules
-    Tuareg_set_Runmode(TMODE_MODULEINIT);
-
-    /**
-    system initialization has been completed, but never leave LIMP mode!
-    */
+    //check if the conditions for the limited operation strategy LIMP apply
     if((Tuareg.Errors.tuareg_config_error == true) || (Tuareg.Errors.decoder_config_error == true) || (Tuareg.Errors.ignition_config_error == true) || (Tuareg.Errors.sensor_calibration_error == true))
     {
         Tuareg_set_Runmode(TMODE_LIMP);
@@ -181,6 +165,14 @@ int main(void)
 
     while(1)
     {
+
+        if((Tuareg.Runmode == TMODE_FATAL) || (Tuareg.Errors.fatal_error == true))
+        {
+            //FATAL mode to be implemented soon ...
+            break;
+        }
+
+
         /**
         50 Hz actions
         */
@@ -189,10 +181,8 @@ int main(void)
             Tuareg.pTimer->flags.cycle_20_ms= false;
 
             //provide sensor data
-            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB))
+            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB) || (Tuareg.Runmode == TMODE_LIMP))
             {
-                /// TODO (oli#8#): who will provide process data in limp mode with engine halted?
-
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
 
@@ -202,6 +192,7 @@ int main(void)
             //print debug messages from decoder
             decoder_process_debug_events();
         }
+
 
         /**
         4 Hz actions

@@ -7,7 +7,7 @@ this module covers the ignition hardware layer control
 #include "Tuareg_types.h"
 
 #include "Tuareg.h"
-#include "fuel_hw.h"
+#include "fueling_hw.h"
 #include "highspeed_loggers.h"
 
 
@@ -136,7 +136,7 @@ using
 -GPIOC10 for fuel pump
 
  ******************************************************************************************************************************/
-void init_fuel_hw()
+void init_fueling_hw()
 {
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;

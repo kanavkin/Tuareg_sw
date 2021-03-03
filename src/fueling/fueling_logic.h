@@ -7,7 +7,7 @@
 
 
 
-void init_fuel_logic();
+void init_fueling_logic();
 
 
 #endif // FUELLOGIC_H_INCLUDED

@@ -120,7 +120,6 @@ void reset_internal_data();
 void reset_timeout_counter();
 
 VU32 decoder_get_position_data_age_us();
-VU32 decoder_get_time_since_TDC_us();
 
 //sync checker
 bool check_sync_ratio();

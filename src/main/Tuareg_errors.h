@@ -10,12 +10,15 @@ typedef union
      U32 all_flags;
 
      struct {
-/// TODO (oli#9#): add fatal error flag?
+
+        VU32 fatal_error :1;
+        VU32 limp_mode :1;
 
         VU32 decoder_config_error :1;
         VU32 ignition_config_error :1;
-        VU32 sensor_calibration_error :1;
         VU32 tuareg_config_error :1;
+        VU32 fueling_config_error :1;
+        VU32 sensor_calibration_error :1;
 
         VU32 sensor_O2_error :1;
         VU32 sensor_TPS_error :1;

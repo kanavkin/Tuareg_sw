@@ -74,6 +74,7 @@
 			<Add directory="../../src/utils" />
 			<Add directory="../../src/fuelling" />
 			<Add directory="../../src/actors" />
+			<Add directory="../../src/fueling" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
@@ -169,14 +170,27 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/diagnostics/syslog.h" />
-		<Unit filename="../../src/fuelling/fuel_hw.c">
+		<Unit filename="../../src/fueling/Fueling_syslog_locations.h" />
+		<Unit filename="../../src/fueling/Tuareg_fueling.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/fuelling/fuel_hw.h" />
-		<Unit filename="../../src/fuelling/fuel_logic.c">
+		<Unit filename="../../src/fueling/Tuareg_fueling.h" />
+		<Unit filename="../../src/fueling/Tuareg_fueling_controls.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/fuelling/fuel_logic.h" />
+		<Unit filename="../../src/fueling/Tuareg_fueling_controls.h" />
+		<Unit filename="../../src/fueling/fueling_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_config.h" />
+		<Unit filename="../../src/fueling/fueling_hw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_hw.h" />
+		<Unit filename="../../src/fueling/fueling_logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_logic.h" />
 		<Unit filename="../../src/ignition/Ignition_syslog_locations.h" />
 		<Unit filename="../../src/ignition/Tuareg_ignition.c">
 			<Option compilerVar="CC" />
@@ -244,6 +258,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/sensors.h" />
+		<Unit filename="../../src/sensors/sensors_syslog_locations.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c">
 			<Option compilerVar="CC" />
 		</Unit>

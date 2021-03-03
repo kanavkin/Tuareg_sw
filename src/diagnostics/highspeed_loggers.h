@@ -5,27 +5,98 @@
 #include "Tuareg_ID.h"
 
 
-#define HIGSPEEDLOG_LENGTH 6
+#define HIGSPEEDLOG_LENGTH 30
+
+
+
+
+/**
+all timestamps are relative t
+
+*/
+/*
+typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
+
+    logging_timestamp_t crkpos_B2_ts;
+    logging_timestamp_t crkpos_B1_ts;
+    logging_timestamp_t crkpos_A2_ts;
+    logging_timestamp_t crkpos_A1_ts;
+    logging_timestamp_t crkpos_D2_ts;
+    logging_timestamp_t crkpos_D1_ts;
+    logging_timestamp_t crkpos_C2_ts;
+    logging_timestamp_t crkpos_C1_ts;
+
+    logging_timestamp_t cam_lobe_begin_ts;
+    logging_timestamp_t cam_lobe_end_ts;
+
+    logging_timestamp_t cam_coil1_power_ts;
+    logging_timestamp_t cam_coil1_unpower_ts;
+
+    logging_timestamp_t cam_coil2_power_ts;
+    logging_timestamp_t cam_coil2_unpower_ts;
+
+    logging_timestamp_t cam_injector1_power_ts;
+    logging_timestamp_t cam_injector1_unpower_ts;
+
+    logging_timestamp_t cam_injector2_power_ts;
+    logging_timestamp_t cam_injector2_unpower_ts;
+
+
+} highspeedlog_entry_t;
+*/
+
+typedef enum {
+
+    HLOGA_CRKPOS_B2,
+    HLOGA_CRKPOS_B1,
+    HLOGA_CRKPOS_A2,
+    HLOGA_CRKPOS_A1,
+    HLOGA_CRKPOS_D2,
+    HLOGA_CRKPOS_D1,
+    HLOGA_CRKPOS_C2,
+    HLOGA_CRKPOS_C1,
+    HLOGA_CRKPOS_UNDEFINED,
+
+
+    HLOGA_CAMLOBE_BEG,
+    HLOGA_CAMLOBE_END,
+
+    HLOGA_COIL1_POWER,
+    HLOGA_COIL1_UNPOWER,
+
+    HLOGA_COIL2_POWER,
+    HLOGA_COIL2_UNPOWER,
+
+    HLOGA_INJECTOR1_POWER,
+    HLOGA_INJECTOR1_UNPOWER,
+
+    HLOGA_INJECTOR2_POWER,
+    HLOGA_INJECTOR2_UNPOWER,
+
+    HLOGA_,
+
+    HLOGA_COUNT
+
+} highspeedlog_event_t;
 
 
 
 
 
-typedef struct __attribute__ ((__packed__)) _highspeedlog_message_t {
 
-    U32 timestamp;
+typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
 
+    U32 system_ts;
+    U16 fraction_ts;
+    highspeedlog_event_t event;
 
-
-} highspeedlog_message_t;
-
-
+} highspeedlog_entry_t;
 
 
 
 typedef struct _highspeedlog_flags_t {
 
-    U8 syslog_new_entry :1;
+    U8 log_full :1;
 
 
 } highspeedlog_flags_t;
@@ -34,18 +105,25 @@ typedef struct _highspeedlog_flags_t {
 
 typedef struct _highspeedlog_mgr_t {
 
-    U32 D_ptr;
 
-    syslog_mgr_flags_t flags;
+    U32 entry_ptr;
+
+    highspeedlog_flags_t flags;
+
+
+
+
+
 
 } highspeedlog_mgr_t;
 
 
-void highspeedlog_init();
+volatile highspeedlog_flags_t * highspeedlog_init();
+void clear_highspeedlog();
 
 void highspeedlog_register_error();
 
-void highspeedlog_register_crankpos(volatile crank_position_t Position, VU32 timestamp);
+void highspeedlog_register_crankpos(volatile crank_position_t Position);
 
 void highspeedlog_register_cis_lobe_begin();
 void highspeedlog_register_cis_lobe_end();
@@ -63,7 +141,7 @@ void highspeedlog_register_injector2_power();
 void highspeedlog_register_injector2_unpower();
 
 
-
+void send_highspeedlog(USART_TypeDef * Port);
 
 
 
