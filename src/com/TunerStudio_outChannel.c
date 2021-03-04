@@ -48,7 +48,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     /*
     tuareg           = scalar, U32,  1, "bits",   1.000, 0.000
     */
-    serialize_U32_char((U32) ts_tuareg_bits(), &(output[1]));
+    serialize_U32_U8((U32) ts_tuareg_bits(), &(output[1]));
 
     /*
     ignition         = scalar,  U16,    5, "bits",   1.000, 0.000

@@ -8,31 +8,23 @@
 #include "uart.h"
 #include "uart_printf.h"
 
+#include "conversion.h"
 
 
 #define HSPLOG_TRACK_CRKPOS
-/*
+
 #define HSPLOG_TRACK_CIS
 
 #define HSPLOG_TRACK_COIL1
 #define HSPLOG_TRACK_COIL2
 #define HSPLOG_TRACK_INJECTOR1
 #define HSPLOG_TRACK_INJECTOR2
-*/
+
 
 
 volatile highspeedlog_entry_t Highspeedlog[HIGSPEEDLOG_LENGTH];
 
 highspeedlog_mgr_t Highspeedlog_Mgr;
-
-
-volatile highspeedlog_entry_t Log_dummy;
-
-
-volatile U8 * const pHighspeedlog_data= (volatile U8 *) &Highspeedlog;
-
-const U32 cHighspeedlog_size= sizeof(Highspeedlog);
-
 
 
 /******************************************************************************************************************************
@@ -55,37 +47,83 @@ void clear_highspeedlog()
 }
 
 
+
+
+
 void highspeedlog_register_error()
 {
 
 }
 
 
-volatile highspeedlog_entry_t * const highspeedlog_reserve_entry()
+
+
+
+/******************************************************************************************************************************
+register event
+******************************************************************************************************************************/
+
+void highspeedlog_write()
 {
+    VU32 system_ts_ms;
+    VU16 fraction_ts_us;
     volatile highspeedlog_entry_t * pTarget;
 
+    //check if there is some space left to write to
     if(Highspeedlog_Mgr.entry_ptr >= HIGSPEEDLOG_LENGTH)
     {
         Highspeedlog_Mgr.flags.log_full= true;
-        return &Log_dummy;
+        return;
     }
 
+    //get reference to the next entry to write to
     pTarget= &(Highspeedlog[Highspeedlog_Mgr.entry_ptr]);
 
+    //next highspeedlog write will address the next entry
     Highspeedlog_Mgr.entry_ptr++;
 
+
+    //cache current timestamps
+    system_ts_ms= Tuareg.pTimer->system_time;
+    fraction_ts_us= get_timestamp_fraction_us();
+
+
+    //0 .. 3,5 timestamp ms (28 bits)
+    serialize_U32_U8_reversed(system_ts_ms, &(pTarget->data[0]));
+
+    //clear shared high nibble
+    pTarget->data[3] &= 0x0F;
+
+    //clip fraction just to be sure
+    fraction_ts_us &= 0x0FFF;
+
+    //3,5 .. 4 fractional timestamp
+    pTarget->data[3] |= fraction_ts_us >> 8;
+    pTarget->data[4]= fraction_ts_us;
+
+
+    //5 crank pos, CIS_LOBE_BIT, PHASE_COMP_BIT, PHASE_VALID_BIT
+    pTarget->data[5]= Tuareg.pDecoder->crank_position & 0x0F;
+
+    if(Highspeedlog_Mgr.cam_lobe_begin_triggered == true) setBit_BF8(HIGSPEEDLOG_BYTE5_CIS_LOBE_BIT, &(pTarget->data[5]));
+    if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_COMP_BIT, &(pTarget->data[5]));
+    if(Tuareg.pDecoder->outputs.phase_valid == true) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_VALID_BIT, &(pTarget->data[5]));
+
+    //6 crank pos, COIL1_POWERED_BIT, COIL2_POWERED_BIT, INJECTOR1_POWERED_BIT, INJECTOR2_POWERED_BIT
+    if(Tuareg.actors.ignition_coil_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL1_POWERED_BIT, &(pTarget->data[6]));
+    if(Tuareg.actors.ignition_coil_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL2_POWERED_BIT, &(pTarget->data[6]));
+    if(Tuareg.actors.fuel_injector_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR1_POWERED_BIT, &(pTarget->data[6]));
+    if(Tuareg.actors.fuel_injector_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR2_POWERED_BIT, &(pTarget->data[6]));
+
+
+    //check if the log is ready to be read
     if(Highspeedlog_Mgr.entry_ptr >= HIGSPEEDLOG_LENGTH)
     {
         Highspeedlog_Mgr.flags.log_full= true;
     }
-
-    //already fill in timestamps
-    pTarget->system_ts= Tuareg.pTimer->system_time;
-    pTarget->fraction_ts= get_timestamp_fraction_us();
-
-    return pTarget;
 }
+
+
 
 
 
@@ -93,14 +131,10 @@ volatile highspeedlog_entry_t * const highspeedlog_reserve_entry()
 crank position tracker
 ******************************************************************************************************************************/
 
-void highspeedlog_register_crankpos(volatile crank_position_t Position)
+void highspeedlog_register_crankpos()
 {
     #ifdef HSPLOG_TRACK_CRKPOS
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= (Position < CRK_POSITION_COUNT)? Position : HLOGA_CRKPOS_UNDEFINED;
+    highspeedlog_write();
     #endif
 }
 
@@ -112,22 +146,14 @@ cam tracker
 void highspeedlog_register_cis_lobe_begin()
 {
     #ifdef HSPLOG_TRACK_CIS
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_CAMLOBE_BEG;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_CIS
 }
 
 void highspeedlog_register_cis_lobe_end()
 {
     #ifdef HSPLOG_TRACK_CIS
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_CAMLOBE_END;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_CIS
 }
 
@@ -139,11 +165,7 @@ coil 1 tracker
 void highspeedlog_register_coil1_power()
 {
     #ifdef HSPLOG_TRACK_COIL1
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_COIL1_POWER;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_COIL1
 }
 
@@ -151,11 +173,7 @@ void highspeedlog_register_coil1_power()
 void highspeedlog_register_coil1_unpower()
 {
     #ifdef HSPLOG_TRACK_COIL1
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_COIL1_UNPOWER;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_COIL1
 }
 
@@ -167,11 +185,7 @@ coil 2 tracker
 void highspeedlog_register_coil2_power()
 {
     #ifdef HSPLOG_TRACK_COIL2
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_COIL2_POWER;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_COIL2
 }
 
@@ -179,11 +193,7 @@ void highspeedlog_register_coil2_power()
 void highspeedlog_register_coil2_unpower()
 {
     #ifdef HSPLOG_TRACK_COIL2
-    volatile highspeedlog_entry_t * pTarget;
-
-    pTarget= highspeedlog_reserve_entry();
-
-    pTarget->event= HLOGA_COIL2_UNPOWER;
+    highspeedlog_write();
     #endif // HSPLOG_TRACK_COIL2
 }
 
@@ -221,16 +231,29 @@ void highspeedlog_register_injector2_unpower()
 }
 
 
-
-
-
 /******************************************************************************************************************************
 this function implements the TS interface binary config page read command for highspeedlog
 ******************************************************************************************************************************/
 
 void send_highspeedlog(USART_TypeDef * Port)
 {
-    UART_send_data(Port, pHighspeedlog_data, cHighspeedlog_size);
+    U32 entry, i;
 
-    Highspeedlog_Mgr.flags.log_full= false;
+    if(Highspeedlog_Mgr.flags.log_full == false)
+    {
+        return;
+    }
+
+    for(entry =0; entry < HIGSPEEDLOG_LENGTH; entry++)
+    {
+        //send data
+        //UART_send_data(Port, &(Highspeedlog[entry].data), sizeof(highspeedlog_entry_t.data));
+
+        for(i =0; i < 7; i++)
+        {
+            UART_Tx(Port, Highspeedlog[entry].data[i]);
+        }
+    }
+
+    clear_highspeedlog();
 }

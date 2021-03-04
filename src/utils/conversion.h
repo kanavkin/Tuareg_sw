@@ -30,7 +30,11 @@ U32 serialize_float_U32(float Value);
 void send_float(USART_TypeDef * Port, float Value);
 
 void serialize_float_U8(float Value, U8 * pTarget);
-void serialize_U16_U8(U16 Value, U8 * pTarget);
-void serialize_U32_char(VU32 Value, U8 * pTarget);
+
+void serialize_U16_U8(VU16 Value, VU8 * pTarget);
+void serialize_U16_U8_reversed(VU16 Value, VU8 * pTarget);
+
+void serialize_U32_U8(VU32 Value, VU8 * pTarget);
+void serialize_U32_U8_reversed(VU32 Value, VU8 * pTarget);
 
 #endif // CONVERSION_H_INCLUDED

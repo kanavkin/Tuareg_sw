@@ -7,43 +7,16 @@
 
 #define HIGSPEEDLOG_LENGTH 30
 
+#define HIGSPEEDLOG_BYTE5_CIS_LOBE_BIT 4
+#define HIGSPEEDLOG_BYTE5_PHASE_COMP_BIT 5
+#define HIGSPEEDLOG_BYTE5_PHASE_VALID_BIT 6
+
+#define HIGSPEEDLOG_BYTE6_COIL1_POWERED_BIT 0
+#define HIGSPEEDLOG_BYTE6_COIL2_POWERED_BIT 1
+#define HIGSPEEDLOG_BYTE6_INJECTOR1_POWERED_BIT 2
+#define HIGSPEEDLOG_BYTE6_INJECTOR2_POWERED_BIT 3
 
 
-
-/**
-all timestamps are relative t
-
-*/
-/*
-typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
-
-    logging_timestamp_t crkpos_B2_ts;
-    logging_timestamp_t crkpos_B1_ts;
-    logging_timestamp_t crkpos_A2_ts;
-    logging_timestamp_t crkpos_A1_ts;
-    logging_timestamp_t crkpos_D2_ts;
-    logging_timestamp_t crkpos_D1_ts;
-    logging_timestamp_t crkpos_C2_ts;
-    logging_timestamp_t crkpos_C1_ts;
-
-    logging_timestamp_t cam_lobe_begin_ts;
-    logging_timestamp_t cam_lobe_end_ts;
-
-    logging_timestamp_t cam_coil1_power_ts;
-    logging_timestamp_t cam_coil1_unpower_ts;
-
-    logging_timestamp_t cam_coil2_power_ts;
-    logging_timestamp_t cam_coil2_unpower_ts;
-
-    logging_timestamp_t cam_injector1_power_ts;
-    logging_timestamp_t cam_injector1_unpower_ts;
-
-    logging_timestamp_t cam_injector2_power_ts;
-    logging_timestamp_t cam_injector2_unpower_ts;
-
-
-} highspeedlog_entry_t;
-*/
 
 typedef enum {
 
@@ -81,9 +54,7 @@ typedef enum {
 
 
 
-
-
-
+/*
 typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
 
     U32 system_ts;
@@ -91,6 +62,15 @@ typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
     highspeedlog_event_t event;
 
 } highspeedlog_entry_t;
+*/
+
+
+typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
+
+    U8 data[7];
+
+} highspeedlog_entry_t;
+
 
 
 
@@ -105,25 +85,26 @@ typedef struct _highspeedlog_flags_t {
 
 typedef struct _highspeedlog_mgr_t {
 
-
     U32 entry_ptr;
+
+    bool cam_lobe_begin_triggered;
 
     highspeedlog_flags_t flags;
 
-
-
-
-
-
 } highspeedlog_mgr_t;
+
+
+
 
 
 volatile highspeedlog_flags_t * highspeedlog_init();
 void clear_highspeedlog();
 
+void highspeedlog_write();
+
 void highspeedlog_register_error();
 
-void highspeedlog_register_crankpos(volatile crank_position_t Position);
+void highspeedlog_register_crankpos();
 
 void highspeedlog_register_cis_lobe_begin();
 void highspeedlog_register_cis_lobe_end();

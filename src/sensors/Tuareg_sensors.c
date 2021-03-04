@@ -28,8 +28,19 @@ volatile sensor_interface_t * init_Sensors()
     exec_result_t result;
     volatile sensor_interface_t * pInterface;
 
-    //start with error state
+    //start with all errors set
     Tuareg.Errors.sensor_calibration_error= true;
+
+    Tuareg.Errors.sensor_O2_error= true;
+    Tuareg.Errors.sensor_TPS_error= true;
+    Tuareg.Errors.sensor_IAT_error= true;
+    Tuareg.Errors.sensor_CLT_error= true;
+    Tuareg.Errors.sensor_VBAT_error= true;
+    Tuareg.Errors.sensor_KNOCK_error= true;
+    Tuareg.Errors.sensor_BARO_error= true;
+    Tuareg.Errors.sensor_GEAR_error= true;
+    Tuareg.Errors.sensor_MAP_error= true;
+    Tuareg.Errors.sensor_CIS_error= true;
 
     //load calibration data
     result= load_Sensor_Calibration();

@@ -70,32 +70,6 @@ VU32 get_timestamp_fraction_us()
 }
 
 
-/**
-The systick timer is a 24 bit down counter, T := 0,08 us
-it is reset every 1 ms
-
-fraction_us := (0xFFFFFF - STV_VAL) * 8 / 100
-fraction_4us_interval := (0xFFFFFF - STV_VAL) / 50
-
-*/
-volatile logging_timestamp_t get_logging_timestamp()
-{
-    volatile timestamp_t system_ts;
-    VU32 fraction;
-    volatile logging_timestamp_t logging_ts;
-
-    //get the amount of timer ticks since the last timer reset
-    fraction= cSystickLoadValue - SysTick->VAL;
-
-    system_ts= Systick_Mgr.system_time;
-
-
-    logging_ts= (system_ts << 8) | (fraction / 50);
-
-    return logging_ts;
-}
-
-
 
 
 
@@ -119,7 +93,6 @@ void SysTick_Handler(void)
     {
         service_functions_periodic_update();
     }
-
 
 
     //10 ms cycle - 100 Hz

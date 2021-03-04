@@ -125,12 +125,19 @@ void send_float(USART_TypeDef * Port, float Value)
 
 
 //writes 2 bytes to pTarget, LSB first
-void serialize_U16_U8(U16 Value, U8 * pTarget)
+void serialize_U16_U8(VU16 Value, VU8 * pTarget)
 {
-      *pTarget= (U8)(Value & 0x00FF);
-      *(pTarget +1)= (U8)(Value >> 8);
+      *pTarget= (VU8)(Value & 0x00FF);
+      *(pTarget +1)= (VU8)(Value >> 8);
 }
 
+
+//writes 2 bytes to pTarget, MSB first
+void serialize_U16_U8_reversed(VU16 Value, VU8 * pTarget)
+{
+      *pTarget= (VU8)(Value >> 8);
+      *(pTarget +1)= (VU8)(Value & 0x00FF);
+}
 
 
 /*
@@ -172,11 +179,14 @@ U32 compose_U32(U8 Msb, U8 Mid_h, U8 Mid_l, U8 Lsb)
     return u.out;
 }
 
+
+
+
+
 /*
-writes 4 bytes to pTarget
-keeps the input byte order
+writes 4 bytes to pTarget from first to last memory address (LSB to MSB)
 */
-void serialize_U32_char(VU32 Value, U8 * pTarget)
+void serialize_U32_U8(VU32 Value, VU8 * pTarget)
 {
     U32 i;
 
@@ -192,6 +202,29 @@ void serialize_U32_char(VU32 Value, U8 * pTarget)
     for(i=0; i<4; i++)
     {
         *pTarget=  u.out[i];
+        pTarget++;
+    }
+}
+
+/*
+writes 4 bytes to pTarget with reversed byte order
+*/
+void serialize_U32_U8_reversed(VU32 Value, VU8 * pTarget)
+{
+    U32 i;
+
+    union {
+
+        U32 in;
+        U8  out[4];
+
+    } u;
+
+    u.in = Value;
+
+    for(i=0; i<4; i++)
+    {
+        *pTarget=  u.out[3 - i];
         pTarget++;
     }
 }
