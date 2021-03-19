@@ -277,6 +277,11 @@ void EXTI2_IRQHandler(void)
 
         //update ignition controls
         Tuareg_update_ignition_controls();
+
+
+        Tuareg_update_fueling_controls();
+
+
     }
 
     // check if cranking has just begun

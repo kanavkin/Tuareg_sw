@@ -199,15 +199,11 @@ inline exec_result_t dynamic_ignition_controls()
         Tuareg.ignition_controls.state.advance_tps= true;
 
         //get target ignition advance angle
-        //Ign_advance_deg= table3D_getValue(&ignitionTable_TPS, pImage->crank_rpm, pImage->TPS_deg);
-
-        /// TODO (oli#3#): tps readout not stable yet
-        Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, 30);
-
+        Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
 
         ///get dwell from table
 
-        /// TODO (oli#1#): dwell logic hacked! shall be replaced by a proper target dwell calculation/table soon!
+        /// TODO (oli#4#): dwell logic improvement: implement a proper target dwell calculation/table
 
         //get target dwell duration
         if(Tuareg.pDecoder->crank_rpm < 2000)

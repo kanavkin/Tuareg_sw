@@ -163,6 +163,11 @@ volatile BF8 ts_comm_bits()
         setBit_BF8(COMMBIT_IGNMOD_PERMISSION, &commbits);
     }
 
+    if(Tuareg_console.cli_permissions.fueling_mod_permission)
+    {
+        setBit_BF8(COMMBIT_FUELMOD_PERMISSION, &commbits);
+    }
+
     if(Tuareg_console.cli_permissions.decoder_mod_permission)
     {
         setBit_BF8(COMMBIT_DECMOD_PERMISSION, &commbits);

@@ -10,7 +10,7 @@
 #define FUELLING_REQUIRED_CONFIG_VERSION 1
 
 
-void init_Fuelling();
+void init_Fueling();
 
 void Tuareg_fueling_update_crankpos_handler();
 void Tuareg_fueling_irq_handler();

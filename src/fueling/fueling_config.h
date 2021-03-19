@@ -21,25 +21,46 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 *   API section
 ***************************************************************************************************************************************************/
 
-/*
+
 //General Fueling Config
 exec_result_t load_Fueling_Config();
 void load_essential_Fueling_Config();
 
+/*
 //Fueling Setup
 extern volatile Fueling_Setup_t Fueling_Setup;
 exec_result_t store_Fueling_Setup();
 void show_Fueling_Setup();
 exec_result_t modify_Fueling_Setup(U32 Offset, U32 Value);
 void send_Fueling_Setup(USART_TypeDef * Port);
-
-// Fueling Advance Table (TPS)
-exec_result_t store_ignAdvTable_TPS();
-void show_ignAdvTable_TPS(USART_TypeDef * Port);
-exec_result_t modify_ignAdvTable_TPS(U32 Offset, U32 Value);
-void send_ignAdvTable_TPS(USART_TypeDef * Port);
-VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS);
 */
+
+//Fueling VE Table (TPS) - VeTable_TPS
+exec_result_t store_VeTable_TPS();
+void show_VeTable_TPS(USART_TypeDef * Port);
+exec_result_t modify_VeTable_TPS(U32 Offset, U32 Value);
+void send_VeTable_TPS(USART_TypeDef * Port);
+VF32 getValue_VeTable_TPS(VU32 Rpm, VF32 Tps_deg);
+
+//Fueling VE Table (MAP based) - VeTable_MAP
+exec_result_t store_VeTable_MAP();
+void show_VeTable_MAP(USART_TypeDef * Port);
+exec_result_t modify_VeTable_MAP(U32 Offset, U32 Value);
+void send_VeTable_MAP(USART_TypeDef * Port);
+VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa);
+
+//Fueling AFR target Table (TPS based) - AfrTable_TPS
+exec_result_t store_AfrTable_TPS();
+void show_AfrTable_TPS(USART_TypeDef * Port);
+exec_result_t modify_AfrTable_TPS(U32 Offset, U32 Value);
+void send_AfrTable_TPS(USART_TypeDef * Port);
+VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg);
+
+
+
+
+
+
 
 /***************************************************************************************************************************************************
 *   helper macros

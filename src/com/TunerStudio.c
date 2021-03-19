@@ -24,6 +24,8 @@
 #include "diagnostics.h"
 #include "bitfields.h"
 
+#include "fueling_config.h"
+
 #include "process_table.h"
 
 #include "syslog.h"
@@ -58,6 +60,20 @@ void ts_readPage(U32 Page)
         case IGNITIONMAP_TPS:
             send_ignAdvTable_TPS(TS_PORT);
             break;
+
+
+        case VEMAP_TPS:
+            send_VeTable_TPS(TS_PORT);
+            break;
+
+        case VEMAP_MAP:
+            send_VeTable_MAP(TS_PORT);
+            break;
+
+        case AFRMAP_TPS:
+            send_AfrTable_TPS(TS_PORT);
+            break;
+
 
         case SYSLOG_PAGE:
             send_syslog(TS_PORT);
@@ -135,6 +151,40 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_ignAdvTable_TPS(Offset, Value);
             break;
 
+
+        case VEMAP_TPS:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                print(DEBUG_PORT, "\r\n*** fueling config modification rejected (permission) ***\r\n");
+                return;
+            }
+
+            result= modify_VeTable_TPS(Offset, Value);
+            break;
+
+        case VEMAP_MAP:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                print(DEBUG_PORT, "\r\n*** fueling config modification rejected (permission) ***\r\n");
+                return;
+            }
+
+            result= modify_VeTable_MAP(Offset, Value);
+            break;
+
+        case AFRMAP_TPS:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                print(DEBUG_PORT, "\r\n*** fueling config modification rejected (permission) ***\r\n");
+                return;
+            }
+
+            result= modify_AfrTable_TPS(Offset, Value);
+            break;
+
         default:
             break;
 
@@ -155,7 +205,7 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
         printf_U(DEBUG_PORT, Tuareg_console.ts_active_page, NO_PAD);
         print(DEBUG_PORT, "at ");
         printf_U(DEBUG_PORT, Offset, NO_PAD);
-        Print_U8Hex(DEBUG_PORT, Value);
+        printf_U8hex(DEBUG_PORT, Value, 0);
     }
     #endif //TS_DEBUG
 }
@@ -193,6 +243,21 @@ void ts_burnPage(U32 Page)
         case IGNITIONMAP_TPS:
 
             result= store_ignAdvTable_TPS();
+            break;
+
+        case VEMAP_TPS:
+
+            result= store_VeTable_TPS();
+            break;
+
+        case VEMAP_MAP:
+
+            result= store_VeTable_MAP();
+            break;
+
+        case AFRMAP_TPS:
+
+            result= store_AfrTable_TPS();
             break;
 
        default:

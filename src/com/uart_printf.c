@@ -250,27 +250,35 @@ void printf_F32(USART_TypeDef * Port, F32 Value)
 
 
 
-inline void printf_nib(USART_TypeDef * Port, U32 Value)
+void printf_nib_hex(USART_TypeDef * Port, U32 Value)
 {
     //print only low nibble
     UART_Tx(Port, printf_hex_digits[Value & 0x0f]);
 }
 
-void printf_U8hex_new(USART_TypeDef * Port, U8 value)
+void printf_U8hex(USART_TypeDef * Port, U8 value, BF32 Format)
 {
-    print(Port, "0x");
+    if( !(Format & NO_PREFIX))
+    {
+        //print hex prefix
+        print(Port, "0x");
+    }
+
 
     //high nibble
-    printf_nib(Port, (value >> 4));
+    printf_nib_hex(Port, (value >> 4));
 
     //low nibble
-    printf_nib(Port, value);
+    printf_nib_hex(Port, value);
 
-    //trailing space
-    UART_Tx(Port, ' ');
+    if( !(Format & NO_TRAIL))
+    {
+        //print trailing space
+        UART_Tx(Port, ' ');
+    }
 }
 
-
+/*
 void Print_U8Hex(USART_TypeDef * Port, U8 value)
 {
     print(Port, "0x");
@@ -284,7 +292,7 @@ void Print_U8Hex(USART_TypeDef * Port, U8 value)
     //trailing space
     UART_Tx(Port, ' ');
 }
-
+*/
 
 void printf_U32hex(USART_TypeDef * Port, U32 value)
 {
@@ -294,7 +302,7 @@ void printf_U32hex(USART_TypeDef * Port, U32 value)
 
     for(i=0; i<8; i++)
     {
-        printf_nib(Port, (value >> (28 - 4*i)) );
+        printf_nib_hex(Port, (value >> (28 - 4*i)) );
     }
 
     //trailing space

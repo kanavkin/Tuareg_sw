@@ -208,6 +208,7 @@ void serialize_U32_U8(VU32 Value, VU8 * pTarget)
 
 /*
 writes 4 bytes to pTarget with reversed byte order
+-> begin wit MSB
 */
 void serialize_U32_U8_reversed(VU32 Value, VU8 * pTarget)
 {

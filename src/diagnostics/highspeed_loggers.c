@@ -13,12 +13,12 @@
 
 #define HSPLOG_TRACK_CRKPOS
 
-#define HSPLOG_TRACK_CIS
+//#define HSPLOG_TRACK_CIS
 
-#define HSPLOG_TRACK_COIL1
-#define HSPLOG_TRACK_COIL2
-#define HSPLOG_TRACK_INJECTOR1
-#define HSPLOG_TRACK_INJECTOR2
+//#define HSPLOG_TRACK_COIL1
+//#define HSPLOG_TRACK_COIL2
+//#define HSPLOG_TRACK_INJECTOR1
+//#define HSPLOG_TRACK_INJECTOR2
 
 
 
@@ -36,14 +36,21 @@ volatile highspeedlog_flags_t * highspeedlog_init()
 {
     clear_highspeedlog();
 
+    Highspeedlog_Mgr.cam_lobe_begin_triggered= false;
+
     return &(Highspeedlog_Mgr.flags);
 }
 
 
+/**
+executed on init and after every high speed log readout
+*/
 void clear_highspeedlog()
 {
     Highspeedlog_Mgr.entry_ptr= 0;
     Highspeedlog_Mgr.flags.log_full= false;
+
+
 }
 
 
@@ -82,39 +89,44 @@ void highspeedlog_write()
     //next highspeedlog write will address the next entry
     Highspeedlog_Mgr.entry_ptr++;
 
-
     //cache current timestamps
     system_ts_ms= Tuareg.pTimer->system_time;
     fraction_ts_us= get_timestamp_fraction_us();
 
 
-    //0 .. 3,5 timestamp ms (28 bits)
-    serialize_U32_U8_reversed(system_ts_ms, &(pTarget->data[0]));
+    //0 .. 3,5 timestamp ms (28 bits), inits data 0..3
+    serialize_U32_U8_reversed(system_ts_ms << 4, &(pTarget->data[0]));
 
     //clear shared high nibble
-    pTarget->data[3] &= 0x0F;
+    pTarget->data[3] &= 0xF0;
 
     //clip fraction just to be sure
     fraction_ts_us &= 0x0FFF;
 
-    //3,5 .. 4 fractional timestamp
+    //3,5 .. 4 fractional timestamp MSB, LSB
     pTarget->data[3] |= fraction_ts_us >> 8;
     pTarget->data[4]= fraction_ts_us;
 
 
-    //5 crank pos, CIS_LOBE_BIT, PHASE_COMP_BIT, PHASE_VALID_BIT
+    //5 crank pos, CIS_LOBE_BIT, PHASE_COMP_BIT, PHASE_VALID_BIT, inits data[5]
     pTarget->data[5]= Tuareg.pDecoder->crank_position & 0x0F;
 
+    /*
     if(Highspeedlog_Mgr.cam_lobe_begin_triggered == true) setBit_BF8(HIGSPEEDLOG_BYTE5_CIS_LOBE_BIT, &(pTarget->data[5]));
     if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_COMP_BIT, &(pTarget->data[5]));
     if(Tuareg.pDecoder->outputs.phase_valid == true) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_VALID_BIT, &(pTarget->data[5]));
+    */
 
+    //init data[6]
+    pTarget->data[6]=0;
+
+    /*
     //6 crank pos, COIL1_POWERED_BIT, COIL2_POWERED_BIT, INJECTOR1_POWERED_BIT, INJECTOR2_POWERED_BIT
     if(Tuareg.actors.ignition_coil_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL1_POWERED_BIT, &(pTarget->data[6]));
     if(Tuareg.actors.ignition_coil_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL2_POWERED_BIT, &(pTarget->data[6]));
     if(Tuareg.actors.fuel_injector_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR1_POWERED_BIT, &(pTarget->data[6]));
     if(Tuareg.actors.fuel_injector_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR2_POWERED_BIT, &(pTarget->data[6]));
-
+    */
 
     //check if the log is ready to be read
     if(Highspeedlog_Mgr.entry_ptr >= HIGSPEEDLOG_LENGTH)
@@ -249,9 +261,14 @@ void send_highspeedlog(USART_TypeDef * Port)
         //send data
         //UART_send_data(Port, &(Highspeedlog[entry].data), sizeof(highspeedlog_entry_t.data));
 
+        print(DEBUG_PORT, "\r\n HSL ");
+        printf_U(DEBUG_PORT, entry, NO_PAD);
+
         for(i =0; i < 7; i++)
         {
             UART_Tx(Port, Highspeedlog[entry].data[i]);
+
+            printf_U8hex(DEBUG_PORT, Highspeedlog[entry].data[i], 0);
         }
     }
 

@@ -16,6 +16,7 @@ typedef struct
 
     U8 calib_mod_permission :1;
     U8 ignition_mod_permission :1;
+    U8 fueling_mod_permission :1;
     U8 decoder_mod_permission :1;
     U8 tsetup_mod_permission :1;
 

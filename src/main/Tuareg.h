@@ -20,6 +20,8 @@
 
 #include "systick_timer.h"
 
+#include "Tuareg_fueling_controls.h"
+
 #include "syslog.h"
 #include "highspeed_loggers.h"
 
@@ -129,6 +131,11 @@ typedef struct _Tuareg_t {
     current ignition timing and alignment
     */
     volatile ignition_control_t ignition_controls;
+
+    /**
+    current fueling parameters
+    */
+    volatile fueling_control_t fueling_controls;
 
     /**
     state machine and health status

@@ -262,7 +262,7 @@ void show_datalog(USART_TypeDef * Port)
             //data
             for(byte=0; byte < 24; byte++)
             {
-                Print_U8Hex(Port, Datalog[entry].data.as_U8[byte]);
+                printf_U8hex(Port, Datalog[entry].data.as_U8[byte], 0);
             }
         }
     }

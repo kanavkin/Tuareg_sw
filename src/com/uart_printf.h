@@ -19,6 +19,8 @@ typedef enum {
 
     TO_HEX =(1 << 7),
 
+    NO_PREFIX =(1 << 8),
+
 } printf_format_t;
 
 
@@ -31,7 +33,10 @@ void printf_decoder_sensing(USART_TypeDef * Port, decoder_sensing_t Sensing);
 
 void print(USART_TypeDef * Port, char messg[] );
 
-void Print_U8Hex(USART_TypeDef * Port, U8 value);
+void printf_nib_hex(USART_TypeDef * Port, U32 Value);
+void printf_U8hex(USART_TypeDef * Port, U8 value, BF32 Format);
+
+//void Print_U8Hex(USART_TypeDef * Port, U8 value);
 void printf_U8(USART_TypeDef * Port, U32 Value);
 
 void printf_U32hex(USART_TypeDef * Port, U32 value);

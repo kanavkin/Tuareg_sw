@@ -23,6 +23,8 @@
 #include "sensors.h"
 #include "base_calc.h"
 
+#include "fueling_config.h"
+
 #include "diagnostics.h"
 #include "bitfields.h"
 
@@ -394,6 +396,22 @@ inline void cli_showPage(U32 Page)
             break;
 */
 
+        case VEMAP_TPS:
+            print(TS_PORT, "\r \nVE Map - TPS (in boctok 3D coordinate system)\r\n");
+            show_VeTable_TPS(TS_PORT);
+            break;
+
+        case VEMAP_MAP:
+            print(TS_PORT, "\r \nVE Map - MAP (in boctok 3D coordinate system)\r\n");
+            show_VeTable_MAP(TS_PORT);
+            break;
+
+        case AFRMAP_TPS:
+            print(TS_PORT, "\r \nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
+            show_AfrTable_TPS(TS_PORT);
+            break;
+
+
         case TSETUP_PAGE:
 
                 show_Tuareg_Setup(TS_PORT);
@@ -414,9 +432,7 @@ inline void cli_showPage(U32 Page)
 
 
 /*
-cmdCalibModPerm = "\x4A\x63\x61\x6c\x23"
-cmdLegacyConfigModPerm = "\x4A\x6D\x6F\x64\x23"
-cmdConfigBurnPerm = "\x4A\x62\x72\x6E\x21"
+
 */
 inline void cli_checkPermissions(U32 Value)
 {
@@ -435,6 +451,11 @@ inline void cli_checkPermissions(U32 Value)
     case 'ign#':
         Tuareg_console.cli_permissions.ignition_mod_permission = true;
         print(DEBUG_PORT, "\r\nINFO unlocked ignition config modification");
+        break;
+
+    case 'fue#':
+        Tuareg_console.cli_permissions.fueling_mod_permission = true;
+        print(DEBUG_PORT, "\r\nINFO unlocked fueling config modification");
         break;
 
     case 'tua#':

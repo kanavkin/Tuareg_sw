@@ -11,9 +11,16 @@ typedef enum {
     CALIBPAGE,
 
     DECODERPAGE,
+
     IGNITIONPAGE,
     IGNITIONMAP_TPS,
     //IGNITIONMAP_MAP,
+
+    //FUELINGPAGE,
+    VEMAP_TPS,
+    VEMAP_MAP,
+    AFRMAP_TPS,
+
     TSETUP_PAGE,
 
     SYSLOG_PAGE,

@@ -91,33 +91,29 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_MAP_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_MAP_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_MAP_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_MAP_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_MAP_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_MAP];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_MAP_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_MAP_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_MAP];
-        }
-        else
+        if(Tuareg.Errors.sensor_MAP_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_MAP_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_MAP_FAILED);
-
-            //use default value
-            return MAP_DEFAULT_KPA;
         }
+
+        //use default value
+        return MAP_DEFAULT_KPA;
     }
 }
 
@@ -129,33 +125,29 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_O2_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_O2_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_O2_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_O2_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_O2_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_O2];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_O2_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_O2_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_O2];
-        }
-        else
+        if(Tuareg.Errors.sensor_O2_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_O2_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_O2_FAILED);
-
-            //use default value
-            return O2_DEFAULT_AFR;
         }
+
+        //use default value
+        return O2_DEFAULT_AFR;
     }
 }
 
@@ -167,33 +159,29 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_TPS_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_TPS_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_TPS_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_TPS_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_TPS_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_TPS];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_TPS_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_TPS_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_TPS];
-        }
-        else
+        if(Tuareg.Errors.sensor_TPS_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_TPS_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_TPS_FAILED);
-
-            //use default value
-            return TPS_DEFAULT_DEG;
         }
+
+        //use default value
+        return TPS_DEFAULT_DEG;
     }
 }
 
@@ -220,34 +208,31 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_IAT_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_IAT_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_IAT_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_IAT_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_IAT_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_IAT];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_IAT_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_IAT_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_IAT];
-        }
-        else
+        if(Tuareg.Errors.sensor_IAT_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_IAT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_IAT_FAILED);
-
-            //use default value
-            return IAT_DEFAULT_C;
         }
+
+        //use default value
+        return IAT_DEFAULT_C + cKelvin_offset;
     }
+
 }
 
 
@@ -258,34 +243,31 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_CLT_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_CLT_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_CLT_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_CLT_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_CLT_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_CLT];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_CLT_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_CLT_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_CLT];
-        }
-        else
+        if(Tuareg.Errors.sensor_CLT_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_CLT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CLT_FAILED);
-
-            //use default value
-            return CLT_DEFAULT_C;
         }
+
+        //use default value
+        return CLT_DEFAULT_C+ cKelvin_offset;
     }
+
 }
 
 
@@ -296,34 +278,31 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_VBAT_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_VBAT_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_VBAT_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_VBAT_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_VBAT_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_VBAT];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_VBAT_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_VBAT_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_VBAT];
-        }
-        else
+        if(Tuareg.Errors.sensor_VBAT_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_VBAT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_VBAT_FAILED);
-
-            //use default value
-            return VBAT_DEFAULT_V;
         }
+
+        //use default value
+        return VBAT_DEFAULT_V;
     }
+
 }
 
 
@@ -334,34 +313,29 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_KNOCK_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_KNOCK_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_KNOCK_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_KNOCK_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_KNOCK_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_KNOCK];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_KNOCK_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_KNOCK_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_KNOCK];
-        }
-        else
+        if(Tuareg.Errors.sensor_KNOCK_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_KNOCK_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_KNOCK_FAILED);
-
-            //use default value
-            return KNOCK_DEFAULT;
         }
 
+        //use default value
+        return KNOCK_DEFAULT;
     }
 }
 
@@ -373,35 +347,33 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_BARO_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_BARO_error == false)
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES)
     {
-        //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_BARO];
-    }
-    else
-    {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES)
+        if(Tuareg.Errors.sensor_BARO_error == true)
         {
             //sensor successfully validated
             Tuareg.Errors.sensor_BARO_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_BARO_VALIDATED);
 
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_BARO];
         }
-        else
+
+        //use live value
+        return Tuareg.pSensors->asensors[ASENSOR_BARO];
+    }
+    else
+    {
+        if(Tuareg.Errors.sensor_BARO_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_BARO_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_BARO_FAILED);
-
-            //use default value
-            return BARO_DEFAULT_KPA;
         }
+
+        //use default value
+        return BARO_DEFAULT_KPA;
     }
 }
+
 
 
 /**
@@ -411,33 +383,29 @@ uses a generic default value for disturbed sensors
 */
 gears_t Tuareg_update_GEAR_sensor()
 {
-    //check if sensor has already been validated and is still healthy
-    if(Tuareg.Errors.sensor_GEAR_error == false)
+    //check if sensor can be validated in this cycle
+    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES)
     {
+        if(Tuareg.Errors.sensor_GEAR_error == true)
+        {
+            //sensor successfully validated
+            Tuareg.Errors.sensor_GEAR_error= false;
+            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_VALIDATED);
+        }
+
         //use live value
         return Tuareg.pSensors->asensors[ASENSOR_GEAR];
     }
     else
     {
-        //check if sensor can be validated in this cycle
-        if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES)
-        {
-            //sensor successfully validated
-            Tuareg.Errors.sensor_GEAR_error= false;
-            Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_VALIDATED);
-
-            //use live value
-            return Tuareg.pSensors->asensors[ASENSOR_GEAR];
-        }
-        else
+        if(Tuareg.Errors.sensor_GEAR_error == false)
         {
             //sensor temporarily disturbed
             Tuareg.Errors.sensor_GEAR_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_FAILED);
-
+        }
             //use default value
             return GEAR_NEUTRAL;
-        }
     }
 }
 

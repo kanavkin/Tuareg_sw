@@ -9,12 +9,13 @@ else
 fi
 
 #stty -F /dev/ttyUSB0 115200 raw -echo -hupcl
-#stty -F /dev/ttyUSB0 115200 raw 
+#stty -F /dev/ttyUSB0 115200 raw
 
 #get permissions
 printf "Jcal#" > $DEV
 printf "Jdec#" > $DEV
 printf "Jtua#" > $DEV
 printf "Jign#" > $DEV
+printf "Jfue#" > $DEV
 
 printf "Jbrn!" > $DEV

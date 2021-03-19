@@ -11,6 +11,8 @@
 #include "ignition_hw.h"
 #include "ignition_config.h"
 
+#include "Tuareg_fueling.h"
+
 #include "Tuareg_sensors.h"
 
 #include "scheduler.h"
@@ -134,6 +136,7 @@ void Tuareg_Init()
     Tuareg.pSensors= init_Sensors();
 
     init_Ignition();
+    init_Fueling();
 
     init_scheduler();
 

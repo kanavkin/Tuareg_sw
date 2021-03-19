@@ -189,10 +189,10 @@ void cli_show_process_data(volatile process_data_t * pImage)
     */
 
     print(TS_PORT, "\r\n\r\nprocess data image:\r\n");
-
+/*
     print(TS_PORT, "rpm: ");
     printf_U(TS_PORT, pImage->crank_rpm, NO_PAD);
-
+*/
 
 
     print(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");

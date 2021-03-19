@@ -7,8 +7,6 @@
 
 typedef struct _process_data_t {
 
-    U16 crank_rpm;
-
     VF32 MAP_kPa;
     VF32 Baro_kPa;
     VF32 TPS_deg;

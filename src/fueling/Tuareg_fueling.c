@@ -32,7 +32,7 @@
 
 
 /**
-
+The fueling module relies on external triggers to start injection, the scheduler is allocated only to maintain the injector interval
 
 
 */
@@ -41,23 +41,22 @@
 void init_Fueling()
 {
     exec_result_t result;
-    /*
 
     //setup shall be loaded first
     result= load_Fueling_Config();
-
+/*
     //check if config has been loaded
     if(result != EXEC_OK)
     {
         //failed to load Decoder Config
         load_essential_Fueling_Config();
 
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
+        Syslog_Error(TID_TUAREG_FUELING, FUELLING_LOC_CONFIG_LOAD_FAIL);
 
-        #ifdef IGNITION_DEBUG_OUTPUT
-        DebugMsg_Error("Failed to load Ignition config!");
-        DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
+        #ifdef FUELING_DEBUG_OUTPUT
+        DebugMsg_Error("Failed to load Fueling config!");
+        DebugMsg_Warning("Fueling essential config has been loaded");
+        #endif // FUELING_DEBUG_OUTPUT
     }
     else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
     {
@@ -66,10 +65,10 @@ void init_Fueling()
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
 
-        #ifdef IGNITION_DEBUG_OUTPUT
-        DebugMsg_Error("Ignition config version does not match");
-        DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
+        #ifdef FUELING_DEBUG_OUTPUT
+        DebugMsg_Error("Fueling config version does not match");
+        DebugMsg_Warning("Fueling essential config has been loaded");
+        #endif // FUELING_DEBUG_OUTPUT
     }
     else
     {
@@ -78,14 +77,13 @@ void init_Fueling()
 
         Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
     }
-
+*/
     //init hw part
-    init_ignition_hw();
+    init_fueling_hw();
 
     //provide ignition controls for startup
-    Tuareg_update_ignition_controls();
-    */
-    return EXEC_ERROR;
+    //Tuareg_update_ignition_controls();
+
 }
 
 
