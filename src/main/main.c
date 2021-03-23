@@ -68,12 +68,21 @@ SCHEDULER (ignition)
 
 #include "Tuareg_decoder.h"
 #include "Tuareg_ignition.h"
+#include "Tuareg_fueling.h"
 #include "scheduler.h"
 #include "Tuareg_console.h"
 
 #include "diagnostics.h"
 #include "debug_port_messages.h"
 #include "syslog.h"
+
+
+/**
+process data shall be updated prior to
+* ignition controls update
+* fueling controls update
+*/
+#define PROCESS_DATA_UPDATE_POSITION CRK_POSITION_B1
 
 
 /**
@@ -234,6 +243,9 @@ Update crankpos irq
 
 sw generated irq when decoder has updated crank_position based on crank pickup signal or decoder timeout occurred
 
+as the ignition / fueling timing relies on this position update event, it shall be implemented stream lined
+
+
 The crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync
 
 The irq can be entered in HALT Mode when the crank is still spinning but the RUN switch has not yet been evaluated.
@@ -262,27 +274,22 @@ void EXTI2_IRQHandler(void)
         return;
     }
 
-    //trigger the ignition actors
-    Tuareg_ignition_update_crankpos_handler();
-
-
-    //check if ignition controls shall be updated
-    if(Tuareg.pDecoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+    //check if process data shall be updated
+    if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
     {
         //update process table with data supplied by decoder
         update_process_table(Tuareg.pDecoder->crank_period_us);
 
         //update process data
         Tuareg_update_process_data();
-
-        //update ignition controls
-        Tuareg_update_ignition_controls();
-
-
-        Tuareg_update_fueling_controls();
-
-
     }
+
+    //trigger the ignition module
+    Tuareg_ignition_update_crankpos_handler();
+
+    //trigger the fueling module
+    Tuareg_fueling_update_crankpos_handler();
+
 
     // check if cranking has just begun
     if(Tuareg.Runmode == TMODE_STB)

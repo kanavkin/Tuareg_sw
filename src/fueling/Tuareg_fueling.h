@@ -13,6 +13,5 @@
 void init_Fueling();
 
 void Tuareg_fueling_update_crankpos_handler();
-void Tuareg_fueling_irq_handler();
 
 #endif // TUAREG_FUELING_H_INCLUDED

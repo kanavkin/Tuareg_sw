@@ -31,6 +31,9 @@
 #endif // IGNITION_DEBUG_OUTPUT
 
 
+#define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
+
+
 /**
 How the Tuareg Ignition system works:
 
@@ -100,6 +103,10 @@ void init_Ignition()
 
 /**
 emits the control events to actor (scheduler / coil) layer
+
+precondition:
+Tuareg.pDecoder->outputs.timeout == false
+Tuareg.pDecoder->outputs.position_valid == true
 */
 void Tuareg_ignition_update_crankpos_handler()
 {
@@ -117,24 +124,32 @@ void Tuareg_ignition_update_crankpos_handler()
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
 
-        //turn off all powered coils
-        set_ignition_ch1(ACTOR_UNPOWERED);
-        set_ignition_ch2(ACTOR_UNPOWERED);
+        //turn off all coils
+        set_coil1_unpowered();
+        set_coil2_unpowered();
 
         //nothing to do
         return;
     }
 
-    //check preconditions
-    if((Tuareg.ignition_controls.state.valid == false)  || (Tuareg.ignition_controls.state.rev_limiter == true) ||
-       (Tuareg.pDecoder->outputs.position_valid == false) || (Tuareg.pDecoder->outputs.timeout == true))
+    //check if ignition controls shall be updated
+    if(Tuareg.pDecoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+    {
+        //update ignition controls
+        Tuareg_update_ignition_controls();
+    }
+
+
+    //check preconditions for ignition control based actions
+    if((Tuareg.ignition_controls.state.valid == false)  || (Tuareg.ignition_controls.state.rev_limiter == true))
     {
         //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
 
         //nothing to do
         return;
     }
+
 
     //check if the crank is at the ignition base position
     if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)

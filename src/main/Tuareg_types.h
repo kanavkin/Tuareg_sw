@@ -17,6 +17,7 @@ typedef enum {
 } exec_result_codes_t;
 
 #define ASSERT_EXEC_OK(result) if((result) != EXEC_OK) return (result)
+#define ASSERT_EXEC_OK_VOID(result) if((result) != EXEC_OK) return
 
 
 /**

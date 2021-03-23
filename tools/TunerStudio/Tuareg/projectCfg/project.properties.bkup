@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Thu Mar 18 15:23:57 CET 2021
-#Thu Mar 18 15:23:57 CET 2021
+#Last Saved on: Tue Mar 23 15:37:02 CET 2021
+#Tue Mar 23 15:37:02 CET 2021
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
 config_permissionGet\ Permissions_height=235
@@ -150,15 +150,15 @@ injCharsInjector\ Characteristics_X=759
 VeTable_MAPVE\ vs.\ MAP_Y=316
 VeTable_MAPVE\ vs.\ MAP_X=684
 sparkSettingsSpark\ Settings_Y=386
-sparkSettingsSpark\ Settings_X=777
 tuareg_setupTuareg\ Setup_Y=320
+sparkSettingsSpark\ Settings_X=777
 tuareg_setupTuareg\ Setup_X=453
 canId=-1
 CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 commPort=
 disabledLogFields.=
-service_fuelService\ Tools\ -\ Fuelling_height=827
 baudRate=230400
+service_fuelService\ Tools\ -\ Fuelling_height=827
 2DTable_VeTable_TPS_tableInitialDir=/home/oli/Desktop
 afrTable1TblAFR\ Table_Y=316
 afrTable1TblAFR\ Table_X=684

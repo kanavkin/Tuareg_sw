@@ -30,6 +30,7 @@ typedef enum {
     //error bits
     TBIT_DECODERCONFIG_ERROR,
     TBIT_IGNITIONCONFIG_ERROR,
+    TBIT_FUELCONFIG_ERROR,
     TBIT_SENSORCALIB_ERROR,
     TBIT_TUAREGCONFIG_ERROR,
 
@@ -43,7 +44,6 @@ typedef enum {
     TBIT_GEARSENSOR_ERROR,
     TBIT_MAPSENSOR_ERROR,
     TBIT_CISENSOR_ERROR,
-    TBIT_SPARE1_ERROR,
 
     // status bits
     TBIT_CRANKING_MODE,
@@ -84,8 +84,26 @@ typedef enum {
 } ignition_bits_t;
 
 
+/**
+OutputChannel fueling bits
+*/
+typedef enum {
 
-#define TS_OCHBLOCKSIZE 52
+    FUELBIT_VALID,
+    FUELBIT_SEQ_MODE,
+    FUELBIT_VE_VALID,
+    FUELBIT_VE_MAP,
+    FUELBIT_AFR_VALID,
+    FUELBIT_DC_CLIP,
+    FUELBIT_BEGIN_VALID,
+
+    FUELBIT_COUNT
+
+} fueling_bits_t;
+
+
+
+#define TS_OCHBLOCKSIZE 78
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port);
@@ -93,6 +111,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port);
 VU8 ts_comm_bits();
 VU32 ts_tuareg_bits();
 VU16 ts_ignition_bits();
+VU16 ts_fueling_bits();
 
 
 #endif // TUNERSTUDIO_OUTCHANNEL_H_INCLUDED

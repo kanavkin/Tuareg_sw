@@ -30,6 +30,7 @@
 void ts_sendOutputChannels(USART_TypeDef * Port)
 {
     U8 output[TS_OCHBLOCKSIZE];
+    U32 i;
 
     if(Tuareg_console.ts_getOutputChannels_count == 0)
     {
@@ -56,80 +57,111 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     serialize_U16_U8(ts_ignition_bits(), &(output[5]));
 
     /*
-    comm             = scalar, U08,  7, "bits",   1.000, 0.000
+    fueling         = scalar,  U16,    7, "bits",   1.000, 0.000
     */
-    output[7] = (U8) ts_comm_bits();
+    serialize_U16_U8(ts_fueling_bits(), &(output[7]));
 
-    //rpm              = scalar,   U16,    8, "rpm",    1.000, 0.000
+    /*
+    comm             = scalar, U08,  9, "bits",   1.000, 0.000
+    */
+    output[9] = (U8) ts_comm_bits();
+
+    //rpm              = scalar,   U16,    10, "rpm",    1.000, 0.000
     if(Tuareg.pDecoder->outputs.rpm_valid == true)
     {
-        serialize_U16_U8(Tuareg.pDecoder->crank_rpm, &(output[8]));
-    }
-    else
-    {
-        output[8]= 0;
-        output[9]= 0;
-    }
-
-    //rpmDOT           = scalar,   F32,    10, "rpm/s",  1.000, 0.000
-    if(Tuareg.pDecoder->outputs.accel_valid == true)
-    {
-        serialize_float_U8(0.42, &(output[10]));
+        serialize_U16_U8(Tuareg.pDecoder->crank_rpm, &(output[10]));
     }
     else
     {
         output[10]= 0;
+        output[11]= 0;
     }
 
-    if(Tuareg.ignition_controls.state.valid == true)
+    //rpmDOT           = scalar,   F32,    12, "rpm/s",  1.000, 0.000
+    if(Tuareg.pDecoder->outputs.accel_valid == true)
     {
-        //advance          = scalar,   U16,    14, "deg",    1.000, 0.000
-        serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[14]));
-
-        //dwell	        = scalar,   U16,    16, "ms",     0.100, 0.00
-        serialize_U16_U8(Tuareg.ignition_controls.dwell_batch_us, &(output[16]));
+        serialize_float_U8(0.42, &(output[12]));
     }
     else
     {
-        //advance          = scalar,   U16,    14, "deg",    1.000, 0.000
-        output[14]= 0;
-        output[15]= 0;
-
-        //dwell	        = scalar,   U16,    16, "ms",     0.100, 0.00
-        output[16]= 0;
-        output[17]= 0;
+        output[12]= 0;
     }
 
 
-    //map              = scalar,   F32,    18, "kpa",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.MAP_kPa, &(output[18]));
+    if(Tuareg.ignition_controls.state.valid == true)
+    {
+        //advance         = scalar,   U16,    16, "deg",    1.000, 0.000
+        serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[16]));
 
-    //baro             = scalar,   F32,    22, "kpa",      1.000, 0.000
-    serialize_float_U8(Tuareg.process.Baro_kPa, &(output[22]));
+        //dwell	        = scalar,   U16,    18, "ms",     0.100, 0.00
+        serialize_U16_U8(Tuareg.ignition_controls.dwell_batch_us, &(output[18]));
+    }
+    else
+    {
+        for(i=16; i< 20; i++)
+        {
+            output[i]= 0;
+        }
+    }
 
-    //tps              = scalar,   F32,    26, "deg",      1.000, 0.000
-    serialize_float_U8(Tuareg.process.TPS_deg, &(output[26]));
+    if(Tuareg.fueling_controls.flags.valid == true)
+    {
+        //VE              = scalar,   F32,    20, "%",  1.000, 0.000
+        serialize_float_U8(Tuareg.fueling_controls.VE_pct, &(output[20]));
 
-    //TPSdot           = scalar,   F32,    30, "deg/s",    10.00, 0.000
-    serialize_float_U8(0.42, &(output[30]));
+        //airDens         = scalar,   F32,    24, "ug/cm3",  1.000, 0.000
+        serialize_float_U8(Tuareg.fueling_controls.air_density, &(output[24]));
 
-    //iat             = scalar,   F32,    34, "K",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.IAT_K, &(output[34]));
+        //fuelMass        = scalar,   U32,    28, "ug",  1.000, 0.000
+        serialize_U32_U8(Tuareg.fueling_controls.fuel_mass_ug, &(output[28]));
 
-    //clt       = scalar,   F32,    38, "K",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.CLT_K, &(output[38]));
+        //AFRtgt          = scalar,   F32,    32, "AFR",  1.000, 0.000
+        serialize_float_U8(Tuareg.fueling_controls.AFR_target, &(output[32]));
 
-    //batteryVoltage   = scalar,   F32,    42, "V",      0.100, 0.000
-    serialize_float_U8(Tuareg.process.VBAT_V, &(output[42]));
+        //inj1Iv          = scalar,   U32,    36, "us",  1.000, 0.000
+        serialize_U32_U8(Tuareg.fueling_controls.injector1_interval_us, &(output[36]));
 
-    //afr              = scalar,   F32,    46, "O2",     0.100, 0.000
-    serialize_float_U8(Tuareg.process.O2_AFR, &(output[46]));
+        //inj2Iv          = scalar,   U32,    40, "us",  1.000, 0.000
+        serialize_U32_U8(Tuareg.fueling_controls.injector2_interval_us, &(output[40]));
+    }
+    else
+    {
+        for(i=20; i< 44; i++)
+        {
+            output[i]= 0;
+        }
+    }
 
-    //gear             = scalar,   U08,    50, "gear",    1.000, 0.000
-    output[50]= Tuareg.process.Gear;
+    //MAP             = scalar,   F32,    44, "kpa",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.MAP_kPa, &(output[44]));
 
-    //ground_speed     = scalar,   U08,    51, "kmh",    1.000, 0.000
-    output[50]= Tuareg.process.ground_speed_kmh;
+    //baro            = scalar,   F32,    48, "kpa",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.Baro_kPa, &(output[48]));
+
+    //TPS             = scalar,   F32,    52, "deg",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.TPS_deg, &(output[52]));
+
+    //TPSdot          = scalar,   F32,    56, "deg/s",    10.00, 0.000
+    serialize_float_U8(0.42, &(output[56]));
+
+    //IAT             = scalar,   F32,    60, "K",    1.000, -273.15
+    serialize_float_U8(Tuareg.process.IAT_K, &(output[60]));
+
+    //CLT             = scalar,   F32,    64, "K",    1.000, -273.15
+    serialize_float_U8(Tuareg.process.CLT_K, &(output[64]));
+
+    //battery         = scalar,   F32,    68, "V",      1.000, 0.000
+    serialize_float_U8(Tuareg.process.VBAT_V, &(output[68]));
+
+    //AFR             = scalar,   F32,    72, "O2",     1.000, 0.000
+    serialize_float_U8(Tuareg.process.O2_AFR, &(output[72]));
+
+
+    //gear             = scalar,   U08,    76, "gear",    1.000, 0.000
+    output[76]= Tuareg.process.Gear;
+
+    //ground_speed     = scalar,   U08,    77, "kmh",    1.000, 0.000
+    output[77]= Tuareg.process.ground_speed_kmh;
 
 
     /**
@@ -209,6 +241,11 @@ volatile BF32 ts_tuareg_bits()
     if(Tuareg.Errors.ignition_config_error)
     {
         setBit_BF32(TBIT_IGNITIONCONFIG_ERROR, &tuaregbits);
+    }
+
+    if(Tuareg.Errors.fueling_config_error)
+    {
+        setBit_BF32(TBIT_FUELCONFIG_ERROR, &tuaregbits);
     }
 
     if(Tuareg.Errors.sensor_calibration_error)
@@ -378,5 +415,51 @@ VU16 ts_ignition_bits()
     }
 
     return ignitionbits;
+}
+
+
+/**
+prepare OutputChannel "fueling" field
+*/
+VU16 ts_fueling_bits()
+{
+    volatile BF32 fuelingbits =0;
+
+    if(Tuareg.fueling_controls.flags.valid)
+    {
+        setBit_BF32(FUELBIT_VALID, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.sequential_mode)
+    {
+        setBit_BF32(FUELBIT_SEQ_MODE, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.VE_valid)
+    {
+        setBit_BF32(FUELBIT_VE_VALID, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.VE_from_MAP)
+    {
+        setBit_BF32(FUELBIT_VE_MAP, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.AFR_target_valid)
+    {
+        setBit_BF32(FUELBIT_AFR_VALID, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.injector_dc_clip)
+    {
+        setBit_BF32(FUELBIT_DC_CLIP, &fuelingbits);
+    }
+
+    if(Tuareg.fueling_controls.flags.injection_begin_valid)
+    {
+        setBit_BF32(FUELBIT_BEGIN_VALID, &fuelingbits);
+    }
+
+    return fuelingbits;
 }
 

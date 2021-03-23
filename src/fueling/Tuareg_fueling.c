@@ -31,6 +31,15 @@
 #endif // FUELING_DEBUG_OUTPUT
 
 
+
+/**
+crank position when the fueling controls shall be updated
+*/
+crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
+
+
+
+
 /**
 The fueling module relies on external triggers to start injection, the scheduler is allocated only to maintain the injector interval
 
@@ -88,22 +97,114 @@ void init_Fueling()
 
 
 /**
-emits the control events to actor (scheduler / coil) layer
+emits the control events to actor (scheduler / injector / pump) layer
+
+precondition:
+Tuareg.pDecoder->outputs.timeout == false
+Tuareg.pDecoder->outputs.position_valid == true
 */
 void Tuareg_fueling_update_crankpos_handler()
 {
 
+    //collect diagnostic information
+    //ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
+
+    /**
+    check vital precondition
+    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    */
+    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE))
+    {
+        //collect diagnostic information
+        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+
+        //turn off all powered coils
+        set_injector1_unpowered();
+        set_injector2_unpowered();
+        set_fuel_pump_unpowered();
+
+        //nothing to do
+        return;
+    }
+
+    //check if ignition controls shall be updated
+    if(Tuareg.pDecoder->crank_position == fueling_controls_update_pos)
+    {
+        //update ignition controls
+        Tuareg_update_fueling_controls();
+    }
 
 
+    //check preconditions for fueling control based actions
+    if(Tuareg.fueling_controls.flags.valid == false)
+    {
+        //collect diagnostic information
+        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+
+        //nothing to do
+        return;
+    }
+
+    //check if the crank is at the injection begin position
+    if(Tuareg.pDecoder->crank_position == Tuareg.fueling_controls.injection_begin_pos)
+    {
+
+        //collect diagnostic information
+       // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
+
+
+        //check if sequential mode has been requested
+        if(Tuareg.fueling_controls.flags.sequential_mode == true)
+        {
+            //check if sufficient information for this mode is available
+            if(Tuareg.pDecoder->outputs.phase_valid == false)
+            {
+                //register ERROR
+
+
+                return;
+            }
+
+
+            /*
+            sequential mode
+            */
+
+            //injector #1
+            if(Tuareg.fueling_controls.seq_injector1_begin_phase == Tuareg.pDecoder->phase)
+            {
+                set_injector1(ACTOR_POWERED);
+
+                scheduler_set_channel(SCHEDULER_CH_FUEL1, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector1_interval_us, false);
+
+                //collect diagnostic information
+               // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
+            }
+
+            //injector #2
+            if(Tuareg.fueling_controls.seq_injector2_begin_phase == Tuareg.pDecoder->phase)
+            {
+                set_injector2(ACTOR_POWERED);
+
+                scheduler_set_channel(SCHEDULER_CH_FUEL2, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector2_interval_us, false);
+
+                //collect diagnostic information
+               // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
+            }
+
+        }
+        else
+        {
+            /*
+            batch mode
+            */
+            set_injector1(ACTOR_POWERED);
+            set_injector2(ACTOR_POWERED);
+
+            scheduler_set_channel(SCHEDULER_CH_FUEL1, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector1_interval_us, false);
+            scheduler_set_channel(SCHEDULER_CH_FUEL2, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector2_interval_us, false);
+        }
+    }
 }
 
-
-/*
-The ignition system will set up the scheduler channels for dwell in dynamic mode
-*/
-void Tuareg_fueling_irq_handler()
-{
-
-
-}
 

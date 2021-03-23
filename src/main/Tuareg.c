@@ -220,6 +220,9 @@ inline void Tuareg_stop_engine()
     //reset scheduler
     scheduler_reset_ign1();
     scheduler_reset_ign2();
+    //fuel
+
+
 
     //reset MAP calculation
     reset_asensor_sync_integrator(ASENSOR_SYNC_MAP);

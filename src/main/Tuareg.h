@@ -40,7 +40,6 @@ to allow limp home operation if eeprom has been corrupted
 
 */
 
-#define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
 
 
 

@@ -204,6 +204,157 @@ inline void scheduler_reset_ign2()
 }
 
 
+/******************************************************************************************************************************
+fuel channel 1 - helper functions
+******************************************************************************************************************************/
+
+inline void scheduler_allocate_fch1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+{
+    //check if the preload feature has been requested
+    if(EnablePreload == true)
+    {
+        //use a temporary compare value that will not trigger any compare events
+        TIM5->CCR3= (U32) 0xFFFFFFFF;
+
+        //enable preload feature
+        TIM5->CCMR2 |= TIM_CCMR2_OC3PE;
+    }
+    else
+    {
+        TIM5->CCMR2 &= ~TIM_CCMR2_OC3PE;
+    }
+
+    //set compare register CCR1
+    TIM5->CCR3= (U32) Compare;
+
+    //clear pending flag
+    TIM5->SR    = (U16) ~TIM_SR_CC3IF;
+
+    //register the new allocation state
+    Scheduler.state.fuel1_alloc= true;
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_FCH1_SET);
+
+    if(CurrentCycle == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH1_CURRC_SET);
+    }
+    else if(EnablePreload == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH1_NEXTC_PRELOAD_SET);
+    }
+    else
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH1_NEXTC_UPDATE_SET);
+    }
+
+    //enable irq
+    TIM5->DIER |= (U16) TIM_DIER_CC3IE;
+}
+
+
+inline void scheduler_reset_fch1()
+{
+    //disable compare irq
+    TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
+
+    //disable compare preload feature
+    TIM5->CCMR2 &= ~TIM_CCMR2_OC3PE;
+
+    //set temporary compare value
+    TIM5->CCR3= (U32) 0xFFFFFFFF;
+
+    //clear irq pending bit
+    TIM5->SR= (U16) ~TIM_SR_CC3IF;
+
+    //register the new allocation state
+    Scheduler.state.fuel1_alloc= false;
+
+    //store a safe action
+    Scheduler.target_controls[SCHEDULER_CH_FUEL1]= ACTOR_UNPOWERED;
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_FCH1_RESET);
+}
+
+
+
+/******************************************************************************************************************************
+fuel channel 2 - helper functions
+******************************************************************************************************************************/
+
+inline void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+{
+    //check if the preload feature has been requested
+    if(EnablePreload == true)
+    {
+        //use a temporary compare value that will not trigger any compare events
+        TIM5->CCR4= (U32) 0xFFFFFFFF;
+
+        //enable preload feature
+        TIM5->CCMR2 |= TIM_CCMR2_OC4PE;
+    }
+    else
+    {
+        TIM5->CCMR2 &= ~TIM_CCMR2_OC4PE;
+    }
+
+    //set compare register CCR1
+    TIM5->CCR4= (U32) Compare;
+
+    //clear pending flag
+    TIM5->SR    = (U16) ~TIM_SR_CC4IF;
+
+    //register the new allocation state
+    Scheduler.state.fuel2_alloc= true;
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_FCH2_SET);
+
+    if(CurrentCycle == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH2_CURRC_SET);
+    }
+    else if(EnablePreload == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH2_NEXTC_PRELOAD_SET);
+    }
+    else
+    {
+        scheduler_diag_log_event(SCHEDIAG_FCH2_NEXTC_UPDATE_SET);
+    }
+
+    //enable irq
+    TIM5->DIER |= (U16) TIM_DIER_CC4IE;
+}
+
+
+inline void scheduler_reset_fch2()
+{
+    //disable compare irq
+    TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
+
+    //disable compare preload feature
+    TIM5->CCMR2 &= ~TIM_CCMR2_OC4PE;
+
+    //set temporary compare value
+    TIM5->CCR4= (U32) 0xFFFFFFFF;
+
+    //clear irq pending bit
+    TIM5->SR= (U16) ~TIM_SR_CC4IF;
+
+    //register the new allocation state
+    Scheduler.state.fuel2_alloc= false;
+
+    //store a safe action
+    Scheduler.target_controls[SCHEDULER_CH_FUEL2]= ACTOR_UNPOWERED;
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_FCH2_RESET);
+}
+
+
 
 /******************************************************************************************************************************
 init
@@ -240,7 +391,7 @@ set a scheduler channel
 ******************************************************************************************************************************/
 void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls, VU32 Delay_us, volatile bool Complete_on_realloc)
 {
-
+/// TODO (oli#5#): implement syslog for scheduler
     VU64 compare;
     VU32 now;
     volatile bool use_preload= false;
@@ -251,10 +402,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
     ******************************************************/
 
     //safety check - requested channel
-    if(Channel >= SCHEDULER_CH_COUNT)
-    {
-        return;
-    }
+    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
 
     //safety check - clip delay
     if(Delay_us > SCHEDULER_MAX_PERIOD_US)
@@ -285,7 +433,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
             case SCHEDULER_CH_IGN2:
                 set_ignition_ch2(Controls);
                 break;
-/*
+
             case SCHEDULER_CH_FUEL1:
                 set_fuel_ch1(Controls);
                 break;
@@ -293,7 +441,9 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
             case SCHEDULER_CH_FUEL2:
                 set_fuel_ch2(Controls);
                 break;
-*/
+
+            default:
+                break;
         }
 
         //no scheduler allocation
@@ -423,18 +573,75 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
             scheduler_allocate_ign2((U32) compare, curr_cycle, use_preload);
             break;
 
-/*
+
+
         case SCHEDULER_CH_FUEL1:
 
+            ///DEBUG
+            debug_set[debug_set_cnt].flags.param_ch_fuel1= true;
+
+            //reallocation check
+            if(Scheduler.state.fuel1_alloc == true)
+            {
+                ///DEBUG
+                debug_set[debug_set_cnt].flags.reactivated= true;
+
+                //collect diagnostic information
+                scheduler_diag_log_event(SCHEDIAG_FCH1_RETRIGD);
+
+                //check if the previous action shall be taken now
+                if(Complete_on_realloc == true)
+                {
+                    //complete the last scheduler cycle with its commanded action
+                    set_fuel_ch1(Scheduler.target_controls[Channel]);
+                }
+
+            }
+
+            //clean the channel
+            scheduler_reset_fch1();
+
+            //store the desired action at delay end
+            Scheduler.target_controls[Channel]= Controls;
+
+            //set up the compare register with the compare value
+            scheduler_allocate_fch1((U32) compare, curr_cycle, use_preload);
 
             break;
+
 
 
         case SCHEDULER_CH_FUEL2:
 
+            debug_set[debug_set_cnt].flags.param_ch_fuel2= true;
 
+            //reallocation check
+            if(Scheduler.state.fuel2_alloc == true)
+            {
+                ///DEBUG
+                debug_set[debug_set_cnt].flags.reactivated= true;
+
+                //collect diagnostic information
+                scheduler_diag_log_event(SCHEDIAG_FCH2_RETRIGD);
+
+                //check if the previous action shall be taken now
+                if(Complete_on_realloc == true)
+                {
+                    //complete the last scheduler cycle with its commanded action
+                    set_fuel_ch2(Scheduler.target_controls[Channel]);
+                }
+
+            }
+
+            //clean the channel
+            scheduler_reset_fch2();
+
+            //store the desired action at delay end
+            Scheduler.target_controls[Channel]= Controls;
+
+            //set up the compare register with the compare value
+            scheduler_allocate_fch2((U32) compare, curr_cycle, use_preload);
             break;
-*/
 
     default:
         break;
@@ -540,40 +747,39 @@ void TIM5_IRQHandler(void)
     {
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC3IF;
-/*
-        scheduler_diag_log_event(SCHEDIAG_FCH1_TRIG);
 
-        //disable compare irq
-        TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
-
-        //save new state
-        Scheduler.fuel1_triggered= false;
-
-
+        /**
         fuel channel 1
+        */
 
-        set_fuel_ch1(Scheduler.targets[SCHEDULER_CH_FUEL1]);
-*/
+        //trigger useful action
+        set_fuel_ch1(Scheduler.target_controls[SCHEDULER_CH_FUEL1]);
+
+        //clean up scheduler channel
+        scheduler_reset_fch1();
+
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_FCH1_TRIG);
     }
+
 
     if((TIM5->SR & TIM_SR_CC4IF) && (TIM5->DIER & TIM_DIER_CC4IE))
     {
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_CC4IF;
-/*
-        scheduler_diag_log_event(SCHEDIAG_FCH2_TRIG);
 
-        //disable compare irq
-        TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
-
-        //save new state
-        Scheduler.fuel2_triggered= false;
-
-
+        /**
         fuel channel 2
+        */
 
-        set_fuel_ch2(Scheduler.targets[SCHEDULER_CH_FUEL2]);
-*/
+        //trigger useful action
+        set_fuel_ch2(Scheduler.target_controls[SCHEDULER_CH_FUEL2]);
+
+        //clean up scheduler channel
+        scheduler_reset_fch2();
+
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_FCH2_TRIG);
     }
 
 
@@ -585,9 +791,5 @@ void TIM5_IRQHandler(void)
         //this should happen only every ~9,5 h
         print(DEBUG_PORT, "\r\nscheduler wrap around");
     }
-
-
-
-
 
 }

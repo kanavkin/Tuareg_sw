@@ -127,6 +127,13 @@ extern void scheduler_reset_ign1();
 extern void scheduler_allocate_ign2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
 extern void scheduler_reset_ign2();
 
+extern void scheduler_allocate_fch1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
+extern void scheduler_reset_fch1();
+extern void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
+extern void scheduler_reset_fch2();
+
+
+
 void init_scheduler();
 void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls, VU32 Delay_us, volatile bool Complete_on_realloc);
 void scheduler_reset_channel(scheduler_channel_t Channel);
