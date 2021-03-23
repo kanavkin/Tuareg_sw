@@ -29,6 +29,9 @@ a given interval at a given rpm
 */
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
+    Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
+
+    /*
     if(Period_us == 0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
@@ -36,6 +39,7 @@ U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 
         return 0;
     }
+    */
 
     return (360 * Interval_us) / Period_us;
 }
@@ -46,6 +50,9 @@ calculate the rpm figure from rotational period
 */
 U32 calc_rpm(U32 Period_us)
 {
+    Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
+
+    /*
     if(Period_us == 0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
@@ -53,6 +60,7 @@ U32 calc_rpm(U32 Period_us)
 
         return 0;
     }
+    */
 
     return (60000000UL) / Period_us;
 }

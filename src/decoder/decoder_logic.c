@@ -32,6 +32,8 @@ how the decoder works:
 decoder helper functions - debug actions
 ******************************************************************************************************************************/
 
+/// TODO (oli#4#): redirect decoder debug outputs to syslog
+
 void decoder_process_debug_events()
 {
     if(Decoder.debug.all_flags > 0)

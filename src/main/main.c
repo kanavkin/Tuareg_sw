@@ -278,7 +278,7 @@ void EXTI2_IRQHandler(void)
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
     {
         //update process table with data supplied by decoder
-        update_process_table(Tuareg.pDecoder->crank_period_us);
+        update_process_table( (Tuareg.pDecoder->outputs.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
 
         //update process data
         Tuareg_update_process_data();

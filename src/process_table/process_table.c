@@ -10,6 +10,9 @@
 
 #include "Tuareg_config.h"
 
+#include "Tuareg.h"
+#include "Tuareg_decoder.h"
+
 /**
 absolute process advance angles for the crank positions at the current engine speed
 */
@@ -19,20 +22,28 @@ volatile bool ProcessTable_valid= false;
 
 /**
 calculates the absolute process advance angles based on the information provided in pCrankTable
+
+The process table shall tolerate updates without a valid crank period figure. This happens while the first crank
+rotations after decoder getting sync (and the crank speed calculation has not yet catch up.
 */
 void update_process_table(VU32 Crank_period_us)
 {
-    U32 pos, index, advance_deg, delay_deg;
+    U32 pos, index, advance_deg;
+    U32 delay_deg =0;
+
+    //check if a valid crank period has been commanded
+    if(Crank_period_us > 0)
+    {
+        /// TODO (oli#1#): add vr delay range check?
+        //calculate VR introduced delay
+        delay_deg= calc_rot_angle_deg(Tuareg_Setup.decoder_delay_us, Crank_period_us);
+    }
 
     //fill table according to crank angle data
     for(pos= 0; pos < CRK_POSITION_COUNT; pos++)
     {
         /// TODO (oli#1#): check if this access is correct (packed structure)
         advance_deg= Tuareg_Setup.trigger_advance_map[pos];
-
-        /// TODO (oli#1#): add vr delay range check?
-        //calculate VR introduced delay
-        delay_deg= calc_rot_angle_deg(Tuareg_Setup.decoder_delay_us, Crank_period_us);
 
         /*
         Position 0 is our TDC reference position

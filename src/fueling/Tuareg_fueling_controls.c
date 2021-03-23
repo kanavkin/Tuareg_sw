@@ -141,6 +141,8 @@ void Tuareg_update_fueling_controls()
     }
 
 
+/// TODO (oli#2#): implement warm up enrichment (via AFR target)
+
     /**
     fuel mass
     calculation based on the calculated VE and AFR values
@@ -158,6 +160,7 @@ void Tuareg_update_fueling_controls()
     */
     update_injector_intervals(pTarget);
 
+/// TODO (oli#2#): implement injector dead time table
 
     /**
     injection begin positions
