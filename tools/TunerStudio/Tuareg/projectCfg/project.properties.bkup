@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Mar 23 15:37:02 CET 2021
-#Tue Mar 23 15:37:02 CET 2021
+#Last Saved on: Tue Mar 23 17:36:07 CET 2021
+#Tue Mar 23 17:36:07 CET 2021
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
 config_permissionGet\ Permissions_height=235
@@ -71,9 +71,9 @@ iat_retard_curveIAT\ timing\ retard_width=374
 selectedComDriver=Multi Interface MegaSquirt Driver
 sensor_calibrationSensor\ Calibration_width=465
 idleSettingsIdle\ Settings_height=608
-VeTable_TPSVE\ vs.\ TPS_Y=288
+VeTable_TPSVE\ vs.\ TPS_Y=323
 logFileDir=/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/DataLogs
-VeTable_TPSVE\ vs.\ TPS_X=447
+VeTable_TPSVE\ vs.\ TPS_X=219
 service_fuelService\ Tools\ -\ Fuelling_width=372
 ecuConfigFile=mainController.ini
 serial3IOSerial3\ IO\ interface_width=403

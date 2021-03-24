@@ -128,6 +128,9 @@ void Tuareg_ignition_update_crankpos_handler()
         set_coil1_unpowered();
         set_coil2_unpowered();
 
+        //delete ignition controls
+        Tuareg_update_ignition_controls();
+
         //nothing to do
         return;
     }

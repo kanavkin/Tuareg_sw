@@ -270,6 +270,12 @@ void EXTI2_IRQHandler(void)
         //collect diagnostic information
         //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
 
+        //delete ignition controls
+        Tuareg_update_ignition_controls();
+
+        //delete fuel controls
+        Tuareg_update_fueling_controls();
+
         Tuareg_set_Runmode(TMODE_STB);
         return;
     }

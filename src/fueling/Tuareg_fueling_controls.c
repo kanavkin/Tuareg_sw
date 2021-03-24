@@ -97,7 +97,7 @@ void Tuareg_update_fueling_controls()
     }
 
     //check for sequential / batch mode capabilities
-    Tuareg.fueling_controls.flags.sequential_mode= Tuareg.pDecoder->outputs.phase_valid;
+    pTarget->flags.sequential_mode= Tuareg.pDecoder->outputs.phase_valid;
 
 
     /**

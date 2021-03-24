@@ -102,6 +102,8 @@ emits the control events to actor (scheduler / injector / pump) layer
 precondition:
 Tuareg.pDecoder->outputs.timeout == false
 Tuareg.pDecoder->outputs.position_valid == true
+
+test result: ~54 us delay from signal edge B2 to injection begin
 */
 void Tuareg_fueling_update_crankpos_handler()
 {
@@ -122,6 +124,9 @@ void Tuareg_fueling_update_crankpos_handler()
         set_injector1_unpowered();
         set_injector2_unpowered();
         set_fuel_pump_unpowered();
+
+        //delete fuel controls
+        Tuareg_update_fueling_controls();
 
         //nothing to do
         return;

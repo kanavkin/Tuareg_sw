@@ -1,6 +1,12 @@
 /**
 
+subject to refactoring:
 
+"safe" calculation means, that an argument error will lead to FATAL state (rather than NMI Irq)
+
+"clip" calculation means that there are some tolerances
+
+TBD!
 
 */
 #include "stm32_libs/boctok_types.h"
@@ -174,15 +180,23 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
 
 
 
-/*
+/***************************************************************************************************************
+*   fault tolerance crank position / phase calculations
+****************************************************************************************************************/
+
+/**
 returns the crank position that will follow the indicated position, when the crank rotates in nominal direction
+
+CRK_POSITION_UNDEFINED is a properly defined crank position, so calculations on it shall be valid, too.
+
+implemented logic:
+UNDEF -> UNDEF
+
 */
 crank_position_t crank_position_after(crank_position_t Position)
 {
     if(Position >= CRK_POSITION_COUNT)
     {
-        /// TODO (oli#3#): use assert for this argument error
-        Syslog_Warning(TID_BASE_CALC, BASECALC_LOC_CRKPOS_AFTER_UNDEF);
         return CRK_POSITION_UNDEFINED;
     }
 
@@ -195,6 +209,18 @@ crank_position_t crank_position_after(crank_position_t Position)
     return (Position -1);
 }
 
+/**
+returns the opposite phase to the given Phase
+
+PHASE_UNDEFINED is a properly defined engine phase, so calculations on it shall be valid, too.
+
+implemented logic:
+
+COMP -> EX
+EX -> COMP
+UNDEF -> UNDEF
+
+*/
 volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
 {
     if(Phase_in == PHASE_CYL1_COMP)
@@ -205,12 +231,8 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
     {
         return PHASE_CYL1_COMP;
     }
-    else
-    {
-        /// TODO (oli#3#): use assert for this argument error
-        Syslog_Warning(TID_BASE_CALC, BASECALC_LOC_OPPOSITE_PHASE_UNDEF);
-        return PHASE_UNDEFINED;
-    }
+
+    return PHASE_UNDEFINED;
 }
 
 

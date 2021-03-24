@@ -24,8 +24,21 @@ volatile Tuareg_decoder_t Decoder;
 
 /**
 how the decoder works:
+
+* the engine phase switches when the first position after TDC (CRK_POSITION_C1) is reached
+
+
+
+
+
+
+
+
 -   add description!!!
 */
+
+
+#warning TODO (oli#1#): Analyse: decoder synchronises at 50 rpm but reports 145 rpm!
 
 
 /******************************************************************************************************************************
@@ -502,12 +515,8 @@ void decoder_crank_handler()
 
                 case CRK_POSITION_C1:
 
-                    //update engine phase
-                    if(Decoder.outputs.phase_valid == true)
-                    {
-                        Decoder.phase= opposite_phase(Decoder.phase);
-                    }
-
+                    //update engine phase right at the next crank position after TDC
+                    Decoder.phase= opposite_phase(Decoder.phase);
                     break;
 
                 default:
@@ -624,9 +633,20 @@ void decoder_crank_timeout_handler()
 
 
 /******************************************************************************************************************************
-cylinder identification sensor
+cylinder identification sensor handling
 ******************************************************************************************************************************/
- void decoder_update_cis()
+
+
+/**
+review the data gathered from the cylinder identification sensor
+
+
+the resulting cis signal shall confirm the currently expected phase
+
+
+ the decoder
+*/
+void decoder_update_cis()
 {
     engine_phase_t detected_phase;
     U32 lobe_angle_deg, lobe_interval_us;
@@ -651,31 +671,34 @@ cylinder identification sensor
     }
 
     /*******************************************
-    signal validation
+    signal validation -> the cis has been triggered if the cam lobe has been detected for more then cis_min_angle_deg
     *******************************************/
 
+    //default estimation: sensor has not been triggered
+    detected_phase= opposite_phase(Decoder_Setup.cis_triggered_phase);
+
+    //check if the cis has detected a rising and a falling signal edge
     if( (Decoder.cis.lobe_begin_detected == true) && (Decoder.cis.lobe_end_detected == true))
     {
         lobe_interval_us= Decoder_hw.timer_period_us * subtract_VU32(Decoder.lobe_end_timestamp, Decoder.lobe_begin_timestamp);
 
         lobe_angle_deg= calc_rot_angle_deg(lobe_interval_us, Decoder.crank_period_us);
 
-        //check lobe span against angular interval
+        //check if lobe interval is longer than the defined minimum
         if(lobe_angle_deg > Decoder_Setup.cis_min_angle_deg)
         {
+            //signal edges have been detected AND the interval is valid
             detected_phase= Decoder_Setup.cis_triggered_phase;
         }
         else
         {
-            detected_phase= opposite_phase(Decoder_Setup.cis_triggered_phase);
-
-            //collect diagnostic data
+            //the detected signal might result from noise -> cis actually not triggered
             decoder_diag_log_event(DDIAG_CISUPD_INTERVAL_FAIL);
         }
     }
 
     /*******************************************
-    evaluation
+    evaluation -> the cis signal shall confirm the currently expected phase
     *******************************************/
 
     //check if the resulting cis signal confirms the currently expected phase
@@ -706,9 +729,12 @@ cylinder identification sensor
         Decoder.outputs.phase_valid= false;
 
         //report to errors
-        Tuareg.Errors.sensor_CIS_error= false;
+        Tuareg.Errors.sensor_CIS_error= true;
 
-        //save the currently detected phase
+/// TODO (oli#3#): add syslog entry for cis
+
+
+        //update the expected phase information
         Decoder.phase= detected_phase;
         Decoder.cis_sync_counter =0;
 
