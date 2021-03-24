@@ -181,7 +181,6 @@ int main(void)
             break;
         }
 
-
         /**
         50 Hz actions
         */
@@ -279,6 +278,8 @@ void EXTI2_IRQHandler(void)
         Tuareg_set_Runmode(TMODE_STB);
         return;
     }
+
+    #warning TODO (oli#3#): implement rev limiter as a separate module to pause ignition / fueling system simultaneous
 
     //check if process data shall be updated
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)

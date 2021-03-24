@@ -44,7 +44,7 @@ void Tuareg_update_ignition_controls()
         return;
     }
 
-    if(Tuareg.pDecoder->crank_rpm > Ignition_Setup.max_rpm)
+    if(Tuareg.pDecoder->crank_rpm > Tuareg_Setup.max_rpm)
     {
         revlimiter_ignition_controls();
 

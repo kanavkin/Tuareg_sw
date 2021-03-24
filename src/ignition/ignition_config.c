@@ -81,10 +81,6 @@ void show_Ignition_Setup(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nIgnition Config:");
 
-    //max_rpm
-    print(Port, "\r\nrev limiter (rpm): ");
-    printf_U(Port, Ignition_Setup.max_rpm, NO_PAD);
-
 
     //dynamic_min_rpm
     print(Port, "\r\ndynamic ignition function minimum rpm: ");

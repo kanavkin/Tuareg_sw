@@ -3,7 +3,7 @@
 
 #include "Tuareg_ignition.h"
 
-#define IGNITION_SETUP_SIZE 20
+#define IGNITION_SETUP_SIZE 18
 #define IGNITION_ADVTPS_SIZE 288
 
 /***************************************************************************************************************************************************
@@ -13,9 +13,6 @@
 typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
 
     U8 Version;
-
-    //rev limiter function
-    U16 max_rpm;
 
     //dynamic ignition function
     U16 dynamic_min_rpm;

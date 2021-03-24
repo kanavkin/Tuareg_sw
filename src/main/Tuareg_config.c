@@ -38,6 +38,8 @@ void load_essential_Tuareg_Setup()
 {
     Tuareg_Setup.Version= 0;
 
+    Tuareg_Setup.max_rpm= TUAREG_SETUP_DEFAULT_MAX_RPM;
+
     /**
     trigger position map initialization
     */
@@ -85,6 +87,12 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     */
     print(Port, "\r\nVersion: ");
     printf_U(Port, Tuareg_Setup.Version, NO_PAD | NO_TRAIL);
+
+
+    //max_rpm
+    print(Port, "\r\nrev limiter (rpm): ");
+    printf_U(Port, Tuareg_Setup.max_rpm, NO_PAD);
+
 
     /*
     trigger_advance_map[CRK_POSITION_COUNT]

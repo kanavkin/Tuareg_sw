@@ -4,7 +4,7 @@
 #include "uart.h"
 
 
-#define TUAREG_SETUP_SIZE 42
+#define TUAREG_SETUP_SIZE 44
 
 /***************************************************************************************************************************************************
 *   decoder configuration page
@@ -12,6 +12,9 @@
 typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
 
     U8 Version;
+
+    //rev limiter function
+    U16 max_rpm;
 
     //advance angles corresp. to crank_position_t
     VU16 trigger_advance_map[CRK_POSITION_COUNT];
@@ -28,6 +31,22 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
 /***************************************************************************************************************************************************
 *   essential config section
 ***************************************************************************************************************************************************/
+
+
+
+/**
+Maximum RPM
+
+higher crank speed will trigger the rev limiter
+
+config item:
+Decoder_Setup.max_rpm
+
+default:
+TUAREG_SETUP_DEFAULT_MAX_RPM
+*/
+#define TUAREG_SETUP_DEFAULT_MAX_RPM 4000
+
 
 /**
 trigger wheel geometry
