@@ -14,25 +14,6 @@
 #include "Tuareg.h"
 
 
-U32 cylinder_volume_ccm= 425;
-
-
-// gas constant 8.31446261815324 (kg * m²) / (s² * K * mol)
-F32 cR_gas= 8.31446;
-
-//molar mass of air in mg per mol (default: 28970)
-F32 cM_air= 28970.0;
-
-U16 injector_deadtime_us= 500;
-
-U16 injector1_rate_mgps= 4160;
-U16 injector2_rate_mgps= 4160;
-
-U16 min_interval_us= 1000;
-U8 max_powered_interval_pct= 85;
-
-#define GET_VE_FROM_MAP_MIN_RPM 2000
-#define GET_VE_FROM_MAP_MAX_RPM 7000
 
 
 
@@ -91,10 +72,11 @@ void Tuareg_update_fueling_controls()
 
 
     //check if all preconditions for calculating fueling controls are met
-    if(Tuareg.pDecoder->outputs.rpm_valid == false)
+    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.actors.rev_limiter == true))
     {
         return;
     }
+
 
     //check for sequential / batch mode capabilities
     pTarget->flags.sequential_mode= Tuareg.pDecoder->outputs.phase_valid;
@@ -147,27 +129,25 @@ void Tuareg_update_fueling_controls()
     fuel mass
     calculation based on the calculated VE and AFR values
     */
-    update_fuel_mass(pTarget);
+    update_fuel_mass_target(pTarget);
 
 
 /// TODO (oli#2#): implement acceleration pump
 
 
-
-    /**
-    injector intervals
-    calculation based on the calculated fuel mass
-    */
-    update_injector_intervals(pTarget);
-
 /// TODO (oli#2#): implement injector dead time table
 
-    /**
-    injection begin positions
-    */
+
     if(pTarget->flags.sequential_mode == true)
     {
-        //try to calculate the optimal injection begin position
+        /**
+        injector intervals calculation based on the calculated target fuel mass
+        */
+        update_injector_intervals_sequential(pTarget);
+
+        /**
+        injection begin positions
+        */
         update_injection_begin_sequential(pTarget);
 
         //check if the calculation succeeded
@@ -179,6 +159,14 @@ void Tuareg_update_fueling_controls()
     }
     else
     {
+        /**
+        injector intervals calculation based on the calculated target fuel mass
+        */
+        update_injector_intervals_batch(pTarget);
+
+        /**
+        injection begin positions
+        */
         update_injection_begin_batch(pTarget);
     }
 
@@ -200,10 +188,11 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
     pTarget->AFR_target= 0;
     pTarget->VE_pct= 0;
     pTarget->air_density= 0;
-    pTarget->fuel_mass_ug= 0;
+    pTarget->fuel_mass_target_ug= 0;
 
     pTarget->injector1_interval_us= 0;
     pTarget->injector2_interval_us= 0;
+    pTarget->injector_target_dc= 0;
 
     pTarget->injection_begin_pos= CRK_POSITION_UNDEFINED;
     pTarget->seq_injector1_begin_phase= PHASE_UNDEFINED;
@@ -243,7 +232,7 @@ void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
     rpm= Tuareg.pDecoder->crank_rpm;
 
     //check from which table to look up
-    if((Tuareg.Errors.sensor_MAP_error == false) && ((rpm > GET_VE_FROM_MAP_MIN_RPM) && (rpm < GET_VE_FROM_MAP_MAX_RPM) && (Tuareg.Errors.sensor_TPS_error == true)))
+    if((Tuareg.Errors.sensor_MAP_error == false) && ((rpm > Fueling_Setup.ve_from_map_min_rpm) && (rpm < Fueling_Setup.ve_from_map_max_rpm) && (Tuareg.Errors.sensor_TPS_error == true)))
     {
         //use VE table MAP lookup
         pTarget->flags.VE_from_MAP= true;
@@ -321,18 +310,18 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 /**
 calculate the required fuel mass to be injected into each cylinder
 */
-void update_fuel_mass(volatile fueling_control_t * pTarget)
+void update_fuel_mass_target(volatile fueling_control_t * pTarget)
 {
-    U32 fuel_mass_ug;
+    U32 fuel_mass_target_ug;
     F32 air_mass_ug;
 
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (Tuareg.fueling_controls.air_density * cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100;
+    air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100;
 
-    //fuel mass [µg] := air mass [ug] / AFR [1]
-    fuel_mass_ug= (U32) divide_VF32(air_mass_ug, Tuareg.fueling_controls.AFR_target);
+    //target fuel mass [µg] := air mass [ug] / AFR [1]
+    fuel_mass_target_ug= (U32) divide_VF32(air_mass_ug, Tuareg.fueling_controls.AFR_target);
 
-    pTarget->fuel_mass_ug= fuel_mass_ug;
+    pTarget->fuel_mass_target_ug= fuel_mass_target_ug;
 }
 
 
@@ -341,78 +330,122 @@ void update_fuel_mass(volatile fueling_control_t * pTarget)
 calculate the required fueling actor power on times to inject the given fuel mass for each cylinder
 and checks the calculated intervals against the maximum injector duty cycle
 */
-void update_injector_intervals(volatile fueling_control_t * pTarget)
+void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 {
-    U32 target_interval_us, max_powered_interval_us;
+    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us;
 
-    /*
-    injector 1
-    */
+    U32 target_duty_cycle;
+
+    /// injector 1
 
     //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_ug, injector1_rate_mgps);
+    inj1_target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector1_rate_mgps);
 
     //interval [µs] := injection interval [µs] + injector dead time [µs]
-    target_interval_us +=  injector_deadtime_us;
+    inj1_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
 
-    //check if sequential mode is active
-    if(pTarget->flags.sequential_mode == true)
-    {
-        //calculate the maximum powered interval based on 720° engine cycle
-        max_powered_interval_us= (2 * Tuareg.pDecoder->crank_period_us * max_powered_interval_pct) / 100;
-    }
-    else
-    {
-        //calculate the maximum powered interval based on 360° crank cycle
-        max_powered_interval_us= (Tuareg.pDecoder->crank_period_us * max_powered_interval_pct) / 100;
-    }
+    /// injector 2
+
+    //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
+    inj2_target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector2_rate_mgps);
+
+    //interval [µs] := injection interval [µs] + injector dead time [µs]
+    inj2_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+
+    /// dc threshold
+
+    //calculate the maximum powered interval based on 720° engine cycle
+    max_powered_interval_us= (2 * Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
+
+    //calculate the injector duty cycle based on 720° engine cycle
+    target_duty_cycle= divide_VU32(100 * inj1_target_interval_us, 2 * Tuareg.pDecoder->crank_period_us);
+
 
     //check if the required fuel amount can be delivered in this mode
-    if(target_interval_us > max_powered_interval_us)
+    if(inj1_target_interval_us > max_powered_interval_us)
     {
         pTarget->flags.injector_dc_clip= true;
 
         //clip to safe value
-        target_interval_us= max_powered_interval_us;
-    }
-
-    //export
-    pTarget->injector1_interval_us= target_interval_us;
-
-
-    /*
-    injector 2
-    */
-
-    //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_ug, injector2_rate_mgps);
-
-    //interval [µs] := injection interval [µs] + injector dead time [µs]
-    target_interval_us +=  injector_deadtime_us;
-
-    //check if sequential mode is active
-    if(pTarget->flags.sequential_mode == true)
-    {
-        //calculate the maximum powered interval
-        max_powered_interval_us= (2 * Tuareg.pDecoder->crank_period_us * max_powered_interval_pct) / 100;
-    }
-    else
-    {
-        //calculate the maximum powered interval
-        max_powered_interval_us= (Tuareg.pDecoder->crank_period_us * max_powered_interval_pct) / 100;
+        inj1_target_interval_us= max_powered_interval_us;
     }
 
     //check if the required fuel amount can be delivered in this mode
-    if(target_interval_us > max_powered_interval_us)
+    if(inj2_target_interval_us > max_powered_interval_us)
     {
         pTarget->flags.injector_dc_clip= true;
 
         //clip to safe value
-        target_interval_us= max_powered_interval_us;
+        inj2_target_interval_us= max_powered_interval_us;
     }
 
     //export
-    pTarget->injector2_interval_us= target_interval_us;
+    pTarget->injector1_interval_us= inj1_target_interval_us;
+    pTarget->injector2_interval_us= inj2_target_interval_us;
+    pTarget->injector_target_dc= target_duty_cycle;
+
+}
+
+
+/**
+calculate the required fueling actor power on times to inject the given fuel mass for each cylinder
+and checks the calculated intervals against the maximum injector duty cycle
+
+in batch mode the required fuel mass (cycle based) will be injected in 2 crank revolutions
+*/
+void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
+{
+    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us;
+
+    U32 target_duty_cycle;
+
+    /// injector 1
+
+    //injection interval [µs] := (1/2) * 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
+    inj1_target_interval_us= divide_VU32(500 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector1_rate_mgps);
+
+    //interval [µs] := injection interval [µs] + injector dead time [µs]
+    inj1_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+
+    /// injector 2
+
+    //injection interval [µs] := (1/2) * 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
+    inj2_target_interval_us= divide_VU32(500 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector2_rate_mgps);
+
+    //interval [µs] := injection interval [µs] + injector dead time [µs]
+    inj2_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+
+    /// dc threshold
+
+    //calculate the maximum powered interval based on 360° crank cycle
+    max_powered_interval_us= (Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
+
+    //calculate the injector duty cycle based on 360° engine cycle
+    target_duty_cycle= divide_VU32(100 * inj1_target_interval_us, Tuareg.pDecoder->crank_period_us);
+
+
+    //check if the required fuel amount can be delivered in this mode
+    if(inj1_target_interval_us > max_powered_interval_us)
+    {
+        pTarget->flags.injector_dc_clip= true;
+
+        //clip to safe value
+        inj1_target_interval_us= max_powered_interval_us;
+    }
+
+    //check if the required fuel amount can be delivered in this mode
+    if(inj2_target_interval_us > max_powered_interval_us)
+    {
+        pTarget->flags.injector_dc_clip= true;
+
+        //clip to safe value
+        inj2_target_interval_us= max_powered_interval_us;
+    }
+
+    //export
+    pTarget->injector1_interval_us= inj1_target_interval_us;
+    pTarget->injector2_interval_us= inj2_target_interval_us;
+    pTarget->injector_target_dc= target_duty_cycle;
 
 }
 

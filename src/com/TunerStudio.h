@@ -16,7 +16,7 @@ typedef enum {
     IGNITIONMAP_TPS,
     //IGNITIONMAP_MAP,
 
-    //FUELINGPAGE,
+    FUELINGPAGE,
     VEMAP_TPS,
     VEMAP_MAP,
     AFRMAP_TPS,

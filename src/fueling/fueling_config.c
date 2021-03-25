@@ -39,32 +39,27 @@ exec_result_t load_Fueling_Config()
 
    exec_result_t load_result;
 
-  // load_result= Eeprom_load_data(EEPROM_Fueling_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
+    load_result= Eeprom_load_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
 
-//   ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK(load_result);
 
-   load_result= load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
-   VeTable_TPS.mgr.div_X_lookup= 0;
-   VeTable_TPS.mgr.div_Y_lookup= 0;
+    load_result= load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
+    VeTable_TPS.mgr.div_X_lookup= 0;
+    VeTable_TPS.mgr.div_Y_lookup= 0;
 
-   //   ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK(load_result);
 
-   load_result= load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
-   VeTable_MAP.mgr.div_X_lookup= 0;
-   VeTable_MAP.mgr.div_Y_lookup= 0;
+    load_result= load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
+    VeTable_MAP.mgr.div_X_lookup= 0;
+    VeTable_MAP.mgr.div_Y_lookup= 0;
 
-    //   ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
-   AfrTable_TPS.mgr.div_X_lookup= 0;
-   AfrTable_TPS.mgr.div_Y_lookup= 0;
+    AfrTable_TPS.mgr.div_X_lookup= 0;
+    AfrTable_TPS.mgr.div_Y_lookup= 0;
 
-
-
-   /*
-   return load_result;
-   */
-   return EXEC_ERROR;
+    return load_result;
 }
 
 
@@ -75,9 +70,31 @@ exec_result_t load_Fueling_Config()
 */
 void load_essential_Fueling_Config()
 {
+    /*U16 ve_from_map_min_rpm= 2000;
+    U16 ve_from_map_max_rpm= 7000;
+
+    U16 cylinder_volume_ccm= 425;
+
+    U16 injector1_rate_mgps= 4160;
+    U16 injector2_rate_mgps= 4160;
+
+    U16 injector_deadtime_us= 500;
+    U8 max_injector_duty_cycle_pct= 85;
+    */
 
 
+    Fueling_Setup.Version =0;
 
+    Fueling_Setup.ve_from_map_min_rpm= 0;
+    Fueling_Setup.ve_from_map_max_rpm= 0;
+
+    Fueling_Setup.cylinder_volume_ccm= 0;
+
+    Fueling_Setup.injector1_rate_mgps= 0;
+    Fueling_Setup.injector2_rate_mgps= 0;
+
+    Fueling_Setup.injector_deadtime_us= 0;
+    Fueling_Setup.max_injector_duty_cycle_pct= 0;
 }
 
 
@@ -93,67 +110,45 @@ void load_essential_Fueling_Config()
 */
 exec_result_t store_Fueling_Setup()
 {
-    //return Eeprom_update_data(EEPROM_Fueling_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
-    return EXEC_ERROR;
+    return Eeprom_update_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
 }
 
 
 void show_Fueling_Setup(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling Config:");
-/*
-    //max_rpm
-    print(Port, "\r\nrev limiter (rpm): ");
-    printf_U(Port, Fueling_Setup.max_rpm, NO_PAD);
 
+    //U8 Version
+    print(Port, "\r\nVersion: ");
+    printf_U(Port, Fueling_Setup.Version, NO_PAD);
 
-    //dynamic_min_rpm
-    print(Port, "\r\ndynamic Fueling function minimum rpm: ");
-    printf_U(Port, Fueling_Setup.dynamic_min_rpm, NO_PAD);
+    //U16 ve_from_map_min_rpm
+    print(Port, "\r\nVE from MAP min (rpm):");
+    printf_U(Port, Fueling_Setup.ve_from_map_min_rpm, NO_PAD);
 
-    //dynamic_Fueling_base_position
-    print(Port, "\r\ndynamic Fueling base position: ");
-    printf_crkpos(Port, Fueling_Setup.dynamic_Fueling_base_position);
+    //U16 ve_from_map_max_rpm
+    print(Port, "\r\nVE from MAP max (rpm):");
+    printf_U(Port, Fueling_Setup.ve_from_map_max_rpm, NO_PAD);
 
-    //dynamic_dwell_target_us
-    print(Port, "\r\ndynamic dwell target (us): ");
-    printf_U(Port, Fueling_Setup.dynamic_dwell_target_us, NO_PAD);
+    //U16 cylinder_volume_ccm
+    print(Port, "\r\ncylinder volume (ccm):");
+    printf_U(Port, Fueling_Setup.cylinder_volume_ccm, NO_PAD);
 
+    //U16 injector1_rate_mgps
+    print(Port, "\r\ninjector #1 flow rate (mg/s):");
+    printf_U(Port, Fueling_Setup.injector1_rate_mgps, NO_PAD);
 
-    //cold_idle_cutoff_rpm
-    print(Port, "\r\ncold idle cutoff (rpm): ");
-    printf_U(Port, Fueling_Setup.cold_idle_cutoff_rpm, NO_PAD);
+    //U16 injector2_rate_mgps
+    print(Port, "\r\ninjector #2 flow rate (mg/s):");
+    printf_U(Port, Fueling_Setup.injector2_rate_mgps, NO_PAD);
 
-    //cold_idle_cutoff_CLT_K
-    print(Port, "\r\ncold idle cutoff CLT (K): ");
-    printf_U(Port, Fueling_Setup.cold_idle_cutoff_CLT_K, NO_PAD);
+    //U16 injector_deadtime_us
+    print(Port, "\r\ninjector dead time (us):");
+    printf_U(Port, Fueling_Setup.injector_deadtime_us, NO_PAD);
 
-    //cold_idle_Fueling_advance_deg
-    print(Port, "\r\ncold idle Fueling advance (deg): ");
-    printf_U(Port, Fueling_Setup.cold_idle_Fueling_advance_deg, NO_PAD);
-
-    //cold_idle_dwell_target_us
-    print(Port, "\r\ncold idle dwell target (us): ");
-    printf_U(Port, Fueling_Setup.cold_idle_dwell_target_us, NO_PAD);
-
-
-    //cranking_Fueling_position
-    print(Port, "\r\ncranking Fueling position: ");
-    printf_crkpos(Port, Fueling_Setup.cranking_Fueling_position);
-
-    //cranking_dwell_position
-    print(Port, "\r\ncranking dwell position: ");
-    printf_crkpos(Port, Fueling_Setup.cranking_dwell_position);
-
-
-    //coil_setup_t coil_setup
-    print(Port, "\r\ncoil setup: ");
-    printf_U(Port, Fueling_Setup.coil_setup, NO_PAD);
-
-    //U16 spark_duration_us
-    print(Port, "\r\nspark duration (us): ");
-    printf_U(Port, Fueling_Setup.spark_duration_us, NO_PAD);
-    */
+    //U16 max_injector_duty_cycle_pct
+    print(Port, "\r\ninjector max duty cycle (%):");
+    printf_U(Port, Fueling_Setup.max_injector_duty_cycle_pct, NO_PAD);
 }
 
 

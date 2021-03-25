@@ -55,7 +55,7 @@ exec_result_t load_Ignition_Config()
 */
 void load_essential_Ignition_Config()
 {
-
+    //ignition control module has defaults compiled in
 
 
 }
@@ -81,6 +81,9 @@ void show_Ignition_Setup(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nIgnition Config:");
 
+    //U8 Version
+    print(Port, "\r\nVersion: ");
+    printf_U(Port, Ignition_Setup.Version, NO_PAD);
 
     //dynamic_min_rpm
     print(Port, "\r\ndynamic ignition function minimum rpm: ");

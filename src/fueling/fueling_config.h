@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 1
+#define FUELING_SETUP_SIZE 14
 
 /***************************************************************************************************************************************************
 *   Fueling Setup Page
@@ -13,6 +13,16 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 
     U8 Version;
 
+    U16 ve_from_map_min_rpm;
+    U16 ve_from_map_max_rpm;
+
+    U16 cylinder_volume_ccm;
+
+    U16 injector1_rate_mgps;
+    U16 injector2_rate_mgps;
+
+    U16 injector_deadtime_us;
+    U8 max_injector_duty_cycle_pct;
 
 } Fueling_Setup_t;
 
@@ -21,19 +31,19 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 *   API section
 ***************************************************************************************************************************************************/
 
+extern volatile Fueling_Setup_t Fueling_Setup;
 
 //General Fueling Config
 exec_result_t load_Fueling_Config();
 void load_essential_Fueling_Config();
 
-/*
+
 //Fueling Setup
-extern volatile Fueling_Setup_t Fueling_Setup;
 exec_result_t store_Fueling_Setup();
 void show_Fueling_Setup();
 exec_result_t modify_Fueling_Setup(U32 Offset, U32 Value);
 void send_Fueling_Setup(USART_TypeDef * Port);
-*/
+
 
 //Fueling VE Table (TPS) - VeTable_TPS
 exec_result_t store_VeTable_TPS();

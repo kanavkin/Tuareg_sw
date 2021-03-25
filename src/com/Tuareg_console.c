@@ -381,9 +381,8 @@ inline void cli_showPage(U32 Page)
 
         case IGNITIONPAGE:
 
-                show_Ignition_Setup(TS_PORT);
-                break;
-
+            show_Ignition_Setup(TS_PORT);
+            break;
 
         case IGNITIONMAP_TPS:
             print(TS_PORT, "\r \nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
@@ -396,17 +395,26 @@ inline void cli_showPage(U32 Page)
             break;
 */
 
+        case FUELINGPAGE:
+
+            show_Fueling_Setup(TS_PORT);
+            break;
+
+
         case VEMAP_TPS:
+
             print(TS_PORT, "\r \nVE Map - TPS (in boctok 3D coordinate system)\r\n");
             show_VeTable_TPS(TS_PORT);
             break;
 
         case VEMAP_MAP:
+
             print(TS_PORT, "\r \nVE Map - MAP (in boctok 3D coordinate system)\r\n");
             show_VeTable_MAP(TS_PORT);
             break;
 
         case AFRMAP_TPS:
+
             print(TS_PORT, "\r \nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
             show_AfrTable_TPS(TS_PORT);
             break;

@@ -53,26 +53,26 @@ void init_Fueling()
 
     //setup shall be loaded first
     result= load_Fueling_Config();
-/*
+
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load Decoder Config
+        //failed to load Fueling Config
         load_essential_Fueling_Config();
 
-        Syslog_Error(TID_TUAREG_FUELING, FUELLING_LOC_CONFIG_LOAD_FAIL);
+        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_FAIL);
 
         #ifdef FUELING_DEBUG_OUTPUT
         DebugMsg_Error("Failed to load Fueling config!");
         DebugMsg_Warning("Fueling essential config has been loaded");
         #endif // FUELING_DEBUG_OUTPUT
     }
-    else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
+    else if(Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION)
     {
-        //loaded wrong Decoder Config Version
-        load_essential_Ignition_Config();
+        //loaded wrong Fueling Config Version
+        load_essential_Fueling_Config();
 
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
+        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_VERSION_MISMATCH);
 
         #ifdef FUELING_DEBUG_OUTPUT
         DebugMsg_Error("Fueling config version does not match");
@@ -81,17 +81,14 @@ void init_Fueling()
     }
     else
     {
-        //loaded Ignition config with correct Version
-        Tuareg.Errors.ignition_config_error= false;
+        //loaded Fueling config with correct Version
+        Tuareg.Errors.fueling_config_error= false;
 
-        Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
+        Syslog_Info(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_SUCCESS);
     }
-*/
+
     //init hw part
     init_fueling_hw();
-
-    //provide ignition controls for startup
-    //Tuareg_update_ignition_controls();
 
 }
 
@@ -103,7 +100,7 @@ precondition:
 Tuareg.pDecoder->outputs.timeout == false
 Tuareg.pDecoder->outputs.position_valid == true
 
-test result: ~54 us delay from signal edge B2 to injection begin
+test result: ~61 us delay from signal edge B2 to injection begin
 */
 void Tuareg_fueling_update_crankpos_handler()
 {

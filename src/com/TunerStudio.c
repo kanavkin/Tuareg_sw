@@ -62,6 +62,10 @@ void ts_readPage(U32 Page)
             break;
 
 
+        case FUELINGPAGE:
+            send_Fueling_Setup(TS_PORT);
+            break;
+
         case VEMAP_TPS:
             send_VeTable_TPS(TS_PORT);
             break;
@@ -121,11 +125,22 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
             {
-                print(DEBUG_PORT, "\r\n*** ignition config modification rejected (permission) ***\r\n");
+                print(DEBUG_PORT, "\r\n*** ignition setup modification rejected (permission) ***\r\n");
                 return;
             }
 
             result= modify_Ignition_Setup(Offset, Value);
+            break;
+
+        case FUELINGPAGE:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                print(DEBUG_PORT, "\r\n*** fueling setup modification rejected (permission) ***\r\n");
+                return;
+            }
+
+            result= modify_Fueling_Setup(Offset, Value);
             break;
 
         case CALIBPAGE:
@@ -240,9 +255,15 @@ void ts_burnPage(U32 Page)
             result= store_Ignition_Setup();
             break;
 
+
         case IGNITIONMAP_TPS:
 
             result= store_ignAdvTable_TPS();
+            break;
+
+        case FUELINGPAGE:
+
+            result= store_Fueling_Setup();
             break;
 
         case VEMAP_TPS:

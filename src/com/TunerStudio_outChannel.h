@@ -103,9 +103,6 @@ typedef enum {
 
 
 
-#define TS_OCHBLOCKSIZE 78
-
-
 void ts_sendOutputChannels(USART_TypeDef * Port);
 
 VU8 ts_comm_bits();

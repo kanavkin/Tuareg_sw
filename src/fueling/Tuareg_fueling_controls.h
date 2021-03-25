@@ -49,10 +49,11 @@ typedef struct _fueling_control_t {
     VF32 air_density;
 
     //fuel mass to be injected into each cylinder
-    U32 fuel_mass_ug;
+    U32 fuel_mass_target_ug;
 
     VF32 AFR_target;
 
+    U32 injector_target_dc;
     U32 injector1_interval_us;
     U32 injector2_interval_us;
 
@@ -77,9 +78,10 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget);
 void update_volumetric_efficiency(volatile fueling_control_t * pTarget);
 void update_air_density(volatile fueling_control_t * pTarget);
 void update_AFR_target(volatile fueling_control_t * pTarget);
-void update_fuel_mass(volatile fueling_control_t * pTarget);
+void update_fuel_mass_target(volatile fueling_control_t * pTarget);
 
-void update_injector_intervals(volatile fueling_control_t * pTarget);
+void update_injector_intervals_sequential(volatile fueling_control_t * pTarget);
+void update_injector_intervals_batch(volatile fueling_control_t * pTarget);
 
 void update_injection_begin_batch(volatile fueling_control_t * pTarget);
 void update_injection_begin_sequential(volatile fueling_control_t * pTarget);

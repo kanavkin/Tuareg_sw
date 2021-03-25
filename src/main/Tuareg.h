@@ -92,6 +92,9 @@ typedef union
 
 typedef struct {
 
+    //rev limiter
+    U32 rev_limiter :1;
+
     //ignition
     U32 ignition_inhibit :1;
     U32 ignition_coil_1 :1;

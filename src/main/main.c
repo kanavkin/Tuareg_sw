@@ -279,8 +279,6 @@ void EXTI2_IRQHandler(void)
         return;
     }
 
-    #warning TODO (oli#3#): implement rev limiter as a separate module to pause ignition / fueling system simultaneous
-
     //check if process data shall be updated
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
     {
@@ -289,6 +287,9 @@ void EXTI2_IRQHandler(void)
 
         //update process data
         Tuareg_update_process_data();
+
+        //rev limiter
+        Tuareg.actors.rev_limiter= (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.max_rpm)? true : false;
     }
 
     //trigger the ignition module
