@@ -5,6 +5,8 @@
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 
+#include "base_calc.h"
+
 #include "sensors.h"
 #include "sensor_calibration.h"
 
@@ -175,6 +177,14 @@ volatile sensor_interface_t * init_sensor_inputs(U32 Init_count)
 }
 
 
+void sensors_start_regular_group_conversion()
+{
+    adc_start_regular_group(SENSOR_ADC);
+}
+
+
+
+
 
 /*
 implements the fast init feature:
@@ -194,54 +204,32 @@ inline void prepare_fastsync_init(U32 init_count)
 }
 
 
-
-/**
-sensor data conversion by inverse linear function
-using float for maximum precision
-
-x = ( # - n)  / m
-
-*/
-VF32 calc_inverse_lin(VU32 Arg, VF32 M, VF32 N)
-{
-    //divide by M
-    if( (M > 0.0) || (M < 0.0) )
-    {
-        ///float calculation can handle negative values but will not ever delete by zero
-        return ((Arg - N) / M);
-    }
-    else
-    {
-        //clip result
-        return 0.0;
-    }
-
-}
-
-
-
 /**
 throttle transient calculation
 
-implemented as weighted measure with a filter to suppress little spikes:
-ddt_TPS= (tps_new - tps_old) * (101 - tps_old)
+[ddt_TPS] := °/s
 
-calculation relies on the converted TPS value (0..100)!
+implements exponential moving average with alpha [0 .. 1]
+
+
+This calculation has been tailored for a 10 ms TPS sample interval:
+ddt_TPS := 1000 * delta_TPS / TPS_sample_interval_ms
+
 */
-VF32 calculate_ddt_TPS(VF32 Last_TPS, VF32 Current_TPS)
+VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS)
 {
-    F32 delta_TPS;
+    VF32 ddt_TPS, ema_ddt_TPS;
 
-    delta_TPS= Current_TPS - Last_TPS;
+    const F32 TPS_sample_interval_ms= 10;
+    const F32 alpha= 0.7;
 
-    if( ((delta_TPS < 0.0) && (-delta_TPS < DELTA_TPS_THRES)) || ((delta_TPS >= 0.0) && (delta_TPS < DELTA_TPS_THRES)) )
-    {
-        return 0.0;
-    }
-    else
-    {
-        return (delta_TPS * (101.0 - Last_TPS));
-    }
+    //calculate the current TPS change rate in °/s
+    ddt_TPS= (1000.0 / TPS_sample_interval_ms) * (TPS - Last_TPS);
+
+    // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
+    ema_ddt_TPS= (1 - alpha) * Last_ddt_TPS + alpha * ddt_TPS;
+
+    return ema_ddt_TPS;
 }
 
 
@@ -370,7 +358,7 @@ void ADC_IRQHandler()
 {
     VU32 average, sample;
     VU32 * pIntegr= NULL;
-    VU8 * pCount= NULL;
+    VU32 * pCount= NULL;
 
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_ADCIRQ_CALLS);
@@ -409,7 +397,7 @@ void ADC_IRQHandler()
                 average= *pIntegr / *pCount;
 
                 //calculate MAP and export to interface
-                SInterface.asensors[ASENSOR_MAP]= calc_inverse_lin(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
+                SInterface.asensors[ASENSOR_MAP]= solve_linear(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -469,16 +457,16 @@ void ADC_IRQHandler()
 
 
 /**
-The regular group conversion is triggered by lowspeed_timer every 10 ms (100Hz)
+The regular group conversion is triggered by systick timer every 10 ms (100Hz)
 with 5x oversampling this gives an update interval of 50 ms
 */
 void DMA2_Stream0_IRQHandler()
 {
 
-    U32 average, sample, sensor, result;
-    VU16 * pIntegr= NULL;
-    VU8 * pCount= NULL;
-    VU32 min_valid, max_valid;
+    VU32 average, sample, sensor, result, min_valid, max_valid, target_sample_len;
+    VU32 * pIntegr= NULL;
+    VU32 * pCount= NULL;
+    bool process_data_now= false;
 
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_DMAIRQ_CALLS);
@@ -507,61 +495,72 @@ void DMA2_Stream0_IRQHandler()
             pCount= &(SInternals.asensors_async_integrator_count[sensor]);
 
 
-            //get the individual sensor readout validity thresholds
+            /**
+            get the individual sensor readout validity thresholds and target sample length
+            */
             switch(sensor)
             {
                 case ASENSOR_ASYNC_O2:
 
                     min_valid= Sensor_Calibration.O2_min_valid;
                     max_valid= Sensor_Calibration.O2_max_valid;
+                    target_sample_len= 0;
                     break;
 
                 case ASENSOR_ASYNC_TPS:
 
                     min_valid= Sensor_Calibration.TPS_min_valid;
                     max_valid= Sensor_Calibration.TPS_max_valid;
+                    target_sample_len= 0;
                     break;
 
                 case ASENSOR_ASYNC_IAT:
 
                     min_valid= Sensor_Calibration.IAT_min_valid;
                     max_valid= Sensor_Calibration.IAT_max_valid;
+                    target_sample_len= 50;
                     break;
 
                 case ASENSOR_ASYNC_CLT:
 
                     min_valid= Sensor_Calibration.CLT_min_valid;
                     max_valid= Sensor_Calibration.CLT_max_valid;
+                    target_sample_len= 50;
                     break;
 
                 case ASENSOR_ASYNC_VBAT:
 
                     min_valid= Sensor_Calibration.VBAT_min_valid;
                     max_valid= Sensor_Calibration.VBAT_max_valid;
+                    target_sample_len= 10;
                     break;
 
                 case ASENSOR_ASYNC_KNOCK:
 
                     min_valid= Sensor_Calibration.KNOCK_min_valid;
                     max_valid= Sensor_Calibration.KNOCK_max_valid;
+                    target_sample_len= 0;
                     break;
 
                 case ASENSOR_ASYNC_BARO:
 
                     min_valid= Sensor_Calibration.BARO_min_valid;
                     max_valid= Sensor_Calibration.BARO_max_valid;
+                    target_sample_len= 50;
                     break;
 
                 case ASENSOR_ASYNC_GEAR:
 
                     min_valid= Sensor_Calibration.GEAR_min_valid;
                     max_valid= Sensor_Calibration.GEAR_max_valid;
+                    target_sample_len= 50;
                     break;
 
                 default:
 
                     min_valid= 0;
                     max_valid= 0;
+                    target_sample_len= 0;
                     break;
 
             }
@@ -573,15 +572,31 @@ void DMA2_Stream0_IRQHandler()
                 valid reading
                 */
 
-                //store to integrator
-                *pIntegr += sample;
-                *pCount += 1;
-
-                //enough samples read?
-                if(*pCount >= ASENSOR_ASYNC_SAMPLE_LEN)
+                //check if average calculation is enabled for this channel
+                if(target_sample_len > 1)
                 {
-                    //calculate the average value
-                    average= *pIntegr / *pCount;
+                    //store to integrator
+                    *pIntegr += sample;
+                    *pCount += 1;
+
+                    //check if enough samples have been collected
+                    if(*pCount >= target_sample_len)
+                    {
+                        average= *pIntegr / *pCount;
+                        process_data_now= true;
+                    }
+                }
+                else
+                {
+                    //no averaging
+                    average= sample;
+                    process_data_now= true;
+                }
+
+
+                //ready?
+                if(process_data_now == true)
+                {
 
                     /**
                     ADC value to process data conversion
@@ -590,46 +605,46 @@ void DMA2_Stream0_IRQHandler()
                     {
                         case ASENSOR_ASYNC_O2:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.O2_calib_M, Sensor_Calibration.O2_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.O2_calib_M, Sensor_Calibration.O2_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_TPS:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.TPS_calib_M, Sensor_Calibration.TPS_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.TPS_calib_M, Sensor_Calibration.TPS_calib_N);
 
-                            //save old TPS value for ddt_TPS calculation
+                            //save old TPS / ddt_TPS values
                             SInternals.last_TPS= SInterface.asensors[ASENSOR_TPS];
+                            SInternals.last_ddt_TPS= SInterface.ddt_TPS;
 
                             //throttle transient calculation
-                            SInterface.ddt_TPS= calculate_ddt_TPS(SInternals.last_TPS, result);
-
+                            SInterface.ddt_TPS= calculate_ddt_TPS(result, SInternals.last_TPS, SInternals.last_ddt_TPS);
                             break;
 
                         case ASENSOR_ASYNC_IAT:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.IAT_calib_M, Sensor_Calibration.IAT_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.IAT_calib_M, Sensor_Calibration.IAT_calib_N);
                             result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_CLT:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.CLT_calib_M, Sensor_Calibration.CLT_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.CLT_calib_M, Sensor_Calibration.CLT_calib_N);
                             result += cKelvin_offset;
                             break;
 
                         case ASENSOR_ASYNC_VBAT:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.VBAT_calib_M, Sensor_Calibration.VBAT_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.VBAT_calib_M, Sensor_Calibration.VBAT_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_KNOCK:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.KNOCK_calib_M, Sensor_Calibration.KNOCK_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.KNOCK_calib_M, Sensor_Calibration.KNOCK_calib_N);
                             break;
 
                         case ASENSOR_ASYNC_BARO:
 
-                            result= calc_inverse_lin(average, Sensor_Calibration.BARO_calib_M, Sensor_Calibration.BARO_calib_N);
+                            result= solve_linear(average, Sensor_Calibration.BARO_calib_M, Sensor_Calibration.BARO_calib_N);
                             break;
 
                         default:
@@ -683,6 +698,13 @@ void DMA2_Stream0_IRQHandler()
 
                     //delete raw value
                     SInterface.asensors_raw[sensor]= 0;
+
+                    //ddt_TPS calculation depends on TPS
+                    if(sensor == ASENSOR_ASYNC_TPS)
+                    {
+                        SInterface.ddt_TPS= 0;
+                    }
+
 
                     //reset average buffer
                     *pIntegr= 0;

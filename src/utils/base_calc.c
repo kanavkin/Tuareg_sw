@@ -236,6 +236,28 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
 }
 
 
+/**
+solves the linear equation y = mx + n
+*/
+VF32 solve_linear(VU32 Y, VF32 M, VF32 N)
+{
+    VF32 inverse;
+
+    //check preconditions
+    //Assert(m != 0.0,)
+    if(M == 0.0)
+    {
+        return M;
+    }
+
+    //x = ( y - n)  / m
+    inverse= ((Y - N) / M);
+
+    return inverse;
+}
+
+
+
 /*
 void setBit_U8(U32 Pos, VU8 * pTarget)
 {

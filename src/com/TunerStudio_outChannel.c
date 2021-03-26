@@ -148,7 +148,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     serialize_float_U8(Tuareg.process.TPS_deg, &(output[56]));
 
     //TPSdot          = scalar,   F32,    60, "deg/s",    10.00, 0.000
-    serialize_float_U8(0.42, &(output[60]));
+    serialize_float_U8(Tuareg.process.ddt_TPS, &(output[60]));
 
     //IAT             = scalar,   F32,    64, "K",    1.000, -273.15
     serialize_float_U8(Tuareg.process.IAT_K, &(output[64]));

@@ -74,8 +74,7 @@ keep good balance between CPU load and accuracy!
 
 T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
 */
-#define ASENSOR_ASYNC_SAMPLE_LEN 5
-#define ASENSOR_SYNC_SAMPLE_LEN 16
+#define ASENSOR_SYNC_SAMPLE_LEN (2 * CRK_POSITION_COUNT)
 
 #define ASENSOR_ERROR_THRES 0xFF
 
@@ -182,23 +181,24 @@ when modifying sensors keep all indexes of regular group sensors below index of 
 */
 typedef struct {
 
-    VU8 dsensor_cycle;
-    VU8 dsensor_history[DSENSOR_CYCLE_LEN];
+    VU32 dsensor_cycle;
+    VU32 dsensor_history[DSENSOR_CYCLE_LEN];
 
-    VU8 asensors_async_error_counter[ASENSOR_ASYNC_COUNT];
-    VU8 asensors_sync_error_counter[ASENSOR_SYNC_COUNT];
+    VU32 asensors_async_error_counter[ASENSOR_ASYNC_COUNT];
+    VU32 asensors_sync_error_counter[ASENSOR_SYNC_COUNT];
 
-    VU16 asensors_async_integrator[ASENSOR_ASYNC_COUNT];
-    VU8 asensors_async_integrator_count[ASENSOR_ASYNC_COUNT];
+    VU32 asensors_async_integrator[ASENSOR_ASYNC_COUNT];
+    VU32 asensors_async_integrator_count[ASENSOR_ASYNC_COUNT];
 
     //MAP sensor holds 16 samples -> U32
     VU32 asensors_sync_integrator[ASENSOR_SYNC_COUNT];
-    VU8 asensors_sync_integrator_count[ASENSOR_SYNC_COUNT];
+    VU32 asensors_sync_integrator_count[ASENSOR_SYNC_COUNT];
 
 
     VF32 last_TPS;
+    VF32 last_ddt_TPS;
 
-    VU8 async_loop_count;
+    VU32 async_loop_count;
 
     /**
     where DMA will drop ADC data from regular group
@@ -230,13 +230,18 @@ typedef struct {
 
 
 
+
 volatile sensor_interface_t * init_sensor_inputs(U32 Init_count);
 extern void prepare_fastsync_init(U32 init_count);
 
+void sensors_start_regular_group_conversion();
+
 VU32 read_dsensors();
 void read_digital_sensors();
+
 VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
-VF32 calculate_ddt_TPS(VF32 Last_TPS, VF32 Current_TPS);
+VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS);
+
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 
 

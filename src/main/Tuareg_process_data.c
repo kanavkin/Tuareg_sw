@@ -39,10 +39,6 @@
 
 inline void Tuareg_update_process_data()
 {
-
-
-
-
     //collect diagnostic information
     //tuareg_diag_log_event(TDIAG_PROCESSDATA_CALLS);
 

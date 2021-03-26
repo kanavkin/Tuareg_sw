@@ -18,11 +18,16 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor);
 crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);
 
+
+VF32 solve_linear(VU32 Y, VF32 M, VF32 N);
+
+/*
+
 //Handy bitsetting macros
 #define BIT_SET(a,b) ((a) |= (1<<(b)))
 #define BIT_CLEAR(a,b) ((a) &= ~(1<<(b)))
 #define BIT_CHECK(var,pos) !!((var) & (1<<(pos)))
-
+*/
 
 U16 word(U8 high, U8 low);
 U8 lowByte(U16);

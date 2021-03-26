@@ -196,7 +196,7 @@ VF32 Tuareg_update_ddt_TPS()
     }
     else
     {
-        return 0;
+        return 0.0;
     }
 }
 

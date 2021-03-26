@@ -1,5 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
+//#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+//#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
 #include "stm32_libs/boctok_types.h"
 #include "systick_timer.h"
 
@@ -106,7 +106,7 @@ void SysTick_Handler(void)
         */
 
         //trigger ADC conversion for analog sensors
-        adc_start_regular_group(SENSOR_ADC);
+        sensors_start_regular_group_conversion();
     }
 
 
