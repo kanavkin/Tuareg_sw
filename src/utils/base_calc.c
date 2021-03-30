@@ -179,6 +179,23 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
 }
 
 
+/**
+safe float division
+*/
+VF32 divide_float(VF32 Dividend, VF32 Divisor)
+{
+/// TODO (oli#1#): add assert
+
+    if(Divisor == 0.0)
+    {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
+        DebugMsg_Error("DIV/0 in divide_VF32");
+        return 0;
+    }
+
+    return ((VF32) Dividend) / ((VF32) Divisor);
+}
+
 
 /***************************************************************************************************************
 *   fault tolerance crank position / phase calculations

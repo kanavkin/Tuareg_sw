@@ -38,7 +38,9 @@ void Tuareg_update_ignition_controls()
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_CALLS);
 
 
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) || (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB))
+    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) ||
+       (Tuareg.Runmode == TMODE_LIMP) || (Tuareg.Runmode == TMODE_STB) ||
+       (Tuareg.Errors.ignition_config_error == true))
     {
         default_ignition_controls();
         return;
@@ -203,18 +205,8 @@ inline exec_result_t dynamic_ignition_controls()
 
         ///get dwell from table
 
-        /// TODO (oli#4#): dwell logic improvement: implement a proper target dwell calculation/table
-
-        //get target dwell duration
-        if(Tuareg.pDecoder->crank_rpm < 2000)
-        {
-            Dwell_target_us = 10000;
-        }
-        else
-        {
-            Dwell_target_us = Ignition_Setup.dynamic_dwell_target_us;
-        }
-
+        //ignDwellTable stores the Dwell time in 48 us increments
+        Dwell_target_us= 48 * getValue_ignDwellTable(Tuareg.pDecoder->crank_rpm);
     }
 
     /**

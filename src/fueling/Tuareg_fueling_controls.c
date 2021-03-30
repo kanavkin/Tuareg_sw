@@ -48,6 +48,19 @@ U8 default_VE_pct= 40;
 F32 default_AFR_target= 14.7;
 
 
+
+volatile bool afterstart_begin_triggered= false;
+
+/****************************************************************************************************************************************
+*   notify the fueling system that cranking mode has finished
+****************************************************************************************************************************************/
+void Tuareg_notify_fueling_cranking_end()
+{
+    afterstart_begin_triggered= true;
+}
+
+
+
 /****************************************************************************************************************************************
 *   Fueling controls update
 ****************************************************************************************************************************************/
@@ -67,31 +80,27 @@ void Tuareg_update_fueling_controls()
 {
     volatile fueling_control_t * pTarget= &(Tuareg.fueling_controls);
 
-    //delete old controls
-    invalid_fueling_controls(pTarget);
-
 
     //check if all preconditions for calculating fueling controls are met
     if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.actors.rev_limiter == true))
     {
+        //delete old controls
+        invalid_fueling_controls(pTarget);
+
         return;
     }
 
 
     //check for sequential / batch mode capabilities
-    pTarget->flags.sequential_mode= Tuareg.pDecoder->outputs.phase_valid;
+    pTarget->flags.sequential_mode= (Tuareg.Errors.fueling_config_error == false) && (Tuareg.Runmode == TMODE_RUNNING) && (Tuareg.pDecoder->outputs.phase_valid);
 
 
     /**
     VE
     */
+    update_volumetric_efficiency(pTarget);
 
-    //check if VE tables are available
-    if(Tuareg.Errors.fueling_config_error == false)
-    {
-        update_volumetric_efficiency(pTarget);
-    }
-
+    //check if update has been successful
     if(pTarget->flags.VE_valid == false)
     {
         //use default value
@@ -109,13 +118,9 @@ void Tuareg_update_fueling_controls()
     /**
     AFR
     */
+    update_AFR_target(pTarget);
 
-    //check if AFR table is available
-    if(Tuareg.Errors.fueling_config_error == false)
-    {
-        update_AFR_target(pTarget);
-    }
-
+    //check if update has been successful
     if(pTarget->flags.AFR_target_valid == false)
     {
         //use default value
@@ -123,19 +128,48 @@ void Tuareg_update_fueling_controls()
     }
 
 
-/// TODO (oli#2#): implement warm up enrichment (via AFR target)
 
     /**
-    fuel mass
-    calculation based on the calculated VE and AFR values
+    base fuel mass
     */
-    update_fuel_mass_target(pTarget);
+
+    //check if engine is cranking
+    if(Tuareg.Runmode == TMODE_CRANKING)
+    {
+        //use base fuel mass from cranking table
+        update_base_fuel_mass_cranking(pTarget);
+    }
+    else
+    {
+        //calculation based on the calculated VE and AFR values
+        update_base_fuel_mass(pTarget);
+    }
 
 
-/// TODO (oli#2#): implement acceleration pump
+    /**
+    warm up compensation
+    */
+    update_fuel_mass_warmup_correction(pTarget);
 
+    /**
+    load transient compensation
+    */
+    update_fuel_mass_accel_correction(pTarget);
 
-/// TODO (oli#2#): implement injector dead time table
+    /**
+    after start compensation
+    */
+    update_fuel_mass_afterstart_correction(pTarget);
+
+    /**
+    carry out all required corrections on target fuel mass
+    */
+    update_target_fuel_mass(pTarget);
+
+    /**
+    injector dead time
+    */
+    update_injector_deadtime(pTarget);
 
 
     if(pTarget->flags.sequential_mode == true)
@@ -188,7 +222,7 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
     pTarget->AFR_target= 0;
     pTarget->VE_pct= 0;
     pTarget->air_density= 0;
-    pTarget->fuel_mass_target_ug= 0;
+    pTarget->target_fuel_mass_ug= 0;
 
     pTarget->injector1_interval_us= 0;
     pTarget->injector2_interval_us= 0;
@@ -229,7 +263,16 @@ void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
     U32 rpm;
     VF32 VE_value;
 
+    //data update in progress
+    pTarget->flags.VE_valid= false;
+
     rpm= Tuareg.pDecoder->crank_rpm;
+
+    //check if VE tables are available
+    if(Tuareg.Errors.fueling_config_error == true)
+    {
+        return;
+    }
 
     //check from which table to look up
     if((Tuareg.Errors.sensor_MAP_error == false) && ((rpm > Fueling_Setup.ve_from_map_min_rpm) && (rpm < Fueling_Setup.ve_from_map_max_rpm) && (Tuareg.Errors.sensor_TPS_error == true)))
@@ -260,7 +303,7 @@ void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
 
 
 /**
-air density is expected in micro gram per cm³
+air density is expected in micro grams per cm³
 
 dens :=  (cM_air / cR_gas) * (MAP/"IAT")
 
@@ -277,6 +320,7 @@ void update_air_density(volatile fueling_control_t * pTarget)
 
     //by now the charge temperature is assumed not to depend on engine state
 /// TODO (oli#3#): coolant temperature and throttle shall affect the effective charge temperature calculation
+/// TODO (oli#3#): altitude shall affect the effective charge temperature calculation
     charge_temp_K= Tuareg.process.IAT_K;
 
 
@@ -294,6 +338,14 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 {
     VF32 AFR_value;
 
+    //data update in progress
+    pTarget->flags.AFR_target_valid= false;
+
+    if(Tuareg.Errors.fueling_config_error == true)
+    {
+        return;
+    }
+
     //look up
     AFR_value= getValue_AfrTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
 
@@ -307,23 +359,291 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 
 
 
+
+/****************************************************************************************************************************************
+*   Fueling controls update - fuel mass
+****************************************************************************************************************************************/
+
 /**
 calculate the required fuel mass to be injected into each cylinder
 */
-void update_fuel_mass_target(volatile fueling_control_t * pTarget)
+void update_base_fuel_mass(volatile fueling_control_t * pTarget)
 {
-    U32 fuel_mass_target_ug;
-    F32 air_mass_ug;
+    F32 base_fuel_mass_ug, air_mass_ug;
 
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100;
+    air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
 
-    //target fuel mass [µg] := air mass [ug] / AFR [1]
-    fuel_mass_target_ug= (U32) divide_VF32(air_mass_ug, Tuareg.fueling_controls.AFR_target);
+    //base fuel mass [µg] := air mass [ug] / AFR [1]
+    base_fuel_mass_ug= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target);
 
-    pTarget->fuel_mass_target_ug= fuel_mass_target_ug;
+    pTarget->base_fuel_mass_ug= base_fuel_mass_ug;
 }
 
+
+const U32 cLIMP_fuel_mass_ug= 10000;
+
+/**
+calculate the required fuel mass to be injected into each cylinder
+*/
+void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget)
+{
+    //check preconditions - table available
+    if(Tuareg.Errors.fueling_config_error == true)
+    {
+        pTarget->base_fuel_mass_ug= cLIMP_fuel_mass_ug;
+        return;
+    }
+
+    /**
+    look up the cranking mode base fuel mass from the table
+    if the CLT sensor has failed its default value will be sufficient, too
+    */
+    pTarget->base_fuel_mass_ug= 16 * getValue_CrankingFuelTable(Tuareg.process.CLT_K);
+}
+
+
+
+
+
+VF32 accel_compensation_threshold= 300.0;
+VF32 decel_compensation_threshold= -300.0;
+VF32 decel_compensation_pct= -20.0;
+U32 fuel_mass_compensation_cycles= 20;
+
+/**
+calculate the required fuel mass compensation for the present throttle change rate
+
+any new trigger condition will enlarge the fuel mass compensation interval
+*/
+void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
+{
+    //check preconditions
+    if((Tuareg.Errors.sensor_TPS_error == true) || (Tuareg.Errors.fueling_config_error == true) || (Fueling_Setup.features.load_transient_comp_enabled == false) || (Tuareg.Runmode != TMODE_RUNNING))
+    {
+        pTarget->flags.accel_comp_active= false;
+        pTarget->fuel_mass_accel_corr_cycles_left= 0;
+        pTarget->fuel_mass_accel_corr_pct= 0.0;
+
+        return;
+    }
+
+    /**
+    check if acceleration compensation has been (re)triggered
+    */
+    if(Tuareg.process.ddt_TPS >= accel_compensation_threshold)
+    {
+        pTarget->flags.accel_comp_active= true;
+        pTarget->fuel_mass_accel_corr_cycles_left= fuel_mass_compensation_cycles;
+
+        //look up the correction factor and export
+        pTarget->fuel_mass_accel_corr_pct= getValue_AccelCompTable(Tuareg.process.ddt_TPS);
+
+    }
+    else if(Tuareg.process.ddt_TPS <= decel_compensation_threshold)
+    {
+        pTarget->flags.accel_comp_active= true;
+        pTarget->fuel_mass_accel_corr_cycles_left= fuel_mass_compensation_cycles;
+
+        //export the correction factor
+        pTarget->fuel_mass_accel_corr_pct= decel_compensation_pct;
+
+    }
+
+    /**
+    check if acceleration compensation is (now/still) active
+    */
+    if(pTarget->flags.accel_comp_active == false)
+    {
+        return;
+    }
+
+
+    /**
+    check if the compensation interval has expired
+    */
+    if(pTarget->fuel_mass_accel_corr_cycles_left > 0)
+    {
+        //one compensation cycle has been consumed
+        pTarget->fuel_mass_accel_corr_cycles_left -= 1;
+    }
+    else
+    {
+        pTarget->flags.accel_comp_active= false;
+        pTarget->fuel_mass_accel_corr_cycles_left= 0;
+        pTarget->fuel_mass_accel_corr_pct= 0.0;
+    }
+
+}
+
+
+VF32 afterstart_comp_pct= 50.0;
+VU32 afterstart_comp_cycles= 20;
+
+/**
+calculate the fuel mass compensation factor for engine warmup
+*/
+void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget)
+{
+    //check preconditions
+    if((Tuareg.Errors.fueling_config_error == true) || (Fueling_Setup.features.afterstart_corr_enabled == false) || (Tuareg.Runmode != TMODE_RUNNING))
+    {
+        pTarget->flags.afterstart_comp_active= false;
+        pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+        pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
+
+        //discard the after start trigger event
+        afterstart_begin_triggered= false;
+
+        return;
+    }
+
+    //check if the after start compensation shall be enabled now
+    if((pTarget->flags.afterstart_comp_active == false) && (afterstart_begin_triggered == true))
+    {
+        pTarget->flags.afterstart_comp_active= true;
+        pTarget->fuel_mass_afterstart_corr_pct= afterstart_comp_pct;
+        pTarget->fuel_mass_afterstart_corr_cycles_left= afterstart_comp_cycles;
+    }
+
+    //discard any possibly pending after start trigger events
+    afterstart_begin_triggered= false;
+
+    /**
+    check if after start compensation is (now/still) active
+    */
+    if(pTarget->flags.afterstart_comp_active == false)
+    {
+        return;
+    }
+
+
+    //check if the after start cycle counter has not yet expired
+    if(pTarget->fuel_mass_afterstart_corr_cycles_left > 0)
+    {
+        pTarget->fuel_mass_afterstart_corr_cycles_left -= 1;
+    }
+    else
+    {
+        //expired!
+        pTarget->flags.afterstart_comp_active= false;
+        pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+    }
+}
+
+
+
+/**
+calculate the fuel mass compensation factor for engine warmup
+*/
+void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
+{
+    //check preconditions
+    if((Tuareg.Errors.sensor_CLT_error == true) || (Tuareg.Errors.fueling_config_error == true) || (Fueling_Setup.features.warmup_comp_enabled == false) || (Tuareg.Runmode != TMODE_RUNNING))
+    {
+        pTarget->flags.warmup_comp_active= false;
+        pTarget->fuel_mass_warmup_corr_pct= 0.0;
+
+        return;
+    }
+
+    //look up the correction factor and export
+    pTarget->fuel_mass_warmup_corr_pct= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
+}
+
+
+
+
+
+
+VF32 cMax_fuel_mass_compensation_pct= 150.0;
+
+/**
+calculate the required fuel mass to be injected into each cylinder
+*/
+void update_target_fuel_mass(volatile fueling_control_t * pTarget)
+{
+    VF32 compensation_pct= 0.0;
+    VU32 target_fuel_mass_ug;
+
+    //check preconditions
+    if((Tuareg.Runmode != TMODE_RUNNING) || (Tuareg.Errors.fueling_config_error == true))
+    {
+        pTarget->target_fuel_mass_ug= (VU32) pTarget->base_fuel_mass_ug;
+        return;
+    }
+
+    //check if warm up enrichment is active
+    if(pTarget->flags.warmup_comp_active == true)
+    {
+        compensation_pct= pTarget->fuel_mass_warmup_corr_pct;
+    }
+
+    //check if load transient compensation is active
+    if(pTarget->flags.accel_comp_active == true)
+    {
+        compensation_pct += pTarget->fuel_mass_accel_corr_pct;
+    }
+
+    //check if after start compensation is active
+    if(pTarget->flags.afterstart_comp_active == true)
+    {
+        compensation_pct += pTarget->fuel_mass_afterstart_corr_pct;
+    }
+
+    //check if compensation is within interval
+    if(compensation_pct > cMax_fuel_mass_compensation_pct)
+    {
+        compensation_pct= cMax_fuel_mass_compensation_pct;
+    }
+
+    //calculate target fuel mass
+    if(compensation_pct < -99.9)
+    {
+        target_fuel_mass_ug= 0;
+    }
+    else if(compensation_pct < 0.0)
+    {
+        target_fuel_mass_ug= (-compensation_pct * pTarget->base_fuel_mass_ug) / 100.0;
+    }
+    else if(compensation_pct > 0.0)
+    {
+        target_fuel_mass_ug= (compensation_pct * pTarget->base_fuel_mass_ug) / 100.0;
+    }
+
+    //export target fuel mass
+    pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
+
+}
+
+
+
+/****************************************************************************************************************************************
+*   Fueling controls update - injector related parameters
+****************************************************************************************************************************************/
+
+const U32 LIMP_injector_deadtime_us= 1000;
+
+/**
+calculate the required fueling actor power on times to inject the given fuel mass for each cylinder
+and checks the calculated intervals against the maximum injector duty cycle
+*/
+void update_injector_deadtime(volatile fueling_control_t * pTarget)
+{
+    //check preconditions
+    if(Tuareg.Errors.fueling_config_error == true)
+    {
+        pTarget->injector_deadtime_us= LIMP_injector_deadtime_us;
+        return;
+    }
+
+    /*
+    look up dead time
+    if the battery voltage sensor fails its default value will be sufficient, too
+    The values in the Injector timing table are in 24 us increments
+    */
+    pTarget->injector_deadtime_us= 24 * getValue_InjectorTimingTable(Tuareg.process.VBAT_V);
+}
 
 
 /**
@@ -339,18 +659,18 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
     /// injector 1
 
     //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    inj1_target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector1_rate_mgps);
+    inj1_target_interval_us= divide_VU32(1000 * pTarget->target_fuel_mass_ug, Fueling_Setup.injector1_rate_mgps);
 
     //interval [µs] := injection interval [µs] + injector dead time [µs]
-    inj1_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+    inj1_target_interval_us +=  pTarget->injector_deadtime_us;
 
     /// injector 2
 
     //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    inj2_target_interval_us= divide_VU32(1000 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector2_rate_mgps);
+    inj2_target_interval_us= divide_VU32(1000 * pTarget->target_fuel_mass_ug, Fueling_Setup.injector2_rate_mgps);
 
     //interval [µs] := injection interval [µs] + injector dead time [µs]
-    inj2_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+    inj2_target_interval_us +=  pTarget->injector_deadtime_us;
 
     /// dc threshold
 
@@ -387,6 +707,7 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 }
 
 
+
 /**
 calculate the required fueling actor power on times to inject the given fuel mass for each cylinder
 and checks the calculated intervals against the maximum injector duty cycle
@@ -402,18 +723,18 @@ void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
     /// injector 1
 
     //injection interval [µs] := (1/2) * 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    inj1_target_interval_us= divide_VU32(500 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector1_rate_mgps);
+    inj1_target_interval_us= divide_VU32(500 * pTarget->target_fuel_mass_ug, Fueling_Setup.injector1_rate_mgps);
 
     //interval [µs] := injection interval [µs] + injector dead time [µs]
-    inj1_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+    inj1_target_interval_us +=  pTarget->injector_deadtime_us;
 
     /// injector 2
 
     //injection interval [µs] := (1/2) * 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
-    inj2_target_interval_us= divide_VU32(500 * pTarget->fuel_mass_target_ug, Fueling_Setup.injector2_rate_mgps);
+    inj2_target_interval_us= divide_VU32(500 * pTarget->target_fuel_mass_ug, Fueling_Setup.injector2_rate_mgps);
 
     //interval [µs] := injection interval [µs] + injector dead time [µs]
-    inj2_target_interval_us +=  Fueling_Setup.injector_deadtime_us;
+    inj2_target_interval_us +=  pTarget->injector_deadtime_us;
 
     /// dc threshold
 
@@ -451,6 +772,10 @@ void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
 
 
 
+/****************************************************************************************************************************************
+*   Fueling controls update - injection begin
+****************************************************************************************************************************************/
+
 
 
 /**
@@ -460,6 +785,8 @@ sets the injection_begin_valid flag
 */
 void update_injection_begin_batch(volatile fueling_control_t * pTarget)
 {
+    //data update in progress
+    pTarget->flags.injection_begin_valid= false;
 
     //check injector state - no injectors shall be powered at this point
     if((Tuareg.actors.fuel_injector_1 == true) || (Tuareg.actors.fuel_injector_1 == true))
@@ -495,6 +822,8 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
     process_position_t injection_begin_POS, injection_default_begin_POS, injection_earliest_begin_POS;
     exec_result_t result;
 
+    //data update in progress
+    pTarget->flags.injection_begin_valid= false;
 
     /**
     check if the fueling system is about to be overloaded

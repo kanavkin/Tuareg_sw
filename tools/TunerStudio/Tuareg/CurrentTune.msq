@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Fri Mar 26 17:33:47 CET 2021"/>
-<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="10" signature="rusEFI v1.04"/>
+<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Mar 30 22:35:34 CEST 2021"/>
+<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="15" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
 <pcVariable digits="0" name="serviceActivationOnTime" units="ms">2.0</pcVariable>
@@ -134,7 +134,45 @@
          10.0 10.0 16.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
       </constant>
 </page>
-<page number="4" size="14">
+<page number="4" size="48">
+<constant cols="1" digits="0" name="ignDwell_x" rows="16" units="Rpm">
+         0.0 
+         500.0 
+         1000.0 
+         1500.0 
+         2000.0 
+         3000.0 
+         3600.0 
+         4200.0 
+         4800.0 
+         5400.0 
+         6000.0 
+         6600.0 
+         7200.0 
+         7800.0 
+         8400.0 
+         9000.0 
+      </constant>
+<constant cols="1" digits="0" name="ignDwell_y" rows="16" units="dwell us">
+         9984.0 
+         9984.0 
+         9984.0 
+         9984.0 
+         9984.0 
+         3984.0 
+         4176.0 
+         4368.0 
+         4608.0 
+         4800.0 
+         4992.0 
+         5184.0 
+         5376.0 
+         5616.0 
+         5808.0 
+         6000.0 
+      </constant>
+</page>
+<page number="5" size="14">
 <constant digits="0" name="FuelingSetupVersion" units="#">1.0</constant>
 <constant digits="0" name="FuelingSetupVeFromMAPmin" units="rpm">2000.0</constant>
 <constant digits="0" name="FuelingSetupVeFromMAPmax" units="rpm">6000.0</constant>
@@ -144,7 +182,7 @@
 <constant digits="0" name="FuelingSetupInjDeadTime" units="us">750.0</constant>
 <constant digits="0" name="FuelingSetupInjMaxDc" units="%">85.0</constant>
 </page>
-<page number="5" size="320">
+<page number="6" size="320">
 <constant cols="1" digits="0" name="fuelVE_TPS_x" rows="16" units="Rpm">
          1500.0 
          2000.0 
@@ -200,7 +238,7 @@
          31.0 34.0 37.0 41.0 44.0 48.0 51.0 55.0 58.0 63.0 69.0 75.0 80.0 87.0 93.0 98.0 
       </constant>
 </page>
-<page number="6" size="320">
+<page number="7" size="320">
 <constant cols="1" digits="0" name="fuelVE_MAP_x" rows="16" units="Rpm">
          1500.0 
          2000.0 
@@ -256,7 +294,7 @@
          10.0 16.0 22.0 28.0 34.0 40.0 46.0 52.0 58.0 64.0 70.0 76.0 82.0 88.0 94.0 100.0 
       </constant>
 </page>
-<page number="7" size="320">
+<page number="8" size="320">
 <constant cols="1" digits="0" name="fuelAFR_TPS_x" rows="16" units="Rpm">
          1500.0 
          2000.0 
@@ -312,7 +350,159 @@
          13.0 13.0 12.9 12.9 12.8 12.7 12.7 12.6 12.5 12.5 12.4 12.3 12.2 12.1 12.1 12.0 
       </constant>
 </page>
-<page number="8" size="45">
+<page number="9" size="48">
+<constant cols="1" digits="0" name="AccelComp_x" rows="16" units="°/s">
+         50.0 
+         100.0 
+         129.0 
+         157.0 
+         186.0 
+         214.0 
+         243.0 
+         271.0 
+         300.0 
+         329.0 
+         357.0 
+         386.0 
+         414.0 
+         443.0 
+         471.0 
+         500.0 
+      </constant>
+<constant cols="1" digits="0" name="AccelComp_y" rows="16" units="%">
+         0.0 
+         10.0 
+         20.0 
+         30.0 
+         34.0 
+         38.0 
+         42.0 
+         46.0 
+         50.0 
+         60.0 
+         70.0 
+         80.0 
+         90.0 
+         100.0 
+         110.0 
+         120.0 
+      </constant>
+</page>
+<page number="10" size="48">
+<constant cols="1" digits="0" name="WarmUpComp_x" rows="16" units="°C">
+         -49.15 
+         -40.15 
+         -31.15 
+         -30.15 
+         -20.15 
+         -10.15 
+         -0.15 
+         9.85 
+         19.85 
+         29.85 
+         39.85 
+         49.85 
+         59.85 
+         69.85 
+         79.85 
+         89.85 
+      </constant>
+<constant cols="1" digits="0" name="WarmUpComp_y" rows="16" units="%">
+         50.0 
+         50.0 
+         50.0 
+         50.0 
+         50.0 
+         45.0 
+         40.0 
+         35.0 
+         30.0 
+         25.0 
+         20.0 
+         15.0 
+         5.0 
+         5.0 
+         0.0 
+         0.0 
+      </constant>
+</page>
+<page number="11" size="48">
+<constant cols="1" digits="1" name="InjDead_x" rows="16" units="mV">
+         6.0 
+         6.6 
+         7.2 
+         7.8 
+         8.4 
+         9.0 
+         9.6 
+         10.2 
+         10.8 
+         11.4 
+         12.0 
+         12.6 
+         13.2 
+         13.8 
+         14.4 
+         15.0 
+      </constant>
+<constant cols="1" digits="0" name="InjDead_y" rows="16" units="us">
+         3000.0 
+         2856.0 
+         2736.0 
+         2592.0 
+         2472.0 
+         2328.0 
+         2208.0 
+         2064.0 
+         1944.0 
+         1800.0 
+         1680.0 
+         1536.0 
+         1416.0 
+         1272.0 
+         1152.0 
+         1008.0 
+      </constant>
+</page>
+<page number="12" size="48">
+<constant cols="1" digits="0" name="CrankFuel_x" rows="16" units="°C">
+         -49.15 
+         -48.15 
+         -40.15 
+         -30.15 
+         -20.15 
+         -10.15 
+         -0.15 
+         9.85 
+         19.85 
+         29.85 
+         39.85 
+         49.85 
+         59.85 
+         69.85 
+         79.85 
+         89.85 
+      </constant>
+<constant cols="1" digits="0" name="CrankFuel_y" rows="16" units="ug">
+         4000.0 
+         3824.0 
+         3648.0 
+         3488.0 
+         3312.0 
+         3136.0 
+         2960.0 
+         2784.0 
+         2624.0 
+         2448.0 
+         2272.0 
+         2096.0 
+         1920.0 
+         1760.0 
+         1584.0 
+         1408.0 
+      </constant>
+</page>
+<page number="13" size="45">
 <constant digits="0" name="TuaregSetupVersion" units="#">3.0</constant>
 <constant digits="0" name="TuaregSetupMaxRpm" units="rpm">9000.0</constant>
 <constant digits="0" name="TuaregSetupCrkPosTbl_B2" units="deg">3.0</constant>
@@ -331,55 +521,55 @@
 <constant digits="2" name="TuaregSetupGear_5" units="kmh/rpm">0.0</constant>
 <constant digits="2" name="TuaregSetupGear_N" units="kmh/rpm">0.0</constant>
 </page>
-<page number="9" size="180">
+<page number="14" size="180">
 <constant digits="0" name="Syslog_00_ts" units="Timestamp">34.0</constant>
 <constant name="Syslog_00_type">"II"</constant>
 <constant name="Syslog_00_loc">"2"</constant>
 <constant digits="0" name="Syslog_00_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_01_ts" units="Timestamp">101.0</constant>
+<constant digits="0" name="Syslog_01_ts" units="Timestamp">111.0</constant>
 <constant name="Syslog_01_type">"II"</constant>
 <constant name="Syslog_01_loc">"2"</constant>
 <constant digits="0" name="Syslog_01_src" units="Module-ID">26.0</constant>
-<constant digits="0" name="Syslog_02_ts" units="Timestamp">295.0</constant>
+<constant digits="0" name="Syslog_02_ts" units="Timestamp">359.0</constant>
 <constant name="Syslog_02_type">"II"</constant>
-<constant name="Syslog_02_loc">"2"</constant>
-<constant digits="0" name="Syslog_02_src" units="Module-ID">21.0</constant>
-<constant digits="0" name="Syslog_03_ts" units="Timestamp">304.0</constant>
+<constant name="Syslog_02_loc">"5"</constant>
+<constant digits="0" name="Syslog_02_src" units="Module-ID">29.0</constant>
+<constant digits="0" name="Syslog_03_ts" units="Timestamp">359.0</constant>
 <constant name="Syslog_03_type">"II"</constant>
-<constant name="Syslog_03_loc">"5"</constant>
+<constant name="Syslog_03_loc">"12"</constant>
 <constant digits="0" name="Syslog_03_src" units="Module-ID">29.0</constant>
-<constant digits="0" name="Syslog_04_ts" units="Timestamp">304.0</constant>
+<constant digits="0" name="Syslog_04_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_04_type">"II"</constant>
-<constant name="Syslog_04_loc">"12"</constant>
-<constant digits="0" name="Syslog_04_src" units="Module-ID">29.0</constant>
+<constant name="Syslog_04_loc">"18"</constant>
+<constant digits="0" name="Syslog_04_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_05_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_05_type">"II"</constant>
-<constant name="Syslog_05_loc">"18"</constant>
+<constant name="Syslog_05_loc">"8"</constant>
 <constant digits="0" name="Syslog_05_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_06_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_06_type">"II"</constant>
-<constant name="Syslog_06_loc">"8"</constant>
+<constant name="Syslog_06_loc">"10"</constant>
 <constant digits="0" name="Syslog_06_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_07_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_07_type">"II"</constant>
-<constant name="Syslog_07_loc">"10"</constant>
+<constant name="Syslog_07_loc">"12"</constant>
 <constant digits="0" name="Syslog_07_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_08_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_08_type">"II"</constant>
-<constant name="Syslog_08_loc">"12"</constant>
+<constant name="Syslog_08_loc">"14"</constant>
 <constant digits="0" name="Syslog_08_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_09_ts" units="Timestamp">540.0</constant>
 <constant name="Syslog_09_type">"II"</constant>
-<constant name="Syslog_09_loc">"14"</constant>
+<constant name="Syslog_09_loc">"20"</constant>
 <constant digits="0" name="Syslog_09_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_10_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_10_ts" units="Timestamp">16680.0</constant>
 <constant name="Syslog_10_type">"II"</constant>
-<constant name="Syslog_10_loc">"20"</constant>
+<constant name="Syslog_10_loc">"4"</constant>
 <constant digits="0" name="Syslog_10_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_11_ts" units="Timestamp">16640.0</constant>
+<constant digits="0" name="Syslog_11_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_11_type">"II"</constant>
-<constant name="Syslog_11_loc">"4"</constant>
-<constant digits="0" name="Syslog_11_src" units="Module-ID">35.0</constant>
+<constant name="Syslog_11_loc">"0"</constant>
+<constant digits="0" name="Syslog_11_src" units="Module-ID">0.0</constant>
 <constant digits="0" name="Syslog_12_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_12_type">"II"</constant>
 <constant name="Syslog_12_loc">"0"</constant>
@@ -448,10 +638,10 @@
 <constant name="Syslog_28_type">"II"</constant>
 <constant name="Syslog_28_loc">"0"</constant>
 <constant digits="0" name="Syslog_28_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_29_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_29_type">"II"</constant>
-<constant name="Syslog_29_loc">"0"</constant>
-<constant digits="0" name="Syslog_29_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_29_ts" units="Timestamp">343.0</constant>
+<constant name="Syslog_29_type">"EE"</constant>
+<constant name="Syslog_29_loc">"1"</constant>
+<constant digits="0" name="Syslog_29_src" units="Module-ID">21.0</constant>
 </page>
 <settings Comment="These setting are only used if this msq is opened without a project.">
 <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>
@@ -460,8 +650,5 @@
 <setting name="CELSIUS" value="CELSIUS"/>
 <setting name="AFR" value="AFR"/>
 </settings>
-<userComments Comment="These are user comments that can be related to a particular setting or dialog.">
-<userComment name="ignAdv_TPS_z" value=""/>
-<userComment name="fuelVE_MAP_z" value=""/>
-</userComments>
+<userComments Comment="These are user comments that can be related to a particular setting or dialog."/>
 </msq>

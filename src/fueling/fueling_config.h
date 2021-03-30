@@ -5,6 +5,26 @@
 
 #define FUELING_SETUP_SIZE 14
 
+
+
+/**
+fueling_features_t
+*/
+typedef union
+{
+     U8 all_flags;
+
+     struct
+     {
+        U8 load_transient_comp_enabled :1;
+        U8 warmup_comp_enabled :1;
+        U8 afterstart_corr_enabled :1;
+     };
+
+} fueling_features_t;
+
+
+
 /***************************************************************************************************************************************************
 *   Fueling Setup Page
 ***************************************************************************************************************************************************/
@@ -23,6 +43,8 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 
     U16 injector_deadtime_us;
     U8 max_injector_duty_cycle_pct;
+
+    fueling_features_t features;
 
 } Fueling_Setup_t;
 
@@ -66,10 +88,33 @@ exec_result_t modify_AfrTable_TPS(U32 Offset, U32 Value);
 void send_AfrTable_TPS(USART_TypeDef * Port);
 VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg);
 
+//Fueling acceleration compensation table - AccelCompTable
+exec_result_t store_AccelCompTable();
+void show_AccelCompTable(USART_TypeDef * Port);
+exec_result_t modify_AccelCompTable(U32 Offset, U32 Value);
+void send_AccelCompTable(USART_TypeDef * Port);
+VF32 getValue_AccelCompTable(VF32 Ddt_TPS);
 
+//Fueling Warm up Enrichment compensation table - WarmUpCompTable
+exec_result_t store_WarmUpCompTable();
+void show_WarmUpCompTable(USART_TypeDef * Port);
+exec_result_t modify_WarmUpCompTable(U32 Offset, U32 Value);
+void send_WarmUpCompTable(USART_TypeDef * Port);
+VF32 getValue_WarmUpCompTable(VF32 CLT_K);
 
+//Injector dead time table - InjectorTimingTable
+exec_result_t store_InjectorTimingTable();
+void show_InjectorTimingTable(USART_TypeDef * Port);
+exec_result_t modify_InjectorTimingTable(U32 Offset, U32 Value);
+void send_InjectorTimingTable(USART_TypeDef * Port);
+VF32 getValue_InjectorTimingTable(VF32 Bat_V);
 
-
+//Cranking base fuel mass table - CrankingFuelTable
+exec_result_t store_CrankingFuelTable();
+void show_CrankingFuelTable(USART_TypeDef * Port);
+exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value);
+void send_CrankingFuelTable(USART_TypeDef * Port);
+VF32 getValue_CrankingFuelTable(VF32 CLT_K);
 
 
 /***************************************************************************************************************************************************

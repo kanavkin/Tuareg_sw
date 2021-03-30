@@ -100,10 +100,12 @@ void Tuareg_update_console()
         {
             ts_burnPage(Tuareg_console.ts_active_page);
         }
+        #ifdef CONSOLE_DEBUG
         else
         {
             print(DEBUG_PORT, "\r\nWARNING page write rejected - no burn permission!");
         }
+        #endif // CONSOLE_DEBUG
         break;
 
 
@@ -385,7 +387,7 @@ inline void cli_showPage(U32 Page)
             break;
 
         case IGNITIONMAP_TPS:
-            print(TS_PORT, "\r \nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r\nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
             show_ignAdvTable_TPS(TS_PORT);
             break;
 /*
@@ -394,29 +396,56 @@ inline void cli_showPage(U32 Page)
             //show_ignAdvTable_MAP(TS_PORT);
             break;
 */
+        case IGNITIONMAP_DWELL:
+            print(TS_PORT, "\r\nIgnition Dwell table \r\n");
+            show_ignDwellTable(TS_PORT);
+            break;
 
         case FUELINGPAGE:
-
             show_Fueling_Setup(TS_PORT);
             break;
 
 
         case VEMAP_TPS:
 
-            print(TS_PORT, "\r \nVE Map - TPS (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r\nVE Map - TPS (in boctok 3D coordinate system)\r\n");
             show_VeTable_TPS(TS_PORT);
             break;
 
         case VEMAP_MAP:
 
-            print(TS_PORT, "\r \nVE Map - MAP (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r\nVE Map - MAP (in boctok 3D coordinate system)\r\n");
             show_VeTable_MAP(TS_PORT);
             break;
 
         case AFRMAP_TPS:
 
-            print(TS_PORT, "\r \nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
+            print(TS_PORT, "\r\nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
             show_AfrTable_TPS(TS_PORT);
+            break;
+
+        case ACCELCOMP_TABLE:
+
+            print(TS_PORT, "\r\nAcceleration compensation\r\n");
+            show_AccelCompTable(TS_PORT);
+            break;
+
+        case WARMUPCOMP_TABLE:
+
+            print(TS_PORT, "\r\nWarm up compensation\r\n");
+            show_WarmUpCompTable(TS_PORT);
+            break;
+
+        case INJ_TIMING_TABLE:
+
+            print(TS_PORT, "\r\nInjector Timing\r\n");
+            show_WarmUpCompTable(TS_PORT);
+            break;
+
+        case CRANKINGFUEL_TABLE:
+
+            print(TS_PORT, "\r\nCranking Fuel mass\r\n");
+            show_CrankingFuelTable(TS_PORT);
             break;
 
 

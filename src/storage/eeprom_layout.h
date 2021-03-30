@@ -10,6 +10,9 @@
 //see ct3D_data_size for address calculation!!! 320
 #define TABLE3D_RESERVED_SPACE 320
 
+//see ct2D_data_size for address calculation!!!
+#define TABLE2D_RESERVED_SPACE 48
+
 
 /**
 Tuareg configuration
@@ -54,11 +57,16 @@ Ignition advance table 3D (MAP based)
 //currently not implemented
 
 
+/**
+Ignition dwell table
+*/
+#define EEPROM_IGNITION_DWELLTABLE_BASE (EEPROM_IGNITION_ADVTPS_BASE + TABLE3D_RESERVED_SPACE)
+
 
 /**
 Fueling configuration
 */
-#define EEPROM_FUELING_SETUP_BASE (EEPROM_IGNITION_SETUP_BASE + EEPROM_IGNITION_SETUP_RESERVED_SPACE + TABLE3D_RESERVED_SPACE)
+#define EEPROM_FUELING_SETUP_BASE (EEPROM_IGNITION_DWELLTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
 #define EEPROM_FUELING_SETUP_RESERVED_SPACE 40
 
@@ -77,12 +85,32 @@ Fueling AFR target Table 3D (TPS based) - AfrTable_TPS
 */
 #define EEPROM_FUELING_AFRTPS_BASE (EEPROM_FUELING_VEMAP_BASE + TABLE3D_RESERVED_SPACE)
 
+/**
+Fueling acceleration compensation table - AccelCompTable
+*/
+#define EEPROM_FUELING_ACCELCOMP_BASE (EEPROM_FUELING_AFRTPS_BASE + TABLE3D_RESERVED_SPACE)
+
+/**
+Fueling Warm up enrichment compensation table - WarmUpCompTable
+*/
+#define EEPROM_FUELING_WARMUPCOMP_BASE (EEPROM_FUELING_ACCELCOMP_BASE + TABLE2D_RESERVED_SPACE)
+
+/**
+Injector dead time table - InjectorTimingTable
+*/
+#define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE2D_RESERVED_SPACE)
+
+/**
+Cranking base fuel mass table - CrankingFuelTable
+*/
+#define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE2D_RESERVED_SPACE)
 
 
 /**
 This is the last used eeprom address -> memory dump will be read until here
 */
-#define EEPROM_STORAGE_END 1000
+#define EEPROM_STORAGE_END (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
+#warning TODO (oli#7#): add eeprom data end check vs. eeprom size
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

@@ -97,9 +97,14 @@ typedef enum {
     FUELBIT_DC_CLIP,
     FUELBIT_BEGIN_VALID,
 
+    FUELBIT_ACCELCOMP_ACT,
+    FUELBIT_WARMUPCOMP_ACT,
+    FUELBIT_AFTERSTARTCOMP_ACT,
+
     FUELBIT_COUNT
 
 } fueling_bits_t;
+
 
 
 

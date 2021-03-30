@@ -488,6 +488,42 @@ void show_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTableData)
 
 /****************************************************************************************************************************************************
 *
+* print 2D table in human readable form
+*
+* assuming that the title has already been printed
+* assuming fixed table dimension of T2D_DATA_DIMENSION
+* layout:
+* row below: X-Axis
+* data layout: y[x]
+* orientation (order from low to high) of X-axis: left to right
+****************************************************************************************************************************************************/
+void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
+{
+    U32 column;
+
+    // Y values, printing from left to right y[0..15]
+    for (column = 0; column < T2D_DATA_DIMENSION; column++)
+    {
+        printf_U(pPort, pTableData->axisY[column], PAD_3);
+        print(pPort, "  ");
+    }
+
+    //separator
+    print(pPort, "       ................................................................................................\r\n");
+    print(pPort, "       ");
+
+    // X-axis
+    for (column = 0; column < T2D_DATA_DIMENSION; column++)
+    {
+        printf_U(pPort, pTableData->axisX[column], PAD_5);
+    }
+
+    print(pPort, "\r\n");
+}
+
+
+/****************************************************************************************************************************************************
+*
 * replace one byte in 2D table
 *
 ****************************************************************************************************************************************************/

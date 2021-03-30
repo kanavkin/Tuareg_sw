@@ -14,6 +14,7 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2);
 
 VU32 divide_VU32(VU32 Dividend, VU32 Divisor);
 VF32 divide_VF32(VU32 Dividend, VU32 Divisor);
+VF32 divide_float(VF32 Dividend, VF32 Divisor);
 
 crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);

@@ -31,9 +31,12 @@ typedef struct _table_mgr_t {
     U32 last_Ymax_index;
     U32 last_Ymin_index;
 
-    //lookup scaling factors
+    //lookup scaling divisor
     U32 div_X_lookup;
     U32 div_Y_lookup;
+
+    //result scaling factor
+    U32 mul_Result;
 
 } table_mgr_t;
 
@@ -52,7 +55,7 @@ for simplicity all 2D table axes have the same dimension (T2D_DATA_DIMENSION)
 typedef struct __attribute__ ((__packed__)) _t2D_data_t {
 
     U16 axisX[T2D_DATA_DIMENSION];
-    U16 axisY[T2D_DATA_DIMENSION];
+    U8 axisY[T2D_DATA_DIMENSION];
 
 } t2D_data_t;
 
@@ -122,6 +125,7 @@ void send_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTable);
 
 
 void show_t3D_data(USART_TypeDef * pPort, volatile t3D_data_t * pTableData);
+void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData);
 
 
 

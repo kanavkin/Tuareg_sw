@@ -5,6 +5,10 @@
 #include "Tuareg_types.h"
 
 
+#define TUAREG_DEFAULT_LOAD_PCT 30
+
+
+
 typedef struct _process_data_t {
 
     VF32 MAP_kPa;
@@ -20,13 +24,15 @@ typedef struct _process_data_t {
 
     VU8 ground_speed_kmh;
 
+    VF32 load_pct;
+
 
 } process_data_t;
 
 
-extern void Tuareg_update_process_data();
+void Tuareg_update_process_data();
 
-
+void Tuareg_update_load(volatile process_data_t * pProcess);
 
 
 #endif // TUAREGPDATA_H_INCLUDED

@@ -41,12 +41,6 @@ to allow limp home operation if eeprom has been corrupted
 */
 
 
-
-
-
-
-
-
 typedef enum {
 
     //system init

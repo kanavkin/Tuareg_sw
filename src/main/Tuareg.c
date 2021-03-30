@@ -26,7 +26,7 @@
 #include "eeprom.h"
 #include "sensors.h"
 #include "fueling_hw.h"
-#include "fueling_logic.h"
+#include "Tuareg_fueling_controls.h"
 
 #include "dash_hw.h"
 #include "dash_logic.h"
@@ -145,7 +145,6 @@ void Tuareg_Init()
     init_lowprio_scheduler();
 
     init_fueling_hw();
-    init_fueling_logic();
 
 
     init_dash_logic();
@@ -250,6 +249,7 @@ void Tuareg_update_halt_sources()
 
 /******************************************************************************************************************************
 triggers run mode transitions based on periodically read input signals
+-> periodic (time triggered) update
 ******************************************************************************************************************************/
 void Tuareg_update_Runmode()
 {
@@ -282,6 +282,8 @@ void Tuareg_update_Runmode()
             Syslog_Info(TID_TUAREG, TUAREG_LOC_UPDATE_RUNMODE_CRANKING_END);
 
             Tuareg_set_Runmode(TMODE_RUNNING);
+
+            Tuareg_notify_fueling_cranking_end();
         }
 
         break;

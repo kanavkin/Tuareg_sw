@@ -21,6 +21,8 @@ volatile Ignition_Setup_t Ignition_Setup;
 volatile t3D_t ignAdvTable_TPS;
 volatile t3D_t ignAdvTable_MAP;
 
+volatile t2D_t ignDwellTable;
+
 
 volatile U8 * const pIgnition_Setup_data= (volatile U8 *) &Ignition_Setup;
 const U32 cIgnition_Setup_size= sizeof(Ignition_Setup);
@@ -34,15 +36,21 @@ const U32 cIgnition_Setup_size= sizeof(Ignition_Setup);
 */
 exec_result_t load_Ignition_Config()
 {
-   exec_result_t load_result;
+    exec_result_t load_result;
 
-   load_result= Eeprom_load_data(EEPROM_IGNITION_SETUP_BASE, pIgnition_Setup_data, cIgnition_Setup_size);
+    load_result= Eeprom_load_data(EEPROM_IGNITION_SETUP_BASE, pIgnition_Setup_data, cIgnition_Setup_size);
 
-   ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK(load_result);
 
-   load_result= load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE);
-   ignAdvTable_TPS.mgr.div_X_lookup= 1;
-   ignAdvTable_TPS.mgr.div_Y_lookup= 1;
+    load_result= load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE);
+    ignAdvTable_TPS.mgr.div_X_lookup= 1;
+    ignAdvTable_TPS.mgr.div_Y_lookup= 1;
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(ignDwellTable.data), EEPROM_IGNITION_DWELLTABLE_BASE);
+    ignDwellTable.mgr.div_X_lookup= 0;
+    ignDwellTable.mgr.div_Y_lookup= 0;
 
    return load_result;
 }
@@ -201,3 +209,42 @@ VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
 }
 
 
+/***************************************************************************************************************************************************
+*   Ignition Dwell time table - ignDwellTable
+***************************************************************************************************************************************************/
+exec_result_t store_ignDwellTable()
+{
+    return store_t2D_data(&(ignDwellTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
+}
+
+
+void show_ignDwellTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nDwell table (x100 us):\r\n");
+
+    show_t2D_data(TS_PORT, &(ignDwellTable.data));
+}
+
+
+exec_result_t modify_ignDwellTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(ignDwellTable.data), Offset, Value);
+}
+
+/**
+this function implements the TS interface binary config page read command for ignDwellTable
+*/
+void send_ignDwellTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(ignDwellTable.data));
+}
+
+/**
+returns the dwell time in us
+*/
+VU32 getValue_ignDwellTable(VU32 Rpm)
+{
+    //ignDwellTable stores the Dwell time in 100 us increments
+    return (VU32) getValue_t2D(&ignDwellTable, Rpm);
+}

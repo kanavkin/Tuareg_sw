@@ -23,6 +23,13 @@ volatile t3D_t VeTable_TPS;
 volatile t3D_t VeTable_MAP;
 volatile t3D_t AfrTable_TPS;
 
+volatile t2D_t AccelCompTable;
+volatile t2D_t WarmUpCompTable;
+
+volatile t2D_t InjectorTimingTable;
+
+volatile t2D_t CrankingFuelTable;
+
 
 volatile U8 * const pFueling_Setup_data= (volatile U8 *) &Fueling_Setup;
 const U32 cFueling_Setup_size= sizeof(Fueling_Setup);
@@ -46,18 +53,49 @@ exec_result_t load_Fueling_Config()
     load_result= load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
     VeTable_TPS.mgr.div_X_lookup= 0;
     VeTable_TPS.mgr.div_Y_lookup= 0;
+    VeTable_TPS.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
     VeTable_MAP.mgr.div_X_lookup= 0;
     VeTable_MAP.mgr.div_Y_lookup= 0;
+    VeTable_MAP.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
     AfrTable_TPS.mgr.div_X_lookup= 0;
     AfrTable_TPS.mgr.div_Y_lookup= 0;
+    AfrTable_TPS.mgr.mul_Res= 0;
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(AccelCompTable.data), EEPROM_FUELING_ACCELCOMP_BASE);
+    AccelCompTable.mgr.div_X_lookup= 0;
+    AccelCompTable.mgr.div_Y_lookup= 0;
+    AccelCompTable.mgr.mul_Res= 0;
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(WarmUpCompTable.data), EEPROM_FUELING_WARMUPCOMP_BASE);
+    WarmUpCompTable.mgr.div_X_lookup= 0;
+    WarmUpCompTable.mgr.div_Y_lookup= 0;
+    WarmUpCompTable.mgr.mul_Res= 0;
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
+    InjectorTimingTable.mgr.div_X_lookup= 0;
+    InjectorTimingTable.mgr.div_Y_lookup= 0;
+    InjectorTimingTable.mgr.mul_Res= 0;
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
+    CrankingFuelTable.mgr.div_X_lookup= 0;
+    CrankingFuelTable.mgr.div_Y_lookup= 0;
+    CrankingFuelTable.mgr.mul_Res= 0;
 
     return load_result;
 }
@@ -310,6 +348,173 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 
 
 
+/***************************************************************************************************************************************************
+*   Fueling acceleration compensation table - AccelCompTable
+***************************************************************************************************************************************************/
+
+exec_result_t store_AccelCompTable()
+{
+    return store_t2D_data(&(AccelCompTable.data), EEPROM_FUELING_ACCELCOMP_BASE);
+}
 
 
+void show_AccelCompTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nFueling acceleration compensation table:\r\n");
 
+    show_t2D_data(TS_PORT, &(AccelCompTable.data));
+}
+
+
+exec_result_t modify_AccelCompTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(AccelCompTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for AccelCompTable
+*/
+void send_AccelCompTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(AccelCompTable.data));
+}
+
+
+/**
+returns the acceleration compensation value in percent
+*/
+VF32 getValue_AccelCompTable(VF32 Ddt_TPS)
+{
+    return getValue_t2D(&AccelCompTable, Ddt_TPS);
+}
+
+
+/***************************************************************************************************************************************************
+*   Fueling Warm up Enrichment compensation table - WarmUpCompTable
+***************************************************************************************************************************************************/
+
+exec_result_t store_WarmUpCompTable()
+{
+    return store_t2D_data(&(WarmUpCompTable.data), EEPROM_FUELING_WARMUPCOMP_BASE);
+}
+
+
+void show_WarmUpCompTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nWarm up Enrichment table (%):\r\n");
+
+    show_t2D_data(TS_PORT, &(WarmUpCompTable.data));
+}
+
+
+exec_result_t modify_WarmUpCompTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(WarmUpCompTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for WarmUpCompTable
+*/
+void send_WarmUpCompTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(WarmUpCompTable.data));
+}
+
+
+/**
+returns the Warm up Enrichment compensation in percent
+*/
+VF32 getValue_WarmUpCompTable(VF32 CLT_K)
+{
+    return getValue_t2D(&WarmUpCompTable, CLT_K);
+}
+
+
+/***************************************************************************************************************************************************
+*   Injector dead time table - InjectorTimingTable
+***************************************************************************************************************************************************/
+
+exec_result_t store_InjectorTimingTable()
+{
+    return store_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
+}
+
+
+void show_InjectorTimingTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nInjector timing table:\r\n");
+
+    show_t2D_data(TS_PORT, &(InjectorTimingTable.data));
+}
+
+
+exec_result_t modify_InjectorTimingTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(InjectorTimingTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for InjectorTimingTable
+*/
+void send_InjectorTimingTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(InjectorTimingTable.data));
+}
+
+
+/**
+returns the injector dead time in 24 us intervals
+*/
+VF32 getValue_InjectorTimingTable(VF32 Bat_V)
+{
+    return getValue_t2D(&InjectorTimingTable, Bat_V);
+}
+
+
+/***************************************************************************************************************************************************
+*   Cranking base fuel mass table - CrankingFuelTable
+***************************************************************************************************************************************************/
+
+exec_result_t store_CrankingFuelTable()
+{
+    return store_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
+}
+
+
+void show_CrankingFuelTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nWarm up Enrichment table (%):\r\n");
+
+    show_t2D_data(TS_PORT, &(CrankingFuelTable.data));
+}
+
+
+exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(CrankingFuelTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for CrankingFuelTable
+*/
+void send_CrankingFuelTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(CrankingFuelTable.data));
+}
+
+
+/**
+returns the Cranking base fuel mass in 16 ug increments
+*/
+VF32 getValue_CrankingFuelTable(VF32 CLT_K)
+{
+    return getValue_t2D(&CrankingFuelTable, CLT_K);
+}

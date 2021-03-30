@@ -31,6 +31,10 @@ typedef union
 
         U16 injection_begin_valid :1;
 
+        U16 accel_comp_active :1;
+        U16 warmup_comp_active :1;
+        U16 afterstart_comp_active :1;
+
      };
 
 } fueling_logic_flags_t;
@@ -48,14 +52,27 @@ typedef struct _fueling_control_t {
     //air density is in micro gram per cubic centimeter
     VF32 air_density;
 
-    //fuel mass to be injected into each cylinder
-    U32 fuel_mass_target_ug;
+    F32 AFR_target;
 
-    VF32 AFR_target;
-
+    U32 injector_deadtime_us;
     U32 injector_target_dc;
     U32 injector1_interval_us;
     U32 injector2_interval_us;
+
+    //fuel mass to be injected into each cylinder
+    F32 base_fuel_mass_ug;
+    F32 target_fuel_mass_ug;
+
+    //accel pump
+    F32 fuel_mass_accel_corr_pct;
+    U32 fuel_mass_accel_corr_cycles_left;
+
+    //warmup compensation
+    F32 fuel_mass_warmup_corr_pct;
+
+    //afterstart compensation
+    F32 fuel_mass_afterstart_corr_pct;
+    U32 fuel_mass_afterstart_corr_cycles_left;
 
     crank_position_t injection_begin_pos;
 
@@ -69,7 +86,7 @@ typedef struct _fueling_control_t {
 } fueling_control_t;
 
 
-
+void Tuareg_notify_fueling_cranking_end();
 
 void Tuareg_update_fueling_controls();
 
@@ -78,7 +95,17 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget);
 void update_volumetric_efficiency(volatile fueling_control_t * pTarget);
 void update_air_density(volatile fueling_control_t * pTarget);
 void update_AFR_target(volatile fueling_control_t * pTarget);
-void update_fuel_mass_target(volatile fueling_control_t * pTarget);
+
+void update_base_fuel_mass(volatile fueling_control_t * pTarget);
+void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget);
+
+void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget);
+void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget);
+void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget);
+
+void update_target_fuel_mass(volatile fueling_control_t * pTarget);
+
+void update_injector_deadtime(volatile fueling_control_t * pTarget);
 
 void update_injector_intervals_sequential(volatile fueling_control_t * pTarget);
 void update_injector_intervals_batch(volatile fueling_control_t * pTarget);
