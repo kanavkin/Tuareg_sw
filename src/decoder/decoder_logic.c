@@ -716,8 +716,8 @@ void decoder_update_cis()
             //stable cis signal detected
             Decoder.outputs.phase_valid= true;
 
-            //report to errors
-            Tuareg.Errors.sensor_CIS_error= false;
+            //report to flags
+            Tuareg.errors.sensor_CIS_error= false;
         }
 
         //collect diagnostic data
@@ -728,8 +728,8 @@ void decoder_update_cis()
         //expected engine phase information requires updating
         Decoder.outputs.phase_valid= false;
 
-        //report to errors
-        Tuareg.Errors.sensor_CIS_error= true;
+        //report to flags
+        Tuareg.errors.sensor_CIS_error= true;
 
 /// TODO (oli#3#): add syslog entry for cis
 

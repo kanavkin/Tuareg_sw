@@ -12,102 +12,141 @@
 #include "eeprom.h"
 #include "eeprom_layout.h"
 
+#include "debug_port_messages.h"
+
+
+/**
+some thoughts about table / map storage:
+
+all use cases can be implemented via positive x,y,z axis values
+all use cases can be implemented via data scaling
+
+U8 is ok for y/z axis
+
+t2d dimension too large?
+
+
+*/
+
 
 const U32 ct2D_data_size= sizeof(t2D_data_t);
 const U32 ct3D_data_size= sizeof(t3D_data_t);
 
 
+const U32 ct2D_data_dimension= T2D_DATA_DIMENSION;
+const U32 ct3D_data_dimension= 16;
+
+
+
 /**
 This function pulls a 1D linear interpolated value from a 2D table
+
+x axis data order: value ~ index
 */
 VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 {
-    S32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
+    VU32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
     F32 m, y;
 
+
     /**
-    clip the requested X to fit the interval covered by this table
-    (borrowing xM variables)
+    check table range validity
     */
     xMin = fromTable->data.axisX[0];
-    xMax = fromTable->data.axisX[ T2D_DATA_DIMENSION -1 ];
-    if(X > xMax) { X = xMax; }
-    if(X < xMin) { X = xMin; }
+    xMax = fromTable->data.axisX[ ct2D_data_dimension -1 ];
+
+    //check precondition - x axis data validity
+    if(xMin >= xMax)
+    {
+        DebugMsg_Error("table2D table data range!");
+        return 0;
+        //syslog!
+    }
 
     /**
-    check if we're still in the same X interval as last time
+    check if the requested argument is covered by the tables range -> early exit!
     */
-    xMax = fromTable->data.axisX[fromTable->mgr.last_Xmax_index];
-    xMin = fromTable->data.axisX[fromTable->mgr.last_Xmax_index -1];
-
-    if ( (X < xMax) && (X > xMin) )
+    if(X >= xMax)
     {
-        //xM already set
-        xMax_index = fromTable->mgr.last_Xmax_index;
+        return fromTable->data.axisY[ct2D_data_dimension -1];
     }
-    else
+
+    if(X <= xMin)
+    {
+        return fromTable->data.axisY[0];
+    }
+
+
+    /**
+    Loop from the table end to find a suitable x interval
+    -> the previously executed table range check showed: X < axisX[<last>]
+    -> the previously executed table range check showed: X > axisX[0]
+    */
+    for(i = ct2D_data_dimension -1; i > 0; i--)
     {
         /**
-        Loop from the table end to find a suitable x interval
+        get the corresponding X interval
+        axisX[i] and axisX[i+1] -> xMin and XMax
+
+        By design (X == xMax) has been checked by previous steps
         */
-        for(i = T2D_DATA_DIMENSION -1; i >= 0; i--)
+        xMax = fromTable->data.axisX[i];
+        xMin = fromTable->data.axisX[i-1];
+
+
+        //check precondition - x axis interval data steady
+        if(xMin >= xMax)
+        {
+            DebugMsg_Error("table2D x interval not steady!");
+            return 0;
+            //syslog!
+        }
+
+
+        //check if xMin is a direct fit
+        if(X == xMin)
+        {
+            //exit here taking the corresponding Y value from table
+            return fromTable->data.axisY[xMin];
+        }
+
+        /**
+        check if the given argument is within the interval xMin .. xMax
+
+        By design (X != xMax) has been assured by previous steps
+        By design (X != xMin) has been assured by previous steps
+        By design (X < Xmax) has been assured by previous steps
+        */
+        if(X > xMin)
         {
             /**
-            quick exit: direct fit
-            the requested X value has been found among the X values -> take Y from the defined values
-
-            or
-
-            Last available element:
-            looping through the values from high to low has not revealed a suitable X interval
-            -> take the minimum defined Y value
-
+            xMin/Max indexes found, look up data for calculation
             */
-            if( (X == fromTable->data.axisX[i]) || (i == 0) )
-            {
-                //exit here taking the Y value from table
-                return fromTable->data.axisY[i];
-            }
+            yMax= fromTable->data.axisY[xMax_index];
+            yMin= fromTable->data.axisY[xMax_index -1];
+
+            //uSMDS#Req2: xMax shall be != xMin
 
             /**
-            interval fit approach:
-            as X is not a direct fit it could be between axisX[i] and axisX[i-1]
-
-            axisX[i] > axisX[i-1]
-
-            because of the quick exit for (i==0) above this code is reached only for [1 < i < dimension -1]
+            y=  m * X + n
+            y= ( (dY/dX) * (X - xMin) * yMin )
+            y= yMin + mDx
             */
-            if( (X < fromTable->data.axisX[i]) && (X > fromTable->data.axisX[i-1]) )
-            {
-                //found!
-                xMax_index= i;
+            m=  (yMax - yMin) / (xMax - xMin);
+            y= m * (X - xMin) + yMin;
 
-                //store X value for next time
-                fromTable->mgr.last_Xmax_index= xMax_index;
-
-                //exit the search loop
-                break;
-            }
+            return y;
         }
+
     }
 
-    /**
-    xMin/Max indexes found, look up data for calculation
-    */
-    xMax= fromTable->data.axisX[xMax_index];
-    xMin= fromTable->data.axisX[xMax_index -1];
-    yMax= fromTable->data.axisY[xMax_index];
-    yMin= fromTable->data.axisY[xMax_index -1];
 
-    /**
-    y=  m * X + n
-    y= ( (dY/dX) * (X - xMin) * yMin )
-    y= yMin + mDx
-    */
-    m=  (yMax - yMin) / (xMax - xMin);
-    y= m * (X - xMin) + yMin;
 
-    return y;
+            //error
+            //syslog
+            DebugMsg_Error("table2D lookup failed without match!");
+            return 0;
+
 }
 
 
@@ -139,8 +178,8 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     check if we're still in the same X interval as last time
     preset xM with the ones from last request
     */
-    xMax = fromTable->data.axisX[fromTable->mgr.last_Xmax_index];
-    xMin = fromTable->data.axisX[fromTable->mgr.last_Xmax_index -1];
+    xMax = fromTable->data.axisX[fromTable->cache.last_Xmax_index];
+    xMin = fromTable->data.axisX[fromTable->cache.last_Xmax_index -1];
 
     /**
     check if we're still in the same X environment as last time
@@ -150,32 +189,32 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     if( (X < xMax) && (X > xMin) )
     {
         //xM already set
-        xMax_index = fromTable->mgr.last_Xmax_index;
+        xMax_index = fromTable->cache.last_Xmax_index;
         xMin_index = xMax_index -1;
         //last_xMax_index remains valid
 
     }
-    else if ( ((fromTable->mgr.last_Xmax_index + 1) < T3D_DATA_DIMENSION ) && (X > xMax) && (X < fromTable->data.axisX[fromTable->mgr.last_Xmax_index +1 ])  )
+    else if ( ((fromTable->cache.last_Xmax_index + 1) < T3D_DATA_DIMENSION ) && (X > xMax) && (X < fromTable->data.axisX[fromTable->cache.last_Xmax_index +1 ])  )
     {
         //x is in right neighbor interval
-        xMax_index= fromTable->mgr.last_Xmax_index + 1;
-        xMin_index= fromTable->mgr.last_Xmax_index;
+        xMax_index= fromTable->cache.last_Xmax_index + 1;
+        xMin_index= fromTable->cache.last_Xmax_index;
         xMax= fromTable->data.axisX[xMax_index];
         xMin= fromTable->data.axisX[xMin_index];
 
         //store for next time
-        fromTable->mgr.last_Xmax_index= xMax_index;
+        fromTable->cache.last_Xmax_index= xMax_index;
     }
-    else if ( (fromTable->mgr.last_Xmax_index > 1 ) && (X < xMin) && (X > fromTable->data.axisX[fromTable->mgr.last_Xmax_index -2]) )
+    else if ( (fromTable->cache.last_Xmax_index > 1 ) && (X < xMin) && (X > fromTable->data.axisX[fromTable->cache.last_Xmax_index -2]) )
     {
         //x is in left neighbor interval
-        xMax_index= fromTable->mgr.last_Xmax_index -1;
-        xMin_index= fromTable->mgr.last_Xmin_index -2;
+        xMax_index= fromTable->cache.last_Xmax_index -1;
+        xMin_index= fromTable->cache.last_Xmin_index -2;
         xMax= fromTable->data.axisX[xMax_index];
         xMin= fromTable->data.axisX[xMin_index];
 
         //store for next time
-        fromTable->mgr.last_Xmax_index= xMax_index;
+        fromTable->cache.last_Xmax_index= xMax_index;
     }
     else
     {
@@ -224,7 +263,7 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
                 xMin= fromTable->data.axisX[i-1];
                 xMax_index= i;
                 xMin_index= i-1;
-                fromTable->mgr.last_Xmax_index= xMax_index;
+                fromTable->cache.last_Xmax_index= xMax_index;
                 break;
             }
         }
@@ -247,8 +286,8 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     check if we're still in the same Y interval as last time
     preset xM with the ones from last request
     */
-    yMax = fromTable->data.axisY[fromTable->mgr.last_Ymax_index];
-    yMin = fromTable->data.axisY[fromTable->mgr.last_Ymax_index -1];
+    yMax = fromTable->data.axisY[fromTable->cache.last_Ymax_index];
+    yMin = fromTable->data.axisY[fromTable->cache.last_Ymax_index -1];
 
     /**
     check if we're still in the same Y environment as last time
@@ -258,32 +297,32 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     if( (Y < yMax) && (Y > yMin) )
     {
         //yM already set
-        yMax_index = fromTable->mgr.last_Ymax_index;
+        yMax_index = fromTable->cache.last_Ymax_index;
         yMin_index = yMax_index -1;
         //last_yMax_index remains valid
 
     }
-    else if ( ((fromTable->mgr.last_Ymax_index + 1) < T3D_DATA_DIMENSION ) && (Y > yMax) && (Y < fromTable->data.axisY[fromTable->mgr.last_Ymax_index +1 ])  )
+    else if ( ((fromTable->cache.last_Ymax_index + 1) < T3D_DATA_DIMENSION ) && (Y > yMax) && (Y < fromTable->data.axisY[fromTable->cache.last_Ymax_index +1 ])  )
     {
         //y is in right neighbor interval
-        yMax_index= fromTable->mgr.last_Ymax_index + 1;
-        yMin_index= fromTable->mgr.last_Ymax_index;
+        yMax_index= fromTable->cache.last_Ymax_index + 1;
+        yMin_index= fromTable->cache.last_Ymax_index;
         yMax= fromTable->data.axisY[yMax_index];
         yMin= fromTable->data.axisY[yMin_index];
 
         //store for next time
-        fromTable->mgr.last_Ymax_index= yMax_index;
+        fromTable->cache.last_Ymax_index= yMax_index;
     }
-    else if ( (fromTable->mgr.last_Ymax_index > 1 ) && (Y < yMin) && (Y > fromTable->data.axisY[fromTable->mgr.last_Ymax_index -2]) )
+    else if ( (fromTable->cache.last_Ymax_index > 1 ) && (Y < yMin) && (Y > fromTable->data.axisY[fromTable->cache.last_Ymax_index -2]) )
     {
         //y is in left neighbor interval
-        yMax_index= fromTable->mgr.last_Ymax_index -1;
-        yMin_index= fromTable->mgr.last_Ymin_index -2;
+        yMax_index= fromTable->cache.last_Ymax_index -1;
+        yMin_index= fromTable->cache.last_Ymin_index -2;
         yMax= fromTable->data.axisY[yMax_index];
         yMin= fromTable->data.axisY[yMin_index];
 
         //store for next time
-        fromTable->mgr.last_Ymax_index= yMax_index;
+        fromTable->cache.last_Ymax_index= yMax_index;
     }
     else
     {
@@ -332,7 +371,7 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
                 yMin= fromTable->data.axisY[i-1];
                 yMax_index= i;
                 yMin_index= i-1;
-                fromTable->mgr.last_Ymax_index= yMax_index;
+                fromTable->cache.last_Ymax_index= yMax_index;
                 break;
             }
         }

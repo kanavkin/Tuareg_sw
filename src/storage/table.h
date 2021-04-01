@@ -15,13 +15,10 @@ common dimensions for tables
 #define T2D_DATA_DIMENSION 16
 #define T3D_DATA_DIMENSION 16
 
-
-
-
 /**
 table manager
 */
-typedef struct _table_mgr_t {
+typedef struct _table_cache_t {
 
     /**
     Store the X and Y interval from the last request to make the next access faster
@@ -31,14 +28,7 @@ typedef struct _table_mgr_t {
     U32 last_Ymax_index;
     U32 last_Ymin_index;
 
-    //lookup scaling divisor
-    U32 div_X_lookup;
-    U32 div_Y_lookup;
-
-    //result scaling factor
-    U32 mul_Result;
-
-} table_mgr_t;
+} table_cache_t;
 
 
 /**
@@ -86,7 +76,7 @@ This is a 2D config table
 */
 typedef struct _t2D_t {
 
-    table_mgr_t mgr;
+    //table_cache_t cache;
     t2D_data_t data;
 
 } t2D_t;
@@ -97,7 +87,7 @@ This is a 3D config table
 */
 typedef struct _t3D_t {
 
-    table_mgr_t mgr;
+    table_cache_t cache;
     t3D_data_t data;
 
 } t3D_t;

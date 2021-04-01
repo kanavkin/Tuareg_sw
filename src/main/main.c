@@ -161,21 +161,10 @@ int main(void)
 {
     Tuareg_Init();
 
-    //check if the conditions for the limited operation strategy LIMP apply
-    if((Tuareg.Errors.tuareg_config_error == true) || (Tuareg.Errors.decoder_config_error == true) || (Tuareg.Errors.ignition_config_error == true) || (Tuareg.Errors.sensor_calibration_error == true))
-    {
-        Tuareg_set_Runmode(TMODE_LIMP);
-    }
-    else
-    {
-        Tuareg_set_Runmode(TMODE_HALT);
-    }
-
-
     while(1)
     {
 
-        if((Tuareg.Runmode == TMODE_FATAL) || (Tuareg.Errors.fatal_error == true))
+        if(Tuareg.errors.fatal_error == true)
         {
             //FATAL mode to be implemented soon ...
             break;
@@ -188,8 +177,8 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_20_ms= false;
 
-            //provide sensor data
-            if((Tuareg.Runmode == TMODE_HALT) || (Tuareg.Runmode == TMODE_STB) || (Tuareg.Runmode == TMODE_LIMP))
+            //provide MAP value for the stalled engine
+            if(Tuareg.flags.standstill == true)
             {
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
@@ -210,7 +199,7 @@ int main(void)
             Tuareg.pTimer->flags.cycle_250_ms= false;
 
             //calculate new system state
-            Tuareg_update_Runmode();
+            Tuareg_update();
         }
 
 
@@ -232,9 +221,6 @@ int main(void)
 
     return 0;
 }
-
-
-
 
 
 /******************************************************************************************************************************
@@ -264,8 +250,11 @@ void EXTI2_IRQHandler(void)
     //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
     //check for decoder timeout
-    if((Tuareg.pDecoder->outputs.timeout == true) || (Tuareg.pDecoder->outputs.position_valid == false))
+    if(Tuareg.pDecoder->outputs.timeout == true)
     {
+        Tuareg.flags.standstill= true;
+        Tuareg.flags.cranking= false;
+
         //collect diagnostic information
         //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
 
@@ -275,9 +264,12 @@ void EXTI2_IRQHandler(void)
         //delete fuel controls
         Tuareg_update_fueling_controls();
 
-        Tuareg_set_Runmode(TMODE_STB);
         return;
     }
+
+
+    //check for crank speed information
+
 
     //check if process data shall be updated
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
@@ -287,9 +279,6 @@ void EXTI2_IRQHandler(void)
 
         //update process data
         Tuareg_update_process_data();
-
-        //rev limiter
-        Tuareg.actors.rev_limiter= (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.max_rpm)? true : false;
     }
 
     //trigger the ignition module
@@ -297,14 +286,6 @@ void EXTI2_IRQHandler(void)
 
     //trigger the fueling module
     Tuareg_fueling_update_crankpos_handler();
-
-
-    // check if cranking has just begun
-    if(Tuareg.Runmode == TMODE_STB)
-    {
-        Tuareg_set_Runmode(TMODE_CRANKING);
-    }
-
 
     ///tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 
@@ -330,6 +311,8 @@ void EXTI3_IRQHandler(void)
     tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
 
 }
+
+
 
 
 

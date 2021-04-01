@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 14
+#define FUELING_SETUP_SIZE 32
 
 
 
@@ -17,6 +17,7 @@ typedef union
      struct
      {
         U8 load_transient_comp_enabled :1;
+        U8 sequential_mode_enabled :1;
         U8 warmup_comp_enabled :1;
         U8 afterstart_corr_enabled :1;
      };
@@ -33,16 +34,41 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 
     U8 Version;
 
-    U16 ve_from_map_min_rpm;
-    U16 ve_from_map_max_rpm;
-
+    /*
+    engine parameters
+    */
     U16 cylinder_volume_ccm;
 
+    //angle between intake valve closing and compression TDC
+    U16 intake_close_advance_deg;
+
+    /**
+    injection alignment
+    */
+    crank_position_t default_injection_begin_pos;
+    engine_phase_t seq_cyl1_default_injection_begin_phase;
+    crank_position_t seq_earliest_injection_begin_pos;
+    engine_phase_t seq_cyl1_earliest_injection_begin_phase;
+
+    //injector parameters
     U16 injector1_rate_mgps;
     U16 injector2_rate_mgps;
-
-    U16 injector_deadtime_us;
     U8 max_injector_duty_cycle_pct;
+
+    //throttle transient compensation
+    F32 accel_comp_thres;
+    F32 decel_comp_thres;
+    U8 decel_comp_pct;
+    U8 accel_comp_cycles;
+
+    //after start compensation
+    U8 afterstart_comp_pct;
+    U8 afterstart_comp_cycles;
+
+    //common control parameters
+    U8 max_fuel_mass_comp_pct;
+    U16 ve_from_map_min_rpm;
+    U16 ve_from_map_max_rpm;
 
     fueling_features_t features;
 
@@ -107,14 +133,14 @@ exec_result_t store_InjectorTimingTable();
 void show_InjectorTimingTable(USART_TypeDef * Port);
 exec_result_t modify_InjectorTimingTable(U32 Offset, U32 Value);
 void send_InjectorTimingTable(USART_TypeDef * Port);
-VF32 getValue_InjectorTimingTable(VF32 Bat_V);
+VU32 getValue_InjectorTimingTable(VF32 Bat_V);
 
 //Cranking base fuel mass table - CrankingFuelTable
 exec_result_t store_CrankingFuelTable();
 void show_CrankingFuelTable(USART_TypeDef * Port);
 exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value);
 void send_CrankingFuelTable(USART_TypeDef * Port);
-VF32 getValue_CrankingFuelTable(VF32 CLT_K);
+VU32 getValue_CrankingFuelTable(VF32 CLT_K);
 
 
 /***************************************************************************************************************************************************

@@ -3,12 +3,26 @@
 
 #include "Tuareg_ignition.h"
 
-#define IGNITION_SETUP_SIZE 18
+#define IGNITION_SETUP_SIZE 16
 #define IGNITION_ADVTPS_SIZE 288
 
 /***************************************************************************************************************************************************
 *   Ignition Setup Page
 ***************************************************************************************************************************************************/
+
+/**
+indicates which features of the ignition module are enabled
+*/
+typedef struct _ignition_setup_flags_t
+{
+    U8 dynamic_controls_enabled :1;
+    U8 cranking_controls_enabled :1;
+    U8 cold_idle_enabled :1;
+    U8 sequential_mode_enabled :1;
+    U8 second_coil_installed :1;
+
+} ignition_setup_flags_t;
+
 
 typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
 
@@ -17,7 +31,6 @@ typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
     //dynamic ignition function
     U16 dynamic_min_rpm;
     crank_position_t dynamic_ignition_base_position;
-    U16 dynamic_dwell_target_us;
 
     //cold idle ignition advance function
     U16 cold_idle_cutoff_rpm;
@@ -29,8 +42,8 @@ typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
     crank_position_t cranking_ignition_position;
     crank_position_t cranking_dwell_position;
 
-    //how many coils are installed?
-    coil_setup_t coil_setup;
+    //ignition features
+    volatile ignition_setup_flags_t flags;
 
     U16 spark_duration_us;
 

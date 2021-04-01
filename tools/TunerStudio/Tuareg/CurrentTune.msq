@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Tue Mar 30 22:35:34 CEST 2021"/>
+<bibliography author="TunerStudio MS 3.1.05 - EFI Analytics, Inc." tuneComment="" writeDate="Thu Apr 01 23:51:58 CEST 2021"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="15" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -64,18 +64,21 @@
 <constant digits="0" name="DecCisMinAngle" units="deg">30.0</constant>
 <constant digits="0" name="DecCisSyncThres" units="#">100.0</constant>
 </page>
-<page number="2" size="18">
+<page number="2" size="16">
 <constant digits="0" name="IgnitionVersion" units="#">3.0</constant>
 <constant digits="0" name="IgnDynMinRpm" units="rpm">500.0</constant>
 <constant name="IgnDynBasePos">"CRK_POSITION_A2"</constant>
-<constant digits="0" name="IgnDynDwell" units="µs">6000.0</constant>
 <constant digits="0" name="IgnColdIdleCutoffRpm" units="rpm">2000.0</constant>
 <constant digits="0" name="IgnColdIdleCutoffClt" units="K">310.0</constant>
 <constant digits="0" name="IgnColdIdleIgnAdv" units="deg">20.0</constant>
 <constant digits="0" name="IgnColdIdleDwell" units="µs">10000.0</constant>
 <constant name="IgnCrankIgnPos">"CRK_POSITION_B1"</constant>
 <constant name="IgnCrankDwellPos">"CRK_POSITION_D2"</constant>
-<constant name="IgnCoilSetup">"shared"</constant>
+<constant name="IgnFeatDynamic">"off"</constant>
+<constant name="IgnFeatCranking">"on"</constant>
+<constant name="IgnFeatColdIdle">"on"</constant>
+<constant name="IgnFeatSequential">"on"</constant>
+<constant name="IgnFeatSecondCoil">"on"</constant>
 <constant digits="0" name="IgnSparkDuration" units="µs">1280.0</constant>
 </page>
 <page number="3" size="320">
@@ -136,51 +139,66 @@
 </page>
 <page number="4" size="48">
 <constant cols="1" digits="0" name="ignDwell_x" rows="16" units="Rpm">
-         0.0 
-         500.0 
-         1000.0 
-         1500.0 
-         2000.0 
-         3000.0 
-         3600.0 
-         4200.0 
-         4800.0 
-         5400.0 
-         6000.0 
-         6600.0 
-         7200.0 
-         7800.0 
-         8400.0 
-         9000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         8478.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         10000.0 
+         2602.0 
+         4106.0 
+         8478.0 
       </constant>
 <constant cols="1" digits="0" name="ignDwell_y" rows="16" units="dwell us">
+         1776.0 
+         1920.0 
+         1920.0 
+         1920.0 
+         2016.0 
+         2064.0 
+         2016.0 
+         2016.0 
+         10560.0 
+         528.0 
          9984.0 
-         9984.0 
-         9984.0 
-         9984.0 
-         9984.0 
-         3984.0 
-         4176.0 
-         4368.0 
-         4608.0 
-         4800.0 
-         4992.0 
-         5184.0 
-         5376.0 
-         5616.0 
-         5808.0 
-         6000.0 
+         528.0 
+         9408.0 
+         528.0 
+         8832.0 
+         528.0 
       </constant>
 </page>
-<page number="5" size="14">
+<page number="5" size="32">
 <constant digits="0" name="FuelingSetupVersion" units="#">1.0</constant>
-<constant digits="0" name="FuelingSetupVeFromMAPmin" units="rpm">2000.0</constant>
-<constant digits="0" name="FuelingSetupVeFromMAPmax" units="rpm">6000.0</constant>
 <constant digits="0" name="FuelingSetupCylinderVolume" units="ccm">425.0</constant>
+<constant digits="0" name="FuelingSetupICadvance" units="° BTDC">130.0</constant>
+<constant name="FuelingSetupDefInjBeginPos">"CRK_POSITION_B1"</constant>
+<constant name="FuelingSetupC1DefInjBegPhs">"CYL1_EX"</constant>
+<constant name="FuelingSetupEarlInjBeginPos">"CRK_POSITION_B1"</constant>
+<constant name="FuelingSetupC1EarlInjBegPhs">"CYL1_COMP"</constant>
 <constant digits="0" name="FuelingSetupInj1Rate" units="mg/s">4160.0</constant>
 <constant digits="0" name="FuelingSetupInj2Rate" units="mg/s">4160.0</constant>
-<constant digits="0" name="FuelingSetupInjDeadTime" units="us">750.0</constant>
 <constant digits="0" name="FuelingSetupInjMaxDc" units="%">85.0</constant>
+<constant digits="1" name="FuelingSetupAccelCompThres" units="°/s">100.0</constant>
+<constant digits="1" name="FuelingSetupDecelCompThres" units="°/s">-100.0</constant>
+<constant digits="0" name="FuelingSetupDecelCompPct" units="%">75.0</constant>
+<constant digits="0" name="FuelingSetupAccelCompCyc" units="#">20.0</constant>
+<constant digits="0" name="FuelingSetupAsCompPct" units="%">20.0</constant>
+<constant digits="0" name="FuelingSetupAsCompCyc" units="#">50.0</constant>
+<constant digits="0" name="FuelingSetupMaxMassCompPct" units="%">100.0</constant>
+<constant digits="0" name="FuelingSetupVeFromMAPmin" units="rpm">2000.0</constant>
+<constant digits="0" name="FuelingSetupVeFromMAPmax" units="rpm">6000.0</constant>
+<constant name="FuelingSetupFeatAccelComp">"off"</constant>
+<constant name="FuelingSetupFeatSeqMode">"on"</constant>
+<constant name="FuelingSetupFeatWarmUp">"off"</constant>
+<constant name="FuelingSetupFeatASComp">"off"</constant>
 </page>
 <page number="6" size="320">
 <constant cols="1" digits="0" name="fuelVE_TPS_x" rows="16" units="Rpm">
@@ -522,126 +540,126 @@
 <constant digits="2" name="TuaregSetupGear_N" units="kmh/rpm">0.0</constant>
 </page>
 <page number="14" size="180">
-<constant digits="0" name="Syslog_00_ts" units="Timestamp">34.0</constant>
+<constant digits="0" name="Syslog_00_ts" units="Timestamp">724.0</constant>
 <constant name="Syslog_00_type">"II"</constant>
-<constant name="Syslog_00_loc">"2"</constant>
+<constant name="Syslog_00_loc">"4"</constant>
 <constant digits="0" name="Syslog_00_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_01_ts" units="Timestamp">111.0</constant>
+<constant digits="0" name="Syslog_01_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_01_type">"II"</constant>
-<constant name="Syslog_01_loc">"2"</constant>
-<constant digits="0" name="Syslog_01_src" units="Module-ID">26.0</constant>
-<constant digits="0" name="Syslog_02_ts" units="Timestamp">359.0</constant>
+<constant name="Syslog_01_loc">"18"</constant>
+<constant digits="0" name="Syslog_01_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_02_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_02_type">"II"</constant>
-<constant name="Syslog_02_loc">"5"</constant>
-<constant digits="0" name="Syslog_02_src" units="Module-ID">29.0</constant>
-<constant digits="0" name="Syslog_03_ts" units="Timestamp">359.0</constant>
+<constant name="Syslog_02_loc">"8"</constant>
+<constant digits="0" name="Syslog_02_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_03_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_03_type">"II"</constant>
-<constant name="Syslog_03_loc">"12"</constant>
-<constant digits="0" name="Syslog_03_src" units="Module-ID">29.0</constant>
-<constant digits="0" name="Syslog_04_ts" units="Timestamp">540.0</constant>
+<constant name="Syslog_03_loc">"10"</constant>
+<constant digits="0" name="Syslog_03_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_04_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_04_type">"II"</constant>
-<constant name="Syslog_04_loc">"18"</constant>
+<constant name="Syslog_04_loc">"12"</constant>
 <constant digits="0" name="Syslog_04_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_05_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_05_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_05_type">"II"</constant>
-<constant name="Syslog_05_loc">"8"</constant>
+<constant name="Syslog_05_loc">"14"</constant>
 <constant digits="0" name="Syslog_05_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_06_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_06_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_06_type">"II"</constant>
-<constant name="Syslog_06_loc">"10"</constant>
+<constant name="Syslog_06_loc">"6"</constant>
 <constant digits="0" name="Syslog_06_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_07_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_07_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_07_type">"II"</constant>
-<constant name="Syslog_07_loc">"12"</constant>
+<constant name="Syslog_07_loc">"20"</constant>
 <constant digits="0" name="Syslog_07_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_08_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_08_ts" units="Timestamp">37.0</constant>
 <constant name="Syslog_08_type">"II"</constant>
-<constant name="Syslog_08_loc">"14"</constant>
+<constant name="Syslog_08_loc">"2"</constant>
 <constant digits="0" name="Syslog_08_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_09_ts" units="Timestamp">540.0</constant>
+<constant digits="0" name="Syslog_09_ts" units="Timestamp">360.0</constant>
 <constant name="Syslog_09_type">"II"</constant>
-<constant name="Syslog_09_loc">"20"</constant>
-<constant digits="0" name="Syslog_09_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_10_ts" units="Timestamp">16680.0</constant>
+<constant name="Syslog_09_loc">"2"</constant>
+<constant digits="0" name="Syslog_09_src" units="Module-ID">21.0</constant>
+<constant digits="0" name="Syslog_10_ts" units="Timestamp">369.0</constant>
 <constant name="Syslog_10_type">"II"</constant>
-<constant name="Syslog_10_loc">"4"</constant>
-<constant digits="0" name="Syslog_10_src" units="Module-ID">35.0</constant>
-<constant digits="0" name="Syslog_11_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_10_loc">"5"</constant>
+<constant digits="0" name="Syslog_10_src" units="Module-ID">29.0</constant>
+<constant digits="0" name="Syslog_11_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_11_type">"II"</constant>
-<constant name="Syslog_11_loc">"0"</constant>
-<constant digits="0" name="Syslog_11_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_12_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_11_loc">"18"</constant>
+<constant digits="0" name="Syslog_11_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_12_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_12_type">"II"</constant>
-<constant name="Syslog_12_loc">"0"</constant>
-<constant digits="0" name="Syslog_12_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_13_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_12_loc">"8"</constant>
+<constant digits="0" name="Syslog_12_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_13_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_13_type">"II"</constant>
-<constant name="Syslog_13_loc">"0"</constant>
-<constant digits="0" name="Syslog_13_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_14_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_13_loc">"10"</constant>
+<constant digits="0" name="Syslog_13_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_14_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_14_type">"II"</constant>
-<constant name="Syslog_14_loc">"0"</constant>
-<constant digits="0" name="Syslog_14_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_15_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_14_loc">"12"</constant>
+<constant digits="0" name="Syslog_14_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_15_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_15_type">"II"</constant>
-<constant name="Syslog_15_loc">"0"</constant>
-<constant digits="0" name="Syslog_15_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_16_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_15_loc">"14"</constant>
+<constant digits="0" name="Syslog_15_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_16_ts" units="Timestamp">543.0</constant>
 <constant name="Syslog_16_type">"II"</constant>
-<constant name="Syslog_16_loc">"0"</constant>
-<constant digits="0" name="Syslog_16_src" units="Module-ID">0.0</constant>
+<constant name="Syslog_16_loc">"20"</constant>
+<constant digits="0" name="Syslog_16_src" units="Module-ID">35.0</constant>
 <constant digits="0" name="Syslog_17_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_17_type">"II"</constant>
 <constant name="Syslog_17_loc">"0"</constant>
 <constant digits="0" name="Syslog_17_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_18_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_18_type">"II"</constant>
-<constant name="Syslog_18_loc">"0"</constant>
-<constant digits="0" name="Syslog_18_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_19_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_19_type">"II"</constant>
-<constant name="Syslog_19_loc">"0"</constant>
-<constant digits="0" name="Syslog_19_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_20_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_20_type">"II"</constant>
-<constant name="Syslog_20_loc">"0"</constant>
-<constant digits="0" name="Syslog_20_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_21_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_21_type">"II"</constant>
-<constant name="Syslog_21_loc">"0"</constant>
-<constant digits="0" name="Syslog_21_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_22_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_22_type">"II"</constant>
-<constant name="Syslog_22_loc">"0"</constant>
-<constant digits="0" name="Syslog_22_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_23_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_23_type">"II"</constant>
-<constant name="Syslog_23_loc">"0"</constant>
-<constant digits="0" name="Syslog_23_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_24_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_24_type">"II"</constant>
-<constant name="Syslog_24_loc">"0"</constant>
-<constant digits="0" name="Syslog_24_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_25_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_25_type">"II"</constant>
-<constant name="Syslog_25_loc">"0"</constant>
-<constant digits="0" name="Syslog_25_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_26_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_26_type">"II"</constant>
-<constant name="Syslog_26_loc">"0"</constant>
-<constant digits="0" name="Syslog_26_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_27_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_27_type">"II"</constant>
-<constant name="Syslog_27_loc">"0"</constant>
-<constant digits="0" name="Syslog_27_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_28_ts" units="Timestamp">0.0</constant>
-<constant name="Syslog_28_type">"II"</constant>
-<constant name="Syslog_28_loc">"0"</constant>
-<constant digits="0" name="Syslog_28_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_29_ts" units="Timestamp">343.0</constant>
+<constant digits="0" name="Syslog_18_ts" units="Timestamp">114.0</constant>
+<constant name="Syslog_18_type">"EE"</constant>
+<constant name="Syslog_18_loc">"1"</constant>
+<constant digits="0" name="Syslog_18_src" units="Module-ID">26.0</constant>
+<constant digits="0" name="Syslog_19_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_19_type">"EE"</constant>
+<constant name="Syslog_19_loc">"19"</constant>
+<constant digits="0" name="Syslog_19_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_20_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_20_type">"EE"</constant>
+<constant name="Syslog_20_loc">"5"</constant>
+<constant digits="0" name="Syslog_20_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_21_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_21_type">"EE"</constant>
+<constant name="Syslog_21_loc">"13"</constant>
+<constant digits="0" name="Syslog_21_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_22_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_22_type">"EE"</constant>
+<constant name="Syslog_22_loc">"11"</constant>
+<constant digits="0" name="Syslog_22_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_23_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_23_type">"EE"</constant>
+<constant name="Syslog_23_loc">"9"</constant>
+<constant digits="0" name="Syslog_23_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_24_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_24_type">"EE"</constant>
+<constant name="Syslog_24_loc">"7"</constant>
+<constant digits="0" name="Syslog_24_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_25_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_25_type">"EE"</constant>
+<constant name="Syslog_25_loc">"17"</constant>
+<constant digits="0" name="Syslog_25_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_26_ts" units="Timestamp">41.0</constant>
+<constant name="Syslog_26_type">"EE"</constant>
+<constant name="Syslog_26_loc">"3"</constant>
+<constant digits="0" name="Syslog_26_src" units="Module-ID">35.0</constant>
+<constant digits="0" name="Syslog_27_ts" units="Timestamp">35.0</constant>
+<constant name="Syslog_27_type">"EE"</constant>
+<constant name="Syslog_27_loc">"4"</constant>
+<constant digits="0" name="Syslog_27_src" units="Module-ID">44.0</constant>
+<constant digits="0" name="Syslog_28_ts" units="Timestamp">29.0</constant>
+<constant name="Syslog_28_type">"EE"</constant>
+<constant name="Syslog_28_loc">"4"</constant>
+<constant digits="0" name="Syslog_28_src" units="Module-ID">44.0</constant>
+<constant digits="0" name="Syslog_29_ts" units="Timestamp">24.0</constant>
 <constant name="Syslog_29_type">"EE"</constant>
-<constant name="Syslog_29_loc">"1"</constant>
-<constant digits="0" name="Syslog_29_src" units="Module-ID">21.0</constant>
+<constant name="Syslog_29_loc">"4"</constant>
+<constant digits="0" name="Syslog_29_src" units="Module-ID">44.0</constant>
 </page>
 <settings Comment="These setting are only used if this msq is opened without a project.">
 <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>

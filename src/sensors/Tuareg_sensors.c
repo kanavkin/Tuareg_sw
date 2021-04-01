@@ -29,18 +29,16 @@ volatile sensor_interface_t * init_Sensors()
     volatile sensor_interface_t * pInterface;
 
     //start with all errors set
-    Tuareg.Errors.sensor_calibration_error= true;
-
-    Tuareg.Errors.sensor_O2_error= true;
-    Tuareg.Errors.sensor_TPS_error= true;
-    Tuareg.Errors.sensor_IAT_error= true;
-    Tuareg.Errors.sensor_CLT_error= true;
-    Tuareg.Errors.sensor_VBAT_error= true;
-    Tuareg.Errors.sensor_KNOCK_error= true;
-    Tuareg.Errors.sensor_BARO_error= true;
-    Tuareg.Errors.sensor_GEAR_error= true;
-    Tuareg.Errors.sensor_MAP_error= true;
-    Tuareg.Errors.sensor_CIS_error= true;
+    Tuareg.errors.sensor_O2_error= true;
+    Tuareg.errors.sensor_TPS_error= true;
+    Tuareg.errors.sensor_IAT_error= true;
+    Tuareg.errors.sensor_CLT_error= true;
+    Tuareg.errors.sensor_VBAT_error= true;
+    Tuareg.errors.sensor_KNOCK_error= true;
+    Tuareg.errors.sensor_BARO_error= true;
+    Tuareg.errors.sensor_GEAR_error= true;
+    Tuareg.errors.sensor_MAP_error= true;
+    Tuareg.errors.sensor_CIS_error= true;
 
     //load calibration data
     result= load_Sensor_Calibration();
@@ -49,6 +47,7 @@ volatile sensor_interface_t * init_Sensors()
     if(result != EXEC_OK)
     {
         //failed to load sensor calibration
+        Tuareg.errors.sensor_calibration_error= true;
         Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_LOAD_FAIL);
 
         #ifdef SENSORS_DEBUG_OUTPUT
@@ -58,6 +57,7 @@ volatile sensor_interface_t * init_Sensors()
     else if(Sensor_Calibration.Version != SENSORS_REQUIRED_CALIBRATION_VERSION)
     {
         //loaded wrong sensor calibration version
+        Tuareg.errors.sensor_calibration_error= true;
         Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_VERSION_MISMATCH);
 
         #ifdef SENSORS_DEBUG_OUTPUT
@@ -67,7 +67,7 @@ volatile sensor_interface_t * init_Sensors()
     else
     {
         //loaded sensor calibration with correct Version
-        Tuareg.Errors.sensor_calibration_error= false;
+        Tuareg.errors.sensor_calibration_error= false;
 
         Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_LOAD_SUCCESS);
     }
@@ -93,10 +93,10 @@ VF32 Tuareg_update_MAP_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_MAP_error == true)
+        if(Tuareg.errors.sensor_MAP_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_MAP_error= false;
+            Tuareg.errors.sensor_MAP_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_MAP_VALIDATED);
         }
 
@@ -105,10 +105,10 @@ VF32 Tuareg_update_MAP_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_MAP_error == false)
+        if(Tuareg.errors.sensor_MAP_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_MAP_error= true;
+            Tuareg.errors.sensor_MAP_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_MAP_FAILED);
         }
 
@@ -127,10 +127,10 @@ VF32 Tuareg_update_O2_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_O2_error == true)
+        if(Tuareg.errors.sensor_O2_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_O2_error= false;
+            Tuareg.errors.sensor_O2_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_O2_VALIDATED);
         }
 
@@ -139,10 +139,10 @@ VF32 Tuareg_update_O2_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_O2_error == false)
+        if(Tuareg.errors.sensor_O2_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_O2_error= true;
+            Tuareg.errors.sensor_O2_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_O2_FAILED);
         }
 
@@ -161,10 +161,10 @@ VF32 Tuareg_update_TPS_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_TPS_error == true)
+        if(Tuareg.errors.sensor_TPS_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_TPS_error= false;
+            Tuareg.errors.sensor_TPS_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_TPS_VALIDATED);
         }
 
@@ -173,10 +173,10 @@ VF32 Tuareg_update_TPS_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_TPS_error == false)
+        if(Tuareg.errors.sensor_TPS_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_TPS_error= true;
+            Tuareg.errors.sensor_TPS_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_TPS_FAILED);
         }
 
@@ -189,7 +189,7 @@ VF32 Tuareg_update_TPS_sensor()
 VF32 Tuareg_update_ddt_TPS()
 {
     /// must be executed after TPS sensor update!
-    if(Tuareg.Errors.sensor_TPS_error == false)
+    if(Tuareg.errors.sensor_TPS_error == false)
     {
         //use live value
         return Tuareg.pSensors->ddt_TPS;
@@ -210,10 +210,10 @@ VF32 Tuareg_update_IAT_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_IAT_error == true)
+        if(Tuareg.errors.sensor_IAT_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_IAT_error= false;
+            Tuareg.errors.sensor_IAT_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_IAT_VALIDATED);
         }
 
@@ -222,10 +222,10 @@ VF32 Tuareg_update_IAT_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_IAT_error == false)
+        if(Tuareg.errors.sensor_IAT_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_IAT_error= true;
+            Tuareg.errors.sensor_IAT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_IAT_FAILED);
         }
 
@@ -245,10 +245,10 @@ VF32 Tuareg_update_CLT_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_CLT_error == true)
+        if(Tuareg.errors.sensor_CLT_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_CLT_error= false;
+            Tuareg.errors.sensor_CLT_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_CLT_VALIDATED);
         }
 
@@ -257,10 +257,10 @@ VF32 Tuareg_update_CLT_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_CLT_error == false)
+        if(Tuareg.errors.sensor_CLT_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_CLT_error= true;
+            Tuareg.errors.sensor_CLT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CLT_FAILED);
         }
 
@@ -280,10 +280,10 @@ VF32 Tuareg_update_VBAT_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_VBAT_error == true)
+        if(Tuareg.errors.sensor_VBAT_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_VBAT_error= false;
+            Tuareg.errors.sensor_VBAT_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_VBAT_VALIDATED);
         }
 
@@ -292,10 +292,10 @@ VF32 Tuareg_update_VBAT_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_VBAT_error == false)
+        if(Tuareg.errors.sensor_VBAT_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_VBAT_error= true;
+            Tuareg.errors.sensor_VBAT_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_VBAT_FAILED);
         }
 
@@ -315,10 +315,10 @@ VF32 Tuareg_update_KNOCK_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_KNOCK_error == true)
+        if(Tuareg.errors.sensor_KNOCK_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_KNOCK_error= false;
+            Tuareg.errors.sensor_KNOCK_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_KNOCK_VALIDATED);
         }
 
@@ -327,10 +327,10 @@ VF32 Tuareg_update_KNOCK_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_KNOCK_error == false)
+        if(Tuareg.errors.sensor_KNOCK_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_KNOCK_error= true;
+            Tuareg.errors.sensor_KNOCK_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_KNOCK_FAILED);
         }
 
@@ -349,10 +349,10 @@ VF32 Tuareg_update_BARO_sensor()
 {
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_BARO_error == true)
+        if(Tuareg.errors.sensor_BARO_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_BARO_error= false;
+            Tuareg.errors.sensor_BARO_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_BARO_VALIDATED);
 
         }
@@ -362,10 +362,10 @@ VF32 Tuareg_update_BARO_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_BARO_error == false)
+        if(Tuareg.errors.sensor_BARO_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_BARO_error= true;
+            Tuareg.errors.sensor_BARO_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_BARO_FAILED);
         }
 
@@ -386,10 +386,10 @@ gears_t Tuareg_update_GEAR_sensor()
     //check if sensor can be validated in this cycle
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES)
     {
-        if(Tuareg.Errors.sensor_GEAR_error == true)
+        if(Tuareg.errors.sensor_GEAR_error == true)
         {
             //sensor successfully validated
-            Tuareg.Errors.sensor_GEAR_error= false;
+            Tuareg.errors.sensor_GEAR_error= false;
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_VALIDATED);
         }
 
@@ -398,10 +398,10 @@ gears_t Tuareg_update_GEAR_sensor()
     }
     else
     {
-        if(Tuareg.Errors.sensor_GEAR_error == false)
+        if(Tuareg.errors.sensor_GEAR_error == false)
         {
             //sensor temporarily disturbed
-            Tuareg.Errors.sensor_GEAR_error= true;
+            Tuareg.errors.sensor_GEAR_error= true;
             Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_FAILED);
         }
             //use default value

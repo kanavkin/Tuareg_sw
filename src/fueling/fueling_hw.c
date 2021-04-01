@@ -16,12 +16,12 @@ injector hardware control
 ******************************************************************************************************************************/
  void set_injector1_powered()
 {
-    if(Tuareg.actors.fueling_inhibit == false)
+    if(Tuareg.flags.fueling_inhibit == false)
     {
         //ON
         gpio_set_pin(GPIOC, 8, PIN_ON);
 
-        Tuareg.actors.fuel_injector_1 = true;
+        Tuareg.flags.fuel_injector_1 = true;
 
         highspeedlog_register_injector1_power();
     }
@@ -32,19 +32,19 @@ injector hardware control
     // OFF
     gpio_set_pin(GPIOC, 8, PIN_OFF);
 
-    Tuareg.actors.fuel_injector_1= false;
+    Tuareg.flags.fuel_injector_1= false;
 
     highspeedlog_register_injector1_unpower();
 }
 
  void set_injector2_powered()
 {
-    if(Tuareg.actors.fueling_inhibit == false)
+    if(Tuareg.flags.fueling_inhibit == false)
     {
         //ON
         gpio_set_pin(GPIOC, 9, PIN_ON);
 
-        Tuareg.actors.fuel_injector_2= true;
+        Tuareg.flags.fuel_injector_2= true;
 
         highspeedlog_register_injector2_power();
     }
@@ -55,7 +55,7 @@ injector hardware control
     // OFF
     gpio_set_pin(GPIOC, 9, PIN_OFF);
 
-    Tuareg.actors.fuel_injector_2= false;
+    Tuareg.flags.fuel_injector_2= false;
 
     highspeedlog_register_injector2_unpower();
 }
@@ -66,12 +66,12 @@ fuel pump hardware control
 
  void set_fuel_pump_powered()
 {
-    if(Tuareg.actors.fueling_inhibit == false)
+    if(Tuareg.flags.fueling_inhibit == false)
     {
         //ON
         gpio_set_pin(GPIOC, 10, PIN_ON);
 
-        Tuareg.actors.fuel_pump= true;
+        Tuareg.flags.fuel_pump= true;
     }
 }
 
@@ -80,7 +80,7 @@ fuel pump hardware control
     // OFF
     gpio_set_pin(GPIOC, 10, PIN_OFF);
 
-    Tuareg.actors.fuel_pump= false;
+    Tuareg.flags.fuel_pump= false;
 }
 
 

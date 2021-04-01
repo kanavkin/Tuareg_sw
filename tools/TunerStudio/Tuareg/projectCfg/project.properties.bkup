@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Mar 30 22:04:33 CEST 2021
-#Tue Mar 30 22:04:33 CEST 2021
+#Last Saved on: Wed Mar 31 16:29:53 CEST 2021
+#Wed Mar 31 16:29:53 CEST 2021
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
@@ -69,12 +69,13 @@ decoder_setupDecoder\ Setup_height=483
 serviceService_X=262
 airdensity_curveIAT\ density\ correction_width=518
 AccelCompCurveAE_Y=215
-AccelCompCurveAE_X=2385
+AccelCompCurveAE_X=778
 decoder_setupDecoder\ Setup_width=405
 ignition_setupIgnition\ Setup_width=474
 tool_boxService\ Tools_width=366
+userDash1.FileName=ignition.dash
 WarmUpCompCurveWarm\ Up_Y=316
-WarmUpCompCurveWarm\ Up_X=2570
+WarmUpCompCurveWarm\ Up_X=1294
 CommSettingboctokCommDriver.controllerInterfaceId=RS232 Serial Interface
 tuneFileDir=/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
 fuelpumpFuel\ pump_height=192
@@ -89,7 +90,7 @@ service_fuelService\ Tools\ -\ Fuelling_width=372
 ecuConfigFile=mainController.ini
 serial3IOSerial3\ IO\ interface_width=403
 CrankingFuelCurveCranking\ base\ fuel\ mass_Y=316
-CrankingFuelCurveCranking\ base\ fuel\ mass_X=2570
+CrankingFuelCurveCranking\ base\ fuel\ mass_X=1294
 engine_constantsEngine\ Constants_height=538
 serviceService_height=198
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=207
@@ -150,9 +151,9 @@ userDash0.DashName=fueling
 serviceService_width=372
 useCommonTuneViewDir=false
 service_vital_actorsService\ Tools\ -\ Vital\ Actors_height=365
-ignition_setupIgnition\ Setup_Y=214
+ignition_setupIgnition\ Setup_Y=186
 airdensity_curveIAT\ density\ correction_height=376
-ignition_setupIgnition\ Setup_X=320
+ignition_setupIgnition\ Setup_X=2467
 projectDescription=
 DwellCurve_Set\ X\ Axis\ Minimum=0.0
 fueling_setupFueling\ Setup_width=372
@@ -167,20 +168,21 @@ dwellSettingsDwell\ Settings_X=769
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
 tool_boxService\ Tools_Y=0
 tool_boxService\ Tools_X=1064
-ignition_setupIgnition\ Setup_height=432
+userDash1.DashName=ignition
+ignition_setupIgnition\ Setup_height=411
 syslogView\ Syslog_width=1199
 AfrTable_TPSAFR\ vs.\ TPS_width=1623
 tuareg_setupTuareg\ Setup_width=417
 injCharsInjector\ Characteristics_Y=233
 DwellCurveDwell_Y=201
 injCharsInjector\ Characteristics_X=759
-DwellCurveDwell_X=2331
+DwellCurveDwell_X=738
 VeTable_MAPVE\ vs.\ MAP_Y=316
 VeTable_MAPVE\ vs.\ MAP_X=591
 sparkSettingsSpark\ Settings_Y=386
 sparkSettingsSpark\ Settings_X=777
-tuareg_setupTuareg\ Setup_Y=320
-tuareg_setupTuareg\ Setup_X=453
+tuareg_setupTuareg\ Setup_Y=201
+tuareg_setupTuareg\ Setup_X=2212
 canId=-1
 CommSettingboctokCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 InjectorTimingCurveInjector\ dead\ time_Y=198

@@ -10,7 +10,11 @@
 #include "uart.h"
 #include "uart_printf.h"
 
+#include "debug_port_messages.h"
 
+#define DECODER_DEBUG
+
+/// TODO (oli#8#): implement decoder syslog messages
 
 
 /******************************************************************************************************************************
@@ -21,9 +25,6 @@ volatile Tuareg_decoder_t * init_Decoder()
     exec_result_t result;
     volatile Tuareg_decoder_t * pInterface;
 
-    //start with error state
-    Tuareg.Errors.decoder_config_error= true;
-
     //setup shall be loaded first
     result= load_Decoder_Setup();
 
@@ -31,24 +32,33 @@ volatile Tuareg_decoder_t * init_Decoder()
     if(result != EXEC_OK)
     {
         //failed to load Decoder Config
+        Tuareg.errors.decoder_config_error= true;
         load_essential_Decoder_Setup();
 
-        print(DEBUG_PORT, "\r\nEE Failed to load Decoder Config!");
-        print(DEBUG_PORT, "\r\nWW Decoder essential Config has been loaded");
+        #ifdef DECODER_DEBUG
+        DebugMsg_Error("Failed to load Decoder Config!");
+        DebugMsg_Warning("Decoder essential Config has been loaded");
+        #endif // DECODER_DEBUG
     }
     else if(Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION)
     {
         //loaded wrong Decoder Config Version
+        Tuareg.errors.decoder_config_error= true;
         load_essential_Decoder_Setup();
 
-        print(DEBUG_PORT, "\r\nEE Decoder Config version does not match");
-        print(DEBUG_PORT, "\r\nWW Decoder essential Config has been loaded");
+        #ifdef DECODER_DEBUG
+        DebugMsg_Error("Decoder Config version does not match");
+        DebugMsg_Warning("Decoder essential Config has been loaded");
+        #endif // DECODER_DEBUG
     }
     else
     {
         //loaded Decoder Config with correct Version
-        Tuareg.Errors.decoder_config_error= false;
-        print(DEBUG_PORT, "\r\nII Decoder Config has been loaded");
+        Tuareg.errors.decoder_config_error= false;
+
+        #ifdef DECODER_DEBUG
+        print(DEBUG_PORT, "\r\nDecoder Config has been loaded");
+        #endif // DECODER_DEBUG
     }
 
 

@@ -66,24 +66,20 @@ API functions
 
 void request_service_mode()
 {
-    ///DEBUG lowered service mode entry
     //enter service only if the engine has been halted and the crank has stopped spinning
-    if((Tuareg.Runmode != TMODE_HALT) || (Tuareg.pDecoder->outputs.timeout == false))
+    if(Tuareg.flags.standstill == false)
     {
-      //  return;
-      #ifdef SERVICE_DEBUG_OUTPUT
-      DebugMsg_Warning("service mode activation permitted only due to developer version!");
-      #endif // SERVICE_DEBUG_OUTPUT
+        return;
     }
 
-    Tuareg_set_Runmode(TMODE_SERVICE);
+    Tuareg.flags.service_mode= true;
 }
 
 
 void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
 {
     //precondition check
-    if(Tuareg.Runmode != TMODE_SERVICE)
+    if(Tuareg.flags.service_mode == false)
     {
         return;
     }
@@ -198,7 +194,7 @@ helper functions - fuel pump
 void activate_fuel_pump(U32 Timeout_s)
 {
     //check preconditions
-    if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
+    if(Tuareg.flags.service_mode == false)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_PERMISSION);
 
@@ -267,7 +263,7 @@ injector 1
 void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
-    if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
+    if(Tuareg.flags.service_mode == false)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_PERMISSION);
 
@@ -349,7 +345,7 @@ void injector1_periodic_update(VU32 now)
     if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_toggle))
     {
         //check if the actor has been powered
-        if(Tuareg.actors.fuel_injector_1 == true)
+        if(Tuareg.flags.fuel_injector_1 == true)
         {
             set_injector1_unpowered();
 
@@ -390,7 +386,7 @@ injector 2
 void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
-    if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
+    if(Tuareg.flags.service_mode == false)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_PERMISSION);
 
@@ -470,7 +466,7 @@ void injector2_periodic_update(VU32 now)
     if((Service_mgr.flags.injector2_control == true) && (now >= Service_mgr.injector2_toggle))
     {
         //check if the actor has been powered
-        if(Tuareg.actors.fuel_injector_2 == true)
+        if(Tuareg.flags.fuel_injector_2 == true)
         {
             set_injector2_unpowered();
 
@@ -510,7 +506,7 @@ coil 1
 void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
-    if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
+    if(Tuareg.flags.service_mode == false)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_PERMISSION);
 
@@ -590,7 +586,7 @@ void coil1_periodic_update(VU32 now)
     if((Service_mgr.flags.coil1_control == true) && (now >= Service_mgr.coil1_toggle))
     {
         //check if the actor has been powered
-        if(Tuareg.actors.ignition_coil_1 == true)
+        if(Tuareg.flags.ignition_coil_1 == true)
         {
             set_coil1_unpowered();
 
@@ -629,7 +625,7 @@ coil 2
 void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 {
     //check preconditions
-    if((Tuareg.actors.fueling_inhibit == true) || (Tuareg.Runmode != TMODE_SERVICE))
+    if(Tuareg.flags.service_mode == false)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_PERMISSION);
 
@@ -709,7 +705,7 @@ void coil2_periodic_update(VU32 now)
     if((Service_mgr.flags.coil2_control == true) && (now >= Service_mgr.coil2_toggle))
     {
         //check if the actor has been powered
-        if(Tuareg.actors.ignition_coil_2 == true)
+        if(Tuareg.flags.ignition_coil_2 == true)
         {
             set_coil2_unpowered();
 

@@ -51,51 +51,30 @@ exec_result_t load_Fueling_Config()
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
-    VeTable_TPS.mgr.div_X_lookup= 0;
-    VeTable_TPS.mgr.div_Y_lookup= 0;
-    VeTable_TPS.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
-    VeTable_MAP.mgr.div_X_lookup= 0;
-    VeTable_MAP.mgr.div_Y_lookup= 0;
-    VeTable_MAP.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
-    AfrTable_TPS.mgr.div_X_lookup= 0;
-    AfrTable_TPS.mgr.div_Y_lookup= 0;
-    AfrTable_TPS.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t2D_data(&(AccelCompTable.data), EEPROM_FUELING_ACCELCOMP_BASE);
-    AccelCompTable.mgr.div_X_lookup= 0;
-    AccelCompTable.mgr.div_Y_lookup= 0;
-    AccelCompTable.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t2D_data(&(WarmUpCompTable.data), EEPROM_FUELING_WARMUPCOMP_BASE);
-    WarmUpCompTable.mgr.div_X_lookup= 0;
-    WarmUpCompTable.mgr.div_Y_lookup= 0;
-    WarmUpCompTable.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
-    InjectorTimingTable.mgr.div_X_lookup= 0;
-    InjectorTimingTable.mgr.div_Y_lookup= 0;
-    InjectorTimingTable.mgr.mul_Res= 0;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
-    CrankingFuelTable.mgr.div_X_lookup= 0;
-    CrankingFuelTable.mgr.div_Y_lookup= 0;
-    CrankingFuelTable.mgr.mul_Res= 0;
 
     return load_result;
 }
@@ -108,31 +87,33 @@ exec_result_t load_Fueling_Config()
 */
 void load_essential_Fueling_Config()
 {
-    /*U16 ve_from_map_min_rpm= 2000;
-    U16 ve_from_map_max_rpm= 7000;
+    Fueling_Setup.Version= 0;
 
-    U16 cylinder_volume_ccm= 425;
+    Fueling_Setup.cylinder_volume_ccm= 425;
 
-    U16 injector1_rate_mgps= 4160;
-    U16 injector2_rate_mgps= 4160;
+    Fueling_Setup.intake_close_advance_deg= 130;
 
-    U16 injector_deadtime_us= 500;
-    U8 max_injector_duty_cycle_pct= 85;
-    */
+    Fueling_Setup.default_injection_begin_pos= CRK_POSITION_B1;
+    Fueling_Setup.seq_cyl1_default_injection_begin_phase= PHASE_CYL1_EX;
+    Fueling_Setup.seq_earliest_injection_begin_pos= CRK_POSITION_B1;
+    Fueling_Setup.seq_cyl1_earliest_injection_begin_phase= PHASE_CYL1_COMP;
 
+    Fueling_Setup.injector1_rate_mgps= 4000;
+    Fueling_Setup.injector2_rate_mgps= 4000;
+    Fueling_Setup.max_injector_duty_cycle_pct= 0;
 
-    Fueling_Setup.Version =0;
+    Fueling_Setup.accel_comp_thres= 10000;
+    Fueling_Setup.decel_comp_thres= 10000;
+    Fueling_Setup.decel_comp_pct= 0;
+    Fueling_Setup.accel_comp_cycles= 0;
 
+    Fueling_Setup.afterstart_comp_pct= 0;
+    Fueling_Setup.afterstart_comp_cycles= 0;
+
+    Fueling_Setup.max_fuel_mass_comp_pct= 0;
     Fueling_Setup.ve_from_map_min_rpm= 0;
     Fueling_Setup.ve_from_map_max_rpm= 0;
 
-    Fueling_Setup.cylinder_volume_ccm= 0;
-
-    Fueling_Setup.injector1_rate_mgps= 0;
-    Fueling_Setup.injector2_rate_mgps= 0;
-
-    Fueling_Setup.injector_deadtime_us= 0;
-    Fueling_Setup.max_injector_duty_cycle_pct= 0;
 }
 
 
@@ -160,17 +141,30 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\nVersion: ");
     printf_U(Port, Fueling_Setup.Version, NO_PAD);
 
-    //U16 ve_from_map_min_rpm
-    print(Port, "\r\nVE from MAP min (rpm):");
-    printf_U(Port, Fueling_Setup.ve_from_map_min_rpm, NO_PAD);
-
-    //U16 ve_from_map_max_rpm
-    print(Port, "\r\nVE from MAP max (rpm):");
-    printf_U(Port, Fueling_Setup.ve_from_map_max_rpm, NO_PAD);
-
     //U16 cylinder_volume_ccm
     print(Port, "\r\ncylinder volume (ccm):");
     printf_U(Port, Fueling_Setup.cylinder_volume_ccm, NO_PAD);
+
+    //U16 intake_close_advance_deg
+    print(Port, "\r\nintake close angle (deg BTDC):");
+    printf_U(Port, Fueling_Setup.intake_close_advance_deg, NO_PAD);
+
+    //default_injection_begin_pos
+    print(Port, "\r\ndefault injection begin position: ");
+    printf_crkpos(Port, Fueling_Setup.default_injection_begin_pos);
+
+    //seq_cyl1_default_injection_begin_phase
+    print(Port, "\r\ndefault injection begin phase (cyl #1): ");
+    printf_phase(Port, Fueling_Setup.seq_cyl1_default_injection_begin_phase);
+
+    //seq_earliest_injection_begin_pos
+    print(Port, "\r\nearliest injection begin position: ");
+    printf_crkpos(Port, Fueling_Setup.seq_earliest_injection_begin_pos);
+
+    //seq_cyl1_earliest_injection_begin_phase
+    print(Port, "\r\nearliest injection begin phase (cyl #1): ");
+    printf_phase(Port, Fueling_Setup.seq_cyl1_earliest_injection_begin_phase);
+
 
     //U16 injector1_rate_mgps
     print(Port, "\r\ninjector #1 flow rate (mg/s):");
@@ -180,14 +174,67 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\ninjector #2 flow rate (mg/s):");
     printf_U(Port, Fueling_Setup.injector2_rate_mgps, NO_PAD);
 
-    //U16 injector_deadtime_us
-    print(Port, "\r\ninjector dead time (us):");
-    printf_U(Port, Fueling_Setup.injector_deadtime_us, NO_PAD);
-
-    //U16 max_injector_duty_cycle_pct
-    print(Port, "\r\ninjector max duty cycle (%):");
+    //U8 max_injector_duty_cycle_pct
+    print(Port, "\r\nmaximum injector duty cycle (%):");
     printf_U(Port, Fueling_Setup.max_injector_duty_cycle_pct, NO_PAD);
+
+
+    //F32 accel_comp_thres
+    print(Port, "\r\nacceleration compensation turn on TPS rate (deg/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres);
+
+    //F32 decel_comp_thres
+    print(Port, "\r\ndeceleration compensation turn on TPS rate (deg/s):");
+    printf_F32(Port, Fueling_Setup.decel_comp_thres);
+
+    //U8 decel_comp_pct
+    print(Port, "\r\ndeceleration compensation (%):");
+    printf_U(Port, Fueling_Setup.decel_comp_pct, NO_PAD);
+
+    //U8 accel_comp_cycles
+    print(Port, "\r\nacceleration compensation duration (events):");
+    printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
+
+
+    //U8 afterstart_comp_pct
+    print(Port, "\r\nafter start enrichment (%):");
+    printf_U(Port, Fueling_Setup.afterstart_comp_pct, NO_PAD);
+
+    //U8 afterstart_comp_cycles
+    print(Port, "\r\nafter start enrichment duration (events):");
+    printf_F32(Port, Fueling_Setup.afterstart_comp_cycles);
+
+
+
+    //U8 max_fuel_mass_comp_pct
+    print(Port, "\r\nmaximum fuel mass compensation (%):");
+    printf_U(Port, Fueling_Setup.max_fuel_mass_comp_pct, NO_PAD);
+
+
+
+    //U16 ve_from_map_min_rpm
+    print(Port, "\r\nVE from MAP min (rpm):");
+    printf_U(Port, Fueling_Setup.ve_from_map_min_rpm, NO_PAD);
+
+    //U16 ve_from_map_max_rpm
+    print(Port, "\r\nVE from MAP max (rpm):");
+    printf_U(Port, Fueling_Setup.ve_from_map_max_rpm, NO_PAD);
+
+
+
+    //features
+    print(Port, "\r\nfeature enabled features: AE-WUE-ASE-seq: ");
+
+    UART_Tx(TS_PORT, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.warmup_comp_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.afterstart_corr_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
+
 }
+
 
 
 /**
@@ -218,6 +265,10 @@ void send_Fueling_Setup(USART_TypeDef * Port)
 
 /***************************************************************************************************************************************************
 *   Fueling VE Table (TPS) - VeTable_TPS
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> TPS angle in ° (no offset, no scaling)
+* z-Axis -> VE in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_VeTable_TPS()
@@ -262,6 +313,10 @@ VF32 getValue_VeTable_TPS(VU32 Rpm, VF32 Tps_deg)
 
 /***************************************************************************************************************************************************
 *   Fueling VE Table (MAP based) - VeTable_MAP
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> MAP in kPa (no offset, no scaling)
+* z-Axis -> VE in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_VeTable_MAP()
@@ -306,6 +361,10 @@ VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
 
 /***************************************************************************************************************************************************
 *   Fueling AFR target Table (TPS based) - AfrTable_TPS
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> TPS angle in ° (no offset, no scaling)
+* z-Axis -> target AFR (no offset, table values are multiplied by 10)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_AfrTable_TPS()
@@ -350,6 +409,9 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 
 /***************************************************************************************************************************************************
 *   Fueling acceleration compensation table - AccelCompTable
+*
+* x-Axis -> TPS change rate in °/s (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_AccelCompTable()
@@ -393,6 +455,9 @@ VF32 getValue_AccelCompTable(VF32 Ddt_TPS)
 
 /***************************************************************************************************************************************************
 *   Fueling Warm up Enrichment compensation table - WarmUpCompTable
+*
+* x-Axis -> CLT in K (no offset, no scaling)
+* y-Axis -> Warm up compensation value in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_WarmUpCompTable()
@@ -436,6 +501,9 @@ VF32 getValue_WarmUpCompTable(VF32 CLT_K)
 
 /***************************************************************************************************************************************************
 *   Injector dead time table - InjectorTimingTable
+*
+* x-Axis -> System Voltage in mV (no offset, no scaling)
+* y-Axis -> Injector dead time in us (no offset, table values are in 24 us increments)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_InjectorTimingTable()
@@ -471,14 +539,17 @@ void send_InjectorTimingTable(USART_TypeDef * Port)
 /**
 returns the injector dead time in 24 us intervals
 */
-VF32 getValue_InjectorTimingTable(VF32 Bat_V)
+VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 {
-    return getValue_t2D(&InjectorTimingTable, Bat_V);
+    return (VU32) 24 * getValue_t2D(&InjectorTimingTable, 1000 * Bat_V);
 }
 
 
 /***************************************************************************************************************************************************
 *   Cranking base fuel mass table - CrankingFuelTable
+*
+* x-Axis -> CLT in K (no offset, no scaling)
+* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 16 ug increments)
 ***************************************************************************************************************************************************/
 
 exec_result_t store_CrankingFuelTable()
@@ -514,7 +585,7 @@ void send_CrankingFuelTable(USART_TypeDef * Port)
 /**
 returns the Cranking base fuel mass in 16 ug increments
 */
-VF32 getValue_CrankingFuelTable(VF32 CLT_K)
+VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 {
-    return getValue_t2D(&CrankingFuelTable, CLT_K);
+    return 16 * getValue_t2D(&CrankingFuelTable, CLT_K);
 }

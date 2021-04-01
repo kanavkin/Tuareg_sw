@@ -19,12 +19,12 @@ ignition actuator control - helper functions
 ******************************************************************************************************************************/
 void set_coil1_powered()
 {
-    if(Tuareg.actors.ignition_inhibit == false)
+    if(Tuareg.flags.ignition_inhibit == false)
     {
         //ON
         gpio_set_pin(GPIOC, 6, PIN_ON);
 
-        Tuareg.actors.ignition_coil_1= true;
+        Tuareg.flags.ignition_coil_1= true;
 
         highspeedlog_register_coil1_power();
     }
@@ -35,19 +35,19 @@ void set_coil1_unpowered()
     // OFF
     gpio_set_pin(GPIOC, 6, PIN_OFF);
 
-    Tuareg.actors.ignition_coil_1= false;
+    Tuareg.flags.ignition_coil_1= false;
 
     highspeedlog_register_coil1_unpower();
 }
 
 void set_coil2_powered()
 {
-    if(Tuareg.actors.ignition_inhibit == false)
+    if(Tuareg.flags.ignition_inhibit == false)
     {
         //ON
         gpio_set_pin(GPIOC, 7, PIN_ON);
 
-        Tuareg.actors.ignition_coil_2= true;
+        Tuareg.flags.ignition_coil_2= true;
 
         highspeedlog_register_coil2_power();
     }
@@ -58,7 +58,7 @@ void set_coil2_unpowered()
     // OFF
     gpio_set_pin(GPIOC, 7, PIN_OFF);
 
-    Tuareg.actors.ignition_coil_2= false;
+    Tuareg.flags.ignition_coil_2= false;
 
     highspeedlog_register_coil2_unpower();
 }
@@ -72,7 +72,7 @@ ignition irq control - helper function
 ******************************************************************************************************************************/
 void trigger_ignition_irq()
 {
-    if(Tuareg.actors.ignition_inhibit == false)
+    if(Tuareg.flags.ignition_inhibit == false)
     {
         ///trigger sw irq
         EXTI->SWIER= EXTI_SWIER_SWIER3;
@@ -97,7 +97,7 @@ void set_ignition_ch1(actor_control_t level)
         set_coil1_unpowered();
 
         //prepare irq
-        Tuareg.actors.ign1_irq_flag= true;
+        Tuareg.flags.ign1_irq_flag= true;
         trigger_ignition_irq();
     }
 }
@@ -114,7 +114,7 @@ void set_ignition_ch2(actor_control_t level)
         set_coil2_unpowered();
 
         //prepare irq
-        Tuareg.actors.ign2_irq_flag= true;
+        Tuareg.flags.ign2_irq_flag= true;
         trigger_ignition_irq();
     }
 }

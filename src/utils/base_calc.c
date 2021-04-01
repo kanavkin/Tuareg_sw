@@ -323,3 +323,24 @@ U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb)
 
 
 */
+
+
+
+
+
+void memclr_boctok(void * pBegin, U32 Length)
+{
+    VU8 * pData= (VU8 *) pBegin;
+    U32 i;
+
+    for(i=0; i < Length; i++)
+    {
+        *(pData + i)= 0;
+    }
+}
+
+
+
+
+
+

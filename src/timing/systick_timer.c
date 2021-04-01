@@ -89,7 +89,7 @@ void SysTick_Handler(void)
     Systick_Mgr.out.system_time= Systick_Mgr.system_time;
 
     //run service functions update in irq context
-    if(Tuareg.Runmode == TMODE_SERVICE)
+    if(Tuareg.flags.service_mode == true)
     {
         service_functions_periodic_update();
     }

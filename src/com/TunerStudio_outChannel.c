@@ -91,13 +91,13 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     }
 
 
-    if(Tuareg.ignition_controls.state.valid == true)
+    if(Tuareg.ignition_controls.flags.valid == true)
     {
         //advance         = scalar,   U16,    16, "deg",    1.000, 0.000
         serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[16]));
 
         //dwell	        = scalar,   U16,    18, "ms",     0.100, 0.00
-        serialize_U16_U8(Tuareg.ignition_controls.dwell_batch_us, &(output[18]));
+        serialize_U16_U8(Tuareg.ignition_controls.dwell_us, &(output[18]));
     }
     else
     {
@@ -242,128 +242,130 @@ volatile BF32 ts_tuareg_bits()
 {
     volatile BF32 tuaregbits =0;
 
-    //errors
-    if(Tuareg.Errors.decoder_config_error)
+    //flags
+    if(Tuareg.errors.decoder_config_error)
     {
         setBit_BF32(TBIT_DECODERCONFIG_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.ignition_config_error)
+    if(Tuareg.errors.ignition_config_error)
     {
         setBit_BF32(TBIT_IGNITIONCONFIG_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.fueling_config_error)
+    if(Tuareg.errors.fueling_config_error)
     {
         setBit_BF32(TBIT_FUELCONFIG_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_calibration_error)
+    if(Tuareg.errors.sensor_calibration_error)
     {
         setBit_BF32(TBIT_SENSORCALIB_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.tuareg_config_error)
+    if(Tuareg.errors.tuareg_config_error)
     {
         setBit_BF32(TBIT_TUAREGCONFIG_ERROR, &tuaregbits);
     }
 
 
-    if(Tuareg.Errors.sensor_O2_error)
+    if(Tuareg.errors.sensor_O2_error)
     {
         setBit_BF32(TBIT_O2SENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_TPS_error)
+    if(Tuareg.errors.sensor_TPS_error)
     {
         setBit_BF32(TBIT_TPSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_IAT_error)
+    if(Tuareg.errors.sensor_IAT_error)
     {
         setBit_BF32(TBIT_IATSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_CLT_error)
+    if(Tuareg.errors.sensor_CLT_error)
     {
         setBit_BF32(TBIT_CLTSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_VBAT_error)
+    if(Tuareg.errors.sensor_VBAT_error)
     {
         setBit_BF32(TBIT_VBATSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_KNOCK_error)
+    if(Tuareg.errors.sensor_KNOCK_error)
     {
         setBit_BF32(TBIT_KNOCKSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_BARO_error)
+    if(Tuareg.errors.sensor_BARO_error)
     {
         setBit_BF32(TBIT_BAROSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_GEAR_error)
+    if(Tuareg.errors.sensor_GEAR_error)
     {
         setBit_BF32(TBIT_GEARSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_MAP_error)
+    if(Tuareg.errors.sensor_MAP_error)
     {
         setBit_BF32(TBIT_MAPSENSOR_ERROR, &tuaregbits);
     }
 
-    if(Tuareg.Errors.sensor_CIS_error)
+    if(Tuareg.errors.sensor_CIS_error)
     {
         setBit_BF32(TBIT_CISENSOR_ERROR, &tuaregbits);
     }
 
     //runmode
 
-    if(Tuareg.Runmode == TMODE_CRANKING)
+    if(Tuareg.flags.cranking == true)
     {
         setBit_BF32(TBIT_CRANKING_MODE, &tuaregbits);
     }
-    else if(Tuareg.Runmode == TMODE_LIMP)
+
+    if(Tuareg.flags.limited_op == true)
     {
         setBit_BF32(TBIT_LIMP_MODE, &tuaregbits);
     }
-    else if(Tuareg.Runmode == TMODE_SERVICE)
+
+    if(Tuareg.flags.service_mode == true)
     {
         setBit_BF32(TBIT_DIAG_MODE, &tuaregbits);
     }
 
     //halt sources
 
-    if(Tuareg.Halt_source.crash_sensor)
+    if(Tuareg.flags.crash_sensor_triggered)
     {
         setBit_BF32(TBIT_HSRC_CRASH, &tuaregbits);
     }
 
-    if(Tuareg.Halt_source.run_switch)
+    if(Tuareg.flags.run_switch_deactivated)
     {
         setBit_BF32(TBIT_HSRC_RUN, &tuaregbits);
     }
 
-    if(Tuareg.Halt_source.sidestand_sensor)
+    if(Tuareg.flags.sidestand_sensor_triggered)
     {
         setBit_BF32(TBIT_HSRC_SIDESTAND, &tuaregbits);
     }
 
     //actors
 
-    if(Tuareg.actors.ignition_inhibit)
+    if(Tuareg.flags.ignition_inhibit)
     {
         setBit_BF32(TBIT_ACT_IGN_INH, &tuaregbits);
     }
 
-    if(Tuareg.actors.fueling_inhibit)
+    if(Tuareg.flags.fueling_inhibit)
     {
         setBit_BF32(TBIT_ACT_FUEL_INH, &tuaregbits);
     }
 
-    if(Tuareg.actors.fuel_pump)
+    if(Tuareg.flags.fuel_pump)
     {
         setBit_BF32(TBIT_ACT_FUEL_PUMP, &tuaregbits);
     }
@@ -379,50 +381,34 @@ VU16 ts_ignition_bits()
 {
     volatile BF32 ignitionbits =0;
 
-    if(Tuareg.ignition_controls.state.valid)
+    if(Tuareg.ignition_controls.flags.valid)
     {
         setBit_BF32(IGNBIT_VALID, &ignitionbits);
     }
 
-    if(Tuareg.ignition_controls.state.default_controls)
-    {
-        setBit_BF32(IGNBIT_DEFAULT_CTRL, &ignitionbits);
-    }
-
-    if(Tuareg.ignition_controls.state.cranking_controls)
-    {
-        setBit_BF32(IGNBIT_CRANKING_CTRL, &ignitionbits);
-    }
-
-    if(Tuareg.ignition_controls.state.dynamic_controls)
+    if(Tuareg.ignition_controls.flags.dynamic_controls)
     {
         setBit_BF32(IGNBIT_DYNAMIC, &ignitionbits);
     }
 
-    if(Tuareg.ignition_controls.state.rev_limiter)
-    {
-        setBit_BF32(IGNBIT_REV_LIMITER, &ignitionbits);
-    }
 
-    if(Tuareg.ignition_controls.state.sequential_mode)
+
+    if(Tuareg.ignition_controls.flags.sequential_mode)
     {
         setBit_BF32(IGNBIT_SEQ_MODE, &ignitionbits);
     }
 
-    if(Tuareg.ignition_controls.state.cold_idle)
+    if(Tuareg.ignition_controls.flags.cold_idle)
     {
         setBit_BF32(IGNBIT_COLD_IDLE, &ignitionbits);
     }
 
-    if(Tuareg.ignition_controls.state.advance_map)
+    if(Tuareg.ignition_controls.flags.advance_map)
     {
         setBit_BF32(IGNBIT_ADVANCE_MAP, &ignitionbits);
     }
 
-    if(Tuareg.ignition_controls.state.advance_tps)
-    {
-        setBit_BF32(IGNBIT_ADVANCE_TPS, &ignitionbits);
-    }
+
 
     return ignitionbits;
 }

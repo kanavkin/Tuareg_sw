@@ -43,14 +43,10 @@ exec_result_t load_Ignition_Config()
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE);
-    ignAdvTable_TPS.mgr.div_X_lookup= 1;
-    ignAdvTable_TPS.mgr.div_Y_lookup= 1;
 
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t2D_data(&(ignDwellTable.data), EEPROM_IGNITION_DWELLTABLE_BASE);
-    ignDwellTable.mgr.div_X_lookup= 0;
-    ignDwellTable.mgr.div_Y_lookup= 0;
 
    return load_result;
 }
@@ -63,7 +59,7 @@ exec_result_t load_Ignition_Config()
 */
 void load_essential_Ignition_Config()
 {
-    //ignition control module has defaults compiled in
+    //ignition control module has all vital defaults compiled in
 
 
 }
@@ -101,9 +97,9 @@ void show_Ignition_Setup(USART_TypeDef * Port)
     print(Port, "\r\ndynamic ignition base position: ");
     printf_crkpos(Port, Ignition_Setup.dynamic_ignition_base_position);
 
-    //dynamic_dwell_target_us
-    print(Port, "\r\ndynamic dwell target (us): ");
-    printf_U(Port, Ignition_Setup.dynamic_dwell_target_us, NO_PAD);
+    //U16 spark_duration_us
+    print(Port, "\r\nspark duration (us): ");
+    printf_U(Port, Ignition_Setup.spark_duration_us, NO_PAD);
 
 
     //cold_idle_cutoff_rpm
@@ -122,7 +118,6 @@ void show_Ignition_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncold idle dwell target (us): ");
     printf_U(Port, Ignition_Setup.cold_idle_dwell_target_us, NO_PAD);
 
-
     //cranking_ignition_position
     print(Port, "\r\ncranking ignition position: ");
     printf_crkpos(Port, Ignition_Setup.cranking_ignition_position);
@@ -131,14 +126,18 @@ void show_Ignition_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncranking dwell position: ");
     printf_crkpos(Port, Ignition_Setup.cranking_dwell_position);
 
+    //flags
+    print(Port, "\r\nfeature enabled flags: dynamic-cranking-cold_idle-sequential-2 coils: ");
 
-    //coil_setup_t coil_setup
-    print(Port, "\r\ncoil setup: ");
-    printf_U(Port, Ignition_Setup.coil_setup, NO_PAD);
-
-    //U16 spark_duration_us
-    print(Port, "\r\nspark duration (us): ");
-    printf_U(Port, Ignition_Setup.spark_duration_us, NO_PAD);
+    UART_Tx(TS_PORT, (Ignition_Setup.flags.dynamic_controls_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Ignition_Setup.flags.cranking_controls_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Ignition_Setup.flags.cold_idle_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Ignition_Setup.flags.sequential_mode_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Ignition_Setup.flags.second_coil_installed? '1' :'0'));
 }
 
 
@@ -170,6 +169,10 @@ void send_Ignition_Setup(USART_TypeDef * Port)
 
 /***************************************************************************************************************************************************
 *   Ignition Advance Table (TPS)
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> TPS angle in ° (no offset, no scaling)
+* z-Axis -> advance angle in ° BTDC (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 
@@ -205,12 +208,14 @@ void send_ignAdvTable_TPS(USART_TypeDef * Port)
 
 VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
 {
-    return (VU32) getValue_t3D(&ignAdvTable_TPS, divide_VU32(Rpm, ignAdvTable_TPS.mgr.div_X_lookup), TPS);
+    return (VU32) getValue_t3D(&ignAdvTable_TPS, Rpm, TPS);
 }
 
 
 /***************************************************************************************************************************************************
 *   Ignition Dwell time table - ignDwellTable
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> Dwell time in us (no offset, table values are in 48 us increments)
 ***************************************************************************************************************************************************/
 exec_result_t store_ignDwellTable()
 {
@@ -245,6 +250,6 @@ returns the dwell time in us
 */
 VU32 getValue_ignDwellTable(VU32 Rpm)
 {
-    //ignDwellTable stores the Dwell time in 100 us increments
-    return (VU32) getValue_t2D(&ignDwellTable, Rpm);
+    //ignDwellTable stores the Dwell time in 48 us increments
+    return (VU32) 48 * getValue_t2D(&ignDwellTable, Rpm);
 }

@@ -35,4 +35,7 @@ U8 lowByte(U16);
 U8 highByte(U16);
 U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb);
 
+
+void memclr_boctok(void * pBegin, U32 Length);
+
 #endif // BASECALC_H_INCLUDED

@@ -35,9 +35,7 @@
 /**
 crank position when the fueling controls shall be updated
 */
-crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
-
-
+const crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
 
 
 /**
@@ -82,7 +80,7 @@ void init_Fueling()
     else
     {
         //loaded Fueling config with correct Version
-        Tuareg.Errors.fueling_config_error= false;
+        Tuareg.errors.fueling_config_error= false;
 
         Syslog_Info(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_SUCCESS);
     }
@@ -109,10 +107,9 @@ void Tuareg_fueling_update_crankpos_handler()
     //ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
 
     /**
-    check vital precondition
-    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    check vital preconditions
     */
-    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true))
     {
         //collect diagnostic information
         //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -162,11 +159,8 @@ void Tuareg_fueling_update_crankpos_handler()
             if(Tuareg.pDecoder->outputs.phase_valid == false)
             {
                 //register ERROR
-
-
                 return;
             }
-
 
             /*
             sequential mode

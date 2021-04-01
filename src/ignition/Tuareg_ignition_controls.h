@@ -32,27 +32,23 @@ ignition_logic_state_t
 */
 typedef union
 {
-     U16 all_flags;
+     U8 all_flags;
 
      struct
      {
-        U16 valid :1;
-        U16 default_controls :1;
-        U16 cranking_controls :1;
-        U16 dynamic_controls :1;
-        U16 rev_limiter :1;
-        U16 sequential_mode :1;
-        U16 cold_idle :1;
-        U16 advance_map :1;
-        U16 advance_tps :1;
+        U8 valid :1;
+        U8 dynamic_controls :1;
+        U8 sequential_mode :1;
+        U8 cold_idle :1;
+        U8 advance_map :1;
      };
 
-} ignition_logic_state_t;
+} ignition_logic_flags_t;
 
 
 
 /**
-ignition_control_t defines a transfer object
+ignition controls
 */
 typedef struct _ignition_control_t {
 
@@ -62,28 +58,25 @@ typedef struct _ignition_control_t {
     crank_position_t ignition_pos;
 
     //dynamic dwell
-    U32 dwell_timing_sequential_us;
-    U32 dwell_timing_batch_us;
-    U32 dwell_sequential_us;
-
-    //fallback dwell
+    U32 dwell_us;
+    U32 dwell_timing_us;
     crank_position_t dwell_pos;
-    U32 dwell_batch_us;
 
     //status data
-    ignition_logic_state_t state;
+    ignition_logic_flags_t flags;
 
-} ignition_control_t;
+} ignition_controls_t;
 
 
 
 
 void Tuareg_update_ignition_controls();
 
-extern void default_ignition_controls();
-extern void cranking_ignition_controls();
-extern void revlimiter_ignition_controls();
-extern exec_result_t dynamic_ignition_controls();
+void default_ignition_controls(volatile ignition_controls_t * pTarget);
+void revlimiter_ignition_controls(volatile ignition_controls_t * pTarget);
+void cranking_ignition_controls(volatile ignition_controls_t * pTarget);
+
+void dynamic_ignition_controls(volatile ignition_controls_t * pTarget);
 
 
 

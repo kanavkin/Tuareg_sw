@@ -380,7 +380,7 @@ void ADC_IRQHandler()
         pCount= &(SInternals.asensors_sync_integrator_count[ASENSOR_SYNC_MAP]);
 
         //validate sample
-        if( (sample >= Sensor_Calibration.MAP_min_valid) && (sample <= Sensor_Calibration.MAP_max_valid) && (Tuareg.Errors.sensor_calibration_error == false))
+        if( (sample >= Sensor_Calibration.MAP_min_valid) && (sample <= Sensor_Calibration.MAP_max_valid) && (Tuareg.errors.sensor_calibration_error == false))
         {
             /**
             valid sample
@@ -566,7 +566,7 @@ void DMA2_Stream0_IRQHandler()
             }
 
             //validate the sensor channel with its individual threshold, if the threshold itself is valid
-            if( (sample >= min_valid) && (sample <= max_valid) && (Tuareg.Errors.sensor_calibration_error == false) )
+            if( (sample >= min_valid) && (sample <= max_valid) && (Tuareg.errors.sensor_calibration_error == false) )
             {
                 /**
                 valid reading

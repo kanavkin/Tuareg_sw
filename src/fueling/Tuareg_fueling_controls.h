@@ -61,7 +61,7 @@ typedef struct _fueling_control_t {
 
     //fuel mass to be injected into each cylinder
     F32 base_fuel_mass_ug;
-    F32 target_fuel_mass_ug;
+    U32 target_fuel_mass_ug;
 
     //accel pump
     F32 fuel_mass_accel_corr_pct;

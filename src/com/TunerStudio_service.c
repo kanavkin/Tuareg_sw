@@ -209,7 +209,7 @@ void cli_show_process_data(volatile process_data_t * pImage)
 
 }
 
-void cli_show_ignition_controls(volatile ignition_control_t * pTiming)
+void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
 {
     print(TS_PORT, "\r\n\r\nignition setup:");
 
@@ -219,35 +219,24 @@ void cli_show_ignition_controls(volatile ignition_control_t * pTiming)
     UART_Tx(TS_PORT, ' ');
     printf_U(TS_PORT, pTiming->ignition_timing_us, NO_PAD);
 
-    print(TS_PORT, "\r\ndwell base pos, timing seq, batch: ");
+    print(TS_PORT, "\r\ndwell base pos, timing, duration: ");
     printf_crkpos(TS_PORT, pTiming->dwell_pos);
     UART_Tx(TS_PORT, ' ');
-    printf_U(TS_PORT, pTiming->dwell_timing_sequential_us, NO_PAD);
-    printf_U(TS_PORT, pTiming->dwell_timing_batch_us, NO_PAD);
+    printf_U(TS_PORT, pTiming->dwell_timing_us, NO_PAD);
+    UART_Tx(TS_PORT, ' ');
+    printf_U(TS_PORT, pTiming->dwell_us, NO_PAD);
 
-    print(TS_PORT, "\r\ndwell duration seq, batch: ");
-    printf_U(TS_PORT, pTiming->dwell_sequential_us, NO_PAD);
-    printf_U(TS_PORT, pTiming->dwell_batch_us, NO_PAD);
+    print(TS_PORT, "\r\nflags: valid dyn seq_mode cold_idle a_map: ");
 
-    print(TS_PORT, "\r\nstate: valid default cranking dyn rev_limit seq_mode cold_idle a_map a_tps: ");
-
-    UART_Tx(TS_PORT, (pTiming->state.valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->flags.valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.default_controls? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->flags.dynamic_controls? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.cranking_controls? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->flags.sequential_mode? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.dynamic_controls? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->flags.cold_idle? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.rev_limiter? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.sequential_mode? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.cold_idle? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.advance_map? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->state.advance_tps? '1' :'0'));
+    UART_Tx(TS_PORT, (pTiming->flags.advance_map? '1' :'0'));
 
 }
 

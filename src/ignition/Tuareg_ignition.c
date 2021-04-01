@@ -24,6 +24,9 @@
 #include "Tuareg.h"
 
 
+#define IGNITION_REQUIRED_CONFIG_VERSION 4
+
+
 #define IGNITION_DEBUG_OUTPUT
 
 #ifdef IGNITION_DEBUG_OUTPUT
@@ -31,7 +34,10 @@
 #endif // IGNITION_DEBUG_OUTPUT
 
 
-#define IGNITION_CONTROLS_UPDATE_POSITION CRK_POSITION_B2
+/**
+crank position when the ignition controls shall be updated
+*/
+const crank_position_t ignition_controls_update_pos= CRK_POSITION_B2;
 
 
 /**
@@ -63,7 +69,8 @@ void init_Ignition()
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load Decoder Config
+        //failed to load Ignition Config
+        Tuareg.errors.ignition_config_error= true;
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
@@ -75,7 +82,8 @@ void init_Ignition()
     }
     else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
     {
-        //loaded wrong Decoder Config Version
+        //loaded wrong Ignition Config Version
+        Tuareg.errors.ignition_config_error= true;
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
@@ -88,7 +96,7 @@ void init_Ignition()
     else
     {
         //loaded Ignition config with correct Version
-        Tuareg.Errors.ignition_config_error= false;
+        Tuareg.errors.ignition_config_error= false;
 
         Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
     }
@@ -116,10 +124,9 @@ void Tuareg_ignition_update_crankpos_handler()
     ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
 
     /**
-    check vital precondition
-    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    check vital preconditions
     */
-    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true))
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -136,15 +143,15 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
     //check if ignition controls shall be updated
-    if(Tuareg.pDecoder->crank_position == IGNITION_CONTROLS_UPDATE_POSITION)
+    if(Tuareg.pDecoder->crank_position == ignition_controls_update_pos)
     {
         //update ignition controls
         Tuareg_update_ignition_controls();
     }
 
 
-    //check preconditions for ignition control based actions
-    if((Tuareg.ignition_controls.state.valid == false)  || (Tuareg.ignition_controls.state.rev_limiter == true))
+    //check if ignition controls are valid
+    if(Tuareg.ignition_controls.flags.valid == false)
     {
         //collect diagnostic information
         //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -157,7 +164,6 @@ void Tuareg_ignition_update_crankpos_handler()
     //check if the crank is at the ignition base position
     if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
     {
-
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
@@ -165,13 +171,17 @@ void Tuareg_ignition_update_crankpos_handler()
         age_us= decoder_get_position_data_age_us();
         corr_timing_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, age_us);
 
-        //check if sequential mode has been requested and sufficient information for this mode is available
-        if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == true))
+        //check if sequential mode has been commanded
+        if(Tuareg.ignition_controls.flags.dynamic_controls == true)
         {
+            //check if sufficient information for this mode is available
+            if(Tuareg.pDecoder->outputs.phase_valid == false)
+            {
+                //register ERROR
+                return;
+            }
 
-            /*
-            sequential mode
-            */
+            ///sequential mode
 
             //coil #1
             if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP)
@@ -194,14 +204,10 @@ void Tuareg_ignition_update_crankpos_handler()
         }
         else
         {
-            /*
-            batch mode
-            */
+            ///batch mode
 
-            //coil #1
+            //coil #1 and #2
             scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, corr_timing_us, true);
-
-            //coil #2
             scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_UNPOWERED, corr_timing_us, true);
 
             //collect diagnostic information
@@ -212,10 +218,11 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
     /*
-    check if the crank is at the ignition dwell position
+    check if the crank is at the ignition dwell position (for dynamic controls not available) -> batch style
     */
-    else if((Tuareg.ignition_controls.state.dynamic_controls == false) && (Tuareg.ignition_controls.state.sequential_mode == false) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos))
+    if((Tuareg.ignition_controls.flags.dynamic_controls == false) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos))
     {
+        //coil #1 and #2
         set_ignition_ch1(ACTOR_POWERED);
         set_ignition_ch2(ACTOR_POWERED);
 
@@ -235,19 +242,16 @@ void Tuareg_ignition_irq_handler()
     ignition_diag_log_event(IGNDIAG_IRQ3H_CALLS);
 
     /**
-    check vital precondition
-    In service mode ignition inhibit might be reset, but engine operation is not allowed!
+    check vital and operational preconditions
     */
-    if((Tuareg.Errors.fatal_error == true) || (Tuareg.actors.ignition_inhibit == true) || (Tuareg.Runmode == TMODE_SERVICE) ||
-        (Tuareg.ignition_controls.state.valid == false) || (Tuareg.ignition_controls.state.rev_limiter == true) || (Tuareg.ignition_controls.state.dynamic_controls == false) ||
-        (Tuareg.pDecoder->outputs.position_valid == false) || (Tuareg.pDecoder->outputs.timeout == true) )
+//    if( (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true) || (Tuareg.ignition_controls.flags.valid == false) || (Tuareg.ignition_controls.flags.dynamic_controls == false) )                                                                                                                                                                                                                                  )
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_IRQ3H_PRECOND_FAIL);
 
         //acknowledge irq flags
-        Tuareg.actors.ign1_irq_flag= false;
-        Tuareg.actors.ign2_irq_flag= false;
+        Tuareg.flags.ign1_irq_flag= false;
+        Tuareg.flags.ign2_irq_flag= false;
 
         //nothing to do
         return;
@@ -255,33 +259,40 @@ void Tuareg_ignition_irq_handler()
 
 
     //check if sequential mode has been requested and sufficient information for this mode is available
-    if((Tuareg.ignition_controls.state.dynamic_controls == true) && (Tuareg.ignition_controls.state.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == true))
+    if((Tuareg.ignition_controls.flags.dynamic_controls == true) && (Tuareg.ignition_controls.flags.sequential_mode == true))
     {
+        //check if sufficient information for this mode is available
+        if(Tuareg.pDecoder->outputs.phase_valid == false)
+        {
+            //register ERROR
+            return;
+        }
+
         /*
         sequential mode
         */
 
         //coil #1
-        if((Tuareg.actors.ignition_coil_1 == false) && (Tuareg.actors.ign1_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_COMP))
+        if((Tuareg.flags.ignition_coil_1 == false) && (Tuareg.flags.ign1_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_COMP))
         {
             //acknowledge irq flag
-            Tuareg.actors.ign1_irq_flag= false;
+            Tuareg.flags.ign1_irq_flag= false;
 
             //allocate scheduler
-            scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_sequential_us, false);
+            scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
 
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_IRQ3H_IGN1SCHED_POWER);
         }
 
         //coil #2
-        if((Tuareg.actors.ignition_coil_2 == false) && (Tuareg.actors.ign2_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_EX))
+        if((Tuareg.flags.ignition_coil_2 == false) && (Tuareg.flags.ign2_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_EX))
         {
             //acknowledge irq flag
-            Tuareg.actors.ign2_irq_flag= false;
+            Tuareg.flags.ign2_irq_flag= false;
 
             //allocate scheduler
-            scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_sequential_us, false);
+            scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
 
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_IRQ3H_IGN2SCHED_POWER);
@@ -293,15 +304,13 @@ void Tuareg_ignition_irq_handler()
         batch mode
         */
 
-        //coil #1
-        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_batch_us, false);
-
-        //coil #2
-        scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_batch_us, false);
+        //coil #1 and #2
+        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
+        scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
 
         //acknowledge irq flags
-        Tuareg.actors.ign1_irq_flag= false;
-        Tuareg.actors.ign2_irq_flag= false;
+        Tuareg.flags.ign1_irq_flag= false;
+        Tuareg.flags.ign2_irq_flag= false;
 
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_IRQ3H_IGN1_POWER);

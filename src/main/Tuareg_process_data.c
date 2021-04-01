@@ -65,10 +65,10 @@ void Tuareg_update_process_data()
     - non-running modes are not affected
     - while cranking a static ignition profile and fueling is used
     */
-    if((Tuareg.Runmode == TMODE_RUNNING) && (Tuareg.Errors.sensor_MAP_error == true) && (Tuareg.Errors.sensor_TPS_error == true))
+    if((Tuareg.flags.standstill == false) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
         //LIMP
-        Tuareg_set_Runmode(TMODE_LIMP);
+        Tuareg.flags.limited_op= true;
     }
 
     //load figures
@@ -110,14 +110,14 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
 
 
     //check preconditions
-    if((Tuareg.Errors.sensor_MAP_error == true) && (Tuareg.Errors.sensor_TPS_error == true))
+    if((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
         pProcess->load_pct= TUAREG_DEFAULT_LOAD_PCT;
         return;
     }
 
     //calculate vacuum load
-    if(Tuareg.Errors.sensor_MAP_error == false)
+    if(Tuareg.errors.sensor_MAP_error == false)
     {
         /*
         calculation can be valid even with the BARO default value
@@ -127,7 +127,7 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
     }
 
     //calculate throttle load
-    if(Tuareg.Errors.sensor_TPS_error == false)
+    if(Tuareg.errors.sensor_TPS_error == false)
     {
         /*
         load by throttle is scaled to throttle geometry :=  TPS / TPS(WOT - IDLE)
@@ -149,10 +149,10 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
     if throttle based load calculation is not possible
     */
     if(
-       ((Tuareg.Errors.sensor_MAP_error == false) && (Tuareg.Errors.sensor_BARO_error == false) &&
+       ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.errors.sensor_BARO_error == false) &&
        (Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm >= load_from_map_min_rpm) && (Tuareg.pDecoder->crank_rpm <= load_from_map_max_rpm))
        ||
-       (Tuareg.Errors.sensor_TPS_error == true)
+       (Tuareg.errors.sensor_TPS_error == true)
     )
     {
         //use vacuum based load

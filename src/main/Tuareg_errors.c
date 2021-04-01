@@ -37,18 +37,15 @@ void Fatal(Tuareg_ID Id, U8 Location)
 {
     __disable_irq();
 
-    Tuareg.Errors.fatal_error= true;
-    Tuareg.actors.fueling_inhibit= true;
-    Tuareg.actors.ignition_inhibit= true;
+    Tuareg.errors.fatal_error= true;
+    Tuareg.flags.fueling_inhibit= true;
+    Tuareg.flags.ignition_inhibit= true;
 
     Syslog_Error(Id, Location);
 
     #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("FATAL --");
     #endif // ERRORS_DEBUG_OUTPUT
-
-    Tuareg_set_Runmode(TMODE_FATAL);
-
 }
 
 

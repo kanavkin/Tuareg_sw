@@ -41,68 +41,75 @@ to allow limp home operation if eeprom has been corrupted
 */
 
 
-typedef enum {
+typedef struct _tuareg_flags_t {
 
-    //system init
-    TMODE_INIT,
+    //is engine operation allowed?
+    U32 run_inhibit :1;
 
-    //control engine with minimum sensor input available
-    TMODE_LIMP,
+    //some run_inhibit sources
+    U32 crash_sensor_triggered :1;
+    U32 run_switch_deactivated :1;
+    U32 sidestand_sensor_triggered :1;
+    U32 overheat_detected :1;
 
-    //perform diagnostic functions triggered by user, no engine operation
-    TMODE_SERVICE,
-
-    //engine operation prohibited due to kill switch or crash sensor
-    TMODE_HALT,
-
-    //engine stalled, system ready for start
-    TMODE_STB,
-
-    //engine startup
-    TMODE_CRANKING,
-
-    //normal engine operation
-    TMODE_RUNNING,
-
-    //provide error logs for debugging
-    TMODE_FATAL
-
-} tuareg_runmode_t;
-
-
-typedef union
-{
-     U8 all_flags;
-
-     struct {
-
-        VU8 crash_sensor :1;
-        VU8 run_switch :1;
-        VU8 sidestand_sensor :1;
-     };
-
-} tuareg_haltsrc_t;
-
-
-typedef struct {
-
-    //rev limiter
-    U32 rev_limiter :1;
-
-    //ignition
+    //is vital actor operation allowed?
     U32 ignition_inhibit :1;
+    U32 fueling_inhibit :1;
+
+
+    //special operation conditions
+    U32 limited_op :1;
+    U32 rev_limiter :1;
+    U32 cranking :1;
+    U32 standstill :1;
+
+    /*
+    vital actor power state
+    */
+
     U32 ignition_coil_1 :1;
     U32 ignition_coil_2 :1;
-    U32 ign1_irq_flag :1;
-    U32 ign2_irq_flag :1;
-
-    //fueling
-    U32 fueling_inhibit :1;
     U32 fuel_injector_1 :1;
     U32 fuel_injector_2 :1;
     U32 fuel_pump :1;
 
-} tuareg_actors_state_t;
+    /*
+    ignition irq source flags
+    */
+    U32 ign1_irq_flag :1;
+    U32 ign2_irq_flag :1;
+
+    /*
+    service mode
+    */
+    U32 service_mode :1;
+
+
+} tuareg_flags_t;
+
+
+typedef struct _tuareg_errors_t {
+
+    VU32 fatal_error :1;
+
+    VU32 decoder_config_error :1;
+    VU32 ignition_config_error :1;
+    VU32 tuareg_config_error :1;
+    VU32 fueling_config_error :1;
+    VU32 sensor_calibration_error :1;
+
+    VU32 sensor_O2_error :1;
+    VU32 sensor_TPS_error :1;
+    VU32 sensor_IAT_error :1;
+    VU32 sensor_CLT_error :1;
+    VU32 sensor_VBAT_error :1;
+    VU32 sensor_KNOCK_error :1;
+    VU32 sensor_BARO_error :1;
+    VU32 sensor_GEAR_error :1;
+    VU32 sensor_MAP_error :1;
+    VU32 sensor_CIS_error :1;
+
+} tuareg_errors_t;
 
 
 
@@ -126,7 +133,7 @@ typedef struct _Tuareg_t {
     /**
     current ignition timing and alignment
     */
-    volatile ignition_control_t ignition_controls;
+    volatile ignition_controls_t ignition_controls;
 
     /**
     current fueling parameters
@@ -136,23 +143,22 @@ typedef struct _Tuareg_t {
     /**
     state machine and health status
     */
-    volatile tuareg_runmode_t Runmode;
-    volatile tuareg_haltsrc_t Halt_source;
-    volatile tuareg_error_t Errors;
+    volatile tuareg_flags_t flags;
+    volatile tuareg_errors_t errors;
 
-
+    /**
+    process data
+    */
     volatile process_data_t process;
 
-    //mirrors the actual state of vital actors
-    volatile tuareg_actors_state_t actors;
-
-    //decoder watchdog
-    VU32 decoder_watchdog_ms;
-
-    //syslog
+    /**
+    syslog
+    */
     volatile syslog_mgr_flags_t * pSyslog;
 
-    //high speed log
+    /**
+    high speed log
+    */
     volatile highspeedlog_flags_t * pHighspeedlog;
 
 } Tuareg_t;
@@ -163,18 +169,18 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+void Tuareg_Init();
 void Tuareg_print_init_message();
 
-void Tuareg_update_Runmode();
-void Tuareg_set_Runmode(volatile tuareg_runmode_t Target_runmode);
+void Tuareg_update();
 
-extern void Tuareg_stop_engine();
+void Tuareg_stop_engine();
+
+
 
 void Tuareg_export_diag(VU32 * pTarget);
-void Tuareg_update_halt_sources();
 
 
-void Tuareg_Init();
 
 void Tuareg_HWINIT_transition();
 void Tuareg_CONFIGLOAD_transition();
