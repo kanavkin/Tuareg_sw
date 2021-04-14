@@ -26,6 +26,7 @@ bring up analog and digital sensors
 volatile sensor_interface_t * init_sensor_inputs(U32 Init_count)
 {
     DMA_InitTypeDef DMA_InitStructure;
+    VU32 channel;
 
     //set ADC pre scaler to 2 (source: APB2/PCLK2 @ 50 MHz) -> 25 MHz
     ADC->CCR &= ~ADC_CCR_ADCPRE;
@@ -170,8 +171,16 @@ volatile sensor_interface_t * init_sensor_inputs(U32 Init_count)
     NVIC_ClearPendingIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_IRQn);
 
-    //do fast init
-    prepare_fastsync_init(Init_count);
+    /**
+    fast init feature:
+
+    initialize the valid sample count with its fast init value "init_count"
+    this makes sensor data available earlier in case of engine startup
+    */
+    for(channel =0; channel < ASENSOR_COUNT; channel++)
+    {
+        SInterface.asensors_valid_samples[channel]= Init_count;
+    }
 
     return &SInterface;
 }
@@ -182,26 +191,6 @@ void sensors_start_regular_group_conversion()
     adc_start_regular_group(SENSOR_ADC);
 }
 
-
-
-
-
-/*
-implements the fast init feature:
-
-initialize the valid sample count with its fast init value "init_count"
-this makes sensor data available earlier in case of engine startup
-*/
-inline void prepare_fastsync_init(U32 init_count)
-{
-    VU32 channel;
-
-    for(channel =0; channel < ASENSOR_COUNT; channel++)
-    {
-        SInterface.asensors_valid_samples[channel]= init_count;
-    }
-
-}
 
 
 /**

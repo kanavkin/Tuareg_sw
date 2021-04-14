@@ -4,116 +4,61 @@
 #include "uart.h"
 
 /**
-OutputChannel comm bits
+ts_tuareg_bits_t
 */
-typedef enum {
+typedef union
+{
+     U32 all_flags;
 
-    COMMBIT_CALMOD_PERMISSION,
-    COMMBIT_IGNMOD_PERMISSION,
-    COMMBIT_FUELMOD_PERMISSION,
-    COMMBIT_DECMOD_PERMISSION,
-    COMMBIT_BURN_PERMISSION,
-    COMMBIT_SYSLOG_UPDATE,
-    COMMBIT_DATALOG_UPDATE,
-    COMMBIT_HSPDLOG_FULL,
-    COMMBIT_COUNT
+    struct
+    {
+        U32 run_inhibit :1;
+        U32 crash_sensor_triggered :1;
+        U32 run_switch_deactivated :1;
+        U32 sidestand_sensor_triggered :1;
+        U32 overheat_detected :1;
 
-} comm_bits_t;
+        U32 service_mode :1;
+        U32 limited_op :1;
+        U32 rev_limiter :1;
+        U32 standby :1;
+        U32 cranking :1;
 
+        U32 fuel_pump :1;
+        U32 mil :1;
 
-/**
-OutputChannel Tuareg bits
-32 bits
-*/
-typedef enum {
+        U32 syslog_update :1;
+        U32 datalog_update :1;
+        U32 highspeedlog_update :1;
 
-    //error bits
-    TBIT_DECODERCONFIG_ERROR,
-    TBIT_IGNITIONCONFIG_ERROR,
-    TBIT_FUELCONFIG_ERROR,
-    TBIT_SENSORCALIB_ERROR,
-    TBIT_TUAREGCONFIG_ERROR,
+        U32 fatal_error :1;
 
-    TBIT_O2SENSOR_ERROR,
-    TBIT_TPSENSOR_ERROR,
-    TBIT_IATSENSOR_ERROR,
-    TBIT_CLTSENSOR_ERROR,
-    TBIT_VBATSENSOR_ERROR,
-    TBIT_KNOCKSENSOR_ERROR,
-    TBIT_BAROSENSOR_ERROR,
-    TBIT_GEARSENSOR_ERROR,
-    TBIT_MAPSENSOR_ERROR,
-    TBIT_CISENSOR_ERROR,
+        U32 decoder_config_error :1;
+        U32 ignition_config_error :1;
+        U32 tuareg_config_error :1;
+        U32 fueling_config_error :1;
+        U32 sensor_calibration_error :1;
 
-    // status bits
-    TBIT_CRANKING_MODE,
-    TBIT_LIMP_MODE,
-    TBIT_DIAG_MODE,
+        U32 sensor_O2_error :1;
+        U32 sensor_TPS_error :1;
+        U32 sensor_IAT_error :1;
+        U32 sensor_CLT_error :1;
+        U32 sensor_VBAT_error :1;
+        U32 sensor_KNOCK_error :1;
+        U32 sensor_BARO_error :1;
+        U32 sensor_GEAR_error :1;
+        U32 sensor_MAP_error :1;
+        U32 sensor_CIS_error :1;
+     };
 
-    //halt sources
-    TBIT_HSRC_CRASH,
-    TBIT_HSRC_RUN,
-    TBIT_HSRC_SIDESTAND,
-
-    //actors
-    TBIT_ACT_IGN_INH,
-    TBIT_ACT_FUEL_INH,
-    TBIT_ACT_FUEL_PUMP,
-
-    TBIT_COUNT
-
-} tuareg_bits_t;
-
-
-/**
-OutputChannel ignition bits
-*/
-typedef enum {
-
-    IGNBIT_VALID,
-    IGNBIT_DEFAULT_CTRL,
-    IGNBIT_CRANKING_CTRL,
-    IGNBIT_DYNAMIC,
-    IGNBIT_REV_LIMITER,
-    IGNBIT_SEQ_MODE,
-    IGNBIT_COLD_IDLE,
-    IGNBIT_ADVANCE_MAP,
-    IGNBIT_ADVANCE_TPS,
-    IGNBIT_COUNT
-
-} ignition_bits_t;
-
-
-/**
-OutputChannel fueling bits
-*/
-typedef enum {
-
-    FUELBIT_VALID,
-    FUELBIT_SEQ_MODE,
-    FUELBIT_VE_VALID,
-    FUELBIT_VE_MAP,
-    FUELBIT_AFR_VALID,
-    FUELBIT_DC_CLIP,
-    FUELBIT_BEGIN_VALID,
-
-    FUELBIT_ACCELCOMP_ACT,
-    FUELBIT_WARMUPCOMP_ACT,
-    FUELBIT_AFTERSTARTCOMP_ACT,
-
-    FUELBIT_COUNT
-
-} fueling_bits_t;
+} ts_tuareg_bits_t;
 
 
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port);
 
-VU8 ts_comm_bits();
-VU32 ts_tuareg_bits();
-VU16 ts_ignition_bits();
-VU16 ts_fueling_bits();
+void ts_tuareg_bits(ts_tuareg_bits_t * pTarget);
 
 
 #endif // TUNERSTUDIO_OUTCHANNEL_H_INCLUDED

@@ -29,6 +29,8 @@
 
 #define TS_SERVICE_DEBUG
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmultichar"
 
 void ts_debug_features(U32 FeatureID)
 {
@@ -77,7 +79,6 @@ void ts_debug_features(U32 FeatureID)
       break;
   }
 }
-
 
 
 void ts_debug_info(U32 InfoID)
@@ -167,6 +168,7 @@ void ts_debug_info(U32 InfoID)
   }
 }
 
+#pragma GCC diagnostic pop
 
 
 void cli_show_process_data(volatile process_data_t * pImage)
@@ -260,7 +262,7 @@ void cli_show_decoder_interface(volatile Tuareg_decoder_t * pInterface)
     print(TS_PORT, "\r\ncrank acceleration: ");
     printf_F32(TS_PORT, pInterface->crank_acceleration);
 
-    print(TS_PORT, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid timeout: ");
+    print(TS_PORT, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid standstill: ");
     UART_Tx(TS_PORT, (pInterface->outputs.position_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pInterface->outputs.phase_valid? '1' :'0'));
@@ -271,7 +273,7 @@ void cli_show_decoder_interface(volatile Tuareg_decoder_t * pInterface)
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pInterface->outputs.accel_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.timeout? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->outputs.standstill? '1' :'0'));
 
 
 }

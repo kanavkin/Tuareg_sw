@@ -7,6 +7,9 @@
 
 #define DECODER_REQUIRED_CONFIG_VERSION 3
 
+
+//#define DECODER_TIMING_DEBUG
+
 typedef enum {
 
     DSTATE_TIMEOUT,
@@ -29,7 +32,7 @@ typedef struct {
     VU8 rpm_valid :1;
     VU8 accel_valid :1;
 
-    VU8 timeout :1;
+    VU8 standstill :1;
 
 } decoder_output_state_t;
 
@@ -52,7 +55,7 @@ typedef union
         VU8 got_sync :1;
         VU8 lost_sync :1;
         VU8 timer_overflow :1;
-        VU8 timeout :1;
+        VU8 standstill :1;
      };
 
 } decoder_debug_flags_t;
@@ -88,7 +91,7 @@ typedef struct {
     decoder_internal_state_t state;
 
     //decoder_timeout_thrs reflects the configured threshold in timer update events when the timeout shall occur
-    U32 decoder_timeout_thrs;
+    //U32 decoder_timeout_thrs;
 
     //timeout_count indicates how much consecutive timer update events have occurred
     U32 timeout_count;
@@ -105,6 +108,21 @@ typedef struct {
     decoder_cis_state_t cis;
 
 } Tuareg_decoder_t;
+
+
+#ifdef DECODER_TIMING_DEBUG
+typedef struct {
+
+    U32 hw_period_us;
+    U32 hw_timer_val;
+    U32 period_us;
+    U32 rpm;
+
+    decoder_output_state_t out;
+
+} decoder_timing_debug_t;
+#endif // DECODER_TIMING_DEBUG
+
 
 
 

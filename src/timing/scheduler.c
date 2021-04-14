@@ -27,9 +27,15 @@ a timer update event is expected every ~74 min op scheduler operation
 
 #include "uart.h"
 #include "uart_printf.h"
+#include "debug_port_messages.h"
 
 volatile scheduler_t Scheduler;
 
+
+//#define SCHEDULER_DEBUG
+
+#ifdef SCHEDULER_DEBUG
+#warning scheduler debug enabled
 
 #define DEBUG_SET_LEN 100
 #define DEBUG_COMPARE_LEN 100
@@ -39,20 +45,7 @@ volatile scheduler_debug_compare_t debug_compare[DEBUG_COMPARE_LEN];
 VU32 debug_set_cnt =0;
 VU32 debug_compare_cnt =0;
 
-
-
-static inline void set_fuel_ch1(output_pin_t level)
-{
-    set_injector1(level);
-}
-
-static inline void set_fuel_ch2(output_pin_t level)
-{
-    set_injector2(level);
-}
-
-
-
+#endif // SCHEDULER_DEBUG
 
 /******************************************************************************************************************************
 ignition channel 1 - helper functions
@@ -435,11 +428,11 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
                 break;
 
             case SCHEDULER_CH_FUEL1:
-                set_fuel_ch1(Controls);
+                set_injector1(Controls);
                 break;
 
             case SCHEDULER_CH_FUEL2:
-                set_fuel_ch2(Controls);
+                set_injector2(Controls);
                 break;
 
             default:
@@ -463,12 +456,13 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
     //compare value at delay end in ticks
     compare= now  + (Delay_us / SCHEDULER_PERIOD_US);
 
-    ///DEBUG
+    #ifdef SCHEDULER_DEBUG
     debug_set[debug_set_cnt].now= now;
     debug_set[debug_set_cnt].compare= compare;
     debug_set[debug_set_cnt].param_delay_us= Delay_us;
     debug_set[debug_set_cnt].flags.target_state_powered= (Controls == ACTOR_POWERED)? true : false;
     debug_set[debug_set_cnt].flags.param_complete_realloc= Complete_on_realloc;
+    #endif // SCHEDULER_DEBUG
 
     /*
     calculate the appropriate compare value and if the preload feature shall be activated
@@ -495,9 +489,10 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
     __enable_irq();
 
-    ///DEBUG
+    #ifdef SCHEDULER_DEBUG
     debug_set[debug_set_cnt].flags.set_next_cycle_preload= use_preload;
     debug_set[debug_set_cnt].flags.set_curr_cycle= curr_cycle;
+    #endif // SCHEDULER_DEBUG
 
 
     /******************************************************
@@ -508,14 +503,16 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
     {
         case SCHEDULER_CH_IGN1:
 
-            ///DEBUG
+            #ifdef SCHEDULER_DEBUG
             debug_set[debug_set_cnt].flags.param_ch_ign1= true;
+            #endif // SCHEDULER_DEBUG
 
             //reallocation check
             if(Scheduler.state.ign1_alloc == true)
             {
-                ///DEBUG
+                #ifdef SCHEDULER_DEBUG
                 debug_set[debug_set_cnt].flags.reactivated= true;
+                #endif // SCHEDULER_DEBUG
 
                 //collect diagnostic information
                 scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD);
@@ -543,13 +540,16 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
         case SCHEDULER_CH_IGN2:
 
+            #ifdef SCHEDULER_DEBUG
             debug_set[debug_set_cnt].flags.param_ch_ign2= true;
+            #endif // SCHEDULER_DEBUG
 
             //reallocation check
             if(Scheduler.state.ign2_alloc == true)
             {
-                ///DEBUG
+                #ifdef SCHEDULER_DEBUG
                 debug_set[debug_set_cnt].flags.reactivated= true;
+                #endif // SCHEDULER_DEBUG
 
                 //collect diagnostic information
                 scheduler_diag_log_event(SCHEDIAG_ICH2_RETRIGD);
@@ -577,14 +577,16 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
         case SCHEDULER_CH_FUEL1:
 
-            ///DEBUG
+            #ifdef SCHEDULER_DEBUG
             debug_set[debug_set_cnt].flags.param_ch_fuel1= true;
+            #endif // SCHEDULER_DEBUG
 
             //reallocation check
             if(Scheduler.state.fuel1_alloc == true)
             {
-                ///DEBUG
+                #ifdef SCHEDULER_DEBUG
                 debug_set[debug_set_cnt].flags.reactivated= true;
+                #endif // SCHEDULER_DEBUG
 
                 //collect diagnostic information
                 scheduler_diag_log_event(SCHEDIAG_FCH1_RETRIGD);
@@ -593,7 +595,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
                 if(Complete_on_realloc == true)
                 {
                     //complete the last scheduler cycle with its commanded action
-                    set_fuel_ch1(Scheduler.target_controls[Channel]);
+                    set_injector1(Scheduler.target_controls[Channel]);
                 }
 
             }
@@ -613,13 +615,16 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
         case SCHEDULER_CH_FUEL2:
 
+            #ifdef SCHEDULER_DEBUG
             debug_set[debug_set_cnt].flags.param_ch_fuel2= true;
+            #endif // SCHEDULER_DEBUG
 
             //reallocation check
             if(Scheduler.state.fuel2_alloc == true)
             {
-                ///DEBUG
+                #ifdef SCHEDULER_DEBUG
                 debug_set[debug_set_cnt].flags.reactivated= true;
+                #endif // SCHEDULER_DEBUG
 
                 //collect diagnostic information
                 scheduler_diag_log_event(SCHEDIAG_FCH2_RETRIGD);
@@ -628,7 +633,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
                 if(Complete_on_realloc == true)
                 {
                     //complete the last scheduler cycle with its commanded action
-                    set_fuel_ch2(Scheduler.target_controls[Channel]);
+                    set_injector2(Scheduler.target_controls[Channel]);
                 }
 
             }
@@ -648,18 +653,19 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
     }
 
-/*
-    ///DEBUG
+
+    #ifdef SCHEDULER_DEBUG
     if(debug_set_cnt < DEBUG_SET_LEN -1)
     {
         debug_set_cnt++;
     }
     else
     {
-        print(DEBUG_PORT, "\r\nscheduler debug");
+        DebugMsg_Warning("scheduler capture ready");
         return;
     }
-*/
+    #endif // SCHEDULER_DEBUG
+
 }
 
 
@@ -670,7 +676,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
 
 void TIM5_IRQHandler(void)
 {
-    ///DEBUG
+    #ifdef SCHEDULER_DEBUG
     debug_compare[debug_compare_cnt].CNT= TIM5->CNT;
 
     debug_compare[debug_compare_cnt].flags.sr_comp1= (TIM5->SR & TIM_SR_CC1IF)? true : false;
@@ -690,18 +696,18 @@ void TIM5_IRQHandler(void)
     debug_compare[debug_compare_cnt].COMP3= TIM5->CCR3;
     debug_compare[debug_compare_cnt].COMP4= TIM5->CCR4;
 
-/*
-    ///DEBUG
+
     if(debug_compare_cnt < DEBUG_COMPARE_LEN -1)
     {
         debug_compare_cnt++;
     }
     else
     {
-        print(DEBUG_PORT, "\r\nscheduler debug");
+        DebugMsg_Warning("scheduler debug");
         return;
     }
-*/
+
+    #endif // SCHEDULER_DEBUG
 
     if((TIM5->SR & TIM_SR_CC1IF) && (TIM5->DIER & TIM_DIER_CC1IE))
     {
@@ -753,7 +759,7 @@ void TIM5_IRQHandler(void)
         */
 
         //trigger useful action
-        set_fuel_ch1(Scheduler.target_controls[SCHEDULER_CH_FUEL1]);
+        set_injector1(Scheduler.target_controls[SCHEDULER_CH_FUEL1]);
 
         //clean up scheduler channel
         scheduler_reset_fch1();
@@ -773,7 +779,7 @@ void TIM5_IRQHandler(void)
         */
 
         //trigger useful action
-        set_fuel_ch2(Scheduler.target_controls[SCHEDULER_CH_FUEL2]);
+        set_injector2(Scheduler.target_controls[SCHEDULER_CH_FUEL2]);
 
         //clean up scheduler channel
         scheduler_reset_fch2();
@@ -789,7 +795,7 @@ void TIM5_IRQHandler(void)
         TIM5->SR= (U16) ~TIM_SR_UIF;
 
         //this should happen only every ~9,5 h
-        print(DEBUG_PORT, "\r\nscheduler wrap around");
+        DebugMsg_Warning("scheduler wrap around");
     }
 
 }

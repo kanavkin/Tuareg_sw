@@ -33,6 +33,7 @@ volatile Tuareg_decoder_t * init_Decoder()
     {
         //failed to load Decoder Config
         Tuareg.errors.decoder_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Decoder_Setup();
 
         #ifdef DECODER_DEBUG
@@ -44,6 +45,7 @@ volatile Tuareg_decoder_t * init_Decoder()
     {
         //loaded wrong Decoder Config Version
         Tuareg.errors.decoder_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Decoder_Setup();
 
         #ifdef DECODER_DEBUG

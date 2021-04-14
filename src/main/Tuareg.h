@@ -52,26 +52,23 @@ typedef struct _tuareg_flags_t {
     U32 sidestand_sensor_triggered :1;
     U32 overheat_detected :1;
 
-    //is vital actor operation allowed?
-    U32 ignition_inhibit :1;
-    U32 fueling_inhibit :1;
-
-
     //special operation conditions
+    U32 service_mode :1;
     U32 limited_op :1;
     U32 rev_limiter :1;
+    U32 standby :1;
     U32 cranking :1;
-    U32 standstill :1;
 
     /*
     vital actor power state
     */
-
     U32 ignition_coil_1 :1;
     U32 ignition_coil_2 :1;
     U32 fuel_injector_1 :1;
     U32 fuel_injector_2 :1;
     U32 fuel_pump :1;
+
+    U32 mil :1;
 
     /*
     ignition irq source flags
@@ -80,9 +77,11 @@ typedef struct _tuareg_flags_t {
     U32 ign2_irq_flag :1;
 
     /*
-    service mode
+    logging state
     */
-    U32 service_mode :1;
+    U32 syslog_update :1;
+    U32 datalog_update :1;
+    U32 highspeedlog_update :1;
 
 
 } tuareg_flags_t;
@@ -161,6 +160,12 @@ typedef struct _Tuareg_t {
     */
     volatile highspeedlog_flags_t * pHighspeedlog;
 
+    /*
+
+    */
+    VU32 decoder_watchdog;
+    VU32 engine_runtime;
+
 } Tuareg_t;
 
 
@@ -169,28 +174,19 @@ access to global Tuareg data
 */
 extern volatile Tuareg_t Tuareg;
 
+
 void Tuareg_Init();
+void Tuareg_load_config();
 void Tuareg_print_init_message();
 
+
 void Tuareg_update();
-
-void Tuareg_stop_engine();
-
-
-
-void Tuareg_export_diag(VU32 * pTarget);
+void Tuareg_update_run_inhibit();
+void Tuareg_update_limited_op();
+void Tuareg_update_rev_limiter();
+void Tuareg_update_standby();
 
 
-
-void Tuareg_HWINIT_transition();
-void Tuareg_CONFIGLOAD_transition();
-void Tuareg_MODULEINIT_transition();
-void Tuareg_LIMP_transition();
-void Tuareg_SERVICE_transition();
-void Tuareg_HALT_transition();
-void Tuareg_RUNNING_transition();
-void Tuareg_STB_transition();
-void Tuareg_CRANKING_transition();
-void Tuareg_FATAL_transition();
+void Tuareg_deactivate_vital_actors();
 
 #endif // TUAREG_H_INCLUDED

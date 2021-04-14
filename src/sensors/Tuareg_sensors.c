@@ -48,6 +48,7 @@ volatile sensor_interface_t * init_Sensors()
     {
         //failed to load sensor calibration
         Tuareg.errors.sensor_calibration_error= true;
+        Tuareg.flags.limited_op= true;
         Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_LOAD_FAIL);
 
         #ifdef SENSORS_DEBUG_OUTPUT
@@ -58,6 +59,7 @@ volatile sensor_interface_t * init_Sensors()
     {
         //loaded wrong sensor calibration version
         Tuareg.errors.sensor_calibration_error= true;
+        Tuareg.flags.limited_op= true;
         Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_VERSION_MISMATCH);
 
         #ifdef SENSORS_DEBUG_OUTPUT

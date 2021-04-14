@@ -14,50 +14,37 @@ this module covers the ignition hardware layer control
 /******************************************************************************************************************************
 injector hardware control
 ******************************************************************************************************************************/
- void set_injector1_powered()
+void set_injector1_powered()
 {
-    if(Tuareg.flags.fueling_inhibit == false)
-    {
-        //ON
-        gpio_set_pin(GPIOC, 8, PIN_ON);
+    //ON
+    gpio_set_pin(GPIOC, 8, PIN_ON);
 
-        Tuareg.flags.fuel_injector_1 = true;
-
-        highspeedlog_register_injector1_power();
-    }
+    Tuareg.flags.fuel_injector_1 = true;
 }
 
- void set_injector1_unpowered()
+void set_injector1_unpowered()
 {
     // OFF
     gpio_set_pin(GPIOC, 8, PIN_OFF);
 
     Tuareg.flags.fuel_injector_1= false;
-
-    highspeedlog_register_injector1_unpower();
 }
 
- void set_injector2_powered()
+
+void set_injector2_powered()
 {
-    if(Tuareg.flags.fueling_inhibit == false)
-    {
-        //ON
-        gpio_set_pin(GPIOC, 9, PIN_ON);
+    //ON
+    gpio_set_pin(GPIOC, 9, PIN_ON);
 
-        Tuareg.flags.fuel_injector_2= true;
-
-        highspeedlog_register_injector2_power();
-    }
+    Tuareg.flags.fuel_injector_2= true;
 }
 
- void set_injector2_unpowered()
+void set_injector2_unpowered()
 {
     // OFF
     gpio_set_pin(GPIOC, 9, PIN_OFF);
 
     Tuareg.flags.fuel_injector_2= false;
-
-    highspeedlog_register_injector2_unpower();
 }
 
 /******************************************************************************************************************************
@@ -66,13 +53,10 @@ fuel pump hardware control
 
  void set_fuel_pump_powered()
 {
-    if(Tuareg.flags.fueling_inhibit == false)
-    {
-        //ON
-        gpio_set_pin(GPIOC, 10, PIN_ON);
+    //ON
+    gpio_set_pin(GPIOC, 10, PIN_ON);
 
-        Tuareg.flags.fuel_pump= true;
-    }
+    Tuareg.flags.fuel_pump= true;
 }
 
  void set_fuel_pump_unpowered()
@@ -93,10 +77,12 @@ void set_injector1(actor_control_t level)
     if(level == ACTOR_POWERED)
     {
         set_injector1_powered();
+        highspeedlog_register_injector1_power();
     }
     else
     {
         set_injector1_unpowered();
+        highspeedlog_register_injector1_unpower();
     }
 }
 
@@ -106,10 +92,12 @@ void set_injector2(actor_control_t level)
     if(level == ACTOR_POWERED)
     {
         set_injector2_powered();
+        highspeedlog_register_injector2_power();
     }
     else
     {
         set_injector2_unpowered();
+        highspeedlog_register_injector2_unpower();
     }
 }
 

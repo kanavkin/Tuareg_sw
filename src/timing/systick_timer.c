@@ -107,6 +107,9 @@ void SysTick_Handler(void)
 
         //trigger ADC conversion for analog sensors
         sensors_start_regular_group_conversion();
+
+        //calculate new system state
+        Tuareg_update();
     }
 
 
@@ -122,6 +125,7 @@ void SysTick_Handler(void)
 
         //update digital sensor values
         read_digital_sensors();
+
     }
 
 
@@ -187,9 +191,14 @@ void SysTick_Handler(void)
         actions to be taken in irq scope
         */
 
+        //decoder watchdog
+        if(Tuareg.decoder_watchdog < 0xFFFFFFFF)
+        {
+            Tuareg.decoder_watchdog += 1;
+        }
+
         //console
         cli_cyclic_update();
-
     }
 
 

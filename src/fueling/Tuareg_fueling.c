@@ -56,6 +56,8 @@ void init_Fueling()
     if(result != EXEC_OK)
     {
         //failed to load Fueling Config
+        Tuareg.errors.fueling_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Fueling_Config();
 
         Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_FAIL);
@@ -68,6 +70,8 @@ void init_Fueling()
     else if(Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION)
     {
         //loaded wrong Fueling Config Version
+        Tuareg.errors.fueling_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Fueling_Config();
 
         Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_VERSION_MISMATCH);
@@ -87,7 +91,6 @@ void init_Fueling()
 
     //init hw part
     init_fueling_hw();
-
 }
 
 
@@ -109,27 +112,26 @@ void Tuareg_fueling_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.rev_limiter == true))
     {
         //collect diagnostic information
         //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
 
-        //turn off all powered coils
-        set_injector1_unpowered();
-        set_injector2_unpowered();
-        set_fuel_pump_unpowered();
+        //turn off injectors
+        set_injector1(ACTOR_UNPOWERED);
+        set_injector2(ACTOR_UNPOWERED);
 
-        //delete fuel controls
+        //delete fueling controls
         Tuareg_update_fueling_controls();
 
         //nothing to do
         return;
     }
 
-    //check if ignition controls shall be updated
+    //check if fueling controls shall be updated
     if(Tuareg.pDecoder->crank_position == fueling_controls_update_pos)
     {
-        //update ignition controls
+        //update fueling controls
         Tuareg_update_fueling_controls();
     }
 

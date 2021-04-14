@@ -71,6 +71,7 @@ void init_Ignition()
     {
         //failed to load Ignition Config
         Tuareg.errors.ignition_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
@@ -84,6 +85,7 @@ void init_Ignition()
     {
         //loaded wrong Ignition Config Version
         Tuareg.errors.ignition_config_error= true;
+        Tuareg.flags.limited_op= true;
         load_essential_Ignition_Config();
 
         Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
@@ -126,12 +128,12 @@ void Tuareg_ignition_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true))
+    if(Tuareg.flags.run_inhibit == true)
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
 
-        //turn off all coils
+        //turn off all ignition actors
         set_coil1_unpowered();
         set_coil2_unpowered();
 
@@ -244,7 +246,7 @@ void Tuareg_ignition_irq_handler()
     /**
     check vital and operational preconditions
     */
-//    if( (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true) || (Tuareg.ignition_controls.flags.valid == false) || (Tuareg.ignition_controls.flags.dynamic_controls == false) )                                                                                                                                                                                                                                  )
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.ignition_controls.flags.valid == false))
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_IRQ3H_PRECOND_FAIL);

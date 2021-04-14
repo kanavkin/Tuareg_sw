@@ -248,8 +248,6 @@ void Tuareg_update_console()
         break;
 
 
-
-
     case 'P':
 
         /**
@@ -466,7 +464,8 @@ inline void cli_showPage(U32 Page)
     }
 }
 
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmultichar"
 
 /*
 
@@ -507,7 +506,6 @@ inline void cli_checkPermissions(U32 Value)
 
     case 'lock':
         Tuareg_console.cli_permissions.burn_permission = false;
-        Tuareg_console.cli_permissions.legacy_mod_permission = false;
         Tuareg_console.cli_permissions.calib_mod_permission = false;
         Tuareg_console.cli_permissions.decoder_mod_permission = false;
         Tuareg_console.cli_permissions.ignition_mod_permission = false;
@@ -521,7 +519,7 @@ inline void cli_checkPermissions(U32 Value)
     }
 }
 
-
+#pragma GCC diagnostic pop
 
 /**
 this function implements the TS interface binary config page read command
@@ -564,8 +562,14 @@ void cli_cyclic_update()
 {
     sub_VU32(&(Tuareg_console.ts_cmd_watchdog), 1);
 
-    //VU8 SECL timer simply wraps around at 255
-    Tuareg_console.secl++;
+    if(Tuareg_console.secl < 255)
+    {
+        Tuareg_console.secl++;
+    }
+    else
+    {
+        Tuareg_console.secl= 1;
+    }
 }
 
 

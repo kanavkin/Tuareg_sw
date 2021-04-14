@@ -14,20 +14,13 @@ this module covers the ignition hardware layer
 
 /******************************************************************************************************************************
 ignition actuator control - helper functions
-
-- the coils will not be powered, if ignition operation is not permitted
 ******************************************************************************************************************************/
 void set_coil1_powered()
 {
-    if(Tuareg.flags.ignition_inhibit == false)
-    {
-        //ON
-        gpio_set_pin(GPIOC, 6, PIN_ON);
+    //ON
+    gpio_set_pin(GPIOC, 6, PIN_ON);
 
-        Tuareg.flags.ignition_coil_1= true;
-
-        highspeedlog_register_coil1_power();
-    }
+    Tuareg.flags.ignition_coil_1= true;
 }
 
 void set_coil1_unpowered()
@@ -36,21 +29,15 @@ void set_coil1_unpowered()
     gpio_set_pin(GPIOC, 6, PIN_OFF);
 
     Tuareg.flags.ignition_coil_1= false;
-
-    highspeedlog_register_coil1_unpower();
 }
+
 
 void set_coil2_powered()
 {
-    if(Tuareg.flags.ignition_inhibit == false)
-    {
-        //ON
-        gpio_set_pin(GPIOC, 7, PIN_ON);
+    //ON
+    gpio_set_pin(GPIOC, 7, PIN_ON);
 
-        Tuareg.flags.ignition_coil_2= true;
-
-        highspeedlog_register_coil2_power();
-    }
+    Tuareg.flags.ignition_coil_2= true;
 }
 
 void set_coil2_unpowered()
@@ -59,25 +46,18 @@ void set_coil2_unpowered()
     gpio_set_pin(GPIOC, 7, PIN_OFF);
 
     Tuareg.flags.ignition_coil_2= false;
-
-    highspeedlog_register_coil2_unpower();
 }
 
 
 /******************************************************************************************************************************
 ignition irq control - helper function
-
-- no irq will be triggered, if ignition operation is not permitted
-
 ******************************************************************************************************************************/
 void trigger_ignition_irq()
 {
-    if(Tuareg.flags.ignition_inhibit == false)
-    {
-        ///trigger sw irq
-        EXTI->SWIER= EXTI_SWIER_SWIER3;
-    }
+    ///trigger sw irq
+    EXTI->SWIER= EXTI_SWIER_SWIER3;
 }
+
 
 
 /******************************************************************************************************************************
@@ -91,10 +71,12 @@ void set_ignition_ch1(actor_control_t level)
     if(level == ACTOR_POWERED)
     {
         set_coil1_powered();
+        highspeedlog_register_coil1_power();
     }
     else
     {
         set_coil1_unpowered();
+        highspeedlog_register_coil1_unpower();
 
         //prepare irq
         Tuareg.flags.ign1_irq_flag= true;
@@ -108,10 +90,12 @@ void set_ignition_ch2(actor_control_t level)
     if(level == ACTOR_POWERED)
     {
         set_coil2_powered();
+        highspeedlog_register_coil2_power();
     }
     else
     {
         set_coil2_unpowered();
+        highspeedlog_register_coil2_unpower();
 
         //prepare irq
         Tuareg.flags.ign2_irq_flag= true;
@@ -140,10 +124,6 @@ void init_ignition_hw()
     GPIO_configure(GPIOC, 6, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 7, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
-    //this will not trigger the ignition irq right away
-    set_coil1_unpowered();
-    set_coil2_unpowered();
-
     //sw irq on exti line 3
     EXTI->IMR |= EXTI_IMR_MR3;
 
@@ -152,6 +132,7 @@ void init_ignition_hw()
     NVIC_ClearPendingIRQ(EXTI3_IRQn);
     NVIC_EnableIRQ(EXTI3_IRQn);
 
+    //this will not trigger the ignition irq right away
     set_coil1_unpowered();
     set_coil2_unpowered();
 }

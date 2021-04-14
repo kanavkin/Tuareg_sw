@@ -67,12 +67,18 @@ API functions
 void request_service_mode()
 {
     //enter service only if the engine has been halted and the crank has stopped spinning
-    if(Tuareg.flags.standstill == false)
+    if(Tuareg.flags.standby == false)
     {
         return;
     }
 
     Tuareg.flags.service_mode= true;
+
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_SERVICE_ENABLED);
+
+    #ifdef SERVICE_DEBUG_OUTPUT
+    DebugMsg_Warning("Entering Service Mode");
+    #endif // SERVICE_DEBUG_OUTPUT
 }
 
 
@@ -223,7 +229,7 @@ void activate_fuel_pump(U32 Timeout_s)
     Service_mgr.flags.fuel_pump_control= true;
 
     //command fuel hardware
-    set_fuel_pump_powered();
+    set_fuel_pump(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_FUEL_PUMP_BEGIN);
@@ -237,7 +243,7 @@ void deactivate_fuel_pump()
         Service_mgr.fuel_pump_timeout= 0;
 
         //command fuel hardware
-        set_fuel_pump_unpowered();
+        set_fuel_pump(ACTOR_POWERED);
 
         #ifdef SERVICE_VERBOSE_OUTPUT
         Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_FUEL_PUMP);
@@ -319,7 +325,7 @@ void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     Service_mgr.flags.injector1_control= true;
 
     //command fuel hardware
-    set_injector1_powered();
+    set_injector1(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_BEGIN);
@@ -329,7 +335,7 @@ void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_injector1()
 {
-    set_injector1_unpowered();
+    set_injector1(ACTOR_UNPOWERED);
     Service_mgr.injector1_on_remain_ms= 0;
     Service_mgr.flags.injector1_control= false;
 
@@ -347,7 +353,7 @@ void injector1_periodic_update(VU32 now)
         //check if the actor has been powered
         if(Tuareg.flags.fuel_injector_1 == true)
         {
-            set_injector1_unpowered();
+            set_injector1(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.injector1_on_remain_ms), Service_mgr.injector1_on_ms);
@@ -368,7 +374,7 @@ void injector1_periodic_update(VU32 now)
             //actor has been off
 
             //command fuel hardware
-            set_injector1_powered();
+            set_injector1(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.injector1_toggle= now + Service_mgr.injector1_on_ms;
@@ -441,7 +447,7 @@ void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     Service_mgr.flags.injector2_control= true;
 
     //command fuel hardware
-    set_injector2_powered();
+    set_injector2(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR2_BEGIN);
@@ -451,7 +457,7 @@ void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_injector2()
 {
-    set_injector2_unpowered();
+    set_injector2(ACTOR_UNPOWERED);
     Service_mgr.injector2_on_remain_ms= 0;
     Service_mgr.flags.injector2_control= false;
 
@@ -468,7 +474,7 @@ void injector2_periodic_update(VU32 now)
         //check if the actor has been powered
         if(Tuareg.flags.fuel_injector_2 == true)
         {
-            set_injector2_unpowered();
+            set_injector2(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.injector2_on_remain_ms), Service_mgr.injector2_on_ms);
@@ -476,7 +482,7 @@ void injector2_periodic_update(VU32 now)
             //check if the commanded on time has been reached
             if(Service_mgr.injector2_on_remain_ms == 0)
             {
-                deactivate_injector2();
+                set_injector2(ACTOR_UNPOWERED);
             }
             else
             {
@@ -489,7 +495,7 @@ void injector2_periodic_update(VU32 now)
             //actor has been off
 
             //command hardware
-            set_injector2_powered();
+            set_injector2(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.injector2_toggle= now + Service_mgr.injector2_on_ms;

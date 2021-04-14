@@ -4,26 +4,59 @@
 #include "uart.h"
 
 
-#define TUAREG_SETUP_SIZE 44
+#define TUAREG_SETUP_SIZE 53
+
+
+/**
+Tuareg_Setup_flags_t
+*/
+typedef union
+{
+     U8 all_flags;
+
+     struct
+     {
+        U8 CrashSensor_trig_high :1;
+        U8 RunSwitch_trig_high :1;
+        U8 SidestandSensor_trig_high :1;
+        U8 Halt_on_SidestandSensor :1;
+     };
+
+} Tuareg_Setup_flags_t;
+
 
 /***************************************************************************************************************************************************
-*   decoder configuration page
+*   Tuareg main configuration page
 ***************************************************************************************************************************************************/
 typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
 
     U8 Version;
 
-    //rev limiter function
-    U16 max_rpm;
-
-    //advance angles corresp. to crank_position_t
+    //advance angles corresponding to crank_position_t
     VU16 trigger_advance_map[CRK_POSITION_COUNT];
 
     //dynamic delay introduced by VR interface schematics (between key passing sensor and decoder event generation)
     U16 decoder_delay_us;
 
+    //rev limiter function
+    U16 max_rpm;
+    U16 limp_max_rpm;
+
+    //overheat protection
+    U16 overheat_thres_K;
+
+    //standby timeout
+    U8 standby_timeout_s;
+
+    //rpm until cranking features are activated
+    U16 cranking_end_rpm;
+
     //conversion factors for ground speed calculation
     VF32 gear_ratio[GEAR_COUNT];
+
+
+    //all boolean elements
+    volatile Tuareg_Setup_flags_t flags;
 
 } Tuareg_Setup_t;
 

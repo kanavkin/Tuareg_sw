@@ -53,6 +53,12 @@ void decoder_start_timer()
     //switch decoder mode to discontinuous
     decoder_set_timer_continuous_mode_off();
 
+    Decoder_hw.current_timer_value= 0;
+    Decoder_hw.prev1_timer_value= 0;
+    Decoder_hw.prev2_timer_value= 0;
+    Decoder_hw.captured_positions_cont= 0;
+
+
     //enable overflow interrupt
     TIM9->DIER |= TIM_DIER_UIE;
 
@@ -409,12 +415,22 @@ VU32 decoder_get_timestamp()
 void decoder_set_timer_continuous_mode_on()
 {
     Decoder_hw.state.timer_continuous_mode= true;
+
+    Decoder_hw.current_timer_value= 0;
+    Decoder_hw.prev1_timer_value= 0;
+    Decoder_hw.prev2_timer_value= 0;
+    Decoder_hw.captured_positions_cont= 0;
 }
 
 
 void decoder_set_timer_continuous_mode_off()
 {
     Decoder_hw.state.timer_continuous_mode= false;
+
+    Decoder_hw.current_timer_value= 0;
+    Decoder_hw.prev1_timer_value= 0;
+    Decoder_hw.prev2_timer_value= 0;
+    Decoder_hw.captured_positions_cont= 0;
 }
 
 
@@ -454,7 +470,7 @@ void EXTI0_IRQHandler(void)
 
     Decoder_hw.state.timer_reset_req= false;
 
-    //update the timer values
+    //update the continuous timer value
     Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
     Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
     Decoder_hw.current_timer_value= timer_buffer;

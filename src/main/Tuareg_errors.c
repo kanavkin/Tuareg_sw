@@ -38,8 +38,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     __disable_irq();
 
     Tuareg.errors.fatal_error= true;
-    Tuareg.flags.fueling_inhibit= true;
-    Tuareg.flags.ignition_inhibit= true;
+    Tuareg.flags.run_inhibit= true;
 
     Syslog_Error(Id, Location);
 

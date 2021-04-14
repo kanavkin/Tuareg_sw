@@ -8,22 +8,22 @@
 #include "Tuareg_ignition.h"
 #include "Tuareg_ignition_controls.h"
 
-
-typedef struct
+typedef union
 {
+     U8 all_flags;
 
-    U8 legacy_mod_permission :1;
+     struct
+     {
+        U8 calib_mod_permission :1;
+        U8 ignition_mod_permission :1;
+        U8 fueling_mod_permission :1;
+        U8 decoder_mod_permission :1;
+        U8 tsetup_mod_permission :1;
 
-    U8 calib_mod_permission :1;
-    U8 ignition_mod_permission :1;
-    U8 fueling_mod_permission :1;
-    U8 decoder_mod_permission :1;
-    U8 tsetup_mod_permission :1;
+        U8 burn_permission :1;
+     };
 
-    U8 burn_permission :1;
-
-} cli_permission_t ;
-
+} cli_permission_flags_t;
 
 
 #define TS_CMD_WATCHDOG_S 3
@@ -38,7 +38,7 @@ typedef struct _Tuareg_console_t
 
     //CLI variables
     U8 active_cmd;
-    cli_permission_t cli_permissions;
+    cli_permission_flags_t cli_permissions;
 
 } Tuareg_console_t ;
 

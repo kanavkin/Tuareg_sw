@@ -28,22 +28,8 @@ const F32 cDefault_AFR_target= 14.7;
 
 
 /****************************************************************************************************************************************
-*   cranking mode
-****************************************************************************************************************************************/
-
-volatile bool afterstart_begin_triggered= false;
-
-void Tuareg_notify_fueling_cranking_end()
-{
-    afterstart_begin_triggered= true;
-}
-
-
-
-/****************************************************************************************************************************************
 *   Fueling controls update
 ****************************************************************************************************************************************/
-
 
 /**
 calculates the fueling parameters according to the current system state and run mode
@@ -55,91 +41,101 @@ void Tuareg_update_fueling_controls()
 {
     volatile fueling_control_t * pTarget= &(Tuareg.fueling_controls);
 
+
     //check operational preconditions
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standstill == true))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true))
     {
-        //delete old controls
+        //clean controls
         invalid_fueling_controls(pTarget);
         return;
     }
 
-    //check for sequential / batch mode capabilities
-    pTarget->flags.sequential_mode= (Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid);
 
-
-    /**
-    VE
-    */
-    update_volumetric_efficiency(pTarget);
-
-    //check if update has been successful
-    if(pTarget->flags.VE_valid == false)
+    //check if the engine has finished cranking
+    if(Tuareg.flags.cranking == false)
     {
-/// TODO (oli#3#): implement a ve estimation calculation for LIMP mode based on crank rpm
-
-        //use default value
-        pTarget->VE_pct= cDefault_VE_pct;
-    }
+        //check for sequential / batch mode capabilities
+        pTarget->flags.sequential_mode= (Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid);
 
 
-    /**
-    air density
-    calculation based on MAP and IAT values from process data
-    */
-    update_air_density(pTarget);
+        /**
+        VE
+        calculation will fail in limp mode
+        */
+        update_volumetric_efficiency(pTarget);
+
+        //check if update has been successful
+        if(pTarget->flags.VE_valid == false)
+        {
+    /// TODO (oli#3#): implement a ve estimation calculation for LIMP mode based on crank rpm
+
+            //use default value
+            pTarget->VE_pct= cDefault_VE_pct;
+        }
 
 
-    /**
-    AFR
-    */
-    if(Tuareg.flags.limited_op == false)
-    {
+        /**
+        air density
+        calculation based on MAP and IAT values from process data
+        */
+        update_air_density(pTarget);
+
+
+        /**
+        AFR
+        calculation will fail in limp mode
+        */
         update_AFR_target(pTarget);
-    }
 
-    //check if update has been successful
-    if(pTarget->flags.AFR_target_valid == false)
-    {
-        //use default value
-        pTarget->AFR_target= cDefault_AFR_target;
-    }
+        //check if update has been successful
+        if(pTarget->flags.AFR_target_valid == false)
+        {
+            //use default value
+            pTarget->AFR_target= cDefault_AFR_target;
+        }
 
+        /**
+        base fuel mass
+        calculation based on the calculated VE and AFR values
+        in case of fueling config error the default value for cylinder volume applies
+        */
+        update_base_fuel_mass(pTarget);
 
-    /**
-    base fuel mass
-    */
+        /**
+        after start compensation
+        feature will not be activated in limp mode
+        */
+        update_fuel_mass_afterstart_correction(pTarget);
 
-    //check if engine is cranking
-    if(Tuareg.flags.cranking == true)
-    {
-        //use base fuel mass from cranking table
-        update_base_fuel_mass_cranking(pTarget);
+        /**
+        warm up compensation
+        feature will not be activated in limp mode
+        */
+        update_fuel_mass_warmup_correction(pTarget);
+
+        /**
+        load transient compensation
+        feature will not be activated in limp mode
+        */
+        update_fuel_mass_accel_correction(pTarget);
+
     }
     else
     {
-        //calculation based on the calculated VE and AFR values
-        update_base_fuel_mass(pTarget);
+        //start over with clean controls
+        invalid_fueling_controls(pTarget);
+
+        //use base fuel mass from cranking table
+        update_base_fuel_mass_cranking(pTarget);
     }
 
-    /**
-    warm up compensation
-    */
-    update_fuel_mass_warmup_correction(pTarget);
 
     /**
-    load transient compensation
-    */
-    update_fuel_mass_accel_correction(pTarget);
-
-    /**
-    after start compensation
-    */
-    update_fuel_mass_afterstart_correction(pTarget);
-
-    /**
-    carry out all required corrections on target fuel mass
+    apply all activated corrections
+    in limp mode the target fuel mass will be simply the base fuel mass
     */
     update_target_fuel_mass(pTarget);
+
 
     /**
     injector dead time
@@ -147,6 +143,7 @@ void Tuareg_update_fueling_controls()
     update_injector_deadtime(pTarget);
 
 
+    //check if sequential mode is active
     if(pTarget->flags.sequential_mode == true)
     {
         /**
@@ -194,7 +191,7 @@ clears the given fueling controls
 */
 void invalid_fueling_controls(volatile fueling_control_t * pTarget)
 {
-    pTarget->AFR_target= 0;
+    pTarget->AFR_target= cDefault_AFR_target;
     pTarget->VE_pct= 0;
     pTarget->air_density= 0;
     pTarget->target_fuel_mass_ug= 0;
@@ -212,14 +209,9 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
 
 
 
-
-
-
 /****************************************************************************************************************************************
 *   fueling controls update helper functions - VE
 ****************************************************************************************************************************************/
-
-
 
 /**
 decides from which table to look up the current volumetric efficiency
@@ -325,7 +317,7 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
     pTarget->flags.AFR_target_valid= false;
 
     //check preconditions - engine speed is known and AFR tables are available and TPS figure is valid
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_TPS_error == true))
+    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.flags.limited_op == true))
     {
         return;
     }
@@ -403,8 +395,8 @@ any new trigger condition will enlarge the fuel mass compensation interval
 void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 {
     //check preconditions
-    if((Tuareg.flags.limited_op == true) ||
-       (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.load_transient_comp_enabled == false) || (Tuareg.flags.cranking == true))
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.fueling_config_error == true) ||
+        (Fueling_Setup.features.load_transient_comp_enabled == false))
     {
         pTarget->flags.accel_comp_active= false;
         pTarget->fuel_mass_accel_corr_cycles_left= 0;
@@ -440,6 +432,8 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
     */
     if(pTarget->flags.accel_comp_active == false)
     {
+        pTarget->fuel_mass_accel_corr_cycles_left= 0;
+        pTarget->fuel_mass_accel_corr_pct= 0.0;
         return;
     }
 
@@ -466,52 +460,59 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 /**
 calculate the fuel mass compensation factor for engine warmup
 */
+
+const U32 cAfterstart_begin_thres= 3;
+const U32 cAfterstart_thres= 50;
+
 void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget)
 {
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.afterstart_corr_enabled == false) || (Tuareg.flags.cranking == true))
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.afterstart_corr_enabled == false))
     {
         pTarget->flags.afterstart_comp_active= false;
         pTarget->fuel_mass_afterstart_corr_pct= 0.0;
         pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
-
-        //discard the after start trigger event
-        afterstart_begin_triggered= false;
-
         return;
     }
 
-    //check if the after start compensation shall be enabled now
-    if((pTarget->flags.afterstart_comp_active == false) && (afterstart_begin_triggered == true))
+    //check if the after start compensation is already enabled
+    if(pTarget->flags.afterstart_comp_active == true)
     {
-        pTarget->flags.afterstart_comp_active= true;
-        pTarget->fuel_mass_afterstart_corr_pct= Fueling_Setup.afterstart_comp_pct;
-        pTarget->fuel_mass_afterstart_corr_cycles_left= Fueling_Setup.afterstart_comp_cycles;
-    }
+        //check if the after start cycle counter has expired
+        if(pTarget->fuel_mass_afterstart_corr_cycles_left == 0)
+        {
+            //after start enrichment counter expired - deactivate
+            pTarget->flags.afterstart_comp_active= false;
+            pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+        }
+        else
+        {
+            //after start compensation is still active
+            pTarget->flags.afterstart_comp_active= true;
+            pTarget->fuel_mass_afterstart_corr_pct= Fueling_Setup.afterstart_comp_pct;
+            pTarget->fuel_mass_afterstart_corr_cycles_left -= 1;
+        }
 
-    //discard any possibly pending after start trigger events
-    afterstart_begin_triggered= false;
-
-    /**
-    check if after start compensation is (now/still) active
-    */
-    if(pTarget->flags.afterstart_comp_active == false)
-    {
-        return;
-    }
-
-
-    //check if the after start cycle counter has not yet expired
-    if(pTarget->fuel_mass_afterstart_corr_cycles_left > 0)
-    {
-        pTarget->fuel_mass_afterstart_corr_cycles_left -= 1;
     }
     else
     {
-        //expired!
-        pTarget->flags.afterstart_comp_active= false;
-        pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+        //check if the engine has just started
+        if((Tuareg.engine_runtime > cAfterstart_begin_thres) && (Tuareg.engine_runtime < cAfterstart_thres))
+        {
+            //ase activated
+            pTarget->flags.afterstart_comp_active= true;
+            pTarget->fuel_mass_afterstart_corr_pct= Fueling_Setup.afterstart_comp_pct;
+            pTarget->fuel_mass_afterstart_corr_cycles_left= Fueling_Setup.afterstart_comp_cycles;
+        }
+        else
+        {
+            //ase disabled
+            pTarget->flags.afterstart_comp_active= false;
+            pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+            pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
+        }
     }
+
 }
 
 
@@ -522,8 +523,8 @@ calculate the fuel mass compensation factor for engine warmup
 void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 {
     //check preconditions
-    if((Tuareg.flags.limited_op == true) ||
-       (Tuareg.errors.sensor_CLT_error == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.warmup_comp_enabled == false) || (Tuareg.flags.cranking == true))
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_CLT_error == true) ||
+        (Fueling_Setup.features.warmup_comp_enabled == false))
     {
         pTarget->flags.warmup_comp_active= false;
         pTarget->fuel_mass_warmup_corr_pct= 0.0;
@@ -531,6 +532,7 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
     }
 
     //look up the correction factor and export
+    pTarget->flags.warmup_comp_active= true;
     pTarget->fuel_mass_warmup_corr_pct= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
 }
 
@@ -548,11 +550,20 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     VF32 compensation_pct= 0.0;
     VU32 target_fuel_mass_ug;
 
+
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true))
     {
+        //copy base fuel mass only
         pTarget->target_fuel_mass_ug= (VU32) pTarget->base_fuel_mass_ug;
         return;
+    }
+
+
+    //check if after start compensation is active
+    if(pTarget->flags.afterstart_comp_active == true)
+    {
+        compensation_pct += pTarget->fuel_mass_afterstart_corr_pct;
     }
 
     //check if warm up enrichment is active
@@ -567,11 +578,6 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
         compensation_pct += pTarget->fuel_mass_accel_corr_pct;
     }
 
-    //check if after start compensation is active
-    if(pTarget->flags.afterstart_comp_active == true)
-    {
-        compensation_pct += pTarget->fuel_mass_afterstart_corr_pct;
-    }
 
     //check if compensation is within interval
     if(compensation_pct > Fueling_Setup.max_fuel_mass_comp_pct)

@@ -219,13 +219,13 @@ VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
 ***************************************************************************************************************************************************/
 exec_result_t store_ignDwellTable()
 {
-    return store_t2D_data(&(ignDwellTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
+    return store_t2D_data(&(ignDwellTable.data), EEPROM_IGNITION_DWELLTABLE_BASE);
 }
 
 
 void show_ignDwellTable(USART_TypeDef * Port)
 {
-    print(Port, "\r\n\r\nDwell table (x100 us):\r\n");
+    print(Port, "\r\n\r\nDwell table (x48 us):\r\n");
 
     show_t2D_data(TS_PORT, &(ignDwellTable.data));
 }

@@ -167,6 +167,7 @@ int main(void)
         if(Tuareg.errors.fatal_error == true)
         {
             //FATAL mode to be implemented soon ...
+            DebugMsg_Error("fatal mode");
             break;
         }
 
@@ -178,12 +179,12 @@ int main(void)
             Tuareg.pTimer->flags.cycle_20_ms= false;
 
             //provide MAP value for the stalled engine
-            if(Tuareg.flags.standstill == true)
+            if(Tuareg.pDecoder->outputs.standstill == true)
             {
                 //start MAP sensor conversion
                 adc_start_injected_group(SENSOR_ADC);
 
-                Tuareg_update_process_data(&(Tuareg.process));
+                Tuareg_update_process_data();
             }
 
             //print debug messages from decoder
@@ -192,15 +193,14 @@ int main(void)
 
 
         /**
-        4 Hz actions
-        */
-        if( Tuareg.pTimer->flags.cycle_250_ms == true)
+        10 Hz actions
+        if( Tuareg.pTimer->flags.cycle_100_ms == true)
         {
-            Tuareg.pTimer->flags.cycle_250_ms= false;
+            Tuareg.pTimer->flags.cycle_100_ms= false;
 
-            //calculate new system state
-            Tuareg_update();
+
         }
+        */
 
 
         /**
@@ -246,6 +246,7 @@ void EXTI2_IRQHandler(void)
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
+    /*
     //collect diagnostic information
     //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
 
@@ -266,9 +267,10 @@ void EXTI2_IRQHandler(void)
 
         return;
     }
+    */
 
-
-    //check for crank speed information
+    //reset decoder watchdog
+    Tuareg.decoder_watchdog= 0;
 
 
     //check if process data shall be updated

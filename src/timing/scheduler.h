@@ -6,16 +6,10 @@
 
 #define SCHEDULER_PERIOD_US 8
 
-//we are using a 32 bit timer now
-//#define SCHEDULER_MAX_PERIOD_US (U32) ((0xFFFFFFFF * SCHEDULER_PERIOD_US) -1)
-
 //witch maximum interval will make sense? the technically maximum possible one is not needed
 #define SCHEDULER_MAX_PERIOD_US 500000
-
 #define SCHEDULER_MIN_PERIOD_US 8
 
-//scheduler watchdog
-#define SCHEDULER_WATCHDOG_RESET_VALUE 250
 
 
 typedef enum {
@@ -27,7 +21,6 @@ typedef enum {
     SCHEDULER_CH_COUNT
 
 } scheduler_channel_t;
-
 
 
 typedef union
@@ -50,12 +43,10 @@ typedef struct _scheduler_t {
     actor_control_t target_controls[SCHEDULER_CH_COUNT];
     scheduler_state_t state;
 
-   // VU8 watchdogs[SCHEDULER_CH_COUNT];
-
 } scheduler_t;
 
 
-
+#ifdef SCHEDULER_DEBUG
 
 
 typedef struct _scheduler_debug_set_flags_t
@@ -121,6 +112,7 @@ typedef struct _scheduler_debug_compare_t {
 
 } scheduler_debug_compare_t;
 
+#endif // SCHEDULER_DEBUG
 
 extern void scheduler_allocate_ign1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
 extern void scheduler_reset_ign1();
@@ -133,10 +125,9 @@ extern void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, vo
 extern void scheduler_reset_fch2();
 
 
-
 void init_scheduler();
+
 void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls, VU32 Delay_us, volatile bool Complete_on_realloc);
 void scheduler_reset_channel(scheduler_channel_t Channel);
-void scheduler_update_watchdogs();
 
 #endif // SCHEDULER_H_INCLUDED

@@ -19,6 +19,9 @@
 #include "Tuareg.h"
 
 
+const U32 cDynamic_min_rpm= 500;
+
+
 
 /****************************************************************************************************************************************
 *   Ignition controls update
@@ -33,32 +36,16 @@ fallback strategy is to use default_ignition_controls
 void Tuareg_update_ignition_controls()
 {
     volatile ignition_controls_t * pTarget= &(Tuareg.ignition_controls);
-    exec_result_t result;
 
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_CALLS);
 
     //check operational preconditions
-    if(Tuareg.flags.run_inhibit == true)
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true))
     {
         //do not provide valid ignition controls
         default_ignition_controls(pTarget);
         pTarget->flags.valid= false;
-        return;
-    }
-
-    //check if engine is cranking
-    if((Tuareg.flags.cranking == true) &&
-       (Ignition_Setup.flags.cranking_controls_enabled == true) && (Tuareg.errors.ignition_config_error == false) && (Tuareg.flags.limited_op == false))
-    {
-        cranking_ignition_controls(pTarget);
-        return;
-    }
-
-    //check preconditions for ignition controls calculations
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.flags.standstill == true) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
-    {
-        default_ignition_controls(pTarget);
         return;
     }
 
@@ -73,23 +60,41 @@ void Tuareg_update_ignition_controls()
         return;
     }
 
+    //check preconditions for ignition controls calculations
+    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
+    {
+        default_ignition_controls(pTarget);
+        return;
+    }
+
+    //check if engine is cranking
+    if((Tuareg.flags.cranking == true) && (Ignition_Setup.flags.cranking_controls_enabled == true))
+    {
+        cranking_ignition_controls(pTarget);
+        return;
+    }
+
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_DYN);
 
-    //check if we can proceed with dynamic ignition
+    //check if dynamic ignition is enabled
     if(Ignition_Setup.flags.dynamic_controls_enabled == true)
     {
         dynamic_ignition_controls(pTarget);
+
+        //check if dynamic ignition calculation has succeeded
+        if(pTarget->flags.valid == false)
+        {
+            //handle failure
+            default_ignition_controls(pTarget);
+
+            //collect diagnostic information
+            ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_DYN_FAIL);
+        }
     }
-
-    //check if dynamic ignition calculation has succeeded
-    if(pTarget->flags.valid == false)
+    else
     {
-        //handle failure
         default_ignition_controls(pTarget);
-
-        //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_DYN_FAIL);
     }
 
 }
@@ -180,7 +185,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     pTarget->flags.all_flags= 0;
 
     //check precondition - min rpm
-    if(Tuareg.pDecoder->crank_rpm < Ignition_Setup.dynamic_min_rpm)
+    if(Tuareg.pDecoder->crank_rpm < cDynamic_min_rpm)
     {
         return;
     }

@@ -38,8 +38,6 @@ void load_essential_Tuareg_Setup()
 {
     Tuareg_Setup.Version= 0;
 
-    Tuareg_Setup.max_rpm= TUAREG_SETUP_DEFAULT_MAX_RPM;
-
     /**
     trigger position map initialization
     */
@@ -54,6 +52,15 @@ void load_essential_Tuareg_Setup()
 
     Tuareg_Setup.decoder_delay_us= TUAREG_SETUP_DEFAULT_DECODER_DELAY;
 
+    Tuareg_Setup.max_rpm= 0;
+    Tuareg_Setup.limp_max_rpm= TUAREG_SETUP_DEFAULT_MAX_RPM;
+
+    Tuareg_Setup.overheat_thres_K= 100 + cKelvin_offset;
+
+    Tuareg_Setup.standby_timeout_s= 5;
+
+    Tuareg_Setup.cranking_end_rpm= 800;
+
     Tuareg_Setup.gear_ratio[GEAR_1]= 0.0;
     Tuareg_Setup.gear_ratio[GEAR_2]= 0.0;
     Tuareg_Setup.gear_ratio[GEAR_3]= 0.0;
@@ -61,7 +68,7 @@ void load_essential_Tuareg_Setup()
     Tuareg_Setup.gear_ratio[GEAR_5]= 0.0;
     Tuareg_Setup.gear_ratio[GEAR_NEUTRAL]= 0.0;
 
-
+    Tuareg_Setup.flags.all_flags=0;
 
 }
 
@@ -88,12 +95,6 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     print(Port, "\r\nVersion: ");
     printf_U(Port, Tuareg_Setup.Version, NO_PAD | NO_TRAIL);
 
-
-    //max_rpm
-    print(Port, "\r\nrev limiter (rpm): ");
-    printf_U(Port, Tuareg_Setup.max_rpm, NO_PAD);
-
-
     /*
     trigger_advance_map[CRK_POSITION_COUNT]
     */
@@ -109,6 +110,23 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     print(Port, "\r\nDecoder Delay (us): ");
     printf_U(Port, Tuareg_Setup.decoder_delay_us, NO_PAD);
 
+    //max_rpm
+    print(Port, "\r\nrev limiter turn on rpm in normal and limp mode: ");
+    printf_U(Port, Tuareg_Setup.max_rpm, NO_PAD);
+    printf_U(Port, Tuareg_Setup.limp_max_rpm, NO_PAD);
+
+    //overheat protection
+    print(Port, "\r\noverheat protection turn on temperature (K): ");
+    printf_U(Port, Tuareg_Setup.overheat_thres_K, NO_PAD);
+
+    //standby timeout
+    print(Port, "\r\ntime out for standby (s): ");
+    printf_U(Port, Tuareg_Setup.standby_timeout_s, NO_PAD);
+
+    //rpm until cranking features are activated
+    print(Port, "\r\ncranking features turn off rpm: ");
+    printf_U(Port, Tuareg_Setup.cranking_end_rpm, NO_PAD);
+
     /*
     gear_ratio[GEAR_COUNT]
     */
@@ -121,8 +139,18 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
         printf_F32(Port, Tuareg_Setup.gear_ratio[gear]);
     }
 
+    //flags
+    print(Port, "\r\nfeature enabled flags: CrashSenPol-RunSenPol-SidestandSenPol-HaltOnSidestand: ");
 
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_trig_high? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.RunSwitch_trig_high? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.SidestandSensor_trig_high? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_SidestandSensor? '1' :'0'));
 }
+
 
 
 /**

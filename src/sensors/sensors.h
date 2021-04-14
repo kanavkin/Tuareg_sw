@@ -232,14 +232,14 @@ typedef struct {
 
 
 volatile sensor_interface_t * init_sensor_inputs(U32 Init_count);
-extern void prepare_fastsync_init(U32 init_count);
+void prepare_fastsync_init(U32 init_count);
 
 void sensors_start_regular_group_conversion();
 
 VU32 read_dsensors();
 void read_digital_sensors();
 
-VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
+//VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
 VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS);
 
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);

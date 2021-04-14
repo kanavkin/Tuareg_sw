@@ -64,8 +64,8 @@ void Tuareg_update_process_data()
     - while booting all errors will be present
     - non-running modes are not affected
     - while cranking a static ignition profile and fueling is used
-    */
-    if((Tuareg.flags.standstill == false) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
+
+    if((Tuareg.flags.cranking == false) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
         //LIMP
         Tuareg.flags.limited_op= true;
@@ -73,10 +73,11 @@ void Tuareg_update_process_data()
 
     //load figures
     Tuareg_update_load(&(Tuareg.process));
+    */
 
 
     //ground speed
-    if(Tuareg.pDecoder->outputs.rpm_valid)
+    if((Tuareg.pDecoder->outputs.rpm_valid) && (Tuareg.process.Gear < GEAR_NEUTRAL))
     {
         Tuareg.process.ground_speed_kmh= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
     }

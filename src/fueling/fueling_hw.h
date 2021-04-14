@@ -13,15 +13,4 @@ void set_injector1(actor_control_t level);
 void set_injector2(actor_control_t level);
 void set_fuel_pump(actor_control_t level);
 
-//helper functions
-void set_injector1_powered();
-void set_injector1_unpowered();
-
-void set_injector2_powered();
-void set_injector2_unpowered();
-
-void set_fuel_pump_powered();
-void set_fuel_pump_unpowered();
-
-
 #endif // FUELINGHW_H_INCLUDED

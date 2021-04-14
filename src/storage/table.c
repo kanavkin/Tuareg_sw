@@ -543,13 +543,11 @@ void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
     // Y values, printing from left to right y[0..15]
     for (column = 0; column < T2D_DATA_DIMENSION; column++)
     {
-        printf_U(pPort, pTableData->axisY[column], PAD_3);
-        print(pPort, "  ");
+        printf_U(pPort, pTableData->axisY[column], PAD_5);
     }
 
     //separator
-    print(pPort, "       ................................................................................................\r\n");
-    print(pPort, "       ");
+    print(pPort, "\r\n................................................................................................\r\n");
 
     // X-axis
     for (column = 0; column < T2D_DATA_DIMENSION; column++)
@@ -557,7 +555,6 @@ void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
         printf_U(pPort, pTableData->axisX[column], PAD_5);
     }
 
-    print(pPort, "\r\n");
 }
 
 

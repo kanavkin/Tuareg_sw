@@ -7,6 +7,13 @@
 #include "sensor_calibration.h"
 
 
+
+/**
+this is the last permitted eeprom address
+defining addresses beyond this address will lead to system error
+*/
+#define EEPROM_FINAL_ADDRESS 2000
+
 //see ct3D_data_size for address calculation!!! 320
 #define TABLE3D_RESERVED_SPACE 320
 
@@ -111,6 +118,9 @@ This is the last used eeprom address -> memory dump will be read until here
 */
 #define EEPROM_STORAGE_END (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
-#warning TODO (oli#7#): add eeprom data end check vs. eeprom size
+
+#if (EEPROM_STORAGE_END > EEPROM_FINAL_ADDRESS)
+#error Eeprom layout defines storage addresses beyond the final one!
+#endif
 
 #endif // EEPROM_LAYOUT_H_INCLUDED
