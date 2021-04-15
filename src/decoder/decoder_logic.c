@@ -594,8 +594,10 @@ void decoder_crank_handler()
             /**
             finally trigger the decoder update irq -> last action here
             */
-            trigger_decoder_irq();
-
+            if(Decoder.outputs.rpm_valid == true)
+            {
+                trigger_decoder_irq();
+            }
             break; //SYNC
 
 

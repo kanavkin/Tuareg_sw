@@ -33,7 +33,6 @@
 void ts_sendOutputChannels(USART_TypeDef * Port)
 {
     U8 output[TS_OCHBLOCKSIZE];
-    U32 i;
     ts_tuareg_bits_t Tuareg_bits;
 
     if(Tuareg_console.ts_getOutputChannels_count == 0)

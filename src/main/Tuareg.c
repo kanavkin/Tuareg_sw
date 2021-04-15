@@ -376,7 +376,7 @@ this function shall be called every 100 ms
 const U32 cDecoderWatchdog_Standby_thrs= 40;
 const U32 cCranking_end_rpm= 800;
 */
-const U32 cMaxCrankingEntry= 50;
+const U32 cMaxCrankingEntry= 20;
 
 void Tuareg_update_standby()
 {
@@ -394,7 +394,7 @@ void Tuareg_update_standby()
         (Tuareg.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
         (Tuareg.pDecoder->outputs.standstill == false) &&
-        (Tuareg.pDecoder->outputs.rpm_valid == true)  &&
+        //(Tuareg.pDecoder->outputs.rpm_valid == true)  &&
         (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))
     {
         Tuareg.flags.cranking= true;

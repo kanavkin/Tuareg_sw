@@ -43,7 +43,7 @@ void Tuareg_update_fueling_controls()
 
 
     //check operational preconditions
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) || ((Tuareg.engine_runtime == 0) && (Tuareg.flags.cranking == false)))
     {
         //clean controls
         invalid_fueling_controls(pTarget);
