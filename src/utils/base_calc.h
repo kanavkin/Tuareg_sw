@@ -20,7 +20,7 @@ crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);
 
 
-VF32 solve_linear(VU32 Y, VF32 M, VF32 N);
+VF32 solve_linear(VF32 Y, VF32 M, VF32 N);
 
 /*
 

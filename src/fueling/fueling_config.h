@@ -9,6 +9,7 @@
 
 /**
 fueling_features_t
+memory order : first entry on rightmost bit
 */
 typedef union
 {

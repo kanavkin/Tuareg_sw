@@ -185,6 +185,9 @@ int main(void)
                 adc_start_injected_group(SENSOR_ADC);
 
                 Tuareg_update_process_data();
+
+                Tuareg_update_ignition_controls();
+                Tuareg_update_fueling_controls();
             }
 
             //print debug messages from decoder

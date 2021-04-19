@@ -548,14 +548,17 @@ calculate the required fuel mass to be injected into each cylinder
 void update_target_fuel_mass(volatile fueling_control_t * pTarget)
 {
     VF32 compensation_pct= 0.0;
-    VU32 target_fuel_mass_ug;
+    VF32 base_fuel_mass_ug;
+
+    //get current base fuel mass in float format
+    base_fuel_mass_ug= pTarget->base_fuel_mass_ug;
 
 
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true))
     {
         //copy base fuel mass only
-        pTarget->target_fuel_mass_ug= (VU32) pTarget->base_fuel_mass_ug;
+        pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
         return;
     }
 
@@ -569,7 +572,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     //check if warm up enrichment is active
     if(pTarget->flags.warmup_comp_active == true)
     {
-        compensation_pct= pTarget->fuel_mass_warmup_corr_pct;
+        compensation_pct += pTarget->fuel_mass_warmup_corr_pct;
     }
 
     //check if load transient compensation is active
@@ -578,29 +581,33 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
         compensation_pct += pTarget->fuel_mass_accel_corr_pct;
     }
 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
+    //check if compensation is needed
+    if(compensation_pct == 0.0)
+    {
+        //copy base fuel mass only
+        pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
+        return;
+    }
+
+    #pragma GCC diagnostic pop
 
     //check if compensation is within interval
-    if(compensation_pct > Fueling_Setup.max_fuel_mass_comp_pct)
+    if(compensation_pct < -99.9)
+    {
+        //reduce 100% fuel -> no fuel
+        pTarget->target_fuel_mass_ug= 0;
+        return;
+    }
+    else if(compensation_pct > Fueling_Setup.max_fuel_mass_comp_pct)
     {
         compensation_pct= Fueling_Setup.max_fuel_mass_comp_pct;
     }
 
-    //calculate target fuel mass
-    if(compensation_pct < -99.9)
-    {
-        target_fuel_mass_ug= 0;
-    }
-    else if(compensation_pct < 0.0)
-    {
-        target_fuel_mass_ug= (-compensation_pct * pTarget->base_fuel_mass_ug) / 100.0;
-    }
-    else if(compensation_pct > 0.0)
-    {
-        target_fuel_mass_ug= (compensation_pct * pTarget->base_fuel_mass_ug) / 100.0;
-    }
-
-    //export target fuel mass
-    pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
+    //enrichment or lean out -99.9 % ... max_fuel_mass_comp %
+    pTarget->target_fuel_mass_ug= ((100 + compensation_pct) * base_fuel_mass_ug) / 100.0;
 
 }
 

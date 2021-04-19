@@ -332,7 +332,7 @@ void Tuareg_update_console()
             print(DEBUG_PORT, "\r\n@ o:");
             printf_U(DEBUG_PORT, offset, NO_PAD);
             print(DEBUG_PORT, "v:");
-            Print_U8Hex(DEBUG_PORT, value);
+            printf_U32hex(DEBUG_PORT, value);
             #endif // CONSOLE_DEBUG
 
             ts_valueWrite(Tuareg_console.ts_active_page, offset, value);

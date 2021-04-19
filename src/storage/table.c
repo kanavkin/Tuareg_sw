@@ -45,7 +45,7 @@ x axis data order: value ~ index
 */
 VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 {
-    VU32 xMin =0, xMax =0, yMin =0, yMax =0, xMax_index =0, i =0;
+    VU32 xMin =0, xMax =0, yMin =0, yMax =0, i =0;
     F32 m, y;
 
 
@@ -107,7 +107,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
         if(X == xMin)
         {
             //exit here taking the corresponding Y value from table
-            return fromTable->data.axisY[xMin];
+            return fromTable->data.axisY[i-1];
         }
 
         /**
@@ -122,8 +122,8 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
             /**
             xMin/Max indexes found, look up data for calculation
             */
-            yMax= fromTable->data.axisY[xMax_index];
-            yMin= fromTable->data.axisY[xMax_index -1];
+            yMax= fromTable->data.axisY[i];
+            yMin= fromTable->data.axisY[i-1];
 
             //uSMDS#Req2: xMax shall be != xMin
 
@@ -132,7 +132,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
             y= ( (dY/dX) * (X - xMin) * yMin )
             y= yMin + mDx
             */
-            m=  (yMax - yMin) / (xMax - xMin);
+            m=  ((F32) yMax - (F32) yMin) / ((F32) xMax - (F32) xMin);
             y= m * (X - xMin) + yMin;
 
             return y;
@@ -140,12 +140,10 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 
     }
 
-
-
-            //error
-            //syslog
-            DebugMsg_Error("table2D lookup failed without match!");
-            return 0;
+    //error
+    //syslog
+    DebugMsg_Error("table2D lookup failed without match!");
+    return 0;
 
 }
 
@@ -404,12 +402,12 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     /**
     RESULTS finally
     */
-    A *= (xMax - X) * (yMax - Y);
-    B *= (X -xMin)  * (yMax - Y);
-    C *= (xMax - X) * (Y - yMin);
-    D *= (X - xMin) * (Y -yMin);
+    A *= ((F32) xMax - (F32) X) * ((F32) yMax - (F32) Y);
+    B *= ((F32) X - (F32) xMin)  * ((F32) yMax - (F32) Y);
+    C *= ((F32) xMax - (F32) X) * ((F32) Y - (F32) yMin);
+    D *= ((F32) X - (F32) xMin) * ((F32) Y - (F32) yMin);
 
-    return (A + B + C +D) / ((xMax - xMin) * (yMax - yMin));
+    return (A + B + C +D) / (((F32) xMax - (F32) xMin) * ((F32) yMax - (F32) yMin));
 }
 
 

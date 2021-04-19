@@ -168,12 +168,17 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
 {
 /// TODO (oli#1#): add assert
 
-    if(Divisor == 0)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
+    if(Divisor == 0.0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
         DebugMsg_Error("DIV/0 in divide_VF32");
         return 0;
     }
+
+    #pragma GCC diagnostic pop
 
     return ((VF32) Dividend) / ((VF32) Divisor);
 }
@@ -185,6 +190,8 @@ safe float division
 VF32 divide_float(VF32 Dividend, VF32 Divisor)
 {
 /// TODO (oli#1#): add assert
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
 
     if(Divisor == 0.0)
     {
@@ -192,6 +199,8 @@ VF32 divide_float(VF32 Dividend, VF32 Divisor)
         DebugMsg_Error("DIV/0 in divide_VF32");
         return 0;
     }
+
+    #pragma GCC diagnostic pop
 
     return ((VF32) Dividend) / ((VF32) Divisor);
 }
@@ -256,16 +265,22 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
 /**
 solves the linear equation y = mx + n
 */
-VF32 solve_linear(VU32 Y, VF32 M, VF32 N)
+VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
 {
     VF32 inverse;
 
     //check preconditions
     //Assert(m != 0.0,)
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
     if(M == 0.0)
     {
         return M;
     }
+
+    #pragma GCC diagnostic pop
 
     //x = ( y - n)  / m
     inverse= ((Y - N) / M);
