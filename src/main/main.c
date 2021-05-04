@@ -249,29 +249,6 @@ void EXTI2_IRQHandler(void)
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
-    /*
-    //collect diagnostic information
-    //tuareg_diag_log_event(TDIAG_DECODER_IRQ);
-
-    //check for decoder timeout
-    if(Tuareg.pDecoder->outputs.timeout == true)
-    {
-        Tuareg.flags.standstill= true;
-        Tuareg.flags.cranking= false;
-
-        //collect diagnostic information
-        //tuareg_diag_log_event(TDIAG_DECODER_TIMEOUT);
-
-        //delete ignition controls
-        Tuareg_update_ignition_controls();
-
-        //delete fuel controls
-        Tuareg_update_fueling_controls();
-
-        return;
-    }
-    */
-
     //reset decoder watchdog
     Tuareg.decoder_watchdog= 0;
 
@@ -293,7 +270,6 @@ void EXTI2_IRQHandler(void)
     Tuareg_fueling_update_crankpos_handler();
 
     ///tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
-
 }
 
 
@@ -309,7 +285,7 @@ void EXTI3_IRQHandler(void)
     /*
     main task here is to turn on the coils for dwell in dynamic mode
     */
-    Tuareg_ignition_irq_handler();
+    //Tuareg_ignition_irq_handler();
 
 
     //collect diagnostic information

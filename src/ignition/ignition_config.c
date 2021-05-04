@@ -38,6 +38,9 @@ exec_result_t load_Ignition_Config()
 {
     exec_result_t load_result;
 
+    //bring up eeprom
+    Eeprom_init();
+
     load_result= Eeprom_load_data(EEPROM_IGNITION_SETUP_BASE, pIgnition_Setup_data, cIgnition_Setup_size);
 
     ASSERT_EXEC_OK(load_result);

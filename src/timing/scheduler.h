@@ -3,6 +3,7 @@
 
 #include "Tuareg.h"
 
+//#define SCHEDULER_DEBUG
 
 #define SCHEDULER_PERIOD_US 8
 
@@ -10,6 +11,10 @@
 #define SCHEDULER_MAX_PERIOD_US 500000
 #define SCHEDULER_MIN_PERIOD_US 8
 
+
+typedef void (* scheduler_callback_func)(actor_control_t);
+typedef void (* timer_alloc_func)(VU32, volatile bool, volatile bool);
+typedef void (* timer_reset_func)();
 
 
 typedef enum {
@@ -25,25 +30,64 @@ typedef enum {
 
 typedef union
 {
-     U8 all_flags;
+     U32 all_flags;
 
      struct
      {
-        U8 ign1_alloc :1;
-        U8 ign2_alloc :1;
-        U8 fuel1_alloc :1;
-        U8 fuel2_alloc :1;
+        U32 complete_cycle_realloc :1;
+        U32 interval2_enabled :1;
+        U32 action1_power :1;
+        U32 action2_power :1;
      };
 
-} scheduler_state_t;
+} scheduler_activation_flags_t;
 
 
-typedef struct _scheduler_t {
+typedef struct _scheduler_activation_parameters_t {
 
-    actor_control_t target_controls[SCHEDULER_CH_COUNT];
-    scheduler_state_t state;
+    U32 interval1_us;
+    U32 interval2_us;
 
-} scheduler_t;
+    scheduler_activation_flags_t flags;
+
+} scheduler_activation_parameters_t;
+
+
+typedef union
+{
+     U32 all_flags;
+
+     struct
+     {
+        U32 alloc :1;
+        U32 interval1_expired :1;
+     };
+
+} scheduler_state_flags_t;
+
+
+
+typedef struct _scheduler_channel_state_t {
+
+    //channel data
+    scheduler_activation_parameters_t parameters;
+    scheduler_state_flags_t flags;
+
+    //worker functions
+    scheduler_callback_func callback;
+    timer_alloc_func timer_alloc;
+    timer_reset_func timer_reset;
+
+} scheduler_channel_state_t;
+
+
+
+typedef struct _scheduler_mgr_t {
+
+    scheduler_channel_state_t channels[SCHEDULER_CH_COUNT];
+    bool init_done;
+
+} scheduler_mgr_t;
 
 
 #ifdef SCHEDULER_DEBUG
@@ -51,19 +95,16 @@ typedef struct _scheduler_t {
 
 typedef struct _scheduler_debug_set_flags_t
 {
-    U16 param_ch_ign1 :1;
-    U16 param_ch_ign2 :1;
-    U16 param_ch_fuel1 :1;
-    U16 param_ch_fuel2 :1;
+    //parameters
+    U32 action1_power :1;
+    U32 action2_power :1;
+    U32 interval2_enabled :1;
+    U32 complete_cycle_realloc :1;
 
-    U16 target_state_powered :1;
-
-    U16 set_curr_cycle :1;
-    U16 set_next_cycle_preload :1;
-
-    U16 reactivated :1;
-
-    U16 param_complete_realloc :1;
+    //allocation details
+    U32 set_curr_cycle :1;
+    U32 use_preload :1;
+    U32 realloc :1;
 
 } scheduler_debug_set_flags_t;
 
@@ -72,12 +113,15 @@ typedef struct _scheduler_debug_set_t {
 
     U32 now;
     U64 compare;
-    U32 param_delay_us;
 
-    volatile scheduler_debug_set_flags_t flags;
+    U32 interval1_us;
+    U32 interval2_us;
+
+    scheduler_channel_t channel;
+
+    scheduler_debug_set_flags_t flags;
 
 } scheduler_debug_set_t;
-
 
 
 typedef struct _scheduler_debug_compare_flags_t
@@ -114,20 +158,13 @@ typedef struct _scheduler_debug_compare_t {
 
 #endif // SCHEDULER_DEBUG
 
-extern void scheduler_allocate_ign1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
-extern void scheduler_reset_ign1();
-extern void scheduler_allocate_ign2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
-extern void scheduler_reset_ign2();
-
-extern void scheduler_allocate_fch1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
-extern void scheduler_reset_fch1();
-extern void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload);
-extern void scheduler_reset_fch2();
 
 
-void init_scheduler();
 
-void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls, VU32 Delay_us, volatile bool Complete_on_realloc);
+void init_Vital_Scheduler();
+
+void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activation_parameters_t * pParamaters);
 void scheduler_reset_channel(scheduler_channel_t Channel);
+void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us);
 
 #endif // SCHEDULER_H_INCLUDED

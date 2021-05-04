@@ -437,7 +437,13 @@ inline void cli_showPage(U32 Page)
         case INJ_TIMING_TABLE:
 
             print(TS_PORT, "\r\nInjector Timing\r\n");
-            show_WarmUpCompTable(TS_PORT);
+            show_InjectorTimingTable(TS_PORT);
+            break;
+
+        case INJ_PHASE_TABLE:
+
+            print(TS_PORT, "\r\nInjector Phase\r\n");
+            show_InjectorPhaseTable(TS_PORT);
             break;
 
         case CRANKINGFUEL_TABLE:

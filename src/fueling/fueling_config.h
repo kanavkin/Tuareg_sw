@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 32
+#define FUELING_SETUP_SIZE 28
 
 
 
@@ -21,10 +21,10 @@ typedef union
         U8 sequential_mode_enabled :1;
         U8 warmup_comp_enabled :1;
         U8 afterstart_corr_enabled :1;
+        U8 dry_cranking_enabled :1;
      };
 
 } fueling_features_t;
-
 
 
 /***************************************************************************************************************************************************
@@ -40,16 +40,8 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     */
     U16 cylinder_volume_ccm;
 
-    //angle between intake valve closing and compression TDC
-    U16 intake_close_advance_deg;
-
-    /**
-    injection alignment
-    */
-    crank_position_t default_injection_begin_pos;
-    engine_phase_t seq_cyl1_default_injection_begin_phase;
-    crank_position_t seq_earliest_injection_begin_pos;
-    engine_phase_t seq_cyl1_earliest_injection_begin_phase;
+    //injection alignment
+    crank_position_t injection_reference_pos;
 
     //injector parameters
     U16 injector1_rate_mgps;
@@ -70,6 +62,9 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 max_fuel_mass_comp_pct;
     U16 ve_from_map_min_rpm;
     U16 ve_from_map_max_rpm;
+
+    //dry cranking
+    U8 dry_cranking_TPS_thres;
 
     fueling_features_t features;
 
@@ -142,6 +137,13 @@ void show_CrankingFuelTable(USART_TypeDef * Port);
 exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value);
 void send_CrankingFuelTable(USART_TypeDef * Port);
 VU32 getValue_CrankingFuelTable(VF32 CLT_K);
+
+//
+exec_result_t store_InjectorPhaseTable();
+void show_InjectorPhaseTable(USART_TypeDef * Port);
+exec_result_t modify_InjectorPhaseTable(U32 Offset, U32 Value);
+void send_InjectorPhaseTable(USART_TypeDef * Port);
+VU32 getValue_InjectorPhaseTable(VU32 Rpm);
 
 
 /***************************************************************************************************************************************************

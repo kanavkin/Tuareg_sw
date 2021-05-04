@@ -106,6 +106,9 @@ void init_Ignition()
     //init hw part
     init_ignition_hw();
 
+    //bring up vital scheduler
+    init_Vital_Scheduler();
+
     //provide ignition controls for startup
     Tuareg_update_ignition_controls();
 }
@@ -120,7 +123,7 @@ Tuareg.pDecoder->outputs.position_valid == true
 */
 void Tuareg_ignition_update_crankpos_handler()
 {
-    VU32 age_us, corr_timing_us;
+    volatile scheduler_activation_parameters_t scheduler_parameters;
 
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
@@ -169,54 +172,48 @@ void Tuareg_ignition_update_crankpos_handler()
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
-        //compensate timing for execution delay
-        age_us= decoder_get_position_data_age_us();
-        corr_timing_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, age_us);
+        /**
+        prepare scheduler activation parameters
+        - first action is ignition -> turn off coil
+        - second action is dwell -> power coil
+        - use 2 intervals
+        - no realloc completion
+        - interval 1 -> corrected ignition timing
+        - interval 2 -> dwell timing
+        */
+        scheduler_parameters.flags.action1_power= false;
+        scheduler_parameters.flags.action2_power= true;
+        scheduler_parameters.flags.interval2_enabled= true;
+        scheduler_parameters.flags.complete_cycle_realloc= false;
+
+        scheduler_parameters.interval2_us= Tuareg.ignition_controls.dwell_timing_us;
+        scheduler_parameters.interval1_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
+
 
         //check if sequential mode has been commanded
-        if(Tuareg.ignition_controls.flags.dynamic_controls == true)
+        if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
         {
-            //check if sufficient information for this mode is available
-            if(Tuareg.pDecoder->outputs.phase_valid == false)
-            {
-                //register ERROR
-                return;
-            }
-
-            ///sequential mode
-
-            //coil #1
-            if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP)
-            {
-                scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, corr_timing_us, true);
-
-                //collect diagnostic information
-                ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
-            }
-
-            //coil #2
-            if(Tuareg.pDecoder->phase == PHASE_CYL1_EX)
-            {
-                scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_UNPOWERED, corr_timing_us, true);
-
-                //collect diagnostic information
-                ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER);
-            }
-
+            //register ERROR
+            return;
         }
-        else
-        {
-            ///batch mode
 
-            //coil #1 and #2
-            scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_UNPOWERED, corr_timing_us, true);
-            scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_UNPOWERED, corr_timing_us, true);
+        //coil #1
+        if((Tuareg.pDecoder->phase == PHASE_CYL1_COMP) || (Tuareg.ignition_controls.flags.sequential_mode == false))
+        {
+            scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
 
             //collect diagnostic information
-            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_UNPOWER);
-            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_UNPOWER);
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
         }
 
+        //coil #2
+        if((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.ignition_controls.flags.sequential_mode == false))
+        {
+            scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
+
+            //collect diagnostic information
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER);
+        }
     }
 
     /*
@@ -237,15 +234,17 @@ void Tuareg_ignition_update_crankpos_handler()
 
 /*
 The ignition system will set up the scheduler channels for dwell in dynamic mode
-*/
+
 void Tuareg_ignition_irq_handler()
 {
+    volatile scheduler_activation_parameters_t scheduler_parameters;
+
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_IRQ3H_CALLS);
 
-    /**
+
     check vital and operational preconditions
-    */
+
     if((Tuareg.flags.run_inhibit == true) || (Tuareg.ignition_controls.flags.valid == false))
     {
         //collect diagnostic information
@@ -259,6 +258,12 @@ void Tuareg_ignition_irq_handler()
         return;
     }
 
+    //prepare common scheduler activation parameters
+    scheduler_parameters.flags.action1_power= true;
+    scheduler_parameters.flags.interval2_enabled= false;
+    scheduler_parameters.flags.complete_cycle_realloc= false;
+    scheduler_parameters.interval1_us= Tuareg.ignition_controls.dwell_timing_us;
+
 
     //check if sequential mode has been requested and sufficient information for this mode is available
     if((Tuareg.ignition_controls.flags.dynamic_controls == true) && (Tuareg.ignition_controls.flags.sequential_mode == true))
@@ -270,9 +275,9 @@ void Tuareg_ignition_irq_handler()
             return;
         }
 
-        /*
+
         sequential mode
-        */
+
 
         //coil #1
         if((Tuareg.flags.ignition_coil_1 == false) && (Tuareg.flags.ign1_irq_flag == true) && (Tuareg.pDecoder->phase == PHASE_CYL1_COMP))
@@ -281,7 +286,7 @@ void Tuareg_ignition_irq_handler()
             Tuareg.flags.ign1_irq_flag= false;
 
             //allocate scheduler
-            scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
+            scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
 
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_IRQ3H_IGN1SCHED_POWER);
@@ -294,7 +299,7 @@ void Tuareg_ignition_irq_handler()
             Tuareg.flags.ign2_irq_flag= false;
 
             //allocate scheduler
-            scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
+            scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
 
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_IRQ3H_IGN2SCHED_POWER);
@@ -302,13 +307,13 @@ void Tuareg_ignition_irq_handler()
     }
     else
     {
-        /*
+
         batch mode
-        */
+
 
         //coil #1 and #2
-        scheduler_set_channel(SCHEDULER_CH_IGN1, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
-        scheduler_set_channel(SCHEDULER_CH_IGN2, ACTOR_POWERED, Tuareg.ignition_controls.dwell_timing_us, false);
+        scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
+        scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
 
         //acknowledge irq flags
         Tuareg.flags.ign1_irq_flag= false;
@@ -320,4 +325,4 @@ void Tuareg_ignition_irq_handler()
     }
 
 }
-
+*/

@@ -112,6 +112,11 @@ Cranking base fuel mass table - CrankingFuelTable
 */
 #define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE2D_RESERVED_SPACE)
 
+/**
+Injection end target advance - InjectorPhaseTable
+*/
+#define EEPROM_FUELING_INJECTORPHASE_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
+
 
 /**
 This is the last used eeprom address -> memory dump will be read until here

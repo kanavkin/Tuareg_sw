@@ -35,6 +35,8 @@ typedef union
         U16 warmup_comp_active :1;
         U16 afterstart_comp_active :1;
 
+        U16 dry_cranking :1;
+
      };
 
 } fueling_logic_flags_t;
@@ -74,10 +76,12 @@ typedef struct _fueling_control_t {
     F32 fuel_mass_afterstart_corr_pct;
     U32 fuel_mass_afterstart_corr_cycles_left;
 
+    //injection phase data
     crank_position_t injection_begin_pos;
-
     engine_phase_t seq_injector1_begin_phase;
     engine_phase_t seq_injector2_begin_phase;
+    U32 injector1_timing_us;
+    U32 injector2_timing_us;
 
 
     //status data

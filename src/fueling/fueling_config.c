@@ -30,6 +30,7 @@ volatile t2D_t InjectorTimingTable;
 
 volatile t2D_t CrankingFuelTable;
 
+volatile t2D_t InjectorPhaseTable;
 
 volatile U8 * const pFueling_Setup_data= (volatile U8 *) &Fueling_Setup;
 const U32 cFueling_Setup_size= sizeof(Fueling_Setup);
@@ -43,8 +44,10 @@ const U32 cFueling_Setup_size= sizeof(Fueling_Setup);
 */
 exec_result_t load_Fueling_Config()
 {
+    exec_result_t load_result;
 
-   exec_result_t load_result;
+    //bring up eeprom
+    Eeprom_init();
 
     load_result= Eeprom_load_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
 
@@ -76,6 +79,10 @@ exec_result_t load_Fueling_Config()
 
     load_result= load_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
 
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
+
     return load_result;
 }
 
@@ -91,12 +98,7 @@ void load_essential_Fueling_Config()
 
     Fueling_Setup.cylinder_volume_ccm= 425;
 
-    Fueling_Setup.intake_close_advance_deg= 130;
-
-    Fueling_Setup.default_injection_begin_pos= CRK_POSITION_B1;
-    Fueling_Setup.seq_cyl1_default_injection_begin_phase= PHASE_CYL1_EX;
-    Fueling_Setup.seq_earliest_injection_begin_pos= CRK_POSITION_B1;
-    Fueling_Setup.seq_cyl1_earliest_injection_begin_phase= PHASE_CYL1_COMP;
+    Fueling_Setup.injection_reference_pos= CRK_POSITION_A1;
 
     Fueling_Setup.injector1_rate_mgps= 4000;
     Fueling_Setup.injector2_rate_mgps= 4000;
@@ -141,29 +143,15 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\nVersion: ");
     printf_U(Port, Fueling_Setup.Version, NO_PAD);
 
+
     //U16 cylinder_volume_ccm
     print(Port, "\r\ncylinder volume (ccm):");
     printf_U(Port, Fueling_Setup.cylinder_volume_ccm, NO_PAD);
 
-    //U16 intake_close_advance_deg
-    print(Port, "\r\nintake close angle (deg BTDC):");
-    printf_U(Port, Fueling_Setup.intake_close_advance_deg, NO_PAD);
 
-    //default_injection_begin_pos
-    print(Port, "\r\ndefault injection begin position: ");
-    printf_crkpos(Port, Fueling_Setup.default_injection_begin_pos);
-
-    //seq_cyl1_default_injection_begin_phase
-    print(Port, "\r\ndefault injection begin phase (cyl #1): ");
-    printf_phase(Port, Fueling_Setup.seq_cyl1_default_injection_begin_phase);
-
-    //seq_earliest_injection_begin_pos
-    print(Port, "\r\nearliest injection begin position: ");
-    printf_crkpos(Port, Fueling_Setup.seq_earliest_injection_begin_pos);
-
-    //seq_cyl1_earliest_injection_begin_phase
-    print(Port, "\r\nearliest injection begin phase (cyl #1): ");
-    printf_phase(Port, Fueling_Setup.seq_cyl1_earliest_injection_begin_phase);
+    //injection_reference_pos
+    print(Port, "\r\ndefault injection reference position: ");
+    printf_crkpos(Port, Fueling_Setup.injection_reference_pos);
 
 
     //U16 injector1_rate_mgps
@@ -221,9 +209,13 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     printf_U(Port, Fueling_Setup.ve_from_map_max_rpm, NO_PAD);
 
 
+    //dry cranking
+    print(Port, "\r\ndry cranking TPS threshold:");
+    printf_U(Port, Fueling_Setup.dry_cranking_TPS_thres, NO_PAD);
+
 
     //features
-    print(Port, "\r\nfeature enabled features: AE-WUE-ASE-seq: ");
+    print(Port, "\r\nfeature enabled features: AE-WUE-ASE-seq-dry: ");
 
     UART_Tx(TS_PORT, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
@@ -232,6 +224,8 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     UART_Tx(TS_PORT, (Fueling_Setup.features.afterstart_corr_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.dry_cranking_enabled? '1' :'0'));
 
 }
 
@@ -589,3 +583,57 @@ VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 {
     return 16 * getValue_t2D(&CrankingFuelTable, CLT_K);
 }
+
+
+
+/***************************************************************************************************************************************************
+*   Injection end target advance relative to Intake valve opening - InjectorPhaseTable
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> Injection end target advance (offset := 128, table values are in 2 deg increments)
+***************************************************************************************************************************************************/
+
+exec_result_t store_InjectorPhaseTable()
+{
+    return store_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
+}
+
+
+void show_InjectorPhaseTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nInjector phase table:\r\n");
+
+    show_t2D_data(TS_PORT, &(InjectorPhaseTable.data));
+}
+
+
+exec_result_t modify_InjectorPhaseTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(InjectorPhaseTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for InjectorPhaseTable
+*/
+void send_InjectorPhaseTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(InjectorPhaseTable.data));
+}
+
+
+/**
+returns the Injection end target advance in 2 deg interval
+*/
+VU32 getValue_InjectorPhaseTable(VU32 Rpm)
+{
+    return 2.0 * getValue_t2D(&InjectorPhaseTable, Rpm);
+}
+
+
+
+
+
+
+

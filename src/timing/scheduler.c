@@ -29,8 +29,7 @@ a timer update event is expected every ~74 min op scheduler operation
 #include "uart_printf.h"
 #include "debug_port_messages.h"
 
-volatile scheduler_t Scheduler;
-
+volatile scheduler_mgr_t Scheduler;
 
 //#define SCHEDULER_DEBUG
 
@@ -47,11 +46,14 @@ VU32 debug_compare_cnt =0;
 
 #endif // SCHEDULER_DEBUG
 
+
+
+
 /******************************************************************************************************************************
-ignition channel 1 - helper functions
+timer channel 1 - helper functions
 ******************************************************************************************************************************/
 
-inline void scheduler_allocate_ign1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
@@ -73,32 +75,14 @@ inline void scheduler_allocate_ign1(VU32 Compare, volatile bool CurrentCycle, vo
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC1IF;
 
-    //register the new allocation state
-    Scheduler.state.ign1_alloc= true;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_ICH1_SET);
-
-    if(CurrentCycle == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_CURRC_SET);
-    }
-    else if(EnablePreload == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_PRELOAD_SET);
-    }
-    else
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_UPDATE_SET);
-    }
-
     //enable irq
     TIM5->DIER |= (U16) TIM_DIER_CC1IE;
 }
 
 
-inline void scheduler_reset_ign1()
+void reset_timer_channel_1()
 {
+
     //disable compare irq
     TIM5->DIER &= (U16) ~TIM_DIER_CC1IE;
 
@@ -111,22 +95,14 @@ inline void scheduler_reset_ign1()
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC1IF;
 
-    //register the new allocation state
-    Scheduler.state.ign1_alloc= false;
-
-    //store a safe action
-    Scheduler.target_controls[SCHEDULER_CH_IGN1]= ACTOR_UNPOWERED;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_ICH1_RESET);
 }
 
 
 /******************************************************************************************************************************
-ignition channel 2 - helper functions
+timer channel 2 - helper functions
 ******************************************************************************************************************************/
 
-inline void scheduler_allocate_ign2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
@@ -148,31 +124,12 @@ inline void scheduler_allocate_ign2(VU32 Compare, volatile bool CurrentCycle, vo
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC2IF;
 
-    //register the new allocation state
-    Scheduler.state.ign2_alloc= true;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_ICH2_SET);
-
-    if(CurrentCycle == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH2_CURRC_SET);
-    }
-    else if(EnablePreload == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH2_NEXTC_PRELOAD_SET);
-    }
-    else
-    {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_UPDATE_SET);
-    }
-
     //enable irq
     TIM5->DIER |= (U16) TIM_DIER_CC2IE;
 }
 
 
-inline void scheduler_reset_ign2()
+void reset_timer_channel_2()
 {
     //disable compare irq
     TIM5->DIER &= (U16) ~TIM_DIER_CC2IE;
@@ -185,23 +142,14 @@ inline void scheduler_reset_ign2()
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC2IF;
-
-    //register the new allocation state
-    Scheduler.state.ign2_alloc= false;
-
-    //store a safe action
-    Scheduler.target_controls[SCHEDULER_CH_IGN2]= ACTOR_UNPOWERED;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_ICH2_RESET);
 }
 
 
 /******************************************************************************************************************************
-fuel channel 1 - helper functions
+timer channel 3 - helper functions
 ******************************************************************************************************************************/
 
-inline void scheduler_allocate_fch1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_3(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
@@ -223,31 +171,11 @@ inline void scheduler_allocate_fch1(VU32 Compare, volatile bool CurrentCycle, vo
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC3IF;
 
-    //register the new allocation state
-    Scheduler.state.fuel1_alloc= true;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_FCH1_SET);
-
-    if(CurrentCycle == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH1_CURRC_SET);
-    }
-    else if(EnablePreload == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH1_NEXTC_PRELOAD_SET);
-    }
-    else
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH1_NEXTC_UPDATE_SET);
-    }
-
     //enable irq
     TIM5->DIER |= (U16) TIM_DIER_CC3IE;
 }
 
-
-inline void scheduler_reset_fch1()
+void reset_timer_channel_3()
 {
     //disable compare irq
     TIM5->DIER &= (U16) ~TIM_DIER_CC3IE;
@@ -261,23 +189,15 @@ inline void scheduler_reset_fch1()
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC3IF;
 
-    //register the new allocation state
-    Scheduler.state.fuel1_alloc= false;
-
-    //store a safe action
-    Scheduler.target_controls[SCHEDULER_CH_FUEL1]= ACTOR_UNPOWERED;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_FCH1_RESET);
 }
 
 
 
 /******************************************************************************************************************************
-fuel channel 2 - helper functions
+timer channel 4 - helper functions
 ******************************************************************************************************************************/
 
-inline void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_4(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
@@ -299,31 +219,12 @@ inline void scheduler_allocate_fch2(VU32 Compare, volatile bool CurrentCycle, vo
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC4IF;
 
-    //register the new allocation state
-    Scheduler.state.fuel2_alloc= true;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_FCH2_SET);
-
-    if(CurrentCycle == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH2_CURRC_SET);
-    }
-    else if(EnablePreload == true)
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH2_NEXTC_PRELOAD_SET);
-    }
-    else
-    {
-        scheduler_diag_log_event(SCHEDIAG_FCH2_NEXTC_UPDATE_SET);
-    }
-
     //enable irq
     TIM5->DIER |= (U16) TIM_DIER_CC4IE;
 }
 
 
-inline void scheduler_reset_fch2()
+void reset_timer_channel_4()
 {
     //disable compare irq
     TIM5->DIER &= (U16) ~TIM_DIER_CC4IE;
@@ -336,15 +237,6 @@ inline void scheduler_reset_fch2()
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC4IF;
-
-    //register the new allocation state
-    Scheduler.state.fuel2_alloc= false;
-
-    //store a safe action
-    Scheduler.target_controls[SCHEDULER_CH_FUEL2]= ACTOR_UNPOWERED;
-
-    //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_FCH2_RESET);
 }
 
 
@@ -353,8 +245,14 @@ inline void scheduler_reset_fch2()
 init
 ******************************************************************************************************************************/
 
-void init_scheduler()
+void init_Vital_Scheduler()
 {
+    //reinit protection
+    if(Scheduler.init_done == true)
+    {
+        return;
+    }
+
     //clock
     RCC->APB1ENR |= RCC_APB1ENR_TIM5EN;
 
@@ -368,12 +266,26 @@ void init_scheduler()
     TIM5->CR1 |= TIM_CR1_CEN;
     TIM5->EGR |= TIM_EGR_UG;
 
-    //reset channels
+    //set up channel pointers
+    Scheduler.channels[SCHEDULER_CH_IGN1].callback= set_ignition_ch1;
+    Scheduler.channels[SCHEDULER_CH_IGN2].callback= set_ignition_ch2;
+    Scheduler.channels[SCHEDULER_CH_FUEL1].callback= set_injector1;
+    Scheduler.channels[SCHEDULER_CH_FUEL2].callback= set_injector2;
+    Scheduler.channels[SCHEDULER_CH_IGN1].timer_alloc= allocate_timer_channel_1;
+    Scheduler.channels[SCHEDULER_CH_IGN2].timer_alloc= allocate_timer_channel_2;
+    Scheduler.channels[SCHEDULER_CH_FUEL1].timer_alloc= allocate_timer_channel_3;
+    Scheduler.channels[SCHEDULER_CH_FUEL2].timer_alloc= allocate_timer_channel_4;
+    Scheduler.channels[SCHEDULER_CH_IGN1].timer_reset= reset_timer_channel_1;
+    Scheduler.channels[SCHEDULER_CH_IGN2].timer_reset= reset_timer_channel_2;
+    Scheduler.channels[SCHEDULER_CH_FUEL1].timer_reset= reset_timer_channel_3;
+    Scheduler.channels[SCHEDULER_CH_FUEL2].timer_reset= reset_timer_channel_4;
 
     //enable timer 5 irq (prio 2)
     NVIC_SetPriority(TIM5_IRQn, 2UL );
     NVIC_ClearPendingIRQ(TIM5_IRQn);
     NVIC_EnableIRQ(TIM5_IRQn);
+
+    Scheduler.init_done= true;
 }
 
 
@@ -382,70 +294,121 @@ void init_scheduler()
 /******************************************************************************************************************************
 set a scheduler channel
 ******************************************************************************************************************************/
-void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls, VU32 Delay_us, volatile bool Complete_on_realloc)
+void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activation_parameters_t * pParameters)
 {
 /// TODO (oli#5#): implement syslog for scheduler
-    VU64 compare;
-    VU32 now;
-    volatile bool use_preload= false;
-    volatile bool curr_cycle= false;
+    volatile scheduler_channel_state_t * pChannelState;
+
+    //init check
+    Assert(Scheduler.init_done, TID_SCHEDULER, 2);
+
+    //safety check - commanded channel
+    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
+
+    //get channel reference
+    pChannelState= &(Scheduler.channels[Channel]);
+
 
     /******************************************************
     parameter checks
     ******************************************************/
 
-    //safety check - requested channel
-    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
-
-    //safety check - clip delay
-    if(Delay_us > SCHEDULER_MAX_PERIOD_US)
+    //safety check - clip intervals
+    if((pParameters->interval1_us > SCHEDULER_MAX_PERIOD_US) || (pParameters->interval2_us > SCHEDULER_MAX_PERIOD_US))
     {
-        /*
-        Delay_us= SCHEDULER_MAX_PERIOD_US;
-        */
-
         scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
-
         return;
     }
 
-    if(Delay_us < SCHEDULER_MIN_PERIOD_US)
+    //safety check - min interval 1
+    if(pParameters->interval1_us < SCHEDULER_MIN_PERIOD_US)
     {
-        /**
-        take immediate action - no scheduler allocation actually
-        */
+        pParameters->interval1_us= SCHEDULER_MIN_PERIOD_US;
+        //scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
+    }
 
-        scheduler_diag_log_event(SCHEDIAG_DELAY_BYPASS);
-
-        switch(Channel)
-        {
-            case SCHEDULER_CH_IGN1:
-                set_ignition_ch1(Controls);
-                break;
-
-            case SCHEDULER_CH_IGN2:
-                set_ignition_ch2(Controls);
-                break;
-
-            case SCHEDULER_CH_FUEL1:
-                set_injector1(Controls);
-                break;
-
-            case SCHEDULER_CH_FUEL2:
-                set_injector2(Controls);
-                break;
-
-            default:
-                break;
-        }
-
-        //no scheduler allocation
-        return;
+    //safety check - min interval 2
+    if((pParameters->flags.interval2_enabled == true) && (pParameters->interval2_us < SCHEDULER_MIN_PERIOD_US))
+    {
+        pParameters->interval2_us= SCHEDULER_MIN_PERIOD_US;
+        //scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
     }
 
 
     /******************************************************
-    calculate compare value
+    allocate the scheduler channel
+    ******************************************************/
+
+    //reallocation check
+    if(pChannelState->flags.alloc == true)
+    {
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD + Channel);
+
+        //check if the previous action shall be taken now
+        if(pChannelState->parameters.flags.complete_cycle_realloc == true)
+        {
+            //complete the last scheduler cycle with its commanded action
+            pChannelState->callback(pChannelState->parameters.flags.action1_power? ACTOR_POWERED : ACTOR_UNPOWERED);
+        }
+    }
+
+    //clean the channel
+    scheduler_reset_channel(Channel);
+
+    //store the commanded actions
+    pChannelState->parameters.flags.all_flags= pParameters->flags.all_flags;
+    pChannelState->parameters.interval1_us= pParameters->interval1_us;
+    pChannelState->parameters.interval2_us= pParameters->interval2_us;
+
+    //set up the compare register with the first compare value
+    allocate_channel(Channel, pParameters->interval1_us);
+}
+
+
+
+void scheduler_reset_channel(scheduler_channel_t Channel)
+{
+    volatile scheduler_channel_state_t * pChannelState;
+
+    //init check
+    Assert(Scheduler.init_done, TID_SCHEDULER, 2);
+
+    //safety check - requested channel
+    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
+
+    //get channel reference
+    pChannelState= &(Scheduler.channels[Channel]);
+
+    //clear parameters
+    pChannelState->parameters.flags.all_flags= 0;
+    pChannelState->parameters.interval1_us= 0;
+    pChannelState->parameters.interval2_us= 0;
+    pChannelState->flags.all_flags= 0;
+
+    //clear timer channel
+    pChannelState->timer_reset();
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_ICH1_RESET + Channel);
+}
+
+
+
+void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us)
+{
+    VU64 compare;
+    VU32 now;
+    volatile bool use_preload= false;
+    volatile bool curr_cycle= false;
+    volatile scheduler_channel_state_t * pChannelState;
+
+    //get channel reference
+    pChannelState= &(Scheduler.channels[Channel]);
+
+
+    /******************************************************
+    calculate compare value from current timer value
     ******************************************************/
 
     __disable_irq();
@@ -456,13 +419,7 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
     //compare value at delay end in ticks
     compare= now  + (Delay_us / SCHEDULER_PERIOD_US);
 
-    #ifdef SCHEDULER_DEBUG
-    debug_set[debug_set_cnt].now= now;
-    debug_set[debug_set_cnt].compare= compare;
-    debug_set[debug_set_cnt].param_delay_us= Delay_us;
-    debug_set[debug_set_cnt].flags.target_state_powered= (Controls == ACTOR_POWERED)? true : false;
-    debug_set[debug_set_cnt].flags.param_complete_realloc= Complete_on_realloc;
-    #endif // SCHEDULER_DEBUG
+    __enable_irq();
 
     /*
     calculate the appropriate compare value and if the preload feature shall be activated
@@ -487,174 +444,25 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
         curr_cycle= true;
     }
 
-    __enable_irq();
-
-    #ifdef SCHEDULER_DEBUG
-    debug_set[debug_set_cnt].flags.set_next_cycle_preload= use_preload;
-    debug_set[debug_set_cnt].flags.set_curr_cycle= curr_cycle;
-    #endif // SCHEDULER_DEBUG
-
-
     /******************************************************
-    allocate the scheduler channel
+    store optional debug information
     ******************************************************/
 
-    switch(Channel)
-    {
-        case SCHEDULER_CH_IGN1:
-
-            #ifdef SCHEDULER_DEBUG
-            debug_set[debug_set_cnt].flags.param_ch_ign1= true;
-            #endif // SCHEDULER_DEBUG
-
-            //reallocation check
-            if(Scheduler.state.ign1_alloc == true)
-            {
-                #ifdef SCHEDULER_DEBUG
-                debug_set[debug_set_cnt].flags.reactivated= true;
-                #endif // SCHEDULER_DEBUG
-
-                //collect diagnostic information
-                scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD);
-
-                //check if the previous action shall be taken now
-                if(Complete_on_realloc == true)
-                {
-                    //complete the last scheduler cycle with its commanded action
-                    set_ignition_ch1(Scheduler.target_controls[Channel]);
-                }
-
-            }
-
-            //clean the channel
-            scheduler_reset_ign1();
-
-            //store the desired action at delay end
-            Scheduler.target_controls[Channel]= Controls;
-
-            //set up the compare register with the compare value
-            scheduler_allocate_ign1((U32) compare, curr_cycle, use_preload);
-
-            break;
-
-
-        case SCHEDULER_CH_IGN2:
-
-            #ifdef SCHEDULER_DEBUG
-            debug_set[debug_set_cnt].flags.param_ch_ign2= true;
-            #endif // SCHEDULER_DEBUG
-
-            //reallocation check
-            if(Scheduler.state.ign2_alloc == true)
-            {
-                #ifdef SCHEDULER_DEBUG
-                debug_set[debug_set_cnt].flags.reactivated= true;
-                #endif // SCHEDULER_DEBUG
-
-                //collect diagnostic information
-                scheduler_diag_log_event(SCHEDIAG_ICH2_RETRIGD);
-
-                //check if the previous action shall be taken now
-                if(Complete_on_realloc == true)
-                {
-                    //complete the last scheduler cycle with its commanded action
-                    set_ignition_ch2(Scheduler.target_controls[Channel]);
-                }
-
-            }
-
-            //clean the channel
-            scheduler_reset_ign2();
-
-            //store the desired action at delay end
-            Scheduler.target_controls[Channel]= Controls;
-
-            //set up the compare register with the compare value
-            scheduler_allocate_ign2((U32) compare, curr_cycle, use_preload);
-            break;
-
-
-
-        case SCHEDULER_CH_FUEL1:
-
-            #ifdef SCHEDULER_DEBUG
-            debug_set[debug_set_cnt].flags.param_ch_fuel1= true;
-            #endif // SCHEDULER_DEBUG
-
-            //reallocation check
-            if(Scheduler.state.fuel1_alloc == true)
-            {
-                #ifdef SCHEDULER_DEBUG
-                debug_set[debug_set_cnt].flags.reactivated= true;
-                #endif // SCHEDULER_DEBUG
-
-                //collect diagnostic information
-                scheduler_diag_log_event(SCHEDIAG_FCH1_RETRIGD);
-
-                //check if the previous action shall be taken now
-                if(Complete_on_realloc == true)
-                {
-                    //complete the last scheduler cycle with its commanded action
-                    set_injector1(Scheduler.target_controls[Channel]);
-                }
-
-            }
-
-            //clean the channel
-            scheduler_reset_fch1();
-
-            //store the desired action at delay end
-            Scheduler.target_controls[Channel]= Controls;
-
-            //set up the compare register with the compare value
-            scheduler_allocate_fch1((U32) compare, curr_cycle, use_preload);
-
-            break;
-
-
-
-        case SCHEDULER_CH_FUEL2:
-
-            #ifdef SCHEDULER_DEBUG
-            debug_set[debug_set_cnt].flags.param_ch_fuel2= true;
-            #endif // SCHEDULER_DEBUG
-
-            //reallocation check
-            if(Scheduler.state.fuel2_alloc == true)
-            {
-                #ifdef SCHEDULER_DEBUG
-                debug_set[debug_set_cnt].flags.reactivated= true;
-                #endif // SCHEDULER_DEBUG
-
-                //collect diagnostic information
-                scheduler_diag_log_event(SCHEDIAG_FCH2_RETRIGD);
-
-                //check if the previous action shall be taken now
-                if(Complete_on_realloc == true)
-                {
-                    //complete the last scheduler cycle with its commanded action
-                    set_injector2(Scheduler.target_controls[Channel]);
-                }
-
-            }
-
-            //clean the channel
-            scheduler_reset_fch2();
-
-            //store the desired action at delay end
-            Scheduler.target_controls[Channel]= Controls;
-
-            //set up the compare register with the compare value
-            scheduler_allocate_fch2((U32) compare, curr_cycle, use_preload);
-            break;
-
-    default:
-        break;
-
-    }
-
-
     #ifdef SCHEDULER_DEBUG
+    debug_set[debug_set_cnt].now= now;
+    debug_set[debug_set_cnt].compare= compare;
+    debug_set[debug_set_cnt].flags.set_curr_cycle= curr_cycle;
+    debug_set[debug_set_cnt].flags.use_preload= use_preload;
+    debug_set[debug_set_cnt].interval1_us= pChannelState->parameters.interval1_us;
+    debug_set[debug_set_cnt].interval2_us= pChannelState->parameters.interval2_us;
+    debug_set[debug_set_cnt].flags.action1_power= pChannelState->parameters.flags.action1_power;
+    debug_set[debug_set_cnt].flags.action2_power= pChannelState->parameters.flags.action2_power;
+    debug_set[debug_set_cnt].flags.interval2_enabled= pChannelState->parameters.flags.interval2_enabled;
+    debug_set[debug_set_cnt].flags.complete_cycle_realloc= pChannelState->parameters.flags.complete_cycle_realloc;
+    debug_set[debug_set_cnt].flags.realloc= pChannelState->flags.alloc;
+    debug_set[debug_set_cnt].channel= Channel;
+
+
     if(debug_set_cnt < DEBUG_SET_LEN -1)
     {
         debug_set_cnt++;
@@ -666,16 +474,97 @@ void scheduler_set_channel(scheduler_channel_t Channel, actor_control_t Controls
     }
     #endif // SCHEDULER_DEBUG
 
+
+    /******************************************************
+    allocate timer channel
+    ******************************************************/
+
+    //register the new allocation state
+    pChannelState->flags.alloc= true;
+    pChannelState->timer_alloc(compare, curr_cycle, use_preload);
+
+
+    /******************************************************
+    diagnostics
+    ******************************************************/
+
+    //collect diagnostic information
+    scheduler_diag_log_event(SCHEDIAG_ICH1_SET + Channel);
+
+    if(curr_cycle == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_ICH1_CURRC_SET + Channel);
+    }
+    else if(use_preload == true)
+    {
+        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_PRELOAD_SET + Channel);
+    }
+    else
+    {
+        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_UPDATE_SET + Channel);
+    }
+
 }
-
-
-
-
 
 
 
 void TIM5_IRQHandler(void)
 {
+    volatile scheduler_channel_state_t * pChannelState;
+    volatile bool trigger[SCHEDULER_CH_COUNT];
+    VU32 channel;
+
+    for(channel= 0; channel < SCHEDULER_CH_COUNT; channel++)
+    {
+        trigger[channel]= false;
+    }
+
+
+    //timer channel 1 -> ignition channel 1
+    if((TIM5->SR & TIM_SR_CC1IF) && (TIM5->DIER & TIM_DIER_CC1IE))
+    {
+        //clear irq pending bit
+        TIM5->SR= (U16) ~TIM_SR_CC1IF;
+
+        //channel triggered
+        trigger[SCHEDULER_CH_IGN1]= true;
+    }
+
+    //timer channel 2 -> ignition channel 2
+    if((TIM5->SR & TIM_SR_CC2IF) && (TIM5->DIER & TIM_DIER_CC2IE))
+    {
+        //clear irq pending bit
+        TIM5->SR= (U16) ~TIM_SR_CC2IF;
+
+        //channel triggered
+        trigger[SCHEDULER_CH_IGN2]= true;
+    }
+
+    //timer channel 3 -> fuel channel 1
+    if((TIM5->SR & TIM_SR_CC3IF) && (TIM5->DIER & TIM_DIER_CC3IE))
+    {
+        //clear irq pending bit
+        TIM5->SR= (U16) ~TIM_SR_CC3IF;
+
+        //channel triggered
+        trigger[SCHEDULER_CH_FUEL1]= true;
+    }
+
+    //timer channel 4 -> fuel channel 2
+    if((TIM5->SR & TIM_SR_CC4IF) && (TIM5->DIER & TIM_DIER_CC4IE))
+    {
+        //clear irq pending bit
+        TIM5->SR= (U16) ~TIM_SR_CC4IF;
+
+        //channel triggered
+        trigger[SCHEDULER_CH_FUEL2]= true;
+    }
+
+
+    /******************************************************
+    store optional debug information
+    ******************************************************/
+
     #ifdef SCHEDULER_DEBUG
     debug_compare[debug_compare_cnt].CNT= TIM5->CNT;
 
@@ -709,83 +598,53 @@ void TIM5_IRQHandler(void)
 
     #endif // SCHEDULER_DEBUG
 
-    if((TIM5->SR & TIM_SR_CC1IF) && (TIM5->DIER & TIM_DIER_CC1IE))
+
+    /******************************************************
+    take scheduler actions
+    ******************************************************/
+
+    for(channel= 0; channel < SCHEDULER_CH_COUNT; channel++)
     {
-        //clear irq pending bit
-        TIM5->SR= (U16) ~TIM_SR_CC1IF;
+        //get channel reference
+        pChannelState= &(Scheduler.channels[channel]);
 
-        /**
-        ignition channel 1
-        */
+        //check if a trigger event for this channel has occurred
+        if(trigger[channel] == true)
+        {
+            //check which interval has expired
+            if(pChannelState->flags.interval1_expired == false)
+            {
+                //trigger useful action 1
+                pChannelState->callback(pChannelState->parameters.flags.action1_power? ACTOR_POWERED : ACTOR_UNPOWERED);
 
-        //trigger useful action
-        set_ignition_ch1(Scheduler.target_controls[SCHEDULER_CH_IGN1]);
+                //check if interval 2 has been commanded
+                if(pChannelState->parameters.flags.interval2_enabled == true)
+                {
+                    //start over with interval 2
+                    pChannelState->flags.interval1_expired= true;
+                    pChannelState->flags.alloc= false;
 
-        //clean up scheduler channel
-        scheduler_reset_ign1();
+                    //allocate channel again
+                    allocate_channel(channel, pChannelState->parameters.interval2_us);
+                }
+                else
+                {
+                    //all done, clean up scheduler channel
+                    scheduler_reset_channel(channel);
+                }
+            }
+            else
+            {
+                //trigger useful action 2
+                pChannelState->callback(pChannelState->parameters.flags.action2_power? ACTOR_POWERED : ACTOR_UNPOWERED);
 
-        //collect diagnostic information
-        scheduler_diag_log_event(SCHEDIAG_ICH1_TRIG);
-    }
+                //all done, clean up scheduler channel
+                scheduler_reset_channel(channel);
+            }
 
-
-    if((TIM5->SR & TIM_SR_CC2IF) && (TIM5->DIER & TIM_DIER_CC2IE))
-    {
-        //clear irq pending bit
-        TIM5->SR= (U16) ~TIM_SR_CC2IF;
-
-        /**
-        ignition channel 2
-        */
-
-        //trigger useful action
-        set_ignition_ch2(Scheduler.target_controls[SCHEDULER_CH_IGN2]);
-
-        //clean up scheduler channel
-        scheduler_reset_ign2();
-
-        //collect diagnostic information
-        scheduler_diag_log_event(SCHEDIAG_ICH2_TRIG);
-    }
-
-
-    if((TIM5->SR & TIM_SR_CC3IF) && (TIM5->DIER & TIM_DIER_CC3IE))
-    {
-        //clear irq pending bit
-        TIM5->SR= (U16) ~TIM_SR_CC3IF;
-
-        /**
-        fuel channel 1
-        */
-
-        //trigger useful action
-        set_injector1(Scheduler.target_controls[SCHEDULER_CH_FUEL1]);
-
-        //clean up scheduler channel
-        scheduler_reset_fch1();
-
-        //collect diagnostic information
-        scheduler_diag_log_event(SCHEDIAG_FCH1_TRIG);
-    }
-
-
-    if((TIM5->SR & TIM_SR_CC4IF) && (TIM5->DIER & TIM_DIER_CC4IE))
-    {
-        //clear irq pending bit
-        TIM5->SR= (U16) ~TIM_SR_CC4IF;
-
-        /**
-        fuel channel 2
-        */
-
-        //trigger useful action
-        set_injector2(Scheduler.target_controls[SCHEDULER_CH_FUEL2]);
-
-        //clean up scheduler channel
-        scheduler_reset_fch2();
-
-        //collect diagnostic information
-        scheduler_diag_log_event(SCHEDIAG_FCH2_TRIG);
+            //collect diagnostic information
+            scheduler_diag_log_event(SCHEDIAG_ICH1_TRIG + channel);
+        }
     }
 
 

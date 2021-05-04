@@ -75,6 +75,22 @@ VU32 get_timestamp_fraction_us()
 
 void SysTick_Handler(void)
 {
+    //1 ms cycle - 1 kHz
+    Systick_Mgr.system_time++;
+    Systick_Mgr.out.system_time= Systick_Mgr.system_time;
+
+    //init check
+    if(Tuareg.errors.init_not_completed == true)
+    {
+        return;
+    }
+
+    //run service functions update in irq context
+    if(Tuareg.flags.service_mode == true)
+    {
+        service_functions_periodic_update();
+    }
+
     Systick_Mgr.counter_10_ms++;
     Systick_Mgr.counter_20_ms++;
     Systick_Mgr.counter_33_ms++;
@@ -82,17 +98,6 @@ void SysTick_Handler(void)
     Systick_Mgr.counter_100_ms++;
     Systick_Mgr.counter_250_ms++;
     Systick_Mgr.counter_1000_ms++;
-
-
-    //1 ms cycle - 1 kHz
-    Systick_Mgr.system_time++;
-    Systick_Mgr.out.system_time= Systick_Mgr.system_time;
-
-    //run service functions update in irq context
-    if(Tuareg.flags.service_mode == true)
-    {
-        service_functions_periodic_update();
-    }
 
 
     //10 ms cycle - 100 Hz

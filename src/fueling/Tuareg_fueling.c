@@ -91,6 +91,9 @@ void init_Fueling()
 
     //init hw part
     init_fueling_hw();
+
+    //bring up vital scheduler
+    init_Vital_Scheduler();
 }
 
 
@@ -105,6 +108,7 @@ test result: ~61 us delay from signal edge B2 to injection begin
 */
 void Tuareg_fueling_update_crankpos_handler()
 {
+    volatile scheduler_activation_parameters_t scheduler_parameters;
 
     //collect diagnostic information
     //ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
@@ -152,6 +156,10 @@ void Tuareg_fueling_update_crankpos_handler()
 
         //collect diagnostic information
        // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
+        scheduler_parameters.flags.action1_power= true;
+        scheduler_parameters.flags.action2_power= false;
+        scheduler_parameters.flags.interval2_enabled= true;
+        scheduler_parameters.flags.complete_cycle_realloc= false;
 
 
         //check if sequential mode has been requested
@@ -171,9 +179,9 @@ void Tuareg_fueling_update_crankpos_handler()
             //injector #1
             if(Tuareg.fueling_controls.seq_injector1_begin_phase == Tuareg.pDecoder->phase)
             {
-                set_injector1(ACTOR_POWERED);
-
-                scheduler_set_channel(SCHEDULER_CH_FUEL1, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector1_interval_us, false);
+                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_timing_us;
+                scheduler_parameters.interval2_us= Tuareg.fueling_controls.injector1_interval_us;
+                scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
 
                 //collect diagnostic information
                // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
@@ -182,9 +190,9 @@ void Tuareg_fueling_update_crankpos_handler()
             //injector #2
             if(Tuareg.fueling_controls.seq_injector2_begin_phase == Tuareg.pDecoder->phase)
             {
-                set_injector2(ACTOR_POWERED);
-
-                scheduler_set_channel(SCHEDULER_CH_FUEL2, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector2_interval_us, false);
+                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_timing_us;
+                scheduler_parameters.interval2_us= Tuareg.fueling_controls.injector2_interval_us;
+                scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
 
                 //collect diagnostic information
                // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
@@ -199,8 +207,11 @@ void Tuareg_fueling_update_crankpos_handler()
             set_injector1(ACTOR_POWERED);
             set_injector2(ACTOR_POWERED);
 
-            scheduler_set_channel(SCHEDULER_CH_FUEL1, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector1_interval_us, false);
-            scheduler_set_channel(SCHEDULER_CH_FUEL2, ACTOR_UNPOWERED, Tuareg.fueling_controls.injector2_interval_us, false);
+            scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_interval_us;
+            scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
+
+            scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
+            scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
         }
     }
 }

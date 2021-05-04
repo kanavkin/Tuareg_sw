@@ -7,6 +7,7 @@
 
 #include "Tuareg_fueling.h"
 #include "Tuareg_fueling_controls.h"
+#include "Fueling_syslog_locations.h"
 #include "fueling_hw.h"
 #include "fueling_config.h"
 
@@ -54,6 +55,9 @@ void Tuareg_update_fueling_controls()
     //check if the engine has finished cranking
     if(Tuareg.flags.cranking == false)
     {
+        //not cranking
+        pTarget->flags.dry_cranking= false;
+
         //check for sequential / batch mode capabilities
         pTarget->flags.sequential_mode= (Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid);
 
@@ -143,7 +147,7 @@ void Tuareg_update_fueling_controls()
     update_injector_deadtime(pTarget);
 
 
-    //check if sequential mode is active
+    //check if sequential mode has been requested
     if(pTarget->flags.sequential_mode == true)
     {
         /**
@@ -156,14 +160,19 @@ void Tuareg_update_fueling_controls()
         */
         update_injection_begin_sequential(pTarget);
 
-        //check if the calculation succeeded
+
+        //check if the calculation has succeeded
         if(pTarget->flags.injection_begin_valid == false)
         {
-            //use a safe default
-            earliest_sequential_injection_begin(pTarget);
+            //downgrade to batch mode
+            pTarget->flags.sequential_mode= false;
+
+            Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_SEQUENTIAL_CALC_FAIL);
         }
     }
-    else
+
+
+    if(pTarget->flags.sequential_mode == false)
     {
         /**
         injector intervals calculation based on the calculated target fuel mass
@@ -360,15 +369,28 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget)
 }
 
 
+
+
+
 /**
 calculate the required fuel mass to be injected into each cylinder
 */
 void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget)
 {
+    pTarget->flags.dry_cranking= false;
+
     //check preconditions - table available
     if((Tuareg.errors.fueling_config_error == true) || (Tuareg.flags.limited_op == true))
     {
         pTarget->base_fuel_mass_ug= cDefault_cranking_fuel_mass_ug;
+        return;
+    }
+
+    //check if dry cranking conditions are present
+    if((Tuareg.process.TPS_deg > Fueling_Setup.dry_cranking_TPS_thres) && (Fueling_Setup.features.dry_cranking_enabled == true))
+    {
+        pTarget->base_fuel_mass_ug= 0;
+        pTarget->flags.dry_cranking= true;
         return;
     }
 
@@ -811,7 +833,7 @@ void update_injection_begin_batch(volatile fueling_control_t * pTarget)
     /*
     in batch mode injection (for injector 1 and 2) begins at the default injection begin position in any phase
     */
-    pTarget->injection_begin_pos= Fueling_Setup.default_injection_begin_pos;
+    pTarget->injection_begin_pos= Fueling_Setup.injection_reference_pos;
     pTarget->seq_injector1_begin_phase= PHASE_UNDEFINED;
     pTarget->seq_injector2_begin_phase= PHASE_UNDEFINED;
 
@@ -824,11 +846,15 @@ void update_injection_begin_batch(volatile fueling_control_t * pTarget)
 calculates the injection begin positions for sequential mode
 
 sets the injection_begin_valid flag on success
+
+this calculation is valid for cylinder #1 and #2 as it does not affect the actual fuel amount to be injected
+    it is designed for 180° parallel twin engine
 */
 void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
 {
-    U32 injection_interval_deg, injection_target_advance_deg;
-    process_position_t injection_begin_POS, injection_default_begin_POS, injection_earliest_begin_POS;
+    VU32 injection_end_target_advance_deg, avail_timing_us, avail_interval_deg;
+    VU32 injector1_interval_deg, injector2_interval_deg;
+    process_position_t injection_base_POS;
     exec_result_t result;
 
     //data update in progress
@@ -836,118 +862,49 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
 
 
     //check preconditions - crank period known
-    if(Tuareg.pDecoder->outputs.period_valid == false)
+    if((Tuareg.pDecoder->outputs.period_valid == false) || (Tuareg.pDecoder->outputs.rpm_valid == false))
     {
         return;
     }
 
+    //get injection end target advance angle
+    injection_end_target_advance_deg= getValue_InjectorPhaseTable(Tuareg.pDecoder->crank_rpm);
 
-    /**
-    check if the fueling system is about to be overloaded
-    maximum fuel amount requires the earliest possible injection begin
-    */
-    if(pTarget->flags.injector_dc_clip == true)
+    //calculate the injector intervals in degree
+    injector1_interval_deg= calc_rot_angle_deg(pTarget->injector1_interval_us, Tuareg.pDecoder->crank_period_us);
+    injector2_interval_deg= calc_rot_angle_deg(pTarget->injector2_interval_us, Tuareg.pDecoder->crank_period_us);
+
+
+    //check which injection interval is longer
+    if(injector1_interval_deg > injector2_interval_deg)
     {
-        earliest_sequential_injection_begin(pTarget);
-        pTarget->flags.injection_begin_valid= true;
-        return;
+        result= find_process_position_before(injector1_interval_deg + injection_end_target_advance_deg, &injection_base_POS, 10);
     }
-
-
-    /**
-    this base position calculation is valid for cylinder #1 and #2 as it does not affect the actual fuel amount to be injected
-    it is designed for 180° parallel twin engine
-    */
-
-    //calculate the injector interval for cylinder #1 as reference
-    injection_interval_deg= calc_rot_angle_deg(pTarget->injector1_interval_us, Tuareg.pDecoder->crank_period_us);
-
-    //calculate the target injection begin advance angle for cylinder #1 as reference
-    injection_target_advance_deg= injection_interval_deg + Fueling_Setup.intake_close_advance_deg;
-
-
-    /**
-    check if the injector interval is so short that it should be moved closer to the intake valve opening
-    (at default injection begin position)
-    */
-
-    injection_default_begin_POS.crank_pos= Fueling_Setup.default_injection_begin_pos;
-    injection_default_begin_POS.phase= Fueling_Setup.seq_cyl1_default_injection_begin_phase;
-
-    //get the basic advance angle the ignition base position provides
-    result= get_process_advance(&injection_default_begin_POS);
+    else
+    {
+        result= find_process_position_before(injector2_interval_deg + injection_end_target_advance_deg, &injection_base_POS, 10);
+    }
 
     ASSERT_EXEC_OK_VOID(result);
 
-    //check if the default injection begin position provides enough time to finish injection until intake valve closes
-    if(injection_default_begin_POS.base_PA >= injection_target_advance_deg)
-    {
-        pTarget->injection_begin_pos= Fueling_Setup.default_injection_begin_pos;
-        pTarget->seq_injector1_begin_phase= Fueling_Setup.seq_cyl1_default_injection_begin_phase;
-        pTarget->seq_injector2_begin_phase= opposite_phase(Fueling_Setup.seq_cyl1_default_injection_begin_phase);
-
-        pTarget->flags.injection_begin_valid= true;
-        return;
-    }
-
 
     /**
-    check if the injector interval is so long that it would not fit the earliest allowed injection begin position
+    calculate the remaining interval between the injection base position and the injection end target position
     */
+    avail_interval_deg= subtract_VU32(injection_base_POS.base_PA, injection_end_target_advance_deg);
 
-    injection_earliest_begin_POS.crank_pos= Fueling_Setup.seq_earliest_injection_begin_pos;
-    injection_earliest_begin_POS.phase= Fueling_Setup.seq_cyl1_earliest_injection_begin_phase;
+    //calculate the available timing for the injection reference position in far compression stroke
+    avail_timing_us= calc_rot_duration_us(avail_interval_deg, Tuareg.pDecoder->crank_period_us);
 
-    //get the basic advance angle the ignition base position provides
-    result= get_process_advance(&injection_earliest_begin_POS);
-
-    ASSERT_EXEC_OK_VOID(result);
-
-    //check if the earliest injection begin position is required
-    if(injection_target_advance_deg >= injection_earliest_begin_POS.base_PA)
-    {
-        //begin injection at the earliest possible injection begin position
-        earliest_sequential_injection_begin(pTarget);
-
-        pTarget->flags.injection_begin_valid= true;
-        return;
-    }
-
-    /**
-    then try to find a position in between
-    */
-    result= find_process_position_before(injection_target_advance_deg, &injection_begin_POS);
-
-    ASSERT_EXEC_OK_VOID(result);
-
-    //check if the result from process table is valid
-    if(injection_begin_POS.base_PA <= injection_earliest_begin_POS.base_PA)
-    {
-        //use the calculated position
-        pTarget->injection_begin_pos= injection_begin_POS.crank_pos;
-        pTarget->seq_injector1_begin_phase= injection_begin_POS.phase;
-        pTarget->seq_injector2_begin_phase= opposite_phase(injection_begin_POS.phase);
-
-        pTarget->flags.injection_begin_valid= true;
-        return;
-    }
+    //injector #1 and #2 timings
+    pTarget->injection_begin_pos= injection_base_POS.crank_pos;
+    pTarget->injector1_timing_us= subtract_VU32(avail_timing_us, pTarget->injector1_interval_us);
+    pTarget->seq_injector1_begin_phase= injection_base_POS.phase;
+    pTarget->injector2_timing_us= subtract_VU32(avail_timing_us, pTarget->injector2_interval_us);
+    pTarget->seq_injector2_begin_phase= opposite_phase(injection_base_POS.phase);
 
 
-    /**
-    why did this lookup fail?
-    */
-}
+    //ready
+    pTarget->flags.injection_begin_valid= true;
 
-
-/**
-this is also a safe configuration, allowing the injection to finish within fueling cycle
-(provided that the commanded interval is valid)
-
-*/
-void earliest_sequential_injection_begin(volatile fueling_control_t * pTarget)
-{
-    //begin injection as early as possible
-    pTarget->injection_begin_pos= Fueling_Setup.seq_earliest_injection_begin_pos;
-    pTarget->seq_injector1_begin_phase= Fueling_Setup.seq_cyl1_earliest_injection_begin_phase;
-    pTarget->seq_injector2_begin_phase= opposite_phase(Fueling_Setup.seq_cyl1_earliest_injection_begin_phase);
 }

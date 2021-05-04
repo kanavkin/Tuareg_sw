@@ -79,8 +79,8 @@ void set_ignition_ch1(actor_control_t level)
         highspeedlog_register_coil1_unpower();
 
         //prepare irq
-        Tuareg.flags.ign1_irq_flag= true;
-        trigger_ignition_irq();
+       // Tuareg.flags.ign1_irq_flag= true;
+       // trigger_ignition_irq();
     }
 }
 
@@ -98,8 +98,8 @@ void set_ignition_ch2(actor_control_t level)
         highspeedlog_register_coil2_unpower();
 
         //prepare irq
-        Tuareg.flags.ign2_irq_flag= true;
-        trigger_ignition_irq();
+       // Tuareg.flags.ign2_irq_flag= true;
+       // trigger_ignition_irq();
     }
 }
 

@@ -118,6 +118,7 @@ exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * 
         //compression stroke directly before the reference cTDC
         pTarget->crank_pos= Index;
         pTarget->phase= PHASE_CYL1_COMP;
+        pTarget->previous_cycle= false;
 
         return EXEC_OK;
     }
@@ -126,6 +127,7 @@ exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * 
         //exhaust stroke
         pTarget->crank_pos= (Index - CRK_POSITION_COUNT);
         pTarget->phase= PHASE_CYL1_EX;
+        pTarget->previous_cycle= false;
 
         return EXEC_OK;
     }
@@ -134,6 +136,7 @@ exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * 
         //compression stroke from previous cycle
         pTarget->crank_pos= (Index - 2* CRK_POSITION_COUNT);
         pTarget->phase= PHASE_CYL1_COMP;
+        pTarget->previous_cycle= true;
 
         return EXEC_OK;
     }
@@ -146,13 +149,15 @@ exec_result_t get_position_from_index(VU32 Index, volatile process_position_t * 
 /*
 helper function to find the process table index related to the process position provided
 in the range from compression stroke to exhaust stroke
-(far compression stroke would be ambiguous)
+
+(to reference the far compression stroke "previous_cycle" must be set)
+(far exhaust stroke look up not implemented)
 */
 exec_result_t get_index_from_position(volatile process_position_t * pPosition, volatile U32 * pTargetIndex)
 {
     U32 index;
 
-    if((pPosition->crank_pos >= CRK_POSITION_COUNT) || (pPosition->phase >= PHASE_UNDEFINED) )
+    if((pPosition->crank_pos >= CRK_POSITION_COUNT) || (pPosition->phase >= PHASE_UNDEFINED) || ((pPosition->phase == PHASE_CYL1_EX) && (pPosition->previous_cycle == true)))
     {
         //invalid input data
         * pTargetIndex= 0;
@@ -164,7 +169,13 @@ exec_result_t get_index_from_position(volatile process_position_t * pPosition, v
 
     if(pPosition->phase == PHASE_CYL1_EX)
     {
+        //phase := exhaust
         index += CRK_POSITION_COUNT;
+    }
+    else if(pPosition->previous_cycle == true)
+    {
+        //phase := far compression
+        index += 2* CRK_POSITION_COUNT;
     }
 
     *pTargetIndex= index;
@@ -179,7 +190,7 @@ so that an actor, triggering on this position can provide a proper timing by add
 
 in case of error the state of pTarget will be unchanged
 */
-exec_result_t find_process_position_before(volatile process_advance_t Reference_PA, volatile process_position_t * pTarget)
+exec_result_t find_process_position_before(volatile process_advance_t Reference_PA, volatile process_position_t * pTarget, VU32 Buffer_deg)
 {
     U32 index;
     exec_result_t result;
@@ -197,7 +208,7 @@ exec_result_t find_process_position_before(volatile process_advance_t Reference_
     {
         base_PA= ProcessTable[index];
 
-        if(base_PA >= Reference_PA)
+        if(base_PA >= Reference_PA + Buffer_deg)
         {
             //bingo!
             result= get_position_from_index(index, pTarget);
@@ -272,6 +283,12 @@ exec_result_t get_process_advance(volatile process_position_t * pPosition)
     result= get_index_from_position(pPosition, &index);
 
     ASSERT_EXEC_OK(result);
+
+    //post fence double check
+    if(index >= PROCESS_TABLE_LENGTH)
+    {
+        return EXEC_ERROR;
+    }
 
     pPosition->base_PA= ProcessTable[index];
 

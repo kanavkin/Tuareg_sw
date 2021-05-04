@@ -27,7 +27,10 @@ const U32 cSensor_Calibration_size= sizeof(Sensor_Calibration);
 */
 exec_result_t load_Sensor_Calibration()
 {
-   return Eeprom_load_data(EEPROM_SENSOR_CALIBRATION_BASE, pSensor_Calibration_data, cSensor_Calibration_size);
+    //bring up eeprom
+    Eeprom_init();
+
+    return Eeprom_load_data(EEPROM_SENSOR_CALIBRATION_BASE, pSensor_Calibration_data, cSensor_Calibration_size);
 }
 
 

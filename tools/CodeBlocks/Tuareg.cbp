@@ -250,6 +250,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/Tuareg_sensors.h" />
+		<Unit filename="../../src/sensors/knock_sensor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/knock_sensor.h" />
 		<Unit filename="../../src/sensors/sensor_calibration.c">
 			<Option compilerVar="CC" />
 		</Unit>

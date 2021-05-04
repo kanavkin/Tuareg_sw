@@ -61,15 +61,13 @@ INIT
 
 void Tuareg_Init()
 {
-    /**
+
+    /******************************************************
     system init
-    */
+    ******************************************************/
 
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_ENTER_INIT);
-
-    //use 16 preemption priority levels
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    //first action: set init state
+    Tuareg.errors.init_not_completed= true;
 
     //engine operation not permitted until end of initialization
     Tuareg.flags.run_inhibit= true;
@@ -77,44 +75,41 @@ void Tuareg_Init()
     Tuareg.flags.standby= true;
     Tuareg.decoder_watchdog= 0xFFFFFFFF;
 
+    //use 16 preemption priority levels
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
-    /**
+    //collect diagnostic information
+    tuareg_diag_log_event(TDIAG_ENTER_INIT);
+
+
+
+    /******************************************************
     initialize core components
-    */
+    ******************************************************/
+
+    //debug port
     UART_DEBUG_PORT_Init();
-    Tuareg_print_init_message();
 
     //initialize systick timer to provide system timestamp
     Tuareg.pTimer= init_systick_timer();
+
+    //logs
     Tuareg.pSyslog= Syslog_init();
+    Tuareg.pHighspeedlog= highspeedlog_init();
 
-    Eeprom_init();
-
-    /**
-    load main config
-    */
+    //load main config
     Tuareg_load_config();
 
     /**
     vital modules
     */
-    Tuareg.pHighspeedlog= highspeedlog_init();
-
-    init_scheduler();
-
     init_Ignition();
     init_Fueling();
-
     Tuareg.pSensors= init_Sensors();
-
     Tuareg.pDecoder= init_Decoder();
 
-
-    /**
-    update process data to provide initial values
-    */
+    //provide initial process data
     Tuareg_update_process_data();
-
 
     /**
     hmi
@@ -122,10 +117,10 @@ void Tuareg_Init()
     Tuareg_init_console();
 
     init_lowprio_scheduler();
-
     init_dash_logic();
     init_act_logic();
 
+    Tuareg_print_init_message();
 
     //init_dash_hw();
     //init_act_hw();
@@ -135,12 +130,18 @@ void Tuareg_Init()
     //set_debug_pin(PIN_ON);
     //dwt_init();
 
+
+    //last init action
+    Tuareg.errors.init_not_completed= false;
 }
 
 
 void Tuareg_load_config()
 {
     exec_result_t result;
+
+    //bring up eeprom
+    Eeprom_init();
 
     //loading the config data is essential, failure forces "limp home mode"
     result= load_Tuareg_Setup();
@@ -438,10 +439,10 @@ periodic helper function - keep vital actors deactivated
 void Tuareg_deactivate_vital_actors()
 {
     //reset scheduler
-    scheduler_reset_ign1();
-    scheduler_reset_ign2();
-    scheduler_reset_fch1();
-    scheduler_reset_fch2();
+    scheduler_reset_channel(SCHEDULER_CH_IGN1);
+    scheduler_reset_channel(SCHEDULER_CH_IGN2);
+    scheduler_reset_channel(SCHEDULER_CH_FUEL1);
+    scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
     //turn off ignition system
     if(Tuareg.flags.ignition_coil_1 == true)

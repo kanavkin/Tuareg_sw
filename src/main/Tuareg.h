@@ -83,7 +83,6 @@ typedef struct _tuareg_flags_t {
     U32 datalog_update :1;
     U32 highspeedlog_update :1;
 
-
 } tuareg_flags_t;
 
 
@@ -107,6 +106,9 @@ typedef struct _tuareg_errors_t {
     VU32 sensor_GEAR_error :1;
     VU32 sensor_MAP_error :1;
     VU32 sensor_CIS_error :1;
+
+    //init state
+    U32 init_not_completed :1;
 
 } tuareg_errors_t;
 

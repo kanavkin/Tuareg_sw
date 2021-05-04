@@ -5,7 +5,7 @@
 #include "Tuareg_ID.h"
 
 
-#define HIGSPEEDLOG_LENGTH 30
+#define HIGSPEEDLOG_LENGTH 50
 
 #define HIGSPEEDLOG_BYTE5_CIS_LOBE_BIT 4
 #define HIGSPEEDLOG_BYTE5_PHASE_COMP_BIT 5
@@ -20,15 +20,7 @@
 
 typedef enum {
 
-    HLOGA_CRKPOS_B2,
-    HLOGA_CRKPOS_B1,
-    HLOGA_CRKPOS_A2,
-    HLOGA_CRKPOS_A1,
-    HLOGA_CRKPOS_D2,
-    HLOGA_CRKPOS_D1,
-    HLOGA_CRKPOS_C2,
-    HLOGA_CRKPOS_C1,
-    HLOGA_CRKPOS_UNDEFINED,
+    HLOGA_CRKPOS_UPD,
 
 
     HLOGA_CAMLOBE_BEG,
@@ -53,23 +45,45 @@ typedef enum {
 } highspeedlog_event_t;
 
 
+/**
+    highspeedlogentry_flags_t
+*/
+typedef union
+{
+     U8 all_flags;
 
-/*
-typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
+     struct
+     {
+        U8 coil1 :1;
+        U8 coil2 :1;
+        U8 injector1 :1;
+        U8 injector2 :1;
 
-    U32 system_ts;
-    U16 fraction_ts;
+        U8 cam_lobe :1;
+
+        U8 phase_valid :1;
+        U8 phase_comp :1;
+     };
+
+} highspeedlogentry_flags_t;
+
+
+
+
+typedef struct _highspeedlog_entry_t {
+
+    timestamp_t system_ts;
+    timestamp_t fraction_ts;
+
     highspeedlog_event_t event;
 
-} highspeedlog_entry_t;
-*/
+    crank_position_t crank_position;
 
-
-typedef struct __attribute__ ((__packed__)) _highspeedlog_entry_t {
-
-    U8 data[7];
+    highspeedlogentry_flags_t flags;
 
 } highspeedlog_entry_t;
+
+
 
 
 
@@ -100,7 +114,7 @@ typedef struct _highspeedlog_mgr_t {
 volatile highspeedlog_flags_t * highspeedlog_init();
 void clear_highspeedlog();
 
-void highspeedlog_write();
+void highspeedlog_write(highspeedlog_event_t Event);
 
 void highspeedlog_register_error();
 

@@ -22,7 +22,10 @@ const U32 cDecoder_Setup_size= sizeof(Decoder_Setup);
 */
 exec_result_t load_Decoder_Setup()
 {
-   return Eeprom_load_data(EEPROM_DECODER_CONFIG_BASE, pDecoder_Setup_data, cDecoder_Setup_size);
+    //bring up eeprom
+    Eeprom_init();
+
+    return Eeprom_load_data(EEPROM_DECODER_CONFIG_BASE, pDecoder_Setup_data, cDecoder_Setup_size);
 }
 
 
