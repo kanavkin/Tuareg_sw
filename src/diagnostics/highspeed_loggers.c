@@ -274,14 +274,17 @@ void highspeedlog_register_injector2_unpower()
 
 /******************************************************************************************************************************
 this function implements the TS interface binary config page read command for highspeedlog
+from the second log entry an alias data entry will be send for each log data entry (to force steep edges in TS)
+so 2(n-1)+1 entries will be send (n is the data log length)
 ******************************************************************************************************************************/
 
 void send_highspeedlog(USART_TypeDef * Port)
 {
-    U32 entry;
+    U32 entry, i;
     volatile highspeedlog_entry_t * pTarget;
 
     U8 data_out[9];
+    U8 alias_data_out[9];
 
 
     if(Highspeedlog_Mgr.flags.log_full == false)
@@ -295,7 +298,6 @@ void send_highspeedlog(USART_TypeDef * Port)
 
         //get reference to the next entry to write to
         pTarget= &(Highspeedlog[entry]);
-
 
         //flags
         data_out[0]= pTarget->flags.all_flags;
@@ -316,21 +318,29 @@ void send_highspeedlog(USART_TypeDef * Port)
         data_out[7]= pTarget->system_ts >> 8;
         data_out[8]= pTarget->system_ts;
 
+
+        if(entry > 0)
+        {
+            /*
+            create alias data entry
+            data_out holds the last state
+            */
+            for(i=0; i< 9; i++)
+            {
+                alias_data_out[i]= data_out[i];
+            }
+
+            //event := alias
+            alias_data_out[2]= HLOGA_ALIAS;
+
+            //alias fraction timestamp: 5 us earlier
+            alias_data_out[3]= subtract_VU32(pTarget->fraction_ts, 5) >> 8;
+            alias_data_out[4]= subtract_VU32(pTarget->fraction_ts, 5);
+        }
+
         //send data
         UART_send_data(Port, &(data_out[0]), 9);
-
-        /*
-        print(DEBUG_PORT, "\r\n HSL ");
-        printf_U(DEBUG_PORT, entry, NO_PAD);
-
-        for(i =0; i < 7; i++)
-        {
-            UART_Tx(Port, Highspeedlog[entry].data[i]);
-
-            printf_U8hex(DEBUG_PORT, Highspeedlog[entry].data[i], 0);
-        }
-        */
-
+        UART_send_data(Port, &(alias_data_out[0]), 9);
     }
 
     clear_highspeedlog();
