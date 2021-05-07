@@ -476,6 +476,8 @@ void DMA2_Stream0_IRQHandler()
         //for every async asensor
         for(sensor =0; sensor < ASENSOR_ASYNC_COUNT; sensor++)
         {
+            process_data_now= false;
+
             //read ADC input value
             sample= SInternals.asensors_async_buffer[sensor];
 
@@ -554,14 +556,21 @@ void DMA2_Stream0_IRQHandler()
 
             }
 
-            //validate the sensor channel with its individual threshold, if the threshold itself is valid
+            //check if the read value is valid (validate the sensor channel with its individual threshold, if the threshold itself is valid)
             if( (sample >= min_valid) && (sample <= max_valid) && (Tuareg.errors.sensor_calibration_error == false) )
             {
                 /**
                 valid reading
                 */
 
-                //check if average calculation is enabled for this channel
+                //count the amount of consecutive valid readings, do not roll over
+                if(SInterface.asensors_valid_samples[sensor] < 0xFF)
+                {
+                    SInterface.asensors_valid_samples[sensor]++;
+                }
+
+
+                //check if averaging is enabled for this channel
                 if(target_sample_len > 1)
                 {
                     //store to integrator
@@ -572,6 +581,12 @@ void DMA2_Stream0_IRQHandler()
                     if(*pCount >= target_sample_len)
                     {
                         average= *pIntegr / *pCount;
+
+                        //reset average buffer
+                        *pIntegr= 0;
+                        *pCount= 0;
+
+                        //ready to process data
                         process_data_now= true;
                     }
                 }
@@ -583,7 +598,9 @@ void DMA2_Stream0_IRQHandler()
                 }
 
 
-                //ready?
+                /*******************************************************************
+                ready?
+                *******************************************************************/
                 if(process_data_now == true)
                 {
 
@@ -644,25 +661,16 @@ void DMA2_Stream0_IRQHandler()
 
                     }
 
-                    //reset average buffer
-                    *pIntegr= 0;
-                    *pCount= 0;
 
-                    //export calculated value to interface
+                    /*******************************************************************
+                    export to interface
+                    *******************************************************************/
+
                     SInterface.asensors[sensor]= result;
-
-                    //export raw value
                     SInterface.asensors_raw[sensor]= average;
 
                     //mark sensor as active, reset error counter
                     SInternals.asensors_async_error_counter[sensor] =0;
-
-                    //count the amount of consecutive valid readings, do not roll over
-                    if(SInterface.asensors_valid_samples[sensor] < 0xFF)
-                    {
-                        SInterface.asensors_valid_samples[sensor]++;
-                    }
-
                 }
 
             }
@@ -693,7 +701,6 @@ void DMA2_Stream0_IRQHandler()
                     {
                         SInterface.ddt_TPS= 0;
                     }
-
 
                     //reset average buffer
                     *pIntegr= 0;

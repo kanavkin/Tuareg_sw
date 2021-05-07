@@ -29974,3 +29974,540 @@ Saved user properties successfully
 5/5/21 2:19:01 PM :Info: Finalizing Sensors
 Saved user properties successfully
 5/5/21 2:19:01 PM :Debug: Saved user log settings.
+Starting on boctok
+TunerStudio 3.1.05 started on Fri May 07 13:39:17 CEST 2021
+JRE 1.8.0_282, Linux 4.15.0-142-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+5/7/21 1:39:18 PM :Info: Loading Language Content.
+5/7/21 1:39:20 PM :Info: Initializing File Dialogs.
+5/7/21 1:39:20 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+5/7/21 1:39:20 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+5/7/21 1:39:20 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+5/7/21 1:39:20 PM :Info: Initializing Plugin Services.
+5/7/21 1:39:20 PM :Info: Loading Plugins.
+5/7/21 1:39:20 PM :Info: Initializing Help.
+5/7/21 1:39:20 PM :Info: Initializing Edition Features.
+5/7/21 1:39:20 PM :Info: Initializing App Events.
+5/7/21 1:39:20 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+5/7/21 1:39:20 PM :Info: Initializing Log Viewer Components.
+5/7/21 1:39:20 PM :Info: Initializing User Interface
+5/7/21 1:39:20 PM :Warning: Unable to set Main cluster for title:
+5/7/21 1:39:21 PM :Info: Checking for updates
+5/7/21 1:39:22 PM :Info: Loading Font list.
+5/7/21 1:39:22 PM :Debug: Time to retreive font name list: 36 ms.
+5/7/21 1:39:22 PM :Info: 
+5/7/21 1:39:22 PM :Info: Initializing UI Components.
+5/7/21 1:39:22 PM :Info: Ready
+5/7/21 1:39:24 PM :Debug: Running speed test
+MS Ultramain: No check, last update check=Fri Apr 30 16:18:28 CEST 2021
+5/7/21 1:39:25 PM :Debug: Processor Score:768756
+MS Ultraad: No check, last update check=Fri Apr 30 16:18:31 CEST 2021
+5/7/21 1:39:38 PM :Info: Update Check Completed
+Saved user properties successfully
+5/7/21 1:39:39 PM :Info: Opening Project ...
+5/7/21 1:39:39 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+5/7/21 1:39:39 PM :Debug: EventTrigger Data log Reset. expression: 
+5/7/21 1:39:39 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+5/7/21 1:39:39 PM :Debug: Reading translation file as plain text
+5/7/21 1:39:40 PM :Info: Supported iniSpecVersion=3.68
+5/7/21 1:39:40 PM :Debug: Filtered ConfigurationOptionGroup in 8ms.
+5/7/21 1:39:40 PM :Info: Supported iniSpecVersion=3.68
+5/7/21 1:39:40 PM :Info: Read file canPcVariables.ini: 0.923508ms
+5/7/21 1:39:40 PM :Info: Filtered ini: 0.095406ms
+5/7/21 1:39:40 PM :Info: No iniVersion defined
+5/7/21 1:39:40 PM :Info: Loading Trigger Wheels
+5/7/21 1:39:40 PM :Info: Loaded All known ini sections
+5/7/21 1:39:40 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 18ms.
+5/7/21 1:39:40 PM :Info: Read file mainController.ini: 3.146218ms
+5/7/21 1:39:40 PM :Info: Filtered ini: 0.950471ms
+5/7/21 1:39:40 PM :Info: No iniVersion defined
+5/7/21 1:39:40 PM :Debug: ini signature: rusEFI v1.04
+5/7/21 1:39:40 PM :Info: Loading Trigger Wheels
+5/7/21 1:39:40 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+5/7/21 1:39:40 PM :Info: Loaded All known ini sections
+5/7/21 1:39:40 PM :Info: Parsed and validated ini "mainController.ini" in : 66ms.
+5/7/21 1:39:40 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+5/7/21 1:39:40 PM :Info: Time to load primary config: 169.25525ms. used cached config: false
+5/7/21 1:39:40 PM :Debug: Adding Configuration: Tuareg
+5/7/21 1:39:40 PM :Debug: controllerOnline = 0.0
+5/7/21 1:39:40 PM :Debug: Fill Constants: 6
+5/7/21 1:39:40 PM :Info: Tune opened, 1880 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+5/7/21 1:39:40 PM :Info: Tune opened, 1880 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+5/7/21 1:39:40 PM :Info: dirtyData.size(): 0
+5/7/21 1:39:40 PM :Info: dirtyData.size(): 0
+5/7/21 1:39:40 PM :Debug: Flush lasted: 1ms.
+5/7/21 1:39:40 PM :Info: dirtyData.size(): 0
+5/7/21 1:39:40 PM :Info: dirtyData.size(): 0
+5/7/21 1:39:40 PM :Debug: Flush lasted: 0ms.
+5/7/21 1:39:40 PM :Debug: Skip Burn, last write page: -2
+5/7/21 1:39:40 PM :Info: !!! Loaded config in 354
+5/7/21 1:39:40 PM :Info: !!! Activated Project 736
+5/7/21 1:39:40 PM :Info: Opening Gauge Cluster..
+5/7/21 1:39:40 PM :Info: Time to load uncached dash: 206.29688ms, file: dashboard.dash
+5/7/21 1:39:41 PM :Debug: High Speed Paint: true
+5/7/21 1:39:41 PM :Info: 
+5/7/21 1:39:41 PM :Info: Com Thread created: COMM Thread25673.759692384192
+5/7/21 1:39:41 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+5/7/21 1:39:41 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread25673.759692384192
+5/7/21 1:39:41 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread25673.759692384192
+5/7/21 1:39:41 PM :Info: Time to load uncached dash: 430.89685ms, file: fueling.dash
+5/7/21 1:39:41 PM :Debug: High Speed Paint: true
+5/7/21 1:39:42 PM :Info: Time to load uncached dash: 130.58502ms, file: ignition.dash
+5/7/21 1:39:42 PM :Debug: High Speed Paint: true
+5/7/21 1:39:42 PM :Info: Time to load uncached dash: 172.26039ms, file: AE.dash
+5/7/21 1:39:42 PM :Debug: High Speed Paint: true
+5/7/21 1:39:42 PM :Debug: !!! Opened Dash 2384
+5/7/21 1:39:42 PM :Info: Tuareg Ready
+5/7/21 1:39:42 PM :Debug: Tuning View Files loaded in 0.179351ms.
+5/7/21 1:39:42 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+5/7/21 1:39:43 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+5/7/21 1:39:43 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+5/7/21 1:39:43 PM :Debug: controllerOnline = 1.0
+5/7/21 1:39:43 PM :Info: Activating page: 1
+5/7/21 1:39:44 PM :Debug: Read page time: 177ms.
+5/7/21 1:39:44 PM :Info: Activating page: 2
+5/7/21 1:39:44 PM :Debug: Read page time: 177ms.
+5/7/21 1:39:44 PM :Info: Activating page: 3
+5/7/21 1:39:44 PM :Debug: Read page time: 177ms.
+5/7/21 1:39:44 PM :Info: Activating page: 4
+5/7/21 1:39:44 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:44 PM :Info: Activating page: 5
+5/7/21 1:39:44 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:44 PM :Info: Activating page: 6
+5/7/21 1:39:44 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:44 PM :Info: Activating page: 7
+5/7/21 1:39:45 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:45 PM :Info: Activating page: 8
+5/7/21 1:39:45 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:45 PM :Info: Activating page: 9
+5/7/21 1:39:45 PM :Debug: Read page time: 179ms.
+5/7/21 1:39:45 PM :Info: Activating page: 10
+5/7/21 1:39:45 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:45 PM :Info: Activating page: 11
+5/7/21 1:39:45 PM :Debug: Read page time: 177ms.
+5/7/21 1:39:45 PM :Info: Activating page: 12
+5/7/21 1:39:46 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:46 PM :Info: Activating page: 13
+5/7/21 1:39:46 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:46 PM :Info: Activating page: 14
+5/7/21 1:39:46 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:46 PM :Info: Activating page: 15
+5/7/21 1:39:46 PM :Debug: Read page time: 178ms.
+5/7/21 1:39:46 PM :Info: Activating page: 16
+5/7/21 1:39:46 PM :Debug: Read page time: 177ms.
+5/7/21 1:39:46 PM :Debug: Read All Data
+5/7/21 1:39:46 PM :Debug: isBlank Time: 0 ms.
+5/7/21 1:39:46 PM :Debug: DiffTime: 11 ms.
+5/7/21 1:41:02 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+5/7/21 1:41:03 PM :Debug: Purged 1 orphaned bytes:
+5/7/21 1:41:03 PM :Debug: Time:83.748s. 0x0 
+5/7/21 1:41:03 PM :Debug: Time:83.749s. 
+
+5/7/21 1:41:03 PM :Debug: Time:83.749s.   .  
+5/7/21 1:41:03 PM :Debug: expected secl =75, secl = 0, secDelta = 75
+5/7/21 1:41:03 PM :Debug: Reset Tuareg, secl = 0, expectedSecl=75, secDelta=75
+5/7/21 1:41:03 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 1:41:05 PM :Debug: controllerOnline = 0.0
+5/7/21 1:41:05 PM :Debug: No Remaining Queue Write instructions
+5/7/21 1:41:05 PM :Debug: Went offline
+5/7/21 1:41:05 PM :Debug: controllerOnline = 0.0
+5/7/21 1:41:05 PM :Debug: Deactivated fast paint Main Dashboard
+5/7/21 1:41:06 PM :Debug: No Remaining Queue Write instructions
+5/7/21 1:41:06 PM :Info: Went offline 2
+5/7/21 1:41:08 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+5/7/21 1:41:09 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+5/7/21 1:41:09 PM :Debug: controllerOnline = 1.0
+5/7/21 1:41:12 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+5/7/21 1:41:14 PM :Debug: Purged 1 orphaned bytes:
+5/7/21 1:41:14 PM :Debug: Time:94.401s. 0xFC 
+5/7/21 1:41:14 PM :Debug: Time:94.401s. 
+
+5/7/21 1:41:14 PM :Debug: Time:94.401s.   .  
+5/7/21 1:41:14 PM :Debug: expected secl =4, secl = 0, secDelta = 4
+5/7/21 1:41:14 PM :Debug: Reset Tuareg, secl = 0, expectedSecl=4, secDelta=4
+5/7/21 1:41:14 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 1:41:16 PM :Debug: controllerOnline = 0.0
+5/7/21 1:41:16 PM :Debug: No Remaining Queue Write instructions
+5/7/21 1:41:16 PM :Debug: Went offline
+5/7/21 1:41:16 PM :Debug: controllerOnline = 0.0
+5/7/21 1:41:16 PM :Debug: No Remaining Queue Write instructions
+5/7/21 1:41:16 PM :Info: Went offline 2
+5/7/21 1:41:18 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+5/7/21 1:41:19 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+5/7/21 1:41:19 PM :Debug: controllerOnline = 1.0
+5/7/21 1:45:34 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 1:45:34 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 1:45:34 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 1:49:49 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 1:49:49 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 1:49:49 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 1:54:04 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 1:54:04 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 1:54:04 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:56:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+5/7/21 1:58:19 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 1:58:19 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 1:58:19 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 2:02:34 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 2:02:34 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 2:02:34 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 2:04:13 PM :Info: Time to save msq: 96.244385
+5/7/21 2:04:13 PM :Info: closeApp Called
+5/7/21 2:04:13 PM :Debug: TuneLog Editor set text
+5/7/21 2:04:13 PM :Debug: Fill Constants: 4
+5/7/21 2:04:13 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-05-03_17.18.37.msq
+5/7/21 2:04:13 PM :Info: Time to save msq: 15.898536
+5/7/21 2:04:13 PM :Debug: goOffline Starting, Time:0
+5/7/21 2:04:13 PM :Info: Deactivated Turbo Baud, goOffline
+5/7/21 2:04:13 PM :Debug: Skip Burn, last write page: -2
+5/7/21 2:04:13 PM :Debug: goOffline about to stopProcessing, Time:250
+5/7/21 2:04:13 PM :Debug: controllerOnline = 0.0
+5/7/21 2:04:13 PM :Debug: goOffline Notified offline, Time:264
+5/7/21 2:04:13 PM :Debug: goOffline closed port, Time:264
+5/7/21 2:04:13 PM :Info: Tuareg ComThread stopped COMM Thread25673.759692384192
+5/7/21 2:04:13 PM :Debug: goOffline comm thread stopped, Time:365
+5/7/21 2:04:13 PM :Debug: No Remaining Queue Write instructions
+5/7/21 2:04:13 PM :Debug: removing Configuration: Tuareg
+5/7/21 2:04:13 PM :Debug: ############################################# Save Project Backup ##########################################
+5/7/21 2:04:13 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.05 started on Fri May 07 14:50:55 CEST 2021
+JRE 1.8.0_282, Linux 4.15.0-142-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+5/7/21 2:50:56 PM :Info: Loading Language Content.
+5/7/21 2:50:58 PM :Info: Initializing File Dialogs.
+5/7/21 2:50:58 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+5/7/21 2:50:58 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+5/7/21 2:50:58 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+5/7/21 2:50:58 PM :Info: Initializing Plugin Services.
+5/7/21 2:50:58 PM :Info: Loading Plugins.
+5/7/21 2:50:58 PM :Info: Initializing Help.
+5/7/21 2:50:58 PM :Info: Initializing Edition Features.
+5/7/21 2:50:58 PM :Info: Initializing App Events.
+5/7/21 2:50:58 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+5/7/21 2:50:58 PM :Info: Initializing Log Viewer Components.
+5/7/21 2:50:58 PM :Info: Initializing User Interface
+5/7/21 2:50:58 PM :Warning: Unable to set Main cluster for title:
+5/7/21 2:50:59 PM :Info: Checking for updates
+5/7/21 2:51:00 PM :Info: Loading Font list.
+5/7/21 2:51:00 PM :Debug: Time to retreive font name list: 21 ms.
+5/7/21 2:51:00 PM :Info: 
+5/7/21 2:51:00 PM :Info: Initializing UI Components.
+5/7/21 2:51:00 PM :Info: Ready
+5/7/21 2:51:01 PM :Info: Opening Project ...
+5/7/21 2:51:01 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+5/7/21 2:51:01 PM :Debug: EventTrigger Data log Reset. expression: 
+5/7/21 2:51:01 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+5/7/21 2:51:01 PM :Debug: Reading translation file as plain text
+5/7/21 2:51:01 PM :Info: Supported iniSpecVersion=3.68
+5/7/21 2:51:01 PM :Debug: Filtered ConfigurationOptionGroup in 10ms.
+5/7/21 2:51:01 PM :Info: Supported iniSpecVersion=3.68
+5/7/21 2:51:01 PM :Info: Read file canPcVariables.ini: 0.478576ms
+5/7/21 2:51:01 PM :Info: Filtered ini: 0.089091ms
+5/7/21 2:51:01 PM :Info: No iniVersion defined
+5/7/21 2:51:01 PM :Info: Loading Trigger Wheels
+5/7/21 2:51:01 PM :Info: Loaded All known ini sections
+5/7/21 2:51:01 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 23ms.
+5/7/21 2:51:01 PM :Info: Read file mainController.ini: 2.576491ms
+5/7/21 2:51:01 PM :Info: Filtered ini: 1.447ms
+5/7/21 2:51:01 PM :Info: No iniVersion defined
+5/7/21 2:51:01 PM :Debug: ini signature: rusEFI v1.04
+5/7/21 2:51:01 PM :Info: Loading Trigger Wheels
+5/7/21 2:51:01 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+5/7/21 2:51:01 PM :Info: Loaded All known ini sections
+5/7/21 2:51:01 PM :Info: Parsed and validated ini "mainController.ini" in : 51ms.
+5/7/21 2:51:01 PM :Info: Not Loading default Tools because non are defined for signature: rusEFI v1.04
+5/7/21 2:51:01 PM :Info: Time to load primary config: 137.85371ms. used cached config: false
+5/7/21 2:51:01 PM :Debug: Adding Configuration: Tuareg
+5/7/21 2:51:01 PM :Debug: controllerOnline = 0.0
+5/7/21 2:51:02 PM :Debug: Fill Constants: 7
+5/7/21 2:51:02 PM :Info: Tune opened, 1880 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+5/7/21 2:51:02 PM :Info: Tune opened, 1880 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+5/7/21 2:51:02 PM :Info: dirtyData.size(): 0
+5/7/21 2:51:02 PM :Info: dirtyData.size(): 0
+5/7/21 2:51:02 PM :Debug: Flush lasted: 1ms.
+5/7/21 2:51:02 PM :Info: dirtyData.size(): 0
+5/7/21 2:51:02 PM :Info: dirtyData.size(): 0
+5/7/21 2:51:02 PM :Debug: Flush lasted: 1ms.
+5/7/21 2:51:02 PM :Debug: Skip Burn, last write page: -2
+5/7/21 2:51:02 PM :Info: !!! Loaded config in 305
+MS Ultramain: No check, last update check=Fri Apr 30 16:18:28 CEST 2021
+5/7/21 2:51:02 PM :Info: !!! Activated Project 758
+5/7/21 2:51:02 PM :Info: Opening Gauge Cluster..
+5/7/21 2:51:02 PM :Info: Time to load uncached dash: 220.81491ms, file: dashboard.dash
+5/7/21 2:51:02 PM :Debug: High Speed Paint: true
+5/7/21 2:51:03 PM :Info: 
+5/7/21 2:51:03 PM :Info: Com Thread created: COMM Thread47699.7489381683
+5/7/21 2:51:03 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+5/7/21 2:51:03 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread47699.7489381683
+5/7/21 2:51:03 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread47699.7489381683
+5/7/21 2:51:03 PM :Info: Time to load uncached dash: 532.77997ms, file: fueling.dash
+5/7/21 2:51:03 PM :Debug: High Speed Paint: true
+5/7/21 2:51:04 PM :Info: Time to load uncached dash: 79.1704ms, file: ignition.dash
+5/7/21 2:51:04 PM :Debug: High Speed Paint: true
+5/7/21 2:51:04 PM :Info: Time to load uncached dash: 110.73783ms, file: AE.dash
+5/7/21 2:51:04 PM :Debug: High Speed Paint: true
+5/7/21 2:51:04 PM :Debug: !!! Opened Dash 2950
+5/7/21 2:51:04 PM :Info: Tuareg Ready
+5/7/21 2:51:04 PM :Debug: Tuning View Files loaded in 0.167826ms.
+MS Ultraad: No check, last update check=Fri Apr 30 16:18:31 CEST 2021
+5/7/21 2:51:05 PM :Info: Update Check Completed
+Saved user properties successfully
+5/7/21 2:51:21 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+5/7/21 2:51:22 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+5/7/21 2:51:22 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+5/7/21 2:51:22 PM :Debug: controllerOnline = 1.0
+5/7/21 2:51:22 PM :Info: Activating page: 1
+5/7/21 2:51:22 PM :Debug: Read page time: 177ms.
+5/7/21 2:51:22 PM :Info: Activating page: 2
+5/7/21 2:51:22 PM :Debug: Read page time: 177ms.
+5/7/21 2:51:22 PM :Info: Activating page: 3
+5/7/21 2:51:22 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:22 PM :Info: Activating page: 4
+5/7/21 2:51:23 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:23 PM :Info: Activating page: 5
+5/7/21 2:51:23 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:23 PM :Info: Activating page: 6
+5/7/21 2:51:23 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:23 PM :Info: Activating page: 7
+5/7/21 2:51:23 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:23 PM :Info: Activating page: 8
+5/7/21 2:51:23 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:23 PM :Info: Activating page: 9
+5/7/21 2:51:24 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:24 PM :Info: Activating page: 10
+5/7/21 2:51:24 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:24 PM :Info: Activating page: 11
+5/7/21 2:51:24 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:24 PM :Info: Activating page: 12
+5/7/21 2:51:24 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:24 PM :Info: Activating page: 13
+5/7/21 2:51:24 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:24 PM :Info: Activating page: 14
+5/7/21 2:51:25 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:25 PM :Info: Activating page: 15
+5/7/21 2:51:25 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:25 PM :Info: Activating page: 16
+5/7/21 2:51:25 PM :Debug: Read page time: 178ms.
+5/7/21 2:51:25 PM :Debug: Read All Data
+5/7/21 2:51:25 PM :Debug: isBlank Time: 0 ms.
+5/7/21 2:51:25 PM :Debug: DiffTime: 20 ms.
+5/7/21 2:53:57 PM :Info: Time to load non-cached dashboard: 186.56696 ms. file:Default (Tuareg).dash
+5/7/21 2:53:57 PM :Info: Time to load uncached dash: 49.05932ms, file: Default (Tuareg).dash
+5/7/21 2:53:57 PM :Debug: High Speed Paint: true
+5/7/21 2:54:00 PM :Info: Time to load uncached dash: 27.553839ms, file: Default (Tuareg).dash
+5/7/21 2:54:00 PM :Debug: High Speed Paint: true
+5/7/21 2:54:00 PM :Info: Time to load non-cached dashboard: 76.638306 ms. file:env.dash
+5/7/21 2:54:00 PM :Debug: Time to save dashboard: 87.85302ms. file: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg//dashboard/env.dash
+5/7/21 2:54:00 PM :Info: Time to load non-cached dashboard: 37.17457 ms. file:env.dash
+5/7/21 2:54:00 PM :Debug: Time to save dashboard: 45.743965ms. file: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg//dashboard/env.dash
+5/7/21 2:54:00 PM :Debug: Deactivated fast paint env
+5/7/21 2:55:40 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+5/7/21 2:55:40 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+5/7/21 2:55:40 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+5/7/21 2:57:02 PM :Info: Time to save msq: 32.467617
+5/7/21 2:57:02 PM :Info: closeApp Called
+5/7/21 2:57:02 PM :Debug: TuneLog Editor set text
+5/7/21 2:57:02 PM :Debug: Fill Constants: 6
+5/7/21 2:57:02 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-05-03_17.18.37.msq
+5/7/21 2:57:02 PM :Info: Time to save msq: 11.270885
+5/7/21 2:57:02 PM :Debug: goOffline Starting, Time:0
+5/7/21 2:57:02 PM :Info: Deactivated Turbo Baud, goOffline
+5/7/21 2:57:02 PM :Debug: Skip Burn, last write page: -2
+5/7/21 2:57:02 PM :Debug: goOffline about to stopProcessing, Time:251
+5/7/21 2:57:02 PM :Debug: controllerOnline = 0.0
+5/7/21 2:57:02 PM :Debug: goOffline Notified offline, Time:344
+5/7/21 2:57:02 PM :Debug: goOffline closed port, Time:345
+5/7/21 2:57:02 PM :Info: Tuareg ComThread stopped COMM Thread47699.7489381683
+5/7/21 2:57:02 PM :Debug: goOffline comm thread stopped, Time:395
+5/7/21 2:57:02 PM :Debug: No Remaining Queue Write instructions
+5/7/21 2:57:05 PM :Info: Time to load non-cached dashboard: 17.842201 ms. file:env.dash
+5/7/21 2:57:05 PM :Debug: Time to save dashboard: 21.979525ms. file: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg//dashboard/env.dash
+5/7/21 2:57:05 PM :Debug: removing Configuration: Tuareg
+5/7/21 2:57:05 PM :Debug: ############################################# Save Project Backup ##########################################
+5/7/21 2:57:05 PM :Info: Finalizing Sensors
+Saved user properties successfully

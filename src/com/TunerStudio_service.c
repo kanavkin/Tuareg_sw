@@ -284,23 +284,66 @@ void cli_print_sensor_data(USART_TypeDef * Port)
     //can be called cyclic by adding a lowspeed action
     U32 sensor;
 
-    print(Port, "\r\nO2   TPS   IAT   CLT  VBAT KNOCK  BARO  GEAR  MAP\r\n");
+    print(Port, "\r\nsensors:\r\n");
 
-    for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
-    {
-        printf_F32(Port, Tuareg.pSensors->asensors[sensor]);
-    }
+    print(Port, "\r\nO2: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_O2]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_O2], NO_PAD | NO_TRAIL);
+    print(Port, ")");
 
-    print(Port, "\r\n(raw:)\r\n");
+    print(Port, "\r\nTPS: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_TPS]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_TPS], NO_PAD | NO_TRAIL);
+    print(Port, ")");
 
-    for(sensor=0; sensor < ASENSOR_COUNT; sensor++)
-    {
-        printf_U(Port, Tuareg.pSensors->asensors_raw[sensor], PAD_5);
-    }
+    print(Port, "\r\nIAT: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_IAT]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_IAT], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nCLT: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_CLT]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_CLT], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nVBAT: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_VBAT]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_VBAT], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nKNOCK: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_KNOCK]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_KNOCK], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nBARO: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_BARO]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_BARO], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nGEAR: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_GEAR]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_GEAR], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
+    print(Port, "\r\nMAP: ");
+    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_MAP]);
+    print(Port, " (");
+    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_MAP], NO_PAD | NO_TRAIL);
+    print(Port, ")");
+
 
 
     print(Port, "\r\n");
-    print(Port, "\r\nDIGITAL: SPARE2 NEUTRAL RUN CRASH DEBUG\r\n");
+    print(Port, "\r\nDIGITAL: SPARE2-NEUTRAL-RUN-CRASH-DEBUG\r\n");
 
     for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
     {
@@ -313,7 +356,7 @@ void cli_print_sensor_data(USART_TypeDef * Port)
             UART_Tx(Port, '0');
         }
 
-        UART_Tx(Port, ' ');
+        UART_Tx(Port, '-');
     }
 
 }
