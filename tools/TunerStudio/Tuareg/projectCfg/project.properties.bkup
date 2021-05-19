@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Fri May 07 14:04:13 CEST 2021
-#Fri May 07 14:04:13 CEST 2021
+#Last Saved on: Wed May 19 15:26:54 CEST 2021
+#Wed May 19 15:26:54 CEST 2021
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
@@ -27,7 +27,7 @@ engine_constantsEngine\ Constants_Y=342
 engine_constantsEngine\ Constants_X=276
 engine_constantsEngine\ Constants_width=651
 CommSettingboctokCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
-InjectorPhaseCurveInjector\ phase_width=626
+InjectorPhaseCurveInjector\ phase_width=1061
 iat_retard_curveIAT\ timing\ retard_height=325
 veTableDialogVE\ Table_Y=261
 tool_boxService\ Tools\ -\ Ignition_Y=358
@@ -92,7 +92,7 @@ ecuConfigFile=mainController.ini
 serial3IOSerial3\ IO\ interface_width=403
 CrankingFuelCurveCranking\ base\ fuel\ mass_Y=316
 CrankingFuelCurveCranking\ base\ fuel\ mass_X=1294
-userDash2.FileName=AE.dash
+userDash2.FileName=sensors.dash
 engine_constantsEngine\ Constants_height=538
 serviceService_height=198
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=207
@@ -120,7 +120,7 @@ logTuningPanel_selectionTable2=ignAdvTable_TPS
 logTuningPanel_selectionTable1=InjectorTimingCurve
 AccelCompCurveAE_height=753
 syslogView\ Syslog_height=1050
-InjectorPhaseCurveInjector\ phase_height=551
+InjectorPhaseCurveInjector\ phase_height=645
 dwellSettingsDwell\ Settings_width=388
 RevLimiterSRev\ Limiter_width=372
 CrankingFuelCurve_Set\ X\ Axis\ Minimum=-50.0
@@ -138,7 +138,7 @@ serial3IOSerial3\ IO\ interface_height=207
 VeTable_MAPVE\ vs.\ MAP_height=438
 InjectorPhaseCurveInjector\ phase_Y=256
 service_vital_actorsService\ Tools\ -\ Vital\ Actors_Y=349
-InjectorPhaseCurveInjector\ phase_X=650
+InjectorPhaseCurveInjector\ phase_X=215
 VeAnalyzeConsole.veTable1Tbl_selectedDash=Standard
 service_vital_actorsService\ Tools\ -\ Vital\ Actors_X=591
 fueling_setupFueling\ Setup_Y=279
@@ -182,9 +182,9 @@ syslogView\ Syslog_width=1199
 AfrTable_TPSAFR\ vs.\ TPS_width=1623
 tuareg_setupTuareg\ Setup_width=468
 injCharsInjector\ Characteristics_Y=233
-DwellCurveDwell_Y=218
+DwellCurveDwell_Y=347
 injCharsInjector\ Characteristics_X=759
-DwellCurveDwell_X=374
+DwellCurveDwell_X=347
 VeTable_MAPVE\ vs.\ MAP_Y=316
 VeTable_MAPVE\ vs.\ MAP_X=300
 sparkSettingsSpark\ Settings_Y=386
@@ -200,7 +200,7 @@ disabledLogFields.=
 service_fuelService\ Tools\ -\ Fuelling_height=827
 baudRate=230400
 2DTable_VeTable_TPS_tableInitialDir=/home/oli/Desktop
-userDash2.DashName=AE
+userDash2.DashName=sensors
 afrTable1TblAFR\ Table_Y=316
 afrTable1TblAFR\ Table_X=684
 service_vital_actorsService\ Tools\ -\ Vital\ Actors_width=743

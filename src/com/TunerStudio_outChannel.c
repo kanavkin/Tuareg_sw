@@ -27,7 +27,7 @@
 
 
 
-#define TS_OCHBLOCKSIZE 89
+#define TS_OCHBLOCKSIZE 93
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port)
@@ -95,7 +95,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //advance         = scalar,   U16,    16, "deg",    1.000, 0.000
     serialize_U16_U8(Tuareg.ignition_controls.ignition_advance_deg, &(output[15]));
 
-    //dwell	        = scalar,   U16,    18, "ms",     0.100, 0.00
+    //dwell	        = scalar,   U16,    18, "us",     0.100, 0.00
     serialize_U16_U8(Tuareg.ignition_controls.dwell_us, &(output[17]));
 
     //VE              = scalar,   F32,    20, "%",  1.000, 0.000
@@ -147,17 +147,19 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //AFR             = scalar,   F32,    80, "O2",     1.000, 0.000
     serialize_float_U8(Tuareg.process.O2_AFR, &(output[79]));
 
+    //knock level     = scalar,   F32,    83, "Knock",     1.000, 0.000
+    serialize_float_U8(Tuareg.process.Knock_level, &(output[83]));
 
-    //gear             = scalar,   U08,    84, "gear",    1.000, 0.000
-    output[83]= Tuareg.process.Gear;
+    //gear             = scalar,   U08,    87, "gear",    1.000, 0.000
+    output[87]= Tuareg.process.Gear;
 
-    //ground_speed     = scalar,   U08,    85, "kmh",    1.000, 0.000
-    output[84]= Tuareg.process.ground_speed_kmh;
+    //ground_speed     = scalar,   U08,    88, "kmh",    1.000, 0.000
+    output[88]= Tuareg.process.ground_speed_kmh;
 
     //run time
-    serialize_U32_U8(Tuareg.engine_runtime, &(output[85]));
+    serialize_U32_U8(Tuareg.engine_runtime, &(output[89]));
 
-    //size = 89
+    //size = 93
 
     /**
     print output channels

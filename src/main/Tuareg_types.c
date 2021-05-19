@@ -7,6 +7,8 @@ This module holds constants for the Tuareg application layer
 
 #include "Tuareg_types.h"
 
+const F32 cPi= 3.14159;
+
 const F32 cKelvin_offset= 273.15;
 
 // gas constant 8.31446261815324 (kg * m²) / (s² * K * mol)

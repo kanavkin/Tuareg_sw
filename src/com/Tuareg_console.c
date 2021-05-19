@@ -514,6 +514,7 @@ inline void cli_checkPermissions(U32 Value)
         Tuareg_console.cli_permissions.burn_permission = false;
         Tuareg_console.cli_permissions.calib_mod_permission = false;
         Tuareg_console.cli_permissions.decoder_mod_permission = false;
+        Tuareg_console.cli_permissions.fueling_mod_permission = false;
         Tuareg_console.cli_permissions.ignition_mod_permission = false;
         Tuareg_console.cli_permissions.tsetup_mod_permission = false;
         print(DEBUG_PORT, "\r\nINFO config locked");

@@ -19,6 +19,7 @@ typedef struct _process_data_t {
     VF32 CLT_K;
     VF32 VBAT_V;
     VF32 O2_AFR;
+    VF32 Knock_level;
 
     gears_t Gear;
 

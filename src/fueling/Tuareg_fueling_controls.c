@@ -252,7 +252,7 @@ void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
 
 
     //check from which table to look up
-    if((Tuareg.errors.sensor_MAP_error == false) && ((rpm > Fueling_Setup.ve_from_map_min_rpm) && (rpm < Fueling_Setup.ve_from_map_max_rpm) && (Tuareg.errors.sensor_TPS_error == true)))
+    if((Tuareg.errors.sensor_TPS_error == true) || ((Tuareg.errors.sensor_MAP_error == false) && (rpm > Fueling_Setup.ve_from_map_min_rpm) && (rpm < Fueling_Setup.ve_from_map_max_rpm)))
     {
         //use VE table MAP lookup
         pTarget->flags.VE_from_MAP= true;
@@ -544,6 +544,8 @@ calculate the fuel mass compensation factor for engine warmup
 */
 void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 {
+    VF32 warmup_comp;
+
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_CLT_error == true) ||
         (Fueling_Setup.features.warmup_comp_enabled == false))
@@ -554,8 +556,10 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
     }
 
     //look up the correction factor and export
-    pTarget->flags.warmup_comp_active= true;
+    warmup_comp= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
     pTarget->fuel_mass_warmup_corr_pct= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
+
+    pTarget->flags.warmup_comp_active= (warmup_comp > 3.0)? true : false;
 }
 
 

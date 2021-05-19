@@ -107,6 +107,7 @@ typedef uint32_t timestamp_t;
 extern const F32 cKelvin_offset;
 extern const F32 cR_gas;
 extern const F32 cM_air;
+extern const F32 cPi;
 
 
 

@@ -170,7 +170,6 @@ typedef enum {
 } dsensors_t;
 
 
-
 /**
 sensor control
 

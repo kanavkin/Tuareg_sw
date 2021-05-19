@@ -20,6 +20,12 @@
 #define ADV_MODE_CMD 0x71
 
 
+#define INTEGRATOR_PARAMETERS_SIZE 32
+#define GAIN_PARAMETERS_SIZE 64
+#define BAND_PARAMETERS_SIZE 64
+
+
+
 /*
 TPIC8101
 
@@ -100,9 +106,13 @@ t -> knock window
 typedef struct _knock_sensor_controls_t {
 
     U32 integration_time_us;
+    U32 integration_begin_timing_us;
 
-    U32 integration_time_constant_us;
+    U32 tau_us;
+    U32 tau_index;
+
     F32 gain;
+    U32 gain_index;
 
 
 } knock_sensor_controls_t ;
