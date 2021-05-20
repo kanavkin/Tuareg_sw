@@ -156,7 +156,6 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
                 activate_injector2(On, Off, End);
                 break;
 
-
             default:
                 break;
         }
@@ -191,6 +190,7 @@ void init_service_functions()
     #endif // SERVICE_DEBUG_OUTPUT
 
 }
+
 
 
 /**********************************************************************************************************************
@@ -243,7 +243,7 @@ void deactivate_fuel_pump()
         Service_mgr.fuel_pump_timeout= 0;
 
         //command fuel hardware
-        set_fuel_pump(ACTOR_POWERED);
+        set_fuel_pump(ACTOR_UNPOWERED);
 
         #ifdef SERVICE_VERBOSE_OUTPUT
         Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_FUEL_PUMP);

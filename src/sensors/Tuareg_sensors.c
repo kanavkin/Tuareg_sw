@@ -38,7 +38,6 @@ volatile sensor_interface_t * init_Sensors()
     Tuareg.errors.sensor_BARO_error= true;
     Tuareg.errors.sensor_GEAR_error= true;
     Tuareg.errors.sensor_MAP_error= true;
-    Tuareg.errors.sensor_CIS_error= true;
 
     //load calibration data
     result= load_Sensor_Calibration();

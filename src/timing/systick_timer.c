@@ -91,6 +91,13 @@ void SysTick_Handler(void)
         service_functions_periodic_update();
     }
 
+    //provide MAP value for the stalled engine
+    if(Tuareg.pDecoder->outputs.standstill == true)
+    {
+        //start MAP sensor conversion
+        sensors_start_injected_group_conversion();
+    }
+
     Systick_Mgr.counter_10_ms++;
     Systick_Mgr.counter_20_ms++;
     Systick_Mgr.counter_33_ms++;

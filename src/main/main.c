@@ -172,18 +172,14 @@ int main(void)
         }
 
         /**
-        50 Hz actions
+        100 Hz actions
         */
-        if( Tuareg.pTimer->flags.cycle_20_ms == true)
+        if( Tuareg.pTimer->flags.cycle_10_ms == true)
         {
-            Tuareg.pTimer->flags.cycle_20_ms= false;
+            Tuareg.pTimer->flags.cycle_10_ms= false;
 
-            //provide MAP value for the stalled engine
             if(Tuareg.pDecoder->outputs.standstill == true)
             {
-                //start MAP sensor conversion
-                adc_start_injected_group(SENSOR_ADC);
-
                 Tuareg_update_process_data();
 
                 Tuareg_update_ignition_controls();
@@ -193,17 +189,6 @@ int main(void)
             //print debug messages from decoder
             decoder_process_debug_events();
         }
-
-
-        /**
-        10 Hz actions
-        if( Tuareg.pTimer->flags.cycle_100_ms == true)
-        {
-            Tuareg.pTimer->flags.cycle_100_ms= false;
-
-
-        }
-        */
 
 
         /**
@@ -218,7 +203,6 @@ int main(void)
 
             Tuareg_update_console();
         }
-
     }
 
 

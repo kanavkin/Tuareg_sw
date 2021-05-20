@@ -335,6 +335,8 @@ cylinder identification sensor
 
     Decoder.outputs.phase_valid= false;
     Decoder.outputs.position_valid= false;
+
+    Tuareg.errors.sensor_CIS_error= true;
 }
 
 
@@ -390,6 +392,9 @@ volatile Tuareg_decoder_t * init_decoder_logic()
     Without a crank sensor event the timeout logic would not trigger.
     */
     Decoder.outputs.standstill= true;
+
+    //report to flags
+    Tuareg.errors.sensor_CIS_error= true;
 
     //calculate the decoder timeout threshold corresponding to the configured timeout value
     //Decoder.decoder_timeout_thrs= ((1000UL * Decoder_Setup.timeout_s) / Decoder_hw.timer_overflow_ms) +1;

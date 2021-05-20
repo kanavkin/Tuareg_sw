@@ -191,6 +191,11 @@ void sensors_start_regular_group_conversion()
     adc_start_regular_group(SENSOR_ADC);
 }
 
+void sensors_start_injected_group_conversion()
+{
+    adc_start_injected_group(SENSOR_ADC);
+}
+
 
 
 /**

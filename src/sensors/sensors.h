@@ -234,6 +234,7 @@ volatile sensor_interface_t * init_sensor_inputs(U32 Init_count);
 void prepare_fastsync_init(U32 init_count);
 
 void sensors_start_regular_group_conversion();
+void sensors_start_injected_group_conversion();
 
 VU32 read_dsensors();
 void read_digital_sensors();

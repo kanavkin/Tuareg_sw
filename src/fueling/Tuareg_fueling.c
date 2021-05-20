@@ -116,7 +116,7 @@ void Tuareg_fueling_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.rev_limiter == true))
+    if(Tuareg.flags.run_inhibit == true)
     {
         //collect diagnostic information
         //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);

@@ -70,8 +70,12 @@ void ts_debug_features(U32 FeatureID)
 
         case 'rs':
 
-            //show analog and digital sensor values
             NVIC_SystemReset();
+            break;
+
+        case 'fa':
+
+            Fatal(0, 0);
             break;
 
 

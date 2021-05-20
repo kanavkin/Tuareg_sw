@@ -100,6 +100,8 @@ void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
 void deactivate_coil2();
 void coil2_periodic_update(VU32 now);
 
+void activate_fatal();
+void activate_reset();
 
 
 
