@@ -91,7 +91,7 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
     }
 
     //check if deactivation command received
-    if((On == 0) || (Off == 0) || (End == 0))
+    if((On == 0) && (Off == 0) && (End == 0))
     {
         switch (Actor)
         {
@@ -174,7 +174,7 @@ void service_functions_periodic_update()
     //update fueling system
     fuel_pump_periodic_update(now);
     injector1_periodic_update(now);
-    injector1_periodic_update(now);
+    injector2_periodic_update(now);
 
     //update coils
     coil1_periodic_update(now);
@@ -280,6 +280,8 @@ void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
         return;
     }
 
+/**
+with 8 bit protocol on, off max := 255 !!!
 
     if(On_time_ms > SERVICE_ACTOR_MAX_ON_MS)
     {
@@ -313,13 +315,29 @@ void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
         DebugMsg_Warning("injector 1 service activation on target clipped!");
         #endif // SERVICE_DEBUG_OUTPUT
     }
+*/
 
-    Service_mgr.injector1_on_ms= On_time_ms;
-    Service_mgr.injector1_off_ms= Off_time_ms;
-    Service_mgr.injector1_on_remain_ms= 1000 * On_target_s;
+    if((On_time_ms == 0xFF) && (Off_time_ms == 0xFF))
+    {
+        /**
+        static mode
+        */
+        Service_mgr.injector1_on_ms= 1000 * On_target_s;
+        Service_mgr.injector1_off_ms= 0;
+        Service_mgr.injector1_on_remain_ms= 0;
+
+    }
+    else
+    {
+        //rect mode
+        Service_mgr.injector1_on_ms= On_time_ms;
+        Service_mgr.injector1_off_ms= Off_time_ms;
+        Service_mgr.injector1_on_remain_ms= 1000 * On_target_s;
+    }
+
 
     //store toggle timestamp
-    Service_mgr.injector1_toggle= Tuareg.pTimer->system_time + On_time_ms;
+    Service_mgr.injector1_toggle= Tuareg.pTimer->system_time + Service_mgr.injector1_on_ms;
 
     //take over control
     Service_mgr.flags.injector1_control= true;
@@ -402,7 +420,7 @@ void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
         return;
     }
-
+/**
     if(On_time_ms > SERVICE_ACTOR_MAX_ON_MS)
     {
         On_time_ms= SERVICE_ACTOR_MAX_ON_MS;
@@ -424,7 +442,6 @@ void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
         DebugMsg_Warning("injector 2 service activation off time clipped!");
         #endif // SERVICE_DEBUG_OUTPUT
     }
-
     if(On_target_s > SERVICE_INJECTOR_MAX_ONTIME)
     {
         On_target_s= SERVICE_INJECTOR_MAX_ONTIME;
@@ -435,13 +452,30 @@ void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
         DebugMsg_Warning("injector 2 service activation on target clipped!");
         #endif // SERVICE_DEBUG_OUTPUT
     }
+*/
 
-    Service_mgr.injector2_on_ms= On_time_ms;
-    Service_mgr.injector2_off_ms= Off_time_ms;
-    Service_mgr.injector2_on_remain_ms= 1000 * On_target_s;
+    if((On_time_ms == 0xFF) && (Off_time_ms == 0xFF))
+    {
+        /**
+        static mode
+        */
+        Service_mgr.injector2_on_ms= 1000 * On_target_s;
+        Service_mgr.injector2_off_ms= 0;
+        Service_mgr.injector2_on_remain_ms= 0;
+
+    }
+    else
+    {
+        //rect mode
+        Service_mgr.injector2_on_ms= On_time_ms;
+        Service_mgr.injector2_off_ms= Off_time_ms;
+        Service_mgr.injector2_on_remain_ms= 1000 * On_target_s;
+    }
+
+
 
     //store toggle timestamp
-    Service_mgr.injector2_toggle= Tuareg.pTimer->system_time + On_time_ms;
+    Service_mgr.injector2_toggle= Tuareg.pTimer->system_time + Service_mgr.injector2_on_ms;
 
     //take over control
     Service_mgr.flags.injector2_control= true;
@@ -482,7 +516,7 @@ void injector2_periodic_update(VU32 now)
             //check if the commanded on time has been reached
             if(Service_mgr.injector2_on_remain_ms == 0)
             {
-                set_injector2(ACTOR_UNPOWERED);
+                deactivate_injector2();
             }
             else
             {

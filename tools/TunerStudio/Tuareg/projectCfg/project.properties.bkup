@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Thu May 20 12:00:22 CEST 2021
-#Thu May 20 12:00:22 CEST 2021
+#Last Saved on: Wed May 26 14:29:44 CEST 2021
+#Wed May 26 14:29:44 CEST 2021
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
@@ -26,7 +26,7 @@ veTableDialogVE\ Table_width=598
 engine_constantsEngine\ Constants_Y=342
 engine_constantsEngine\ Constants_X=276
 engine_constantsEngine\ Constants_width=651
-CommSettingboctokCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
+CommSettingboctokCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyUSB0
 InjectorPhaseCurveInjector\ phase_width=1061
 iat_retard_curveIAT\ timing\ retard_height=325
 veTableDialogVE\ Table_Y=261
@@ -94,7 +94,7 @@ CrankingFuelCurveCranking\ base\ fuel\ mass_Y=316
 CrankingFuelCurveCranking\ base\ fuel\ mass_X=1294
 userDash2.FileName=sensors.dash
 engine_constantsEngine\ Constants_height=538
-serviceService_height=198
+serviceService_height=235
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=206
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=403
 VeTable_MAPVE\ vs.\ MAP_width=942
@@ -172,7 +172,7 @@ fuelpumpFuel\ pump_Y=435
 fuelpumpFuel\ pump_X=777
 dwellSettingsDwell\ Settings_Y=309
 dwellSettingsDwell\ Settings_X=769
-CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyACM0
+CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyUSB0
 tool_boxService\ Tools_Y=0
 tool_boxService\ Tools_X=1064
 InjectorPhaseCurve_Set\ X\ Axis\ Minimum=0.0
