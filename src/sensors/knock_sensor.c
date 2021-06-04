@@ -17,6 +17,10 @@
 
 #include "knock_sensor.h"
 
+
+#ifdef KNOCK_SENSOR_CODE_READY
+
+
 volatile knock_sensor_controls_t Knock_sensor_ctrl;
 
 
@@ -294,3 +298,4 @@ void SPI2_IRQHandler(void)
 }
 
 
+#endif

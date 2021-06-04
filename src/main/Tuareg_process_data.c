@@ -55,8 +55,7 @@ void Tuareg_update_process_data()
     Tuareg.process.Gear= Tuareg_update_GEAR_sensor();
 
 
-    //check if vital sensor input data is available
-
+    #ifdef TUAREG_LOAD_CODE
     /*
     At least one method to determine engine load is required to operate the engine
 
@@ -74,16 +73,19 @@ void Tuareg_update_process_data()
     //load figures
     Tuareg_update_load(&(Tuareg.process));
     */
+    #else
+    Tuareg.process.load_pct=0;
+    #endif
 
 
     //ground speed
     if((Tuareg.pDecoder->outputs.rpm_valid) && (Tuareg.process.Gear < GEAR_NEUTRAL))
     {
-        Tuareg.process.ground_speed_kmh= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
+        Tuareg.process.ground_speed_mmps= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
     }
     else
     {
-        Tuareg.process.ground_speed_kmh= 0;
+        Tuareg.process.ground_speed_mmps= 0;
     }
 
 
@@ -95,9 +97,9 @@ void Tuareg_update_process_data()
 *   Process data controls update - load
 ****************************************************************************************************************************************/
 
+#ifdef TUAREG_LOAD_CODE
 /**
 calculates the current engine load from MAP, BARO and TPS sensor inputs
-
 */
 void Tuareg_update_load(volatile process_data_t * pProcess)
 {
@@ -166,7 +168,7 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
     }
 }
 
-
+#endif // TUAREG_LOAD_CODE
 
 
 

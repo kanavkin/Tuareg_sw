@@ -205,6 +205,8 @@ void Tuareg_print_init_message()
 
 /******************************************************************************************************************************
 Update - periodic update function
+
+called every 10 ms from systick timer (100 Hz)
 ******************************************************************************************************************************/
 void Tuareg_update()
 {
@@ -235,7 +237,6 @@ void Tuareg_update()
             }
         }
     }
-
 }
 
 
@@ -473,3 +474,34 @@ void Tuareg_deactivate_vital_actors()
 }
 
 
+/******************************************************************************************************************************
+periodic helper function - update driven way based on the ground speed figure
+called every 100 ms from systick timer (10 Hz)
+******************************************************************************************************************************/
+void Tuareg_update_trip()
+{
+    U32 trip_increment_mm;
+
+    //s := v * t
+    trip_increment_mm= Tuareg.process.ground_speed_mmps / 10;
+
+    Tuareg.trip_mm += trip_increment_mm;
+
+}
+
+
+
+/******************************************************************************************************************************
+periodic helper function - output update interval: 1s
+called every second from systick timer
+******************************************************************************************************************************/
+void Tuareg_update_consumption_data()
+{
+        //export data
+        Tuareg.fuel_consumpt_1s_ug= Tuareg.injected_mass_ug;
+        Tuareg.trip_1s_mm= Tuareg.trip_mm;
+
+        //reset counters
+        Tuareg.injected_mass_ug= 0;
+        Tuareg.trip_mm= 0;
+}

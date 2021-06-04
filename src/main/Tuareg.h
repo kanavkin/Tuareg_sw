@@ -168,6 +168,14 @@ typedef struct _Tuareg_t {
     VU32 decoder_watchdog;
     VU32 engine_runtime;
 
+    /*
+    fuel consumption data
+    */
+    VU32 injected_mass_ug;
+    VU32 trip_mm;
+    VU32 fuel_consumpt_1s_ug;
+    VU32 trip_1s_mm;
+
 } Tuareg_t;
 
 
@@ -187,6 +195,8 @@ void Tuareg_update_run_inhibit();
 void Tuareg_update_limited_op();
 void Tuareg_update_rev_limiter();
 void Tuareg_update_standby();
+void Tuareg_update_consumption_data();
+void Tuareg_update_trip();
 
 
 void Tuareg_deactivate_vital_actors();

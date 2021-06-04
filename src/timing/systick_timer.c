@@ -176,6 +176,7 @@ void SysTick_Handler(void)
         /*
         actions to be taken in irq scope
         */
+        Tuareg_update_trip();
 
     }
 
@@ -208,6 +209,9 @@ void SysTick_Handler(void)
         {
             Tuareg.decoder_watchdog += 1;
         }
+
+        //update fuel consumption statistics
+        Tuareg_update_consumption_data();
 
         //console
         cli_cyclic_update();
