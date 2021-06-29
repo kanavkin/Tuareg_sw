@@ -166,13 +166,16 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
 
-    //check if the crank is at the ignition base position
-    if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
+    /**
+    check if dynamic mode is active and the crank is at the ignition base position
+    -> this is the main operation scenario
+    */
+    if((Tuareg.ignition_controls.flags.dynamic_controls == true) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos))
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
-        /**
+        /*
         prepare scheduler activation parameters
         - first action is ignition -> turn off coil
         - second action is dwell -> power coil
@@ -214,13 +217,38 @@ void Tuareg_ignition_update_crankpos_handler()
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER);
         }
+
+        //all done
+        return;
+
     }
 
-    /*
-    check if the crank is at the ignition dwell position (for dynamic controls not available) -> batch style
+
+    /**
+    Everything other than dynamic mode is fallback -> batch style
+    use cases: cranking, default ignition controls
+    operating scheme: immediate spark/dwell triggering on position update
+    no scheduler allocation
     */
-    if((Tuareg.ignition_controls.flags.dynamic_controls == false) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos))
+    if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
     {
+        scheduler_reset_channel(SCHEDULER_CH_IGN1);
+        scheduler_reset_channel(SCHEDULER_CH_IGN2);
+
+        //coil #1 and #2
+        set_ignition_ch1(ACTOR_UNPOWERED);
+        set_ignition_ch2(ACTOR_UNPOWERED);
+
+        //collect diagnostic information
+        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_UNPOWER);
+        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_UNPOWER);
+
+    }
+    else if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos)
+    {
+        scheduler_reset_channel(SCHEDULER_CH_IGN1);
+        scheduler_reset_channel(SCHEDULER_CH_IGN2);
+
         //coil #1 and #2
         set_ignition_ch1(ACTOR_POWERED);
         set_ignition_ch2(ACTOR_POWERED);

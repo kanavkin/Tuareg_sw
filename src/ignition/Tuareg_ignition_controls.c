@@ -156,7 +156,7 @@ void cranking_ignition_controls(volatile ignition_controls_t * pTarget)
     //dwell
     Tuareg.ignition_controls.dwell_timing_us =0;
     Tuareg.ignition_controls.dwell_us= CRANKING_REPORTED_DWELL_US;
-    Tuareg.ignition_controls.dwell_pos= DEFAULT_DWELL_POSITION;
+    Tuareg.ignition_controls.dwell_pos= Ignition_Setup.cranking_dwell_position;
 
     //status data
     pTarget->flags.all_flags= 0;
