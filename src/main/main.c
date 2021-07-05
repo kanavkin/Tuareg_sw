@@ -185,8 +185,16 @@ int main(void)
                 Tuareg_update_ignition_controls();
                 Tuareg_update_fueling_controls();
             }
+        }
 
-            //print debug messages from decoder
+        /**
+        10 Hz actions
+        */
+        if( Tuareg.pTimer->flags.cycle_100_ms == true)
+        {
+            Tuareg.pTimer->flags.cycle_100_ms= false;
+
+            //process debug messages from decoder
             decoder_process_debug_events();
         }
 

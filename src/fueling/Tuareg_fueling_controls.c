@@ -581,7 +581,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
 
 
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true))
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.flags.cranking == true))
     {
         //copy base fuel mass only
         pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
@@ -633,7 +633,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     }
 
     //enrichment or lean out -99.9 % ... max_fuel_mass_comp %
-    pTarget->target_fuel_mass_ug= ((100 + compensation_pct) * base_fuel_mass_ug) / 100.0;
+    pTarget->target_fuel_mass_ug= ((100.0 + compensation_pct) * base_fuel_mass_ug) / 100.0;
 
 }
 

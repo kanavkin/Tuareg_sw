@@ -195,7 +195,7 @@ void Tuareg_print_init_message()
 
         #ifdef TUAREG_DEBUG_OUTPUT
         print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-        print(DEBUG_PORT, "V 0.2");
+        print(DEBUG_PORT, "V 0.7");
         #endif // TUAREG_DEBUG_OUTPUT
 
     #endif
@@ -208,8 +208,19 @@ Update - periodic update function
 
 called every 10 ms from systick timer (100 Hz)
 ******************************************************************************************************************************/
+
+const U32 cInj_wd_thres_ms= 100;
+
 void Tuareg_update()
 {
+
+    //injector watchdog check
+    if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
+    {
+        Fatal(TID_MAIN, TUAREG_LOC_INJ_WATCHDOG);
+    }
+
+
     //update control flags
     Tuareg_update_run_inhibit();
     Tuareg_update_limited_op();
@@ -309,9 +320,12 @@ periodic update helper function - limited operation strategy
 the limited_op flag indicates that only essential functionality shall be executed
 once triggered limited_op will remain set until reboot
 ******************************************************************************************************************************/
+
+const U32 cLoad_error_limp_thres= 100;
+
 void Tuareg_update_limited_op()
 {
-    //limited_op can be cleared only only be reset
+    //limited_op can be cleared only only by reset
 
     /**
     limit_op is now set together with the error flags for
@@ -323,16 +337,20 @@ void Tuareg_update_limited_op()
     -sensor_calibration_error
     */
 
+
+
     /*
-    if( (Tuareg.errors.tuareg_config_error == true) ||
-        (Tuareg.errors.decoder_config_error == true) ||
-        (Tuareg.errors.ignition_config_error == true) ||
-        (Tuareg.errors.fueling_config_error == true) ||
-        (Tuareg.errors.sensor_calibration_error == true) )
+    At least one method to determine engine load is required to operate the engine
+
+    -> while booting all errors will be present
+    -> non-running modes are not affected
+    -> while cranking a static ignition profile and fueling is used
+    */
+    if((Tuareg.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
+        //LIMP
         Tuareg.flags.limited_op= true;
     }
-    */
 }
 
 
@@ -341,10 +359,6 @@ periodic update helper function - rev limiter
 
 the rev_limiter flag indicates that engine power output shall be decrease to reduce engine rpm
 ******************************************************************************************************************************/
-
-/**
-const U16 Limp_max_rpm= 4000;
-*/
 
 const U32 cRevlimiter_hist_rpm= 200;
 
@@ -374,10 +388,6 @@ periodic update helper function - decoder watchdog and run time parameters
 this function shall be called every 100 ms
 ******************************************************************************************************************************/
 
-/**
-const U32 cDecoderWatchdog_Standby_thrs= 40;
-const U32 cCranking_end_rpm= 800;
-*/
 const U32 cMaxCrankingEntry= 20;
 
 void Tuareg_update_standby()

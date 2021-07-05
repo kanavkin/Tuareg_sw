@@ -40,8 +40,6 @@ const crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
 
 /**
 The fueling module relies on external triggers to start injection, the scheduler is allocated only to maintain the injector interval
-
-
 */
 
 
@@ -116,7 +114,7 @@ void Tuareg_fueling_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if(Tuareg.flags.run_inhibit == true)
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false) || (Tuareg.fueling_controls.target_fuel_mass_ug == 0))
     {
         //collect diagnostic information
         //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
@@ -124,6 +122,8 @@ void Tuareg_fueling_update_crankpos_handler()
         //turn off injectors
         set_injector1(ACTOR_UNPOWERED);
         set_injector2(ACTOR_UNPOWERED);
+        scheduler_reset_channel(SCHEDULER_CH_FUEL1);
+        scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
         //delete fueling controls
         Tuareg_update_fueling_controls();
@@ -131,6 +131,7 @@ void Tuareg_fueling_update_crankpos_handler()
         //nothing to do
         return;
     }
+
 
     //check if fueling controls shall be updated
     if(Tuareg.pDecoder->crank_position == fueling_controls_update_pos)
@@ -140,27 +141,9 @@ void Tuareg_fueling_update_crankpos_handler()
     }
 
 
-    //check preconditions for fueling control based actions
-    if(Tuareg.fueling_controls.flags.valid == false)
-    {
-        //collect diagnostic information
-        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
-
-        //nothing to do
-        return;
-    }
-
     //check if the crank is at the injection begin position
     if(Tuareg.pDecoder->crank_position == Tuareg.fueling_controls.injection_begin_pos)
     {
-
-        //collect diagnostic information
-       // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
-        scheduler_parameters.flags.action1_power= true;
-        scheduler_parameters.flags.action2_power= false;
-        scheduler_parameters.flags.interval2_enabled= true;
-        scheduler_parameters.flags.complete_cycle_realloc= false;
-
 
         //check if sequential mode has been requested
         if(Tuareg.fueling_controls.flags.sequential_mode == true)
@@ -172,9 +155,16 @@ void Tuareg_fueling_update_crankpos_handler()
                 return;
             }
 
-            /*
+            /**
             sequential mode
             */
+
+            //collect diagnostic information
+            // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
+            scheduler_parameters.flags.action1_power= true;
+            scheduler_parameters.flags.action2_power= false;
+            scheduler_parameters.flags.interval2_enabled= true;
+            scheduler_parameters.flags.complete_cycle_realloc= false;
 
             //injector #1
             if(Tuareg.fueling_controls.seq_injector1_begin_phase == Tuareg.pDecoder->phase)
@@ -207,16 +197,27 @@ void Tuareg_fueling_update_crankpos_handler()
         }
         else
         {
-            /*
+            /**
             batch mode
+            --> immediate injection begin, scheduler controls injection end
             */
-            set_injector1(ACTOR_POWERED);
-            set_injector2(ACTOR_POWERED);
 
+            //collect diagnostic information
+            // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
+            scheduler_parameters.flags.action1_power= false;
+            scheduler_parameters.flags.action2_power= false;
+            scheduler_parameters.flags.interval2_enabled= false;
+            scheduler_parameters.flags.complete_cycle_realloc= false;
+            scheduler_parameters.interval2_us= 0;
+
+            //injector #1
             scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_interval_us;
+            set_injector1(ACTOR_POWERED);
             scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
 
+            //injector #2
             scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
+            set_injector2(ACTOR_POWERED);
             scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
         }
 

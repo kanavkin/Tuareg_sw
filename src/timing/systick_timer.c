@@ -85,6 +85,18 @@ void SysTick_Handler(void)
         return;
     }
 
+    //injector_1 watchdog
+    if((Tuareg.flags.fuel_injector_1 == true) && (Tuareg.injector1_watchdog_ms < 0xFFFFFFFF))
+    {
+        Tuareg.injector1_watchdog_ms += 1;
+    }
+
+    //injector_2 watchdog
+    if((Tuareg.flags.fuel_injector_2 == true) && (Tuareg.injector2_watchdog_ms < 0xFFFFFFFF))
+    {
+        Tuareg.injector2_watchdog_ms += 1;
+    }
+
     //run service functions update in irq context
     if(Tuareg.flags.service_mode == true)
     {

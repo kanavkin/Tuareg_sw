@@ -166,6 +166,8 @@ typedef struct _Tuareg_t {
 
     */
     VU32 decoder_watchdog;
+    VU32 injector1_watchdog_ms;
+    VU32 injector2_watchdog_ms;
     VU32 engine_runtime;
 
     /*

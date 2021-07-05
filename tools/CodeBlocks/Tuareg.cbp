@@ -158,6 +158,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_logic.h" />
+		<Unit filename="../../src/decoder/decoder_syslog_locations.h" />
 		<Unit filename="../../src/diagnostics/diagnostics.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -313,6 +314,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/systick_timer.h" />
+		<Unit filename="../../src/timing/vital_scheduler_syslog_locations.h" />
 		<Unit filename="../../src/utils/base_calc.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -18,7 +18,7 @@ TBD!
 #include "base_calc_syslog_locations.h"
 
 
-/// TODO (oli#1#): add range check and clipping
+/// TODO (oli#7#): add range check and clipping
 
 /**
 calculate the duration (in us) corresponding to an rotation angle
@@ -37,16 +37,6 @@ U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
     Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
 
-    /*
-    if(Period_us == 0)
-    {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
-        DebugMsg_Error("DIV/0 in calc_rot_angle_deg");
-
-        return 0;
-    }
-    */
-
     return (360 * Interval_us) / Period_us;
 }
 
@@ -57,16 +47,6 @@ calculate the rpm figure from rotational period
 U32 calc_rpm(U32 Period_us)
 {
     Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
-
-    /*
-    if(Period_us == 0)
-    {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
-        DebugMsg_Error("DIV/0 in calc_rpm");
-
-        return 0;
-    }
-    */
 
     return (60000000UL) / Period_us;
 }
@@ -149,13 +129,16 @@ safe division
 VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 {
 /// TODO (oli#1#): add assert
+    Assert(Divisor > 0, TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
 
+    /*
     if(Divisor == 0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
         DebugMsg_Error("DIV/0 in divide_VU32");
         return 0;
     }
+    */
 
     return (Dividend / Divisor);
 }

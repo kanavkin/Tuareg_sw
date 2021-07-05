@@ -28,6 +28,7 @@ void set_injector1_unpowered()
     gpio_set_pin(GPIOC, 8, PIN_OFF);
 
     Tuareg.flags.fuel_injector_1= false;
+    Tuareg.injector1_watchdog_ms= 0;
 }
 
 
@@ -45,6 +46,7 @@ void set_injector2_unpowered()
     gpio_set_pin(GPIOC, 9, PIN_OFF);
 
     Tuareg.flags.fuel_injector_2= false;
+    Tuareg.injector2_watchdog_ms= 0;
 }
 
 /******************************************************************************************************************************

@@ -23,6 +23,7 @@ a timer update event is expected every ~74 min op scheduler operation
 #include "fueling_hw.h"
 
 #include "diagnostics.h"
+#include "vital_scheduler_syslog_locations.h"
 #include "Tuareg_errors.h"
 
 #include "uart.h"
@@ -45,6 +46,12 @@ VU32 debug_set_cnt =0;
 VU32 debug_compare_cnt =0;
 
 #endif // SCHEDULER_DEBUG
+
+#define SCHEDULER_DEBUG_OUTPUT
+
+#ifdef SCHEDULER_DEBUG_OUTPUT
+#warning debug outputs enabled
+#endif // SCHEDULER_DEBUG_OUTPUT
 
 
 
@@ -296,14 +303,13 @@ set a scheduler channel
 ******************************************************************************************************************************/
 void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activation_parameters_t * pParameters)
 {
-/// TODO (oli#5#): implement syslog for scheduler
     volatile scheduler_channel_state_t * pChannelState;
 
     //init check
-    Assert(Scheduler.init_done, TID_SCHEDULER, 2);
+    Assert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_SETCH_INITCHECK);
 
     //safety check - commanded channel
-    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
+    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_CH);
 
     //get channel reference
     pChannelState= &(Scheduler.channels[Channel]);
@@ -313,25 +319,28 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
     parameter checks
     ******************************************************/
 
-    //safety check - clip intervals
-    if((pParameters->interval1_us > SCHEDULER_MAX_PERIOD_US) || (pParameters->interval2_us > SCHEDULER_MAX_PERIOD_US))
-    {
-        scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
-        return;
-    }
+    //safety check - interval1_us
+    Assert(pParameters->interval1_us <= SCHEDULER_MAX_PERIOD_US, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT1);
+
+    //safety check - interval2_us
+    Assert((pParameters->interval2_us <= SCHEDULER_MAX_PERIOD_US) || (pParameters->flags.interval2_enabled == false), TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT2);
 
     //safety check - min interval 1
     if(pParameters->interval1_us < SCHEDULER_MIN_PERIOD_US)
     {
         pParameters->interval1_us= SCHEDULER_MIN_PERIOD_US;
-        //scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
+
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_DELAY_MININT1);
     }
 
     //safety check - min interval 2
     if((pParameters->flags.interval2_enabled == true) && (pParameters->interval2_us < SCHEDULER_MIN_PERIOD_US))
     {
         pParameters->interval2_us= SCHEDULER_MIN_PERIOD_US;
-        //scheduler_diag_log_event(SCHEDIAG_DELAY_CLIPPED);
+
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_DELAY_MININT2);
     }
 
 
@@ -372,10 +381,10 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
     volatile scheduler_channel_state_t * pChannelState;
 
     //init check
-    Assert(Scheduler.init_done, TID_SCHEDULER, 2);
+    Assert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
 
     //safety check - requested channel
-    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, 1);
+    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
 
     //get channel reference
     pChannelState= &(Scheduler.channels[Channel]);
@@ -507,7 +516,9 @@ void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us)
 }
 
 
-
+/******************************************************
+vital scheduler TIM worker irq
+******************************************************/
 void TIM5_IRQHandler(void)
 {
     volatile scheduler_channel_state_t * pChannelState;
@@ -653,8 +664,10 @@ void TIM5_IRQHandler(void)
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_UIF;
 
+        #ifdef SCHEDULER_DEBUG_OUTPUT
         //this should happen only every ~9,5 h
         DebugMsg_Warning("scheduler wrap around");
+        #endif // SCHEDULER_DEBUG_OUTPUT
     }
 
 }

@@ -23,6 +23,8 @@ typedef enum {
 
     TUAREG_LOC_SET_RUNMODE_SERVICE,
 
+    TUAREG_LOC_INJ_WATCHDOG,
+
 
 
 

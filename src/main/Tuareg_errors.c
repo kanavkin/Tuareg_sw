@@ -44,6 +44,8 @@ void Fatal(Tuareg_ID Id, U8 Location)
 
     #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("FATAL --");
+    printf_U(DEBUG_PORT, Id, NO_PAD);
+    printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUG_OUTPUT
 }
 
