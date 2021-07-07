@@ -197,6 +197,8 @@ void Tuareg_ignition_update_crankpos_handler()
         if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
         {
             //register ERROR
+/// TODO (oli#5#): add syslog entries for ignition
+
             return;
         }
 

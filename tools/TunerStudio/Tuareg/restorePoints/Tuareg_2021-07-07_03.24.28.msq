@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="" writeDate="Wed Jul 07 04:14:14 CEST 2021"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: User Requested Save of Settings - &lt;br&gt;" writeDate="Wed Jul 07 03:24:28 CEST 2021"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="16" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
@@ -592,7 +592,7 @@
         <constant name="Syslog_01_type">"II"</constant>
         <constant name="Syslog_01_loc">"2"</constant>
         <constant digits="0" name="Syslog_01_src" units="Module-ID">26.0</constant>
-        <constant digits="0" name="Syslog_02_ts" units="Timestamp">331.0</constant>
+        <constant digits="0" name="Syslog_02_ts" units="Timestamp">330.0</constant>
         <constant name="Syslog_02_type">"II"</constant>
         <constant name="Syslog_02_loc">"2"</constant>
         <constant digits="0" name="Syslog_02_src" units="Module-ID">21.0</constant>
@@ -600,34 +600,34 @@
         <constant name="Syslog_03_type">"II"</constant>
         <constant name="Syslog_03_loc">"2"</constant>
         <constant digits="0" name="Syslog_03_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_04_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_04_ts" units="Timestamp">877.0</constant>
         <constant name="Syslog_04_type">"II"</constant>
-        <constant name="Syslog_04_loc">"18"</constant>
+        <constant name="Syslog_04_loc">"8"</constant>
         <constant digits="0" name="Syslog_04_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_05_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_05_ts" units="Timestamp">877.0</constant>
         <constant name="Syslog_05_type">"II"</constant>
-        <constant name="Syslog_05_loc">"8"</constant>
+        <constant name="Syslog_05_loc">"10"</constant>
         <constant digits="0" name="Syslog_05_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_06_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_06_ts" units="Timestamp">877.0</constant>
         <constant name="Syslog_06_type">"II"</constant>
-        <constant name="Syslog_06_loc">"10"</constant>
+        <constant name="Syslog_06_loc">"12"</constant>
         <constant digits="0" name="Syslog_06_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_07_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_07_ts" units="Timestamp">877.0</constant>
         <constant name="Syslog_07_type">"II"</constant>
-        <constant name="Syslog_07_loc">"12"</constant>
+        <constant name="Syslog_07_loc">"14"</constant>
         <constant digits="0" name="Syslog_07_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_08_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_08_ts" units="Timestamp">877.0</constant>
         <constant name="Syslog_08_type">"II"</constant>
-        <constant name="Syslog_08_loc">"14"</constant>
+        <constant name="Syslog_08_loc">"20"</constant>
         <constant digits="0" name="Syslog_08_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_09_ts" units="Timestamp">887.0</constant>
+        <constant digits="0" name="Syslog_09_ts" units="Timestamp">4967.0</constant>
         <constant name="Syslog_09_type">"II"</constant>
-        <constant name="Syslog_09_loc">"20"</constant>
+        <constant name="Syslog_09_loc">"4"</constant>
         <constant digits="0" name="Syslog_09_src" units="Module-ID">35.0</constant>
-        <constant digits="0" name="Syslog_10_ts" units="Timestamp">1939.0</constant>
+        <constant digits="0" name="Syslog_10_ts" units="Timestamp">0.0</constant>
         <constant name="Syslog_10_type">"II"</constant>
-        <constant name="Syslog_10_loc">"4"</constant>
-        <constant digits="0" name="Syslog_10_src" units="Module-ID">35.0</constant>
+        <constant name="Syslog_10_loc">"0"</constant>
+        <constant digits="0" name="Syslog_10_src" units="Module-ID">0.0</constant>
         <constant digits="0" name="Syslog_11_ts" units="Timestamp">0.0</constant>
         <constant name="Syslog_11_type">"II"</constant>
         <constant name="Syslog_11_loc">"0"</constant>

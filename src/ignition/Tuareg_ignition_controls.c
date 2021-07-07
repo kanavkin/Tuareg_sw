@@ -244,16 +244,23 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     {
         //sequential mode: delay := T720 - spark duration - target dwell duration
         dwell_avail_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+
+        //the minimum delay is the spark duration
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+
+        pTarget->dwell_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
     }
     else
     {
         //batch mode: delay := T360 - spark duration - target dwell duration
         dwell_avail_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+
+        //the minimum delay is the spark duration
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+
+        pTarget->dwell_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
     }
 
-    //the minimum delay is the spark duration
-    pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
-    pTarget->dwell_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
 
     //dwell crank position not needed in dynamic mode
     pTarget->dwell_pos= CRK_POSITION_UNDEFINED;

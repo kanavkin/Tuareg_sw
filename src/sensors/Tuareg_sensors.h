@@ -28,7 +28,7 @@ if an analog sensor is not available, use these defaults
 #define O2_DEFAULT_AFR 14.5
 #define IAT_DEFAULT_C 20
 #define CLT_DEFAULT_C 85
-#define VBAT_DEFAULT_V 14
+#define VBAT_DEFAULT_V 12.8
 #define KNOCK_DEFAULT 0
 #define GEAR_DEFAULT 0
 

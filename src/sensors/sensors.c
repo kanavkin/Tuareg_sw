@@ -457,7 +457,8 @@ with 5x oversampling this gives an update interval of 50 ms
 void DMA2_Stream0_IRQHandler()
 {
 
-    VU32 average, sample, sensor, result, min_valid, max_valid, target_sample_len;
+    VU32 average, sample, sensor, min_valid, max_valid, target_sample_len;
+    VF32 result;
     VU32 * pIntegr= NULL;
     VU32 * pCount= NULL;
     bool process_data_now= false;
