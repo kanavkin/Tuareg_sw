@@ -581,7 +581,7 @@ returns the Cranking base fuel mass in 128 ug increments
 */
 VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 {
-    return 128 * getValue_t2D(&CrankingFuelTable, CLT_K);
+    return 512 * getValue_t2D(&CrankingFuelTable, CLT_K);
 }
 
 

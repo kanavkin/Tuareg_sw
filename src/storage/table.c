@@ -13,6 +13,7 @@
 #include "eeprom_layout.h"
 
 #include "debug_port_messages.h"
+#include "storage_syslog_locations.h"
 
 
 /**
@@ -58,9 +59,8 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
     //check precondition - x axis data validity
     if(xMin >= xMax)
     {
-        DebugMsg_Error("table2D table data range!");
+        Limp(TID_TABLE, STORAGE_LOC_T2D_DATA_RANGE);
         return 0;
-        //syslog!
     }
 
     /**
@@ -97,9 +97,8 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
         //check precondition - x axis interval data steady
         if(xMin >= xMax)
         {
-            DebugMsg_Error("table2D x interval not steady!");
+            Limp(TID_TABLE, STORAGE_LOC_T2D_NOT_STEADY);
             return 0;
-            //syslog!
         }
 
 
@@ -141,8 +140,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
     }
 
     //error
-    //syslog
-    DebugMsg_Error("table2D lookup failed without match!");
+    Limp(TID_TABLE, STORAGE_LOC_T2D_NO_MATCH);
     return 0;
 
 }

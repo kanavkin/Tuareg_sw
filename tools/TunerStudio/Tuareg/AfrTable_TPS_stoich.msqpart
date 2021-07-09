@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<msq xmlns="http://www.msefi.com/:msq">
+<bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jul 08 12:34:05 CEST 2021"/>
+<versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="16" signature="rusEFI v1.04"/>
+<page/>
+<page number="0" size="109"/>
+<page number="1" size="15"/>
+<page number="2" size="16"/>
+<page number="3" size="320"/>
+<page number="4" size="48"/>
+<page number="5" size="28"/>
+<page number="6" size="320"/>
+<page number="7" size="320"/>
+<page number="8" size="320">
+<constant cols="1" digits="0" name="fuelAFR_TPS_x" rows="16" units="Rpm">
+         1500.0 
+         2000.0 
+         2500.0 
+         3000.0 
+         3500.0 
+         4000.0 
+         4500.0 
+         5000.0 
+         5500.0 
+         6000.0 
+         6500.0 
+         7000.0 
+         7500.0 
+         8000.0 
+         8500.0 
+         9000.0 
+      </constant>
+<constant cols="1" digits="0" name="fuelAFR_TPS_y" rows="16" units="TPS">
+         10.0 
+         15.0 
+         20.0 
+         25.0 
+         30.0 
+         35.0 
+         40.0 
+         45.0 
+         50.0 
+         55.0 
+         60.0 
+         65.0 
+         70.0 
+         75.0 
+         80.0 
+         85.0 
+      </constant>
+<constant cols="16" digits="1" name="fuelAFR_TPS_z" rows="16" units="AFR">
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+      </constant>
+</page>
+<page number="9" size="48"/>
+<page number="10" size="48"/>
+<page number="11" size="48"/>
+<page number="12" size="48"/>
+<page number="13" size="48"/>
+<page number="14" size="53"/>
+<page number="15" size="180"/>
+<settings Comment="These setting are only used if this msq is opened without a project.">
+<setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>
+<setting name="SPEED_DENSITY" value="SPEED_DENSITY"/>
+<setting name="CAN_COMMANDS_OFF" value="CAN_COMMANDS_OFF"/>
+<setting name="CELSIUS" value="CELSIUS"/>
+<setting name="AFR" value="AFR"/>
+</settings>
+<userComments Comment="These are user comments that can be related to a particular setting or dialog."/>
+</msq>

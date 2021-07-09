@@ -8,6 +8,7 @@
 
 extern void Assert(bool Condition, Tuareg_ID Id, U8 Location);
 void Fatal(Tuareg_ID Id, U8 Location);
+void Limp(Tuareg_ID Id, U8 Location);
 
 
 #endif // TUAREG_ERRORS_H_INCLUDED

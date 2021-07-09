@@ -41,6 +41,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     Tuareg.flags.run_inhibit= true;
 
     Syslog_Error(Id, Location);
+    Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
 
     #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("FATAL --");
@@ -57,3 +58,22 @@ void Assert(bool Condition, Tuareg_ID Id, U8 Location)
         Fatal(Id, Location);
     }
 }
+
+
+/**
+Activates the systems limited operation strategy when a critical error has been detected
+*/
+void Limp(Tuareg_ID Id, U8 Location)
+{
+    Tuareg.flags.limited_op= true;
+
+    Syslog_Error(Id, Location);
+    Syslog_Error(TID_TUAREG, TUAREG_LOC_ENTER_LIMP_MODE);
+
+    #ifdef ERRORS_DEBUG_OUTPUT
+    DebugMsg_Error("LIMP --");
+    printf_U(DEBUG_PORT, Id, NO_PAD);
+    printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
+    #endif // ERRORS_DEBUG_OUTPUT
+}
+

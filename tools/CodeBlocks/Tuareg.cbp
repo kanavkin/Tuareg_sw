@@ -298,6 +298,7 @@
 		</Unit>
 		<Unit filename="../../src/storage/eeprom.h" />
 		<Unit filename="../../src/storage/eeprom_layout.h" />
+		<Unit filename="../../src/storage/storage_syslog_locations.h" />
 		<Unit filename="../../src/storage/table.c">
 			<Option compilerVar="CC" />
 		</Unit>

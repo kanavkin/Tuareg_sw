@@ -25,13 +25,6 @@ typedef enum {
 
     TUAREG_LOC_INJ_WATCHDOG,
 
-
-
-
-
-
-
-
     TUAREG_LOC_COUNT
 
 

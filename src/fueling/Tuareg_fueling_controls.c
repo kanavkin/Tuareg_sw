@@ -643,7 +643,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
 *   Fueling controls update - injector timing parameters
 ****************************************************************************************************************************************/
 
-
+const U32 cMin_injector_deadtime_us= 100;
 
 /**
 calculate the required fueling actor power on times to inject the given fuel mass for each cylinder
@@ -651,6 +651,8 @@ and checks the calculated intervals against the maximum injector duty cycle
 */
 void update_injector_deadtime(volatile fueling_control_t * pTarget)
 {
+    U32 injector_deadtime_us;
+
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true))
     {
@@ -663,7 +665,15 @@ void update_injector_deadtime(volatile fueling_control_t * pTarget)
     if the battery voltage sensor fails its default value will be sufficient, too
     The values in the Injector timing table are in 24 us increments
     */
-    pTarget->injector_deadtime_us= getValue_InjectorTimingTable(Tuareg.process.VBAT_V);
+    injector_deadtime_us= getValue_InjectorTimingTable(Tuareg.process.VBAT_V);
+
+    if(injector_deadtime_us < cMin_injector_deadtime_us)
+    {
+        Syslog_Error(TID_FUELING_CONTROLS, FUELING_LOC_INJ_DEADTIME_INVALID);
+        injector_deadtime_us= cDefault_injector_deadtime_us;
+    }
+
+    pTarget->injector_deadtime_us= injector_deadtime_us;
 }
 
 
