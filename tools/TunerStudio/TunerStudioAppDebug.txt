@@ -22141,3 +22141,1314 @@ U.b: Timeout after:3001ms. requested timeout:3000, Expected bytes:109, bytes rea
 7/9/21 12:52:31 PM :Info: closeApp Called
 7/9/21 12:52:31 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Fri Jul 09 12:55:31 CEST 2021
+JRE 1.8.0_292, Linux 4.15.0-144-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+7/9/21 12:55:32 PM :Info: Initializing File Dialogs.
+7/9/21 12:55:32 PM :Info: Loading Language Content.
+7/9/21 12:55:34 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+7/9/21 12:55:34 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+7/9/21 12:55:34 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+7/9/21 12:55:34 PM :Info: Initializing Plugin Services.
+7/9/21 12:55:34 PM :Info: Loading Plugins.
+7/9/21 12:55:34 PM :Info: Initializing Help.
+7/9/21 12:55:34 PM :Info: Initializing Edition Features.
+7/9/21 12:55:34 PM :Info: Initializing App Events.
+7/9/21 12:55:34 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+7/9/21 12:55:34 PM :Info: Initializing Log Viewer Components.
+7/9/21 12:55:34 PM :Info: Initializing User Interface
+7/9/21 12:55:34 PM :Warning: Unable to set Main cluster for title:
+7/9/21 12:55:36 PM :Info: Loading Font list.
+7/9/21 12:55:36 PM :Debug: Time to retreive font name list: 39 ms.
+7/9/21 12:55:36 PM :Info: 
+7/9/21 12:55:36 PM :Info: Initializing UI Components.
+7/9/21 12:55:36 PM :Info: Ready
+MS Ultramain: No check, last update check=Mon Jul 05 21:49:34 CEST 2021
+MS Ultraad: No check, last update check=Mon Jul 05 21:49:37 CEST 2021
+7/9/21 12:56:01 PM :Info: Opening Project ...
+7/9/21 12:56:01 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+7/9/21 12:56:01 PM :Debug: EventTrigger Data log Reset. expression: 
+7/9/21 12:56:01 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+7/9/21 12:56:01 PM :Debug: Reading translation file as plain text
+7/9/21 12:56:01 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 12:56:01 PM :Debug: Filtered ConfigurationOptionGroup in 14ms.
+7/9/21 12:56:01 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 12:56:01 PM :Info: Read file canPcVariables.ini: 0.526999ms
+7/9/21 12:56:01 PM :Info: Filtered ini: 0.092439ms
+7/9/21 12:56:01 PM :Info: No iniVersion defined
+7/9/21 12:56:01 PM :Info: Loading Trigger Wheels
+7/9/21 12:56:01 PM :Info: Loaded All known ini sections
+7/9/21 12:56:01 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 20ms.
+7/9/21 12:56:01 PM :Info: Read file mainController.ini: 3.055862ms
+7/9/21 12:56:01 PM :Info: Filtered ini: 0.95795ms
+7/9/21 12:56:01 PM :Info: No iniVersion defined
+7/9/21 12:56:01 PM :Debug: ini signature: rusEFI v1.04
+7/9/21 12:56:01 PM :Info: Loading Trigger Wheels
+7/9/21 12:56:01 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+7/9/21 12:56:01 PM :Info: Loaded All known ini sections
+7/9/21 12:56:01 PM :Info: Parsed and validated ini "mainController.ini" in : 67ms.
+7/9/21 12:56:01 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+7/9/21 12:56:01 PM :Info: Time to load primary config: 226.82248ms. used cached config: false
+7/9/21 12:56:02 PM :Debug: Adding Configuration: Tuareg
+7/9/21 12:56:02 PM :Debug: controllerOnline = 0.0
+7/9/21 12:56:02 PM :Debug: Fill Constants: 6
+7/9/21 12:56:02 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 12:56:02 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 12:56:02 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:02 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:02 PM :Debug: Flush lasted: 1ms.
+7/9/21 12:56:02 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:02 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:02 PM :Debug: Flush lasted: 0ms.
+7/9/21 12:56:02 PM :Debug: Skip Burn, last write page: -2
+7/9/21 12:56:02 PM :Info: !!! Loaded config in 463
+7/9/21 12:56:02 PM :Info: !!! Activated Project 1052
+7/9/21 12:56:02 PM :Info: Opening Gauge Cluster..
+7/9/21 12:56:02 PM :Info: Time to load uncached dash: 225.64693ms, file: dashboard.dash
+7/9/21 12:56:03 PM :Debug: High Speed Paint: false
+7/9/21 12:56:03 PM :Info: 
+7/9/21 12:56:03 PM :Info: Com Thread created: COMM Thread5435.069087618849
+7/9/21 12:56:03 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+7/9/21 12:56:03 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread5435.069087618849
+7/9/21 12:56:03 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread5435.069087618849
+7/9/21 12:56:03 PM :Info: Time to load uncached dash: 235.06953ms, file: fueling.dash
+7/9/21 12:56:03 PM :Debug: High Speed Paint: false
+7/9/21 12:56:03 PM :Info: Time to load uncached dash: 94.56271ms, file: ignition.dash
+7/9/21 12:56:03 PM :Debug: High Speed Paint: false
+7/9/21 12:56:03 PM :Info: Time to load uncached dash: 48.90144ms, file: sensors.dash
+7/9/21 12:56:03 PM :Debug: High Speed Paint: false
+7/9/21 12:56:03 PM :Debug: !!! Opened Dash 2237
+7/9/21 12:56:03 PM :Info: Tuareg Ready
+7/9/21 12:56:03 PM :Debug: Tuning View Files loaded in 0.330308ms.
+7/9/21 12:56:04 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 12:56:05 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 12:56:05 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 12:56:05 PM :Debug: controllerOnline = 1.0
+7/9/21 12:56:05 PM :Info: Activating page: 1
+7/9/21 12:56:05 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:05 PM :Info: Activating page: 2
+7/9/21 12:56:06 PM :Debug: Read page time: 177ms.
+7/9/21 12:56:06 PM :Info: Activating page: 3
+7/9/21 12:56:06 PM :Debug: Read page time: 177ms.
+7/9/21 12:56:06 PM :Info: Activating page: 4
+7/9/21 12:56:06 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:06 PM :Info: Activating page: 5
+7/9/21 12:56:06 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:06 PM :Info: Activating page: 6
+7/9/21 12:56:06 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:06 PM :Info: Activating page: 7
+7/9/21 12:56:07 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:07 PM :Info: Activating page: 8
+7/9/21 12:56:07 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:07 PM :Info: Activating page: 9
+7/9/21 12:56:07 PM :Debug: Read page time: 179ms.
+7/9/21 12:56:07 PM :Info: Activating page: 10
+7/9/21 12:56:07 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:07 PM :Info: Activating page: 11
+7/9/21 12:56:07 PM :Debug: Read page time: 179ms.
+7/9/21 12:56:07 PM :Info: Activating page: 12
+7/9/21 12:56:08 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:08 PM :Info: Activating page: 13
+7/9/21 12:56:08 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:08 PM :Info: Activating page: 14
+7/9/21 12:56:08 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:08 PM :Info: Activating page: 15
+7/9/21 12:56:08 PM :Debug: Read page time: 177ms.
+7/9/21 12:56:08 PM :Info: Activating page: 16
+7/9/21 12:56:08 PM :Debug: Read page time: 178ms.
+7/9/21 12:56:08 PM :Debug: Read All Data
+7/9/21 12:56:08 PM :Debug: isBlank Time: 0 ms.
+7/9/21 12:56:08 PM :Debug: DiffTime: 15 ms.
+7/9/21 12:56:18 PM :Debug: Received Instruction: , Page: 0
+7/9/21 12:56:23 PM :Debug: Received Instruction: , Page: 0
+7/9/21 12:56:25 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:25 PM :Info: dirtyData.size(): 0
+7/9/21 12:56:25 PM :Debug: Flush lasted: 1ms.
+7/9/21 12:56:25 PM :Debug: Burn Page anonymous: -1
+7/9/21 12:56:25 PM :Debug: Received Instruction: , Page: 16
+7/9/21 12:56:25 PM :Info: skip burn to page:16, lastWritePage = -2
+7/9/21 12:56:25 PM :Debug: No Remaining Queue Write instructions
+7/9/21 12:56:27 PM :Info: Time to save msq: 76.60817
+7/9/21 1:00:20 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 1:00:20 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 1:00:20 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:01:03 PM :Debug: Received Instruction: Read Page 7, Page: 7
+7/9/21 1:01:03 PM :Info: Initiating read page 7
+7/9/21 1:01:03 PM :Info: Activating page: 7
+7/9/21 1:01:18 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:20 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:27 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:31 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:36 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:40 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:47 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:50 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:01:52 PM :Info: dirtyData.size(): 0
+7/9/21 1:01:52 PM :Info: dirtyData.size(): 0
+7/9/21 1:01:52 PM :Debug: Flush lasted: 1ms.
+7/9/21 1:01:52 PM :Debug: Burn Page anonymous: 7
+7/9/21 1:01:52 PM :Debug: Received Instruction: , Page: 7
+7/9/21 1:01:52 PM :Info: Queueing burn to page:7
+7/9/21 1:01:52 PM :Debug: Burn time:10ms.
+7/9/21 1:01:52 PM :Debug: burned page 7
+7/9/21 1:01:52 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:01:53 PM :Info: Time to save msq: 15.084797
+7/9/21 1:02:25 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:26 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:27 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:27 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:28 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:29 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:30 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:32 PM :Info: dirtyData.size(): 0
+7/9/21 1:02:32 PM :Info: dirtyData.size(): 0
+7/9/21 1:02:32 PM :Debug: Flush lasted: 1ms.
+7/9/21 1:02:32 PM :Debug: Burn Page anonymous: 7
+7/9/21 1:02:32 PM :Debug: Received Instruction: , Page: 7
+7/9/21 1:02:32 PM :Info: Queueing burn to page:7
+7/9/21 1:02:32 PM :Debug: Burn time:10ms.
+7/9/21 1:02:32 PM :Debug: burned page 7
+7/9/21 1:02:32 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:02:33 PM :Info: Time to save msq: 10.421638
+7/9/21 1:02:40 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:40 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:41 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:41 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:42 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:43 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:46 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:47 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:48 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:50 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:51 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:53 PM :Debug: Received Instruction: Write byte, Page: 7
+7/9/21 1:02:55 PM :Info: dirtyData.size(): 0
+7/9/21 1:02:55 PM :Info: dirtyData.size(): 0
+7/9/21 1:02:55 PM :Debug: Flush lasted: 0ms.
+7/9/21 1:02:55 PM :Debug: Burn Page anonymous: 7
+7/9/21 1:02:55 PM :Debug: Received Instruction: , Page: 7
+7/9/21 1:02:55 PM :Info: Queueing burn to page:7
+7/9/21 1:02:55 PM :Debug: Burn time:10ms.
+7/9/21 1:02:55 PM :Debug: burned page 7
+7/9/21 1:02:55 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:02:57 PM :Info: Time to save msq: 10.704912
+7/9/21 1:04:35 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 1:04:35 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 1:04:35 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:08:50 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 1:08:50 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 1:08:50 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:12:01 PM :Info: dirtyData.size(): 0
+7/9/21 1:12:01 PM :Info: dirtyData.size(): 0
+7/9/21 1:12:01 PM :Debug: Flush lasted: 1ms.
+7/9/21 1:12:01 PM :Debug: Skip Burn, last write page: -2
+7/9/21 1:12:51 PM :Debug: Unable to locate OS Font Directory(s)
+7/9/21 1:12:51 PM :Debug: Time (Cached): 4, Not found Font: Liberation Sans
+7/9/21 1:13:05 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 1:13:05 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 1:13:05 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:17:20 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 1:17:20 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 1:17:20 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:19:23 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 1:19:25 PM :Debug: Purged 2 orphaned bytes:
+7/9/21 1:19:25 PM :Debug: Time:1403.099s. 0x0 0x0 
+7/9/21 1:19:25 PM :Debug: Time:1403.1s. 
+
+7/9/21 1:19:25 PM :Debug: Time:1403.1s.   .    .  
+7/9/21 1:19:25 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:19:26 PM :Debug: controllerOnline = 0.0
+7/9/21 1:19:27 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:19:27 PM :Debug: Went offline
+7/9/21 1:19:27 PM :Debug: controllerOnline = 0.0
+7/9/21 1:19:27 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:19:27 PM :Info: Went offline 2
+7/9/21 1:19:29 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 1:19:30 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 1:19:30 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 1:19:30 PM :Debug: controllerOnline = 1.0
+7/9/21 1:19:30 PM :Info: Activating page: 1
+7/9/21 1:19:30 PM :Debug: Read page time: 177ms.
+7/9/21 1:19:30 PM :Info: Activating page: 2
+7/9/21 1:19:30 PM :Debug: Read page time: 176ms.
+7/9/21 1:19:30 PM :Info: Activating page: 3
+7/9/21 1:19:31 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:31 PM :Info: Activating page: 4
+7/9/21 1:19:31 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:31 PM :Info: Activating page: 5
+7/9/21 1:19:31 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:31 PM :Info: Activating page: 6
+7/9/21 1:19:31 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:31 PM :Info: Activating page: 7
+7/9/21 1:19:31 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:31 PM :Info: Activating page: 8
+7/9/21 1:19:32 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:32 PM :Info: Activating page: 9
+7/9/21 1:19:32 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:32 PM :Info: Activating page: 10
+7/9/21 1:19:32 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:32 PM :Info: Activating page: 11
+7/9/21 1:19:32 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:32 PM :Info: Activating page: 12
+7/9/21 1:19:32 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:32 PM :Info: Activating page: 13
+7/9/21 1:19:32 PM :Debug: Read page time: 177ms.
+7/9/21 1:19:32 PM :Info: Activating page: 14
+7/9/21 1:19:33 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:33 PM :Info: Activating page: 15
+7/9/21 1:19:33 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:33 PM :Info: Activating page: 16
+7/9/21 1:19:33 PM :Debug: Read page time: 178ms.
+7/9/21 1:19:33 PM :Debug: Read All Data
+7/9/21 1:19:33 PM :Debug: isBlank Time: 0 ms.
+7/9/21 1:19:33 PM :Debug: DiffTime: 8 ms.
+7/9/21 1:20:43 PM :Info: Time to save msq: 8.928191
+7/9/21 1:20:43 PM :Info: closeApp Called
+7/9/21 1:20:43 PM :Debug: TuneLog Editor set text
+7/9/21 1:20:43 PM :Debug: Fill Constants: 5
+7/9/21 1:20:43 PM :Debug: File does not exist, creating new:
+/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/restorePoints/Tuareg_2021-07-09_13.20.43.msq
+7/9/21 1:20:43 PM :Info: Time to save msq: 8.059811
+7/9/21 1:20:43 PM :Info: Tuareg Restore point saved
+7/9/21 1:20:43 PM :Info: Tuareg Restore point saved to: Tuareg_2021-07-09_13.20.43.msq
+7/9/21 1:20:43 PM :Info: Time to save msq: 7.901052
+7/9/21 1:20:43 PM :Debug: goOffline Starting, Time:0
+7/9/21 1:20:43 PM :Info: Deactivated Turbo Baud, goOffline
+7/9/21 1:20:43 PM :Debug: Burn Page anonymous: -1
+7/9/21 1:20:43 PM :Debug: Received Instruction: , Page: 16
+7/9/21 1:20:43 PM :Info: skip burn to page:16, lastWritePage = -2
+7/9/21 1:20:43 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:20:43 PM :Debug: goOffline about to stopProcessing, Time:331
+7/9/21 1:20:43 PM :Debug: controllerOnline = 0.0
+7/9/21 1:20:43 PM :Debug: goOffline Notified offline, Time:351
+7/9/21 1:20:43 PM :Debug: goOffline closed port, Time:351
+7/9/21 1:20:43 PM :Info: Tuareg ComThread stopped COMM Thread5435.069087618849
+7/9/21 1:20:43 PM :Debug: goOffline comm thread stopped, Time:452
+7/9/21 1:20:43 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:20:44 PM :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+7/9/21 1:20:44 PM :Info: Time to save msq: 11.727021
+7/9/21 1:20:44 PM :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+Exception in thread "GaugeCluster Demo 20" java.lang.IllegalThreadStateException
+	at java.lang.Thread.start(Thread.java:708)
+	at com.efiAnalytics.apps.ts.dashboard.x.b(Unknown Source)
+	at com.efiAnalytics.apps.ts.dashboard.x.b(Unknown Source)
+	at com.efiAnalytics.apps.ts.dashboard.S.run(Unknown Source)
+7/9/21 1:20:45 PM :Info: Time to load non-cached dashboard: 66.60783 ms. file:fueling.dash
+7/9/21 1:20:45 PM :Debug: Time to save dashboard: 97.16907ms. file: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg//dashboard/fueling.dash
+7/9/21 1:20:45 PM :Debug: removing Configuration: Tuareg
+7/9/21 1:20:45 PM :Debug: ############################################# Save Project Backup ##########################################
+7/9/21 1:20:45 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Fri Jul 09 13:20:52 CEST 2021
+JRE 1.8.0_292, Linux 4.15.0-144-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+7/9/21 1:20:53 PM :Info: Initializing File Dialogs.
+7/9/21 1:20:53 PM :Info: Loading Language Content.
+7/9/21 1:20:55 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+7/9/21 1:20:55 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+7/9/21 1:20:55 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+7/9/21 1:20:55 PM :Info: Initializing Plugin Services.
+7/9/21 1:20:55 PM :Info: Loading Plugins.
+7/9/21 1:20:55 PM :Info: Initializing Help.
+7/9/21 1:20:55 PM :Info: Initializing Edition Features.
+7/9/21 1:20:55 PM :Info: Initializing App Events.
+7/9/21 1:20:55 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+7/9/21 1:20:55 PM :Info: Initializing Log Viewer Components.
+7/9/21 1:20:55 PM :Info: Initializing User Interface
+7/9/21 1:20:55 PM :Warning: Unable to set Main cluster for title:
+7/9/21 1:20:57 PM :Info: Loading Font list.
+7/9/21 1:20:57 PM :Debug: Time to retreive font name list: 25 ms.
+7/9/21 1:20:57 PM :Info: 
+7/9/21 1:20:57 PM :Info: Initializing UI Components.
+7/9/21 1:20:57 PM :Info: Ready
+7/9/21 1:20:58 PM :Info: Opening Project ...
+7/9/21 1:20:58 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+7/9/21 1:20:58 PM :Debug: EventTrigger Data log Reset. expression: 
+7/9/21 1:20:58 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+7/9/21 1:20:58 PM :Debug: Reading translation file as plain text
+7/9/21 1:20:58 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 1:20:58 PM :Debug: Filtered ConfigurationOptionGroup in 9ms.
+7/9/21 1:20:58 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 1:20:58 PM :Info: Read file canPcVariables.ini: 0.468512ms
+7/9/21 1:20:58 PM :Info: Filtered ini: 0.080686ms
+7/9/21 1:20:58 PM :Info: No iniVersion defined
+7/9/21 1:20:58 PM :Info: Loading Trigger Wheels
+7/9/21 1:20:58 PM :Info: Loaded All known ini sections
+7/9/21 1:20:58 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 19ms.
+7/9/21 1:20:58 PM :Info: Read file mainController.ini: 4.209636ms
+7/9/21 1:20:58 PM :Info: Filtered ini: 1.045059ms
+7/9/21 1:20:58 PM :Info: No iniVersion defined
+7/9/21 1:20:58 PM :Debug: ini signature: rusEFI v1.04
+7/9/21 1:20:58 PM :Info: Loading Trigger Wheels
+7/9/21 1:20:58 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+7/9/21 1:20:58 PM :Info: Loaded All known ini sections
+7/9/21 1:20:58 PM :Info: Parsed and validated ini "mainController.ini" in : 67ms.
+7/9/21 1:20:58 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+7/9/21 1:20:58 PM :Info: Time to load primary config: 161.72198ms. used cached config: false
+7/9/21 1:20:58 PM :Debug: Adding Configuration: Tuareg
+7/9/21 1:20:58 PM :Debug: controllerOnline = 0.0
+7/9/21 1:20:58 PM :Debug: Fill Constants: 5
+7/9/21 1:20:58 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 1:20:58 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 1:20:58 PM :Info: dirtyData.size(): 0
+7/9/21 1:20:58 PM :Info: dirtyData.size(): 0
+7/9/21 1:20:58 PM :Debug: Flush lasted: 1ms.
+7/9/21 1:20:58 PM :Info: dirtyData.size(): 0
+7/9/21 1:20:58 PM :Info: dirtyData.size(): 0
+7/9/21 1:20:58 PM :Debug: Flush lasted: 0ms.
+7/9/21 1:20:58 PM :Debug: Skip Burn, last write page: -2
+7/9/21 1:20:58 PM :Info: !!! Loaded config in 372
+7/9/21 1:20:58 PM :Info: !!! Activated Project 928
+7/9/21 1:20:58 PM :Info: Opening Gauge Cluster..
+MS Ultramain: No check, last update check=Mon Jul 05 21:49:34 CEST 2021
+7/9/21 1:20:59 PM :Info: Time to load uncached dash: 223.16722ms, file: dashboard.dash
+7/9/21 1:20:59 PM :Debug: High Speed Paint: false
+7/9/21 1:20:59 PM :Info: 
+7/9/21 1:20:59 PM :Info: Com Thread created: COMM Thread66746.28557916726
+7/9/21 1:20:59 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+7/9/21 1:20:59 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread66746.28557916726
+7/9/21 1:20:59 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread66746.28557916726
+7/9/21 1:20:59 PM :Info: Time to load uncached dash: 236.1938ms, file: fueling.dash
+7/9/21 1:20:59 PM :Debug: High Speed Paint: false
+7/9/21 1:21:00 PM :Info: Time to load uncached dash: 114.99045ms, file: ignition.dash
+7/9/21 1:21:00 PM :Debug: High Speed Paint: false
+7/9/21 1:21:00 PM :Info: Time to load uncached dash: 54.810444ms, file: sensors.dash
+7/9/21 1:21:00 PM :Debug: High Speed Paint: false
+7/9/21 1:21:00 PM :Debug: !!! Opened Dash 2150
+7/9/21 1:21:00 PM :Info: Tuareg Ready
+7/9/21 1:21:00 PM :Debug: Tuning View Files loaded in 0.499215ms.
+7/9/21 1:21:00 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+MS Ultraad: No check, last update check=Mon Jul 05 21:49:37 CEST 2021
+7/9/21 1:21:01 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 1:21:01 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 1:21:01 PM :Debug: controllerOnline = 1.0
+7/9/21 1:21:02 PM :Info: Activating page: 1
+7/9/21 1:21:02 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:02 PM :Info: Activating page: 2
+7/9/21 1:21:02 PM :Debug: Read page time: 177ms.
+7/9/21 1:21:02 PM :Info: Activating page: 3
+7/9/21 1:21:02 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:02 PM :Info: Activating page: 4
+7/9/21 1:21:02 PM :Debug: Read page time: 179ms.
+7/9/21 1:21:02 PM :Info: Activating page: 5
+7/9/21 1:21:02 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:02 PM :Info: Activating page: 6
+7/9/21 1:21:03 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:03 PM :Info: Activating page: 7
+7/9/21 1:21:03 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:03 PM :Info: Activating page: 8
+7/9/21 1:21:03 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:03 PM :Info: Activating page: 9
+7/9/21 1:21:03 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:03 PM :Info: Activating page: 10
+7/9/21 1:21:03 PM :Debug: Read page time: 177ms.
+7/9/21 1:21:03 PM :Info: Activating page: 11
+7/9/21 1:21:04 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:04 PM :Info: Activating page: 12
+7/9/21 1:21:04 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:04 PM :Info: Activating page: 13
+7/9/21 1:21:04 PM :Debug: Read page time: 177ms.
+7/9/21 1:21:04 PM :Info: Activating page: 14
+7/9/21 1:21:04 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:04 PM :Info: Activating page: 15
+7/9/21 1:21:04 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:04 PM :Info: Activating page: 16
+7/9/21 1:21:05 PM :Debug: Read page time: 178ms.
+7/9/21 1:21:05 PM :Debug: Read All Data
+7/9/21 1:21:05 PM :Debug: isBlank Time: 0 ms.
+7/9/21 1:21:05 PM :Debug: DiffTime: 13 ms.
+7/9/21 1:21:17 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 1:21:18 PM :Debug: Purged 1 orphaned bytes:
+7/9/21 1:21:18 PM :Debug: Time:20.704s. 0xFC 
+7/9/21 1:21:18 PM :Debug: Time:20.705s. 
+
+7/9/21 1:21:18 PM :Debug: Time:20.705s.   .  
+7/9/21 1:21:18 PM :Debug: expected secl =16, secl = 0, secDelta = 16
+7/9/21 1:21:18 PM :Debug: Reset Tuareg, secl = 0, expectedSecl=16, secDelta=16
+7/9/21 1:21:18 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 1:21:20 PM :Debug: controllerOnline = 0.0
+7/9/21 1:21:20 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:21:20 PM :Debug: Went offline
+7/9/21 1:21:20 PM :Debug: controllerOnline = 0.0
+7/9/21 1:21:21 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:21:21 PM :Info: Went offline 2
+7/9/21 1:21:22 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 1:21:23 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 1:21:23 PM :Debug: controllerOnline = 1.0
+7/9/21 1:21:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Info: Time to save msq: 97.15713
+7/9/21 1:21:27 PM :Info: closeApp Called
+7/9/21 1:21:27 PM :Debug: TuneLog Editor set text
+7/9/21 1:21:27 PM :Debug: Fill Constants: 3
+7/9/21 1:21:27 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-07-09_13.20.43.msq
+7/9/21 1:21:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/9/21 1:21:27 PM :Info: Time to save msq: 16.708933
+7/9/21 1:21:27 PM :Debug: goOffline Starting, Time:0
+7/9/21 1:21:27 PM :Info: Deactivated Turbo Baud, goOffline
+7/9/21 1:21:27 PM :Debug: Skip Burn, last write page: -2
+7/9/21 1:21:28 PM :Debug: goOffline about to stopProcessing, Time:251
+7/9/21 1:21:28 PM :Debug: controllerOnline = 0.0
+7/9/21 1:21:28 PM :Debug: goOffline Notified offline, Time:287
+7/9/21 1:21:28 PM :Debug: goOffline closed port, Time:288
+7/9/21 1:21:28 PM :Info: Tuareg ComThread stopped COMM Thread66746.28557916726
+7/9/21 1:21:28 PM :Debug: goOffline comm thread stopped, Time:438
+7/9/21 1:21:28 PM :Debug: No Remaining Queue Write instructions
+7/9/21 1:21:28 PM :Debug: removing Configuration: Tuareg
+7/9/21 1:21:28 PM :Debug: ############################################# Save Project Backup ##########################################
+7/9/21 1:21:28 PM :Info: Finalizing Sensors
+Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Fri Jul 09 14:04:38 CEST 2021
+JRE 1.8.0_292, Linux 4.15.0-144-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+7/9/21 2:04:39 PM :Info: Initializing File Dialogs.
+7/9/21 2:04:39 PM :Info: Loading Language Content.
+7/9/21 2:04:41 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+7/9/21 2:04:41 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+7/9/21 2:04:41 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+7/9/21 2:04:41 PM :Info: Initializing Plugin Services.
+7/9/21 2:04:41 PM :Info: Loading Plugins.
+7/9/21 2:04:41 PM :Info: Initializing Help.
+7/9/21 2:04:41 PM :Info: Initializing Edition Features.
+7/9/21 2:04:41 PM :Info: Initializing App Events.
+7/9/21 2:04:41 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+7/9/21 2:04:41 PM :Info: Initializing Log Viewer Components.
+7/9/21 2:04:41 PM :Info: Initializing User Interface
+7/9/21 2:04:41 PM :Warning: Unable to set Main cluster for title:
+7/9/21 2:04:43 PM :Info: Loading Font list.
+7/9/21 2:04:43 PM :Debug: Time to retreive font name list: 23 ms.
+7/9/21 2:04:43 PM :Info: 
+7/9/21 2:04:43 PM :Info: Initializing UI Components.
+7/9/21 2:04:43 PM :Info: Ready
+7/9/21 2:04:44 PM :Info: Opening Project ...
+7/9/21 2:04:44 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+7/9/21 2:04:44 PM :Debug: EventTrigger Data log Reset. expression: 
+7/9/21 2:04:44 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+7/9/21 2:04:44 PM :Debug: Reading translation file as plain text
+7/9/21 2:04:44 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 2:04:44 PM :Debug: Filtered ConfigurationOptionGroup in 14ms.
+7/9/21 2:04:44 PM :Info: Supported iniSpecVersion=3.68
+7/9/21 2:04:44 PM :Info: Read file canPcVariables.ini: 0.359101ms
+7/9/21 2:04:44 PM :Info: Filtered ini: 0.048265ms
+7/9/21 2:04:44 PM :Info: No iniVersion defined
+7/9/21 2:04:44 PM :Info: Loading Trigger Wheels
+7/9/21 2:04:44 PM :Info: Loaded All known ini sections
+7/9/21 2:04:44 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 20ms.
+7/9/21 2:04:44 PM :Info: Read file mainController.ini: 3.086139ms
+7/9/21 2:04:44 PM :Info: Filtered ini: 0.934659ms
+7/9/21 2:04:44 PM :Info: No iniVersion defined
+7/9/21 2:04:44 PM :Debug: ini signature: rusEFI v1.04
+7/9/21 2:04:44 PM :Info: Loading Trigger Wheels
+7/9/21 2:04:44 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+7/9/21 2:04:44 PM :Info: Loaded All known ini sections
+7/9/21 2:04:44 PM :Info: Parsed and validated ini "mainController.ini" in : 65ms.
+7/9/21 2:04:44 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+7/9/21 2:04:44 PM :Info: Time to load primary config: 163.24702ms. used cached config: false
+7/9/21 2:04:44 PM :Debug: Adding Configuration: Tuareg
+7/9/21 2:04:44 PM :Debug: controllerOnline = 0.0
+7/9/21 2:04:44 PM :Debug: Fill Constants: 5
+7/9/21 2:04:44 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 2:04:44 PM :Info: Tune opened, 1878 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/9/21 2:04:44 PM :Info: dirtyData.size(): 0
+7/9/21 2:04:44 PM :Info: dirtyData.size(): 0
+7/9/21 2:04:44 PM :Debug: Flush lasted: 1ms.
+7/9/21 2:04:44 PM :Info: dirtyData.size(): 0
+7/9/21 2:04:44 PM :Info: dirtyData.size(): 0
+7/9/21 2:04:44 PM :Debug: Flush lasted: 0ms.
+7/9/21 2:04:44 PM :Debug: Skip Burn, last write page: -2
+7/9/21 2:04:44 PM :Info: !!! Loaded config in 394
+MS Ultramain: No check, last update check=Mon Jul 05 21:49:34 CEST 2021
+7/9/21 2:04:45 PM :Info: !!! Activated Project 1045
+7/9/21 2:04:45 PM :Info: Opening Gauge Cluster..
+7/9/21 2:04:45 PM :Debug: Running speed test
+7/9/21 2:04:46 PM :Info: Time to load uncached dash: 605.847ms, file: dashboard.dash
+7/9/21 2:04:46 PM :Debug: High Speed Paint: false
+7/9/21 2:04:46 PM :Debug: Processor Score:940088
+7/9/21 2:04:46 PM :Info: 
+7/9/21 2:04:46 PM :Info: Com Thread created: COMM Thread3655.2084723969647
+7/9/21 2:04:46 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+7/9/21 2:04:46 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread3655.2084723969647
+7/9/21 2:04:46 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread3655.2084723969647
+7/9/21 2:04:46 PM :Info: Time to load uncached dash: 314.0993ms, file: fueling.dash
+7/9/21 2:04:47 PM :Debug: High Speed Paint: false
+7/9/21 2:04:47 PM :Info: Time to load uncached dash: 88.99615ms, file: ignition.dash
+7/9/21 2:04:47 PM :Debug: High Speed Paint: false
+7/9/21 2:04:47 PM :Info: Time to load uncached dash: 49.31655ms, file: sensors.dash
+7/9/21 2:04:47 PM :Debug: High Speed Paint: false
+7/9/21 2:04:47 PM :Debug: !!! Opened Dash 2867
+7/9/21 2:04:47 PM :Info: Tuareg Ready
+7/9/21 2:04:47 PM :Debug: Tuning View Files loaded in 0.278661ms.
+7/9/21 2:04:48 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+MS Ultraad: No check, last update check=Mon Jul 05 21:49:37 CEST 2021
+7/9/21 2:04:49 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:04:49 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:04:49 PM :Debug: controllerOnline = 1.0
+7/9/21 2:04:49 PM :Info: Activating page: 1
+7/9/21 2:04:49 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:49 PM :Info: Activating page: 2
+7/9/21 2:04:49 PM :Debug: Read page time: 177ms.
+7/9/21 2:04:49 PM :Info: Activating page: 3
+7/9/21 2:04:49 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:49 PM :Info: Activating page: 4
+7/9/21 2:04:49 PM :Debug: Read page time: 179ms.
+7/9/21 2:04:49 PM :Info: Activating page: 5
+7/9/21 2:04:50 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:50 PM :Info: Activating page: 6
+7/9/21 2:04:50 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:50 PM :Info: Activating page: 7
+7/9/21 2:04:50 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:50 PM :Info: Activating page: 8
+7/9/21 2:04:50 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:50 PM :Info: Activating page: 9
+7/9/21 2:04:50 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:50 PM :Info: Activating page: 10
+7/9/21 2:04:50 PM :Debug: Read page time: 179ms.
+7/9/21 2:04:51 PM :Info: Activating page: 11
+7/9/21 2:04:51 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:51 PM :Info: Activating page: 12
+7/9/21 2:04:51 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:51 PM :Info: Activating page: 13
+7/9/21 2:04:51 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:51 PM :Info: Activating page: 14
+7/9/21 2:04:51 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:51 PM :Info: Activating page: 15
+7/9/21 2:04:51 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:51 PM :Info: Activating page: 16
+7/9/21 2:04:52 PM :Debug: Read page time: 178ms.
+7/9/21 2:04:52 PM :Debug: Read All Data
+7/9/21 2:04:52 PM :Debug: isBlank Time: 1 ms.
+7/9/21 2:04:52 PM :Debug: DiffTime: 15 ms.
+7/9/21 2:09:20 PM :Debug: Activate Logging Tabs
+java.lang.RuntimeException: /opt/tunerstudio/FieldMaps/MegaSquirt.properties does not exist
+	at h.g.b(Unknown Source)
+	at h.g.a(Unknown Source)
+	at al.c.a(Unknown Source)
+	at al.g.a(Unknown Source)
+	at al.g.<init>(Unknown Source)
+	at aj.ay.<init>(Unknown Source)
+	at bb.b.<init>(Unknown Source)
+	at aJ.bR.<init>(Unknown Source)
+	at aJ.cI.run(Unknown Source)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at org.GNOME.Accessibility.AtkWrapper$6.dispatchEvent(AtkWrapper.java:715)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Caused by: java.io.FileNotFoundException: FieldMaps/MegaSquirt.properties (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at java.io.FileInputStream.<init>(FileInputStream.java:93)
+	... 24 more
+7/9/21 2:09:20 PM :Debug: Time to notify update: 1
+7/9/21 2:09:20 PM :Debug: Activate Analysis Tabs
+7/9/21 2:09:21 PM :Debug: Waiting to enable Buttons.
+7/9/21 2:09:26 PM :Debug: Deactivate Analysis Tabs
+7/9/21 2:09:30 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:09:32 PM :Debug: Purged 1 orphaned bytes:
+7/9/21 2:09:32 PM :Debug: Time:287.517s. 0x0 
+7/9/21 2:09:32 PM :Debug: Time:287.518s. 
+
+7/9/21 2:09:32 PM :Debug: Time:287.518s.   .  
+7/9/21 2:09:32 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:09:34 PM :Debug: controllerOnline = 0.0
+7/9/21 2:09:34 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:09:34 PM :Debug: Went offline
+7/9/21 2:09:34 PM :Debug: controllerOnline = 0.0
+7/9/21 2:09:34 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:09:34 PM :Info: Went offline 2
+7/9/21 2:09:54 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:09:55 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:09:55 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:09:55 PM :Debug: controllerOnline = 1.0
+7/9/21 2:09:55 PM :Info: Activating page: 1
+7/9/21 2:09:56 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:56 PM :Info: Activating page: 2
+7/9/21 2:09:56 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:56 PM :Info: Activating page: 3
+7/9/21 2:09:56 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:56 PM :Info: Activating page: 4
+7/9/21 2:09:56 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:56 PM :Info: Activating page: 5
+7/9/21 2:09:56 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:56 PM :Info: Activating page: 6
+7/9/21 2:09:56 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:56 PM :Info: Activating page: 7
+7/9/21 2:09:57 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:57 PM :Info: Activating page: 8
+7/9/21 2:09:57 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:57 PM :Info: Activating page: 9
+7/9/21 2:09:57 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:57 PM :Info: Activating page: 10
+7/9/21 2:09:57 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:57 PM :Info: Activating page: 11
+7/9/21 2:09:57 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:57 PM :Info: Activating page: 12
+7/9/21 2:09:58 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:58 PM :Info: Activating page: 13
+7/9/21 2:09:58 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:58 PM :Info: Activating page: 14
+7/9/21 2:09:58 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:58 PM :Info: Activating page: 15
+7/9/21 2:09:58 PM :Debug: Read page time: 177ms.
+7/9/21 2:09:58 PM :Info: Activating page: 16
+7/9/21 2:09:58 PM :Debug: Read page time: 178ms.
+7/9/21 2:09:58 PM :Debug: Read All Data
+7/9/21 2:09:58 PM :Debug: isBlank Time: 0 ms.
+7/9/21 2:09:58 PM :Debug: DiffTime: 6 ms.
+7/9/21 2:10:45 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:10:46 PM :Debug: Purged 48 orphaned bytes:
+7/9/21 2:10:46 PM :Debug: Time:362.045s. 0x0 0xD8 0xCE 0xC9 0x42 0xB5 0x49 0xC9 0x42 0x29 0x5C 0xB5 0x42 0x40 0x77 0x74 0x3E 0xED 0x7B 0x8B 0x43 0x62 0x4D 0xA9 0x43 0xB5 0xAC 0x63 0x41 0x15 0xBF 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0xCD 0x9A 0x54 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:10:46 PM :Debug: Time:362.046s. 
+
+7/9/21 2:10:46 PM :Debug: Time:362.046s.   .    .    .    .    B    .    I    .    B    )    \    .    B    @    w    t    >    .    {    .    C    b    M    .    C    .    .    c    A    .    .    T    A    .    .    .    .    z    .    .    .    .    T    .    .    .    .    .  
+7/9/21 2:11:33 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:11:34 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:11:34 PM :Debug: Time:410.051s. 0x5E 0x0 0x4 0x0 0x44 0x3 0x75 0x0 0x0 0x90 0x24 0x0 0xB 0x0 0x0 0x2A 0x0 0x73 0x9 0x0 0x0 0xC6 0x42 0xD2 0x2A 0x9E 0x44 0x6C 0x8F 0x0 0x0 0x6C 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0x48 0x15 0x0 0x0 0x19 0x15 0x0 0x0 0x56 0x0 0x0 0x0 0x14 0xEA 0xC9 0x42 0x41 0x2E 0xC9 0x42 0xAE 0x47 0xB5 0x42 0x38 0xF3 0xB1 0xC0 0x46 0x77 0x8B 0x43 0x62 0x4D 0xA9 0x43 0xB5 0xAC 0x63 0x41 0xAE 0xD2 0x54 0x41 0x0 0x0 0x0 0x0 0x7B 0x0 0x0 0xC0 0x64 0x57 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:11:34 PM :Debug: Time:410.051s. 
+
+7/9/21 2:11:34 PM :Debug: Time:410.051s.   ^    .    .    .    D    .    u    .    .    .    $    .    .    .    .    *    .    s    	    .    .    .    B    .    *    .    D    l    .    .    .    l    .    .    .    .    .    h    A    H    .    .    .    .    .    .    .    V    .    .    .    .    .    .    B    A    .    .    B    .    G    .    B    8    .    .    .    F    w    .    C    b    M    .    C    .    .    c    A    .    .    T    A    .    .    .    .    {    .    .    .    d    W    .    .    .    .    .  
+7/9/21 2:11:49 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:11:51 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:11:51 PM :Debug: Time:426.978s. 0x6F 0x0 0x4 0x0 0x44 0x3 0x75 0x0 0x0 0x9F 0x24 0x0 0xB 0x0 0x0 0x2A 0x0 0x48 0x9 0x0 0x0 0xC6 0x42 0xD2 0x2A 0x9E 0x44 0x6C 0x8F 0x0 0x0 0x6C 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0x48 0x15 0x0 0x0 0x19 0x15 0x0 0x0 0x56 0x0 0x0 0x0 0x14 0xEA 0xC9 0x42 0x41 0x2E 0xC9 0x42 0xA4 0x70 0xB5 0x42 0x2F 0xF8 0x9E 0x3F 0x46 0x77 0x8B 0x43 0x62 0x4D 0xA9 0x43 0xB5 0xAC 0x63 0x41 0x7C 0xAB 0x54 0x41 0x0 0x0 0x0 0x0 0x7D 0x0 0x0 0xAB 0x63 0x57 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:11:51 PM :Debug: Time:426.978s. 
+
+7/9/21 2:11:51 PM :Debug: Time:426.978s.   o    .    .    .    D    .    u    .    .    .    $    .    .    .    .    *    .    H    	    .    .    .    B    .    *    .    D    l    .    .    .    l    .    .    .    .    .    h    A    H    .    .    .    .    .    .    .    V    .    .    .    .    .    .    B    A    .    .    B    .    p    .    B    /    .    .    ?    F    w    .    C    b    M    .    C    .    .    c    A    |    .    T    A    .    .    .    .    }    .    .    .    c    W    .    .    .    .    .  
+7/9/21 2:11:55 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:11:57 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:11:57 PM :Debug: Time:432.932s. 0x74 0x0 0x4 0x0 0x44 0x3 0x75 0x0 0x0 0x90 0x24 0x0 0xB 0x0 0x0 0x2A 0x0 0x73 0x9 0x0 0x0 0xC6 0x42 0x1D 0x40 0x9E 0x44 0x7F 0x8F 0x0 0x0 0x7F 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0x48 0x15 0x0 0x0 0x1B 0x15 0x0 0x0 0x56 0x0 0x0 0x0 0x50 0x5 0xCA 0x42 0xCD 0x12 0xC9 0x42 0xAE 0x47 0xB5 0x42 0x5E 0xF6 0x44 0xC0 0x46 0x77 0x8B 0x43 0x62 0x4D 0xA9 0x43 0xB5 0xAC 0x63 0x41 0x7C 0xAB 0x54 0x41 0x0 0x0 0x0 0x0 0x7B 0x0 0x0 0xB 0x66 0x57 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:11:57 PM :Debug: Time:432.932s. 
+
+7/9/21 2:11:57 PM :Debug: Time:432.932s.   t    .    .    .    D    .    u    .    .    .    $    .    .    .    .    *    .    s    	    .    .    .    B    .    @    .    D    .    .    .    .    .    .    .    .    .    .    h    A    H    .    .    .    .    .    .    .    V    .    .    .    P    .    .    B    .    .    .    B    .    G    .    B    ^    .    D    .    F    w    .    C    b    M    .    C    .    .    c    A    |    .    T    A    .    .    .    .    {    .    .    .    f    W    .    .    .    .    .  
+7/9/21 2:12:08 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:12:10 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:12:12 PM :Debug: controllerOnline = 0.0
+7/9/21 2:12:12 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:12:12 PM :Debug: Went offline
+7/9/21 2:12:12 PM :Debug: controllerOnline = 0.0
+7/9/21 2:12:12 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:12:12 PM :Info: Went offline 2
+7/9/21 2:12:14 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:12:15 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:12:15 PM :Debug: controllerOnline = 1.0
+7/9/21 2:13:08 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:13:10 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:13:12 PM :Debug: controllerOnline = 0.0
+7/9/21 2:13:12 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:13:12 PM :Debug: Went offline
+7/9/21 2:13:12 PM :Debug: controllerOnline = 0.0
+7/9/21 2:13:12 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:13:12 PM :Info: Went offline 2
+7/9/21 2:13:18 PM :Warning: Unsupported Controller Firmware: 001
+7/9/21 2:13:20 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:13:21 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:13:21 PM :Debug: controllerOnline = 1.0
+7/9/21 2:13:33 PM :Debug: Received Instruction: Read Page 16, Page: 16
+7/9/21 2:13:33 PM :Info: Initiating read page 16
+7/9/21 2:13:33 PM :Info: Activating page: 16
+7/9/21 2:13:33 PM :Debug: In Protected DirtyData. page: 15, start: 24, end: 48
+7/9/21 2:13:33 PM :Debug: Writing to protected region: 24:48
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:33 PM :Debug: Received Instruction: Write byte, Page: 16
+7/9/21 2:13:35 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:13:48 PM :Info: dirtyData.size(): 0
+7/9/21 2:13:48 PM :Info: dirtyData.size(): 0
+7/9/21 2:13:48 PM :Debug: Flush lasted: 1ms.
+7/9/21 2:13:48 PM :Debug: Burn Page anonymous: 16
+7/9/21 2:13:48 PM :Debug: Received Instruction: , Page: 16
+7/9/21 2:13:48 PM :Info: Queueing burn to page:16
+7/9/21 2:13:48 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:13:50 PM :Info: Time to save msq: 71.86195
+7/9/21 2:15:51 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:15:52 PM :Debug: Purged 2 orphaned bytes:
+7/9/21 2:15:52 PM :Debug: Time:668.266s. 0x0 0x0 
+7/9/21 2:15:52 PM :Debug: Time:668.266s. 
+
+7/9/21 2:15:52 PM :Debug: Time:668.266s.   .    .  
+7/9/21 2:15:53 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:15:54 PM :Debug: controllerOnline = 0.0
+7/9/21 2:15:54 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:15:54 PM :Debug: Went offline
+7/9/21 2:15:54 PM :Debug: controllerOnline = 0.0
+7/9/21 2:15:55 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:15:55 PM :Info: Went offline 2
+7/9/21 2:15:56 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:15:57 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:15:57 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:15:57 PM :Debug: controllerOnline = 1.0
+7/9/21 2:15:57 PM :Info: Activating page: 1
+7/9/21 2:15:58 PM :Debug: Read page time: 177ms.
+7/9/21 2:15:58 PM :Debug: Activate Page, burn page 1 new active page=2
+7/9/21 2:15:58 PM :Debug: Burn time:10ms.
+7/9/21 2:15:58 PM :Debug: burned page 1
+7/9/21 2:15:58 PM :Info: Activating page: 2
+7/9/21 2:15:58 PM :Debug: Read page time: 188ms.
+7/9/21 2:15:58 PM :Info: Activating page: 3
+7/9/21 2:15:58 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:58 PM :Info: Activating page: 4
+7/9/21 2:15:58 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:58 PM :Info: Activating page: 5
+7/9/21 2:15:58 PM :Debug: Read page time: 177ms.
+7/9/21 2:15:58 PM :Info: Activating page: 6
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 7
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 8
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 9
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 10
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 11
+7/9/21 2:15:59 PM :Debug: Read page time: 178ms.
+7/9/21 2:15:59 PM :Info: Activating page: 12
+7/9/21 2:16:00 PM :Debug: Read page time: 177ms.
+7/9/21 2:16:00 PM :Info: Activating page: 13
+7/9/21 2:16:00 PM :Debug: Read page time: 177ms.
+7/9/21 2:16:00 PM :Info: Activating page: 14
+7/9/21 2:16:00 PM :Debug: Read page time: 178ms.
+7/9/21 2:16:00 PM :Info: Activating page: 15
+7/9/21 2:16:00 PM :Debug: Read page time: 178ms.
+7/9/21 2:16:00 PM :Info: Activating page: 16
+7/9/21 2:16:00 PM :Debug: Read page time: 178ms.
+7/9/21 2:16:00 PM :Debug: Read All Data
+7/9/21 2:16:00 PM :Debug: isBlank Time: 0 ms.
+7/9/21 2:16:00 PM :Debug: DiffTime: 6 ms.
+7/9/21 2:16:06 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:16:07 PM :Debug: Purged 1 orphaned bytes:
+7/9/21 2:16:07 PM :Debug: Time:683.279s. 0x0 
+7/9/21 2:16:07 PM :Debug: Time:683.279s. 
+
+7/9/21 2:16:07 PM :Debug: Time:683.279s.   .  
+7/9/21 2:16:08 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:16:09 PM :Debug: controllerOnline = 0.0
+7/9/21 2:16:10 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:16:10 PM :Debug: Went offline
+7/9/21 2:16:10 PM :Debug: controllerOnline = 0.0
+7/9/21 2:16:10 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:16:10 PM :Info: Went offline 2
+7/9/21 2:16:15 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:16:16 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:16:16 PM :Debug: controllerOnline = 1.0
+7/9/21 2:17:25 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:17:27 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:17:27 PM :Debug: Time:762.858s. 0x45 0x0 0x4 0x0 0x44 0x3 0x75 0x0 0x0 0x9F 0x24 0x0 0x0 0x0 0x1 0x2A 0x0 0x48 0x9 0x0 0x0 0xC6 0x42 0xD2 0x2A 0x9E 0x44 0x6C 0x8F 0x0 0x0 0x6C 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0x48 0x15 0x0 0x0 0x19 0x15 0x0 0x0 0x56 0x0 0x0 0x0 0x14 0xEA 0xC9 0x42 0xB5 0x49 0xC9 0x42 0x33 0x33 0xB5 0x42 0x31 0x1F 0x44 0xC0 0x46 0x77 0x8B 0x43 0xBA 0x48 0xA9 0x43 0xEA 0x71 0x63 0x41 0x49 0x84 0x54 0x41 0x0 0x0 0x0 0x0 0x7C 0x0 0x0 0x8 0x35 0x57 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:17:27 PM :Debug: Time:762.858s. 
+
+7/9/21 2:17:27 PM :Debug: Time:762.858s.   E    .    .    .    D    .    u    .    .    .    $    .    .    .    .    *    .    H    	    .    .    .    B    .    *    .    D    l    .    .    .    l    .    .    .    .    .    h    A    H    .    .    .    .    .    .    .    V    .    .    .    .    .    .    B    .    I    .    B    3    3    .    B    1    .    D    .    F    w    .    C    .    H    .    C    .    q    c    A    I    .    T    A    .    .    .    .    |    .    .    .    5    W    .    .    .    .    .  
+7/9/21 2:17:54 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:17:56 PM :Debug: Purged 5 orphaned bytes:
+7/9/21 2:17:56 PM :Debug: Time:791.623s. 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:17:56 PM :Debug: Time:791.623s. 
+
+7/9/21 2:17:56 PM :Debug: Time:791.624s.   .    .    .    .    .  
+7/9/21 2:17:56 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:17:58 PM :Debug: controllerOnline = 0.0
+7/9/21 2:17:58 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:17:58 PM :Debug: Went offline
+7/9/21 2:17:58 PM :Debug: controllerOnline = 0.0
+7/9/21 2:17:58 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:17:58 PM :Info: Went offline 2
+7/9/21 2:18:00 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:18:01 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:18:01 PM :Debug: controllerOnline = 1.0
+7/9/21 2:18:57 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:18:58 PM :Debug: Purged 1 orphaned bytes:
+7/9/21 2:18:58 PM :Debug: Time:854.063s. 0x0 
+7/9/21 2:18:58 PM :Debug: Time:854.063s. 
+
+7/9/21 2:18:58 PM :Debug: Time:854.064s.   .  
+7/9/21 2:18:58 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:19:00 PM :Debug: controllerOnline = 0.0
+7/9/21 2:19:00 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:19:00 PM :Debug: Went offline
+7/9/21 2:19:00 PM :Debug: controllerOnline = 0.0
+7/9/21 2:19:01 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:19:01 PM :Info: Went offline 2
+7/9/21 2:19:10 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:19:11 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:19:11 PM :Debug: controllerOnline = 1.0
+7/9/21 2:19:29 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:19:30 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:19:30 PM :Debug: Time:886.04s. 0x11 0x0 0x4 0x0 0x44 0x3 0x55 0x0 0x0 0x0 0x0 0x0 0xB 0x0 0x0 0xA 0x0 0x70 0x17 0x0 0x0 0xF8 0x41 0x69 0x15 0x9E 0x44 0xE3 0x2C 0x0 0x0 0xE3 0x2C 0x0 0x0 0x0 0x0 0x68 0x41 0xEC 0x8 0x0 0x0 0xBA 0x8 0x0 0x0 0x5 0x0 0x0 0x0 0xD8 0xCE 0xC9 0x42 0xCD 0x12 0xC9 0x42 0xB8 0x1E 0xB5 0x42 0x52 0x37 0xCC 0xBF 0xF6 0x6D 0x8B 0x43 0xBA 0x48 0xA9 0x43 0x83 0x85 0x63 0x41 0x49 0x84 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0x24 0x8 0x4 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:19:30 PM :Debug: Time:886.04s. 
+
+7/9/21 2:19:30 PM :Debug: Time:886.04s.   .    .    .    .    D    .    U    .    .    .    .    .    .    .    .    
+    .    p    .    .    .    .    A    i    .    .    D    .    ,    .    .    .    ,    .    .    .    .    h    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    .    .    B    .    .    .    B    R    7    .    .    .    m    .    C    .    H    .    C    .    .    c    A    I    .    T    A    .    .    .    .    z    .    .    $    .    .    .    .    .    .    .  
+7/9/21 2:19:31 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:19:32 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:19:32 PM :Debug: Time:888.247s. 0x13 0x0 0x4 0x0 0x44 0x3 0x55 0x0 0x0 0x45 0x5 0x0 0x4C 0xF 0x0 0xA 0x0 0x70 0x17 0x0 0x0 0xF8 0x41 0x69 0x15 0x9E 0x44 0xE3 0x2C 0x0 0x0 0xE3 0x2C 0x0 0x0 0x0 0x0 0x68 0x41 0xEC 0x8 0x0 0x0 0xBA 0x8 0x0 0x0 0x5 0x0 0x0 0x0 0xD8 0xCE 0xC9 0x42 0xCD 0x12 0xC9 0x42 0xAE 0x47 0xB5 0x42 0xA4 0x3F 0x50 0xC0 0xF6 0x6D 0x8B 0x43 0xBA 0x48 0xA9 0x43 0x83 0x85 0x63 0x41 0x7C 0xAB 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0x13 0xDB 0x3 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:19:32 PM :Debug: Time:888.247s. 
+
+7/9/21 2:19:32 PM :Debug: Time:888.247s.   .    .    .    .    D    .    U    .    .    E    .    .    L    .    .    
+    .    p    .    .    .    .    A    i    .    .    D    .    ,    .    .    .    ,    .    .    .    .    h    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    .    .    B    .    G    .    B    .    ?    P    .    .    m    .    C    .    H    .    C    .    .    c    A    |    .    T    A    .    .    .    .    z    .    .    .    .    .    .    .    .    .    .  
+7/9/21 2:19:39 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:19:41 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:19:43 PM :Debug: controllerOnline = 0.0
+7/9/21 2:19:43 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:19:43 PM :Debug: Went offline
+7/9/21 2:19:43 PM :Debug: controllerOnline = 0.0
+7/9/21 2:19:43 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:19:43 PM :Info: Went offline 2
+
+7/9/21 2:20:50 PM :Debug: Purged 196 orphaned bytes:
+7/9/21 2:20:50 PM :Debug: Time:966.382s. 0x1C 0x0 0x6 0x0 0x44 0x1 0x0 0x0 0x0 0x0 0x0 0x0 0x4C 0xF 0x0 0xA 0x0 0x10 0x27 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x6C 0x8F 0x0 0x0 0x0 0x0 0x0 0x0 0x33 0x33 0x6B 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x14 0xEA 0xC9 0x42 0xCD 0x12 0xC9 0x42 0x3D 0xA 0xB5 0x42 0x9C 0xDC 0x12 0xC1 0xF6 0x6D 0x8B 0x43 0x12 0x44 0xA9 0x43 0x83 0x85 0x63 0x41 0xE3 0x97 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0xC7 0xB3 0x4C 0x0 0x0 0x0 0x0 0x0 0x1C 0x0 0x6 0x0 0x44 0x1 0x0 0x0 0x0 0x0 0x0 0x0 0xB 0x0 0x0 0xA 0x0 0x10 0x27 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x6C 0x8F 0x0 0x0 0x0 0x0 0x0 0x0 0x33 0x33 0x6B 0x41 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x14 0xEA 0xC9 0x42 0xCD 0x12 0xC9 0x42 0x3D 0xA 0xB5 0x42 0x9C 0xDC 0x12 0xC1 0xF6 0x6D 0x8B 0x43 0x12 0x44 0xA9 0x43 0x83 0x85 0x63 0x41 0xE3 0x97 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0xC7 0xB3 0x4C 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:20:50 PM :Debug: Time:966.382s. 
+
+7/9/21 2:20:50 PM :Debug: Time:966.382s.   .    .    .    .    D    .    .    .    .    .    .    .    L    .    .    
+    .    .    '    .    .    .    .    .    .    .    .    l    .    .    .    .    .    .    .    3    3    k    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    .    .    B    =    
+    .    B    .    .    .    .    .    m    .    C    .    D    .    C    .    .    c    A    .    .    T    A    .    .    .    .    z    .    .    .    .    L    .    .    .    .    .    .    .    .    .    D    .    .    .    .    .    .    .    .    .    .    
+    .    .    '    .    .    .    .    .    .    .    .    l    .    .    .    .    .    .    .    3    3    k    A    .    .    .    .    .    .    .    .    .    .    .    .    .    .    .    B    .    .    .    B    =    
+    .    B    .    .    .    .    .    m    .    C    .    D    .    C    .    .    c    A    .    .    T    A    .    .    .    .    z    .    .    .    .    L    .    .    .    .    .  
+7/9/21 2:20:52 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:20:53 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:20:53 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:20:53 PM :Debug: controllerOnline = 1.0
+7/9/21 2:20:53 PM :Info: Activating page: 1
+7/9/21 2:20:53 PM :Debug: Read page time: 176ms.
+7/9/21 2:20:53 PM :Info: Activating page: 2
+7/9/21 2:20:53 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:53 PM :Info: Activating page: 3
+7/9/21 2:20:53 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:53 PM :Info: Activating page: 4
+7/9/21 2:20:54 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:54 PM :Info: Activating page: 5
+7/9/21 2:20:54 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:54 PM :Info: Activating page: 6
+7/9/21 2:20:54 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:54 PM :Info: Activating page: 7
+7/9/21 2:20:54 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:54 PM :Info: Activating page: 8
+7/9/21 2:20:54 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:54 PM :Info: Activating page: 9
+7/9/21 2:20:54 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:54 PM :Info: Activating page: 10
+7/9/21 2:20:55 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:55 PM :Info: Activating page: 11
+7/9/21 2:20:55 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:55 PM :Info: Activating page: 12
+7/9/21 2:20:55 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:55 PM :Info: Activating page: 13
+7/9/21 2:20:55 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:55 PM :Info: Activating page: 14
+7/9/21 2:20:55 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:55 PM :Info: Activating page: 15
+7/9/21 2:20:56 PM :Debug: Read page time: 177ms.
+7/9/21 2:20:56 PM :Info: Activating page: 16
+7/9/21 2:20:56 PM :Debug: Read page time: 178ms.
+7/9/21 2:20:56 PM :Debug: Read All Data
+7/9/21 2:20:56 PM :Debug: isBlank Time: 0 ms.
+7/9/21 2:20:56 PM :Debug: DiffTime: 3 ms.
+7/9/21 2:21:15 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:21:56 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:21:58 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:21:58 PM :Debug: Time:1033.468s. 0x3F 0x0 0x4 0x0 0x44 0x3 0x75 0x0 0x0 0x8 0x23 0x0 0xB 0x0 0x0 0x2A 0x0 0xDF 0xD 0x0 0x0 0xC6 0x42 0x69 0x15 0x9E 0x44 0x59 0x8F 0x0 0x0 0x59 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0xB5 0x15 0x0 0x0 0x16 0x15 0x0 0x0 0x52 0x0 0x0 0x0 0xD8 0xCE 0xC9 0x42 0x59 0xF7 0xC8 0x42 0x9A 0x99 0xB5 0x42 0xC5 0xD2 0x34 0x41 0x4F 0x69 0x8B 0x43 0xBA 0x48 0xA9 0x43 0x83 0x85 0x63 0x41 0x7C 0xAB 0x54 0x41 0x0 0x0 0x0 0x0 0x79 0x0 0x0 0x36 0xF5 0x53 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:21:58 PM :Debug: Time:1033.468s. 
+
+7/9/21 2:21:58 PM :Debug: Time:1033.468s.   ?    .    .    .    D    .    u    .    .    .    #    .    .    .    .    *    .    .    .    .    .    .    B    i    .    .    D    Y    .    .    .    Y    .    .    .    .    .    h    A    .    .    .    .    .    .    .    .    R    .    .    .    .    .    .    B    Y    .    .    B    .    .    .    B    .    .    4    A    O    i    .    C    .    H    .    C    .    .    c    A    |    .    T    A    .    .    .    .    y    .    .    6    .    S    .    .    .    .    .  
+7/9/21 2:22:03 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:22:04 PM :Debug: Purged 98 orphaned bytes:
+7/9/21 2:22:04 PM :Debug: Time:1040.25s. 0x45 0x0 0x4 0x0 0x44 0x3 0x55 0x0 0x0 0x8 0x23 0x0 0x0 0x14 0x1 0x2A 0x0 0xDF 0xD 0x0 0x0 0xC6 0x42 0xD2 0xEA 0x9D 0x44 0x32 0x8F 0x0 0x0 0x32 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0xB0 0x15 0x0 0x0 0x11 0x15 0x0 0x0 0x52 0x0 0x0 0x0 0x60 0x98 0xC9 0x42 0x59 0xF7 0xC8 0x42 0xAE 0x47 0xB5 0x42 0x5F 0x23 0x10 0xC0 0x4F 0x69 0x8B 0x43 0x12 0x44 0xA9 0x43 0x83 0x85 0x63 0x41 0x49 0x84 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0x4F 0x66 0x53 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:22:04 PM :Debug: Time:1040.251s. 
+
+7/9/21 2:22:04 PM :Debug: Time:1040.251s.   E    .    .    .    D    .    U    .    .    .    #    .    .    .    .    *    .    .    .    .    .    .    B    .    .    .    D    2    .    .    .    2    .    .    .    .    .    h    A    .    .    .    .    .    .    .    .    R    .    .    .    `    .    .    B    Y    .    .    B    .    G    .    B    _    #    .    .    O    i    .    C    .    D    .    C    .    .    c    A    I    .    T    A    .    .    .    .    z    .    .    O    f    S    .    .    .    .    .  
+7/9/21 2:22:21 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:22:23 PM :Debug: Purged 68 orphaned bytes:
+7/9/21 2:22:23 PM :Debug: Time:1058.528s. 0x0 0x45 0x8F 0x0 0x0 0x0 0x0 0x68 0x41 0xB3 0x15 0x0 0x0 0x14 0x15 0x0 0x0 0x52 0x0 0x0 0x0 0x9C 0xB3 0xC9 0x42 0x59 0xF7 0xC8 0x42 0x33 0x33 0xB5 0x42 0x20 0xF2 0x22 0xC0 0x4F 0x69 0x8B 0x43 0x12 0x44 0xA9 0x43 0x51 0x5E 0x63 0x41 0x49 0x84 0x54 0x41 0x0 0x0 0x0 0x0 0x7A 0x0 0x0 0x41 0xF5 0x53 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:22:23 PM :Debug: Time:1058.529s. 
+
+7/9/21 2:22:23 PM :Debug: Time:1058.529s.   .    E    .    .    .    .    .    h    A    .    .    .    .    .    .    .    .    R    .    .    .    .    .    .    B    Y    .    .    B    3    3    .    B         .    "    .    O    i    .    C    .    D    .    C    Q    ^    c    A    I    .    T    A    .    .    .    .    z    .    .    A    .    S    .    .    .    .    .  
+7/9/21 2:22:23 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:22:25 PM :Debug: controllerOnline = 0.0
+7/9/21 2:22:25 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:22:25 PM :Debug: Went offline
+7/9/21 2:22:25 PM :Debug: controllerOnline = 0.0
+7/9/21 2:22:25 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:22:25 PM :Info: Went offline 2
+7/9/21 2:23:32 PM :Warning: Unsupported Controller Firmware: W  DU  #   * �  �Bi�DY�  Y�    hA�    S   ���BY��B�G�B*�@Oi�CD�CQ^cAI�TA    z  A�S     
+7/9/21 2:23:33 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:23:34 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:23:34 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:23:34 PM :Debug: controllerOnline = 1.0
+7/9/21 2:23:34 PM :Info: Activating page: 1
+7/9/21 2:23:35 PM :Debug: Read page time: 177ms.
+7/9/21 2:23:35 PM :Info: Activating page: 2
+7/9/21 2:23:35 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:35 PM :Info: Activating page: 3
+7/9/21 2:23:35 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:35 PM :Info: Activating page: 4
+7/9/21 2:23:35 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:35 PM :Info: Activating page: 5
+7/9/21 2:23:35 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:35 PM :Info: Activating page: 6
+7/9/21 2:23:36 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:36 PM :Info: Activating page: 7
+7/9/21 2:23:36 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:36 PM :Info: Activating page: 8
+7/9/21 2:23:36 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:36 PM :Info: Activating page: 9
+7/9/21 2:23:36 PM :Debug: Read page time: 177ms.
+7/9/21 2:23:36 PM :Info: Activating page: 10
+7/9/21 2:23:36 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:36 PM :Info: Activating page: 11
+7/9/21 2:23:36 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:37 PM :Info: Activating page: 12
+7/9/21 2:23:37 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:37 PM :Info: Activating page: 13
+7/9/21 2:23:37 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:37 PM :Info: Activating page: 14
+7/9/21 2:23:37 PM :Debug: Read page time: 177ms.
+7/9/21 2:23:37 PM :Info: Activating page: 15
+7/9/21 2:23:37 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:37 PM :Info: Activating page: 16
+7/9/21 2:23:37 PM :Debug: Read page time: 178ms.
+7/9/21 2:23:37 PM :Debug: Read All Data
+7/9/21 2:23:37 PM :Debug: isBlank Time: 0 ms.
+7/9/21 2:23:37 PM :Debug: DiffTime: 5 ms.
+7/9/21 2:23:50 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:23:52 PM :Debug: Purged 5 orphaned bytes:
+7/9/21 2:23:52 PM :Debug: Time:1147.42s. 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:23:52 PM :Debug: Time:1147.42s. 
+
+7/9/21 2:23:52 PM :Debug: Time:1147.421s.   .    .    .    .    .  
+7/9/21 2:23:52 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:23:53 PM :Debug: controllerOnline = 0.0
+7/9/21 2:23:54 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:23:54 PM :Debug: Went offline
+7/9/21 2:23:54 PM :Debug: controllerOnline = 0.0
+7/9/21 2:23:54 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:23:54 PM :Info: Went offline 2
+7/9/21 2:24:25 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:24:26 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:24:26 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/9/21 2:24:26 PM :Debug: controllerOnline = 1.0
+7/9/21 2:24:26 PM :Info: Activating page: 1
+7/9/21 2:24:26 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:26 PM :Info: Activating page: 2
+7/9/21 2:24:27 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:27 PM :Info: Activating page: 3
+7/9/21 2:24:27 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:27 PM :Info: Activating page: 4
+7/9/21 2:24:27 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:27 PM :Info: Activating page: 5
+7/9/21 2:24:27 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:27 PM :Info: Activating page: 6
+7/9/21 2:24:27 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:27 PM :Info: Activating page: 7
+7/9/21 2:24:28 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:28 PM :Info: Activating page: 8
+7/9/21 2:24:28 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:28 PM :Info: Activating page: 9
+7/9/21 2:24:28 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:28 PM :Info: Activating page: 10
+7/9/21 2:24:28 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:28 PM :Info: Activating page: 11
+7/9/21 2:24:28 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:28 PM :Info: Activating page: 12
+7/9/21 2:24:29 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:29 PM :Info: Activating page: 13
+7/9/21 2:24:29 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:29 PM :Info: Activating page: 14
+7/9/21 2:24:29 PM :Debug: Read page time: 178ms.
+7/9/21 2:24:29 PM :Info: Activating page: 15
+7/9/21 2:24:29 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:29 PM :Info: Activating page: 16
+7/9/21 2:24:29 PM :Debug: Read page time: 177ms.
+7/9/21 2:24:29 PM :Debug: Read All Data
+7/9/21 2:24:29 PM :Debug: isBlank Time: 0 ms.
+7/9/21 2:24:29 PM :Debug: DiffTime: 5 ms.
+7/9/21 2:24:35 PM :Info: Auto Logging: Stopped Logging
+7/9/21 2:24:35 PM :Debug: EventTrigger Stop Data log Triggered. expression: 
+7/9/21 2:24:35 PM :Debug: Time to subscribe all data log channels: 0.34342
+7/9/21 2:24:35 PM :Info: Started Data Log to file: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/DataLogs/2021-07-09_14.24.33.msl
+7/9/21 2:24:35 PM :Info: Channels active on main config Tuareg: 85
+7/9/21 2:24:35 PM :Info: Capturing DataLog
+7/9/21 2:24:36 PM :Debug: Auto Detect Field mapping
+7/9/21 2:24:36 PM :Info: Started Data Loader Thread
+Begin load of 2021-07-09_14.24.33.msl
+7/9/21 2:24:36 PM :Debug: Waiting to enable Buttons.
+7/9/21 2:24:36 PM :Info: Opening Log, expected size: Field Count: 78, Records: -1
+7/9/21 2:24:36 PM :Debug: Setting Field mapping to: FieldMaps/MegaSquirt.properties
+java.lang.RuntimeException: /opt/tunerstudio/FieldMaps/MegaSquirt.properties does not exist
+	at h.g.b(Unknown Source)
+	at h.g.b(Unknown Source)
+	at j.c.a(Unknown Source)
+	at g.b.a(Unknown Source)
+	at g.b.b(Unknown Source)
+	at g.b.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: FieldMaps/MegaSquirt.properties (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at java.io.FileInputStream.<init>(FileInputStream.java:93)
+	... 6 more
+7/9/21 2:24:36 PM :Debug: DataSet Set!! size: 79
+7/9/21 2:24:36 PM :Info: $$$$$$$$$$$$$$$$$$   Time to call: 86
+7/9/21 2:24:36 PM :Debug: DataSet Set!! size: 79
+7/9/21 2:24:36 PM :Info: Playback found stopped during data log capture, restarting.
+7/9/21 2:24:37 PM :Info: $$$$$$$$$$$$$$$$$$   Time finished call: 186
+7/9/21 2:24:37 PM :Debug: Activate Logging Tabs
+7/9/21 2:24:37 PM :Debug: Activate Analysis Tabs
+7/9/21 2:24:38 PM :Debug: Waiting to enable Buttons.
+7/9/21 2:24:49 PM :Debug: PlayBackThread break.
+7/9/21 2:24:49 PM :Debug: PlayBackThread ended. System.currentTimeMillis() - lastIncrementTime = 998, timeoutPeriod=2000
+7/9/21 2:24:50 PM :Debug: Time to notify update: 64
+7/9/21 2:26:12 PM :Info: Data log stopped
+7/9/21 2:26:12 PM :Info: FileOutputStream Closed.
+7/9/21 2:26:12 PM :Info: Auto Zero Expression not valid, skipping
+File load time =95.402 sec.  1458 rows.
+7/9/21 2:26:13 PM :Debug: Waiting to enable Buttons.
+7/9/21 2:26:14 PM :Debug: PlayBackThread ended. System.currentTimeMillis() - lastIncrementTime = 2001, timeoutPeriod=2000
+7/9/21 2:26:19 PM :Debug: Deactivate Analysis Tabs
+7/9/21 2:28:45 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 2:28:45 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 2:28:45 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:33:00 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 2:33:00 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 2:33:00 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:37:15 PM :Debug: expected secl =254, secl = 1, secDelta = 253
+7/9/21 2:37:15 PM :Debug: Reset Tuareg, secl = 1, expectedSecl=254, secDelta=253
+7/9/21 2:37:15 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:39:44 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+
+7/9/21 2:39:45 PM :Debug: Purged 6 orphaned bytes:
+7/9/21 2:39:45 PM :Debug: Time:2101.393s. 0x0 0x0 0x0 0x0 0x0 0x0 
+7/9/21 2:39:45 PM :Debug: Time:2101.393s. 
+
+7/9/21 2:39:45 PM :Debug: Time:2101.393s.   .    .    .    .    .    .  
+7/9/21 2:39:46 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyACM0, Baud:230400
+7/9/21 2:39:47 PM :Debug: controllerOnline = 0.0
+7/9/21 2:39:48 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:39:48 PM :Debug: Went offline
+7/9/21 2:39:48 PM :Debug: controllerOnline = 0.0
+7/9/21 2:39:48 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:39:48 PM :Info: Went offline 2
+7/9/21 2:39:50 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/9/21 2:39:51 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/9/21 2:39:51 PM :Debug: controllerOnline = 1.0
+7/9/21 2:41:23 PM :Info: Time to save msq: 20.377443
+7/9/21 2:41:23 PM :Info: closeApp Called
+7/9/21 2:41:23 PM :Debug: TuneLog Editor set text
+7/9/21 2:41:23 PM :Debug: Fill Constants: 6
+7/9/21 2:41:23 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-07-09_13.20.43.msq
+7/9/21 2:41:23 PM :Info: Time to save msq: 9.875757
+7/9/21 2:41:23 PM :Debug: goOffline Starting, Time:0
+7/9/21 2:41:23 PM :Info: Deactivated Turbo Baud, goOffline
+7/9/21 2:41:23 PM :Debug: Skip Burn, last write page: -2
+7/9/21 2:41:23 PM :Debug: goOffline about to stopProcessing, Time:250
+7/9/21 2:41:23 PM :Debug: controllerOnline = 0.0
+7/9/21 2:41:23 PM :Debug: goOffline Notified offline, Time:257
+7/9/21 2:41:23 PM :Debug: goOffline closed port, Time:258
+7/9/21 2:41:23 PM :Info: Tuareg ComThread stopped COMM Thread3655.2084723969647
+7/9/21 2:41:23 PM :Debug: goOffline comm thread stopped, Time:458
+7/9/21 2:41:23 PM :Debug: No Remaining Queue Write instructions
+7/9/21 2:41:23 PM :Debug: removing Configuration: Tuareg
+7/9/21 2:41:23 PM :Debug: Current Log View: injectors
+7/9/21 2:41:23 PM :Debug: View Changed: true
+7/9/21 2:41:25 PM :Debug: DataSet Set!! size: 0
+7/9/21 2:41:25 PM :Debug: DataSet Set!! size: 0
+java.lang.NullPointerException
+	at com.efiAnalytics.ui.dt.a(Unknown Source)
+	at bb.n.b(Unknown Source)
+	at bb.n.<init>(Unknown Source)
+	at bb.b.b(Unknown Source)
+	at aj.ay.c(Unknown Source)
+	at aJ.bR.e_(Unknown Source)
+	at aJ.cH.e_(Unknown Source)
+	at aJ.gn.e_(Unknown Source)
+	at aJ.g.S(Unknown Source)
+	at aJ.g.g(Unknown Source)
+	at aJ.cL.m(Unknown Source)
+	at aJ.cL.b(Unknown Source)
+	at aJ.g.x(Unknown Source)
+	at aJ.cL.windowClosing(Unknown Source)
+	at java.awt.AWTEventMulticaster.windowClosing(AWTEventMulticaster.java:349)
+	at java.awt.AWTEventMulticaster.windowClosing(AWTEventMulticaster.java:349)
+	at java.awt.AWTEventMulticaster.windowClosing(AWTEventMulticaster.java:349)
+	at java.awt.Window.processWindowEvent(Window.java:2054)
+	at javax.swing.JFrame.processWindowEvent(JFrame.java:305)
+	at java.awt.Window.processEvent(Window.java:2013)
+	at aJ.cL.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at org.GNOME.Accessibility.AtkWrapper$6.dispatchEvent(AtkWrapper.java:715)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+7/9/21 2:41:25 PM :Debug: ############################################# Save Project Backup ##########################################
+7/9/21 2:41:25 PM :Info: Finalizing Sensors
+Saved user properties successfully
+7/9/21 2:41:25 PM :Debug: Saved user log settings.

@@ -349,7 +349,7 @@ void Tuareg_update_limited_op()
     if((Tuareg.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
         //LIMP
-        Tuareg.flags.limited_op= true;
+        Limp(TID_TUAREG, TUAREG_LOC_LIMP_TPSMAP_ERROR);
     }
 }
 

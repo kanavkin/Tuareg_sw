@@ -687,6 +687,10 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 
     U32 target_duty_cycle;
 
+    //start over with clean flags
+    pTarget->flags.injector_dc_clip= false;
+
+
     /// injector 1
 
     //injection interval [µs] := 1000 * fuel mass [µg] / injector rate [mg/s := µg/ms]
@@ -730,6 +734,7 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
             //clip to safe value
             inj2_target_interval_us= max_powered_interval_us;
         }
+
     }
 
     //export
@@ -752,6 +757,9 @@ void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
     U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us;
 
     U32 target_duty_cycle;
+
+    //start over with clean flags
+    pTarget->flags.injector_dc_clip= false;
 
     /// injector 1
 

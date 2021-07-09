@@ -17,6 +17,7 @@
 //#include "debug.h"
 #include "diagnostics.h"
 #include "Tuareg.h"
+#include "Ignition_syslog_locations.h"
 
 
 const U32 cDynamic_min_rpm= 500;
@@ -163,7 +164,10 @@ void cranking_ignition_controls(volatile ignition_controls_t * pTarget)
     pTarget->flags.valid= true;
  }
 
-
+const U32 cIgn_max_advance_deg= 70;
+const U32 cIgn_min_advance_deg= 0;
+const U32 cIgn_max_Dwell_target_us= 10000;
+const U32 cIgn_min_Dwell_target_us= 0;
 
 /**
 calculates the ignition timing for the next engine cycle at a given rpm
@@ -209,6 +213,20 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
 
         ///get dwell from table
         Dwell_target_us= getValue_ignDwellTable(Tuareg.pDecoder->crank_rpm);
+    }
+
+
+    /**
+    ignition parameters validity check
+    */
+    if((Ign_advance_deg > cIgn_max_advance_deg) || (Ign_advance_deg < cIgn_min_advance_deg))
+    {
+        Limp(TID_IGNITION_CONFIG, IGNITION_LOC_DYN_CTRLS_INVALID_ADVANCE);
+    }
+
+    if((Dwell_target_us < cIgn_min_Dwell_target_us) || (Dwell_target_us > cIgn_max_Dwell_target_us))
+    {
+        Limp(TID_IGNITION_CONFIG, IGNITION_LOC_DYN_CTRLS_INVALID_DWELL);
     }
 
     /**
