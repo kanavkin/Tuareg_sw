@@ -117,13 +117,14 @@ void Tuareg_Init()
     Tuareg_init_console();
 
     init_lowprio_scheduler();
-    init_dash_logic();
-    init_act_logic();
+    init_dash();
+
 
     Tuareg_print_init_message();
 
-    //init_dash_hw();
+
     //init_act_hw();
+    //init_act_logic();
 
     //DEBUG
     //init_debug_pins();

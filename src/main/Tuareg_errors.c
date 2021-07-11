@@ -15,6 +15,8 @@
 #include "Tuareg_syslog_locations.h"
 #include "debug_port_messages.h"
 
+#include "dash_logic.h"
+
 
 #define ERRORS_DEBUG_OUTPUT
 
@@ -48,6 +50,9 @@ void Fatal(Tuareg_ID Id, U8 Location)
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUG_OUTPUT
+
+    //interim solution
+    dash_set_mil(MIL_PERMANENT);
 }
 
 
@@ -75,5 +80,8 @@ void Limp(Tuareg_ID Id, U8 Location)
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUG_OUTPUT
+
+    //interim solution
+    dash_set_mil(MIL_PERMANENT);
 }
 

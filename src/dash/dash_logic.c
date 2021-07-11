@@ -1,7 +1,5 @@
 /**
-
-
-
+Provides the access functions to MIL and tachometer
 */
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
@@ -31,28 +29,26 @@
             */
 
 
-/**
-
-
-*/
-void init_dash_logic()
+/******************************************************************************************************************
+Init function
+******************************************************************************************************************/
+void init_dash()
 {
-    //turn the engine lamp on if a system failure was detected at CONFIG_LOAD
-    /*
-    if(Tuareg.errors & TERROR_CONFIG)
-    {
-        dash_set_lamp(USERLAMP_PERMANENT);
-    }
-    */
+    init_dash_hw();
 
+    //turn tachometer off
     dash_set_tachometer(TACHOCTRL_0RPM);
 
-
-
+    //turn the engine lamp off
+    dash_set_mil(MIL_OFF);
 
 }
 
 
+
+/******************************************************************************************************************
+Access function for tachometer
+******************************************************************************************************************/
 void dash_set_tachometer(volatile tachoctrl_t State)
 {
 
@@ -64,7 +60,27 @@ void gen_tachometer_pulse(U32 Duration_us)
 }
 
 
-void dash_set_lamp(volatile userlamp_t State)
-{
 
+/******************************************************************************************************************
+Access function for MIL
+******************************************************************************************************************/
+void dash_set_mil(volatile mil_state_t State)
+{
+    switch(State)
+    {
+    case MIL_PERMANENT:
+        set_mil(PIN_ON);
+        break;
+
+
+    case MIL_OFF:
+        set_mil(PIN_OFF);
+        break;
+
+
+    default:
+        set_mil(PIN_ON);
+        break;
+
+    }
 }

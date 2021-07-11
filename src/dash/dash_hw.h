@@ -6,9 +6,9 @@
 #include "stm32_libs/boctok_types.h"
 
 
-extern void init_dash_hw();
+void init_dash_hw();
 
-extern void set_user_lamp(output_pin_t level);
-extern void set_tachometer(output_pin_t level);
+void set_mil(output_pin_t level);
+void set_tachometer(output_pin_t level);
 
 #endif // DASHHW_H_INCLUDED
