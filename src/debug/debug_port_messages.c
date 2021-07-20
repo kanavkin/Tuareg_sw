@@ -40,7 +40,7 @@ void DebugMsg_Warning(char messg[])
 /**
 function to print debug messages supporting the developers work
 
-For a final release none of this messages are allowed!
+In a release none of this messages are allowed!
 */
 void DevMsg(char messg[])
 {

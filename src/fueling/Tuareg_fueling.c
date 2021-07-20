@@ -24,7 +24,7 @@
 #include "Tuareg.h"
 
 
-#define FUELING_DEBUG_OUTPUT
+//#define FUELING_DEBUG_OUTPUT
 
 #ifdef FUELING_DEBUG_OUTPUT
 #warning debug outputs enabled

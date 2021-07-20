@@ -567,6 +567,7 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 *   fueling controls update helper functions - target fuel mass
 ****************************************************************************************************************************************/
 
+const F32 cMax_fuel_mass_comp_pct= 800.0;
 
 /**
 calculate the required fuel mass to be injected into each cylinder
@@ -627,9 +628,11 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
         pTarget->target_fuel_mass_ug= 0;
         return;
     }
-    else if(compensation_pct > Fueling_Setup.max_fuel_mass_comp_pct)
+    else if(compensation_pct > cMax_fuel_mass_comp_pct)
     {
         compensation_pct= Fueling_Setup.max_fuel_mass_comp_pct;
+
+        Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_COMPENSATION_CLIP);
     }
 
     //enrichment or lean out -99.9 % ... max_fuel_mass_comp %

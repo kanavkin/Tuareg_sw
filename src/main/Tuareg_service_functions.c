@@ -46,7 +46,7 @@
 
 #define SERVICE_VERBOSE_OUTPUT
 
-#define SERVICE_DEBUG_OUTPUT
+//#define SERVICE_DEBUG_OUTPUT
 
 #ifdef SERVICE_DEBUG_OUTPUT
 #warning debug outputs enabled

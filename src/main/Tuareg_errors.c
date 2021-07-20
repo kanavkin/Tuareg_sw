@@ -18,7 +18,7 @@
 #include "dash_logic.h"
 
 
-#define ERRORS_DEBUG_OUTPUT
+//#define ERRORS_DEBUG_OUTPUT
 
 #ifdef ERRORS_DEBUG_OUTPUT
 #warning debug outputs enabled

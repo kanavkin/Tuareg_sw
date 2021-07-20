@@ -47,7 +47,7 @@ VU32 debug_compare_cnt =0;
 
 #endif // SCHEDULER_DEBUG
 
-#define SCHEDULER_DEBUG_OUTPUT
+//#define SCHEDULER_DEBUG_OUTPUT
 
 #ifdef SCHEDULER_DEBUG_OUTPUT
 #warning debug outputs enabled

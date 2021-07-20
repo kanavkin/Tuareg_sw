@@ -361,6 +361,8 @@ VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
 * z-Axis -> target AFR (no offset, table values are multiplied by 10)
 ***************************************************************************************************************************************************/
 
+const F32 cAccelCompDivider= 10.0;
+
 exec_result_t store_AfrTable_TPS()
 {
     return store_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
@@ -392,11 +394,11 @@ void send_AfrTable_TPS(USART_TypeDef * Port)
 
 /**
 returns the target AFR value
-(multiplied by 10 for decimal place storage in table)
+(divided by 10 for decimal place storage in table)
 */
 VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 {
-    return (getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / 10);
+    return (getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / cAccelCompDivider);
 }
 
 
@@ -407,6 +409,9 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
 * y-Axis -> Acceleration compensation value in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
+
+const F32 cAccelCompMultiplier= 4.0;
+
 
 exec_result_t store_AccelCompTable()
 {
@@ -443,7 +448,7 @@ returns the acceleration compensation value in percent
 */
 VF32 getValue_AccelCompTable(VF32 Ddt_TPS)
 {
-    return getValue_t2D(&AccelCompTable, Ddt_TPS);
+    return cAccelCompMultiplier * getValue_t2D(&AccelCompTable, Ddt_TPS);
 }
 
 
@@ -500,6 +505,8 @@ VF32 getValue_WarmUpCompTable(VF32 CLT_K)
 * y-Axis -> Injector dead time in us (no offset, table values are in 24 us increments)
 ***************************************************************************************************************************************************/
 
+const U32 cInjTimingMultiplier= 24;
+
 exec_result_t store_InjectorTimingTable()
 {
     return store_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
@@ -535,7 +542,7 @@ returns the injector dead time in 24 us intervals
 */
 VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 {
-    return (VU32) 24 * getValue_t2D(&InjectorTimingTable, 1000 * Bat_V);
+    return cInjTimingMultiplier * (VU32) getValue_t2D(&InjectorTimingTable, 1000 * Bat_V);
 }
 
 
@@ -543,8 +550,10 @@ VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 *   Cranking base fuel mass table - CrankingFuelTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 16 ug increments)
+* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 512 ug increments)
 ***************************************************************************************************************************************************/
+
+const U32 cCrkFuelMultiplier= 512;
 
 exec_result_t store_CrankingFuelTable()
 {
@@ -581,7 +590,7 @@ returns the Cranking base fuel mass in 128 ug increments
 */
 VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 {
-    return 512 * getValue_t2D(&CrankingFuelTable, CLT_K);
+    return cCrkFuelMultiplier * (VU32) getValue_t2D(&CrankingFuelTable, CLT_K);
 }
 
 
@@ -592,6 +601,8 @@ VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 * x-Axis -> rpm (no offset, no scaling)
 * y-Axis -> Injection end target advance (offset := 128, table values are in 2 deg increments)
 ***************************************************************************************************************************************************/
+
+const U32 cInjPhaseMultiplier= 2;
 
 exec_result_t store_InjectorPhaseTable()
 {
@@ -628,7 +639,7 @@ returns the Injection end target advance in 2 deg interval
 */
 VU32 getValue_InjectorPhaseTable(VU32 Rpm)
 {
-    return 2.0 * getValue_t2D(&InjectorPhaseTable, Rpm);
+    return cInjPhaseMultiplier * (VU32) getValue_t2D(&InjectorPhaseTable, Rpm);
 }
 
 

@@ -47,7 +47,7 @@
 #include "highspeed_loggers.h"
 
 
-#define TUAREG_DEBUG_OUTPUT
+//#define TUAREG_DEBUG_OUTPUT
 
 #ifdef TUAREG_DEBUG_OUTPUT
 #warning debug outputs enabled

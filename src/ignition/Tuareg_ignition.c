@@ -27,7 +27,7 @@
 #define IGNITION_REQUIRED_CONFIG_VERSION 4
 
 
-#define IGNITION_DEBUG_OUTPUT
+//#define IGNITION_DEBUG_OUTPUT
 
 #ifdef IGNITION_DEBUG_OUTPUT
 #warning debug outputs enabled

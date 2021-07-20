@@ -59,7 +59,12 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 afterstart_comp_cycles;
 
     //common control parameters
+
+    /**
+    no longer used
+    */
     U8 max_fuel_mass_comp_pct;
+
     U16 ve_from_map_min_rpm;
     U16 ve_from_map_max_rpm;
 

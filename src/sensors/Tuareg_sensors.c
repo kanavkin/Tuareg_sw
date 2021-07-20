@@ -13,7 +13,7 @@
 
 #include "debug_port_messages.h"
 
-#define SENSORS_DEBUG_OUTPUT
+//#define SENSORS_DEBUG_OUTPUT
 
 #ifdef SENSORS_DEBUG_OUTPUT
 #warning debug outputs enabled
