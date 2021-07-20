@@ -659,6 +659,11 @@ void DMA2_Stream0_IRQHandler()
                             result= solve_linear(average, Sensor_Calibration.BARO_calib_M, Sensor_Calibration.BARO_calib_N);
                             break;
 
+                        case ASENSOR_ASYNC_GEAR:
+
+                            result= solve_linear(average, Sensor_Calibration.GEAR_calib_M, Sensor_Calibration.GEAR_calib_N);
+                            break;
+
                         default:
 
                             //e.g. ASENSOR_ASYNC_SPARE

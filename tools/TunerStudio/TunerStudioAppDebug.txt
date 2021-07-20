@@ -36544,3 +36544,1823 @@ Please check your Communications Settings.
 7/20/21 1:11:32 PM :Debug: ############################################# Save Project Backup ##########################################
 7/20/21 1:11:32 PM :Info: Finalizing Sensors
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Tue Jul 20 13:19:45 CEST 2021
+JRE 1.8.0_292, Linux 4.15.0-147-generic, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+7/20/21 1:19:46 PM :Info: Initializing File Dialogs.
+7/20/21 1:19:46 PM :Info: Loading Language Content.
+7/20/21 1:19:48 PM :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+7/20/21 1:19:48 PM :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+7/20/21 1:19:48 PM :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+7/20/21 1:19:48 PM :Info: Initializing Plugin Services.
+7/20/21 1:19:48 PM :Info: Loading Plugins.
+7/20/21 1:19:48 PM :Info: Initializing Help.
+7/20/21 1:19:48 PM :Info: Initializing Edition Features.
+7/20/21 1:19:48 PM :Info: Initializing App Events.
+7/20/21 1:19:48 PM :Debug: App Name:TunerStudio, appEdition:MS Ultra
+7/20/21 1:19:48 PM :Info: Initializing Log Viewer Components.
+7/20/21 1:19:48 PM :Info: Initializing User Interface
+7/20/21 1:19:48 PM :Warning: Unable to set Main cluster for title:
+7/20/21 1:19:50 PM :Info: Loading Font list.
+7/20/21 1:19:50 PM :Debug: Time to retreive font name list: 25 ms.
+7/20/21 1:19:50 PM :Info: 
+7/20/21 1:19:50 PM :Info: Initializing UI Components.
+7/20/21 1:19:50 PM :Info: Ready
+7/20/21 1:19:52 PM :Info: Opening Project ...
+7/20/21 1:19:52 PM :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+7/20/21 1:19:52 PM :Debug: EventTrigger Data log Reset. expression: 
+7/20/21 1:19:52 PM :Debug: EventTrigger Stop Data log Reset. expression: 
+7/20/21 1:19:52 PM :Debug: Reading translation file as plain text
+7/20/21 1:19:52 PM :Info: Supported iniSpecVersion=3.68
+7/20/21 1:19:52 PM :Debug: Filtered ConfigurationOptionGroup in 12ms.
+7/20/21 1:19:52 PM :Info: Supported iniSpecVersion=3.68
+7/20/21 1:19:52 PM :Info: Read file canPcVariables.ini: 0.730151ms
+7/20/21 1:19:52 PM :Info: Filtered ini: 0.133785ms
+7/20/21 1:19:52 PM :Info: No iniVersion defined
+7/20/21 1:19:52 PM :Info: Loading Trigger Wheels
+7/20/21 1:19:52 PM :Info: Loaded All known ini sections
+7/20/21 1:19:52 PM :Info: Parsed and validated ini "canPcVariables.ini" in : 18ms.
+7/20/21 1:19:52 PM :Info: Read file mainController.ini: 3.548607ms
+7/20/21 1:19:52 PM :Info: Filtered ini: 0.941218ms
+7/20/21 1:19:52 PM :Info: No iniVersion defined
+7/20/21 1:19:52 PM :Debug: ini signature: rusEFI v1.04
+7/20/21 1:19:52 PM :Info: Loading Trigger Wheels
+7/20/21 1:19:52 PM :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+7/20/21 1:19:52 PM :Info: Loaded All known ini sections
+7/20/21 1:19:52 PM :Info: Parsed and validated ini "mainController.ini" in : 67ms.
+7/20/21 1:19:52 PM :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+7/20/21 1:19:52 PM :Info: Time to load primary config: 164.5248ms. used cached config: false
+7/20/21 1:19:52 PM :Debug: Adding Configuration: Tuareg
+7/20/21 1:19:52 PM :Debug: controllerOnline = 0.0
+7/20/21 1:19:52 PM :Debug: Fill Constants: 5
+MS Ultramain: No check, last update check=Sun Jul 18 00:21:19 CEST 2021
+7/20/21 1:19:52 PM :Info: Tune opened, 1879 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/20/21 1:19:52 PM :Info: Tune opened, 1879 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+7/20/21 1:19:52 PM :Info: dirtyData.size(): 0
+7/20/21 1:19:52 PM :Info: dirtyData.size(): 0
+7/20/21 1:19:52 PM :Debug: Flush lasted: 9ms.
+7/20/21 1:19:52 PM :Info: dirtyData.size(): 0
+7/20/21 1:19:52 PM :Info: dirtyData.size(): 0
+7/20/21 1:19:52 PM :Debug: Flush lasted: 1ms.
+7/20/21 1:19:52 PM :Debug: Skip Burn, last write page: -2
+7/20/21 1:19:52 PM :Info: !!! Loaded config in 332
+7/20/21 1:19:52 PM :Info: !!! Activated Project 851
+7/20/21 1:19:52 PM :Info: Opening Gauge Cluster..
+7/20/21 1:19:53 PM :Info: Time to load uncached dash: 221.59738ms, file: dashboard.dash
+7/20/21 1:19:53 PM :Debug: High Speed Paint: false
+7/20/21 1:19:53 PM :Info: 
+7/20/21 1:19:53 PM :Info: Com Thread created: COMM Thread27092.141284611847
+7/20/21 1:19:53 PM :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+7/20/21 1:19:53 PM :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread27092.141284611847
+7/20/21 1:19:53 PM :Debug: Port not valid: Unable to open port: /dev/ttyUSB0
+Please check your Communications Settings. 
+7/20/21 1:19:53 PM :Info: Time to load uncached dash: 304.79877ms, file: fueling.dash
+7/20/21 1:19:53 PM :Debug: High Speed Paint: false
+7/20/21 1:19:54 PM :Info: Time to load uncached dash: 101.5048ms, file: ignition.dash
+7/20/21 1:19:54 PM :Debug: High Speed Paint: false
+7/20/21 1:19:54 PM :Info: Time to load uncached dash: 40.85976ms, file: sensors.dash
+7/20/21 1:19:54 PM :Debug: High Speed Paint: false
+7/20/21 1:19:54 PM :Debug: !!! Opened Dash 2054
+7/20/21 1:19:54 PM :Info: Tuareg Ready
+7/20/21 1:19:54 PM :Debug: Tuning View Files loaded in 0.441604ms.
+MS Ultraad: No check, last update check=Sun Jul 18 00:21:23 CEST 2021
+7/20/21 1:20:02 PM :Info: launching MegaLogViewer from properties /home/oli/.efiAnalytics/TunerStudio/mlvLaunch.properties
+7/20/21 1:28:28 PM :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread27092.141284611847
+7/20/21 1:29:25 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/20/21 1:29:26 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/20/21 1:29:26 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/20/21 1:29:26 PM :Debug: controllerOnline = 1.0
+7/20/21 1:29:26 PM :Info: Activating page: 1
+7/20/21 1:29:26 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:26 PM :Info: Activating page: 2
+7/20/21 1:29:26 PM :Debug: Read page time: 176ms.
+7/20/21 1:29:26 PM :Info: Activating page: 3
+7/20/21 1:29:26 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:26 PM :Info: Activating page: 4
+7/20/21 1:29:27 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:27 PM :Info: Activating page: 5
+7/20/21 1:29:27 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:27 PM :Info: Activating page: 6
+7/20/21 1:29:27 PM :Debug: Read page time: 177ms.
+7/20/21 1:29:27 PM :Info: Activating page: 7
+7/20/21 1:29:27 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:27 PM :Info: Activating page: 8
+7/20/21 1:29:27 PM :Debug: Read page time: 179ms.
+7/20/21 1:29:27 PM :Info: Activating page: 9
+7/20/21 1:29:27 PM :Debug: Read page time: 179ms.
+7/20/21 1:29:28 PM :Info: Activating page: 10
+7/20/21 1:29:28 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:28 PM :Info: Activating page: 11
+7/20/21 1:29:28 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:28 PM :Info: Activating page: 12
+7/20/21 1:29:28 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:28 PM :Info: Activating page: 13
+7/20/21 1:29:28 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:28 PM :Info: Activating page: 14
+7/20/21 1:29:28 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:28 PM :Info: Activating page: 15
+7/20/21 1:29:29 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:29 PM :Info: Activating page: 16
+7/20/21 1:29:29 PM :Debug: Read page time: 178ms.
+7/20/21 1:29:29 PM :Debug: Read All Data
+7/20/21 1:29:29 PM :Debug: isBlank Time: 1 ms.
+7/20/21 1:29:29 PM :Debug: DiffTime: 18 ms.
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:29:55 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:230400
+7/20/21 1:29:57 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:230400
+7/20/21 1:29:59 PM :Debug: controllerOnline = 0.0
+7/20/21 1:29:59 PM :Debug: No Remaining Queue Write instructions
+7/20/21 1:29:59 PM :Debug: Went offline
+7/20/21 1:29:59 PM :Debug: controllerOnline = 0.0
+7/20/21 1:29:59 PM :Debug: No Remaining Queue Write instructions
+7/20/21 1:29:59 PM :Info: Went offline 2
+7/20/21 1:30:21 PM :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+7/20/21 1:30:22 PM :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.2 2020.10
+7/20/21 1:30:22 PM :Debug: Received Instruction: Read All Tune Data, Page: 0
+7/20/21 1:30:22 PM :Debug: controllerOnline = 1.0
+7/20/21 1:30:22 PM :Info: Activating page: 1
+7/20/21 1:30:23 PM :Debug: Read page time: 177ms.
+7/20/21 1:30:23 PM :Info: Activating page: 2
+7/20/21 1:30:23 PM :Debug: Read page time: 177ms.
+7/20/21 1:30:23 PM :Info: Activating page: 3
+7/20/21 1:30:23 PM :Debug: Read page time: 177ms.
+7/20/21 1:30:23 PM :Info: Activating page: 4
+7/20/21 1:30:23 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:23 PM :Info: Activating page: 5
+7/20/21 1:30:23 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:23 PM :Info: Activating page: 6
+7/20/21 1:30:23 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:23 PM :Info: Activating page: 7
+7/20/21 1:30:24 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:24 PM :Info: Activating page: 8
+7/20/21 1:30:24 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:24 PM :Info: Activating page: 9
+7/20/21 1:30:24 PM :Debug: Read page time: 177ms.
+7/20/21 1:30:24 PM :Info: Activating page: 10
+7/20/21 1:30:24 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:24 PM :Info: Activating page: 11
+7/20/21 1:30:24 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:24 PM :Info: Activating page: 12
+7/20/21 1:30:25 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:25 PM :Info: Activating page: 13
+7/20/21 1:30:25 PM :Debug: Read page time: 177ms.
+7/20/21 1:30:25 PM :Info: Activating page: 14
+7/20/21 1:30:25 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:25 PM :Info: Activating page: 15
+7/20/21 1:30:25 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:25 PM :Info: Activating page: 16
+7/20/21 1:30:25 PM :Debug: Read page time: 178ms.
+7/20/21 1:30:25 PM :Debug: Read All Data
+7/20/21 1:30:25 PM :Debug: isBlank Time: 0 ms.
+7/20/21 1:30:25 PM :Debug: DiffTime: 11 ms.
+7/20/21 1:30:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:47 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:48 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:49 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:50 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:51 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:52 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:53 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:54 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:55 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:56 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:57 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:58 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:30:59 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:00 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:01 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:02 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:03 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:04 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:05 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:06 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:07 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:08 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:09 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:10 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:11 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:12 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:13 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:14 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:15 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:16 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:17 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:18 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:19 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:20 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:21 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:22 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:23 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:24 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:25 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:26 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:27 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:28 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:29 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:30 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:31 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:32 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:33 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:34 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:35 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:36 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:37 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:38 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:39 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:40 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:41 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:42 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:43 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:44 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:45 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Debug: Could not get value for OutputChannel:FuelMassCorr_pct
+7/20/21 1:31:46 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:230400
+7/20/21 1:31:48 PM :Info: Re-establishing connection to: RS232: Port:/dev/ttyUSB0, Baud:230400
+7/20/21 1:31:50 PM :Debug: controllerOnline = 0.0
+7/20/21 1:31:50 PM :Debug: No Remaining Queue Write instructions
+7/20/21 1:31:50 PM :Debug: Went offline
+7/20/21 1:31:50 PM :Debug: controllerOnline = 0.0
+7/20/21 1:31:50 PM :Debug: No Remaining Queue Write instructions
+7/20/21 1:31:50 PM :Info: Went offline 2
+7/20/21 1:32:03 PM :Debug: Port not valid: Unable to open port: /dev/ttyUSB0
+Please check your Communications Settings. 
+7/20/21 1:32:10 PM :Info: Time to save msq: 64.469025
+7/20/21 1:32:10 PM :Info: closeApp Called
+7/20/21 1:32:10 PM :Debug: TuneLog Editor set text
+7/20/21 1:32:10 PM :Debug: Fill Constants: 3
+7/20/21 1:32:10 PM :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-07-20_13.11.32.msq
+7/20/21 1:32:10 PM :Info: Time to save msq: 20.229738
+7/20/21 1:32:10 PM :Debug: goOffline Starting, Time:0
+7/20/21 1:32:10 PM :Info: Deactivated Turbo Baud, goOffline
+7/20/21 1:32:10 PM :Debug: goOffline about to stopProcessing, Time:0
+7/20/21 1:32:10 PM :Debug: goOffline closed port, Time:0
+7/20/21 1:32:11 PM :Info: Tuareg ComThread stopped COMM Thread27092.141284611847
+7/20/21 1:32:11 PM :Debug: goOffline comm thread stopped, Time:351
+7/20/21 1:32:11 PM :Debug: No Remaining Queue Write instructions
+7/20/21 1:32:11 PM :Debug: removing Configuration: Tuareg
+7/20/21 1:32:11 PM :Debug: ############################################# Save Project Backup ##########################################
+7/20/21 1:32:11 PM :Info: Finalizing Sensors
+Saved user properties successfully
