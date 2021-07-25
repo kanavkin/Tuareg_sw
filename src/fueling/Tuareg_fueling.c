@@ -27,7 +27,7 @@
 //#define FUELING_DEBUG_OUTPUT
 
 #ifdef FUELING_DEBUG_OUTPUT
-#warning debug outputs enabled
+#warning Fueling debug outputs enabled
 #endif // FUELING_DEBUG_OUTPUT
 
 

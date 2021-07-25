@@ -12,7 +12,7 @@
 this is the last permitted eeprom address
 defining addresses beyond this address will lead to system error
 */
-#define EEPROM_FINAL_ADDRESS 2000
+#define EEPROM_FINAL_ADDRESS 8000
 
 //see ct3D_data_size for address calculation!!! 320
 #define TABLE3D_RESERVED_SPACE 320
@@ -117,11 +117,16 @@ Injection end target advance - InjectorPhaseTable
 */
 #define EEPROM_FUELING_INJECTORPHASE_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
+/**
+Fault Log - Fault_Log
+*/
+#define EEPROM_FAULT_LOG_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
+
 
 /**
 This is the last used eeprom address -> memory dump will be read until here
 */
-#define EEPROM_STORAGE_END (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_STORAGE_END (EEPROM_FAULT_LOG_BASE + 20)
 
 
 #if (EEPROM_STORAGE_END > EEPROM_FINAL_ADDRESS)

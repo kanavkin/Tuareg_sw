@@ -32,6 +32,7 @@
 
 #include "debug_port_messages.h"
 #include "syslog.h"
+#include "fault_log.h"
 
 #include "highspeed_loggers.h"
 
@@ -172,6 +173,13 @@ void Tuareg_update_console()
 
         //send serial protocol version
         print(TS_PORT, "001");
+        break;
+
+
+    case 'G':
+
+        //show Fault Log
+        show_Fault_Log(TS_PORT);
         break;
 
 
@@ -478,6 +486,8 @@ inline void cli_showPage(U32 Page)
 */
 inline void cli_checkPermissions(U32 Value)
 {
+/// TODO (oli#9#): implement debugportmsg api
+
     switch(Value)
     {
     case 'cal#':
@@ -517,7 +527,13 @@ inline void cli_checkPermissions(U32 Value)
         Tuareg_console.cli_permissions.fueling_mod_permission = false;
         Tuareg_console.cli_permissions.ignition_mod_permission = false;
         Tuareg_console.cli_permissions.tsetup_mod_permission = false;
+        Tuareg_console.cli_permissions.faultlog_permission = false;
         print(DEBUG_PORT, "\r\nINFO config locked");
+        break;
+
+    case 'faul':
+        Tuareg_console.cli_permissions.faultlog_permission = true;
+        print(DEBUG_PORT, "\r\nINFO unlocked fault log");
         break;
 
     default:

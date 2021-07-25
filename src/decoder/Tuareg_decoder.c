@@ -12,7 +12,11 @@
 
 #include "debug_port_messages.h"
 
-#define DECODER_DEBUG
+//#define DECODER_DEBUG
+
+#ifdef DECODER_DEBUG
+#warning Decoder Debug messages enabled
+#endif // DECODER_DEBUG
 
 /// TODO (oli#8#): implement decoder syslog messages
 

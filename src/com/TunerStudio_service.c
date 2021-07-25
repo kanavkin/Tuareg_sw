@@ -27,7 +27,15 @@
 
 #include "process_table.h"
 
-#define TS_SERVICE_DEBUG
+#include "fault_log.h"
+
+#include "debug_port_messages.h"
+
+//#define TS_SERVICE_DEBUG
+
+#ifdef TS_SERVICE_DEBUG
+#warning TS Service Debug messages enabled
+#endif // TS_SERVICE_DEBUG
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmultichar"
@@ -75,7 +83,27 @@ void ts_debug_features(U32 FeatureID)
 
         case 'fa':
 
-            Fatal(0, 0);
+            Fatal(TID_TUNERSTUDIO_SERVICE, 42);
+            break;
+
+        case 'li':
+
+            Limp(TID_TUNERSTUDIO_SERVICE, 43);
+            break;
+
+        case 'fl':
+
+            if(Tuareg_console.cli_permissions.faultlog_permission == true)
+            {
+                Erase_Fault_Log();
+            }
+            else
+            {
+                #ifdef TS_SERVICE_DEBUG
+                DebugMsg_Error("Will not erase Fault Log - no permission!");
+                #endif // TS_SERVICE_DEBUG
+            }
+
             break;
 
 

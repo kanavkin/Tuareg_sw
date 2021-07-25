@@ -29,6 +29,7 @@ typedef enum {
     TSETUP_PAGE,
 
     SYSLOG_PAGE,
+    FAULTLOG_PAGE,
 
     TSPAGE_COUNT
 

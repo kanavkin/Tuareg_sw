@@ -159,10 +159,15 @@
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_logic.h" />
 		<Unit filename="../../src/decoder/decoder_syslog_locations.h" />
+		<Unit filename="../../src/diagnostics/diag_syslog_locations.h" />
 		<Unit filename="../../src/diagnostics/diagnostics.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/diagnostics/diagnostics.h" />
+		<Unit filename="../../src/diagnostics/fault_log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/diagnostics/fault_log.h" />
 		<Unit filename="../../src/diagnostics/highspeed_loggers.c">
 			<Option compilerVar="CC" />
 		</Unit>

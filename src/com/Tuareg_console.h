@@ -20,6 +20,7 @@ typedef union
         U8 decoder_mod_permission :1;
         U8 tsetup_mod_permission :1;
         U8 burn_permission :1;
+        U8 faultlog_permission :1;
      };
 
 } cli_permission_flags_t;

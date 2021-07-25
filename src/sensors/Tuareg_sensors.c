@@ -382,8 +382,13 @@ checks the health state of the GEAR sensor
 if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
 uses a generic default value for disturbed sensors
 */
+
+const F32 cGearsRoundOffset= 0.5;
+
 gears_t Tuareg_update_GEAR_sensor()
 {
+    U32 converted_gear;
+
     //check if sensor can be validated in this cycle
     if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES)
     {
@@ -394,8 +399,22 @@ gears_t Tuareg_update_GEAR_sensor()
             Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_GEAR_VALIDATED);
         }
 
-        //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_GEAR];
+        /**
+        use live value
+        the conversion of float value to gears_t shall be carried out with rounding to the nearest value
+        with offset 0.5 the 6th gear is reported for input value 320
+        */
+        converted_gear= Tuareg.pSensors->asensors[ASENSOR_GEAR] + cGearsRoundOffset;
+
+        if(converted_gear >= GEAR_COUNT)
+        {
+            return GEAR_COUNT -1;
+        }
+        else
+        {
+            return converted_gear;
+        }
+
     }
     else
     {

@@ -12,9 +12,6 @@
 #include "uart_printf.h"
 #include "conversion.h"
 
-//#include "decoder_config.h"
-//#include "ignition_config.h"
-//#include "sensor_calibration.h"
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
@@ -31,6 +28,7 @@
 #include "process_table.h"
 
 #include "syslog.h"
+#include "fault_log.h"
 
 #define TS_DEBUG
 
@@ -107,6 +105,10 @@ void ts_readPage(U32 Page)
 
         case SYSLOG_PAGE:
             send_syslog(TS_PORT);
+            break;
+
+        case FAULTLOG_PAGE:
+            send_Fault_Log(TS_PORT);
             break;
 
         default:

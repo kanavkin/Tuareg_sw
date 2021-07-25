@@ -76,12 +76,12 @@ typedef enum {
 
 typedef enum {
 
+    GEAR_NEUTRAL,
     GEAR_1,
     GEAR_2,
     GEAR_3,
     GEAR_4,
     GEAR_5,
-    GEAR_NEUTRAL,
 
     GEAR_COUNT
 

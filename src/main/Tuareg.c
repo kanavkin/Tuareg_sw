@@ -43,6 +43,7 @@
 #include "syslog.h"
 #include "debug_port_messages.h"
 #include "Tuareg_syslog_locations.h"
+#include "fault_log.h"
 
 #include "highspeed_loggers.h"
 
@@ -96,6 +97,7 @@ void Tuareg_Init()
     //logs
     Tuareg.pSyslog= Syslog_init();
     Tuareg.pHighspeedlog= highspeedlog_init();
+    init_Fault_Log();
 
     //load main config
     Tuareg_load_config();

@@ -338,6 +338,18 @@ void memclr_boctok(void * pBegin, U32 Length)
 }
 
 
+U32 floor_boctok(VF32 Argument)
+{
+    return (U32)(Argument + 32768.0) - 32768;
+}
+
+
+U32 ceiling_boctok(VF32 Argument)
+{
+    return 32768 - (U32)(32768.0 - Argument);
+}
+
+
 
 
 

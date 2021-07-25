@@ -17,11 +17,13 @@
 
 #include "dash_logic.h"
 
+#include "fault_log.h"
+
 
 //#define ERRORS_DEBUG_OUTPUT
 
 #ifdef ERRORS_DEBUG_OUTPUT
-#warning debug outputs enabled
+#warning Errors debug outputs enabled
 #endif // ERRORS_DEBUG_OUTPUT
 
 
@@ -44,6 +46,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
 
     Syslog_Error(Id, Location);
     Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
+    log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("FATAL --");
@@ -74,6 +77,7 @@ void Limp(Tuareg_ID Id, U8 Location)
 
     Syslog_Error(Id, Location);
     Syslog_Error(TID_TUAREG, TUAREG_LOC_ENTER_LIMP_MODE);
+    log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUG_OUTPUT
     DebugMsg_Error("LIMP --");

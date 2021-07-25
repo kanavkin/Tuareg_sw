@@ -1,0 +1,23 @@
+#ifndef DIAG_SYSLOG_H_INCLUDED
+#define DIAG_SYSLOG_H_INCLUDED
+
+
+typedef enum {
+
+    DIAG_LOC_FAULTLOG_LOAD_FAIL,
+    DIAG_LOC_FAULTLOG_LOAD_SUCCESS,
+    DIAG_LOC_FAULTLOG_NOINIT,
+    DIAG_LOC_FAULTLOG_WRITE_FAIL,
+
+    DIAG_LOC_COUNT
+
+
+
+} Diag_syslog_locations_t;
+
+
+
+
+
+
+#endif

@@ -38,4 +38,7 @@ U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb);
 
 void memclr_boctok(void * pBegin, U32 Length);
 
+U32 floor_boctok(VF32 Argument);
+U32 ceiling_boctok(VF32 Argument);
+
 #endif // BASECALC_H_INCLUDED
