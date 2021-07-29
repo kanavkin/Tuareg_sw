@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-<bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jul 29 11:49:46 CEST 2021"/>
+<bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jul 29 10:53:20 CEST 2021"/>
 <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="17" signature="rusEFI v1.04"/>
 <page>
 <pcVariable name="tsCanId">"0"</pcVariable>
@@ -119,8 +119,8 @@
          85.0 
       </constant>
 <constant cols="16" digits="0" name="ignAdv_TPS_z" rows="16" units="deg">
-         20.0 20.0 20.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
-         20.0 20.0 20.0 25.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         15.0 15.0 18.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
+         15.0 15.0 18.0 25.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
          20.0 25.0 25.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
          25.0 25.0 25.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
          25.0 25.0 25.0 30.0 33.0 37.0 40.0 40.0 40.0 42.0 43.0 42.0 42.0 42.0 42.0 42.0 
@@ -296,18 +296,18 @@
          30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 29.0 32.0 34.0 36.0 39.0 41.0 43.0 46.0 
          30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 31.0 34.0 36.0 39.0 42.0 44.0 47.0 50.0 
          30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 33.0 36.0 39.0 42.0 45.0 48.0 51.0 54.0 
-         40.0 40.0 30.0 30.0 30.0 30.0 30.0 30.0 35.0 38.0 42.0 45.0 48.0 51.0 54.0 57.0 
-         40.0 40.0 30.0 30.0 30.0 30.0 30.0 30.0 37.0 41.0 44.0 48.0 51.0 54.0 58.0 61.0 
-         40.0 40.0 30.0 30.0 30.0 30.0 30.0 30.0 39.0 43.0 47.0 50.0 54.0 58.0 62.0 65.0 
-         40.0 40.0 40.0 30.0 26.0 30.0 34.0 38.0 42.0 45.0 49.0 53.0 57.0 61.0 65.0 69.0 
-         40.0 40.0 40.0 30.0 40.0 40.0 40.0 40.0 44.0 48.0 52.0 56.0 60.0 65.0 69.0 73.0 
-         40.0 40.0 40.0 50.0 40.0 40.0 40.0 40.0 46.0 50.0 55.0 59.0 63.0 68.0 72.0 77.0 
-         50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 67.0 71.0 76.0 81.0 
-         50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 70.0 75.0 80.0 85.0 
-         50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 73.0 78.0 83.0 88.0 
-         50.0 50.0 55.0 60.0 55.0 50.0 50.0 50.0 55.0 60.0 60.0 55.0 76.0 81.0 87.0 92.0 
-         85.0 85.0 80.0 85.0 85.0 85.0 75.0 75.0 80.0 80.0 80.0 80.0 79.0 85.0 90.0 96.0 
-         90.0 90.0 90.0 90.0 90.0 85.0 100.0 82.0 75.0 75.0 100.0 100.0 100.0 100.0 100.0 100.0 
+         30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 35.0 38.0 42.0 45.0 48.0 51.0 54.0 57.0 
+         30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 37.0 41.0 44.0 48.0 51.0 54.0 58.0 61.0 
+         30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 39.0 43.0 47.0 50.0 54.0 58.0 62.0 65.0 
+         40.0 28.0 30.0 30.0 26.0 30.0 34.0 38.0 42.0 45.0 49.0 53.0 57.0 61.0 65.0 69.0 
+         40.0 30.0 30.0 30.0 40.0 40.0 40.0 40.0 44.0 48.0 52.0 56.0 60.0 65.0 69.0 73.0 
+         40.0 30.0 40.0 50.0 40.0 40.0 40.0 40.0 46.0 50.0 55.0 59.0 63.0 68.0 72.0 77.0 
+         50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 52.0 57.0 62.0 67.0 71.0 76.0 81.0 
+         60.0 60.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 60.0 65.0 70.0 75.0 80.0 85.0 
+         70.0 70.0 90.0 90.0 90.0 90.0 90.0 90.0 90.0 90.0 62.0 67.0 73.0 78.0 83.0 88.0 
+         75.0 75.0 90.0 90.0 90.0 90.0 90.0 90.0 70.0 70.0 70.0 70.0 76.0 81.0 87.0 92.0 
+         90.0 90.0 90.0 90.0 90.0 90.0 90.0 90.0 70.0 70.0 70.0 70.0 79.0 85.0 90.0 96.0 
+         90.0 90.0 90.0 90.0 90.0 90.0 90.0 90.0 70.0 70.0 70.0 70.0 82.0 88.0 94.0 100.0 
       </constant>
 </page>
 <page number="8" size="320">
@@ -632,22 +632,22 @@
 <constant name="Syslog_11_type">"II"</constant>
 <constant name="Syslog_11_loc">"4"</constant>
 <constant digits="0" name="Syslog_11_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_12_ts" units="Timestamp">730698.0</constant>
+<constant digits="0" name="Syslog_12_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_12_type">"II"</constant>
-<constant name="Syslog_12_loc">"6"</constant>
-<constant digits="0" name="Syslog_12_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_13_ts" units="Timestamp">1094282.0</constant>
+<constant name="Syslog_12_loc">"0"</constant>
+<constant digits="0" name="Syslog_12_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_13_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_13_type">"II"</constant>
-<constant name="Syslog_13_loc">"6"</constant>
-<constant digits="0" name="Syslog_13_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_14_ts" units="Timestamp">1265037.0</constant>
+<constant name="Syslog_13_loc">"0"</constant>
+<constant digits="0" name="Syslog_13_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_14_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_14_type">"II"</constant>
-<constant name="Syslog_14_loc">"6"</constant>
-<constant digits="0" name="Syslog_14_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_15_ts" units="Timestamp">1653820.0</constant>
+<constant name="Syslog_14_loc">"0"</constant>
+<constant digits="0" name="Syslog_14_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_15_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_15_type">"II"</constant>
-<constant name="Syslog_15_loc">"6"</constant>
-<constant digits="0" name="Syslog_15_src" units="Module-ID">36.0</constant>
+<constant name="Syslog_15_loc">"0"</constant>
+<constant digits="0" name="Syslog_15_src" units="Module-ID">0.0</constant>
 <constant digits="0" name="Syslog_16_ts" units="Timestamp">0.0</constant>
 <constant name="Syslog_16_type">"II"</constant>
 <constant name="Syslog_16_loc">"0"</constant>
@@ -688,22 +688,22 @@
 <constant name="Syslog_25_type">"II"</constant>
 <constant name="Syslog_25_loc">"0"</constant>
 <constant digits="0" name="Syslog_25_src" units="Module-ID">0.0</constant>
-<constant digits="0" name="Syslog_26_ts" units="Timestamp">2486297.0</constant>
-<constant name="Syslog_26_type">"EE"</constant>
-<constant name="Syslog_26_loc">"5"</constant>
-<constant digits="0" name="Syslog_26_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_27_ts" units="Timestamp">1611377.0</constant>
-<constant name="Syslog_27_type">"EE"</constant>
-<constant name="Syslog_27_loc">"5"</constant>
-<constant digits="0" name="Syslog_27_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_28_ts" units="Timestamp">1247943.0</constant>
-<constant name="Syslog_28_type">"EE"</constant>
-<constant name="Syslog_28_loc">"5"</constant>
-<constant digits="0" name="Syslog_28_src" units="Module-ID">36.0</constant>
-<constant digits="0" name="Syslog_29_ts" units="Timestamp">1086082.0</constant>
-<constant name="Syslog_29_type">"EE"</constant>
-<constant name="Syslog_29_loc">"5"</constant>
-<constant digits="0" name="Syslog_29_src" units="Module-ID">36.0</constant>
+<constant digits="0" name="Syslog_26_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_26_type">"II"</constant>
+<constant name="Syslog_26_loc">"0"</constant>
+<constant digits="0" name="Syslog_26_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_27_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_27_type">"II"</constant>
+<constant name="Syslog_27_loc">"0"</constant>
+<constant digits="0" name="Syslog_27_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_28_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_28_type">"II"</constant>
+<constant name="Syslog_28_loc">"0"</constant>
+<constant digits="0" name="Syslog_28_src" units="Module-ID">0.0</constant>
+<constant digits="0" name="Syslog_29_ts" units="Timestamp">0.0</constant>
+<constant name="Syslog_29_type">"II"</constant>
+<constant name="Syslog_29_loc">"0"</constant>
+<constant digits="0" name="Syslog_29_src" units="Module-ID">0.0</constant>
 </page>
 <page number="16" size="7">
 <constant digits="0" name="Faultlog_count" units="Entries">0.0</constant>
