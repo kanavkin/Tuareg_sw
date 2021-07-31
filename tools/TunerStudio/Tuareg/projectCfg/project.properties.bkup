@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Fri Jul 30 00:31:15 CEST 2021
-#Fri Jul 30 00:31:15 CEST 2021
+#Last Saved on: Sat Jul 31 22:22:50 CEST 2021
+#Sat Jul 31 22:22:50 CEST 2021
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 injCharsInjector\ Characteristics_width=408
@@ -116,7 +116,7 @@ tool_boxService\ Tools\ -\ Ignition_height=346
 CommSettingMSCommDriver.controllerInterfaceId=RS232 Serial Interface
 afrTable1TblAFR\ Table_width=558
 AfrTable_TPSAFR\ vs.\ TPS_height=893
-2DTable_VeTable_MAP_tableInitialDir=/home/oli/Desktop
+2DTable_VeTable_MAP_tableInitialDir=/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
 config_permissionConfig\ Permissions_height=420
 sparkSettingsSpark\ Settings_width=372
 CrankingFuelCurveCranking\ base\ fuel\ mass_width=1446
@@ -181,14 +181,14 @@ fuelpumpFuel\ pump_Y=435
 fuelpumpFuel\ pump_X=777
 dwellSettingsDwell\ Settings_Y=309
 dwellSettingsDwell\ Settings_X=769
-veGenerator_txtPkHp=80
+veGenerator_txtPkHp=84
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/ttyUSB0
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
 tool_boxService\ Tools_Y=0
 tool_boxService\ Tools_X=1064
 InjectorPhaseCurve_Set\ X\ Axis\ Minimum=0.0
-veGenerator_txtPkTq=63
+veGenerator_txtPkTq=70
 userDash1.DashName=ignition
 ignition_setupIgnition\ Setup_height=486
 AfrTable_TPSAFR\ vs.\ TPS_width=1623
@@ -200,8 +200,8 @@ DwellCurveDwell_Y=334
 injCharsInjector\ Characteristics_Y=233
 DwellCurveDwell_X=303
 injCharsInjector\ Characteristics_X=759
-VeTable_MAPVE\ vs.\ MAP_Y=96
-VeTable_MAPVE\ vs.\ MAP_X=68
+VeTable_MAPVE\ vs.\ MAP_Y=146
+VeTable_MAPVE\ vs.\ MAP_X=87
 faultlogView\ Fault\ Log_height=358
 sparkSettingsSpark\ Settings_Y=386
 sparkSettingsSpark\ Settings_X=777
