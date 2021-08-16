@@ -38,7 +38,7 @@
 <NeedleImageFileName type="String">null</NeedleImageFileName>
 <NeedleSmoothing type="int">1</NeedleSmoothing>
 <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-<ShortestSize type="int">382</ShortestSize>
+<ShortestSize type="int">199</ShortestSize>
 <SmoothedValue type="double">0.0</SmoothedValue>
 <StartAngle type="int">0</StartAngle>
 <SweepAngle type="int">300</SweepAngle>
@@ -53,7 +53,7 @@
 <PegLimits type="boolean">true</PegLimits>
 <ShapeLockedToAspect type="boolean">false</ShapeLockedToAspect>
 <ShowHistory type="boolean">true</ShowHistory>
-<GroupId type="int">565220289</GroupId>
+<GroupId type="int">1396164166</GroupId>
 <GoingDead type="boolean">false</GoingDead>
 <Dirty type="boolean">true</Dirty>
 <Max type="double">10000.0</Max>
@@ -113,7 +113,7 @@
 <NeedleImageFileName type="String">null</NeedleImageFileName>
 <NeedleSmoothing type="int">1</NeedleSmoothing>
 <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-<ShortestSize type="int">76</ShortestSize>
+<ShortestSize type="int">66</ShortestSize>
 <SmoothedValue type="double">0.0</SmoothedValue>
 <StartAngle type="int">0</StartAngle>
 <SweepAngle type="int">300</SweepAngle>
@@ -128,7 +128,7 @@
 <PegLimits type="boolean">true</PegLimits>
 <ShapeLockedToAspect type="boolean">false</ShapeLockedToAspect>
 <ShowHistory type="boolean">true</ShowHistory>
-<GroupId type="int">565220289</GroupId>
+<GroupId type="int">1396164166</GroupId>
 <GoingDead type="boolean">false</GoingDead>
 <Dirty type="boolean">true</Dirty>
 <Max type="double">10000.0</Max>
@@ -188,7 +188,7 @@
 <NeedleImageFileName type="String">null</NeedleImageFileName>
 <NeedleSmoothing type="int">1</NeedleSmoothing>
 <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-<ShortestSize type="int">382</ShortestSize>
+<ShortestSize type="int">199</ShortestSize>
 <SmoothedValue type="double">0.0</SmoothedValue>
 <StartAngle type="int">0</StartAngle>
 <SweepAngle type="int">300</SweepAngle>
@@ -203,7 +203,7 @@
 <PegLimits type="boolean">true</PegLimits>
 <ShapeLockedToAspect type="boolean">false</ShapeLockedToAspect>
 <ShowHistory type="boolean">true</ShowHistory>
-<GroupId type="int">320202867</GroupId>
+<GroupId type="int">2063693367</GroupId>
 <GoingDead type="boolean">false</GoingDead>
 <Dirty type="boolean">true</Dirty>
 <Max type="double">120.0</Max>
@@ -263,7 +263,7 @@
 <NeedleImageFileName type="String">null</NeedleImageFileName>
 <NeedleSmoothing type="int">1</NeedleSmoothing>
 <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-<ShortestSize type="int">76</ShortestSize>
+<ShortestSize type="int">66</ShortestSize>
 <SmoothedValue type="double">0.0</SmoothedValue>
 <StartAngle type="int">0</StartAngle>
 <SweepAngle type="int">300</SweepAngle>
@@ -278,7 +278,7 @@
 <PegLimits type="boolean">true</PegLimits>
 <ShapeLockedToAspect type="boolean">false</ShapeLockedToAspect>
 <ShowHistory type="boolean">true</ShowHistory>
-<GroupId type="int">320202867</GroupId>
+<GroupId type="int">2063693367</GroupId>
 <GoingDead type="boolean">false</GoingDead>
 <Dirty type="boolean">true</Dirty>
 <Max type="double">120.0</Max>
@@ -291,8 +291,8 @@
 <Value type="double">0.0</Value>
 <RelativeWidth type="double">0.33</RelativeWidth>
 <RelativeHeight type="double">0.1</RelativeHeight>
-<RelativeX type="double">0.6697674418604651</RelativeX>
-<RelativeY type="double">0.6510989010989011</RelativeY>
+<RelativeX type="double">0.6699999999999999</RelativeX>
+<RelativeY type="double">0.6515151515151515</RelativeY>
 <AntialiasingOn type="boolean">true</AntialiasingOn>
 <InvalidState type="boolean">false</InvalidState>
 <ItalicFont type="boolean">false</ItalicFont>
