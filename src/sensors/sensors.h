@@ -197,6 +197,9 @@ typedef struct {
     VF32 last_TPS;
     VF32 last_ddt_TPS;
 
+    VF32 last_MAP_kPA;
+    VF32 last_ddt_MAP;
+
     VU32 async_loop_count;
 
     /**
@@ -210,6 +213,7 @@ typedef struct {
 typedef struct {
 
     VF32 ddt_TPS;
+    VF32 ddt_MAP;
 
     //VU16 asensors_health;
 
@@ -241,6 +245,7 @@ void read_digital_sensors();
 
 //VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
 VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS);
+VF32 calculate_ddt_MAP(VF32 MAP_kPa, VF32 Last_MAP_kPa, VF32 Last_ddt_MAP, VU32 Interval_us);
 
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 

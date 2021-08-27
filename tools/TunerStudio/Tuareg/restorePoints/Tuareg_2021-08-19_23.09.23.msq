@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Thu Aug 19 23:43:18 CEST 2021"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: TunerStudio settings before accepting Controller values in a Difference Report. - &lt;br&gt;warm engine, no compensation -&gt; VE 37%" writeDate="Thu Aug 19 23:09:23 CEST 2021"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.2+2020.10" nPages="17" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
@@ -183,7 +183,7 @@
         <constant digits="0" name="FuelingSetupInj2Rate" units="mg/s">3983.0</constant>
         <constant digits="0" name="FuelingSetupInjMaxDc" units="%">85.0</constant>
         <constant digits="1" name="FuelingSetupAccelCompThres" units="°/s">45.0</constant>
-        <constant digits="1" name="FuelingSetupDecelCompThres" units="°/s">-500.0</constant>
+        <constant digits="1" name="FuelingSetupDecelCompThres" units="°/s">-600.0</constant>
         <constant digits="0" name="FuelingSetupDecelCompPct" units="%">15.0</constant>
         <constant digits="0" name="FuelingSetupAccelCompCyc" units="#">150.0</constant>
         <constant digits="0" name="FuelingSetupAsCompPct" units="%">5.0</constant>
@@ -195,7 +195,7 @@
         <constant name="FuelingSetupFeatAccelComp">"On"</constant>
         <constant name="FuelingSetupFeatSeqMode">"Off"</constant>
         <constant name="FuelingSetupFeatWarmUp">"On"</constant>
-        <constant name="FuelingSetupFeatASComp">"On"</constant>
+        <constant name="FuelingSetupFeatASComp">"Off"</constant>
         <constant name="FuelingSetupFeatDryCrank">"On"</constant>
     </page>
     <page number="6" size="320">
@@ -370,38 +370,38 @@
         <constant cols="1" digits="0" name="AccelComp_x" rows="16" units="°/s">
          50.0 
          60.0 
-         70.0 
          80.0 
-         90.0 
-         100.0 
-         110.0 
          120.0 
-         130.0 
          140.0 
-         150.0 
          160.0 
-         170.0 
+         180.0 
          200.0 
-         250.0 
+         220.0 
+         240.0 
+         260.0 
+         280.0 
+         300.0 
+         320.0 
+         340.0 
          360.0 
       </constant>
         <constant cols="1" digits="0" name="AccelComp_y" rows="16" units="%">
-         20.0 
-         20.0 
-         20.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
-         24.0 
+         0.0 
+         0.0 
+         0.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         4.0 
+         16.0 
+         16.0 
+         16.0 
+         16.0 
       </constant>
     </page>
     <page number="10" size="48">

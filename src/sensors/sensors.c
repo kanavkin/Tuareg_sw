@@ -215,7 +215,7 @@ VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS)
     VF32 ddt_TPS, ema_ddt_TPS;
 
     const F32 TPS_sample_interval_ms= 10;
-    const F32 alpha= 0.7;
+    const F32 alpha= 0.85;
 
     //calculate the current TPS change rate in °/s
     ddt_TPS= (1000.0 / TPS_sample_interval_ms) * (TPS - Last_TPS);
@@ -226,6 +226,32 @@ VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS)
     return ema_ddt_TPS;
 }
 
+/**
+intake pressure transient calculation
+
+[ddt_MAP] := kPa/s
+
+implements exponential moving average with alpha [0 .. 1]
+
+
+This calculation has been tailored for an interval in us:
+ddt_MAP := (1000000 / Interval_us) * delta_MAP
+
+*/
+VF32 calculate_ddt_MAP(VF32 MAP_kPa, VF32 Last_MAP_kPa, VF32 Last_ddt_MAP, VU32 Interval_us)
+{
+    VF32 ddt_MAP, ema_ddt_MAP;
+
+    const F32 alpha= 0.85;
+
+    //calculate the current MAP change rate in kPa/s
+    ddt_MAP= divide_VF32(1000000, Interval_us) * (MAP_kPa - Last_MAP_kPa);
+
+    // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
+    ema_ddt_MAP= (1 - alpha) * Last_ddt_MAP + alpha * ddt_MAP;
+
+    return ema_ddt_MAP;
+}
 
 
 /**
@@ -353,6 +379,7 @@ void ADC_IRQHandler()
     VU32 average, sample;
     VU32 * pIntegr= NULL;
     VU32 * pCount= NULL;
+    VF32 MAP_kPa, ddt_MAP;
 
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_ADCIRQ_CALLS);
@@ -387,18 +414,34 @@ void ADC_IRQHandler()
             //enough samples read?
             if(*pCount >= ASENSOR_SYNC_SAMPLE_LEN)
             {
+
+                //critical section
+                __disable_irq();
+
                 //calculate the average map value
                 average= *pIntegr / *pCount;
 
-                //calculate MAP and export to interface
-                SInterface.asensors[ASENSOR_MAP]= solve_linear(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
+                //calculate new MAP value
+                MAP_kPa= solve_linear(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
+
+                //calculate ddt_MAP
+                if(Tuareg.pDecoder->outputs.period_valid == true)
+                {
+                    ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPA, SInternals.last_ddt_MAP, Tuareg.pDecoder->crank_period_us);
+                }
+
+                //save MAP_kPa / ddt_MAP values from the current cycle to be new old values in the next cycle
+                SInternals.last_MAP_kPA= MAP_kPa;
+                SInternals.last_ddt_MAP= ddt_MAP;
+
+                //export to interface
+                SInterface.asensors[ASENSOR_MAP]= MAP_kPa;
+                SInterface.asensors_raw[ASENSOR_MAP]= average;
+                SInterface.ddt_MAP= ddt_MAP;
 
                 //reset average buffer
                 *pIntegr= 0;
                 *pCount= 0;
-
-                //export raw value
-                SInterface.asensors_raw[ASENSOR_MAP]= average;
 
                 //notify valid readout
                 SInternals.asensors_sync_error_counter[ASENSOR_SYNC_MAP] =0;
@@ -408,6 +451,9 @@ void ADC_IRQHandler()
                 {
                     SInterface.asensors_valid_samples[ASENSOR_MAP]++;
                 }
+
+                //ready
+                __enable_irq();
 
             }
 
@@ -429,14 +475,15 @@ void ADC_IRQHandler()
                 */
 
                 //report to interface
-                SInterface.asensors[ASENSOR_MAP] =0;
+                SInterface.asensors[ASENSOR_MAP]= 0.0;
+                SInterface.asensors_raw[ASENSOR_MAP]= 0;
+                SInterface.ddt_MAP= 0.0;
+                SInternals.last_ddt_MAP= 0.0;
+                SInternals.last_MAP_kPA= 0.0;
 
                 //reset average buffer
                 *pIntegr= 0;
                 *pCount= 0;
-
-                //delete raw value
-                SInterface.asensors_raw[ASENSOR_MAP]= 0;
 
                 //no more consecutive valid readings
                 SInterface.asensors_valid_samples[ASENSOR_MAP] =0;
@@ -458,7 +505,7 @@ void DMA2_Stream0_IRQHandler()
 {
 
     VU32 average, sample, sensor, min_valid, max_valid, target_sample_len;
-    VF32 result;
+    VF32 result, calc;
     VU32 * pIntegr= NULL;
     VU32 * pCount= NULL;
     bool process_data_now= false;
@@ -609,6 +656,8 @@ void DMA2_Stream0_IRQHandler()
                 *******************************************************************/
                 if(process_data_now == true)
                 {
+                    //critical section
+                    __disable_irq();
 
                     /**
                     ADC value to process data conversion
@@ -624,12 +673,16 @@ void DMA2_Stream0_IRQHandler()
 
                             result= solve_linear(average, Sensor_Calibration.TPS_calib_M, Sensor_Calibration.TPS_calib_N);
 
-                            //save old TPS / ddt_TPS values
-                            SInternals.last_TPS= SInterface.asensors[ASENSOR_TPS];
-                            SInternals.last_ddt_TPS= SInterface.ddt_TPS;
-
                             //throttle transient calculation
-                            SInterface.ddt_TPS= calculate_ddt_TPS(result, SInternals.last_TPS, SInternals.last_ddt_TPS);
+                            calc= calculate_ddt_TPS(result, SInternals.last_TPS, SInternals.last_ddt_TPS);
+
+                            //save old TPS / ddt_TPS values
+                            SInternals.last_TPS= result;
+                            SInternals.last_ddt_TPS= calc;
+
+                            //export ddt_TPS
+                            SInterface.ddt_TPS= calc;
+
                             break;
 
                         case ASENSOR_ASYNC_IAT:
@@ -682,6 +735,10 @@ void DMA2_Stream0_IRQHandler()
 
                     //mark sensor as active, reset error counter
                     SInternals.asensors_async_error_counter[sensor] =0;
+
+                    //ready
+                    __enable_irq();
+
                 }
 
             }
@@ -711,6 +768,8 @@ void DMA2_Stream0_IRQHandler()
                     if(sensor == ASENSOR_ASYNC_TPS)
                     {
                         SInterface.ddt_TPS= 0;
+                        SInternals.last_TPS= 0;
+                        SInternals.last_ddt_TPS= 0;
                     }
 
                     //reset average buffer

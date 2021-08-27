@@ -214,11 +214,6 @@ void update_timing_data()
     }
     #endif // DECODER_TIMING_DEBUG
 
-
-    //set invalid output data initially
-    reset_timing_data();
-
-
     /**
     precondition check
 
@@ -228,8 +223,19 @@ void update_timing_data()
     if( (Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.captured_positions_cont != 1) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.prev2_timer_value == 0))
     {
         //exit with invalid outputs
+        reset_timing_data();
         return;
     }
+
+
+    /**
+    block other irqs while timing data is not stable
+    **/
+    __disable_irq();
+
+
+    //set invalid output data initially
+    reset_timing_data();
 
     //the timer value after an reset in continuous mode reflects T360
     period_us= Decoder_hw.current_timer_value * Decoder_hw.timer_period_us;
@@ -244,6 +250,7 @@ void update_timing_data()
     if(period_us < 6000)
     {
         //exit with invalid outputs
+        __enable_irq();
         return;
     }
 
@@ -264,12 +271,15 @@ void update_timing_data()
 
     if((rpm < 100) || (rpm > 10000))
     {
+        __enable_irq();
         return;
     }
 
     //copy valid rpm figure
     Decoder.crank_rpm= rpm;
     Decoder.outputs.rpm_valid= true;
+
+    __enable_irq();
 
     #ifdef DECODER_TIMING_DEBUG
     Decoder_timing_debug[decoder_timing_debug_cnt].out.rpm_valid= Decoder.outputs.rpm_valid;

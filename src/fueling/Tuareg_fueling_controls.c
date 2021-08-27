@@ -436,7 +436,7 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
         pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.accel_comp_cycles;
 
         //look up the correction factor and export
-        pTarget->fuel_mass_accel_corr_pct= getValue_AccelCompTable(Tuareg.process.ddt_TPS);
+        pTarget->fuel_mass_accel_corr_pct= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
 
     }
     else if(Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres)

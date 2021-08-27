@@ -430,10 +430,16 @@ inline void cli_showPage(U32 Page)
             show_AfrTable_TPS(TS_PORT);
             break;
 
-        case ACCELCOMP_TABLE:
+        case ACCELCOMP_TPS:
 
-            print(TS_PORT, "\r\nAcceleration compensation\r\n");
-            show_AccelCompTable(TS_PORT);
+            print(TS_PORT, "\r\nAcceleration compensation - TPS based\r\n");
+            show_AccelCompTableTPS(TS_PORT);
+            break;
+
+        case ACCELCOMP_MAP:
+
+            print(TS_PORT, "\r\nAcceleration compensation - MAP based\r\n");
+            show_AccelCompTableMAP(TS_PORT);
             break;
 
         case WARMUPCOMP_TABLE:

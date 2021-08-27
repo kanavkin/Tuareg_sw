@@ -22,14 +22,14 @@ default sensor values
 
 if an analog sensor is not available, use these defaults
 */
-#define MAP_DEFAULT_KPA 100
-#define BARO_DEFAULT_KPA 100
-#define TPS_DEFAULT_DEG 45
-#define O2_DEFAULT_AFR 14.5
-#define IAT_DEFAULT_C 20
-#define CLT_DEFAULT_C 85
+#define MAP_DEFAULT_KPA 100.0
+#define BARO_DEFAULT_KPA 101.3
+#define TPS_DEFAULT_DEG 30.0
+#define O2_DEFAULT_AFR 10.0
+#define IAT_DEFAULT_C 20.0
+#define CLT_DEFAULT_C 85.0
 #define VBAT_DEFAULT_V 12.8
-#define KNOCK_DEFAULT 0
+#define KNOCK_DEFAULT 0.0
 #define GEAR_DEFAULT 0
 
 
@@ -38,7 +38,7 @@ volatile sensor_interface_t * init_Sensors();
 
 
 VF32 Tuareg_update_MAP_sensor();
-gears_t Tuareg_update_GEAR_sensor();
+VF32 Tuareg_update_ddt_MAP();
 VF32 Tuareg_update_BARO_sensor();
 VF32 Tuareg_update_KNOCK_sensor();
 VF32 Tuareg_update_VBAT_sensor();
@@ -47,6 +47,6 @@ VF32 Tuareg_update_IAT_sensor();
 VF32 Tuareg_update_TPS_sensor();
 VF32 Tuareg_update_ddt_TPS();
 VF32 Tuareg_update_O2_sensor();
-VF32 Tuareg_update_MAP_sensor();
+gears_t Tuareg_update_GEAR_sensor();
 
 #endif // TUAREG_SENSORS_H_INCLUDED
