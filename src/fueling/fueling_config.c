@@ -110,8 +110,10 @@ void load_essential_Fueling_Config()
     Fueling_Setup.injector2_rate_mgps= 4000;
     Fueling_Setup.max_injector_duty_cycle_pct= 0;
 
-    Fueling_Setup.accel_comp_thres= 10000;
-    Fueling_Setup.decel_comp_thres= 10000;
+    Fueling_Setup.accel_comp_thres_TPS= 10000.0;
+    Fueling_Setup.accel_comp_thres_MAP= 10000.0;
+    Fueling_Setup.decel_comp_thres_TPS= -10000.0;
+    Fueling_Setup.decel_comp_thres_MAP= -10000.0;
     Fueling_Setup.decel_comp_pct= 0;
     Fueling_Setup.accel_comp_cycles= 0;
 
@@ -175,13 +177,21 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     printf_U(Port, Fueling_Setup.max_injector_duty_cycle_pct, NO_PAD);
 
 
-    //F32 accel_comp_thres
+    //F32 accel_comp_thres_TPS
     print(Port, "\r\nacceleration compensation turn on TPS rate (deg/s):");
-    printf_F32(Port, Fueling_Setup.accel_comp_thres);
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_TPS);
 
-    //F32 decel_comp_thres
+    //F32 accel_comp_thres_MAP
+    print(Port, "\r\nacceleration compensation turn on MAP rate (kPa/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_MAP);
+
+    //F32 decel_comp_thres_TPS
     print(Port, "\r\ndeceleration compensation turn on TPS rate (deg/s):");
-    printf_F32(Port, Fueling_Setup.decel_comp_thres);
+    printf_F32(Port, Fueling_Setup.decel_comp_thres_TPS);
+
+    //F32 decel_comp_thres_MAP
+    print(Port, "\r\ndeceleration compensation turn on MAP rate (kPa/s):");
+    printf_F32(Port, Fueling_Setup.decel_comp_thres_MAP);
 
     //U8 decel_comp_pct
     print(Port, "\r\ndeceleration compensation (%):");

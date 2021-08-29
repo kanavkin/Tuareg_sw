@@ -416,31 +416,68 @@ any new trigger condition will enlarge the fuel mass compensation interval
 */
 void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 {
+    VF32 comp_perc_MAP, comp_perc_TPS, comp_perc, scaling;
+
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.fueling_config_error == true) ||
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.fueling_config_error == true) ||
         (Fueling_Setup.features.load_transient_comp_enabled == false))
     {
-        pTarget->flags.accel_comp_active= false;
-        pTarget->fuel_mass_accel_corr_cycles_left= 0;
-        pTarget->fuel_mass_accel_corr_pct= 0.0;
-
+        disable_fuel_mass_accel_correction(pTarget);
         return;
     }
 
     /**
-    check if acceleration compensation has been (re)triggered
+    check if acceleration compensation shall be (re)triggered
     */
-    if(Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres)
+    if((Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS) || (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP))
     {
+        /**
+        engine is accelerating - turn on AE
+        */
+
         pTarget->flags.accel_comp_active= true;
         pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.accel_comp_cycles;
 
-        //look up the correction factor and export
-        pTarget->fuel_mass_accel_corr_pct= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
+        //look up the correction factors
+        comp_perc_TPS= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
+        comp_perc_MAP= getValue_AccelCompTableMAP(Tuareg.process.ddt_MAP);
+
+        //select the greater one
+        comp_perc= (comp_perc_TPS > comp_perc_MAP)? comp_perc_TPS : comp_perc_MAP;
+
+        //add extra fuel if engine is cold
+        if(pTarget->flags.warmup_comp_active == true)
+        {
+            comp_perc += Fueling_Setup.cold_accel_pct;
+        }
+
+        /**
+        scale compensation value to engine speed
+
+        -> rpm scaling is considered active when thres rpm is smaller then max rpm
+        */
+        if((Fueling_Setup.accel_comp_scaling_max_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm))
+        {
+            scaling= 1.0 - divide_VF32(subtract_VU32(Tuareg.pDecoder->crank_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm), subtract_VU32(Fueling_Setup.accel_comp_scaling_max_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm));
+
+            if(scaling > 1.0)
+            {
+                Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_ACCELCOMP_RPMSCALE);
+            }
+
+            comp_perc *= scaling;
+        }
+
+        //export
+        pTarget->fuel_mass_accel_corr_pct= comp_perc;
 
     }
-    else if(Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres)
+    else if((Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS) || (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP))
     {
+        /**
+        engine is decelerating - lean out mixture
+        */
+
         pTarget->flags.accel_comp_active= true;
         pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.accel_comp_cycles;
 
@@ -448,35 +485,52 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
         pTarget->fuel_mass_accel_corr_pct= -Fueling_Setup.decel_comp_pct;
 
     }
-
-    /**
-    check if acceleration compensation is (now/still) active
-    */
-    if(pTarget->flags.accel_comp_active == false)
+    else if(pTarget->fuel_mass_accel_corr_cycles_left > 0)
     {
-        pTarget->fuel_mass_accel_corr_cycles_left= 0;
-        pTarget->fuel_mass_accel_corr_pct= 0.0;
-        return;
-    }
+        /**
+        transient compensation is already active
+        */
 
-    /**
-    check if the compensation interval has expired
-    */
-    if(pTarget->fuel_mass_accel_corr_cycles_left > 0)
-    {
+        /**
+        scale compensation value down according accel taper
+        -> the accel taper feature is considered active when remaining cycle threshold value < accel comp cycles
+        -> then the AE percentage will be scaled when less cycles left than accel_comp_taper_thres
+        */
+        if((pTarget->fuel_mass_accel_corr_pct > 0) && (Fueling_Setup.accel_comp_cycles > Fueling_Setup.accel_comp_taper_thres) && (pTarget->fuel_mass_accel_corr_cycles_left < Fueling_Setup.accel_comp_taper_thres))
+        {
+            scaling= divide_VF32(pTarget->fuel_mass_accel_corr_cycles_left, subtract_VU32(Fueling_Setup.accel_comp_cycles, Fueling_Setup.accel_comp_taper_thres));
+
+            if(scaling > 1.0)
+            {
+                Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_ACCELCOMP_TAPER);
+            }
+
+            //export the new scaling factor
+            pTarget->fuel_mass_accel_corr_pct *= scaling;
+        }
+
+
+
         //one compensation cycle has been consumed
         pTarget->fuel_mass_accel_corr_cycles_left -= 1;
     }
     else
     {
-        pTarget->flags.accel_comp_active= false;
-        pTarget->fuel_mass_accel_corr_cycles_left= 0;
-        pTarget->fuel_mass_accel_corr_pct= 0.0;
+        /**
+        transient compensation interval has expired or
+        compensation currently not active - set consistent output data
+        */
+        disable_fuel_mass_accel_correction(pTarget);
     }
 
 }
 
-
+void disable_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
+{
+    pTarget->flags.accel_comp_active= false;
+    pTarget->fuel_mass_accel_corr_cycles_left= 0;
+    pTarget->fuel_mass_accel_corr_pct= 0.0;
+}
 
 
 /**

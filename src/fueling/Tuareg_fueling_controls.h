@@ -104,6 +104,7 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget);
 void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget);
 
 void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget);
+void disable_fuel_mass_accel_correction(volatile fueling_control_t * pTarget);
 void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget);
 void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget);
 

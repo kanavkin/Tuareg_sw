@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 28
+#define FUELING_SETUP_SIZE 41
 
 
 
@@ -49,10 +49,16 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 max_injector_duty_cycle_pct;
 
     //throttle transient compensation
-    F32 accel_comp_thres;
-    F32 decel_comp_thres;
+    F32 accel_comp_thres_TPS;
+    F32 accel_comp_thres_MAP;
+    F32 decel_comp_thres_TPS;
+    F32 decel_comp_thres_MAP;
+    U16 accel_comp_scaling_thres_rpm;
+    U16 accel_comp_scaling_max_rpm;
+    U8 cold_accel_pct;
     U8 decel_comp_pct;
     U8 accel_comp_cycles;
+    U8 accel_comp_taper_thres;
 
     //after start compensation
     U8 afterstart_comp_pct;
