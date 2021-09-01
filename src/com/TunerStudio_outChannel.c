@@ -126,8 +126,8 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //MAP             = scalar,   F32,    51, "kpa",    1.000, 0.000
     serialize_float_U8(Tuareg.process.MAP_kPa, &(output[51]));
 
-    //MAPdot          = scalar,   F32,    55, "kpa",    1.000, 0.000
-    serialize_float_U8(Tuareg.process.MAP_kPa, &(output[55]));
+    //MAPdot          = scalar,   F32,    55, "kpa/s",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.ddt_MAP, &(output[55]));
 
     //baro            = scalar,   F32,    59, "kpa",      1.000, 0.000
     serialize_float_U8(Tuareg.process.Baro_kPa, &(output[59]));

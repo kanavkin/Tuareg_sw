@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 41
+#define FUELING_SETUP_SIZE 47
 
 
 
@@ -53,6 +53,7 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     F32 accel_comp_thres_MAP;
     F32 decel_comp_thres_TPS;
     F32 decel_comp_thres_MAP;
+    F32 accel_comp_taper_factor;
     U16 accel_comp_scaling_thres_rpm;
     U16 accel_comp_scaling_max_rpm;
     U8 cold_accel_pct;
@@ -63,14 +64,9 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     //after start compensation
     U8 afterstart_comp_pct;
     U8 afterstart_comp_cycles;
+    U16 afterstart_thres_K;
 
-    //common control parameters
-
-    /**
-    no longer used
-    */
-    U8 max_fuel_mass_comp_pct;
-
+    //VE base lookup parameters
     U16 ve_from_map_min_rpm;
     U16 ve_from_map_max_rpm;
 

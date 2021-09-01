@@ -120,7 +120,6 @@ void load_essential_Fueling_Config()
     Fueling_Setup.afterstart_comp_pct= 0;
     Fueling_Setup.afterstart_comp_cycles= 0;
 
-    Fueling_Setup.max_fuel_mass_comp_pct= 0;
     Fueling_Setup.ve_from_map_min_rpm= 0;
     Fueling_Setup.ve_from_map_max_rpm= 0;
 
@@ -193,6 +192,22 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\ndeceleration compensation turn on MAP rate (kPa/s):");
     printf_F32(Port, Fueling_Setup.decel_comp_thres_MAP);
 
+    //F32 accel_comp_taper_factor
+    print(Port, "\r\nacceleration compensation taper factor (<1!):");
+    printf_F32(Port, Fueling_Setup.accel_comp_taper_factor);
+
+    //U16 accel_comp_scaling_thres_rpm
+    print(Port, "\r\nacceleration compensation rpm scaling begin (rpm):");
+    printf_U(Port, Fueling_Setup.accel_comp_scaling_thres_rpm, NO_PAD);
+
+    //U16 accel_comp_scaling_max_rpm
+    print(Port, "\r\nacceleration compensation rpm scaling maximum (rpm):");
+    printf_U(Port, Fueling_Setup.accel_comp_scaling_thres_rpm, NO_PAD);
+
+    //U8 cold_accel_pct
+    print(Port, "\r\ncold engine acceleration compensation bonus fuel (%):");
+    printf_U(Port, Fueling_Setup.cold_accel_pct, NO_PAD);
+
     //U8 decel_comp_pct
     print(Port, "\r\ndeceleration compensation (%):");
     printf_U(Port, Fueling_Setup.decel_comp_pct, NO_PAD);
@@ -200,6 +215,10 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     //U8 accel_comp_cycles
     print(Port, "\r\nacceleration compensation duration (events):");
     printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
+
+    //U8 accel_comp_taper_thres
+    print(Port, "\r\nacceleration compensation taper begin (remaining events):");
+    printf_U(Port, Fueling_Setup.accel_comp_taper_thres, NO_PAD);
 
 
     //U8 afterstart_comp_pct
@@ -210,12 +229,9 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\nafter start enrichment duration (events):");
     printf_F32(Port, Fueling_Setup.afterstart_comp_cycles);
 
-
-
-    //U8 max_fuel_mass_comp_pct
-    print(Port, "\r\nmaximum fuel mass compensation (%):");
-    printf_U(Port, Fueling_Setup.max_fuel_mass_comp_pct, NO_PAD);
-
+    //U16 afterstart_thres_K
+    print(Port, "\r\nafter start enrichment CLT threshold (K):");
+    printf_U(Port, Fueling_Setup.afterstart_thres_K, NO_PAD);
 
 
     //U16 ve_from_map_min_rpm

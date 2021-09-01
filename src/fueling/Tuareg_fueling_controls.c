@@ -493,23 +493,25 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 
         /**
         scale compensation value down according accel taper
+
         -> the accel taper feature is considered active when remaining cycle threshold value < accel comp cycles
         -> then the AE percentage will be scaled when less cycles left than accel_comp_taper_thres
+
+        The acceleration correction taper is implemented as a geometric sequence: y_n :=  k * alpha^(n+1)
+        (k is the initial value y_0) Its factor alpha can be projected via the following relation: y_n / k = 1 / 2
+        -> solve (n+1) = (-ln 2) / (ln alpha) to alpha:
+
+        -> Which factor alpha makes the correction to drop to a half of the initial value after n events?
+        -> alpha := 1 / 2^(n+1)
+
+        example: alpha := 0.9 and n := 9
+
         */
         if((pTarget->fuel_mass_accel_corr_pct > 0) && (Fueling_Setup.accel_comp_cycles > Fueling_Setup.accel_comp_taper_thres) && (pTarget->fuel_mass_accel_corr_cycles_left < Fueling_Setup.accel_comp_taper_thres))
         {
-            scaling= divide_VF32(pTarget->fuel_mass_accel_corr_cycles_left, subtract_VU32(Fueling_Setup.accel_comp_cycles, Fueling_Setup.accel_comp_taper_thres));
-
-            if(scaling > 1.0)
-            {
-                Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_ACCELCOMP_TAPER);
-            }
-
-            //export the new scaling factor
-            pTarget->fuel_mass_accel_corr_pct *= scaling;
+            //scale the fuel correction
+            pTarget->fuel_mass_accel_corr_pct *= Fueling_Setup.accel_comp_taper_factor;
         }
-
-
 
         //one compensation cycle has been consumed
         pTarget->fuel_mass_accel_corr_cycles_left -= 1;
@@ -545,9 +547,7 @@ void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.afterstart_corr_enabled == false))
     {
-        pTarget->flags.afterstart_comp_active= false;
-        pTarget->fuel_mass_afterstart_corr_pct= 0.0;
-        pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
+        disable_fuel_mass_afterstart_correction(pTarget);
         return;
     }
 
@@ -555,42 +555,37 @@ void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget
     if(pTarget->flags.afterstart_comp_active == true)
     {
         //check if the after start cycle counter has expired
-        if(pTarget->fuel_mass_afterstart_corr_cycles_left == 0)
+        if(pTarget->fuel_mass_afterstart_corr_cycles_left > 0)
         {
-            //after start enrichment counter expired - deactivate
-            pTarget->flags.afterstart_comp_active= false;
-            pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+            pTarget->fuel_mass_afterstart_corr_cycles_left -= 1;
         }
         else
         {
-            //after start compensation is still active
-            pTarget->flags.afterstart_comp_active= true;
-            pTarget->fuel_mass_afterstart_corr_pct= Fueling_Setup.afterstart_comp_pct;
-            pTarget->fuel_mass_afterstart_corr_cycles_left -= 1;
+            //after start enrichment counter expired - deactivate
+            disable_fuel_mass_afterstart_correction(pTarget);
         }
-
     }
     else
     {
-        //check if the engine has just started
-        if((Tuareg.engine_runtime > cAfterstart_begin_thres) && (Tuareg.engine_runtime < cAfterstart_thres))
+        //check if the engine has just started and the coolant is still cold
+        if((Tuareg.engine_runtime > cAfterstart_begin_thres) && (Tuareg.engine_runtime < cAfterstart_thres) && (Tuareg.process.CLT_K < Fueling_Setup.afterstart_thres_K))
         {
             //ase activated
             pTarget->flags.afterstart_comp_active= true;
             pTarget->fuel_mass_afterstart_corr_pct= Fueling_Setup.afterstart_comp_pct;
             pTarget->fuel_mass_afterstart_corr_cycles_left= Fueling_Setup.afterstart_comp_cycles;
         }
-        else
-        {
-            //ase disabled
-            pTarget->flags.afterstart_comp_active= false;
-            pTarget->fuel_mass_afterstart_corr_pct= 0.0;
-            pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
-        }
     }
 
 }
 
+
+void disable_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget)
+{
+    pTarget->flags.afterstart_comp_active= false;
+    pTarget->fuel_mass_afterstart_corr_pct= 0.0;
+    pTarget->fuel_mass_afterstart_corr_cycles_left= 0;
+}
 
 
 /**
@@ -611,9 +606,9 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 
     //look up the correction factor and export
     warmup_comp= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
-    pTarget->fuel_mass_warmup_corr_pct= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
 
-    pTarget->flags.warmup_comp_active= (warmup_comp > 3.0)? true : false;
+    pTarget->fuel_mass_warmup_corr_pct= warmup_comp;
+    pTarget->flags.warmup_comp_active= (warmup_comp > 0.0)? true : false;
 }
 
 
@@ -621,7 +616,7 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 *   fueling controls update helper functions - target fuel mass
 ****************************************************************************************************************************************/
 
-const F32 cMax_fuel_mass_comp_pct= 800.0;
+const F32 cMax_fuel_mass_comp_pct= 200.0;
 
 /**
 calculate the required fuel mass to be injected into each cylinder
@@ -684,7 +679,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     }
     else if(compensation_pct > cMax_fuel_mass_comp_pct)
     {
-        compensation_pct= Fueling_Setup.max_fuel_mass_comp_pct;
+        compensation_pct= cMax_fuel_mass_comp_pct;
 
         Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_COMPENSATION_CLIP);
     }
