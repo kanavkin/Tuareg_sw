@@ -23,7 +23,9 @@ volatile t3D_t VeTable_TPS;
 volatile t3D_t VeTable_MAP;
 volatile t3D_t AfrTable_TPS;
 
-volatile t2D_t AccelCompTable;
+volatile t2D_t AccelCompTableTPS;
+volatile t2D_t AccelCompTableMAP;
+
 volatile t2D_t WarmUpCompTable;
 
 volatile t2D_t InjectorTimingTable;
@@ -65,7 +67,11 @@ exec_result_t load_Fueling_Config()
 
     ASSERT_EXEC_OK(load_result);
 
-    load_result= load_t2D_data(&(AccelCompTable.data), EEPROM_FUELING_ACCELCOMP_BASE);
+    load_result= load_t2D_data(&(AccelCompTableTPS.data), EEPROM_FUELING_ACCELCOMPTPS_BASE);
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t2D_data(&(AccelCompTableMAP.data), EEPROM_FUELING_ACCELCOMPMAP_BASE);
 
     ASSERT_EXEC_OK(load_result);
 
@@ -104,17 +110,20 @@ void load_essential_Fueling_Config()
     Fueling_Setup.injector2_rate_mgps= 4000;
     Fueling_Setup.max_injector_duty_cycle_pct= 0;
 
-    Fueling_Setup.accel_comp_thres= 10000;
-    Fueling_Setup.decel_comp_thres= 10000;
+    Fueling_Setup.accel_comp_thres_TPS= 10000.0;
+    Fueling_Setup.accel_comp_thres_MAP= 10000.0;
+    Fueling_Setup.decel_comp_thres_TPS= -10000.0;
+    Fueling_Setup.decel_comp_thres_MAP= -10000.0;
     Fueling_Setup.decel_comp_pct= 0;
     Fueling_Setup.accel_comp_cycles= 0;
 
     Fueling_Setup.afterstart_comp_pct= 0;
     Fueling_Setup.afterstart_comp_cycles= 0;
 
-    Fueling_Setup.max_fuel_mass_comp_pct= 0;
     Fueling_Setup.ve_from_map_min_rpm= 0;
     Fueling_Setup.ve_from_map_max_rpm= 0;
+
+    Fueling_Setup.features.all_flags= 0;
 
 }
 
@@ -167,13 +176,37 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     printf_U(Port, Fueling_Setup.max_injector_duty_cycle_pct, NO_PAD);
 
 
-    //F32 accel_comp_thres
+    //F32 accel_comp_thres_TPS
     print(Port, "\r\nacceleration compensation turn on TPS rate (deg/s):");
-    printf_F32(Port, Fueling_Setup.accel_comp_thres);
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_TPS);
 
-    //F32 decel_comp_thres
+    //F32 accel_comp_thres_MAP
+    print(Port, "\r\nacceleration compensation turn on MAP rate (kPa/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_MAP);
+
+    //F32 decel_comp_thres_TPS
     print(Port, "\r\ndeceleration compensation turn on TPS rate (deg/s):");
-    printf_F32(Port, Fueling_Setup.decel_comp_thres);
+    printf_F32(Port, Fueling_Setup.decel_comp_thres_TPS);
+
+    //F32 decel_comp_thres_MAP
+    print(Port, "\r\ndeceleration compensation turn on MAP rate (kPa/s):");
+    printf_F32(Port, Fueling_Setup.decel_comp_thres_MAP);
+
+    //F32 accel_comp_taper_factor
+    print(Port, "\r\nacceleration compensation taper factor (<1!):");
+    printf_F32(Port, Fueling_Setup.accel_comp_taper_factor);
+
+    //U16 accel_comp_scaling_thres_rpm
+    print(Port, "\r\nacceleration compensation rpm scaling begin (rpm):");
+    printf_U(Port, Fueling_Setup.accel_comp_scaling_thres_rpm, NO_PAD);
+
+    //U16 accel_comp_scaling_max_rpm
+    print(Port, "\r\nacceleration compensation rpm scaling maximum (rpm):");
+    printf_U(Port, Fueling_Setup.accel_comp_scaling_thres_rpm, NO_PAD);
+
+    //U8 cold_accel_pct
+    print(Port, "\r\ncold engine acceleration compensation bonus fuel (%):");
+    printf_U(Port, Fueling_Setup.cold_accel_pct, NO_PAD);
 
     //U8 decel_comp_pct
     print(Port, "\r\ndeceleration compensation (%):");
@@ -182,6 +215,10 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     //U8 accel_comp_cycles
     print(Port, "\r\nacceleration compensation duration (events):");
     printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
+
+    //U8 accel_comp_taper_thres
+    print(Port, "\r\nacceleration compensation taper begin (remaining events):");
+    printf_U(Port, Fueling_Setup.accel_comp_taper_thres, NO_PAD);
 
 
     //U8 afterstart_comp_pct
@@ -192,12 +229,9 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\nafter start enrichment duration (events):");
     printf_F32(Port, Fueling_Setup.afterstart_comp_cycles);
 
-
-
-    //U8 max_fuel_mass_comp_pct
-    print(Port, "\r\nmaximum fuel mass compensation (%):");
-    printf_U(Port, Fueling_Setup.max_fuel_mass_comp_pct, NO_PAD);
-
+    //U16 afterstart_thres_K
+    print(Port, "\r\nafter start enrichment CLT threshold (K):");
+    printf_U(Port, Fueling_Setup.afterstart_thres_K, NO_PAD);
 
 
     //U16 ve_from_map_min_rpm
@@ -404,51 +438,94 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 
 
 /***************************************************************************************************************************************************
-*   Fueling acceleration compensation table - AccelCompTable
+*   Fueling acceleration compensation table - AccelCompTableTPS
 *
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
 * y-Axis -> Acceleration compensation value in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
-const F32 cAccelCompMultiplier= 4.0;
-
-
-exec_result_t store_AccelCompTable()
+exec_result_t store_AccelCompTableTPS()
 {
-    return store_t2D_data(&(AccelCompTable.data), EEPROM_FUELING_ACCELCOMP_BASE);
+    return store_t2D_data(&(AccelCompTableTPS.data), EEPROM_FUELING_ACCELCOMPTPS_BASE);
 }
 
 
-void show_AccelCompTable(USART_TypeDef * Port)
+void show_AccelCompTableTPS(USART_TypeDef * Port)
 {
-    print(Port, "\r\n\r\nFueling acceleration compensation table:\r\n");
+    print(Port, "\r\n\r\nFueling acceleration compensation table (TPS):\r\n");
 
-    show_t2D_data(TS_PORT, &(AccelCompTable.data));
+    show_t2D_data(TS_PORT, &(AccelCompTableTPS.data));
 }
 
 
-exec_result_t modify_AccelCompTable(U32 Offset, U32 Value)
+exec_result_t modify_AccelCompTableTPS(U32 Offset, U32 Value)
 {
     //modify_t2D_data provides offset range check!
-    return modify_t2D_data(&(AccelCompTable.data), Offset, Value);
+    return modify_t2D_data(&(AccelCompTableTPS.data), Offset, Value);
 }
 
 
 /**
-this function implements the TS interface binary config page read command for AccelCompTable
+this function implements the TS interface binary config page read command for AccelCompTableTPS
 */
-void send_AccelCompTable(USART_TypeDef * Port)
+void send_AccelCompTableTPS(USART_TypeDef * Port)
 {
-    send_t2D_data(Port, &(AccelCompTable.data));
+    send_t2D_data(Port, &(AccelCompTableTPS.data));
 }
 
 
 /**
 returns the acceleration compensation value in percent
 */
-VF32 getValue_AccelCompTable(VF32 Ddt_TPS)
+VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS)
 {
-    return cAccelCompMultiplier * getValue_t2D(&AccelCompTable, Ddt_TPS);
+    return getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
+}
+
+
+/***************************************************************************************************************************************************
+*   Fueling acceleration compensation table - AccelCompTableMAP
+*
+* x-Axis -> TPS change rate in °/s (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
+***************************************************************************************************************************************************/
+
+exec_result_t store_AccelCompTableMAP()
+{
+    return store_t2D_data(&(AccelCompTableMAP.data), EEPROM_FUELING_ACCELCOMPMAP_BASE);
+}
+
+
+void show_AccelCompTableMAP(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nFueling acceleration compensation table (MAP):\r\n");
+
+    show_t2D_data(TS_PORT, &(AccelCompTableMAP.data));
+}
+
+
+exec_result_t modify_AccelCompTableMAP(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(AccelCompTableMAP.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for AccelCompTableMAP
+*/
+void send_AccelCompTableMAP(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(AccelCompTableMAP.data));
+}
+
+
+/**
+returns the acceleration compensation value in percent
+*/
+VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP)
+{
+    return getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
 }
 
 
@@ -538,7 +615,7 @@ void send_InjectorTimingTable(USART_TypeDef * Port)
 
 
 /**
-returns the injector dead time in 24 us intervals
+returns the injector dead time in its intervals
 */
 VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 {
@@ -586,7 +663,7 @@ void send_CrankingFuelTable(USART_TypeDef * Port)
 
 
 /**
-returns the Cranking base fuel mass in 128 ug increments
+returns the Cranking base fuel mass in its increments
 */
 VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 {

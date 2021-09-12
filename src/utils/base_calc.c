@@ -158,7 +158,7 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
         DebugMsg_Error("DIV/0 in divide_VF32");
-        return 0;
+        return 0.0;
     }
 
     #pragma GCC diagnostic pop

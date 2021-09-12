@@ -3,7 +3,7 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 28
+#define FUELING_SETUP_SIZE 47
 
 
 
@@ -49,22 +49,24 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 max_injector_duty_cycle_pct;
 
     //throttle transient compensation
-    F32 accel_comp_thres;
-    F32 decel_comp_thres;
+    F32 accel_comp_thres_TPS;
+    F32 accel_comp_thres_MAP;
+    F32 decel_comp_thres_TPS;
+    F32 decel_comp_thres_MAP;
+    F32 accel_comp_taper_factor;
+    U16 accel_comp_scaling_thres_rpm;
+    U16 accel_comp_scaling_max_rpm;
+    U8 cold_accel_pct;
     U8 decel_comp_pct;
     U8 accel_comp_cycles;
+    U8 accel_comp_taper_thres;
 
     //after start compensation
     U8 afterstart_comp_pct;
     U8 afterstart_comp_cycles;
+    U16 afterstart_thres_K;
 
-    //common control parameters
-
-    /**
-    no longer used
-    */
-    U8 max_fuel_mass_comp_pct;
-
+    //VE base lookup parameters
     U16 ve_from_map_min_rpm;
     U16 ve_from_map_max_rpm;
 
@@ -115,12 +117,19 @@ exec_result_t modify_AfrTable_TPS(U32 Offset, U32 Value);
 void send_AfrTable_TPS(USART_TypeDef * Port);
 VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg);
 
-//Fueling acceleration compensation table - AccelCompTable
-exec_result_t store_AccelCompTable();
-void show_AccelCompTable(USART_TypeDef * Port);
-exec_result_t modify_AccelCompTable(U32 Offset, U32 Value);
-void send_AccelCompTable(USART_TypeDef * Port);
-VF32 getValue_AccelCompTable(VF32 Ddt_TPS);
+//Fueling acceleration compensation table TPS based - AccelCompTableTPS
+exec_result_t store_AccelCompTableTPS();
+void show_AccelCompTableTPS(USART_TypeDef * Port);
+exec_result_t modify_AccelCompTableTPS(U32 Offset, U32 Value);
+void send_AccelCompTableTPS(USART_TypeDef * Port);
+VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS);
+
+//Fueling acceleration compensation table MAP based - AccelCompTableMAP
+exec_result_t store_AccelCompTableMAP();
+void show_AccelCompTableMAP(USART_TypeDef * Port);
+exec_result_t modify_AccelCompTableMAP(U32 Offset, U32 Value);
+void send_AccelCompTableMAP(USART_TypeDef * Port);
+VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP);
 
 //Fueling Warm up Enrichment compensation table - WarmUpCompTable
 exec_result_t store_WarmUpCompTable();
@@ -143,7 +152,7 @@ exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value);
 void send_CrankingFuelTable(USART_TypeDef * Port);
 VU32 getValue_CrankingFuelTable(VF32 CLT_K);
 
-//
+//Injector injection end timing table - InjectorPhaseTable
 exec_result_t store_InjectorPhaseTable();
 void show_InjectorPhaseTable(USART_TypeDef * Port);
 exec_result_t modify_InjectorPhaseTable(U32 Offset, U32 Value);

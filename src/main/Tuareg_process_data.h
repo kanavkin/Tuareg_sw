@@ -12,6 +12,7 @@
 typedef struct _process_data_t {
 
     VF32 MAP_kPa;
+    VF32 ddt_MAP;
     VF32 Baro_kPa;
     VF32 TPS_deg;
     VF32 ddt_TPS;

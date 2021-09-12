@@ -119,6 +119,21 @@ VF32 Tuareg_update_MAP_sensor()
 }
 
 
+VF32 Tuareg_update_ddt_MAP()
+{
+    /// must be executed after MAP sensor update!
+    if(Tuareg.errors.sensor_MAP_error == false)
+    {
+        //use live value
+        return Tuareg.pSensors->ddt_MAP;
+    }
+    else
+    {
+        return 0.0;
+    }
+}
+
+
 /**
 checks the health state of the O2 sensor
 if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid

@@ -82,8 +82,12 @@ void ts_readPage(U32 Page)
             send_AfrTable_TPS(TS_PORT);
             break;
 
-        case ACCELCOMP_TABLE:
-            send_AccelCompTable(TS_PORT);
+        case ACCELCOMP_TPS:
+            send_AccelCompTableTPS(TS_PORT);
+            break;
+
+        case ACCELCOMP_MAP:
+            send_AccelCompTableMAP(TS_PORT);
             break;
 
         case WARMUPCOMP_TABLE:
@@ -260,7 +264,7 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_AfrTable_TPS(Offset, Value);
             break;
 
-        case ACCELCOMP_TABLE:
+        case ACCELCOMP_TPS:
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
@@ -270,7 +274,20 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return;
             }
 
-            result= modify_AccelCompTable(Offset, Value);
+            result= modify_AccelCompTableTPS(Offset, Value);
+            break;
+
+        case ACCELCOMP_MAP:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return;
+            }
+
+            result= modify_AccelCompTableMAP(Offset, Value);
             break;
 
         case WARMUPCOMP_TABLE:
@@ -408,9 +425,14 @@ void ts_burnPage(U32 Page)
             result= store_AfrTable_TPS();
             break;
 
-        case ACCELCOMP_TABLE:
+        case ACCELCOMP_TPS:
 
-            result= store_AccelCompTable();
+            result= store_AccelCompTableTPS();
+            break;
+
+        case ACCELCOMP_MAP:
+
+            result= store_AccelCompTableMAP();
             break;
 
         case WARMUPCOMP_TABLE:
