@@ -232,7 +232,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     /**
     check for sequential / batch mode capabilities
     */
-    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->outputs.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true));
+    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->outputs.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true) && (Ignition_Setup.flags.sequential_mode_enabled == true));
 
     /******************************************************
     * prepare the ignition control object

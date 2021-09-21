@@ -352,13 +352,16 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
     if(pChannelState->flags.alloc == true)
     {
         //collect diagnostic information
-        scheduler_diag_log_event(SCHEDIAG_ICH1_RETRIGD + Channel);
+        scheduler_diag_log_event(SCHEDIAG_ICH1_REALLOC + Channel);
 
         //check if the previous action shall be taken now
         if(pChannelState->parameters.flags.complete_cycle_realloc == true)
         {
             //complete the last scheduler cycle with its commanded action
             pChannelState->callback(pChannelState->parameters.flags.action1_power? ACTOR_POWERED : ACTOR_UNPOWERED);
+
+            //collect diagnostic information
+            scheduler_diag_log_event(SCHEDIAG_ICH1_REALLOC_COMPLETED + Channel);
         }
     }
 
@@ -663,6 +666,9 @@ void TIM5_IRQHandler(void)
     {
         //clear irq pending bit
         TIM5->SR= (U16) ~TIM_SR_UIF;
+
+        //collect diagnostic information
+        scheduler_diag_log_event(SCHEDIAG_WRAP);
 
         #ifdef SCHEDULER_DEBUG_OUTPUT
         //this should happen only every ~9,5 h

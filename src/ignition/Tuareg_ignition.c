@@ -134,7 +134,7 @@ void Tuareg_ignition_update_crankpos_handler()
     if(Tuareg.flags.run_inhibit == true)
     {
         //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+        ignition_diag_log_event(IGNDIAG_CRKPOSH_INHIBIT);
 
         //turn off all ignition actors
         set_coil1_unpowered();
@@ -159,7 +159,7 @@ void Tuareg_ignition_update_crankpos_handler()
     if(Tuareg.ignition_controls.flags.valid == false)
     {
         //collect diagnostic information
-        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+        ignition_diag_log_event(IGNDIAG_CRKPOSH_CTRLS_INVALID);
 
         //nothing to do
         return;
@@ -196,10 +196,13 @@ void Tuareg_ignition_update_crankpos_handler()
         //check if sequential mode has been commanded
         if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
         {
-            //register ERROR
-/// TODO (oli#5#): add syslog entries for ignition
+            //collect diagnostic information
+            ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
 
-            return;
+            /**
+            downgrade to batch mode -> ignition timing is not affected by its mode
+            */
+            Tuareg.ignition_controls.flags.sequential_mode= false;
         }
 
         //coil #1
@@ -212,7 +215,7 @@ void Tuareg_ignition_update_crankpos_handler()
         }
 
         //coil #2
-        if((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.ignition_controls.flags.sequential_mode == false))
+        if( (Ignition_Setup.flags.second_coil_installed == true) && ((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.ignition_controls.flags.sequential_mode == false))
         {
             scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
 
@@ -251,12 +254,19 @@ void Tuareg_ignition_update_crankpos_handler()
         scheduler_reset_channel(SCHEDULER_CH_IGN1);
         scheduler_reset_channel(SCHEDULER_CH_IGN2);
 
-        //coil #1 and #2
+        //coil #1
         set_ignition_ch1(ACTOR_POWERED);
-        set_ignition_ch2(ACTOR_POWERED);
 
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_POWER);
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_POWER);
+
+        //coil #2
+        if(Ignition_Setup.flags.second_coil_installed == true)
+        {
+            set_ignition_ch2(ACTOR_POWERED);
+
+            //collect diagnostic information
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_POWER);
+        }
     }
 }

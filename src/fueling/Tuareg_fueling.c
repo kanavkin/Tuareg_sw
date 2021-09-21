@@ -109,7 +109,7 @@ void Tuareg_fueling_update_crankpos_handler()
     volatile scheduler_activation_parameters_t scheduler_parameters;
 
     //collect diagnostic information
-    //ignition_diag_log_event(IGNDIAG_CRKPOSH_CALLS);
+    fueling_diag_log_event(FDIAG_CRKPOSH_CALLS);
 
     /**
     check vital preconditions
@@ -117,7 +117,7 @@ void Tuareg_fueling_update_crankpos_handler()
     if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false) || (Tuareg.fueling_controls.target_fuel_mass_ug == 0))
     {
         //collect diagnostic information
-        //ignition_diag_log_event(IGNDIAG_CRKPOSH_PRECOND_FAIL);
+        fueling_diag_log_event(FDIAG_CRKPOSH_VIT_PRECOND_FAIL);
 
         //turn off injectors
         set_injector1(ACTOR_UNPOWERED);
@@ -144,6 +144,8 @@ void Tuareg_fueling_update_crankpos_handler()
     //check if the crank is at the injection begin position
     if(Tuareg.pDecoder->crank_position == Tuareg.fueling_controls.injection_begin_pos)
     {
+        //collect diagnostic information
+        fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_POS);
 
         //check if sequential mode has been requested
         if(Tuareg.fueling_controls.flags.sequential_mode == true)
@@ -151,16 +153,16 @@ void Tuareg_fueling_update_crankpos_handler()
             //check if sufficient information for this mode is available
             if(Tuareg.pDecoder->outputs.phase_valid == false)
             {
-                //register ERROR
+                //collect diagnostic information
+                fueling_diag_log_event(FDIAG_CRKPOSH_SEQ_ERROR);
+
+                //early exit
                 return;
             }
 
             /**
             sequential mode
             */
-
-            //collect diagnostic information
-            // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
             scheduler_parameters.flags.action1_power= true;
             scheduler_parameters.flags.action2_power= false;
             scheduler_parameters.flags.interval2_enabled= true;
@@ -177,7 +179,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
-               // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
+                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG1_SEQ);
             }
 
             //injector #2
@@ -191,7 +193,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
-               // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
+                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG2_SEQ);
             }
 
         }
@@ -201,9 +203,6 @@ void Tuareg_fueling_update_crankpos_handler()
             batch mode
             --> immediate injection begin, scheduler controls injection end
             */
-
-            //collect diagnostic information
-            // ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
             scheduler_parameters.flags.action1_power= false;
             scheduler_parameters.flags.action2_power= false;
             scheduler_parameters.flags.interval2_enabled= false;
@@ -219,6 +218,9 @@ void Tuareg_fueling_update_crankpos_handler()
             scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
             set_injector2(ACTOR_POWERED);
             scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
+
+            //collect diagnostic information
+            fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_BATCH);
         }
 
         /**

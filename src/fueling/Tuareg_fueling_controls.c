@@ -42,12 +42,19 @@ void Tuareg_update_fueling_controls()
 {
     volatile fueling_control_t * pTarget= &(Tuareg.fueling_controls);
 
+    //log diag data
+    fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
     //check operational preconditions
     if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) || ((Tuareg.engine_runtime == 0) && (Tuareg.flags.cranking == false)))
     {
         //clean controls
         invalid_fueling_controls(pTarget);
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_OP_PRECOND_FAIL);
+
+        //early exit
         return;
     }
 
@@ -58,8 +65,29 @@ void Tuareg_update_fueling_controls()
         //not cranking
         pTarget->flags.dry_cranking= false;
 
-        //check for sequential / batch mode capabilities
-        pTarget->flags.sequential_mode= (Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid);
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_RUNNING);
+
+
+        /**
+        mode selection
+        */
+        if((Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid))
+        {
+            //sequential mode
+            pTarget->flags.sequential_mode= true;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_CTRLS_SEQ);
+        }
+        else
+        {
+            //batch mode
+            pTarget->flags.sequential_mode= false;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_CTRLS_BATCH);
+        }
 
 
         /**
@@ -75,6 +103,9 @@ void Tuareg_update_fueling_controls()
 
             //use default value
             pTarget->VE_pct= cDefault_VE_pct;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_CTRLS_VE_INVAL);
         }
 
 
@@ -96,6 +127,9 @@ void Tuareg_update_fueling_controls()
         {
             //use default value
             pTarget->AFR_target= cDefault_AFR_target;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_CTRLS_AFTTGT_INVAL);
         }
 
         /**
@@ -126,11 +160,15 @@ void Tuareg_update_fueling_controls()
     }
     else
     {
+
         //start over with clean controls
         invalid_fueling_controls(pTarget);
 
         //use base fuel mass from cranking table
         update_base_fuel_mass_cranking(pTarget);
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_CRANKING);
     }
 
 
@@ -391,6 +429,10 @@ void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget)
     {
         pTarget->base_fuel_mass_ug= 0;
         pTarget->flags.dry_cranking= true;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_BASE_FMAS_CRK_DRY);
+
         return;
     }
 
@@ -466,10 +508,16 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
             }
 
             comp_perc *= scaling;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_RPMSCALED);
         }
 
         //export
         pTarget->fuel_mass_accel_corr_pct= comp_perc;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_ACCEL);
 
     }
     else if((Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS) || (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP))
@@ -483,6 +531,9 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 
         //export the correction factor
         pTarget->fuel_mass_accel_corr_pct= -Fueling_Setup.decel_comp_pct;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_DECEL);
 
     }
     else if(pTarget->fuel_mass_accel_corr_cycles_left > 0)
@@ -511,10 +562,14 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
         {
             //scale the fuel correction
             pTarget->fuel_mass_accel_corr_pct *= Fueling_Setup.accel_comp_taper_factor;
+
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_TAPERED);
         }
 
         //one compensation cycle has been consumed
         pTarget->fuel_mass_accel_corr_cycles_left -= 1;
+
     }
     else
     {
@@ -608,7 +663,8 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
     warmup_comp= getValue_WarmUpCompTable(Tuareg.process.CLT_K);
 
     pTarget->fuel_mass_warmup_corr_pct= warmup_comp;
-    pTarget->flags.warmup_comp_active= (warmup_comp > 0.0)? true : false;
+    pTarget->flags.warmup_comp_active= (warmup_comp > 0.0) ? true : false;
+
 }
 
 
@@ -635,6 +691,11 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     {
         //copy base fuel mass only
         pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_PRECOND_FAIL);
+
+        //nothing to do
         return;
     }
 
@@ -643,18 +704,27 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     if(pTarget->flags.afterstart_comp_active == true)
     {
         compensation_pct += pTarget->fuel_mass_afterstart_corr_pct;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_ASE_ACT);
     }
 
     //check if warm up enrichment is active
     if(pTarget->flags.warmup_comp_active == true)
     {
         compensation_pct += pTarget->fuel_mass_warmup_corr_pct;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_WUE_ACT);
     }
 
     //check if load transient compensation is active
     if(pTarget->flags.accel_comp_active == true)
     {
         compensation_pct += pTarget->fuel_mass_accel_corr_pct;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_AE_ACT);
     }
 
     #pragma GCC diagnostic push
@@ -665,6 +735,8 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     {
         //copy base fuel mass only
         pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
+
+        //early exit
         return;
     }
 
@@ -675,6 +747,11 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     {
         //reduce 100% fuel -> no fuel
         pTarget->target_fuel_mass_ug= 0;
+
+         //log diag data
+        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_ZERO);
+
+        //early exit
         return;
     }
     else if(compensation_pct > cMax_fuel_mass_comp_pct)
