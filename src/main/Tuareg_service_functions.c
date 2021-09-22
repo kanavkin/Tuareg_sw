@@ -266,8 +266,11 @@ void fuel_pump_periodic_update(VU32 now)
 injector 1
 **********************************************************************************************************************/
 
-void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_injector1(VU32 On_time_us, VU32 Off_time_ms, VU32 Cycles)
 {
+    volatile scheduler_activation_parameters_t scheduler_parameters;
+
+
     //check preconditions
     if(Tuareg.flags.service_mode == false)
     {
@@ -317,33 +320,66 @@ with 8 bit protocol on, off max := 255 !!!
     }
 */
 
-    if((On_time_ms == 0xFF) && (Off_time_ms == 0xFF))
-    {
-        /**
-        static mode
-        */
-        Service_mgr.injector1_on_ms= 1000 * On_target_s;
-        Service_mgr.injector1_off_ms= 0;
-        Service_mgr.injector1_on_remain_ms= 0;
-
-    }
-    else
-    {
-        //rect mode
-        Service_mgr.injector1_on_ms= On_time_ms;
-        Service_mgr.injector1_off_ms= Off_time_ms;
-        Service_mgr.injector1_on_remain_ms= 1000 * On_target_s;
-    }
-
-
-    //store toggle timestamp
-    Service_mgr.injector1_toggle= Tuareg.pTimer->system_time + Service_mgr.injector1_on_ms;
+    Service_mgr.injector1_on_us= On_time_us;
+    Service_mgr.injector1_off_ms= Off_time_us;
 
     //take over control
     Service_mgr.flags.injector1_control= true;
 
-    //command fuel hardware
-    set_injector1(ACTOR_POWERED);
+
+    if((On_time_us == 0xFFFFFFFF) && (Off_time_ms == 0xFFFFFFFF))
+    {
+        /**
+        constant on mode
+        */
+        Service_mgr.injector1_on_remaining_cycles= 0;
+
+        //injector will be deactivated on trigger timestamp
+        Service_mgr.injector1_trigger= Tuareg.pTimer->system_time + Cycles;
+
+        //fire up injector
+        set_injector1(ACTOR_POWERED);
+
+    }
+    else
+    {
+        /**
+        toggle mode
+        */
+
+        Service_mgr.injector1_on_remaining_cycles= Cycles;
+
+        //store trigger timestamp
+        Service_mgr.injector1_trigger= Tuareg.pTimer->system_time + (On_time_us > 999 ? On_time_us / 1000 : 1) + Off_time_ms;
+
+        /*
+        prepare scheduler activation parameters
+        - first action is injection end  -> turn off injector
+        - second action -> not in use
+        - use 1 interval
+        - no realloc completion
+        - interval 1 -> injection on time
+        - interval 2 -> 0
+        */
+        scheduler_parameters.flags.action1_power= false;
+        scheduler_parameters.flags.action2_power= false;
+        scheduler_parameters.flags.interval2_enabled= false;
+        scheduler_parameters.flags.complete_cycle_realloc= false;
+
+        scheduler_parameters.interval1_us= On_time_us;
+        scheduler_parameters.interval2_us= 0;
+
+
+        //fire up injector
+        __disable_irq();
+
+            set_injector1(ACTOR_POWERED);
+            scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
+
+        __enable_irq();
+
+    }
+
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_INJECTOR1_BEGIN);
@@ -354,8 +390,10 @@ with 8 bit protocol on, off max := 255 !!!
 void deactivate_injector1()
 {
     set_injector1(ACTOR_UNPOWERED);
-    Service_mgr.injector1_on_remain_ms= 0;
+    Service_mgr.injector1_on_remaining_cycles= 0;
     Service_mgr.flags.injector1_control= false;
+
+    scheduler_reset_channel(SCHEDULER_CH_FUEL1);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_INJECTOR1);
@@ -366,36 +404,28 @@ void deactivate_injector1()
 void injector1_periodic_update(VU32 now)
 {
     //update injector 1
-    if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_toggle))
+    if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_trigger))
     {
-        //check if the actor has been powered
-        if(Tuareg.flags.fuel_injector_1 == true)
+        //check if on cycles are left
+        if(Service_mgr.injector1_on_remaining_cycles > 0)
         {
-            set_injector1(ACTOR_UNPOWERED);
+            //one cycle has been consumed
+            Service_mgr.injector1_on_remaining_cycles -= 1;
 
-            //actor has been on -> less remaining on time
-            sub_VU32(&(Service_mgr.injector1_on_remain_ms), Service_mgr.injector1_on_ms);
+            //calculate new trigger timestamp
+            Service_mgr.injector1_toggle= now + (Service_mgr.injector1_on_us > 999 ? Service_mgr.injector1_on_us / 1000 : 1) + Service_mgr.injector1_off_ms;
 
-            //check if the commanded on time has been reached
-            if(Service_mgr.injector1_on_remain_ms == 0)
-            {
-                deactivate_injector1();
-            }
-            else
-            {
-                //store toggle timestamp
-                Service_mgr.injector1_toggle= now + Service_mgr.injector1_off_ms;
-            }
+            //fire up injector
+            __disable_irq();
+
+                set_injector1(ACTOR_POWERED);
+                scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
+
+            __enable_irq();
         }
         else
         {
-            //actor has been off
-
-            //command fuel hardware
-            set_injector1(ACTOR_POWERED);
-
-            //store toggle timestamp
-            Service_mgr.injector1_toggle= now + Service_mgr.injector1_on_ms;
+            deactivate_injector1();
         }
     }
 }

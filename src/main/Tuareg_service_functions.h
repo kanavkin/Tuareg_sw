@@ -49,10 +49,10 @@ typedef struct _service_mgr_t {
 
     timestamp_t fuel_pump_timeout;
 
-    U32 injector1_on_ms;
+    U32 injector1_on_us;
     U32 injector1_off_ms;
-    timestamp_t injector1_toggle;
-    U32 injector1_on_remain_ms;
+    timestamp_t injector1_trigger;
+    U32 injector1_on_remaining_cycles;
 
     U32 injector2_on_ms;
     U32 injector2_off_ms;
