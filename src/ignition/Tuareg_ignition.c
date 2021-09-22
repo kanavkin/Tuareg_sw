@@ -166,107 +166,107 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
 
-    /**
-    check if dynamic mode is active and the crank is at the ignition base position
-    -> this is the main operation scenario
-    */
-    if((Tuareg.ignition_controls.flags.dynamic_controls == true) && (Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos))
+    //check if dynamic mode is active - this is the main operation scenario
+    if(Tuareg.ignition_controls.flags.dynamic_controls == true)
     {
-        //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
-
-        /*
-        prepare scheduler activation parameters
-        - first action is ignition -> turn off coil
-        - second action is dwell -> power coil
-        - use 2 intervals
-        - no realloc completion
-        - interval 1 -> corrected ignition timing
-        - interval 2 -> dwell timing
-        */
-        scheduler_parameters.flags.action1_power= false;
-        scheduler_parameters.flags.action2_power= true;
-        scheduler_parameters.flags.interval2_enabled= true;
-        scheduler_parameters.flags.complete_cycle_realloc= false;
-
-        scheduler_parameters.interval2_us= Tuareg.ignition_controls.dwell_timing_us;
-        scheduler_parameters.interval1_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
-
-
-        //check if sequential mode has been commanded
-        if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
+        //check if the crank is at the ignition base position
+        if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
         {
             //collect diagnostic information
-            ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
 
-            /**
-            downgrade to batch mode -> ignition timing is not affected by its mode
+            /*
+            prepare scheduler activation parameters
+            - first action is ignition -> turn off coil
+            - second action is dwell -> power coil
+            - use 2 intervals
+            - no realloc completion
+            - interval 1 -> corrected ignition timing
+            - interval 2 -> dwell timing
             */
-            Tuareg.ignition_controls.flags.sequential_mode= false;
-        }
+            scheduler_parameters.flags.action1_power= false;
+            scheduler_parameters.flags.action2_power= true;
+            scheduler_parameters.flags.interval2_enabled= true;
+            scheduler_parameters.flags.complete_cycle_realloc= false;
 
-        //coil #1
-        if((Tuareg.pDecoder->phase == PHASE_CYL1_COMP) || (Tuareg.ignition_controls.flags.sequential_mode == false))
-        {
-            scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
-
-            //collect diagnostic information
-            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED_UNPOWER);
-        }
-
-        //coil #2
-        if( (Ignition_Setup.flags.second_coil_installed == true) && ((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.ignition_controls.flags.sequential_mode == false))
-        {
-            scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
-
-            //collect diagnostic information
-            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2SCHED_UNPOWER);
-        }
-
-        //all done
-        return;
-
-    }
+            scheduler_parameters.interval2_us= Tuareg.ignition_controls.dwell_timing_us;
+            scheduler_parameters.interval1_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
 
 
-    /**
-    Everything other than dynamic mode is fallback -> batch style
-    use cases: cranking, default ignition controls
-    operating scheme: immediate spark/dwell triggering on position update
-    no scheduler allocation
-    */
-    if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
-    {
-        scheduler_reset_channel(SCHEDULER_CH_IGN1);
-        scheduler_reset_channel(SCHEDULER_CH_IGN2);
+            //check if sequential mode has been commanded
+            if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
+            {
+                //collect diagnostic information
+                ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
 
-        //coil #1 and #2
-        set_ignition_ch1(ACTOR_UNPOWERED);
-        set_ignition_ch2(ACTOR_UNPOWERED);
+                /**
+                downgrade to batch mode is not possible because of specific interval calculation
+                earlyexit
+                */
+                return;
+            }
 
-        //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_UNPOWER);
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_UNPOWER);
+            //coil #1
+            if((Tuareg.pDecoder->phase == PHASE_CYL1_COMP) || (Tuareg.ignition_controls.flags.sequential_mode == false))
+            {
+                scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
+
+                //collect diagnostic information
+                ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1SCHED);
+            }
+
+            //coil #2
+            if( (Ignition_Setup.flags.second_coil_installed == true) && ((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.ignition_controls.flags.sequential_mode == false)))
+            {
+                scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
+
+                //collect diagnostic information
+                ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2SCHED);
+            }
+       }
 
     }
-    else if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos)
+    else
     {
-        scheduler_reset_channel(SCHEDULER_CH_IGN1);
-        scheduler_reset_channel(SCHEDULER_CH_IGN2);
-
-        //coil #1
-        set_ignition_ch1(ACTOR_POWERED);
-
-        //collect diagnostic information
-        ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_POWER);
-
-        //coil #2
-        if(Ignition_Setup.flags.second_coil_installed == true)
+        /**
+        Everything other than dynamic mode is fallback -> batch style
+        use cases: cranking, default ignition controls
+        operating scheme: immediate spark/dwell triggering on position update
+        no scheduler allocation
+        */
+        if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.ignition_pos)
         {
-            set_ignition_ch2(ACTOR_POWERED);
+            scheduler_reset_channel(SCHEDULER_CH_IGN1);
+            scheduler_reset_channel(SCHEDULER_CH_IGN2);
+
+            //coil #1 and #2
+            set_ignition_ch1(ACTOR_UNPOWERED);
+            set_ignition_ch2(ACTOR_UNPOWERED);
 
             //collect diagnostic information
-            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_POWER);
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_UNPOWER);
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_UNPOWER);
+
+        }
+        else if(Tuareg.pDecoder->crank_position == Tuareg.ignition_controls.dwell_pos)
+        {
+            scheduler_reset_channel(SCHEDULER_CH_IGN1);
+            scheduler_reset_channel(SCHEDULER_CH_IGN2);
+
+            //coil #1
+            set_ignition_ch1(ACTOR_POWERED);
+
+            //collect diagnostic information
+            ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN1_POWER);
+
+            //coil #2
+            if(Ignition_Setup.flags.second_coil_installed == true)
+            {
+                set_ignition_ch2(ACTOR_POWERED);
+
+                //collect diagnostic information
+                ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_POWER);
+            }
         }
     }
 }

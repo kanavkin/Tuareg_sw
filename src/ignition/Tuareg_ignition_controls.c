@@ -245,6 +245,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     //prepare transfer object for process table lookup
     ignition_POS.crank_pos= Ignition_Setup.dynamic_ignition_base_position;
     ignition_POS.phase= PHASE_CYL1_COMP;
+    ignition_POS.previous_cycle= false;
 
     //get the basic advance angle the ignition base position provides
     result= get_process_advance(&ignition_POS);
@@ -257,23 +258,26 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
 
     /**
     dwell
+    ignition timing is implemented via 2 interval scheduler allocation
+    1. interval: base position -- ignition
+    2. interval ignition -- dwell
+
+    -> the minimum delay is the spark duration ->  dwell timing > spark_duration!
     */
     if(pTarget->flags.sequential_mode == true)
     {
-        //sequential mode: delay := T720 - spark duration - target dwell duration
+        //sequential mode: delay := T720 - target dwell duration
         dwell_avail_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        //the minimum delay is the spark duration
         pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
 
         pTarget->dwell_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
     }
     else
     {
-        //batch mode: delay := T360 - spark duration - target dwell duration
+        //batch mode: delay := T360 - target dwell duration
         dwell_avail_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        //the minimum delay is the spark duration
         pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
 
         pTarget->dwell_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);

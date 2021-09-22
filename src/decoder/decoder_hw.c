@@ -448,7 +448,7 @@ void EXTI0_IRQHandler(void)
 {
     VU32 timer_buffer;
 
-    __disable_irq();
+//    __disable_irq();
 
     //save timer value
     timer_buffer= TIM9->CNT;
@@ -480,7 +480,7 @@ void EXTI0_IRQHandler(void)
     //diagnostics
     decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
 
-    __enable_irq();
+ //   __enable_irq();
 
 
     //call the logic handler

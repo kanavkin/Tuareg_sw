@@ -343,6 +343,9 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
         scheduler_diag_log_event(SCHEDIAG_DELAY_MININT2);
     }
 
+    //collect diagnostic information
+    scheduler_diag_log_event( ((pParameters->flags.interval2_enabled == true) ? SCHEDIAG_SET_ICH1_2INT : SCHEDIAG_SET_ICH1_1INT)  + Channel );
+
 
     /******************************************************
     allocate the scheduler channel
@@ -501,19 +504,19 @@ void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us)
     ******************************************************/
 
     //collect diagnostic information
-    scheduler_diag_log_event(SCHEDIAG_ICH1_SET + Channel);
+    scheduler_diag_log_event(SCHEDIAG_ICH1_ALLOC + Channel);
 
     if(curr_cycle == true)
     {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_CURRC_SET + Channel);
+        scheduler_diag_log_event(SCHEDIAG_ICH1_ALLOC_CUR + Channel);
     }
     else if(use_preload == true)
     {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_PRELOAD_SET + Channel);
+        scheduler_diag_log_event(SCHEDIAG_ICH1_ALLOC_PREL + Channel);
     }
     else
     {
-        scheduler_diag_log_event(SCHEDIAG_ICH1_NEXTC_UPDATE_SET + Channel);
+        scheduler_diag_log_event(SCHEDIAG_ICH1_ALLOC_UPD + Channel);
     }
 
 }

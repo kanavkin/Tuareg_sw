@@ -11,6 +11,7 @@ VU32 ignition_diag[IGNDIAG_COUNT];
 VU32 tuareg_diag[TDIAG_COUNT];
 VU32 decoder_diag[DDIAG_COUNT];
 VU32 sensors_diag[SNDIAG_COUNT];
+VU32 fueling_diag[FDIAG_COUNT];
 
 
 /******************************************************************************************************
@@ -35,7 +36,7 @@ void print_scheduler_diag(USART_TypeDef * Port)
     {
         printf_U(Port, scheduler_diag[cnt], PAD_10);
 
-        if(column == 8)
+        if(column == 4)
         {
             print(Port, "\r\n");
             column = 1;
@@ -51,12 +52,19 @@ void print_scheduler_diag(USART_TypeDef * Port)
 void print_scheduler_diag_legend(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nScheduler Diagnostics Legend:");
-    print(Port, "\r\nICH1 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
-    print(Port, "\r\nICH2 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
-    print(Port, "\r\nFCH1 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
-    print(Port, "\r\nFCH2 - SET, SET_CURRC, SET_NEXTC_PRELOAD, SET_NEXTC_UPDATE, SET_RETRIGD, TRIGGERED, RESET");
+    print(Port, "\r\n for ICH1, ICH2, FCH1, FCH2");
+    print(Port, "\r\nRESET");
+    print(Port, "\r\nSET 1INT");
+    print(Port, "\r\nSET 2INT");
+    print(Port, "\r\nREALLOC");
+    print(Port, "\r\nREALLOC_COMPLETED");
+    print(Port, "\r\nALLOC_CUR");
+    print(Port, "\r\nALLOC_PREL");
+    print(Port, "\r\nALLOC_UPD");
+    print(Port, "\r\nALLOC");
+    print(Port, "\r\nTRIGG");
+    print(Port, "\r\nDELAY_MININT1, DELAY_MININT2, WRAP");
 
-    print(Port, "\r\nSCHEDIAG_DELAY_CLIPPED, SCHEDIAG_DELAY_BYPASS, WRAP");
 }
 
 
@@ -97,10 +105,9 @@ void print_ignition_diag(USART_TypeDef * Port)
 
 void print_ignition_diag_legend(USART_TypeDef * Port)
 {
-    print(TS_PORT, "\r\nCRKPOSH_CALLS, CRKPOSH_PRECOND_FAIL, CRKPOSH_IGNPOS, CRKPOSH_IGN1SCHED_UNPOWER, CRKPOSH_IGN2SCHED_UNPOWER, ");
-    print(TS_PORT, "\r\nCRKPOSH_IGN1_UNPOWER, CRKPOSH_IGN2_UNPOWER, CRKPOSH_IGN1_POWER, CRKPOSH_IGN2_POWER, IRQ3H_CALLS,");
-    print(TS_PORT, "\r\nIRQ3H_PRECOND_FAIL, IRQ3H_IGN1SCHED_POWER, IRQ3H_IGN2SCHED_POWER, IRQ3H_IGN1_POWER, IRQ3H_IGN2_POWER,");
-    print(TS_PORT, "\r\n UPDIGNCTRL_CALLS, UPDIGNCTRL_REVLIM, UPDIGNCTRL_DYN, UPDIGNCTRL_DYN_FAIL, IGNITION_LOC_SEQUENTIAL_FAIL");
+    print(TS_PORT, "\r\nCRKPOSH_CALLS, CRKPOSH_INHIBIT, CRKPOSH_CTRLS_INVALID, CRKPOSH_IGNPOS, CRKPOSH_IGN1SCHED");
+    print(TS_PORT, "\r\nCRKPOSH_IGN2SCHED, CRKPOSH_IGN1_UNPOWER, CRKPOSH_IGN2_UNPOWER, CRKPOSH_IGN1_POWER, CRKPOSH_IGN2_POWER");
+    print(TS_PORT, "\r\nUPDIGNCTRL_CALLS, UPDIGNCTRL_REVLIM, UPDIGNCTRL_DYN, UPDIGNCTRL_DYN_FAIL");
 }
 
 
@@ -235,55 +242,11 @@ void print_sensors_diag_legend(USART_TypeDef * Port)
 
 
 /******************************************************************************************************
-ignition diag
-*******************************************************************************************************/
-void ignition_diag_log_event(ignition_diag_t event)
-{
-    if(event < IGNDIAG_COUNT)
-    {
-        ignition_diag[event] += 1;
-    }
-}
-
-
-void print_ignition_diag(USART_TypeDef * Port)
-{
-    U32 cnt, column = 1;
-
-    print(Port, "\r\nTuareg ignition diag: \r\n");
-
-    for(cnt=0; cnt < IGNDIAG_COUNT; cnt++)
-    {
-        printf_U(Port, ignition_diag[cnt], PAD_10);
-
-        if(column == DIAG_PRINT_LEGEND_COLUMNS)
-        {
-            print(Port, "\r\n");
-            column = 1;
-        }
-        else
-        {
-            column++;
-        }
-    }
-}
-
-
-void print_ignition_diag_legend(USART_TypeDef * Port)
-{
-    print(TS_PORT, "\r\nCRKPOSH_CALLS, CRKPOSH_PRECOND_FAIL, CRKPOSH_IGNPOS, CRKPOSH_IGN1SCHED_UNPOWER, CRKPOSH_IGN2SCHED_UNPOWER, ");
-    print(TS_PORT, "\r\nCRKPOSH_IGN1_UNPOWER, CRKPOSH_IGN2_UNPOWER, CRKPOSH_IGN1_POWER, CRKPOSH_IGN2_POWER, IRQ3H_CALLS,");
-    print(TS_PORT, "\r\nIRQ3H_PRECOND_FAIL, IRQ3H_IGN1SCHED_POWER, IRQ3H_IGN2SCHED_POWER, IRQ3H_IGN1_POWER, IRQ3H_IGN2_POWER,");
-    print(TS_PORT, "\r\n UPDIGNCTRL_CALLS, UPDIGNCTRL_REVLIM, UPDIGNCTRL_DYN, UPDIGNCTRL_DYN_FAIL, IGNITION_LOC_SEQUENTIAL_FAIL");
-}
-
-
-/******************************************************************************************************
 fueling diag
 *******************************************************************************************************/
 void fueling_diag_log_event(fueling_diag_t event)
 {
-    if(event < TDIAG_COUNT)
+    if(event < FDIAG_COUNT)
     {
         fueling_diag[event] += 1;
     }

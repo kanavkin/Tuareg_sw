@@ -261,7 +261,9 @@ void EXTI2_IRQHandler(void)
     //trigger the fueling module
     Tuareg_fueling_update_crankpos_handler();
 
-    ///tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
+
+    //collect diagnostic information
+    tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 }
 
 
