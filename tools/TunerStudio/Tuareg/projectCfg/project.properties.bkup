@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Wed Sep 22 10:56:24 CEST 2021
-#Wed Sep 22 10:56:24 CEST 2021
+#Last Saved on: Wed Sep 22 16:28:32 CEST 2021
+#Wed Sep 22 16:28:32 CEST 2021
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -14,9 +14,9 @@ config_permissionConfig\ Permissions_height=420
 config_permissionGet\ Permissions_width=372
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 sparkSettingsSpark\ Settings_width=372
-veTableDialogVE\ Table_width=598
-engine_constantsEngine\ Constants_X=276
 CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/ttyACM0
+engine_constantsEngine\ Constants_X=276
+veTableDialogVE\ Table_width=598
 engine_constantsEngine\ Constants_Y=342
 InjectorTimingCurveInjector\ dead\ time_width=725
 faultlogView\ Fault\ Log_width=731
@@ -28,8 +28,8 @@ AccelCompCurveAE_height=738
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 afrTable1TblAFR\ Table_width=558
 config_permissionGet\ Permissions_Y=120
-Tuareg.VeTable_MAP_std_yAxisMin=50.0
 config_permissionGet\ Permissions_X=621
+Tuareg.VeTable_MAP_std_yAxisMin=50.0
 engine_constantsEngine\ Constants_width=651
 serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
@@ -44,15 +44,15 @@ airdensity_curveIAT\ density\ correction_X=704
 airdensity_curveIAT\ density\ correction_Y=343
 triggerSettingsTrigger\ Settings_width=518
 AccelCompCurveAE_Y=30
-sparkMap3DIgnition\ Advance\ Table_Y=261
 AccelCompCurveAE_X=841
+sparkMap3DIgnition\ Advance\ Table_Y=261
 sparkMap3DIgnition\ Advance\ Table_X=555
 veGenerator_txtPkTqRpm=6500
 sensor_calibrationSensor\ Calibration_X=26
 sensor_calibrationSensor\ Calibration_Y=65
-ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=100
+ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=351
 2DTable_VeTable_TPS_tableInitialDir=/home/oli/Desktop
-ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=17
+ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_Y=222
 DwellCurve_Set\ X\ Axis\ Minimum=0.0
 iat_retard_curve_Set\ X\ Axis\ Minimum=-40.0
 userDash2.FileName=sensors.dash
@@ -61,11 +61,11 @@ ignition_setupIgnition\ Setup_X=847
 RevLimiterSRev\ Limiter_Y=407
 ignition_setupIgnition\ Setup_Y=149
 afrTable1TblAFR\ Table_Y=316
-sparkSettingsSpark\ Settings_Y=386
 afrTable1TblAFR\ Table_X=684
+sparkSettingsSpark\ Settings_Y=386
 fuelpumpFuel\ pump_X=777
-decoder_setupDecoder\ Setup_height=483
 serviceService_width=372
+decoder_setupDecoder\ Setup_height=483
 InjectorTimingCurveInjector\ dead\ time_height=494
 veGenerator_txtPkHpRpm=7500
 fuelpumpFuel\ pump_Y=435
