@@ -21,7 +21,9 @@ volatile Fueling_Setup_t Fueling_Setup;
 // Fueling Tables
 volatile t3D_t VeTable_TPS;
 volatile t3D_t VeTable_MAP;
+
 volatile t3D_t AfrTable_TPS;
+volatile t3D_t AfrTable_MAP;
 
 volatile t2D_t AccelCompTableTPS;
 volatile t2D_t AccelCompTableMAP;
@@ -64,6 +66,10 @@ exec_result_t load_Fueling_Config()
     ASSERT_EXEC_OK(load_result);
 
     load_result= load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
+
+    ASSERT_EXEC_OK(load_result);
+
+    load_result= load_t3D_data(&(AfrTable_MAP.data), EEPROM_FUELING_AFRMAP_BASE);
 
     ASSERT_EXEC_OK(load_result);
 
@@ -120,8 +126,8 @@ void load_essential_Fueling_Config()
     Fueling_Setup.afterstart_comp_pct= 0;
     Fueling_Setup.afterstart_comp_cycles= 0;
 
-    Fueling_Setup.ve_from_map_min_rpm= 0;
-    Fueling_Setup.ve_from_map_max_rpm= 0;
+    Fueling_Setup.spd_min_rpm= 10000;
+    Fueling_Setup.spd_max_rpm= 3;
 
     Fueling_Setup.features.all_flags= 0;
 
@@ -234,13 +240,13 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     printf_U(Port, Fueling_Setup.afterstart_thres_K, NO_PAD);
 
 
-    //U16 ve_from_map_min_rpm
-    print(Port, "\r\nVE from MAP min (rpm):");
-    printf_U(Port, Fueling_Setup.ve_from_map_min_rpm, NO_PAD);
+    //U16 spd_min_rpm
+    print(Port, "\r\nSpeed Density min (rpm):");
+    printf_U(Port, Fueling_Setup.spd_min_rpm, NO_PAD);
 
-    //U16 ve_from_map_max_rpm
-    print(Port, "\r\nVE from MAP max (rpm):");
-    printf_U(Port, Fueling_Setup.ve_from_map_max_rpm, NO_PAD);
+    //U16 spd_max_rpm
+    print(Port, "\r\nSpeed Density max (rpm):");
+    printf_U(Port, Fueling_Setup.spd_max_rpm, NO_PAD);
 
 
     //dry cranking
@@ -388,6 +394,57 @@ VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
 
 
 /***************************************************************************************************************************************************
+*   Fueling VE Table (MAP based) - AfrTable_MAP
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> MAP in kPa (no offset, no scaling)
+* z-Axis -> target AFR (no offset, table values are multiplied by 10)
+***************************************************************************************************************************************************/
+
+const F32 cAfrDivider= 10.0;
+
+
+exec_result_t store_AfrTable_MAP()
+{
+    return store_t3D_data(&(AfrTable_MAP.data), EEPROM_FUELING_AFRMAP_BASE);
+}
+
+
+void show_AfrTable_MAP(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nFueling AFR Table (MAP based):\r\n");
+
+    show_t3D_data(TS_PORT, &(AfrTable_MAP.data));
+}
+
+
+exec_result_t modify_AfrTable_MAP(U32 Offset, U32 Value)
+{
+    //modify_t3D_data provides offset range check!
+    return modify_t3D_data(&(AfrTable_MAP.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for AfrTable_MAP
+*/
+void send_AfrTable_MAP(USART_TypeDef * Port)
+{
+    send_t3D_data(Port, &(AfrTable_MAP.data));
+}
+
+
+/**
+returns the AFR target
+*/
+VF32 getValue_AfrTable_MAP(VU32 Rpm, VF32 Map_kPa)
+{
+    return (getValue_t3D(&AfrTable_MAP, Rpm, Map_kPa) / cAfrDivider);
+}
+
+
+
+/***************************************************************************************************************************************************
 *   Fueling AFR target Table (TPS based) - AfrTable_TPS
 *
 * x-Axis -> rpm (no offset, no scaling)
@@ -395,7 +452,6 @@ VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
 * z-Axis -> target AFR (no offset, table values are multiplied by 10)
 ***************************************************************************************************************************************************/
 
-const F32 cAccelCompDivider= 10.0;
 
 exec_result_t store_AfrTable_TPS()
 {
@@ -432,7 +488,7 @@ returns the target AFR value
 */
 VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 {
-    return (getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / cAccelCompDivider);
+    return (getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / cAfrDivider);
 }
 
 

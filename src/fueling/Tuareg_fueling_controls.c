@@ -37,6 +37,9 @@ calculates the fueling parameters according to the current system state and run 
 
 fueling_config_error indicates, that fueling tables are not available
 
+the data from decoder interface can be considered stable for the entire function call
+the rpm and period from decoder interface can be considered valid for the entire function call, if not cranking
+
 */
 void Tuareg_update_fueling_controls()
 {
@@ -46,7 +49,9 @@ void Tuareg_update_fueling_controls()
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
     //check operational preconditions
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) || ((Tuareg.engine_runtime == 0) && (Tuareg.flags.cranking == false)))
+    if( (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) ||
+        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.pDecoder->outputs.period_valid == false) || (Tuareg.engine_runtime == 0)))
+    )
     {
         //clean controls
         invalid_fueling_controls(pTarget);
@@ -69,30 +74,15 @@ void Tuareg_update_fueling_controls()
         fueling_diag_log_event(FDIAG_UPD_CTRLS_RUNNING);
 
 
-        /**
-        mode selection
-        */
-        if((Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid))
-        {
-            //sequential mode
-            pTarget->flags.sequential_mode= true;
+        //mode selection
+        update_mode(pTarget);
 
-            //log diag data
-            fueling_diag_log_event(FDIAG_UPD_CTRLS_SEQ);
-        }
-        else
-        {
-            //batch mode
-            pTarget->flags.sequential_mode= false;
-
-            //log diag data
-            fueling_diag_log_event(FDIAG_UPD_CTRLS_BATCH);
-        }
+        //select control strategy
+        update_strategy(pTarget);
 
 
         /**
-        VE
-        calculation will fail in limp mode
+        VE calculation, will fail in limp mode
         */
         update_volumetric_efficiency(pTarget);
 
@@ -174,7 +164,7 @@ void Tuareg_update_fueling_controls()
 
     /**
     apply all activated corrections
-    in limp mode the target fuel mass will be simply the base fuel mass
+    in limp mode or when cranking the target fuel mass will be simply the base fuel mass
     */
     update_target_fuel_mass(pTarget);
 
@@ -200,30 +190,36 @@ void Tuareg_update_fueling_controls()
 
 
         //check if the calculation has succeeded
-        if(pTarget->flags.injection_begin_valid == false)
+        if(pTarget->flags.injection_begin_valid == true)
         {
-            //downgrade to batch mode
-            pTarget->flags.sequential_mode= false;
+            //fueling controls are ready
+            pTarget->flags.valid= true;
 
-            Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_SEQUENTIAL_CALC_FAIL);
+            /*** exit here ***/
+            return;
         }
+
+        /**
+        calculation of sequential parameters has failed obviously -> proceed in batch mode
+        */
+        pTarget->flags.sequential_mode= false;
+
+        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_SEQUENTIAL_CALC_FAIL);
     }
 
 
-    if(pTarget->flags.sequential_mode == false)
-    {
-        /**
-        injector intervals calculation based on the calculated target fuel mass
-        */
-        update_injector_intervals_batch(pTarget);
+    /**
+    injector intervals calculation based on the calculated target fuel mass
+    */
+    update_injector_intervals_batch(pTarget);
 
-        /**
-        injection begin positions
-        */
-        update_injection_begin_batch(pTarget);
-    }
 
-    //now the fueling controls are ready
+    /**
+    injection begin positions
+    */
+    update_injection_begin_batch(pTarget);
+
+    //batch fueling controls are always valid
     pTarget->flags.valid= true;
 
 }
@@ -255,6 +251,75 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
 }
 
 
+/****************************************************************************************************************************************
+*   fueling controls update helper functions - mode
+****************************************************************************************************************************************/
+
+/**
+decides which mode currently applies
+
+*/
+void update_mode(volatile fueling_control_t * pTarget)
+{
+
+    if((Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid))
+    {
+        //sequential mode
+        pTarget->flags.sequential_mode= true;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_SEQ);
+    }
+    else
+    {
+        //batch mode
+        pTarget->flags.sequential_mode= false;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_BATCH);
+    }
+}
+
+
+/****************************************************************************************************************************************
+*   fueling controls update helper functions - strategy
+****************************************************************************************************************************************/
+
+/**
+decides which control strategy is currently available
+
+MAP based VE table shall be referenced only if the MAP sensor readout is valid.
+If the engine rpm is within the GET_VE_FROM_MAP window, MAP VE table shall be referenced.
+If the TPS sensor readout is invalid, MAP VE table shall be referenced.
+
+If both MAP and TPS sensor fail, the TPS based VE table shall be referenced.
+(In this case lookup will use the default sensor value).
+*/
+void update_strategy(volatile fueling_control_t * pTarget)
+{
+
+    //check preconditions - engine speed is known and fueling tables are available
+    //check if MAP sensor is available and rpm is within the speed density control window
+    if( (Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) &&
+        (Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.spd_min_rpm) && (Tuareg.pDecoder->crank_rpm < Fueling_Setup.spd_max_rpm))
+    {
+        //enable Speed Density control strategy
+        pTarget->flags.SPD_active= true;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_SPD);
+    }
+    else
+    {
+        //select ALPHA-N
+        pTarget->flags.SPD_active= false;
+
+        //log diag data
+        fueling_diag_log_event(FDIAG_UPD_CTRLS_ALPHAN);
+    }
+}
+
+
 
 /****************************************************************************************************************************************
 *   fueling controls update helper functions - VE
@@ -272,41 +337,35 @@ If both MAP and TPS sensor fail, the TPS based VE table shall be referenced.
 
 VE is defined in 0 .. 150 % range
 */
+
+const F32 cMin_VE_val= 10.0;
+const F32 cMax_VE_val= 120.0;
+
 void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
 {
-    U32 rpm;
     VF32 VE_value;
 
     //data update in progress
     pTarget->flags.VE_valid= false;
 
-    //check preconditions - engine speed is known and VE tables are available
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.flags.limited_op == true))
+    //preconditions - VE tables are available
+    if(Tuareg.errors.fueling_config_error == true)
     {
         return;
     }
 
-    rpm= Tuareg.pDecoder->crank_rpm;
-
-
     //check from which table to look up
-    if((Tuareg.errors.sensor_TPS_error == true) || ((Tuareg.errors.sensor_MAP_error == false) && (rpm > Fueling_Setup.ve_from_map_min_rpm) && (rpm < Fueling_Setup.ve_from_map_max_rpm)))
+    if(pTarget->flags.SPD_active == true)
     {
-        //use VE table MAP lookup
-        pTarget->flags.VE_from_MAP= true;
-
-        VE_value= getValue_VeTable_MAP(rpm, Tuareg.process.MAP_kPa);
+        VE_value= getValue_VeTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa);
     }
     else
     {
-        //use VE table TPS lookup
-        pTarget->flags.VE_from_MAP= false;
-
-        VE_value= getValue_VeTable_TPS(rpm, Tuareg.process.TPS_deg);
+        VE_value= getValue_VeTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
     }
 
     //range check
-    if((VE_value > 0.0) && (VE_value <= 150.0))
+    if((VE_value > cMin_VE_val) && (VE_value <= cMax_VE_val))
     {
         pTarget->VE_pct= VE_value;
         pTarget->flags.VE_valid= true;
@@ -350,6 +409,8 @@ void update_air_density(volatile fueling_control_t * pTarget)
 *   fueling controls update helper functions - AFR
 ****************************************************************************************************************************************/
 
+const F32 cMin_AFR_target= 6.0;
+const F32 cMax_AFR_target= 20.0;
 
 /**
 decides from which table to look up the AFR target
@@ -364,16 +425,23 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
     pTarget->flags.AFR_target_valid= false;
 
     //check preconditions - engine speed is known and AFR tables are available and TPS figure is valid
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.flags.limited_op == true))
+    if(Tuareg.errors.fueling_config_error == true)
     {
         return;
     }
 
-    //look up
-    AFR_value= getValue_AfrTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+    //check from which table to look up
+    if(pTarget->flags.SPD_active == true)
+    {
+        AFR_value= getValue_AfrTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa);
+    }
+    else
+    {
+        AFR_value= getValue_AfrTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+    }
 
     //range check
-    if((AFR_value > 5.0) && (AFR_value < 30.0))
+    if((AFR_value > cMin_AFR_target) && (AFR_value < cMax_AFR_target))
     {
         pTarget->AFR_target= AFR_value;
         pTarget->flags.AFR_target_valid= true;
@@ -455,6 +523,10 @@ void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget)
 calculate the required fuel mass compensation for the present throttle change rate
 
 any new trigger condition will enlarge the fuel mass compensation interval
+
+
+accelerating shortly after decellerating will activate enrichment
+
 */
 void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 {
@@ -993,6 +1065,8 @@ void update_injection_begin_batch(volatile fueling_control_t * pTarget)
 }
 
 
+
+
 /**
 calculates the injection begin positions for sequential mode
 
@@ -1001,6 +1075,11 @@ sets the injection_begin_valid flag on success
 this calculation is valid for cylinder #1 and #2 as it does not affect the actual fuel amount to be injected
     it is designed for 180° parallel twin engine
 */
+
+const U32 cMin_injection_end_target_advance_deg= 140;
+const U32 cMax_injection_end_target_advance_deg= 400;
+
+
 void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
 {
     VU32 injection_end_target_advance_deg, avail_timing_us, avail_interval_deg;
@@ -1012,14 +1091,47 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
     pTarget->flags.injection_begin_valid= false;
 
 
+    /******************************************
+    precondition check
+    ******************************************/
+
     //check preconditions - crank period known
     if((Tuareg.pDecoder->outputs.period_valid == false) || (Tuareg.pDecoder->outputs.rpm_valid == false))
     {
         return;
     }
 
+
+    /******************************************
+    ignition end target angle
+    ******************************************/
+
     //get injection end target advance angle
     injection_end_target_advance_deg= getValue_InjectorPhaseTable(Tuareg.pDecoder->crank_rpm);
+
+    //check target advance
+    if(injection_end_target_advance_deg < cMin_injection_end_target_advance_deg)
+    {
+        //log incident
+        Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_UPDINJBEG_ENDTARGET_INVALID);
+
+        //clip to min
+        injection_end_target_advance_deg= cMin_injection_end_target_advance_deg;
+    }
+
+    if(injection_end_target_advance_deg > cMax_injection_end_target_advance_deg)
+    {
+        //log incident
+        Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_UPDINJBEG_ENDTARGET_INVALID);
+
+        //clip to max
+        injection_end_target_advance_deg= cMax_injection_end_target_advance_deg;
+    }
+
+
+    /******************************************
+    ignition interval calculation
+    ******************************************/
 
     //calculate the injector intervals in degree
     injector1_interval_deg= calc_rot_angle_deg(pTarget->injector1_interval_us, Tuareg.pDecoder->crank_period_us);
@@ -1038,6 +1150,10 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
 
     ASSERT_EXEC_OK_VOID(result);
 
+
+    /******************************************
+    ignition begin timing
+    ******************************************/
 
     /**
     calculate the remaining interval between the injection base position and the injection end target position

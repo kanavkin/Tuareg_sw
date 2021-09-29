@@ -93,15 +93,19 @@ Fueling AFR target Table 3D (TPS based) - AfrTable_TPS
 #define EEPROM_FUELING_AFRTPS_BASE (EEPROM_FUELING_VEMAP_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
+Fueling AFR target Table 3D (MAP based) - AfrTable_MAP
+*/
+#define EEPROM_FUELING_AFRMAP_BASE (EEPROM_FUELING_AFRTPS_BASE + TABLE3D_RESERVED_SPACE)
+
+/**
 Fueling acceleration compensation table - AccelCompTableTPS
 */
-#define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_AFRTPS_BASE + TABLE3D_RESERVED_SPACE)
+#define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_AFRMAP_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
 Fueling acceleration compensation table - AccelCompTableMAP
 */
 #define EEPROM_FUELING_ACCELCOMPMAP_BASE (EEPROM_FUELING_ACCELCOMPTPS_BASE + TABLE2D_RESERVED_SPACE)
-
 
 /**
 Fueling Warm up enrichment compensation table - WarmUpCompTable

@@ -23,7 +23,7 @@ typedef union
 
 
         U16 VE_valid :1;
-        U16 VE_from_MAP :1;
+        U16 SPD_active :1;
 
         U16 AFR_target_valid :1;
 
@@ -95,6 +95,9 @@ void Tuareg_notify_fueling_cranking_end();
 void Tuareg_update_fueling_controls();
 
 void invalid_fueling_controls(volatile fueling_control_t * pTarget);
+
+void update_mode(volatile fueling_control_t * pTarget);
+void update_strategy(volatile fueling_control_t * pTarget);
 
 void update_volumetric_efficiency(volatile fueling_control_t * pTarget);
 void update_air_density(volatile fueling_control_t * pTarget);

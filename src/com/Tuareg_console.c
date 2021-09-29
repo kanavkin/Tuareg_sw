@@ -38,6 +38,10 @@
 
 //#define CONSOLE_DEBUG
 
+#ifdef CONSOLE_DEBUG
+#warning Tuareg Console debugging enabled
+#endif // CONSOLE_DEBUG
+
 volatile Tuareg_console_t Tuareg_console;
 
 
@@ -310,7 +314,7 @@ void Tuareg_update_console()
             /**
             send code version
             */
-            print(TS_PORT, "Tuareg V0.2 2020.10");
+            print(TS_PORT, "Tuareg V0.21 2021.09");
 
             //This is required in TS3 due to its stricter timings
             Tuareg_console.secl = 0;
@@ -428,6 +432,12 @@ inline void cli_showPage(U32 Page)
 
             print(TS_PORT, "\r\nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
             show_AfrTable_TPS(TS_PORT);
+            break;
+
+        case AFRMAP_MAP:
+
+            print(TS_PORT, "\r\nAFR Map - MAP (in boctok 3D coordinate system)\r\n");
+            show_AfrTable_MAP(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:

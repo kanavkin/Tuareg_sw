@@ -67,8 +67,8 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U16 afterstart_thres_K;
 
     //VE base lookup parameters
-    U16 ve_from_map_min_rpm;
-    U16 ve_from_map_max_rpm;
+    U16 spd_min_rpm;
+    U16 spd_max_rpm;
 
     //dry cranking
     U8 dry_cranking_TPS_thres;
@@ -116,6 +116,13 @@ void show_AfrTable_TPS(USART_TypeDef * Port);
 exec_result_t modify_AfrTable_TPS(U32 Offset, U32 Value);
 void send_AfrTable_TPS(USART_TypeDef * Port);
 VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg);
+
+//Fueling AFR target Table (MAP based) - AfrTable_MAP
+exec_result_t store_AfrTable_MAP();
+void show_AfrTable_MAP(USART_TypeDef * Port);
+exec_result_t modify_AfrTable_MAP(U32 Offset, U32 Value);
+void send_AfrTable_MAP(USART_TypeDef * Port);
+VF32 getValue_AfrTable_MAP(VU32 Rpm, VF32 Map_kPa);
 
 //Fueling acceleration compensation table TPS based - AccelCompTableTPS
 exec_result_t store_AccelCompTableTPS();

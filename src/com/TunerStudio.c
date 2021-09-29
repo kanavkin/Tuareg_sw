@@ -30,7 +30,11 @@
 #include "syslog.h"
 #include "fault_log.h"
 
-#define TS_DEBUG
+//#define TS_DEBUG
+
+#ifdef TS_DEBUG
+#warning Tuner Studio debugging enabled
+#endif // TS_DEBUG
 
 
 /**
@@ -80,6 +84,10 @@ void ts_readPage(U32 Page)
 
         case AFRMAP_TPS:
             send_AfrTable_TPS(TS_PORT);
+            break;
+
+        case AFRMAP_MAP:
+            send_AfrTable_MAP(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
@@ -264,6 +272,19 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_AfrTable_TPS(Offset, Value);
             break;
 
+        case AFRMAP_MAP:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return;
+            }
+
+            result= modify_AfrTable_MAP(Offset, Value);
+            break;
+
         case ACCELCOMP_TPS:
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
@@ -423,6 +444,11 @@ void ts_burnPage(U32 Page)
         case AFRMAP_TPS:
 
             result= store_AfrTable_TPS();
+            break;
+
+        case AFRMAP_MAP:
+
+            result= store_AfrTable_MAP();
             break;
 
         case ACCELCOMP_TPS:

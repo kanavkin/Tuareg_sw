@@ -20,6 +20,7 @@ typedef enum {
     VEMAP_TPS,
     VEMAP_MAP,
     AFRMAP_TPS,
+    AFRMAP_MAP,
     ACCELCOMP_TPS,
     ACCELCOMP_MAP,
     WARMUPCOMP_TABLE,
