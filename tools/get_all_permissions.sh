@@ -4,8 +4,8 @@ if [ "$1" != "" ];
 then
     DEV=$1
 else
-    echo "no device specified, using /dev/ttyUSB0"
-    DEV="/dev/ttyUSB0"
+    echo "no device specified, using /dev/tuareg"
+    DEV="/dev/tuareg"
 fi
 
 #stty -F /dev/ttyUSB0 115200 raw -echo -hupcl
