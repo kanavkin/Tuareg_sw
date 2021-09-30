@@ -194,6 +194,16 @@ void ts_debug_info(U32 InfoID)
             cli_print_sensor_data(TS_PORT);
             break;
 
+        case 'FD':
+
+            print_fueling_diag(TS_PORT);
+            break;
+
+        case 'Fd':
+
+            print_fueling_diag_legend(TS_PORT);
+            break;
+
 
     default:
       break;
