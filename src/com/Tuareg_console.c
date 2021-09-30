@@ -146,6 +146,25 @@ void Tuareg_update_console()
         ts_debug_features(value);
         break;
 
+    case 'F':
+
+        //send serial protocol version
+        print(TS_PORT, "001");
+        break;
+
+
+    case 'G':
+
+        //show Fault Log
+        show_Fault_Log(TS_PORT);
+        break;
+
+
+    case 'H':
+        send_highspeedlog(TS_PORT);
+        break;
+
+
     case 'I':
 
         //received service info command takes 2 bytes of input data
@@ -173,23 +192,6 @@ void Tuareg_update_console()
         break;
 
 
-    case 'F':
-
-        //send serial protocol version
-        print(TS_PORT, "001");
-        break;
-
-
-    case 'G':
-
-        //show Fault Log
-        show_Fault_Log(TS_PORT);
-        break;
-
-
-    case 'H':
-        send_highspeedlog(TS_PORT);
-        break;
 
 
     case 'J':

@@ -137,7 +137,7 @@ void highspeedlog_register_injector2_unpower();
 
 
 void send_highspeedlog(USART_TypeDef * Port);
-
+void show_highspeedlog(USART_TypeDef * Port);
 
 
 

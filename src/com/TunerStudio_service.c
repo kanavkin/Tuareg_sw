@@ -204,6 +204,11 @@ void ts_debug_info(U32 InfoID)
             print_fueling_diag_legend(TS_PORT);
             break;
 
+        case 'HL':
+
+            show_highspeedlog(TS_PORT);
+            break;
+
 
     default:
       break;

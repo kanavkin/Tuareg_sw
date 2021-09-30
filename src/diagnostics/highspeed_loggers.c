@@ -112,41 +112,6 @@ void highspeedlog_write(highspeedlog_event_t Event)
 
     __enable_irq();
 
-/*
-
-    //0 .. 3,5 timestamp ms (28 bits), inits data 0..3
-    serialize_U32_U8_reversed(system_ts_ms << 4, &(pTarget->data[0]));
-
-    //clear shared high nibble
-    pTarget->data[3] &= 0xF0;
-
-    //clip fraction just to be sure
-    fraction_ts_us &= 0x0FFF;
-
-    //3,5 .. 4 fractional timestamp MSB, LSB
-    pTarget->data[3] |= fraction_ts_us >> 8;
-    pTarget->data[4]= fraction_ts_us;
-
-
-    //5 crank pos, CIS_LOBE_BIT, PHASE_COMP_BIT, PHASE_VALID_BIT, inits data[5]
-    pTarget->data[5]= Tuareg.pDecoder->crank_position & 0x0F;
-*/
-    /*
-    if(Highspeedlog_Mgr.cam_lobe_begin_triggered == true) setBit_BF8(HIGSPEEDLOG_BYTE5_CIS_LOBE_BIT, &(pTarget->data[5]));
-    if(Tuareg.pDecoder->phase == PHASE_CYL1_COMP) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_COMP_BIT, &(pTarget->data[5]));
-    if(Tuareg.pDecoder->outputs.phase_valid == true) setBit_BF8(HIGSPEEDLOG_BYTE5_PHASE_VALID_BIT, &(pTarget->data[5]));
-    */
-
-    //init data[6]
- //   pTarget->data[6]=0;
-
-    /*
-    //6 crank pos, COIL1_POWERED_BIT, COIL2_POWERED_BIT, INJECTOR1_POWERED_BIT, INJECTOR2_POWERED_BIT
-    if(Tuareg.actors.ignition_coil_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL1_POWERED_BIT, &(pTarget->data[6]));
-    if(Tuareg.actors.ignition_coil_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_COIL2_POWERED_BIT, &(pTarget->data[6]));
-    if(Tuareg.actors.fuel_injector_1 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR1_POWERED_BIT, &(pTarget->data[6]));
-    if(Tuareg.actors.fuel_injector_2 == true) setBit_BF8(HIGSPEEDLOG_BYTE6_INJECTOR2_POWERED_BIT, &(pTarget->data[6]));
-    */
 
     //check if the log is ready to be read
     if(Highspeedlog_Mgr.entry_ptr >= HIGSPEEDLOG_LENGTH)
@@ -341,6 +306,65 @@ void send_highspeedlog(USART_TypeDef * Port)
         //send data
         UART_send_data(Port, &(data_out[0]), 9);
         UART_send_data(Port, &(alias_data_out[0]), 9);
+    }
+
+    clear_highspeedlog();
+}
+
+
+/******************************************************************************************************************************
+prints the high speed log in human readable form
+******************************************************************************************************************************/
+
+void show_highspeedlog(USART_TypeDef * Port)
+{
+    U32 entry;
+    volatile highspeedlog_entry_t * pTarget;
+
+    if(Highspeedlog_Mgr.flags.log_full == false)
+    {
+        return;
+    }
+
+    print(Port, "\r\nhighspeed log:\r\n");
+
+
+    for(entry =0; entry < HIGSPEEDLOG_LENGTH; entry++)
+    {
+
+        //get reference to the next entry to write to
+        pTarget= &(Highspeedlog[entry]);
+
+        //timestamp
+        print(Port, "\r\ntimestamp: ");
+        printf_U(Port, pTarget->system_ts, NO_PAD | NO_TRAIL);
+        UART_Tx(Port, '.');
+        printf_U(Port, pTarget->fraction_ts, NO_PAD | NO_TRAIL);
+
+        //crank position
+        print(Port, "\r\ncrk pos: ");
+        printf_crkpos(Port, pTarget->crank_position);
+
+        //event
+        print(Port, "\r\nevent: ");
+        printf_U(Port, pTarget->event, NO_PAD | NO_TRAIL);
+
+        //flags
+        print(Port, "\r\ncoil1-coil2-inj1-inj2-cam_lobe-phase_valid-phase_comp: ");
+
+        UART_Tx(Port, (pTarget->flags.coil1 == true)? '1' : '0');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.coil2 == true)? '1' : '0');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.injector1 == true)? '1' : '0');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.injector2 == true)? '1' : '0');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.cam_lobe == true)? '1' : '0');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.phase_valid == true)? 'v' : 'i');
+        UART_Tx(Port, '-');
+        UART_Tx(Port, (pTarget->flags.phase_comp == true)? 'c' : 'e');
     }
 
     clear_highspeedlog();
