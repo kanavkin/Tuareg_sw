@@ -83,7 +83,6 @@ typedef struct _fueling_control_t {
     U32 injector1_timing_us;
     U32 injector2_timing_us;
 
-
     //status data
     fueling_logic_flags_t flags;
 

@@ -710,6 +710,9 @@ void decoder_update_cis()
     engine_phase_t detected_phase;
     U32 lobe_angle_deg, lobe_interval_us;
 
+    //collect diagnostic information
+    decoder_diag_log_event(DDIAG_CISUPD_CALLS);
+
     //precondition check
     if((Decoder.outputs.period_valid == false) ||
        ((Decoder.cis.lobe_begin_detected == true) && (Decoder.cis.lobe_end_detected == false)) ||
@@ -748,11 +751,9 @@ void decoder_update_cis()
         {
             //signal edges have been detected AND the interval is valid
             detected_phase= Decoder_Setup.cis_triggered_phase;
-        }
-        else
-        {
-            //the detected signal might result from noise -> cis actually not triggered
-            decoder_diag_log_event(DDIAG_CISUPD_INTERVAL_FAIL);
+
+            //collect diagnostic data
+            decoder_diag_log_event(DDIAG_CISUPD_TRIGGERED);
         }
     }
 
@@ -863,6 +864,9 @@ void decoder_update_cis()
     Decoder.cis.cis_failure= false;
     Decoder.cis.lobe_begin_detected= false;
     Decoder.cis.lobe_end_detected= false;
+
+    //collect diagnostic information
+    decoder_diag_log_event(DDIAG_ENA_CIS);
 
     //enable irq
     decoder_unmask_cis_irq();

@@ -41524,3 +41524,1648 @@ Please check your Communications Settings.
 9/30/21 12:52:17 AM :Info: Finalizing Sensors
 9/30/21 12:52:17 AM :Debug: GPSManager.stop() EFIAnalytics GPS
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Thu Sep 30 15:37:04 CEST 2021
+JRE 17-ea, Linux 5.10.0-8-amd64, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+java.lang.reflect.InaccessibleObjectException: Unable to make field private static volatile java.nio.charset.Charset java.nio.charset.Charset.defaultCharset accessible: module java.base does not "opens java.nio.charset" to unnamed module @b9a1b6f
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:357)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:177)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:171)
+	at TunerStudio.main(Unknown Source)
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+30/09/2021, 15:37:05 :Info: Initializing File Dialogs.
+30/09/2021, 15:37:05 :Info: Loading Language Content.
+30/09/2021, 15:37:07 :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+30/09/2021, 15:37:07 :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+30/09/2021, 15:37:07 :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+30/09/2021, 15:37:07 :Info: Initializing Plugin Services.
+30/09/2021, 15:37:07 :Info: Loading Plugins.
+30/09/2021, 15:37:07 :Info: Initializing Help.
+30/09/2021, 15:37:07 :Info: Initializing Edition Features.
+30/09/2021, 15:37:07 :Info: Initializing App Events.
+30/09/2021, 15:37:07 :Debug: App Name:TunerStudio, appEdition:MS Ultra
+30/09/2021, 15:37:07 :Info: Initializing Log Viewer Components.
+30/09/2021, 15:37:07 :Info: Initializing User Interface
+30/09/2021, 15:37:07 :Warning: Unable to set Main cluster for title:
+30/09/2021, 15:37:09 :Info: Loading Font list.
+30/09/2021, 15:37:09 :Debug: Time to retreive font name list: 144 ms.
+30/09/2021, 15:37:09 :Info: 
+30/09/2021, 15:37:09 :Info: Initializing UI Components.
+30/09/2021, 15:37:09 :Info: Initializing GPS.
+30/09/2021, 15:37:09 :Warning: No values set for GPS setting: 2nd Com Port
+30/09/2021, 15:37:09 :Info: Initializing GPS Interface: RS232 Serial Interface
+30/09/2021, 15:37:09 :Debug: GPS started
+30/09/2021, 15:37:09 :Info: Ready
+30/09/2021, 15:37:11 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+MS Ultramain: No check, last update check=Wed Sep 29 14:43:39 CEST 2021
+30/09/2021, 15:37:11 :Debug: Running speed test
+30/09/2021, 15:37:11 :Info: Opening Project ...
+30/09/2021, 15:37:11 :Debug: Opening project: /home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg
+30/09/2021, 15:37:11 :Debug: EventTrigger Data log Reset. expression: 
+30/09/2021, 15:37:11 :Debug: EventTrigger Stop Data log Reset. expression: 
+30/09/2021, 15:37:11 :Debug: Reading translation file as plain text
+30/09/2021, 15:37:12 :Info: Supported iniSpecVersion=3.68
+30/09/2021, 15:37:12 :Debug: Filtered ConfigurationOptionGroup in 10ms.
+30/09/2021, 15:37:12 :Debug: Processor Score:802005
+30/09/2021, 15:37:12 :Info: Supported iniSpecVersion=3.68
+30/09/2021, 15:37:12 :Info: Read file canPcVariables.ini: 1.427348ms
+30/09/2021, 15:37:12 :Info: Filtered ini: 0.07079ms
+30/09/2021, 15:37:12 :Info: No iniVersion defined
+30/09/2021, 15:37:12 :Info: Loading Trigger Wheels
+30/09/2021, 15:37:12 :Info: Loaded All known ini sections
+30/09/2021, 15:37:12 :Info: Parsed and validated ini "canPcVariables.ini" in : 21ms.
+30/09/2021, 15:37:12 :Info: Read file mainController.ini: 8.004198ms
+30/09/2021, 15:37:12 :Info: Filtered ini: 1.805289ms
+30/09/2021, 15:37:12 :Info: No iniVersion defined
+30/09/2021, 15:37:12 :Debug: ini signature: rusEFI v1.04
+30/09/2021, 15:37:12 :Info: Loading Trigger Wheels
+30/09/2021, 15:37:12 :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+30/09/2021, 15:37:12 :Info: Loaded All known ini sections
+30/09/2021, 15:37:12 :Info: Parsed and validated ini "mainController.ini" in : 78ms.
+30/09/2021, 15:37:12 :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+30/09/2021, 15:37:12 :Info: Time to load primary config: 431.8573ms. used cached config: false
+30/09/2021, 15:37:12 :Debug: Adding Configuration: Tuareg
+30/09/2021, 15:37:12 :Debug: controllerOnline = 0.0
+30/09/2021, 15:37:12 :Debug: Fill Constants: 5
+30/09/2021, 15:37:12 :Info: Tune opened, 2274 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+30/09/2021, 15:37:12 :Info: Tune opened, 2274 bytes updated. File:/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+30/09/2021, 15:37:12 :Info: dirtyData.size(): 0
+30/09/2021, 15:37:12 :Info: dirtyData.size(): 0
+30/09/2021, 15:37:12 :Debug: Flush lasted: 1ms.
+30/09/2021, 15:37:12 :Info: dirtyData.size(): 0
+30/09/2021, 15:37:12 :Info: dirtyData.size(): 0
+30/09/2021, 15:37:12 :Debug: Flush lasted: 1ms.
+30/09/2021, 15:37:12 :Debug: Skip Burn, last write page: -2
+30/09/2021, 15:37:12 :Info: !!! Loaded config in 624
+30/09/2021, 15:37:12 :Info: !!! Activated Project 1090
+30/09/2021, 15:37:12 :Info: Opening Gauge Cluster..
+30/09/2021, 15:37:13 :Info: Time to load uncached dash: 186.51012ms, file: dashboard.dash
+30/09/2021, 15:37:13 :Debug: High Speed Paint: false
+30/09/2021, 15:37:13 :Info: 
+30/09/2021, 15:37:13 :Info: Com Thread created: COMM Thread45920.8104571658
+30/09/2021, 15:37:13 :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+30/09/2021, 15:37:13 :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread45920.8104571658
+30/09/2021, 15:37:13 :Debug: Port not valid: Unable to open port: /dev/tuareg
+Please check your Communications Settings. 
+30/09/2021, 15:37:13 :Debug: Port not valid: Unable to open port: /dev/tuareg_hil
+Please check your Communications Settings. 
+30/09/2021, 15:37:13 :Info: Time to load uncached dash: 321.06845ms, file: fueling.dash
+30/09/2021, 15:37:13 :Debug: High Speed Paint: true
+30/09/2021, 15:37:14 :Info: Time to load uncached dash: 80.55186ms, file: ignition.dash
+30/09/2021, 15:37:14 :Debug: High Speed Paint: false
+30/09/2021, 15:37:14 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:37:14 :Info: Time to load uncached dash: 73.23885ms, file: sensors.dash
+30/09/2021, 15:37:14 :Debug: High Speed Paint: false
+MS Ultraad: No check, last update check=Wed Sep 29 14:43:43 CEST 2021
+30/09/2021, 15:37:14 :Info: Time to load uncached dash: 92.39439ms, file: fuel_tuning.dash
+30/09/2021, 15:37:14 :Debug: High Speed Paint: false
+30/09/2021, 15:37:14 :Debug: !!! Opened Dash 2448
+30/09/2021, 15:37:14 :Info: Tuareg Ready
+30/09/2021, 15:37:14 :Debug: Tuning View Files loaded in 0.103418ms.
+30/09/2021, 15:37:17 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:37:19 :Debug: Received Instruction: Read Page 8, Page: 8
+30/09/2021, 15:37:19 :Info: Initiating read page 8
+30/09/2021, 15:37:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:37:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:37:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:37:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:38:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:39:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:40:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:41:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:42:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:43:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:44:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:45:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:46:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:47:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:48:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:49:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:50:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:51:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:52:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:53:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:54:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:55:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:56:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:57:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:58:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 15:59:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:00:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:01:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:02:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:03:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:04:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:05:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:06:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:07:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:08:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:09:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:10:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:11:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:12:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:13:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:14:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:15:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:16:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:17:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:18:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:19:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:20:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:21:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:22:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:23:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:24:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:25:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:26:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:27:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:28:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:29:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:30:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:31:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:32:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:33:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:34:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:35:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:36:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:37:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:38:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:16 :Info: dirtyData.size(): 0
+30/09/2021, 16:39:16 :Info: dirtyData.size(): 0
+30/09/2021, 16:39:16 :Debug: Flush lasted: 0ms.
+30/09/2021, 16:39:16 :Debug: Skip Burn, last write page: -2
+30/09/2021, 16:39:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:22 :Debug: Received Instruction: Read Page 10, Page: 10
+30/09/2021, 16:39:22 :Info: Initiating read page 10
+30/09/2021, 16:39:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:39:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:40:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:41:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:42:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:43:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:44:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:45:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:40 :Info: dirtyData.size(): 0
+30/09/2021, 16:46:40 :Info: dirtyData.size(): 0
+30/09/2021, 16:46:40 :Debug: Flush lasted: 1ms.
+30/09/2021, 16:46:40 :Debug: Skip Burn, last write page: -2
+30/09/2021, 16:46:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:46:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:10 :Debug: Received Instruction: Read Page 9, Page: 9
+30/09/2021, 16:47:10 :Info: Initiating read page 9
+30/09/2021, 16:47:15 :Info: dirtyData.size(): 0
+30/09/2021, 16:47:15 :Info: dirtyData.size(): 0
+30/09/2021, 16:47:15 :Debug: Flush lasted: 1ms.
+30/09/2021, 16:47:15 :Debug: Skip Burn, last write page: -2
+30/09/2021, 16:47:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:47:54 :Debug: Received Instruction: Read Page 7, Page: 7
+30/09/2021, 16:47:54 :Info: Initiating read page 7
+30/09/2021, 16:48:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:48:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:48:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:48:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:48:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:48:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:49:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:50:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:50:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:50:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:50:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:50:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 2 >= 2
+	at java.base/java.util.Vector.elementAt(Vector.java:466)
+	at java.desktop/javax.swing.table.DefaultTableColumnModel.getColumn(DefaultTableColumnModel.java:295)
+	at java.desktop/javax.swing.plaf.basic.BasicTableHeaderUI.paint(BasicTableHeaderUI.java:681)
+	at java.desktop/javax.swing.plaf.synth.SynthTableHeaderUI.paint(SynthTableHeaderUI.java:184)
+	at java.desktop/javax.swing.plaf.synth.SynthTableHeaderUI.update(SynthTableHeaderUI.java:157)
+	at java.desktop/javax.swing.JComponent.paintComponent(JComponent.java:842)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1119)
+	at java.desktop/javax.swing.JComponent.paintToOffscreen(JComponent.java:5311)
+	at java.desktop/javax.swing.BufferStrategyPaintManager.paint(BufferStrategyPaintManager.java:246)
+	at java.desktop/javax.swing.RepaintManager.paint(RepaintManager.java:1324)
+	at java.desktop/javax.swing.JComponent._paintImmediately(JComponent.java:5259)
+	at java.desktop/javax.swing.JComponent.paintImmediately(JComponent.java:5069)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:866)
+	at java.desktop/javax.swing.RepaintManager$4.run(RepaintManager.java:849)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:391)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:849)
+	at java.desktop/javax.swing.RepaintManager.paintDirtyRegions(RepaintManager.java:824)
+	at java.desktop/javax.swing.RepaintManager.prePaintDirtyRegions(RepaintManager.java:773)
+	at java.desktop/javax.swing.RepaintManager$ProcessingRunnable.run(RepaintManager.java:1885)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:721)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:715)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:391)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:740)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+30/09/2021, 16:50:47 :Debug: Bintableview paint error.
+30/09/2021, 16:50:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:51:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:52:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:53:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:54:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:55:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:56:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:57:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:58:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 16:59:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:00:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:01:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:02:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:03:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:04:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:05:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:06:53 :Info: dirtyData.size(): 0
+30/09/2021, 17:06:53 :Info: dirtyData.size(): 0
+30/09/2021, 17:06:53 :Debug: Flush lasted: 1ms.
+30/09/2021, 17:06:53 :Debug: Skip Burn, last write page: -2
+30/09/2021, 17:07:00 :Debug: Received Instruction: Read Page 7, Page: 7
+30/09/2021, 17:07:00 :Info: Initiating read page 7
+30/09/2021, 17:07:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:07:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:07:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:07:27 :Info: dirtyData.size(): 0
+30/09/2021, 17:07:27 :Info: dirtyData.size(): 0
+30/09/2021, 17:07:27 :Debug: Flush lasted: 0ms.
+30/09/2021, 17:07:27 :Debug: Skip Burn, last write page: -2
+30/09/2021, 17:07:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:07:34 :Debug: Received Instruction: Read Page 9, Page: 9
+30/09/2021, 17:07:34 :Info: Initiating read page 9
+30/09/2021, 17:07:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:07:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:08:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:09:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:10:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:11:48 :Info: dirtyData.size(): 0
+30/09/2021, 17:11:48 :Info: dirtyData.size(): 0
+30/09/2021, 17:11:48 :Debug: Flush lasted: 1ms.
+30/09/2021, 17:11:48 :Debug: Skip Burn, last write page: -2
+30/09/2021, 17:11:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:12:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:13:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:14:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:15:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:16:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:17:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:18:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:19:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:20:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:21:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:22:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:23:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:24:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:25:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:26:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:27:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:28:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:29:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:30:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:31:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:32:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:33:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:34:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:35:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:30 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:40 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:36:50 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:37:00 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:37:10 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:37:20 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+30/09/2021, 17:37:27 :Info: Time to save msq: 37.55419
+30/09/2021, 17:37:27 :Info: closeApp Called
+30/09/2021, 17:37:27 :Debug: TuneLog Editor set text
+30/09/2021, 17:37:27 :Debug: Fill Constants: 5
+30/09/2021, 17:37:27 :Debug: File does not exist, creating new:
+/home/oli/tenere/efi/Tuareg_sw/tools/TunerStudio/Tuareg/restorePoints/Tuareg_2021-09-30_17.37.27.msq
+30/09/2021, 17:37:27 :Info: Time to save msq: 19.359455
+30/09/2021, 17:37:27 :Info: Tuareg Restore point saved
+30/09/2021, 17:37:27 :Info: Tuareg Restore point saved to: Tuareg_2021-09-30_17.37.27.msq
+30/09/2021, 17:37:27 :Info: Time to save msq: 14.177272
+30/09/2021, 17:37:27 :Debug: goOffline Starting, Time:0
+30/09/2021, 17:37:27 :Info: Deactivated Turbo Baud, goOffline
+30/09/2021, 17:37:27 :Debug: goOffline about to stopProcessing, Time:0
+30/09/2021, 17:37:27 :Debug: goOffline closed port, Time:0
+30/09/2021, 17:37:27 :Info: Tuareg ComThread stopped COMM Thread45920.8104571658
+30/09/2021, 17:37:28 :Debug: goOffline comm thread stopped, Time:301
+30/09/2021, 17:37:28 :Debug: No Remaining Queue Write instructions
+30/09/2021, 17:37:28 :Debug: removing Configuration: Tuareg
+30/09/2021, 17:37:28 :Debug: ############################################# Save Project Backup ##########################################
+30/09/2021, 17:37:28 :Info: Finalizing Sensors
+30/09/2021, 17:37:28 :Debug: GPSManager.stop() EFIAnalytics GPS
+Saved user properties successfully
