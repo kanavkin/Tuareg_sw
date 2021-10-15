@@ -45,6 +45,7 @@ void Tuareg_update_process_data()
 
     //process analog sensor data
     Tuareg.process.MAP_kPa= Tuareg_update_MAP_sensor();
+    Tuareg.process.avg_MAP_kPa= Tuareg_update_avg_MAP();
     Tuareg.process.ddt_MAP= Tuareg_update_ddt_MAP();
     Tuareg.process.Baro_kPa= Tuareg_update_BARO_sensor();
     Tuareg.process.TPS_deg= Tuareg_update_TPS_sensor();

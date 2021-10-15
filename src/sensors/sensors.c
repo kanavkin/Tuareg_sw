@@ -255,6 +255,26 @@ VF32 calculate_ddt_MAP(VF32 MAP_kPa, VF32 Last_MAP_kPa, VF32 Last_ddt_MAP, VU32 
 
 
 /**
+smoothed out intake pressure
+
+[avg_MAP] := kPa
+
+implements exponential moving average with alpha [0 .. 1]
+*/
+VF32 calculate_average_MAP(VF32 MAP_kPa, VF32 Last_avg_MAP_kPa)
+{
+    VF32 ema_MAP_kPa;
+
+    const F32 alpha= 0.5;
+
+    // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
+    ema_MAP_kPa= (1 - alpha) * Last_avg_MAP_kPa + alpha * MAP_kPa;
+
+    return ema_MAP_kPa;
+}
+
+
+/**
 digital sensors wiring dependent part
 */
 VU32 read_dsensors()
@@ -379,7 +399,7 @@ void ADC_IRQHandler()
     VU32 average, sample;
     VU32 * pIntegr= NULL;
     VU32 * pCount= NULL;
-    VF32 MAP_kPa, ddt_MAP;
+    VF32 MAP_kPa, avg_MAP_kPa, ddt_MAP;
 
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_ADCIRQ_CALLS);
@@ -424,20 +444,25 @@ void ADC_IRQHandler()
                 //calculate new MAP value
                 MAP_kPa= solve_linear(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
 
-                //calculate ddt_MAP
+                //calculate new MAP average
+                avg_MAP_kPa= calculate_average_MAP(MAP_kPa, SInternals.last_avg_MAP_kPa);
+
+                //calculate ddt_MAP based on the average pressure
                 if(Tuareg.pDecoder->outputs.period_valid == true)
                 {
-                    ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPA, SInternals.last_ddt_MAP, Tuareg.pDecoder->crank_period_us);
+                    //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
+                    ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
                 }
 
-                //save MAP_kPa / ddt_MAP values from the current cycle to be new old values in the next cycle
-                SInternals.last_MAP_kPA= MAP_kPa;
+                //save MAP_kPa, avg_MAP_kPa, ddt_MAP values from the current cycle to be new old values in the next cycle
+                SInternals.last_avg_MAP_kPa= avg_MAP_kPa;
                 SInternals.last_ddt_MAP= ddt_MAP;
 
                 //export to interface
                 SInterface.asensors[ASENSOR_MAP]= MAP_kPa;
                 SInterface.asensors_raw[ASENSOR_MAP]= average;
                 SInterface.ddt_MAP= ddt_MAP;
+                SInterface.avg_MAP_kPa= avg_MAP_kPa;
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -479,7 +504,7 @@ void ADC_IRQHandler()
                 SInterface.asensors_raw[ASENSOR_MAP]= 0;
                 SInterface.ddt_MAP= 0.0;
                 SInternals.last_ddt_MAP= 0.0;
-                SInternals.last_MAP_kPA= 0.0;
+                SInternals.last_avg_MAP_kPa= 0.0;
 
                 //reset average buffer
                 *pIntegr= 0;

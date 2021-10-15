@@ -67,14 +67,13 @@ ADC channels vs analog sensors
 /**
 generic values
 
-sensor timing considerations:
-with an average buffer of 16 bit width we can fit up to 8
-12 bit ADC values,
-keep good balance between CPU load and accuracy!
+MAP sensor average configuration:
 
-T_upd= ASENSOR_x_AVG_THRES * 20ms * loop_count
+For the XTZ 850 engine, MAP value be calculated at every crank turn, based on the samples taken on every crank position update
 */
-#define ASENSOR_SYNC_SAMPLE_LEN (2 * CRK_POSITION_COUNT)
+#define ASENSOR_SYNC_SAMPLE_CRK_REVS 1
+
+#define ASENSOR_SYNC_SAMPLE_LEN (ASENSOR_SYNC_SAMPLE_CRK_REVS * CRK_POSITION_COUNT)
 
 #define ASENSOR_ERROR_THRES 0xFF
 
@@ -197,8 +196,10 @@ typedef struct {
     VF32 last_TPS;
     VF32 last_ddt_TPS;
 
-    VF32 last_MAP_kPA;
+    //VF32 last_MAP_kPA;
     VF32 last_ddt_MAP;
+
+    VF32 last_avg_MAP_kPa;
 
     VU32 async_loop_count;
 
@@ -214,8 +215,7 @@ typedef struct {
 
     VF32 ddt_TPS;
     VF32 ddt_MAP;
-
-    //VU16 asensors_health;
+    VF32 avg_MAP_kPa;
 
     //converted sensor value
     VF32 asensors[ASENSOR_COUNT];
@@ -243,9 +243,9 @@ void sensors_start_injected_group_conversion();
 VU32 read_dsensors();
 void read_digital_sensors();
 
-//VF32 calc_inverse_lin(U32 Arg, VF32 M, VF32 N);
 VF32 calculate_ddt_TPS(VF32 TPS, VF32 Last_TPS, VF32 Last_ddt_TPS);
 VF32 calculate_ddt_MAP(VF32 MAP_kPa, VF32 Last_MAP_kPa, VF32 Last_ddt_MAP, VU32 Interval_us);
+VF32 calculate_average_MAP(VF32 MAP_kPa, VF32 Last_avg_MAP_kPa);
 
 void reset_asensor_sync_integrator(asensors_sync_t Sensor);
 

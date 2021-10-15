@@ -38,6 +38,7 @@ volatile sensor_interface_t * init_Sensors();
 
 
 VF32 Tuareg_update_MAP_sensor();
+VF32 Tuareg_update_avg_MAP();
 VF32 Tuareg_update_ddt_MAP();
 VF32 Tuareg_update_BARO_sensor();
 VF32 Tuareg_update_KNOCK_sensor();
