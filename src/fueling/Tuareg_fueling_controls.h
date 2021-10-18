@@ -89,7 +89,7 @@ typedef struct _fueling_control_t {
 } fueling_control_t;
 
 
-void Tuareg_notify_fueling_cranking_end();
+//void Tuareg_notify_fueling_cranking_end();
 
 void Tuareg_update_fueling_controls();
 

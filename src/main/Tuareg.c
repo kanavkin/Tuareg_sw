@@ -54,7 +54,7 @@
 #warning debug outputs enabled
 #endif // TUAREG_DEBUG_OUTPUT
 
-
+const U32 cFuel_pump_priming_duration_s= 3;
 
 /******************************************************************************************************************************
 INIT
@@ -124,6 +124,11 @@ void Tuareg_Init()
 
     Tuareg_print_init_message();
 
+    //begin fuel pump priming
+    //begin fuel pump priming
+    Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
+    Tuareg.flags.fuel_pump_priming= true;
+    Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
 
     //init_act_hw();
     //init_act_logic();
@@ -230,27 +235,20 @@ void Tuareg_update()
     Tuareg_update_rev_limiter();
     Tuareg_update_standby();
 
+    //fuel pump
+    Tuareg_update_fuel_pump_control();
+
 
     /**
     while the system is in normal operating conditions the vital actors shall be deactivated in standby mode or when run inhibit is set
     in service mode vital actor control is given to the service functions
     */
-    if(Tuareg.flags.service_mode == false)
+    if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)))
     {
-        if((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true))
-        {
-            //keep vital actors deactivated
-            Tuareg_deactivate_vital_actors();
-        }
-        else
-        {
-            //check if the fuel pump is already active
-            if(Tuareg.flags.fuel_pump == false)
-            {
-                set_fuel_pump(ACTOR_POWERED);
-            }
-        }
+        //keep vital actors deactivated, ignore fuel pump if priming
+        Tuareg_deactivate_vital_actors();
     }
+
 }
 
 
@@ -446,6 +444,53 @@ void Tuareg_update_standby()
 }
 
 
+/******************************************************************************************************************************
+periodic update helper function - fuel pump control
+
+the fuel_pump_priming flag indicates that the fuel pump shall be activated for a short period of time to maintain normal fuel
+pressure
+******************************************************************************************************************************/
+
+void Tuareg_update_fuel_pump_control()
+{
+    //check if fuel pump priming shall be deactivated
+    if((Tuareg.flags.fuel_pump_priming == true) && (Tuareg.fuel_pump_priming_remain_s == 0))
+    {
+        Tuareg.flags.fuel_pump_priming= false;
+        Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_END_FUEL_PUMP_PRIMING);
+    }
+
+    //check preconditions: in service mode fuel pump control is given to the service functions
+    if(Tuareg.flags.service_mode == true)
+    {
+        return;
+    }
+
+    /**
+    while the system is in normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
+    */
+    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
+    {
+        /**
+        fuel pump shall be deactivated
+        */
+        if(Tuareg.flags.fuel_pump == true)
+        {
+            set_fuel_pump(ACTOR_UNPOWERED);
+        }
+    }
+    else
+    {
+        /**
+        fuel pump shall be active
+        */
+        if(Tuareg.flags.fuel_pump == false)
+        {
+            set_fuel_pump(ACTOR_POWERED);
+        }
+    }
+}
+
 
 /******************************************************************************************************************************
 periodic helper function - keep vital actors deactivated
@@ -478,11 +523,6 @@ void Tuareg_deactivate_vital_actors()
     if(Tuareg.flags.fuel_injector_2 == true)
     {
         set_injector2(ACTOR_UNPOWERED);
-    }
-
-    if(Tuareg.flags.fuel_pump == true)
-    {
-        set_fuel_pump(ACTOR_UNPOWERED);
     }
 }
 

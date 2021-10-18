@@ -42,7 +42,6 @@ const crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
 The fueling module relies on external triggers to start injection, the scheduler is allocated only to maintain the injector interval
 */
 
-
 void init_Fueling()
 {
     exec_result_t result;
@@ -92,6 +91,7 @@ void init_Fueling()
 
     //bring up vital scheduler
     init_Vital_Scheduler();
+
 }
 
 

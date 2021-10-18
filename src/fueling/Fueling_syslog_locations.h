@@ -17,12 +17,7 @@ typedef enum {
 
     FUELING_LOC_UPDINJBEG_ENDTARGET_INVALID,
 
-
-
-
     FUELING_LOC_COUNT
-
-
 
 } fueling_sysloc_locations_t;
 

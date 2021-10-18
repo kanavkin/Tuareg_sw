@@ -83,6 +83,9 @@ typedef struct _tuareg_flags_t {
     U32 datalog_update :1;
     U32 highspeedlog_update :1;
 
+    //additional functions
+    U32 fuel_pump_priming :1;
+
 } tuareg_flags_t;
 
 
@@ -181,6 +184,9 @@ typedef struct _Tuareg_t {
     VU32 fuel_consumpt_1s_ug;
     VU32 trip_1s_mm;
 
+    //fuel pump priming
+    VU32 fuel_pump_priming_remain_s;
+
 } Tuareg_t;
 
 
@@ -200,6 +206,7 @@ void Tuareg_update_run_inhibit();
 void Tuareg_update_limited_op();
 void Tuareg_update_rev_limiter();
 void Tuareg_update_standby();
+void Tuareg_update_fuel_pump_control();
 void Tuareg_update_consumption_data();
 void Tuareg_update_trip();
 

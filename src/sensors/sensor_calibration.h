@@ -67,7 +67,7 @@ typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
 
 } Sensor_Calibration_t;
 
-#define SENSOR_CALIBRATION_SIZE 122
+//#define SENSOR_CALIBRATION_SIZE 122
 
 
 /***************************************************************************************************************************************************

@@ -27,7 +27,7 @@
 
 
 
-#define TS_OCHBLOCKSIZE 106
+#define TS_OCHBLOCKSIZE 110
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port)
@@ -168,9 +168,16 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //injDelay        = scalar,   U32,    103, "us",  1.000, 0.000
     serialize_U32_U8(Tuareg.fueling_controls.injector_deadtime_us, &(output[103]));
 
-    // .. 104, 105, 106
+    //avgMAP          = scalar,   F32,    107, "kpa",    1.000, 0.000
+    serialize_float_U8(Tuareg.process.avg_MAP_kPa, &(output[107]));
 
-    // -> size counts from 0 to this last value !!! := 106
+
+
+
+
+    // .. 108, 109, 110
+
+    // -> size counts from 0 to this last value !!! := 110
 
     /**
     print output channels

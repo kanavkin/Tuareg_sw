@@ -227,8 +227,12 @@ void SysTick_Handler(void)
 
         //console
         cli_cyclic_update();
+
+        //fuel pump priming
+        if(Tuareg.fuel_pump_priming_remain_s > 0)
+        {
+            Tuareg.fuel_pump_priming_remain_s -= 1;
+        }
+
     }
-
-
-
 }
