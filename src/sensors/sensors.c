@@ -265,10 +265,8 @@ VF32 calculate_average_MAP(VF32 MAP_kPa, VF32 Last_avg_MAP_kPa)
 {
     VF32 ema_MAP_kPa;
 
-    const F32 alpha= 0.5;
-
     // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
-    ema_MAP_kPa= (1 - alpha) * Last_avg_MAP_kPa + alpha * MAP_kPa;
+    ema_MAP_kPa= (1 - Sensor_Calibration.MAP_filter_alpha) * Last_avg_MAP_kPa + Sensor_Calibration.MAP_filter_alpha * MAP_kPa;
 
     return ema_MAP_kPa;
 }
@@ -444,15 +442,39 @@ void ADC_IRQHandler()
                 //calculate new MAP value
                 MAP_kPa= solve_linear(average, Sensor_Calibration.MAP_calib_M, Sensor_Calibration.MAP_calib_N);
 
-                //calculate new MAP average
-                avg_MAP_kPa= calculate_average_MAP(MAP_kPa, SInternals.last_avg_MAP_kPa);
+                /**
+                MAP average and derivative calculation
 
-                //calculate ddt_MAP based on the average pressure
-                if(Tuareg.pDecoder->outputs.period_valid == true)
+                on transition from sensor error state
+                - the map average value shall be initialised with a sane value
+                - ddt MAP shall be zero
+
+                */
+                if(SInterface.asensors_valid_samples[ASENSOR_MAP] == 0)
                 {
-                    //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
-                    ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
+                    //the first captured, valid sample -> no calculation
+                    avg_MAP_kPa= MAP_kPa;
+                    ddt_MAP= 0;
                 }
+                else
+                {
+                    //last average MAP and ddt MAP values should be valid
+
+                    //valculate average MAP
+                    avg_MAP_kPa= calculate_average_MAP(MAP_kPa, SInternals.last_avg_MAP_kPa);
+
+                    //calculate ddt_MAP based on the average pressure
+                    if(Tuareg.pDecoder->outputs.period_valid == true)
+                    {
+                        //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
+                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
+                    }
+                    else
+                    {
+                        ddt_MAP= 0;
+                    }
+                }
+
 
                 //save MAP_kPa, avg_MAP_kPa, ddt_MAP values from the current cycle to be new old values in the next cycle
                 SInternals.last_avg_MAP_kPa= avg_MAP_kPa;

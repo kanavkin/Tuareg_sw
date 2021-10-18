@@ -5,7 +5,7 @@
 #include "Tuareg_types.h"
 #include "sensors.h"
 
-#define SENSORS_REQUIRED_CALIBRATION_VERSION 2
+#define SENSORS_REQUIRED_CALIBRATION_VERSION 3
 
 
 /*

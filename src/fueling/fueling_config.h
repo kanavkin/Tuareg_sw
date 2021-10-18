@@ -70,6 +70,9 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U16 spd_min_rpm;
     U16 spd_max_rpm;
 
+    //MAP filter
+    U16 MAP_filter_max_rpm;
+
     //dry cranking
     U8 dry_cranking_TPS_thres;
 

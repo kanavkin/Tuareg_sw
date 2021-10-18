@@ -389,18 +389,28 @@ calculation has to rely on the MAP and IAT values reported in process data
 */
 void update_air_density(volatile fueling_control_t * pTarget)
 {
-    F32 charge_temp_K, density;
+    VF32 intake_pres_kPa, charge_temp_K, charge_density;
 
+    //check if the engine speed requires the MAP value to be smoothed out
+    if(Tuareg.pDecoder->crank_rpm > Fueling_Setup.MAP_filter_max_rpm)
+    {
+        intake_pres_kPa= Tuareg.process.MAP_kPa;
+    }
+    else
+    {
+        intake_pres_kPa= Tuareg.process.avg_MAP_kPa;
+    }
 
-    density= (Tuareg.process.MAP_kPa * cM_air) / cR_gas;
+    //cR_gas is a constant -> DIV/0 not possible
+    charge_density= (intake_pres_kPa * cM_air) / cR_gas;
 
     //by now the charge temperature is assumed not to depend on engine state
 /// TODO (oli#3#): coolant temperature and throttle shall affect the effective charge temperature calculation
-/// TODO (oli#3#): altitude shall affect the effective charge temperature calculation
+/// TODO (oli#3#): altitude shall affect the effective charge density calculation
     charge_temp_K= Tuareg.process.IAT_K;
 
-
-    pTarget->air_density= divide_VF32(density, charge_temp_K);
+    //division by charge_temp_K needs DIV/0 protection
+    pTarget->air_density= divide_float(charge_density, charge_temp_K);
 }
 
 

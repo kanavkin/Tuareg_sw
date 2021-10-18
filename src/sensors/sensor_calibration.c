@@ -59,11 +59,12 @@ void show_Sensor_Calibration(USART_TypeDef * Port)
     /*
     IAT
     */
-    print(Port, "\r\nIAT M N min max: ");
+    print(Port, "\r\nIAT M N min max samples: ");
     printf_F32(Port, Sensor_Calibration.IAT_calib_M);
     printf_F32(Port, Sensor_Calibration.IAT_calib_N);
     printf_U(Port, Sensor_Calibration.IAT_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.IAT_max_valid, NO_PAD | NO_TRAIL);
+    printf_U(Port, Sensor_Calibration.IAT_max_valid, NO_PAD);
+    printf_U(Port, Sensor_Calibration.IAT_sample_len, NO_PAD | NO_TRAIL);
 
     /*
     CLT
@@ -86,11 +87,12 @@ void show_Sensor_Calibration(USART_TypeDef * Port)
     /*
     MAP
     */
-    print(Port, "\r\nMAP M N min max: ");
+    print(Port, "\r\nMAP M N min max filter_alpha: ");
     printf_F32(Port, Sensor_Calibration.MAP_calib_M);
     printf_F32(Port, Sensor_Calibration.MAP_calib_N);
     printf_U(Port, Sensor_Calibration.MAP_min_valid, NO_PAD);
     printf_U(Port, Sensor_Calibration.MAP_max_valid, NO_PAD | NO_TRAIL);
+    printf_F32(Port, Sensor_Calibration.MAP_filter_alpha);
 
     /*
     BARO
