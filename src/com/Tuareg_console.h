@@ -33,8 +33,8 @@ typedef struct _Tuareg_console_t
     //Tuner Studio variables
     TS_page_t ts_active_page;
     U32 ts_cmd_watchdog;
-    U32 ts_getOutputChannels_count;
-    U8 secl;
+    bool ts_connected;
+    U8 ts_secl;
 
     //CLI variables
     U8 active_cmd;

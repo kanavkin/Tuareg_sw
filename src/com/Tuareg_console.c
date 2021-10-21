@@ -319,7 +319,7 @@ void Tuareg_update_console()
             print(TS_PORT, "Tuareg V0.21 2021.09");
 
             //This is required in TS3 due to its stricter timings
-            Tuareg_console.secl = 0;
+            Tuareg_console.ts_secl = 0;
             break;
 
 
@@ -603,6 +603,9 @@ void cli_cyclic_update()
 {
     sub_VU32(&(Tuareg_console.ts_cmd_watchdog), 1);
 
+    /**
+    the connection timer is allowed to roll over since 2010
+
     if(Tuareg_console.secl < 255)
     {
         Tuareg_console.secl++;
@@ -611,6 +614,8 @@ void cli_cyclic_update()
     {
         Tuareg_console.secl= 1;
     }
+    */
+    Tuareg_console.ts_secl++;
 }
 
 
@@ -620,6 +625,8 @@ void Tuareg_init_console()
 {
     UART_TS_PORT_Init();
     UART_DEBUG_PORT_Init();
+
+    Tuareg_console.ts_connected= false;
 }
 
 

@@ -129,6 +129,8 @@ void load_essential_Fueling_Config()
     Fueling_Setup.spd_min_rpm= 10000;
     Fueling_Setup.spd_max_rpm= 3;
 
+    Fueling_Setup.MAP_filter_max_rpm= 0;
+
     Fueling_Setup.features.all_flags= 0;
 
 }

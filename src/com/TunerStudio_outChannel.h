@@ -56,7 +56,63 @@ typedef union
 
 
 
+typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
+
+    U8 secl;
+    ts_tuareg_bits_t tuareg_bits;
+    U8 ignition_bits;
+    U16 fueling_bits;
+    U8 com_bits;
+
+    U16 rpm;
+    F32 ddt_rpm;
+
+    U16 ignition_adv_deg;
+    U16 ignition_dwell_us;
+
+    F32 VE_pct;
+    F32 air_dens;
+    U32 base_fuel_mass_ug;
+    U32 target_fuel_mass_ug;
+
+    F32 target_AFR;
+
+    U32 inj1_interval_us;
+    U32 inj2_interval_us;
+    U32 inj_dc_pct;
+
+    F32 MAP_kPa;
+    F32 ddt_MAP;
+    F32 BARO_kPa;
+    F32 TPS_deg;
+    F32 ddt_TPS;
+    F32 IAT_K;
+    F32 CLT_K;
+    F32 BAT_V;
+    F32 AFR;
+    F32 Knock;
+
+    gears_t Gear;
+    U16 ground_speed_mmps;
+
+    U32 conspumtion_ugps;
+    U32 engine_runtime_ms;
+
+    U32 inj_delay_us;
+    F32 avg_MAP_kPa;
+
+
+} Output_Channels_t;
+
+
+
+
+
+
+
 void ts_sendOutputChannels(USART_TypeDef * Port);
+
+void ts_sendOutputChannels_new(USART_TypeDef * Port);
 
 void ts_tuareg_bits(ts_tuareg_bits_t * pTarget);
 
