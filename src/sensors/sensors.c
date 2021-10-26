@@ -460,14 +460,15 @@ void ADC_IRQHandler()
                 {
                     //last average MAP and ddt MAP values should be valid
 
-                    //valculate average MAP
+                    //calculate average MAP
                     avg_MAP_kPa= calculate_average_MAP(MAP_kPa, SInternals.last_avg_MAP_kPa);
 
-                    //calculate ddt_MAP based on the average pressure
+                    //calculate ddt_MAP
                     if(Tuareg.pDecoder->outputs.period_valid == true)
                     {
                         //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
-                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
+                        //ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
+                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPA, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
                     }
                     else
                     {
@@ -479,6 +480,7 @@ void ADC_IRQHandler()
                 //save MAP_kPa, avg_MAP_kPa, ddt_MAP values from the current cycle to be new old values in the next cycle
                 SInternals.last_avg_MAP_kPa= avg_MAP_kPa;
                 SInternals.last_ddt_MAP= ddt_MAP;
+                SInternals.last_MAP_kPA= MAP_kPa;
 
                 //export to interface
                 SInterface.asensors[ASENSOR_MAP]= MAP_kPa;

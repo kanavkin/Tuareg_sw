@@ -245,7 +245,7 @@ void Tuareg_update()
     */
     if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)))
     {
-        //keep vital actors deactivated, ignore fuel pump if priming
+        //keep vital actors deactivated, ignores fuel pump
         Tuareg_deactivate_vital_actors();
     }
 
@@ -453,6 +453,10 @@ pressure
 
 void Tuareg_update_fuel_pump_control()
 {
+    /**
+    fuel pump priming control
+    */
+
     //check if fuel pump priming shall be deactivated
     if((Tuareg.flags.fuel_pump_priming == true) && (Tuareg.fuel_pump_priming_remain_s == 0))
     {
@@ -460,20 +464,21 @@ void Tuareg_update_fuel_pump_control()
         Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_END_FUEL_PUMP_PRIMING);
     }
 
-    //check preconditions: in service mode fuel pump control is given to the service functions
+    /**
+    fuel pump control
+    - in service mode fuel pump control is given to the service functions
+    - under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
+    */
+
+    //check preconditions
     if(Tuareg.flags.service_mode == true)
     {
         return;
     }
 
-    /**
-    while the system is in normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
-    */
     if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
     {
-        /**
-        fuel pump shall be deactivated
-        */
+        //fuel pump shall be deactivated
         if(Tuareg.flags.fuel_pump == true)
         {
             set_fuel_pump(ACTOR_UNPOWERED);
@@ -481,9 +486,7 @@ void Tuareg_update_fuel_pump_control()
     }
     else
     {
-        /**
-        fuel pump shall be active
-        */
+        //fuel pump shall be active
         if(Tuareg.flags.fuel_pump == false)
         {
             set_fuel_pump(ACTOR_POWERED);
