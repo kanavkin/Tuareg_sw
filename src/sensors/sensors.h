@@ -196,7 +196,7 @@ typedef struct {
     VF32 last_TPS;
     VF32 last_ddt_TPS;
 
-    VF32 last_MAP_kPA;
+    VF32 last_MAP_kPa;
     VF32 last_ddt_MAP;
 
     VF32 last_avg_MAP_kPa;

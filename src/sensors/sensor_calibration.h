@@ -34,6 +34,7 @@ typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
     U16 MAP_min_valid;
     U16 MAP_max_valid;
     F32 MAP_filter_alpha;
+    U8 MAP_sample_len_rev;
 
     F32 BARO_calib_M;
     F32 BARO_calib_N;

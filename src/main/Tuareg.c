@@ -121,10 +121,10 @@ void Tuareg_Init()
     init_lowprio_scheduler();
     init_dash();
 
-
+    #ifdef TUAREG_DEBUG_OUTPUT
     Tuareg_print_init_message();
+    #endif // TUAREG_DEBUG_OUTPUT
 
-    //begin fuel pump priming
     //begin fuel pump priming
     Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
     Tuareg.flags.fuel_pump_priming= true;
@@ -200,12 +200,8 @@ void Tuareg_print_init_message()
     #ifdef TUAREG_MODULE_TEST
     moduletest_initmsg_action();
     #else
-
-        #ifdef TUAREG_DEBUG_OUTPUT
-        print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-        print(DEBUG_PORT, "V 0.7");
-        #endif // TUAREG_DEBUG_OUTPUT
-
+    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
+    print(DEBUG_PORT, "V 0.7");
     #endif
 }
 

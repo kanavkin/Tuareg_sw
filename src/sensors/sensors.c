@@ -429,10 +429,11 @@ void ADC_IRQHandler()
             *pIntegr += sample;
             *pCount += 1;
 
-            //enough samples read?
-            if(*pCount >= ASENSOR_SYNC_SAMPLE_LEN)
+            /**
+            Sensor_Calibration.MAP_sample_len_rev defines, how many full crank turns shall be sampled
+            */
+            if(*pCount >= CRK_POSITION_COUNT * Sensor_Calibration.MAP_sample_len_rev)
             {
-
                 //critical section
                 __disable_irq();
 
@@ -467,8 +468,7 @@ void ADC_IRQHandler()
                     if(Tuareg.pDecoder->outputs.period_valid == true)
                     {
                         //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
-                        //ddt_MAP= calculate_ddt_MAP(MAP_kPa, avg_MAP_kPa, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
-                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPA, SInternals.last_ddt_MAP, ASENSOR_SYNC_SAMPLE_CRK_REVS * Tuareg.pDecoder->crank_period_us);
+                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPa, SInternals.last_ddt_MAP, Sensor_Calibration.MAP_sample_len_rev * Tuareg.pDecoder->crank_period_us);
                     }
                     else
                     {
@@ -480,7 +480,7 @@ void ADC_IRQHandler()
                 //save MAP_kPa, avg_MAP_kPa, ddt_MAP values from the current cycle to be new old values in the next cycle
                 SInternals.last_avg_MAP_kPa= avg_MAP_kPa;
                 SInternals.last_ddt_MAP= ddt_MAP;
-                SInternals.last_MAP_kPA= MAP_kPa;
+                SInternals.last_MAP_kPa= MAP_kPa;
 
                 //export to interface
                 SInterface.asensors[ASENSOR_MAP]= MAP_kPa;
@@ -529,6 +529,7 @@ void ADC_IRQHandler()
                 SInterface.ddt_MAP= 0.0;
                 SInternals.last_ddt_MAP= 0.0;
                 SInternals.last_avg_MAP_kPa= 0.0;
+                SInternals.last_MAP_kPa= 0.0;
 
                 //reset average buffer
                 *pIntegr= 0;
@@ -597,56 +598,56 @@ void DMA2_Stream0_IRQHandler()
 
                     min_valid= Sensor_Calibration.O2_min_valid;
                     max_valid= Sensor_Calibration.O2_max_valid;
-                    target_sample_len= 0;
+                    target_sample_len= Sensor_Calibration.O2_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_TPS:
 
                     min_valid= Sensor_Calibration.TPS_min_valid;
                     max_valid= Sensor_Calibration.TPS_max_valid;
-                    target_sample_len= 0;
+                    target_sample_len= Sensor_Calibration.TPS_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_IAT:
 
                     min_valid= Sensor_Calibration.IAT_min_valid;
                     max_valid= Sensor_Calibration.IAT_max_valid;
-                    target_sample_len= 50;
+                    target_sample_len= Sensor_Calibration.IAT_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_CLT:
 
                     min_valid= Sensor_Calibration.CLT_min_valid;
                     max_valid= Sensor_Calibration.CLT_max_valid;
-                    target_sample_len= 50;
+                    target_sample_len= Sensor_Calibration.CLT_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_VBAT:
 
                     min_valid= Sensor_Calibration.VBAT_min_valid;
                     max_valid= Sensor_Calibration.VBAT_max_valid;
-                    target_sample_len= 10;
+                    target_sample_len= Sensor_Calibration.VBAT_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_KNOCK:
 
                     min_valid= Sensor_Calibration.KNOCK_min_valid;
                     max_valid= Sensor_Calibration.KNOCK_max_valid;
-                    target_sample_len= 0;
+                    target_sample_len= Sensor_Calibration.KNOCK_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_BARO:
 
                     min_valid= Sensor_Calibration.BARO_min_valid;
                     max_valid= Sensor_Calibration.BARO_max_valid;
-                    target_sample_len= 50;
+                    target_sample_len= Sensor_Calibration.BARO_sample_len;
                     break;
 
                 case ASENSOR_ASYNC_GEAR:
 
                     min_valid= Sensor_Calibration.GEAR_min_valid;
                     max_valid= Sensor_Calibration.GEAR_max_valid;
-                    target_sample_len= 50;
+                    target_sample_len= Sensor_Calibration.GEAR_sample_len;
                     break;
 
                 default:

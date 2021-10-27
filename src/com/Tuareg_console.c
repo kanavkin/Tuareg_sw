@@ -316,7 +316,7 @@ void Tuareg_update_console()
             /**
             send code version
             */
-            print(TS_PORT, "Tuareg V0.21 2021.09");
+            print(TS_PORT, "Tuareg V0.22 2021.10");
 
             //This is required in TS3 due to its stricter timings
             Tuareg_console.ts_secl = 0;

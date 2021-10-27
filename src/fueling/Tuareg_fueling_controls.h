@@ -36,6 +36,7 @@ typedef union
         U16 afterstart_comp_active :1;
 
         U16 dry_cranking :1;
+        U16 VE_avg_MAP :1;
 
      };
 
