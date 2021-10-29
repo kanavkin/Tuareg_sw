@@ -462,4 +462,10 @@ void print(USART_TypeDef * Port, char messg[] )
     }
 }
 
-
+void print_flash(USART_TypeDef * Port, const char messg[] )
+{
+    for( ; *messg != 0 ; messg++)
+    {
+        UART_Tx(Port, *messg);
+    }
+}

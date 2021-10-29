@@ -32,6 +32,7 @@ void printf_phase(USART_TypeDef * Port, engine_phase_t Phase);
 void printf_decoder_sensing(USART_TypeDef * Port, decoder_sensing_t Sensing);
 
 void print(USART_TypeDef * Port, char messg[] );
+void print_flash(USART_TypeDef * Port, const char messg[] );
 
 void printf_nib_hex(USART_TypeDef * Port, U32 Value);
 void printf_U8hex(USART_TypeDef * Port, U8 value, BF32 Format);

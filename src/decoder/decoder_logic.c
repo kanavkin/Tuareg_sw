@@ -831,6 +831,9 @@ void decoder_update_cis()
         //notify high speed log
         highspeedlog_register_cis_lobe_begin();
 
+        //collect diagnostic information
+        decoder_diag_log_event(DDIAG_LOBE_BEG);
+
     }
     else if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_end_sensing)
     {
@@ -842,6 +845,14 @@ void decoder_update_cis()
 
         //notify high speed log
         highspeedlog_register_cis_lobe_end();
+
+        //collect diagnostic information
+        decoder_diag_log_event(DDIAG_LOBE_END);
+    }
+    else
+    {
+        //collect diagnostic information
+        decoder_diag_log_event(DDIAG_INVALID_TRIG);
     }
 
 

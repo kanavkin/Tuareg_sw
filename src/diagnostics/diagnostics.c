@@ -13,6 +13,8 @@ VU32 decoder_diag[DDIAG_COUNT];
 VU32 sensors_diag[SNDIAG_COUNT];
 VU32 fueling_diag[FDIAG_COUNT];
 
+VU32 decoder_diag_shadow[DDIAG_COUNT];
+
 
 /******************************************************************************************************
 scheduler diag
@@ -157,6 +159,52 @@ void print_tuareg_diag_legend(USART_TypeDef * Port)
 /******************************************************************************************************
 decoder diag
 *******************************************************************************************************/
+
+#define DECODER_DIAG_LEGEND_LEN 20
+
+//static const char * const decoder_diag_legend [] [DECODER_DIAG_LEGEND_LEN] = {
+
+
+//static const char * decoder_diag_legend [DECODER_DIAG_LEGEND_LEN] = {
+
+const char decoder_diag_legend [DDIAG_COUNT] [DECODER_DIAG_LEGEND_LEN] __attribute__((__section__(".rodata"))) = {
+
+"CRK_EXTI_EVENTS",
+
+"CRKPOS_INIT",
+"CRKPOS_ASYNC",
+"CRKPOS_ASYNC_KEY",
+"CRKPOS_ASYNC_GAP",
+"CRKPOS_SYNC",
+
+"SYNCHK_ASYN_FAIL",
+"SYNCHK_ASYN_PASS",
+"SYNCHK_SYN_FAIL",
+"SYNCHK_SYN_PASS",
+
+"UPDATE_IRQ_CALLS",
+"CRK_NOISEF_EVENTS",
+"CAM_NOISEF_EVENTS",
+
+"TIM_UPDATE_EVENTS",
+"TIMEOUT_EVENTS",
+
+"CAM_EXTI_EVENTS",
+"CISHDL_PRECOND_FAIL",
+
+"ENA_CIS",
+"LOBE_BEG",
+"LOBE_END",
+"INVALID_TRIG",
+
+"CISUPD_CALLS",
+"CISUPD_PRECOND_FAIL",
+"CISUPD_TRIGGERED",
+"CISUPD_PHASE_FAIL",
+"CISUPD_PHASE_PASS"
+
+};
+
 void decoder_diag_log_event(decoder_diag_t Event)
 {
     if(Event < DDIAG_COUNT)
@@ -168,23 +216,25 @@ void decoder_diag_log_event(decoder_diag_t Event)
 
 void print_decoder_diag(USART_TypeDef * Port)
 {
-    U32 cnt, column = 1;
+    //U32 cnt, column = 1;
+    U32 cnt;
 
-    print(Port, "\r\nDecoder diag: \r\n");
+    print(Port, "\r\n\r\nDecoder diag: \r\n");
+
+    //copy diagnostic data to shadow
+    for(cnt=0; cnt < DDIAG_COUNT; cnt++)
+    {
+        decoder_diag_shadow[cnt]= decoder_diag[cnt];
+    }
+
 
     for(cnt=0; cnt < DDIAG_COUNT; cnt++)
     {
-        printf_U(Port, decoder_diag[cnt], PAD_10);
+        printf_U(Port, decoder_diag_shadow[cnt], PAD_10);
 
-        if(column == DIAG_PRINT_LEGEND_COLUMNS)
-        {
-            print(Port, "\r\n");
-            column = 1;
-        }
-        else
-        {
-            column++;
-        }
+        print_flash(Port, decoder_diag_legend[cnt]);
+        print(Port, "\r\n");
+
     }
 }
 
