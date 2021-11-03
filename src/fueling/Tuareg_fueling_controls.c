@@ -12,6 +12,7 @@
 #include "fueling_config.h"
 
 #include "diagnostics.h"
+#include "fueling_diag.h"
 #include "Tuareg.h"
 
 

@@ -22,7 +22,9 @@
 #include "sensors.h"
 #include "debug_port_messages.h"
 #include "base_calc.h"
+
 #include "diagnostics.h"
+
 #include "bitfields.h"
 
 #include "process_table.h"
@@ -117,15 +119,17 @@ void ts_debug_info(U32 InfoID)
 {
     switch (InfoID)
     {
+        case 'AD':
+
+            print_sensors_diag(TS_PORT);
+            break;
+
         case 'DD':
 
             print_decoder_diag(TS_PORT);
             break;
 
-        case 'Dd':
 
-            print_decoder_diag_legend(TS_PORT);
-            break;
 
         case 'DI':
 
@@ -138,30 +142,19 @@ void ts_debug_info(U32 InfoID)
             print_tuareg_diag(TS_PORT);
             break;
 
-        case 'Td':
-
-            print_tuareg_diag_legend(TS_PORT);
-            break;
 
         case 'SD':
 
             print_scheduler_diag(TS_PORT);
             break;
 
-        case 'Sd':
-
-            print_scheduler_diag_legend(TS_PORT);
-            break;
 
         case 'ID':
 
             print_ignition_diag(TS_PORT);
             break;
 
-        case 'Id':
 
-            print_ignition_diag_legend(TS_PORT);
-            break;
 
         case 'IC':
 
@@ -199,10 +192,7 @@ void ts_debug_info(U32 InfoID)
             print_fueling_diag(TS_PORT);
             break;
 
-        case 'Fd':
 
-            print_fueling_diag_legend(TS_PORT);
-            break;
 
         case 'HL':
 

@@ -73,6 +73,7 @@ SCHEDULER (ignition)
 #include "Tuareg_console.h"
 
 #include "diagnostics.h"
+#include "Tuareg_diag.h"
 #include "debug_port_messages.h"
 #include "syslog.h"
 

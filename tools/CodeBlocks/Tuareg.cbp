@@ -150,6 +150,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_config.h" />
+		<Unit filename="../../src/decoder/decoder_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_diag.h" />
 		<Unit filename="../../src/decoder/decoder_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -189,6 +193,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_config.h" />
+		<Unit filename="../../src/fueling/fueling_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_diag.h" />
 		<Unit filename="../../src/fueling/fueling_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -210,6 +218,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/ignition/ignition_config.h" />
+		<Unit filename="../../src/ignition/ignition_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/ignition/ignition_diag.h" />
 		<Unit filename="../../src/ignition/ignition_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -218,11 +230,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg.h" />
+		<Unit filename="../../src/main/Tuareg_ID.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../src/main/Tuareg_ID.h" />
 		<Unit filename="../../src/main/Tuareg_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_config.h" />
+		<Unit filename="../../src/main/Tuareg_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_diag.h" />
 		<Unit filename="../../src/main/Tuareg_errors.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -268,6 +287,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/sensors.h" />
+		<Unit filename="../../src/sensors/sensors_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/sensors_diag.h" />
 		<Unit filename="../../src/sensors/sensors_syslog_locations.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c">
 			<Option compilerVar="CC" />
@@ -316,6 +339,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/scheduler.h" />
+		<Unit filename="../../src/timing/scheduler_diag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/timing/scheduler_diag.h" />
 		<Unit filename="../../src/timing/systick_timer.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -335,14 +362,12 @@
 		</Unit>
 		<Unit filename="../../src/utils/conversion.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<lib_finder disable_auto="1" />
 			<debugger>
 				<remote_debugging>
 					<options conn_type="0" serial_baud="115200" ip_address="localhost" ip_port="4242" additional_cmds="load" additional_cmds_before="file $(TARGET_OUTPUT_BASENAME)" extended_remote="1" />
 				</remote_debugging>
 			</debugger>
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

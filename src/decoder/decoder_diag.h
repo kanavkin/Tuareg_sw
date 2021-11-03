@@ -1,0 +1,56 @@
+#ifndef DECODER_DIAG_H_INCLUDED
+#define DECODER_DIAG_H_INCLUDED
+
+#include "stm32_libs/boctok_types.h"
+#include "Tuareg_types.h"
+
+
+typedef enum {
+
+    DDIAG_CRK_EXTI_EVENTS,
+
+    DDIAG_CRKPOS_INIT,
+    DDIAG_CRKPOS_ASYNC,
+    DDIAG_CRKPOS_ASYNC_KEY,
+    DDIAG_CRKPOS_ASYNC_GAP,
+    DDIAG_CRKPOS_SYNC,
+
+    DDIAG_SYNCHK_ASYN_FAIL,
+    DDIAG_SYNCHK_ASYN_PASS,
+    DDIAG_SYNCHK_SYN_FAIL,
+    DDIAG_SYNCHK_SYN_PASS,
+
+    DDIAG_UPDATE_IRQ_CALLS,
+    DDIAG_CRK_NOISEF_EVENTS,
+    DDIAG_CAM_NOISEF_EVENTS,
+
+    DDIAG_TIM_UPDATE_EVENTS,
+    DDIAG_TIMEOUT_EVENTS,
+
+    DDIAG_CAM_EXTI_EVENTS,
+    DDIAG_CISHDL_PRECOND_FAIL,
+
+    DDIAG_ENA_CIS,
+    DDIAG_LOBE_BEG,
+    DDIAG_LOBE_END,
+    DDIAG_INVALID_TRIG,
+
+    DDIAG_CISUPD_CALLS,
+    DDIAG_CISUPD_PRECOND_FAIL,
+    DDIAG_CISUPD_TRIGGERED,
+    DDIAG_CISUPD_PHASE_FAIL,
+    DDIAG_CISUPD_PHASE_PASS,
+
+
+    DDIAG_COUNT
+
+} decoder_diag_t;
+
+
+
+void decoder_diag_log_event(decoder_diag_t Event);
+exec_result_t print_decoder_diag(USART_TypeDef * Port);
+
+
+
+#endif

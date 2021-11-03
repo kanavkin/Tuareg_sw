@@ -16,6 +16,7 @@
 
 //#include "debug.h"
 #include "diagnostics.h"
+#include "ignition_diag.h"
 #include "Tuareg.h"
 #include "Ignition_syslog_locations.h"
 

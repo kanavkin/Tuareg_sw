@@ -36,6 +36,7 @@
 #include "process_table.h"
 
 #include "diagnostics.h"
+#include "Tuareg_diag.h"
 #include "Tuareg.h"
 #include "uart_printf.h"
 #include "module_test.h"

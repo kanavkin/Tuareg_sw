@@ -21,6 +21,7 @@
 #include "Fueling_syslog_locations.h"
 #include "debug_port_messages.h"
 #include "diagnostics.h"
+#include "fueling_diag.h"
 #include "Tuareg.h"
 
 

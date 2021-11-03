@@ -21,6 +21,7 @@
 #include "Ignition_syslog_locations.h"
 #include "debug_port_messages.h"
 #include "diagnostics.h"
+#include "ignition_diag.h"
 #include "Tuareg.h"
 
 

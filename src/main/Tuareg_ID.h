@@ -1,6 +1,7 @@
 #ifndef TUAREG_ID_H_INCLUDED
 #define TUAREG_ID_H_INCLUDED
 
+#include "uart.h"
 
 typedef enum {
 
@@ -56,6 +57,10 @@ typedef enum {
     TID_COUNT
 
 } Tuareg_ID;
+
+
+void print_Tuareg_ID_label(USART_TypeDef * Port, Tuareg_ID Id);
+
 
 
 #endif // TUAREG_ID_H_INCLUDED

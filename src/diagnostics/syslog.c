@@ -224,7 +224,10 @@ void show_syslog(USART_TypeDef * Port)
 
             //src
             print(Port, " Mod: ");
-            printf_U(Port, Syslog[msg].src, PAD_3);
+
+            //printf_U(Port, Syslog[msg].src, PAD_3);
+            print_Tuareg_ID_label(Port, Syslog[msg].src);
+            print(Port, "   ");
 
             //location (mask EE/WW bits)
             print(Port, "Loc: ");

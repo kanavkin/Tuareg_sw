@@ -702,8 +702,9 @@ review the data gathered from the cylinder identification sensor
 
 the resulting cis signal shall confirm the currently expected phase
 
+BIG FAT WARNING:
+Phase calculation relies on the timer value growing between lobe begin and end detection. But the decoder timer always gets reset on Position B2!
 
- the decoder
 */
 void decoder_update_cis()
 {

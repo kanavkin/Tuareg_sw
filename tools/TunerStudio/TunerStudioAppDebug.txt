@@ -42551,3 +42551,1430 @@ Please check your Communications Settings.
 29/10/2021, 15:17:54 :Info: Finalizing Sensors
 29/10/2021, 15:17:54 :Debug: GPSManager.stop() EFIAnalytics GPS
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Wed Nov 03 23:22:16 CET 2021
+JRE 17.0.1, Linux 5.14.0-2-amd64, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+java.lang.reflect.InaccessibleObjectException: Unable to make field private static volatile java.nio.charset.Charset java.nio.charset.Charset.defaultCharset accessible: module java.base does not "opens java.nio.charset" to unnamed module @2f529dae
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:178)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:172)
+	at TunerStudio.main(Unknown Source)
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+03/11/2021, 23:22:17 :Info: Initializing File Dialogs.
+03/11/2021, 23:22:17 :Info: Loading Language Content.
+03/11/2021, 23:22:19 :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+03/11/2021, 23:22:19 :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+03/11/2021, 23:22:19 :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+03/11/2021, 23:22:19 :Info: Initializing Plugin Services.
+03/11/2021, 23:22:19 :Info: Loading Plugins.
+03/11/2021, 23:22:19 :Info: Initializing Help.
+03/11/2021, 23:22:19 :Info: Initializing Edition Features.
+03/11/2021, 23:22:19 :Info: Initializing App Events.
+03/11/2021, 23:22:19 :Debug: App Name:TunerStudio, appEdition:MS Ultra
+03/11/2021, 23:22:19 :Info: Initializing Log Viewer Components.
+03/11/2021, 23:22:19 :Info: Initializing User Interface
+03/11/2021, 23:22:19 :Warning: Unable to set Main cluster for title:
+03/11/2021, 23:22:21 :Info: Loading Font list.
+03/11/2021, 23:22:21 :Debug: Time to retreive font name list: 108 ms.
+03/11/2021, 23:22:21 :Info: 
+03/11/2021, 23:22:21 :Info: Initializing UI Components.
+03/11/2021, 23:22:21 :Info: Initializing GPS.
+03/11/2021, 23:22:21 :Warning: No values set for GPS setting: 2nd Com Port
+03/11/2021, 23:22:21 :Info: Initializing GPS Interface: RS232 Serial Interface
+03/11/2021, 23:22:21 :Debug: GPS started
+03/11/2021, 23:22:21 :Info: Ready
+03/11/2021, 23:22:23 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:23 :Info: Opening Project ...
+03/11/2021, 23:22:23 :Debug: Opening project: /home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg
+03/11/2021, 23:22:23 :Debug: EventTrigger Data log Reset. expression: 
+03/11/2021, 23:22:23 :Debug: EventTrigger Stop Data log Reset. expression: 
+03/11/2021, 23:22:23 :Debug: Reading translation file as plain text
+03/11/2021, 23:22:23 :Info: Supported iniSpecVersion=3.68
+03/11/2021, 23:22:23 :Debug: Filtered ConfigurationOptionGroup in 8ms.
+03/11/2021, 23:22:23 :Info: Supported iniSpecVersion=3.68
+03/11/2021, 23:22:23 :Info: Read file canPcVariables.ini: 0.77001ms
+03/11/2021, 23:22:23 :Info: Filtered ini: 0.068352ms
+03/11/2021, 23:22:23 :Info: No iniVersion defined
+03/11/2021, 23:22:23 :Info: Loading Trigger Wheels
+03/11/2021, 23:22:23 :Info: Loaded All known ini sections
+03/11/2021, 23:22:23 :Info: Parsed and validated ini "canPcVariables.ini" in : 14ms.
+03/11/2021, 23:22:23 :Info: Read file mainController.ini: 4.596058ms
+03/11/2021, 23:22:23 :Info: Filtered ini: 1.586988ms
+03/11/2021, 23:22:23 :Info: No iniVersion defined
+03/11/2021, 23:22:23 :Debug: ini signature: rusEFI v1.04
+03/11/2021, 23:22:23 :Info: Loading Trigger Wheels
+03/11/2021, 23:22:23 :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+03/11/2021, 23:22:23 :Info: Loaded All known ini sections
+03/11/2021, 23:22:23 :Info: Parsed and validated ini "mainController.ini" in : 71ms.
+03/11/2021, 23:22:23 :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+03/11/2021, 23:22:23 :Info: Time to load primary config: 155.68668ms. used cached config: false
+03/11/2021, 23:22:23 :Debug: Adding Configuration: Tuareg
+03/11/2021, 23:22:23 :Debug: controllerOnline = 0.0
+03/11/2021, 23:22:23 :Debug: Fill Constants: 7
+03/11/2021, 23:22:23 :Info: Tune opened, 2281 bytes updated. File:/home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+03/11/2021, 23:22:23 :Info: Tune opened, 2281 bytes updated. File:/home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+03/11/2021, 23:22:23 :Info: dirtyData.size(): 0
+03/11/2021, 23:22:23 :Info: dirtyData.size(): 0
+03/11/2021, 23:22:23 :Debug: Flush lasted: 5ms.
+03/11/2021, 23:22:23 :Info: dirtyData.size(): 0
+03/11/2021, 23:22:23 :Info: dirtyData.size(): 0
+03/11/2021, 23:22:23 :Debug: Flush lasted: 1ms.
+03/11/2021, 23:22:23 :Debug: Skip Burn, last write page: -2
+03/11/2021, 23:22:23 :Info: !!! Loaded config in 335
+Saved user properties successfully
+03/11/2021, 23:22:24 :Info: !!! Activated Project 795
+03/11/2021, 23:22:24 :Info: Opening Gauge Cluster..
+03/11/2021, 23:22:24 :Info: Time to load uncached dash: 183.78592ms, file: dashboard.dash
+03/11/2021, 23:22:24 :Debug: High Speed Paint: false
+03/11/2021, 23:22:24 :Info: 
+03/11/2021, 23:22:24 :Info: Com Thread created: COMM Thread47116.97476107995
+03/11/2021, 23:22:24 :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+03/11/2021, 23:22:24 :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread47116.97476107995
+03/11/2021, 23:22:24 :Debug: Port not valid: Unable to open port: /dev/tuareg
+Please check your Communications Settings. 
+03/11/2021, 23:22:25 :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread47116.97476107995
+03/11/2021, 23:22:25 :Info: Time to load uncached dash: 261.16147ms, file: fueling.dash
+03/11/2021, 23:22:25 :Debug: High Speed Paint: false
+03/11/2021, 23:22:25 :Info: Time to load uncached dash: 127.30122ms, file: ignition.dash
+03/11/2021, 23:22:25 :Debug: High Speed Paint: false
+03/11/2021, 23:22:25 :Info: Time to load uncached dash: 61.34501ms, file: sensors.dash
+03/11/2021, 23:22:25 :Debug: High Speed Paint: false
+03/11/2021, 23:22:25 :Info: Time to load uncached dash: 111.20423ms, file: fuel_tuning.dash
+03/11/2021, 23:22:25 :Debug: High Speed Paint: false
+03/11/2021, 23:22:25 :Debug: !!! Opened Dash 2039
+03/11/2021, 23:22:25 :Info: Tuareg Ready
+03/11/2021, 23:22:25 :Debug: Tuning View Files loaded in 0.225091ms.
+03/11/2021, 23:22:26 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:26 :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+03/11/2021, 23:22:27 :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.22 2021.10
+03/11/2021, 23:22:27 :Debug: Received Instruction: Read All Tune Data, Page: 0
+03/11/2021, 23:22:27 :Debug: controllerOnline = 1.0
+03/11/2021, 23:22:27 :Info: Activating page: 1
+03/11/2021, 23:22:27 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:27 :Info: Activating page: 2
+Saved user properties successfully
+03/11/2021, 23:22:27 :Debug: Read page time: 177ms.
+03/11/2021, 23:22:27 :Info: Activating page: 3
+03/11/2021, 23:22:27 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:27 :Info: Activating page: 4
+03/11/2021, 23:22:28 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:28 :Info: Activating page: 5
+03/11/2021, 23:22:28 :Debug: Read page time: 179ms.
+03/11/2021, 23:22:28 :Info: Activating page: 6
+03/11/2021, 23:22:28 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:28 :Info: Activating page: 7
+03/11/2021, 23:22:28 :Debug: Read page time: 179ms.
+03/11/2021, 23:22:28 :Info: Activating page: 8
+03/11/2021, 23:22:28 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:28 :Info: Activating page: 9
+03/11/2021, 23:22:29 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:29 :Info: Activating page: 10
+03/11/2021, 23:22:29 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:29 :Debug: Read page time: 179ms.
+03/11/2021, 23:22:29 :Info: Activating page: 11
+03/11/2021, 23:22:29 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:29 :Info: Activating page: 12
+03/11/2021, 23:22:29 :Debug: Read page time: 179ms.
+03/11/2021, 23:22:29 :Info: Activating page: 13
+03/11/2021, 23:22:29 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:29 :Info: Activating page: 14
+03/11/2021, 23:22:30 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:30 :Info: Activating page: 15
+03/11/2021, 23:22:30 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:30 :Info: Activating page: 16
+03/11/2021, 23:22:30 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:30 :Info: Activating page: 17
+03/11/2021, 23:22:30 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:30 :Info: Activating page: 18
+03/11/2021, 23:22:30 :Debug: Read page time: 179ms.
+03/11/2021, 23:22:30 :Info: Activating page: 19
+03/11/2021, 23:22:30 :Debug: Read page time: 178ms.
+03/11/2021, 23:22:30 :Debug: Read All Data
+03/11/2021, 23:22:30 :Debug: isBlank Time: 0 ms.
+03/11/2021, 23:22:30 :Debug: DiffTime: 10 ms.
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:31 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:32 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:33 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:34 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:35 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:36 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:37 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:38 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:39 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:40 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:41 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:42 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:43 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:44 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:45 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:46 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:47 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:48 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:49 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:50 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:51 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:52 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:53 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:54 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:55 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:56 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:57 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:58 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:22:59 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:00 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:01 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:02 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:03 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:04 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:05 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:06 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:07 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:08 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:09 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:10 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:11 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:12 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:13 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:14 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:15 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:16 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:17 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:18 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:19 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:20 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:21 :Debug: Could not get value for OutputChannel:resVE_pct
+03/11/2021, 23:23:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:26 :Info: Re-establishing connection to: RS232: Port:/dev/tuareg_hil, Baud:230400
+03/11/2021, 23:23:26 :Warning: Failed to re-establish connection to: RS232: Port:/dev/tuareg, Baud:230400
+03/11/2021, 23:23:26 :Info: Connection Check failed, forcing offline.
+03/11/2021, 23:23:28 :Debug: controllerOnline = 0.0
+03/11/2021, 23:23:28 :Debug: No Remaining Queue Write instructions
+03/11/2021, 23:23:28 :Debug: Went offline
+03/11/2021, 23:23:28 :Debug: controllerOnline = 0.0
+03/11/2021, 23:23:28 :Debug: No Remaining Queue Write instructions
+03/11/2021, 23:23:28 :Info: Went offline 2
+
+03/11/2021, 23:23:29 :Debug: Purged 1 orphaned bytes:
+03/11/2021, 23:23:29 :Debug: Time:65.386s. 0xFC 
+03/11/2021, 23:23:29 :Debug: Time:65.387s. 
+
+03/11/2021, 23:23:29 :Debug: Time:65.387s.   .  
+03/11/2021, 23:23:30 :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+03/11/2021, 23:23:31 :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.22 2021.10
+03/11/2021, 23:23:31 :Debug: controllerOnline = 1.0
+03/11/2021, 23:23:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:23:54 :Debug: Received Instruction: Read Page 2, Page: 2
+03/11/2021, 23:23:54 :Info: Initiating read page 2
+03/11/2021, 23:23:54 :Info: Activating page: 2
+03/11/2021, 23:24:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:05 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:05 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:05 :Debug: Flush lasted: 0ms.
+03/11/2021, 23:24:05 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:24:05 :Debug: Received Instruction: , Page: 2
+03/11/2021, 23:24:05 :Info: skip burn to page:2, lastWritePage = -2
+03/11/2021, 23:24:06 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 2
+03/11/2021, 23:24:09 :Debug: Received Instruction: Read Page 17, Page: 17
+03/11/2021, 23:24:09 :Info: Initiating read page 17
+03/11/2021, 23:24:09 :Info: Activating page: 17
+03/11/2021, 23:24:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:28 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:28 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:28 :Debug: Flush lasted: 0ms.
+03/11/2021, 23:24:28 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:24:28 :Debug: Received Instruction: , Page: 17
+03/11/2021, 23:24:28 :Info: skip burn to page:17, lastWritePage = -2
+03/11/2021, 23:24:28 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 17
+03/11/2021, 23:24:31 :Debug: Received Instruction: Read Page 1, Page: 1
+03/11/2021, 23:24:31 :Info: Initiating read page 1
+03/11/2021, 23:24:31 :Info: Activating page: 1
+03/11/2021, 23:24:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:33 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:33 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:33 :Debug: Flush lasted: 0ms.
+03/11/2021, 23:24:33 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:24:33 :Debug: Received Instruction: , Page: 1
+03/11/2021, 23:24:33 :Info: skip burn to page:1, lastWritePage = -2
+03/11/2021, 23:24:33 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 1
+03/11/2021, 23:24:36 :Debug: Received Instruction: Read Page 3, Page: 3
+03/11/2021, 23:24:36 :Info: Initiating read page 3
+03/11/2021, 23:24:36 :Info: Activating page: 3
+03/11/2021, 23:24:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:24:59 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:59 :Info: dirtyData.size(): 0
+03/11/2021, 23:24:59 :Debug: Flush lasted: 0ms.
+03/11/2021, 23:24:59 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:24:59 :Debug: Received Instruction: , Page: 3
+03/11/2021, 23:24:59 :Info: skip burn to page:3, lastWritePage = -2
+03/11/2021, 23:24:59 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 3
+03/11/2021, 23:25:01 :Debug: Received Instruction: Read Page 6, Page: 6
+03/11/2021, 23:25:01 :Info: Initiating read page 6
+03/11/2021, 23:25:01 :Info: Activating page: 6
+03/11/2021, 23:25:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:25:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:25:20 :Info: dirtyData.size(): 0
+03/11/2021, 23:25:20 :Info: dirtyData.size(): 0
+03/11/2021, 23:25:20 :Debug: Flush lasted: 1ms.
+03/11/2021, 23:25:20 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:25:20 :Debug: Received Instruction: , Page: 6
+03/11/2021, 23:25:20 :Info: skip burn to page:6, lastWritePage = -2
+03/11/2021, 23:25:20 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 6
+03/11/2021, 23:25:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:25:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:25:33 :Info: dirtyData.size(): 0
+03/11/2021, 23:25:33 :Info: dirtyData.size(): 0
+03/11/2021, 23:25:33 :Debug: Flush lasted: 0ms.
+03/11/2021, 23:25:33 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:25:33 :Debug: Received Instruction: , Page: 6
+03/11/2021, 23:25:33 :Info: skip burn to page:6, lastWritePage = -2
+03/11/2021, 23:25:33 :Debug: goOffline Starting, Time:0
+03/11/2021, 23:25:33 :Info: Deactivated Turbo Baud, goOffline
+03/11/2021, 23:25:33 :Debug: Burn Page anonymous: -1
+03/11/2021, 23:25:33 :Debug: Received Instruction: , Page: 6
+03/11/2021, 23:25:33 :Info: skip burn to page:6, lastWritePage = -2
+03/11/2021, 23:25:33 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 6
+03/11/2021, 23:25:33 :Debug: Request to burn page, but no writes have been performed. Ignoring burn. page: 6
+03/11/2021, 23:25:33 :Debug: goOffline about to stopProcessing, Time:251
+03/11/2021, 23:25:33 :Debug: controllerOnline = 0.0
+03/11/2021, 23:25:33 :Debug: goOffline Notified offline, Time:265
+03/11/2021, 23:25:33 :Debug: goOffline closed port, Time:265
+03/11/2021, 23:25:33 :Info: Tuareg ComThread stopped COMM Thread47116.97476107995
+03/11/2021, 23:25:33 :Debug: goOffline comm thread stopped, Time:365
+03/11/2021, 23:25:33 :Debug: No Remaining Queue Write instructions
+03/11/2021, 23:25:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:25:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:26:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:27:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:28:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:29:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:30:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:31:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:32:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:33:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:34:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:35:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:36:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:37:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:38:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:39:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:40:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:41:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:42:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:43:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:44:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:45:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:46:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:47:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:48:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:49:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:50:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:51:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:52:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:53:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:54:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:22 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:32 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:42 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:55:52 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:56:02 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:56:12 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+03/11/2021, 23:56:19 :Info: Time to save msq: 115.9325
+03/11/2021, 23:56:19 :Info: closeApp Called
+03/11/2021, 23:56:19 :Debug: TuneLog Editor set text
+03/11/2021, 23:56:19 :Debug: Fill Constants: 4
+03/11/2021, 23:56:19 :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-10-29_15.17.54.msq
+03/11/2021, 23:56:19 :Info: Time to save msq: 20.498224
+03/11/2021, 23:56:19 :Debug: goOffline Starting, Time:0
+03/11/2021, 23:56:19 :Info: Deactivated Turbo Baud, goOffline
+03/11/2021, 23:56:19 :Debug: goOffline about to stopProcessing, Time:0
+03/11/2021, 23:56:19 :Debug: goOffline closed port, Time:0
+03/11/2021, 23:56:19 :Debug: goOffline comm thread stopped, Time:500
+03/11/2021, 23:56:19 :Debug: No Remaining Queue Write instructions
+03/11/2021, 23:56:19 :Debug: removing Configuration: Tuareg
+03/11/2021, 23:56:19 :Debug: ############################################# Save Project Backup ##########################################
+03/11/2021, 23:56:19 :Info: Finalizing Sensors
+03/11/2021, 23:56:19 :Debug: GPSManager.stop() EFIAnalytics GPS
+Saved user properties successfully
