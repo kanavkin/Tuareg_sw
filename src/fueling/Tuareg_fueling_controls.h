@@ -55,6 +55,9 @@ typedef struct _fueling_control_t {
     //air density is in micro gram per cubic centimeter
     VF32 air_density;
 
+    //air mass flow rate in gram per second
+    VF32 air_flowrate_gps;
+
     F32 AFR_target;
 
     U32 injector_deadtime_us;
@@ -126,7 +129,7 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget);
 void earliest_sequential_injection_begin(volatile fueling_control_t * pTarget);
 
 
-
+void update_airflowrate(volatile fueling_control_t * pTarget);
 
 
 #endif // TUAREG_FUELING_CONTROLS_H_INCLUDED

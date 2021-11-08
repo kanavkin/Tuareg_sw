@@ -43978,3 +43978,228 @@ Please check your Communications Settings.
 03/11/2021, 23:56:19 :Info: Finalizing Sensors
 03/11/2021, 23:56:19 :Debug: GPSManager.stop() EFIAnalytics GPS
 Saved user properties successfully
+Starting on boctok
+TunerStudio 3.1.06 started on Mon Nov 08 15:52:08 CET 2021
+JRE 17.0.1, Linux 5.14.0-2-amd64, amd64
+java.library.path=lib/alternateLinuxDrivers/x86_64-linux:lib
+TunerStudioMS.jar
+java.lang.reflect.InaccessibleObjectException: Unable to make field private static volatile java.nio.charset.Charset java.nio.charset.Charset.defaultCharset accessible: module java.base does not "opens java.nio.charset" to unnamed module @2f529dae
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:178)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:172)
+	at TunerStudio.main(Unknown Source)
+Look:Metal, ClassName:'javax.swing.plaf.metal.MetalLookAndFeel'
+Look:Nimbus, ClassName:'javax.swing.plaf.nimbus.NimbusLookAndFeel'
+Look:CDE/Motif, ClassName:'com.sun.java.swing.plaf.motif.MotifLookAndFeel'
+Look:GTK+, ClassName:'com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+Look:Night Shade, ClassName:'de.muntjak.tinylookandfeel.TinyLookAndFeel'
+Setting Look & Feel to:javax.swing.plaf.nimbus.NimbusLookAndFeel
+08/11/2021, 15:52:09 :Info: Initializing File Dialogs.
+08/11/2021, 15:52:09 :Info: Loading Language Content.
+08/11/2021, 15:52:11 :Debug: Command Non-VolatileBytes for F resolved to: x46                                                                   F
+08/11/2021, 15:52:11 :Debug: Command Non-VolatileBytes for I resolved to: x49                                                                   I
+08/11/2021, 15:52:11 :Debug: Command Non-VolatileBytes for f resolved to: x66                                                                   f
+08/11/2021, 15:52:11 :Info: Initializing Plugin Services.
+08/11/2021, 15:52:11 :Info: Loading Plugins.
+08/11/2021, 15:52:11 :Info: Initializing Help.
+08/11/2021, 15:52:11 :Info: Initializing Edition Features.
+08/11/2021, 15:52:11 :Info: Initializing App Events.
+08/11/2021, 15:52:11 :Debug: App Name:TunerStudio, appEdition:MS Ultra
+08/11/2021, 15:52:12 :Info: Initializing Log Viewer Components.
+08/11/2021, 15:52:12 :Info: Initializing User Interface
+08/11/2021, 15:52:12 :Warning: Unable to set Main cluster for title:
+08/11/2021, 15:52:12 :Info: Checking for updates
+08/11/2021, 15:52:14 :Info: Loading Font list.
+08/11/2021, 15:52:14 :Debug: Time to retreive font name list: 86 ms.
+08/11/2021, 15:52:14 :Info: 
+08/11/2021, 15:52:14 :Info: Initializing UI Components.
+08/11/2021, 15:52:14 :Info: Initializing GPS.
+08/11/2021, 15:52:14 :Warning: No values set for GPS setting: 2nd Com Port
+08/11/2021, 15:52:14 :Info: Initializing GPS Interface: RS232 Serial Interface
+08/11/2021, 15:52:14 :Debug: GPS started
+08/11/2021, 15:52:14 :Info: Ready
+08/11/2021, 15:52:15 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+MS Ultramain: No check, last update check=Wed Nov 03 23:22:24 CET 2021
+Saved user properties successfully
+08/11/2021, 15:52:17 :Info: Update Check Completed
+Saved user properties successfully
+08/11/2021, 15:52:17 :Info: Opening Project ...
+08/11/2021, 15:52:17 :Debug: Opening project: /home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg
+08/11/2021, 15:52:17 :Debug: EventTrigger Data log Reset. expression: 
+08/11/2021, 15:52:17 :Debug: EventTrigger Stop Data log Reset. expression: 
+08/11/2021, 15:52:17 :Debug: Reading translation file as plain text
+08/11/2021, 15:52:17 :Info: Supported iniSpecVersion=3.68
+08/11/2021, 15:52:17 :Debug: Filtered ConfigurationOptionGroup in 13ms.
+08/11/2021, 15:52:17 :Info: Supported iniSpecVersion=3.68
+08/11/2021, 15:52:17 :Info: Read file canPcVariables.ini: 0.444843ms
+08/11/2021, 15:52:17 :Info: Filtered ini: 0.06178ms
+08/11/2021, 15:52:17 :Info: No iniVersion defined
+08/11/2021, 15:52:17 :Info: Loading Trigger Wheels
+08/11/2021, 15:52:17 :Info: Loaded All known ini sections
+08/11/2021, 15:52:17 :Info: Parsed and validated ini "canPcVariables.ini" in : 18ms.
+08/11/2021, 15:52:17 :Info: Read file mainController.ini: 5.978786ms
+08/11/2021, 15:52:17 :Info: Filtered ini: 1.551279ms
+08/11/2021, 15:52:17 :Info: No iniVersion defined
+08/11/2021, 15:52:17 :Debug: ini signature: rusEFI v1.04
+08/11/2021, 15:52:17 :Info: Loading Trigger Wheels
+08/11/2021, 15:52:17 :Info: Loading Depricated ini section [UserDefined], use [UiDialogs]
+08/11/2021, 15:52:17 :Info: Loaded All known ini sections
+08/11/2021, 15:52:17 :Info: Parsed and validated ini "mainController.ini" in : 76ms.
+08/11/2021, 15:52:17 :Info: Not Loading default Tools because they were already loaded from the project ini(s)
+08/11/2021, 15:52:17 :Info: Time to load primary config: 206.38338ms. used cached config: false
+08/11/2021, 15:52:17 :Debug: Adding Configuration: Tuareg
+08/11/2021, 15:52:17 :Debug: controllerOnline = 0.0
+08/11/2021, 15:52:17 :Debug: Fill Constants: 6
+08/11/2021, 15:52:18 :Info: Tune opened, 2296 bytes updated. File:/home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+08/11/2021, 15:52:18 :Info: Tune opened, 2296 bytes updated. File:/home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg/CurrentTune.msq
+08/11/2021, 15:52:18 :Info: dirtyData.size(): 0
+08/11/2021, 15:52:18 :Info: dirtyData.size(): 0
+08/11/2021, 15:52:18 :Debug: Flush lasted: 0ms.
+08/11/2021, 15:52:18 :Info: dirtyData.size(): 0
+08/11/2021, 15:52:18 :Info: dirtyData.size(): 0
+08/11/2021, 15:52:18 :Debug: Flush lasted: 0ms.
+08/11/2021, 15:52:18 :Debug: Skip Burn, last write page: -2
+08/11/2021, 15:52:18 :Info: !!! Loaded config in 354
+08/11/2021, 15:52:18 :Info: !!! Activated Project 808
+08/11/2021, 15:52:18 :Info: Opening Gauge Cluster..
+08/11/2021, 15:52:18 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:52:18 :Info: Time to load uncached dash: 204.71909ms, file: dashboard.dash
+08/11/2021, 15:52:18 :Debug: High Speed Paint: false
+08/11/2021, 15:52:18 :Info: 
+08/11/2021, 15:52:18 :Info: Com Thread created: COMM Thread15854.013747543027
+08/11/2021, 15:52:18 :Info: endModalBlock called, but Root Pane is not a ProgressPane.
+08/11/2021, 15:52:18 :Info: Comm Manager for Tuareg Started, thread ID: COMM Thread15854.013747543027
+08/11/2021, 15:52:18 :Debug: Port not valid: Unable to open port: /dev/tuareg
+Please check your Communications Settings. 
+MS Ultraad: No check, last update check=Wed Nov 03 23:22:27 CET 2021
+08/11/2021, 15:52:19 :Info: Comm Read Thread Change! Old Thread:null, new Thread:COMM Thread15854.013747543027
+08/11/2021, 15:52:19 :Info: Time to load uncached dash: 342.60764ms, file: fueling.dash
+08/11/2021, 15:52:19 :Debug: High Speed Paint: false
+08/11/2021, 15:52:19 :Info: Time to load uncached dash: 101.69451ms, file: ignition.dash
+08/11/2021, 15:52:19 :Debug: High Speed Paint: false
+08/11/2021, 15:52:19 :Info: Time to load uncached dash: 53.019356ms, file: sensors.dash
+08/11/2021, 15:52:19 :Debug: High Speed Paint: false
+08/11/2021, 15:52:19 :Info: Time to load uncached dash: 130.19296ms, file: fuel_tuning.dash
+08/11/2021, 15:52:19 :Debug: High Speed Paint: false
+08/11/2021, 15:52:19 :Debug: !!! Opened Dash 2284
+08/11/2021, 15:52:19 :Info: Tuareg Ready
+08/11/2021, 15:52:19 :Debug: Tuning View Files loaded in 0.135211ms.
+08/11/2021, 15:52:21 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:52:24 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:52:34 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:52:44 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:52:54 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:53:04 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:53:14 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+
+08/11/2021, 15:53:17 :Debug: Purged 1 orphaned bytes:
+08/11/2021, 15:53:17 :Debug: Time:60.01s. 0xFC 
+08/11/2021, 15:53:17 :Debug: Time:60.012s. 
+
+08/11/2021, 15:53:17 :Debug: Time:60.012s.   .  
+08/11/2021, 15:53:19 :Info: Sig Bytes:x72 x75 x73 x45 x46 x49 x20 x76 x31 x2E x30 x34                       rusEFI.v1.04
+08/11/2021, 15:53:20 :Info: Communicating with sig:rusEFI v1.04, Tuareg V0.22 2021.10
+08/11/2021, 15:53:20 :Debug: Received Instruction: Read All Tune Data, Page: 0
+08/11/2021, 15:53:20 :Debug: controllerOnline = 1.0
+08/11/2021, 15:53:20 :Info: Activating page: 1
+08/11/2021, 15:53:20 :Debug: Read page time: 184ms.
+08/11/2021, 15:53:20 :Info: Activating page: 2
+08/11/2021, 15:53:20 :Debug: Read page time: 177ms.
+08/11/2021, 15:53:20 :Info: Activating page: 3
+08/11/2021, 15:53:20 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:20 :Info: Activating page: 4
+08/11/2021, 15:53:21 :Debug: Read page time: 179ms.
+08/11/2021, 15:53:21 :Info: Activating page: 5
+08/11/2021, 15:53:21 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:21 :Info: Activating page: 6
+08/11/2021, 15:53:21 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:21 :Info: Activating page: 7
+08/11/2021, 15:53:21 :Debug: Read page time: 177ms.
+08/11/2021, 15:53:21 :Info: Activating page: 8
+08/11/2021, 15:53:21 :Debug: Read page time: 179ms.
+08/11/2021, 15:53:21 :Info: Activating page: 9
+08/11/2021, 15:53:21 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:21 :Info: Activating page: 10
+08/11/2021, 15:53:22 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:22 :Info: Activating page: 11
+08/11/2021, 15:53:22 :Debug: Read page time: 177ms.
+08/11/2021, 15:53:22 :Info: Activating page: 12
+08/11/2021, 15:53:22 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:22 :Info: Activating page: 13
+08/11/2021, 15:53:22 :Debug: Read page time: 177ms.
+08/11/2021, 15:53:22 :Info: Activating page: 14
+08/11/2021, 15:53:22 :Debug: Read page time: 177ms.
+08/11/2021, 15:53:22 :Info: Activating page: 15
+08/11/2021, 15:53:23 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:23 :Info: Activating page: 16
+08/11/2021, 15:53:23 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:23 :Info: Activating page: 17
+08/11/2021, 15:53:23 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:23 :Info: Activating page: 18
+08/11/2021, 15:53:23 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:23 :Info: Activating page: 19
+08/11/2021, 15:53:23 :Debug: Read page time: 178ms.
+08/11/2021, 15:53:23 :Debug: Read All Data
+08/11/2021, 15:53:23 :Debug: isBlank Time: 0 ms.
+08/11/2021, 15:53:23 :Debug: DiffTime: 10 ms.
+08/11/2021, 15:53:24 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:53:34 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:53:44 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:53:54 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:04 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:14 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:24 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:34 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:44 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:54 :Info: Failed to connect to GPS: Unable to open port: /dev/tuareg_gps
+Please check your Communications Settings. 
+08/11/2021, 15:54:56 :Debug: Unable to locate OS Font Directory(s)
+08/11/2021, 15:54:56 :Debug: Time (Cached): 3, Not found Font: Liberation Sans
+08/11/2021, 15:54:56 :Info: Time to load non-cached dashboard: 127.20708 ms. file:fueling.dash
+08/11/2021, 15:54:56 :Debug: Time to save dashboard: 130.31985ms. file: /home/oli/Tuareg/Tuareg_sw/tools/TunerStudio/Tuareg//dashboard/fueling.dash
+08/11/2021, 15:54:58 :Info: Time to save msq: 21.976357
+08/11/2021, 15:54:58 :Info: closeApp Called
+08/11/2021, 15:54:58 :Debug: TuneLog Editor set text
+08/11/2021, 15:54:58 :Debug: Fill Constants: 5
+08/11/2021, 15:54:58 :Info: Skip Restore Point for 'Tuareg' because nothing changed since: Tuareg_2021-10-29_15.17.54.msq
+08/11/2021, 15:54:58 :Info: Time to save msq: 16.675844
+08/11/2021, 15:54:58 :Debug: goOffline Starting, Time:0
+08/11/2021, 15:54:58 :Info: Deactivated Turbo Baud, goOffline
+08/11/2021, 15:54:58 :Debug: Burn Page anonymous: -1
+08/11/2021, 15:54:58 :Debug: Received Instruction: , Page: 19
+08/11/2021, 15:54:58 :Info: skip burn to page:19, lastWritePage = -2
+08/11/2021, 15:54:59 :Debug: No Remaining Queue Write instructions
+08/11/2021, 15:54:59 :Debug: goOffline about to stopProcessing, Time:273
+08/11/2021, 15:54:59 :Debug: controllerOnline = 0.0
+08/11/2021, 15:54:59 :Debug: goOffline Notified offline, Time:290
+08/11/2021, 15:54:59 :Debug: goOffline closed port, Time:290
+08/11/2021, 15:54:59 :Info: Tuareg ComThread stopped COMM Thread15854.013747543027
+08/11/2021, 15:54:59 :Debug: goOffline comm thread stopped, Time:391
+08/11/2021, 15:54:59 :Debug: No Remaining Queue Write instructions
+08/11/2021, 15:55:00 :Info: file:CurrentTune.msq is not Monitored, cannot pause Monitoring of it.
+08/11/2021, 15:55:00 :Info: Time to save msq: 19.341805
+08/11/2021, 15:55:00 :Info: file:CurrentTune.msq is not Monitored, cannot unpause Monitoring of it.
+08/11/2021, 15:55:00 :Debug: removing Configuration: Tuareg
+08/11/2021, 15:55:00 :Debug: ############################################# Save Project Backup ##########################################
+08/11/2021, 15:55:00 :Info: Finalizing Sensors
+08/11/2021, 15:55:00 :Debug: GPSManager.stop() EFIAnalytics GPS
+Saved user properties successfully

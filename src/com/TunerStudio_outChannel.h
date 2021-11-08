@@ -72,6 +72,7 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
 
     F32 VE_pct;
     F32 air_dens;
+    F32 air_rate_gps;
     U32 base_fuel_mass_ug;
     U32 target_fuel_mass_ug;
 

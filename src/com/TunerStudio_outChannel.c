@@ -76,6 +76,9 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //airDens         = scalar,   F32,    23, "ug/cm3",  1.000, 0.000
     Out.air_dens= Tuareg.fueling_controls.air_density;
 
+    //airRate         = scalar,   F32,    nextOffset, "g/s",  1.000, 0.000
+    Out.air_rate_gps= Tuareg.fueling_controls.air_flowrate_gps;
+
     //BasefuelMass    = scalar,   U32,    27, "ug",  1.000, 0.000
     Out.base_fuel_mass_ug= Tuareg.fueling_controls.base_fuel_mass_ug;
 

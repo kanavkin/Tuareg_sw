@@ -130,6 +130,9 @@ void Tuareg_update_fueling_controls()
         */
         update_base_fuel_mass(pTarget);
 
+        //experimental air mass flow rate calculation
+        update_airflowrate(pTarget);
+
         /**
         after start compensation
         feature will not be activated in limp mode
@@ -412,7 +415,6 @@ void update_air_density(volatile fueling_control_t * pTarget)
 }
 
 
-
 /****************************************************************************************************************************************
 *   fueling controls update helper functions - AFR
 ****************************************************************************************************************************************/
@@ -459,6 +461,8 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 
 
 
+
+
 /****************************************************************************************************************************************
 *   Fueling controls update - base fuel mass
 ****************************************************************************************************************************************/
@@ -466,8 +470,6 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 
 /**
 calculate the required fuel mass to be injected into each cylinder
-
-this calculation relies on the configured cylinder volume or its built in default!
 */
 void update_base_fuel_mass(volatile fueling_control_t * pTarget)
 {
@@ -479,10 +481,10 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget)
     //base fuel mass [µg] := air mass [ug] / AFR [1]
     base_fuel_mass_ug= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target);
 
+    //export base fuel mass
     pTarget->base_fuel_mass_ug= base_fuel_mass_ug;
+
 }
-
-
 
 
 
@@ -518,6 +520,40 @@ void update_base_fuel_mass_cranking(volatile fueling_control_t * pTarget)
     */
     pTarget->base_fuel_mass_ug= getValue_CrankingFuelTable(Tuareg.process.CLT_K);
 }
+
+
+
+
+
+/****************************************************************************************************************************************
+*   fueling controls update helper functions - air mass flow rate
+****************************************************************************************************************************************/
+
+
+/**
+this is an experiment to find out how changes in the air flow rate can describe engine load transients
+the air flow rate shall reflect an unfiltered value
+
+
+shall be calculated after base fuel mass!
+*/
+void update_airflowrate(volatile fueling_control_t * pTarget)
+{
+    VF32 charge_density, air_mass_ug;
+
+
+    //division by charge_temp_K needs DIV/0 protection
+    charge_density= divide_float((Tuareg.process.MAP_kPa * cM_air) / cR_gas, Tuareg.process.IAT_K);
+
+    //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
+    air_mass_ug= (charge_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
+
+    //update air mass flow rate
+    pTarget->air_flowrate_gps= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us);
+}
+
+
+
 
 
 
