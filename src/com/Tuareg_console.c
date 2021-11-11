@@ -42,6 +42,12 @@
 #warning Tuareg Console debugging enabled
 #endif // CONSOLE_DEBUG
 
+
+
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.22 2021.11";
+
+
+
 volatile Tuareg_console_t Tuareg_console;
 
 
@@ -316,7 +322,8 @@ void Tuareg_update_console()
             /**
             send code version
             */
-            print(TS_PORT, "Tuareg V0.22 2021.10");
+            //print(TS_PORT, "Tuareg V0.22 2021.10");
+            print_flash(TS_PORT, Tuareg_Version);
 
             //This is required in TS3 due to its stricter timings
             Tuareg_console.ts_secl = 0;
