@@ -9,6 +9,7 @@
 
 
 //#define DECODER_TIMING_DEBUG
+#define DECODER_CIS_DEBUG
 
 typedef enum {
 

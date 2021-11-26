@@ -27,13 +27,6 @@
 #endif // DECODER_TIMING_DEBUG
 
 
-#define DECODER_CIS_DEBUG
-
-#ifdef DECODER_CIS_DEBUG
-#warning decoder cis debug enabled
-#endif // DECODER_CIS_DEBUG
-
-
 volatile Tuareg_decoder_t Decoder;
 
 
@@ -704,58 +697,6 @@ void decoder_crank_timeout_handler()
 cylinder identification sensor handling
 ******************************************************************************************************************************/
 
-
-#ifdef DECODER_CIS_DEBUG
-const U32 cDecoder_cis_debug_len= 100;
-VU32 decoder_cis_debug_cnt =0;
-volatile decoder_cis_debug_t Decoder_cis_debug[100];
-
-
-/**
-returns a pointer to the next debug data cell to be used
-*/
-volatile decoder_cis_debug_t * get_decoder_cis_debug_storage()
-{
-    volatile decoder_cis_debug_t * pCurrent;
-
-    if(decoder_cis_debug_cnt < cDecoder_cis_debug_len -1)
-    {
-        //before the last cell
-
-        //save address of current cell
-        pCurrent= &(Decoder_cis_debug[decoder_cis_debug_cnt]);
-
-        //preselect next cell
-        decoder_cis_debug_cnt++;
-
-        //ready
-        return pCurrent;
-    }
-    else if(decoder_cis_debug_cnt == cDecoder_cis_debug_len -1)
-    {
-        //last cell
-        DebugMsg_Warning("capture ready");
-
-        //save address of current cell
-        return &(Decoder_cis_debug[decoder_cis_debug_cnt]);
-
-    }
-    else
-    {
-        Fatal(TID_DECODER_LOGIC, DECODER_DEBUG_ERROR);
-
-        //Fatal will never return!
-        return &(Decoder_cis_debug[0]);
-    }
-}
-
-void clear_decoder_cis_debug_storage()
-{
-    //mark free storage
-    decoder_cis_debug_cnt=0;
-}
-
-#endif // DECODER_CIS_DEBUG
 
 
 /**

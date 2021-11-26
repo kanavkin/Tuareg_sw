@@ -14,6 +14,7 @@
 #include "table.h"
 
 #include "decoder_config.h"
+#include "decoder_debug.h"
 #include "ignition_config.h"
 #include "sensor_calibration.h"
 #include "Tuareg.h"
@@ -130,12 +131,20 @@ void ts_debug_info(U32 InfoID)
             break;
 
 
-
         case 'DI':
 
             cli_show_decoder_interface(Tuareg.pDecoder);
 
             break;
+
+
+        case 'DC':
+
+            print_decoder_cis_debug_data(TS_PORT);
+
+            break;
+
+
 
         case 'TD':
 

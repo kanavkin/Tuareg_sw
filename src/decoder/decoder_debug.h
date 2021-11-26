@@ -2,9 +2,6 @@
 #define DECODER_DEBUG_H_INCLUDED
 
 
-
-
-
 typedef union
 {
      U32 all_flags;
@@ -56,12 +53,10 @@ typedef struct _decoder_cis_debug_t {
 } decoder_cis_debug_t;
 
 
-
-
-
-
-
-
-
+volatile decoder_cis_debug_t * get_decoder_cis_debug_storage();
 
 #endif // DECODER_DEBUG_H_INCLUDED
+
+
+//access functions are always enabled
+void print_decoder_cis_debug_data(USART_TypeDef * Port);
