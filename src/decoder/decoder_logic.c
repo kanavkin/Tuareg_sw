@@ -8,6 +8,8 @@
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "decoder_config.h"
+#include "decoder_debug.h"
+#include "decoder_syslog_locations.h"
 
 #include "base_calc.h"
 
@@ -23,6 +25,13 @@
 #ifdef DECODER_TIMING_DEBUG
 #warning decoder timing debug enabled
 #endif // DECODER_TIMING_DEBUG
+
+
+#define DECODER_CIS_DEBUG
+
+#ifdef DECODER_CIS_DEBUG
+#warning decoder cis debug enabled
+#endif // DECODER_CIS_DEBUG
 
 
 volatile Tuareg_decoder_t Decoder;
@@ -327,7 +336,7 @@ void update_timing_data()
 }
 
 /******************************************************************************************************************************
-cylinder identification sensor
+
 ******************************************************************************************************************************/
 
  void reset_timeout_counter()
@@ -696,6 +705,59 @@ cylinder identification sensor handling
 ******************************************************************************************************************************/
 
 
+#ifdef DECODER_CIS_DEBUG
+const U32 cDecoder_cis_debug_len= 100;
+VU32 decoder_cis_debug_cnt =0;
+volatile decoder_cis_debug_t Decoder_cis_debug[100];
+
+
+/**
+returns a pointer to the next debug data cell to be used
+*/
+volatile decoder_cis_debug_t * get_decoder_cis_debug_storage()
+{
+    volatile decoder_cis_debug_t * pCurrent;
+
+    if(decoder_cis_debug_cnt < cDecoder_cis_debug_len -1)
+    {
+        //before the last cell
+
+        //save address of current cell
+        pCurrent= &(Decoder_cis_debug[decoder_cis_debug_cnt]);
+
+        //preselect next cell
+        decoder_cis_debug_cnt++;
+
+        //ready
+        return pCurrent;
+    }
+    else if(decoder_cis_debug_cnt == cDecoder_cis_debug_len -1)
+    {
+        //last cell
+        DebugMsg_Warning("capture ready");
+
+        //save address of current cell
+        return &(Decoder_cis_debug[decoder_cis_debug_cnt]);
+
+    }
+    else
+    {
+        Fatal(TID_DECODER_LOGIC, DECODER_DEBUG_ERROR);
+
+        //Fatal will never return!
+        return &(Decoder_cis_debug[0]);
+    }
+}
+
+void clear_decoder_cis_debug_storage()
+{
+    //mark free storage
+    decoder_cis_debug_cnt=0;
+}
+
+#endif // DECODER_CIS_DEBUG
+
+
 /**
 review the data gathered from the cylinder identification sensor
 
@@ -711,8 +773,39 @@ void decoder_update_cis()
     engine_phase_t detected_phase;
     U32 lobe_angle_deg, lobe_interval_us;
 
+    #ifdef DECODER_CIS_DEBUG
+    volatile decoder_cis_debug_t * pDebug= get_decoder_cis_debug_storage();
+    #endif // DECODER_CIS_DEBUG
+
     //collect diagnostic information
     decoder_diag_log_event(DDIAG_CISUPD_CALLS);
+
+    #ifdef DECODER_CIS_DEBUG
+    //preconditions
+    pDebug->flags.decoder_period_valid= Decoder.outputs.period_valid;
+    pDebug->flags.cis_failure= Decoder.cis.cis_failure;
+    pDebug->flags.lobe_begin_detected= Decoder.cis.lobe_begin_detected;
+    pDebug->flags.lobe_end_detected= Decoder.cis.lobe_end_detected;
+
+    //init with pessimistic defaults
+    pDebug->flags.preconditions_ok= false;
+    //output
+    pDebug->flags.cis_triggered= false;
+    pDebug->flags.phase_match= false;
+    //interface
+    pDebug->flags.decoder_output_phase_valid= false;
+    //interval calculation input
+    pDebug->lobe_begin_ts=0;
+    pDebug->lobe_end_ts=0;
+    pDebug->decoder_timer_period_us=0;
+    pDebug->decoder_crank_period_us=0;
+    //interval calculation output
+    pDebug->lobe_interval_us=0;
+    pDebug->lobe_angle_deg=0;
+    //validation
+    pDebug->decoder_cis_sync_counter=0;
+    #endif // DECODER_CIS_DEBUG
+
 
     //precondition check
     if((Decoder.outputs.period_valid == false) ||
@@ -723,8 +816,7 @@ void decoder_update_cis()
         //phase information invalid
         Decoder.phase= PHASE_UNDEFINED;
         Decoder.outputs.phase_valid= false;
-
-        //phase sync lost
+        Tuareg.errors.sensor_CIS_error= true;
         Decoder.cis_sync_counter =0;
 
         //collect diagnostic data
@@ -732,6 +824,11 @@ void decoder_update_cis()
 
         return;
     }
+
+    #ifdef DECODER_CIS_DEBUG
+    pDebug->flags.preconditions_ok= true;
+    #endif // DECODER_CIS_DEBUG
+
 
     /*******************************************
     signal validation -> the cis has been triggered if the cam lobe has been detected for more then cis_min_angle_deg
@@ -755,7 +852,20 @@ void decoder_update_cis()
 
             //collect diagnostic data
             decoder_diag_log_event(DDIAG_CISUPD_TRIGGERED);
+
+            #ifdef DECODER_CIS_DEBUG
+            pDebug->flags.cis_triggered= true;
+            #endif // DECODER_CIS_DEBUG
         }
+
+        #ifdef DECODER_CIS_DEBUG
+        pDebug->lobe_begin_ts= Decoder.lobe_begin_timestamp;
+        pDebug->lobe_end_ts= Decoder.lobe_end_timestamp;
+        pDebug->decoder_timer_period_us= Decoder_hw.timer_period_us;
+        pDebug->decoder_crank_period_us= Decoder.crank_period_us;
+        pDebug->lobe_interval_us= lobe_interval_us;
+        pDebug->lobe_angle_deg= lobe_angle_deg;
+        #endif // DECODER_CIS_DEBUG
     }
 
     /*******************************************
@@ -767,22 +877,29 @@ void decoder_update_cis()
     {
         //GOOD!
 
+        //check if the required amount of valid samples has been detected
         if(Decoder.cis_sync_counter < Decoder_Setup.cis_sync_thres)
         {
             Decoder.cis_sync_counter += 1;
         }
-
-        if(Decoder.cis_sync_counter == Decoder_Setup.cis_sync_thres)
+        else
         {
             //stable cis signal detected
             Decoder.outputs.phase_valid= true;
-
-            //report to flags
             Tuareg.errors.sensor_CIS_error= false;
+
+            #ifdef DECODER_CIS_DEBUG
+            pDebug->flags.decoder_output_phase_valid= true;
+            #endif // DECODER_CIS_DEBUG
         }
 
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_CISUPD_PHASE_PASS);
+
+        #ifdef DECODER_CIS_DEBUG
+        pDebug->flags.phase_match= true;
+        pDebug->decoder_cis_sync_counter= Decoder.cis_sync_counter;
+        #endif // DECODER_CIS_DEBUG
     }
     else
     {

@@ -150,6 +150,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_config.h" />
+		<Unit filename="../../src/decoder/decoder_debug.h" />
 		<Unit filename="../../src/decoder/decoder_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -368,6 +369,8 @@
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />
+			<envvars />
+			<code_completion />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
