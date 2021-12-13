@@ -106,10 +106,12 @@ void print_decoder_cis_debug_set(USART_TypeDef * Port, volatile decoder_cis_debu
     }
     else
     {
-        print(Port, "\r\nPreconditions OK: lobe_begin-lobe_end: ");
+        print(Port, "\r\nPreconditions OK: lobe_begin-lobe_end-num_ends: ");
         UART_Tx(TS_PORT, (pTarget->flags.lobe_begin_detected? '1' :'0'));
         UART_Tx(TS_PORT, '-');
         UART_Tx(TS_PORT, (pTarget->flags.lobe_end_detected? '1' :'0'));
+        UART_Tx(TS_PORT, '-');
+        printf_U(TS_PORT, pTarget->detected_lobe_ends, NO_PAD | NO_TRAIL);
     }
 
     if((pTarget->flags.lobe_begin_detected) && (pTarget->flags.lobe_end_detected) && (pTarget->flags.cis_triggered == false))

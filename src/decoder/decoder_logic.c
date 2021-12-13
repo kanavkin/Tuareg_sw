@@ -20,7 +20,7 @@
 #include "diagnostics.h"
 #include "highspeed_loggers.h"
 
-
+#define DECODER_CIS_DEBUG
 
 #ifdef DECODER_TIMING_DEBUG
 #warning decoder timing debug enabled
@@ -727,6 +727,7 @@ void decoder_update_cis()
     pDebug->flags.cis_failure= Decoder.cis.cis_failure;
     pDebug->flags.lobe_begin_detected= Decoder.cis.lobe_begin_detected;
     pDebug->flags.lobe_end_detected= Decoder.cis.lobe_end_detected;
+    pDebug->detected_lobe_ends= Decoder.cis_detected_lobe_ends;
 
     //init with pessimistic defaults
     pDebug->flags.preconditions_ok= false;
@@ -899,14 +900,22 @@ void decoder_update_cis()
         Decoder.lobe_end_timestamp= decoder_get_timestamp();
         Decoder.cis.lobe_end_detected= true;
 
-        //invert cam sensing
-        decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
+        /*
+        tolerate CIS signal bouncing:
+        - the first detected lobe begin is considered as actual begin
+        - the last detected lobe end is considered as the actual lobe end
+        -> allow multiple cam end events
+        */
 
         //notify high speed log
         highspeedlog_register_cis_lobe_end();
 
         //collect diagnostic information
         decoder_diag_log_event(DDIAG_LOBE_END);
+
+        //count detected lobe end events
+        Decoder.cis_detected_lobe_ends += 1;
+
     }
     else
     {
@@ -934,6 +943,8 @@ void decoder_update_cis()
     Decoder.cis.cis_failure= false;
     Decoder.cis.lobe_begin_detected= false;
     Decoder.cis.lobe_end_detected= false;
+    Decoder.cis_detected_lobe_ends= 0;
+
 
     //collect diagnostic information
     decoder_diag_log_event(DDIAG_ENA_CIS);
