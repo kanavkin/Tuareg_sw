@@ -42,6 +42,7 @@ typedef struct _decoder_cis_debug_t {
     U32 lobe_end_ts;
     U32 decoder_timer_period_us;
     U32 decoder_crank_period_us;
+    U32 detected_lobe_ends;
 
     //interval calculation output
     U32 lobe_interval_us;
