@@ -9,6 +9,7 @@
 
 
 //#define DECODER_TIMING_DEBUG
+#define DECODER_CIS_DEBUG
 
 typedef enum {
 
@@ -105,6 +106,8 @@ typedef struct {
     U32 lobe_begin_timestamp;
     U32 lobe_end_timestamp;
     U32 cis_sync_counter;
+    U32 cis_detected_lobe_ends;
+
     decoder_cis_state_t cis;
 
 } Tuareg_decoder_t;

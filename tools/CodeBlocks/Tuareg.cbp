@@ -150,6 +150,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_config.h" />
+		<Unit filename="../../src/decoder/decoder_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_debug.h" />
 		<Unit filename="../../src/decoder/decoder_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>

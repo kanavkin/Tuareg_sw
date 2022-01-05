@@ -10,7 +10,8 @@ else
     exit 1
 fi
 
-$ST ../Releases/$TUAREG
+$ST ../Releases/$TUAREG/Tuareg.bin
+
 
 
 
