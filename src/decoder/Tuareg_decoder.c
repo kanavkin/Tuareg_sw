@@ -1,6 +1,8 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
+#include "base_calc.h"
+
 #include "Tuareg.h"
 
 #include "decoder_hw.h"
@@ -24,10 +26,9 @@
 /******************************************************************************************************************************
 Decoder initialization
  ******************************************************************************************************************************/
-volatile Tuareg_decoder_t * init_Decoder()
+volatile decoder_output_t * init_Decoder()
 {
     exec_result_t result;
-    volatile Tuareg_decoder_t * pInterface;
 
     //setup shall be loaded first
     result= load_Decoder_Setup();
@@ -72,12 +73,38 @@ volatile Tuareg_decoder_t * init_Decoder()
     init_decoder_hw();
 
     //init logic part
-    pInterface= init_decoder_logic();
+    init_decoder_logic();
 
-    return pInterface;
+    return &(Decoder.out);
 }
 
 
 
 
+/******************************************************************************************************************************
+calculate position data age
+******************************************************************************************************************************/
+
+VU32 decoder_get_position_data_age_us()
+{
+    VU32 now_ts, update_ts, interval_us;
+
+    now_ts= decoder_get_timestamp();
+    update_ts= Decoder_hw.current_timer_value;
+
+    //check counting mode
+    if(Decoder_hw.state.timer_continuous_mode == true)
+    {
+        //timer continuously counting since last position update
+        interval_us= Decoder_hw.timer_period_us * subtract_VU32(now_ts, update_ts);
+    }
+    else
+    {
+        //timer has been reset on last position update
+        interval_us= Decoder_hw.timer_period_us * now_ts;
+    }
+
+    return interval_us;
+
+}
 

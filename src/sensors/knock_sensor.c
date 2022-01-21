@@ -7,7 +7,7 @@
 
 #include "base_calc.h"
 
-#include "sensors.h"
+//#include "sensors.h"
 #include "sensor_calibration.h"
 
 #include "Tuareg.h"

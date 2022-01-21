@@ -122,46 +122,37 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 }
 
 
+/***************************************************************************************************************
+*   safe division
+*   this division functions will prevent the DIV0 crash
+****************************************************************************************************************/
 
 /**
-safe division
+unsigned int ->  unsigned int
 */
 VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 {
-/// TODO (oli#1#): add assert
-    Assert(Divisor > 0, TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
-
-    /*
     if(Divisor == 0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
-        DebugMsg_Error("DIV/0 in divide_VU32");
         return 0;
     }
-    */
 
     return (Dividend / Divisor);
 }
 
 
 /**
-safe division with conversion to float
+unsigned int -> float
 */
 VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
 {
-/// TODO (oli#1#): add assert
 
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wfloat-equal"
-
-    if(Divisor == 0.0)
+    if(Divisor == 0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
-        DebugMsg_Error("DIV/0 in divide_VF32");
         return 0.0;
     }
-
-    #pragma GCC diagnostic pop
 
     return ((VF32) Dividend) / ((VF32) Divisor);
 }
@@ -172,20 +163,18 @@ safe float division
 */
 VF32 divide_float(VF32 Dividend, VF32 Divisor)
 {
-/// TODO (oli#1#): add assert
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
 
     if(Divisor == 0.0)
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
-        DebugMsg_Error("DIV/0 in divide_VF32");
-        return 0;
+        return 0.0;
     }
 
     #pragma GCC diagnostic pop
 
-    return ((VF32) Dividend) / ((VF32) Divisor);
+    return (Dividend / Divisor);
 }
 
 
@@ -245,31 +234,7 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
 }
 
 
-/**
-solves the linear equation y = mx + n
-*/
-VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
-{
-    VF32 inverse;
 
-    //check preconditions
-    //Assert(m != 0.0,)
-
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wfloat-equal"
-
-    if(M == 0.0)
-    {
-        return M;
-    }
-
-    #pragma GCC diagnostic pop
-
-    //x = ( y - n)  / m
-    inverse= ((Y - N) / M);
-
-    return inverse;
-}
 
 
 
@@ -349,6 +314,99 @@ U32 ceiling_boctok(VF32 Argument)
     return 32768 - (U32)(32768.0 - Argument);
 }
 
+
+/****************************************************************************************************************************************
+*   mathematical functions
+*   providing invalid arguments to these functions will cause fatal error
+****************************************************************************************************************************************/
+
+
+/**
+solves the linear equation y = mx + n
+*/
+VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
+{
+    VF32 inverse;
+
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
+    Assert(M != 0.0, TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
+
+/*
+    if(M == 0.0)
+    {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
+        return 0.0;
+    }
+*/
+
+    #pragma GCC diagnostic pop
+
+    //x = ( y - n)  / m
+    inverse= ((Y - N) / M);
+
+    return inverse;
+}
+
+
+/**
+implements the exponential moving average filter
+EMA: y[n]= y[n−1] * (1−α) + x[n] * α
+*/
+VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value)
+{
+    VF32 ema;
+
+    Assert(Alpha > 0.0, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+    Assert(Alpha < 1.01, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+
+/*
+    //check alpha range
+    if((Alpha <= 0) || (Alpha > 1.0))
+    {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+        return 0.0;
+    }
+*/
+
+    // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
+    ema= (1 - Alpha) * Last_value + Alpha * New_value;
+
+    return ema;
+}
+
+
+/**
+calculates d/dt
+result is in #/s
+*/
+VF32 calc_derivative_s(VF32 Last_Value, VF32 New_Value, VU32 Interval_us)
+{
+    VF32 diff, deriv;
+
+    Assert(Interval_us > 0, TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
+
+/*
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
+    if(Interval_us <= 0.0)
+    {
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
+        return 0.0;
+    }
+
+    #pragma GCC diagnostic pop
+*/
+
+    //calculate the current change rate and scale to a one second interval
+    diff= 1000000 * (New_Value - Last_Value);
+    deriv= diff / (VF32) Interval_us;
+
+    return deriv;
+}
 
 
 

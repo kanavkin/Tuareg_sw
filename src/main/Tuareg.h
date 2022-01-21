@@ -10,7 +10,8 @@
 #include "Tuareg_process_data.h"
 
 #include "table.h"
-#include "sensors.h"
+//#include "analog_sensors.h"
+#include "digital_sensors.h"
 #include "process_table.h"
 
 #include "Tuareg_ignition.h"
@@ -129,12 +130,11 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    volatile Tuareg_decoder_t * pDecoder;
+    volatile decoder_output_t * pDecoder;
 
     /**
     access to core components
     */
-    volatile sensor_interface_t * pSensors;
     volatile systick_t * pTimer;
 
     /**

@@ -3,7 +3,8 @@
 
 #include "base_calc.h"
 
-#include "decoder_logic.h"
+//#include "decoder_logic.h"
+#include "Tuareg_decoder.h"
 
 #include "Tuareg_ignition.h"
 #include "Tuareg_ignition_controls.h"
@@ -195,7 +196,7 @@ void Tuareg_ignition_update_crankpos_handler()
 
 
             //check if sequential mode has been commanded
-            if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
+            if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->flags.phase_valid == false))
             {
                 //collect diagnostic information
                 ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);

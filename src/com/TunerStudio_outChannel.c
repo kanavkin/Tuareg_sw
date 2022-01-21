@@ -16,7 +16,7 @@
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
-#include "sensors.h"
+//#include "sensors.h"
 #include "base_calc.h"
 #include "diagnostics.h"
 #include "bitfields.h"
@@ -59,10 +59,10 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.com_bits= Tuareg_console.cli_permissions.all_flags;
 
     //rpm              = scalar,   U16,    9, "rpm",    1.000, 0.000
-    Out.rpm= (Tuareg.pDecoder->outputs.rpm_valid == true)? Tuareg.pDecoder->crank_rpm : 0;
+    Out.rpm= (Tuareg.pDecoder->flags.rpm_valid == true)? Tuareg.pDecoder->crank_rpm : 0;
 
     //rpmDOT           = scalar,   F32,    11, "rpm/s",  1.000, 0.000
-    Out.ddt_rpm= (Tuareg.pDecoder->outputs.accel_valid == true)? 1 : 0;
+    Out.ddt_rpm= (Tuareg.pDecoder->flags.accel_valid == true)? 1 : 0;
 
     //advance         = scalar,   U16,    15, "deg",    1.000, 0.000
     Out.ignition_adv_deg= Tuareg.ignition_controls.ignition_advance_deg;

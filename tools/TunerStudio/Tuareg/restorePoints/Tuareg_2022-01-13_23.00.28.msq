@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jan 13 23:04:41 CET 2022"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jan 13 23:00:28 CET 2022"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.23+2021.11" nPages="19" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
@@ -20,11 +20,11 @@
         <constant digits="0" name="TPScalibMin" units="#">16840.0</constant>
         <constant digits="0" name="TPScalibMax" units="#">1.9677983E7</constant>
         <constant digits="0" name="TPSsampleLen" units="#">2.148797868E9</constant>
-        <constant digits="2" name="IATcalibM" units="#/°C">27.5</constant>
-        <constant digits="2" name="IATcalibN" units="#">587.0</constant>
-        <constant digits="0" name="IATcalibMin" units="#">10.0</constant>
-        <constant digits="0" name="IATcalibMax" units="#">2200.0</constant>
-        <constant digits="0" name="IATsampleLen" units="#">50.0</constant>
+        <constant digits="2" name="IATcalibM" units="#/°C">6.023260043742863E-39</constant>
+        <constant digits="2" name="IATcalibN" units="#">2.7810809211104015E-12</constant>
+        <constant digits="0" name="IATcalibMin" units="#">3.221993473E9</constant>
+        <constant digits="0" name="IATcalibMax" units="#">7.1158988E7</constant>
+        <constant digits="0" name="IATsampleLen" units="#">1.10029696E9</constant>
         <constant digits="2" name="CLTcalibM" units="#/°C">359.0</constant>
         <constant digits="2" name="CLTcalibN" units="#">2.311380419493618E-32</constant>
         <constant digits="0" name="CLTcalibMin" units="#">1.358954546E9</constant>

@@ -110,6 +110,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/com/TunerStudio_service.h" />
+		<Unit filename="../../src/com/TunerStudio_syslog_locations.h" />
 		<Unit filename="../../src/com/serial_monitor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -146,10 +147,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/Tuareg_decoder.h" />
+		<Unit filename="../../src/decoder/decoder_cis.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_cis.h" />
 		<Unit filename="../../src/decoder/decoder_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/decoder_config.h" />
+		<Unit filename="../../src/decoder/decoder_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_debug.h" />
 		<Unit filename="../../src/decoder/decoder_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -275,6 +284,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/Tuareg_sensors.h" />
+		<Unit filename="../../src/sensors/analog_sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/analog_sensors.h" />
+		<Unit filename="../../src/sensors/digital_sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/digital_sensors.h" />
 		<Unit filename="../../src/sensors/knock_sensor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -283,10 +300,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/sensor_calibration.h" />
-		<Unit filename="../../src/sensors/sensors.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/sensors/sensors.h" />
 		<Unit filename="../../src/sensors/sensors_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>

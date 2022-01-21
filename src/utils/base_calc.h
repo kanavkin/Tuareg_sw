@@ -41,4 +41,7 @@ void memclr_boctok(void * pBegin, U32 Length);
 U32 floor_boctok(VF32 Argument);
 U32 ceiling_boctok(VF32 Argument);
 
+VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value);
+VF32 calc_derivative_s(VF32 Last_Value, VF32 New_Value, VU32 Interval_us);
+
 #endif // BASECALC_H_INCLUDED

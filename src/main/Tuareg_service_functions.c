@@ -22,7 +22,7 @@
 #include "Tuareg_config.h"
 #include "table.h"
 #include "eeprom.h"
-#include "sensors.h"
+//#include "sensors.h"
 #include "fueling_hw.h"
 #include "fueling_logic.h"
 

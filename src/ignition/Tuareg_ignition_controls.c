@@ -5,6 +5,7 @@
 
 #include "base_calc.h"
 //#include "decoder_logic.h"
+
 #include "Tuareg_ignition.h"
 #include "Tuareg_ignition_controls.h"
 #include "ignition_hw.h"
@@ -63,7 +64,7 @@ void Tuareg_update_ignition_controls()
     }
 
     //check preconditions for ignition controls calculations
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
+    if((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
     {
         default_ignition_controls(pTarget);
         return;
@@ -233,7 +234,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     /**
     check for sequential / batch mode capabilities
     */
-    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->outputs.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true) && (Ignition_Setup.flags.sequential_mode_enabled == true));
+    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->flags.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true) && (Ignition_Setup.flags.sequential_mode_enabled == true));
 
     /******************************************************
     * prepare the ignition control object

@@ -24,7 +24,8 @@
 #include "Tuareg_config.h"
 #include "table.h"
 #include "eeprom.h"
-#include "sensors.h"
+#include "analog_sensors.h"
+#include "digital_sensors.h"
 #include "fueling_hw.h"
 #include "Tuareg_fueling_controls.h"
 
@@ -108,7 +109,7 @@ void Tuareg_Init()
     */
     init_Ignition();
     init_Fueling();
-    Tuareg.pSensors= init_Sensors();
+    init_Sensors();
     Tuareg.pDecoder= init_Decoder();
 
     //provide initial process data
@@ -278,13 +279,13 @@ void Tuareg_update_run_inhibit()
     */
 
     //shut engine off if the RUN switch is DISENGAGED
-    Tuareg.flags.run_switch_deactivated= (getBit_BF8(DSENSOR_RUN, Tuareg.pSensors->dsensors) != Tuareg_Setup.flags.RunSwitch_trig_high) ? true : false;
+    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run != Tuareg_Setup.flags.RunSwitch_trig_high) ? true : false;
 
     //shut engine off if the CRASH sensor is engaged
-    Tuareg.flags.crash_sensor_triggered= (getBit_BF8(DSENSOR_CRASH, Tuareg.pSensors->dsensors) == Tuareg_Setup.flags.CrashSensor_trig_high) ? true : false;
+    Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high) ? true : false;
 
     //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
-    Tuareg.flags.sidestand_sensor_triggered= ((getBit_BF8(DSENSOR_SIDESTAND, Tuareg.pSensors->dsensors) == Tuareg_Setup.flags.SidestandSensor_trig_high)  && (Tuareg.process.Gear != GEAR_NEUTRAL)) ? true : false;
+    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL)) ? true : false;
 
 
     /**
@@ -323,7 +324,13 @@ const U32 cLoad_error_limp_thres= 100;
 
 void Tuareg_update_limited_op()
 {
+    //nothing to do if already in limp mode
     //limited_op can be cleared only only by reset
+    if(Tuareg.flags.limited_op == true)
+    {
+        return;
+    }
+
 
     /**
     limit_op is now set together with the error flags for
@@ -368,11 +375,11 @@ void Tuareg_update_rev_limiter()
     max_rpm= (Tuareg.flags.limited_op)? Tuareg_Setup.limp_max_rpm : Tuareg_Setup.max_rpm;
 
 
-    if((Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > max_rpm))
+    if((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > max_rpm))
     {
         Tuareg.flags.rev_limiter= true;
     }
-    else if((Tuareg.pDecoder->outputs.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_VU32(max_rpm, cRevlimiter_hist_rpm))))
+    else if((Tuareg.pDecoder->flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_VU32(max_rpm, cRevlimiter_hist_rpm))))
     {
         Tuareg.flags.rev_limiter= false;
     }
@@ -403,17 +410,17 @@ void Tuareg_update_standby()
     if( (Tuareg.flags.run_inhibit == false) &&
         (Tuareg.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->outputs.standstill == false) &&
+        (Tuareg.pDecoder->flags.standstill == false) &&
         //(Tuareg.pDecoder->outputs.rpm_valid == true)  &&
         (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))
     {
         Tuareg.flags.cranking= true;
     }
 
-    if( ((Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.cranking_end_rpm)) ||
+    if( ((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.cranking_end_rpm)) ||
         (Tuareg.flags.run_inhibit == true) ||
         (Tuareg.flags.standby == true) ||
-        (Tuareg.pDecoder->outputs.standstill == true))
+        (Tuareg.pDecoder->flags.standstill == true))
     {
         Tuareg.flags.cranking= false;
     }
@@ -424,9 +431,9 @@ void Tuareg_update_standby()
     */
     if( (Tuareg.flags.run_inhibit == false) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->outputs.standstill == false) &&
+        (Tuareg.pDecoder->flags.standstill == false) &&
         (Tuareg.flags.cranking == false) &&
-        (Tuareg.pDecoder->outputs.rpm_valid == true))
+        (Tuareg.pDecoder->flags.rpm_valid == true))
     {
         //engine is running -> increment runtime counter
         if(Tuareg.engine_runtime < 0xFFFFFFFF)

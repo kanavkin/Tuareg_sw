@@ -4,7 +4,8 @@
 #include "systick_timer.h"
 
 #include "Tuareg.h"
-#include "sensors.h"
+#include "analog_sensors.h"
+#include "digital_sensors.h"
 #include "Tuareg_console.h"
 #include "scheduler.h"
 #include "Tuareg_service_functions.h"
@@ -104,7 +105,7 @@ void SysTick_Handler(void)
     }
 
     //provide MAP value for the stalled engine
-    if(Tuareg.pDecoder->outputs.standstill == true)
+    if(Tuareg.pDecoder->flags.standstill == true)
     {
         //start MAP sensor conversion
         sensors_start_injected_group_conversion();
@@ -148,7 +149,7 @@ void SysTick_Handler(void)
         */
 
         //update digital sensor values
-        read_digital_sensors();
+        update_digital_sensors();
 
     }
 

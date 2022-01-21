@@ -20,7 +20,7 @@
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
-#include "sensors.h"
+//#include "sensors.h"
 #include "base_calc.h"
 
 #include "fueling_config.h"
@@ -44,7 +44,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.22 2021.11";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2021.11";
 
 
 
@@ -98,25 +98,15 @@ void Tuareg_update_console()
     {
 
     case 'A':
+        //send output channels
         ts_sendOutputChannels(TS_PORT);
         break;
 
 
     case 'B':
 
-        /**
-        Burn current configuration data to eeprom if permission has been given
-        */
-        if( Tuareg_console.cli_permissions.burn_permission == true )
-        {
-            ts_burnPage(Tuareg_console.ts_active_page);
-        }
-        #ifdef CONSOLE_DEBUG
-        else
-        {
-            print(DEBUG_PORT, "\r\nWARNING page write rejected - no burn permission!");
-        }
-        #endif // CONSOLE_DEBUG
+        //write current configuration data to eeprom
+        ts_burnPage(Tuareg_console.ts_active_page);
         break;
 
 

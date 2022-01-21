@@ -1,15 +1,16 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
-#include "bitfields.h"
 
 #include "Tuareg.h"
-#include "Tuareg_sensors.h"
-
-#include "sensor_calibration.h"
-
 #include "syslog.h"
+
+#include "analog_sensors.h"
+#include "digital_sensors.h"
+#include "Tuareg_sensors.h"
+#include "sensor_calibration.h"
 #include "sensors_syslog_locations.h"
+
 
 #include "debug_port_messages.h"
 
@@ -23,10 +24,9 @@
 /******************************************************************************************************************************
 Sensors initialization
  ******************************************************************************************************************************/
-volatile sensor_interface_t * init_Sensors()
+void init_Sensors()
 {
     exec_result_t result;
-    volatile sensor_interface_t * pInterface;
 
     //start with all errors set
     Tuareg.errors.sensor_O2_error= true;
@@ -74,9 +74,10 @@ volatile sensor_interface_t * init_Sensors()
     }
 
     //init logic part
-    pInterface= init_sensor_inputs(ASENSOR_VALIDITY_FASTINIT);
+    init_sensor_inputs(ASENSOR_VALIDITY_FASTINIT);
 
-    return pInterface;
+    //init digital sensors
+    init_digital_sensors();
 
 }
 
@@ -92,7 +93,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_MAP_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_MAP] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_MAP].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_MAP_error == true)
         {
@@ -102,7 +103,7 @@ VF32 Tuareg_update_MAP_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_MAP];
+        return Analog_Sensors[ASENSOR_MAP].out;
     }
     else
     {
@@ -119,35 +120,6 @@ VF32 Tuareg_update_MAP_sensor()
 }
 
 
-VF32 Tuareg_update_ddt_MAP()
-{
-    /// must be executed after MAP sensor update!
-    if(Tuareg.errors.sensor_MAP_error == false)
-    {
-        //use live value
-        return Tuareg.pSensors->ddt_MAP;
-    }
-    else
-    {
-        return 0.0;
-    }
-}
-
-
-VF32 Tuareg_update_avg_MAP()
-{
-    /// must be executed after MAP sensor update!
-    if(Tuareg.errors.sensor_MAP_error == false)
-    {
-        //use live value
-        return Tuareg.pSensors->avg_MAP_kPa;
-    }
-    else
-    {
-        return MAP_DEFAULT_KPA;
-    }
-}
-
 
 /**
 checks the health state of the O2 sensor
@@ -156,7 +128,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_O2_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_O2] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_O2].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_O2_error == true)
         {
@@ -166,7 +138,7 @@ VF32 Tuareg_update_O2_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_O2];
+        return Analog_Sensors[ASENSOR_O2].out;
     }
     else
     {
@@ -190,7 +162,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_TPS_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_TPS] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_TPS].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_TPS_error == true)
         {
@@ -200,7 +172,7 @@ VF32 Tuareg_update_TPS_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_TPS];
+        return Analog_Sensors[ASENSOR_TPS].out;
     }
     else
     {
@@ -217,21 +189,6 @@ VF32 Tuareg_update_TPS_sensor()
 }
 
 
-VF32 Tuareg_update_ddt_TPS()
-{
-    /// must be executed after TPS sensor update!
-    if(Tuareg.errors.sensor_TPS_error == false)
-    {
-        //use live value
-        return Tuareg.pSensors->ddt_TPS;
-    }
-    else
-    {
-        return 0.0;
-    }
-}
-
-
 /**
 checks the health state of the IAT sensor
 if more than ASENSOR_VALIDITY_THRES consecutive, valid samples have been read from this sensor, it is considered valid
@@ -239,7 +196,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_IAT_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_IAT] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_IAT].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_IAT_error == true)
         {
@@ -249,7 +206,7 @@ VF32 Tuareg_update_IAT_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_IAT];
+        return Analog_Sensors[ASENSOR_IAT].out;
     }
     else
     {
@@ -274,7 +231,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_CLT_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_CLT] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_CLT].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_CLT_error == true)
         {
@@ -284,7 +241,7 @@ VF32 Tuareg_update_CLT_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_CLT];
+        return Analog_Sensors[ASENSOR_CLT].out;
     }
     else
     {
@@ -309,7 +266,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_VBAT_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_VBAT] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_VBAT].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_VBAT_error == true)
         {
@@ -319,7 +276,7 @@ VF32 Tuareg_update_VBAT_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_VBAT];
+        return Analog_Sensors[ASENSOR_VBAT].out;
     }
     else
     {
@@ -344,7 +301,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_KNOCK_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_KNOCK] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_KNOCK].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_KNOCK_error == true)
         {
@@ -354,7 +311,7 @@ VF32 Tuareg_update_KNOCK_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_KNOCK];
+        return Analog_Sensors[ASENSOR_KNOCK].out;
     }
     else
     {
@@ -378,7 +335,7 @@ uses a generic default value for disturbed sensors
 */
 VF32 Tuareg_update_BARO_sensor()
 {
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_BARO] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_BARO].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_BARO_error == true)
         {
@@ -389,7 +346,7 @@ VF32 Tuareg_update_BARO_sensor()
         }
 
         //use live value
-        return Tuareg.pSensors->asensors[ASENSOR_BARO];
+        return Analog_Sensors[ASENSOR_BARO].out;
     }
     else
     {
@@ -420,7 +377,7 @@ gears_t Tuareg_update_GEAR_sensor()
     U32 converted_gear;
 
     //check if sensor can be validated in this cycle
-    if(Tuareg.pSensors->asensors_valid_samples[ASENSOR_GEAR] > ASENSOR_VALIDITY_THRES)
+    if(Analog_Sensors[ASENSOR_GEAR].valid_count > ASENSOR_VALIDITY_THRES)
     {
         if(Tuareg.errors.sensor_GEAR_error == true)
         {
@@ -434,7 +391,7 @@ gears_t Tuareg_update_GEAR_sensor()
         the conversion of float value to gears_t shall be carried out with rounding to the nearest value
         with offset 0.5 the 6th gear is reported for input value 320
         */
-        converted_gear= Tuareg.pSensors->asensors[ASENSOR_GEAR] + cGearsRoundOffset;
+        converted_gear= Analog_Sensors[ASENSOR_GEAR].out + cGearsRoundOffset;
 
         if(converted_gear >= GEAR_COUNT)
         {

@@ -2,7 +2,7 @@
 #define SENSOR_CALIBRATION_H_INCLUDED
 
 #include "Tuareg_types.h"
-
+#include "analog_sensors.h"
 
 /***************************************************************************************************************************************************
 *   analog sensor calibration page
@@ -11,6 +11,13 @@ typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
 
     U8 Version;
 
+    /*
+    holds the parameter sets for analog sensors
+    their TS config item order shall be as defined in asensors_t
+    */
+    volatile asensor_parameters_t Asensor_Parameters[ASENSOR_COUNT];
+
+    /*
     F32 IAT_calib_M;
     F32 IAT_calib_N;
     U16 IAT_min_valid;
@@ -65,10 +72,11 @@ typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
     U16 GEAR_min_valid;
     U16 GEAR_max_valid;
     U8 GEAR_sample_len;
+    */
 
 } Sensor_Calibration_t;
 
-//#define SENSOR_CALIBRATION_SIZE 122
+//#define SENSOR_CALIBRATION_SIZE 181
 
 
 /***************************************************************************************************************************************************

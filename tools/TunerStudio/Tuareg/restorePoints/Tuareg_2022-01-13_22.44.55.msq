@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jan 13 23:04:41 CET 2022"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;warm engine, no compensation -&gt; VE 37%" writeDate="Thu Jan 13 22:44:55 CET 2022"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.23+2021.11" nPages="19" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
@@ -8,53 +8,54 @@
         <pcVariable digits="0" name="serviceActivationOffTime" units="ms">6.0</pcVariable>
         <pcVariable digits="0" name="serviceActivationEnd" units="#">10.0</pcVariable>
     </page>
-    <page number="0" size="181">
+    <page number="0" size="122">
         <constant digits="0" name="calibVersion" units="#">4.0</constant>
-        <constant digits="2" name="O2calibM" units="#/AFR">27.5</constant>
-        <constant digits="2" name="O2calibN" units="#">587.0</constant>
-        <constant digits="0" name="O2calibMin" units="#">1.4417921E8</constant>
-        <constant digits="0" name="O2calibMax" units="#">3.69098757E9</constant>
-        <constant digits="0" name="O2sampleLen" units="#">3.69098817E8</constant>
-        <constant digits="2" name="TPScalibM" units="#/°">-1.819559260207715E-12</constant>
-        <constant digits="2" name="TPScalibN" units="#">1.795483722339388E-41</constant>
-        <constant digits="0" name="TPScalibMin" units="#">16840.0</constant>
-        <constant digits="0" name="TPScalibMax" units="#">1.9677983E7</constant>
-        <constant digits="0" name="TPSsampleLen" units="#">2.148797868E9</constant>
         <constant digits="2" name="IATcalibM" units="#/°C">27.5</constant>
         <constant digits="2" name="IATcalibN" units="#">587.0</constant>
         <constant digits="0" name="IATcalibMin" units="#">10.0</constant>
         <constant digits="0" name="IATcalibMax" units="#">2200.0</constant>
         <constant digits="0" name="IATsampleLen" units="#">50.0</constant>
-        <constant digits="2" name="CLTcalibM" units="#/°C">359.0</constant>
-        <constant digits="2" name="CLTcalibN" units="#">2.311380419493618E-32</constant>
-        <constant digits="0" name="CLTcalibMin" units="#">1.358954546E9</constant>
-        <constant digits="0" name="CLTcalibMax" units="#">3.261071427E9</constant>
-        <constant digits="0" name="CLTsampleLen" units="#">3.288411332E9</constant>
-        <constant digits="2" name="VBATcalibM" units="#/V">1.8062737205146892E-42</constant>
-        <constant digits="2" name="VBATcalibN" units="#">2.4148576435709573E-41</constant>
-        <constant digits="0" name="VBATcalibMin" units="#">7.8693133E7</constant>
-        <constant digits="0" name="VBATcalibMax" units="#">1313720.0</constant>
-        <constant digits="0" name="VBATsampleLen" units="#">4161536.0</constant>
-        <constant digits="2" name="KNOCKcalibM" units="#">2.350988701644575E-38</constant>
-        <constant digits="2" name="KNOCKcalibN" units="#">9.445021196115442E21</constant>
-        <constant digits="0" name="KNOCKcalibMin" units="#">3.28794112E9</constant>
-        <constant digits="0" name="KNOCKcalibMax" units="#">1.161814016E9</constant>
-        <constant digits="0" name="KNOCKsampleLen" units="#">2.031619E8</constant>
-        <constant digits="2" name="BAROcalibM" units="#/kPA">2.3880154912271225E-38</constant>
-        <constant digits="2" name="BAROcalibN" units="#">9.698692715176667E-38</constant>
-        <constant digits="0" name="BAROcalibMin" units="#">7.1046145E7</constant>
-        <constant digits="0" name="BAROcalibMax" units="#">262402.0</constant>
-        <constant digits="0" name="BAROsampleLen" units="#">7.3670145E7</constant>
-        <constant digits="2" name="GEARcalibM" units="#">-8.72466432E9</constant>
-        <constant digits="2" name="GEARcalibN" units="#">9.547452253480247E-38</constant>
-        <constant digits="0" name="GEARcalibMin" units="#">2.064604E7</constant>
-        <constant digits="0" name="GEARcalibMax" units="#">1.9337241E7</constant>
-        <constant digits="0" name="GEARsampleLen" units="#">8.389402E7</constant>
-        <constant digits="2" name="MAPcalibM" units="#/kPA">9.1943129893036E-39</constant>
-        <constant digits="2" name="MAPcalibN" units="#">2.0769888892794434E-35</constant>
-        <constant digits="0" name="MAPcalibMin" units="#">1.275298819E9</constant>
-        <constant digits="0" name="MAPcalibMax" units="#">5.9024388E7</constant>
-        <constant digits="0" name="MAPsampleLen" units="revs">1.114123E8</constant>
+        <constant digits="2" name="CLTcalibM" units="#/°C">27.5</constant>
+        <constant digits="2" name="CLTcalibN" units="#">600.0</constant>
+        <constant digits="0" name="CLTcalibMin" units="#">10.0</constant>
+        <constant digits="0" name="CLTcalibMax" units="#">3500.0</constant>
+        <constant digits="0" name="CLTsampleLen" units="#">50.0</constant>
+        <constant digits="2" name="TPScalibM" units="#/°">25.0</constant>
+        <constant digits="2" name="TPScalibN" units="#">159.0</constant>
+        <constant digits="0" name="TPScalibMin" units="#">300.0</constant>
+        <constant digits="0" name="TPScalibMax" units="#">3500.0</constant>
+        <constant digits="0" name="TPSsampleLen" units="#">20.0</constant>
+        <constant digits="2" name="MAPcalibM" units="#/kPA">18.800048828125</constant>
+        <constant digits="2" name="MAPcalibN" units="#">359.0</constant>
+        <constant digits="0" name="MAPcalibMin" units="#">300.0</constant>
+        <constant digits="0" name="MAPcalibMax" units="#">3000.0</constant>
+        <constant digits="2" name="MAPfilterA" units="#">0.09999990463256836</constant>
+        <constant digits="0" name="MAPsampleLen" units="revs">4.0</constant>
+        <constant digits="2" name="BAROcalibM" units="#/kPA">18.64990234375</constant>
+        <constant digits="2" name="BAROcalibN" units="#">359.0</constant>
+        <constant digits="0" name="BAROcalibMin" units="#">1800.0</constant>
+        <constant digits="0" name="BAROcalibMax" units="#">2800.0</constant>
+        <constant digits="0" name="BAROsampleLen" units="#">50.0</constant>
+        <constant digits="2" name="O2calibM" units="#/AFR">209.0</constant>
+        <constant digits="2" name="O2calibN" units="#">-1555.0</constant>
+        <constant digits="0" name="O2calibMin" units="#">300.0</constant>
+        <constant digits="0" name="O2calibMax" units="#">2500.0</constant>
+        <constant digits="0" name="O2sampleLen" units="#">5.0</constant>
+        <constant digits="2" name="VBATcalibM" units="#/V">209.0</constant>
+        <constant digits="2" name="VBATcalibN" units="#">-141.0</constant>
+        <constant digits="0" name="VBATcalibMin" units="#">1200.0</constant>
+        <constant digits="0" name="VBATcalibMax" units="#">3000.0</constant>
+        <constant digits="0" name="VBATsampleLen" units="#">20.0</constant>
+        <constant digits="2" name="KNOCKcalibM" units="#">1.0</constant>
+        <constant digits="2" name="KNOCKcalibN" units="#">0.0</constant>
+        <constant digits="0" name="KNOCKcalibMin" units="#">1.0</constant>
+        <constant digits="0" name="KNOCKcalibMax" units="#">1.0</constant>
+        <constant digits="0" name="KNOCKsampleLen" units="#">100.0</constant>
+        <constant digits="2" name="GEARcalibM" units="#">-500.0</constant>
+        <constant digits="2" name="GEARcalibN" units="#">3070.0</constant>
+        <constant digits="0" name="GEARcalibMin" units="#">300.0</constant>
+        <constant digits="0" name="GEARcalibMax" units="#">3100.0</constant>
+        <constant digits="0" name="GEARsampleLen" units="#">20.0</constant>
     </page>
     <page number="1" size="15">
         <constant digits="0" name="DecoderVersion" units="#">3.0</constant>

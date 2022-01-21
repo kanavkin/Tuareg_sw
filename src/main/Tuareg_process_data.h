@@ -32,9 +32,22 @@ typedef struct _process_data_t {
 } process_data_t;
 
 
+typedef struct _process_data_memory_t {
+
+    VF32 last_MAP_kPa;
+    VF32 last_ddt_MAP;
+
+    VF32 last_TPS_deg;
+    VF32 last_ddt_TPS;
+
+    VF32 last_load_pct;
+
+} process_data_memory_t;
+
+
+
 void Tuareg_update_process_data();
 
 void Tuareg_update_load(volatile process_data_t * pProcess);
-
 
 #endif // TUAREGPDATA_H_INCLUDED

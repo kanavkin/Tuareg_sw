@@ -3,7 +3,8 @@
 
 #include "base_calc.h"
 
-#include "decoder_logic.h"
+//#include "decoder_logic.h"
+#include "Tuareg_decoder.h"
 
 #include "Tuareg_fueling.h"
 #include "Tuareg_fueling_controls.h"
@@ -152,7 +153,7 @@ void Tuareg_fueling_update_crankpos_handler()
         if(Tuareg.fueling_controls.flags.sequential_mode == true)
         {
             //check if sufficient information for this mode is available
-            if(Tuareg.pDecoder->outputs.phase_valid == false)
+            if(Tuareg.pDecoder->flags.phase_valid == false)
             {
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_SEQ_ERROR);

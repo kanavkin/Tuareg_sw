@@ -19,7 +19,8 @@
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
-#include "sensors.h"
+#include "analog_sensors.h"
+#include "digital_sensors.h"
 #include "debug_port_messages.h"
 #include "base_calc.h"
 
@@ -280,7 +281,7 @@ void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
 }
 
 
-void cli_show_decoder_interface(volatile Tuareg_decoder_t * pInterface)
+void cli_show_decoder_interface(volatile decoder_output_t * pInterface)
 {
     print(TS_PORT, "\r\n\r\ndecoder interface:");
 
@@ -300,19 +301,17 @@ void cli_show_decoder_interface(volatile Tuareg_decoder_t * pInterface)
     printf_F32(TS_PORT, pInterface->crank_acceleration);
 
     print(TS_PORT, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid standstill: ");
-    UART_Tx(TS_PORT, (pInterface->outputs.position_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->flags.position_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.phase_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->flags.phase_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.period_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->flags.period_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.rpm_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->flags.rpm_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.accel_valid? '1' :'0'));
+    UART_Tx(TS_PORT, (pInterface->flags.accel_valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->outputs.standstill? '1' :'0'));
-
-
+    UART_Tx(TS_PORT, (pInterface->flags.standstill? '1' :'0'));
 }
 
 
@@ -324,67 +323,65 @@ void cli_print_sensor_data(USART_TypeDef * Port)
     print(Port, "\r\nsensors:\r\n");
 
     print(Port, "\r\nO2: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_O2]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_O2].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_O2], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_O2].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nTPS: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_TPS]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_TPS].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_TPS], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_TPS].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nIAT: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_IAT]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_IAT].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_IAT], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_IAT].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nCLT: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_CLT]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_CLT].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_CLT], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_CLT].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nVBAT: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_VBAT]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_VBAT].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_VBAT], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_VBAT].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nKNOCK: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_KNOCK]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_KNOCK].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_KNOCK], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_KNOCK].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nBARO: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_BARO]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_BARO].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_BARO], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_BARO].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nGEAR: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_GEAR]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_GEAR].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_GEAR], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_GEAR].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
 
     print(Port, "\r\nMAP: ");
-    printf_F32(Port, Tuareg.pSensors->asensors[ASENSOR_MAP]);
+    printf_F32(Port, Analog_Sensors[ASENSOR_MAP].out);
     print(Port, " (");
-    printf_U(Port, Tuareg.pSensors->asensors_raw[ASENSOR_MAP], NO_PAD | NO_TRAIL);
+    printf_U(Port, Analog_Sensors[ASENSOR_MAP].raw, NO_PAD | NO_TRAIL);
     print(Port, ")");
-
-
 
     print(Port, "\r\n");
     print(Port, "\r\nDIGITAL: SPARE2-NEUTRAL-RUN-CRASH-DEBUG\r\n");
 
     for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
     {
-        if(Tuareg.pSensors->dsensors & (1<< sensor))
+        if(Digital_Sensors.all_sensors & (1<< sensor))
         {
             UART_Tx(Port, '1');
         }
@@ -395,6 +392,7 @@ void cli_print_sensor_data(USART_TypeDef * Port)
 
         UART_Tx(Port, '-');
     }
+
 
 }
 

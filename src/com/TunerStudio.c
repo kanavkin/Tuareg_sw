@@ -2,33 +2,41 @@
 #include "Tuareg_types.h"
 
 #include "Tuareg_console.h"
-#include "TunerStudio.h"
-#include "TunerStudio_outChannel.h"
-#include "TunerStudio_service.h"
 
-#include "table.h"
+#include "TunerStudio.h"
+//#include "TunerStudio_outChannel.h"
+//#include "TunerStudio_service.h"
+
+
+#include "syslog.h"
+#include "TunerStudio_syslog_locations.h"
+
+//#include "table.h"
 
 #include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
+//#include "uart_printf.h"
+//#include "conversion.h"
 
-#include "Tuareg.h"
-#include "eeprom.h"
-#include "eeprom_layout.h"
-#include "sensors.h"
+//#include "Tuareg.h"
+//#include "eeprom.h"
+//#include "eeprom_layout.h"
 
 #include "debug_port_messages.h"
 
-#include "base_calc.h"
-#include "diagnostics.h"
-#include "bitfields.h"
+//#include "base_calc.h"
+//#include "diagnostics.h"
+//#include "bitfields.h"
 
 #include "fueling_config.h"
-
-#include "process_table.h"
-
-#include "syslog.h"
+#include "ignition_config.h"
+#include "decoder_config.h"
+#include "Tuareg_config.h"
+#include "sensor_calibration.h"
 #include "fault_log.h"
+
+//#include "process_table.h"
+
+
 
 //#define TS_DEBUG
 
@@ -133,7 +141,7 @@ void ts_readPage(U32 Page)
 /**
 this function implements the TS interface valueWrite command
 */
-void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
+exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 {
     exec_result_t result= false;
 
@@ -143,10 +151,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.decoder_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** decoder config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_Decoder_Setup(Offset, Value);
@@ -156,10 +166,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.tsetup_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** tuareg setup modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_Tuareg_Setup(Offset, Value);
@@ -169,10 +181,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** ignition setup modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_Ignition_Setup(Offset, Value);
@@ -182,10 +196,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling setup modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_Fueling_Setup(Offset, Value);
@@ -195,10 +211,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.calib_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** calibration modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_Sensor_Calibration(Offset, Value);
@@ -209,10 +227,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** ignition config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_ignAdvTable_TPS(Offset, Value);
@@ -223,10 +243,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** ignition config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_ignDwellTable(Offset, Value);
@@ -237,10 +259,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_VeTable_TPS(Offset, Value);
@@ -250,10 +274,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_VeTable_MAP(Offset, Value);
@@ -263,10 +289,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_AfrTable_TPS(Offset, Value);
@@ -276,10 +304,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_AfrTable_MAP(Offset, Value);
@@ -289,10 +319,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_AccelCompTableTPS(Offset, Value);
@@ -302,10 +334,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_AccelCompTableMAP(Offset, Value);
@@ -315,10 +349,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_WarmUpCompTable(Offset, Value);
@@ -328,10 +364,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_InjectorTimingTable(Offset, Value);
@@ -341,10 +379,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_InjectorPhaseTable(Offset, Value);
@@ -354,10 +394,12 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
             if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
             {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
                 #ifdef TS_DEBUG
                 DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
                 #endif // TS_DEBUG
-                return;
+                return result;
             }
 
             result= modify_CrankingFuelTable(Offset, Value);
@@ -368,13 +410,17 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
     }
 
-    #ifdef TS_DEBUG
     if(result != EXEC_OK)
     {
-        print(DEBUG_PORT, "\r\nWARNING Page ");
+        Syslog_Error(TID_TUNERSTUDIO, TS_LOC_MOD_ERROR);
+
+        #ifdef TS_DEBUG
+        print(DEBUG_PORT, "\r\nERROR Page ");
         printf_U(DEBUG_PORT, Tuareg_console.ts_active_page, NO_PAD);
         print(DEBUG_PORT, "could not be updated");
+        #endif //TS_DEBUG
     }
+    #ifdef TS_DEBUG
     else
     {
         print(DEBUG_PORT, "\r\nMOD Page ");
@@ -384,15 +430,30 @@ void ts_valueWrite(U32 Page, U32 Offset, U32 Value)
         printf_U8hex(DEBUG_PORT, Value, 0);
     }
     #endif //TS_DEBUG
+
+    return result;
 }
 
 
 /**
 this function implements the TS interface burnPage command
 */
-void ts_burnPage(U32 Page)
+exec_result_t ts_burnPage(U32 Page)
 {
     exec_result_t result= EXEC_ERROR;
+
+
+    if(Tuareg_console.cli_permissions.burn_permission == false)
+    {
+        Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOBRNPERM);
+
+        #ifdef TS_DEBUG
+        DebugMsg_Warning("*** page write rejected rejected (permission) ***");
+        #endif // TS_DEBUG
+
+        return result;
+    }
+
 
     switch(Page)
     {
@@ -482,7 +543,6 @@ void ts_burnPage(U32 Page)
             break;
 
 
-
        default:
             #ifdef TS_DEBUG
             DebugMsg_Warning("invalid page specified");
@@ -491,20 +551,25 @@ void ts_burnPage(U32 Page)
 
     }
 
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_TUNERSTUDIO, TS_LOC_BRN_ERROR);
+
+        #ifdef TS_DEBUG
+        print(DEBUG_PORT, "\r\nERROR Page ");
+        printf_U(DEBUG_PORT, Page, NO_PAD);
+        print(DEBUG_PORT, "write failed");
+        #endif
+    }
     #ifdef TS_DEBUG
-    if(result == EXEC_OK)
+    else
     {
         print(DEBUG_PORT, "\r\nINFO Page ");
         printf_U(DEBUG_PORT, Page, NO_PAD);
         print(DEBUG_PORT, "has been written");
     }
-    else
-    {
-        print(DEBUG_PORT, "\r\nWARNING Page ");
-        printf_U(DEBUG_PORT, Page, NO_PAD);
-        print(DEBUG_PORT, "write failed");
-    }
     #endif
 
+    return result;
 }
 

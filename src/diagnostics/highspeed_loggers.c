@@ -108,7 +108,7 @@ void highspeedlog_write(highspeedlog_event_t Event)
     //phasing
     pTarget->flags.cam_lobe= Highspeedlog_Mgr.cam_lobe_begin_triggered;
     pTarget->flags.phase_comp= (Tuareg.pDecoder->phase == PHASE_CYL1_COMP) ? true : false;
-    pTarget->flags.phase_valid= Tuareg.pDecoder->outputs.phase_valid;
+    pTarget->flags.phase_valid= Tuareg.pDecoder->flags.phase_valid;
 
     __enable_irq();
 

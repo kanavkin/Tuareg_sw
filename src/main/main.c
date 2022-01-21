@@ -67,6 +67,7 @@ SCHEDULER (ignition)
 #include "Tuareg.h"
 
 #include "Tuareg_decoder.h"
+#include "decoder_debug.h"
 #include "Tuareg_ignition.h"
 #include "Tuareg_fueling.h"
 #include "scheduler.h"
@@ -76,6 +77,7 @@ SCHEDULER (ignition)
 #include "Tuareg_diag.h"
 #include "debug_port_messages.h"
 #include "syslog.h"
+#include "analog_sensors.h"
 
 
 /**
@@ -179,7 +181,7 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_10_ms= false;
 
-            if(Tuareg.pDecoder->outputs.standstill == true)
+            if(Tuareg.pDecoder->flags.standstill == true)
             {
                 Tuareg_update_process_data();
 
@@ -250,7 +252,7 @@ void EXTI2_IRQHandler(void)
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
     {
         //update process table with data supplied by decoder
-        update_process_table( (Tuareg.pDecoder->outputs.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
+        update_process_table( (Tuareg.pDecoder->flags.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
 
         //update process data
         Tuareg_update_process_data();

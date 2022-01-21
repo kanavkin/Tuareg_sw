@@ -9,7 +9,7 @@
 
 
 /**
-ignition_logic_state_t
+fueling_logic_flags_t
 */
 typedef union
 {

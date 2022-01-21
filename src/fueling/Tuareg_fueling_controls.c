@@ -51,7 +51,7 @@ void Tuareg_update_fueling_controls()
 
     //check operational preconditions
     if( (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) ||
-        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.pDecoder->outputs.period_valid == false) || (Tuareg.engine_runtime == 0)))
+        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.engine_runtime == 0)))
     )
     {
         //clean controls
@@ -266,7 +266,7 @@ decides which mode currently applies
 void update_mode(volatile fueling_control_t * pTarget)
 {
 
-    if((Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->outputs.phase_valid))
+    if((Tuareg.errors.fueling_config_error == false) && (Tuareg.flags.limited_op == false) && (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->flags.phase_valid))
     {
         //sequential mode
         pTarget->flags.sequential_mode= true;
@@ -954,7 +954,7 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 
 
     /// dc threshold calculation relies on crank speed information
-    if(Tuareg.pDecoder->outputs.period_valid == true)
+    if(Tuareg.pDecoder->flags.period_valid == true)
     {
         //calculate the maximum powered interval based on 720° engine cycle
         max_powered_interval_us= (2 * Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
@@ -1024,7 +1024,7 @@ void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
 
 
     /// dc threshold calculation relies on crank speed information
-    if(Tuareg.pDecoder->outputs.period_valid == true)
+    if(Tuareg.pDecoder->flags.period_valid == true)
     {
         //calculate the maximum powered interval based on 360° crank cycle
         max_powered_interval_us= (Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
@@ -1140,7 +1140,7 @@ void update_injection_begin_sequential(volatile fueling_control_t * pTarget)
     ******************************************/
 
     //check preconditions - crank period known
-    if((Tuareg.pDecoder->outputs.period_valid == false) || (Tuareg.pDecoder->outputs.rpm_valid == false))
+    if((Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.pDecoder->flags.rpm_valid == false))
     {
         return;
     }
