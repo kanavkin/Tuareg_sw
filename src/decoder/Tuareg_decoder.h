@@ -46,8 +46,6 @@ typedef struct _decoder_output_t {
 } decoder_output_t;
 
 
-
-
 volatile decoder_output_t * init_Decoder();
 VU32 decoder_get_position_data_age_us();
 

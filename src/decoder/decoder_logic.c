@@ -10,6 +10,8 @@
 #include "decoder_debug.h"
 #include "decoder_logic.h"
 #include "decoder_config.h"
+#include "decoder_debug.h"
+#include "decoder_syslog_locations.h"
 
 #include "base_calc.h"
 
@@ -20,7 +22,7 @@
 #include "diagnostics.h"
 #include "highspeed_loggers.h"
 
-
+#define DECODER_CIS_DEBUG
 
 #ifdef DECODER_TIMING_DEBUG
 #warning decoder timing debug enabled
@@ -86,27 +88,20 @@ void reset_internal_data()
 }
 
 
-
- void decoder_set_state(decoder_internal_state_t NewState)
+void decoder_set_state(decoder_internal_state_t NewState)
 {
-    if(NewState >= DSTATE_COUNT)
-    {
-        //error
-        Decoder.state= DSTATE_INIT;
-        return;
-    }
+    Assert(NewState < DSTATE_COUNT, TID_DECODER_LOGIC, DECODER_SETSTATE_ERROR);
 
     //collect debug information
+    #ifdef DECODER_EVENT_DEBUG
     if((Decoder.state == DSTATE_SYNC) && (NewState != DSTATE_SYNC))
     {
         register_sync_lost_debug_event();
     }
+    #endif // DECODER_EVENT_DEBUG
 
     Decoder.state= NewState;
 }
-
-
-
 
 
 /******************************************************************************************************************************
@@ -180,13 +175,6 @@ bool check_sync_ratio_async()
 decoder helper functions - timing data calculation
 ******************************************************************************************************************************/
 
-#ifdef DECODER_TIMING_DEBUG
-const U32 cDecoder_timing_debug_size= 100;
-VU32 decoder_timing_debug_cnt =0;
-volatile decoder_timing_debug_t Decoder_timing_debug[100];
-#endif // DECODER_TIMING_DEBUG
-
-
 const U32 cDecoder_min_valid_period= 6000;
 const U32 cDecoder_min_valid_rpm= 100;
 const U32 cDecoder_max_valid_rpm= 10000;
@@ -196,20 +184,12 @@ void update_timing_data()
     VU32 period_us, rpm;
     VF32 accel;
 
-    #ifdef DECODER_TIMING_DEBUG
-    if(decoder_timing_debug_cnt < cDecoder_timing_debug_size)
-    {
-        decoder_timing_debug_cnt++;
-    }
-
-    if(decoder_timing_debug_cnt >= cDecoder_timing_debug_size)
-    {
-        DebugMsg_Warning("capture ready");
-    }
-    #endif // DECODER_TIMING_DEBUG
-
-    //set invalid output data
+    //set invalid output data, but keep last_crank_rpm
     reset_timing_output();
+
+    #ifdef DECODER_TIMING_DEBUG
+    decoder_timing_debug_next_cycle();
+    #endif // DECODER_TIMING_DEBUG
 
     /**
     precondition check
@@ -219,6 +199,11 @@ void update_timing_data()
     */
     if( (Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.captured_positions_cont != 1) || (Decoder_hw.prev1_timer_value == 0) || (Decoder_hw.prev2_timer_value == 0))
     {
+        //save debug information
+        #ifdef DECODER_TIMING_DEBUG
+        decoder_update_timing_debug();
+        #endif // DECODER_TIMING_DEBUG
+
         //exit with invalid outputs
         return;
     }
@@ -233,12 +218,6 @@ void update_timing_data()
     //the timer value after an reset in continuous mode reflects T360
     period_us= Decoder_hw.current_timer_value * Decoder_hw.timer_period_us;
 
-    #ifdef DECODER_TIMING_DEBUG
-    Decoder_timing_debug[decoder_timing_debug_cnt].hw_period_us= Decoder_hw.timer_period_us;
-    Decoder_timing_debug[decoder_timing_debug_cnt].hw_timer_val= Decoder_hw.current_timer_value;
-    Decoder_timing_debug[decoder_timing_debug_cnt].period_us= period_us;
-    #endif // DECODER_TIMING_DEBUG
-
     //check if the timer value can be a valid crank period
     if(period_us < cDecoder_min_valid_period)
     {
@@ -248,6 +227,11 @@ void update_timing_data()
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
 
+        //save debug information
+        #ifdef DECODER_TIMING_DEBUG
+        decoder_update_timing_debug();
+        #endif // DECODER_TIMING_DEBUG
+
         return;
     }
 
@@ -255,16 +239,8 @@ void update_timing_data()
     Decoder.out.crank_period_us= period_us;
     Decoder.out.flags.period_valid= true;
 
-    #ifdef DECODER_TIMING_DEBUG
-    Decoder_timing_debug[decoder_timing_debug_cnt].out.period_valid= Decoder.outputs.period_valid;
-    #endif // DECODER_TIMING_DEBUG
-
     //calculate crank rpm based on the valid period figure
     rpm= calc_rpm(period_us);
-
-    #ifdef DECODER_TIMING_DEBUG
-    Decoder_timing_debug[decoder_timing_debug_cnt].rpm= rpm;
-    #endif // DECODER_TIMING_DEBUG
 
     if((rpm < cDecoder_min_valid_rpm) || (rpm > cDecoder_max_valid_rpm))
     {
@@ -272,6 +248,11 @@ void update_timing_data()
 
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
+
+        //save debug information
+        #ifdef DECODER_TIMING_DEBUG
+        decoder_update_timing_debug();
+        #endif // DECODER_TIMING_DEBUG
 
         return;
     }
@@ -281,10 +262,6 @@ void update_timing_data()
     Decoder.out.flags.rpm_valid= true;
 
  //   __enable_irq();
-
-    #ifdef DECODER_TIMING_DEBUG
-    Decoder_timing_debug[decoder_timing_debug_cnt].out.rpm_valid= Decoder.outputs.rpm_valid;
-    #endif // DECODER_TIMING_DEBUG
 
     /**
     calculate the difference in rpm based on the former valid rpm figure
@@ -305,8 +282,11 @@ void update_timing_data()
     //store last current engine speed for the calculation from next cycle
     Decoder.last_crank_rpm= rpm;
 
+    //save debug information
+    #ifdef DECODER_TIMING_DEBUG
+    decoder_update_timing_debug();
+    #endif // DECODER_TIMING_DEBUG
 }
-
 
 
 /******************************************************************************************************************************
@@ -475,11 +455,11 @@ void decoder_crank_handler()
 
                     break;
 
+
                 case CRK_POSITION_B2:
 
                     //update engine rotational speed calculation
                     update_timing_data();
-
                     break;
 
 
@@ -509,7 +489,6 @@ void decoder_crank_handler()
                 disable_cis();
             }
 
-
             //notify high speed logger about new crank position
             highspeedlog_register_crankpos(Decoder.out.crank_position);
 
@@ -531,6 +510,8 @@ void decoder_crank_handler()
 
 
         default:
+            //add fatal?
+
             //invalid state
             decoder_set_state(DSTATE_INIT);
             break;
@@ -567,11 +548,14 @@ void decoder_crank_timeout_handler()
     decoder_set_state(DSTATE_TIMEOUT);
     reset_internal_data();
 
-    //collect debug information
-    register_timer_overflow_debug_event();
-
     //report to interface
     Decoder.out.flags.standstill= true;
+
+    //collect debug information
+    #ifdef DECODER_EVENT_DEBUG
+    register_timer_overflow_debug_event();
+    #endif // DECODER_EVENT_DEBUG
+
 
     /**
     timer update indicates unstable engine operation
@@ -588,7 +572,9 @@ void decoder_crank_timeout_handler()
         decoder_diag_log_event(DDIAG_TIMEOUT_EVENTS);
 
         //collect debug information
+        #ifdef DECODER_EVENT_DEBUG
         register_timeout_debug_event();
+        #endif // DECODER_EVENT_DEBUG
     }
     else
     {
@@ -596,3 +582,6 @@ void decoder_crank_timeout_handler()
     }
 
 }
+
+
+

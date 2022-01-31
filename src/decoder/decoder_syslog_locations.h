@@ -6,6 +6,8 @@ typedef enum {
 
 
 
+    DECODER_DEBUG_ERROR,
+    DECODER_SETSTATE_ERROR,
     DECODER_LOC_COUNT
 
 

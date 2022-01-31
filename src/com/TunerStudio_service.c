@@ -14,6 +14,7 @@
 #include "table.h"
 
 #include "decoder_config.h"
+#include "decoder_debug.h"
 #include "ignition_config.h"
 #include "sensor_calibration.h"
 #include "Tuareg.h"
@@ -39,6 +40,7 @@
 #ifdef TS_SERVICE_DEBUG
 #warning TS Service Debug messages enabled
 #endif // TS_SERVICE_DEBUG
+
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmultichar"
@@ -116,20 +118,19 @@ void ts_debug_features(U32 FeatureID)
 }
 
 
-void ts_debug_info(U32 InfoID)
+void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
 {
     switch (InfoID)
     {
         case 'AD':
 
-            print_sensors_diag(TS_PORT);
+            print_sensors_diag(Port);
             break;
 
         case 'DD':
 
-            print_decoder_diag(TS_PORT);
+            print_decoder_diag(Port);
             break;
-
 
 
         case 'DI':
@@ -138,21 +139,29 @@ void ts_debug_info(U32 InfoID)
 
             break;
 
+        #ifdef DECODER_CIS_DEBUG
+        case 'DC':
+
+            print_decoder_cis_debug_data(TS_PORT);
+            break;
+        #endif // DECODER_CIS_DEBUG
+
+
         case 'TD':
 
-            print_tuareg_diag(TS_PORT);
+            print_tuareg_diag(Port);
             break;
 
 
         case 'SD':
 
-            print_scheduler_diag(TS_PORT);
+            print_scheduler_diag(Port);
             break;
 
 
         case 'ID':
 
-            print_ignition_diag(TS_PORT);
+            print_ignition_diag(Port);
             break;
 
 
@@ -177,7 +186,7 @@ void ts_debug_info(U32 InfoID)
             /**
             print current process table fancy
             */
-            print_process_table_fancy(TS_PORT);
+            print_process_table_fancy(Port);
             break;
 
 
@@ -185,19 +194,19 @@ void ts_debug_info(U32 InfoID)
         case 'se':
 
             //show analog and digital sensor values
-            cli_print_sensor_data(TS_PORT);
+            cli_print_sensor_data(Port);
             break;
 
         case 'FD':
 
-            print_fueling_diag(TS_PORT);
+            print_fueling_diag(Port);
             break;
 
 
 
         case 'HL':
 
-            show_highspeedlog(TS_PORT);
+            show_highspeedlog(Port);
             break;
 
 

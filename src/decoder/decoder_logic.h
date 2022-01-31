@@ -4,13 +4,15 @@
 #include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
+#include "decoder_cis.h"
+#include "decoder_debug.h"
 #include "Tuareg_decoder.h"
 
 
-//#define DECODER_TIMING_DEBUG
+
 
 /*********************************************************************************************************************************
-decoder data types
+internal data types
 *********************************************************************************************************************************/
 
 typedef enum {
@@ -24,52 +26,6 @@ typedef enum {
     DSTATE_COUNT
 
 } decoder_internal_state_t;
-
-
-typedef struct {
-
-    VU8 lobe_begin_detected :1;
-    VU8 lobe_end_detected :1;
-    VU8 cis_failure :1;
-
-} decoder_cis_state_t;
-
-
-
-/*********************************************************************************************************************************
-debug data
-*********************************************************************************************************************************/
-
-#ifdef DECODER_TIMING_DEBUG
-typedef struct {
-
-    U32 hw_period_us;
-    U32 hw_timer_val;
-    U32 period_us;
-    U32 rpm;
-
-    decoder_output_state_t out;
-
-} decoder_timing_debug_t;
-#endif // DECODER_TIMING_DEBUG
-
-
-typedef union
-{
-     U8 all_flags;
-
-     struct {
-
-        VU8 got_sync :1;
-        VU8 lost_sync :1;
-        VU8 timer_overflow :1;
-        VU8 standstill :1;
-     };
-
-} decoder_debug_flags_t;
-
-
-
 
 
 /*********************************************************************************************************************************
@@ -87,25 +43,13 @@ typedef struct {
     //timeout_count indicates how much consecutive timer update events have occurred
     U32 timeout_count;
 
-    //occurred debug events to process
-    decoder_debug_flags_t debug;
-
     //crankshaft
     U32 last_crank_rpm;
 
-    /*
-    CIS internals
-    */
-    U32 lobe_begin_timestamp;
-    U32 lobe_end_timestamp;
-    U32 cis_sync_counter;
-    decoder_cis_state_t cis;
+    //cylinder identification sensor
+    decoder_cis_t cis;
 
 } Tuareg_decoder_t;
-
-
-
-
 
 
 extern volatile Tuareg_decoder_t Decoder;

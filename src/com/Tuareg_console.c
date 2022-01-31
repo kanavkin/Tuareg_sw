@@ -44,8 +44,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2021.11";
-
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2022.01";
 
 
 volatile Tuareg_console_t Tuareg_console;
@@ -184,7 +183,7 @@ void Tuareg_update_console()
         #endif // CONSOLE_DEBUG
 
         //run the desired feature
-        ts_debug_info(value);
+        ts_debug_info(value, TS_PORT);
         break;
 
 

@@ -360,8 +360,21 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
         //check if the previous action shall be taken now
         if(pChannelState->parameters.flags.complete_cycle_realloc == true)
         {
-            //complete the last scheduler cycle with its commanded action
-            pChannelState->callback(pChannelState->parameters.flags.action1_power? ACTOR_POWERED : ACTOR_UNPOWERED);
+            /*
+            check which action shall be triggered
+            - with 2 intervals enabled, check if the first interval has expired
+            - with 1 interval enabled, it must always be the first action
+            */
+            if( (pChannelState->parameters.flags.interval2_enabled == true) && (pChannelState->flags.interval1_expired == true))
+            {
+                //trigger useful action 2
+                pChannelState->callback(pChannelState->parameters.flags.action2_power? ACTOR_POWERED : ACTOR_UNPOWERED);
+            }
+            else
+            {
+                //trigger useful action 1
+                pChannelState->callback(pChannelState->parameters.flags.action1_power? ACTOR_POWERED : ACTOR_UNPOWERED);
+            }
 
             //collect diagnostic information
             scheduler_diag_log_event(SCHEDIAG_ICH1_REALLOC_COMPLETED + Channel);

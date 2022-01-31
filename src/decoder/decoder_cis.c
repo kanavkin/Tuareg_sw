@@ -8,6 +8,8 @@
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "decoder_config.h"
+#include "decoder_diag.h"
+#include "decoder_debug.h"
 
 #include "base_calc.h"
 
@@ -19,9 +21,7 @@
 #include "highspeed_loggers.h"
 
 
-/******************************************************************************************************************************
-cylinder identification sensor handling
-******************************************************************************************************************************/
+
 
 
 /******************************************************************************************************************************
@@ -35,42 +35,62 @@ The decoder timer always gets reset on Position B2!
 void decoder_update_cis()
 {
     engine_phase_t detected_phase;
-    U32 lobe_angle_deg, lobe_interval_us;
+    U32 lobe_angle_deg =0, lobe_interval_us =0;
+
+    #ifdef DECODER_CIS_DEBUG
+    decoder_cis_debug_next_cycle();
+    #endif // DECODER_CIS_DEBUG
 
     //collect diagnostic information
     decoder_diag_log_event(DDIAG_CISUPD_CALLS);
 
     //precondition check
     if((Decoder.out.flags.period_valid == false) ||
-       ((Decoder.cis.lobe_begin_detected == true) && (Decoder.cis.lobe_end_detected == false)) ||
-       ((Decoder.cis.lobe_begin_detected == false) && (Decoder.cis.lobe_end_detected == true)) ||
-       (Decoder.cis.cis_failure == true) )
+       ((Decoder.cis.flags.lobe_begin_detected == true) && (Decoder.cis.flags.lobe_end_detected == false)) ||
+       ((Decoder.cis.flags.lobe_begin_detected == false) && (Decoder.cis.flags.lobe_end_detected == true)) ||
+       (Decoder.cis.flags.failure == true) )
     {
+        //collect additional state information
+        Decoder.cis.flags.period_valid= Decoder.out.flags.period_valid;
+        Decoder.cis.flags.preconditions_ok= false;
+        Decoder.cis.flags.triggered= false;
+        Decoder.cis.flags.phase_match= false;
+        Decoder.cis.flags.phase_valid= false;
+
         //phase information invalid
         Decoder.out.phase= PHASE_UNDEFINED;
         Decoder.out.flags.phase_valid= false;
-
-        //phase sync lost
-        Decoder.cis_sync_counter =0;
+        Tuareg.errors.sensor_CIS_error= true;
+        Decoder.cis.sync_counter= 0;
 
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_CISUPD_PRECOND_FAIL);
 
+        #ifdef DECODER_CIS_DEBUG
+        decoder_update_cis_debug(lobe_interval_us, lobe_angle_deg);
+        #endif // DECODER_CIS_DEBUG
+
         return;
     }
+    else
+    {
+        //collect additional state information
+        Decoder.cis.flags.preconditions_ok= true;
+    }
+
 
     /*******************************************
-    signal validation:
-    the cis has been triggered if the cam lobe has been detected for more then cis_min_angle_deg
+    signal validation -> the cis has been triggered if the cam lobe has been detected for more then cis_min_angle_deg
     *******************************************/
 
     //default estimation: sensor has not been triggered
     detected_phase= opposite_phase(Decoder_Setup.cis_triggered_phase);
+    Decoder.cis.flags.triggered= false;
 
     //check if the cis has detected a rising and a falling signal edge
-    if( (Decoder.cis.lobe_begin_detected == true) && (Decoder.cis.lobe_end_detected == true))
+    if( (Decoder.cis.flags.lobe_begin_detected == true) && (Decoder.cis.flags.lobe_end_detected == true))
     {
-        lobe_interval_us= Decoder_hw.timer_period_us * subtract_VU32(Decoder.lobe_end_timestamp, Decoder.lobe_begin_timestamp);
+        lobe_interval_us= Decoder_hw.timer_period_us * subtract_VU32(Decoder.cis.lobe_end_timestamp, Decoder.cis.lobe_begin_timestamp);
 
         lobe_angle_deg= calc_rot_angle_deg(lobe_interval_us, Decoder.out.crank_period_us);
 
@@ -82,31 +102,38 @@ void decoder_update_cis()
 
             //collect diagnostic data
             decoder_diag_log_event(DDIAG_CISUPD_TRIGGERED);
+
+            //collect additional state information
+            Decoder.cis.flags.triggered= true;
         }
     }
 
+
     /*******************************************
-    evaluation:
-    the detected cis signal shall confirm the currently expected phase
+    evaluation -> the cis signal shall confirm the currently expected phase
     *******************************************/
 
     //check if the resulting cis signal confirms the currently expected phase
     if(Decoder.out.phase == detected_phase)
     {
-        //GOOD!
+        /**
+        GOOD
+        */
 
-        if(Decoder.cis_sync_counter < Decoder_Setup.cis_sync_thres)
+        //collect additional state information
+        Decoder.cis.flags.phase_match= true;
+
+        //check if the required amount of valid samples has been detected
+        if(Decoder.cis.sync_counter < Decoder_Setup.cis_sync_thres)
         {
-            Decoder.cis_sync_counter += 1;
+            Decoder.cis.sync_counter += 1;
         }
-
-        if(Decoder.cis_sync_counter == Decoder_Setup.cis_sync_thres)
+        else
         {
             //stable cis signal detected
             Decoder.out.flags.phase_valid= true;
-
-            //report to flags
             Tuareg.errors.sensor_CIS_error= false;
+            Decoder.cis.flags.phase_valid= true;
         }
 
         //collect diagnostic data
@@ -114,35 +141,43 @@ void decoder_update_cis()
     }
     else
     {
-        //expected engine phase information requires updating
+        /**
+        BAD
+        */
+        Decoder.cis.sync_counter =0;
         Decoder.out.flags.phase_valid= false;
-
-        //report to flags
         Tuareg.errors.sensor_CIS_error= true;
 
-/// TODO (oli#3#): add syslog entry for cis
-
-
-        //update the expected phase information
+        //expected engine phase information requires updating
         Decoder.out.phase= detected_phase;
-        Decoder.cis_sync_counter =0;
+
+        //collect additional state information
+        Decoder.cis.flags.phase_match= false;
+        Decoder.cis.flags.phase_valid= false;
+
 
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_CISUPD_PHASE_FAIL);
     }
+
+    #ifdef DECODER_CIS_DEBUG
+    decoder_update_cis_debug(lobe_interval_us, lobe_angle_deg);
+    #endif // DECODER_CIS_DEBUG
+
 }
+
 
 
 /******************************************************************************************************************************
 cylinder identification sensor handling - irq handler
 called from decoder_hw module when the corresponding EXTI has been triggered
 ******************************************************************************************************************************/
- void decoder_cis_handler()
+void decoder_cis_handler()
 {
     //precondition check
-    if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder.cis.cis_failure == true))
+    if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder.cis.flags.failure == true))
     {
-        Decoder.cis.cis_failure= true;
+        Decoder.cis.flags.failure= true;
 
         //collect diagnostic data
         decoder_diag_log_event(DDIAG_CISHDL_PRECOND_FAIL);
@@ -153,8 +188,8 @@ called from decoder_hw module when the corresponding EXTI has been triggered
     //save decoder timestamp with respect to cam sensing
     if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_begin_sensing)
     {
-        Decoder.lobe_begin_timestamp= decoder_get_timestamp();
-        Decoder.cis.lobe_begin_detected= true;
+        Decoder.cis.lobe_begin_timestamp= decoder_get_timestamp();
+        Decoder.cis.flags.lobe_begin_detected= true;
 
         //invert cam sensing
         decoder_set_cis_sensing(Decoder_Setup.lobe_end_sensing);
@@ -168,17 +203,25 @@ called from decoder_hw module when the corresponding EXTI has been triggered
     }
     else if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_end_sensing)
     {
-        Decoder.lobe_end_timestamp= decoder_get_timestamp();
-        Decoder.cis.lobe_end_detected= true;
+        Decoder.cis.lobe_end_timestamp= decoder_get_timestamp();
+        Decoder.cis.flags.lobe_end_detected= true;
 
-        //invert cam sensing
-        decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
+        /*
+        tolerate CIS signal bouncing:
+        - the first detected lobe begin is considered as actual begin
+        - the last detected lobe end is considered as the actual lobe end
+        -> allow multiple lobe end events
+        */
 
         //notify high speed log
         highspeedlog_register_cis_lobe_end();
 
         //collect diagnostic information
         decoder_diag_log_event(DDIAG_LOBE_END);
+
+        //count detected lobe end events
+        Decoder.cis.detected_lobe_ends += 1;
+
     }
     else
     {
@@ -191,10 +234,11 @@ called from decoder_hw module when the corresponding EXTI has been triggered
 }
 
 
+
 /******************************************************************************************************************************
 cylinder identification sensor handling - noise filter
 ******************************************************************************************************************************/
- void decoder_cis_noisefilter_handler()
+void decoder_cis_noisefilter_handler()
 {
     decoder_unmask_cis_irq();
 }
@@ -205,15 +249,16 @@ cylinder identification sensor handling - noise filter
 cylinder identification sensor handling - high level functions
 called from decoder logic module when the crank position has reached the cis enable / disable position
 ******************************************************************************************************************************/
- void enable_cis()
+void enable_cis()
 {
     //set sensing for lobe beginning
     decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
 
-    //trust the sensor by now
-    Decoder.cis.cis_failure= false;
-    Decoder.cis.lobe_begin_detected= false;
-    Decoder.cis.lobe_end_detected= false;
+    //reset state data
+    Decoder.cis.flags.failure= false;
+    Decoder.cis.flags.lobe_begin_detected= false;
+    Decoder.cis.flags.lobe_end_detected= false;
+    Decoder.cis.detected_lobe_ends= 0;
 
     //collect diagnostic information
     decoder_diag_log_event(DDIAG_ENA_CIS);
@@ -223,7 +268,7 @@ called from decoder logic module when the crank position has reached the cis ena
 }
 
 
- void disable_cis()
+void disable_cis()
 {
     //disable irq
     decoder_mask_cis_irq();
@@ -231,3 +276,14 @@ called from decoder logic module when the crank position has reached the cis ena
     //check the gathered cis data for phase information
     decoder_update_cis();
 }
+
+
+
+
+
+
+
+
+
+
+
