@@ -2,44 +2,29 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="../../src/decoder/Tuareg_decoder.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/sensors/sensors_syslog_locations.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1115" topLine="0" />
+			<Cursor1 position="197" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="../../src/com/TunerStudio_service.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/decoder/decoder_cis.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3797" topLine="220" />
+			<Cursor1 position="8530" topLine="232" />
 		</Cursor>
 	</File>
-	<File name="../../src/decoder/Tuareg_decoder.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/fueling/Fueling_syslog_locations.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="312" topLine="0" />
+			<Cursor1 position="174" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="../../src/decoder/decoder_logic.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/fueling/fueling_hw.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14280" topLine="357" />
+			<Cursor1 position="58" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="../../src/decoder/decoder_debug.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/sensors/Tuareg_sensors.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6755" topLine="211" />
-		</Cursor>
-	</File>
-	<File name="../../src/decoder/decoder_logic.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1325" topLine="34" />
-		</Cursor>
-	</File>
-	<File name="../../src/decoder/decoder_debug.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="921" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="../../src/com/Tuareg_console.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3508" topLine="157" />
+			<Cursor1 position="17" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="../../src/diagnostics/highspeed_loggers.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -47,19 +32,149 @@
 			<Cursor1 position="1787" topLine="104" />
 		</Cursor>
 	</File>
-	<File name="../../src/decoder/decoder_syslog_locations.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/decoder/decoder_logic.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="139" topLine="0" />
+			<Cursor1 position="153" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="../../src/decoder/decoder_cis.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../../src/main/Tuareg_types.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6720" topLine="191" />
+			<Cursor1 position="88" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/Tuareg_decoder.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="68" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/fueling/Tuareg_fueling.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="319" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/diagnostics/fault_log.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1971" topLine="108" />
 		</Cursor>
 	</File>
 	<File name="../../src/com/TunerStudio_service.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="191" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/main/Tuareg_ID.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="471" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_debug.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1643" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="../../src/ignition/Tuareg_ignition.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3569" topLine="93" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/Tuareg_decoder.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2439" topLine="63" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_debug.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6803" topLine="196" />
+		</Cursor>
+	</File>
+	<File name="../../src/fueling/Tuareg_fueling_controls.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1710" topLine="71" />
+		</Cursor>
+	</File>
+	<File name="../../src/main/Tuareg_errors.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="603" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/utils/base_calc.c" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="209" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/main/Tuareg.h" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="53" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/com/uart_printf.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="406" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/ignition/Tuareg_ignition.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="97" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/fueling/fueling_logic.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="58" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_config.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="677" topLine="57" />
+		</Cursor>
+	</File>
+	<File name="../../src/com/TunerStudio_service.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3797" topLine="220" />
+		</Cursor>
+	</File>
+	<File name="../../src/sensors/analog_sensors.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="105" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_logic.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="144" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/sensors/Tuareg_sensors.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="94" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/fueling/Tuareg_fueling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="91" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_cis.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="614" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/com/Tuareg_console.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3508" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/ignition/Ignition_syslog_locations.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="202" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/decoder/decoder_syslog_locations.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="256" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../src/stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="172948" topLine="2292" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

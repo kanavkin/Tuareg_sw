@@ -1,30 +1,28 @@
 #ifndef TUAREG_H_INCLUDED
 #define TUAREG_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
-#include "Tuareg_errors.h"
+#include "Tuareg_ID.h"
+
 #include "Tuareg_config.h"
-
-#include "Tuareg_process_data.h"
-
-#include "table.h"
-//#include "analog_sensors.h"
-#include "digital_sensors.h"
-#include "process_table.h"
-
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
+#include "Tuareg_errors.h"
 
 #include "Tuareg_decoder.h"
+#include "Tuareg_ignition.h"
+#include "Tuareg_fueling.h"
+#include "Tuareg_sensors.h"
+
+#include "Tuareg_process_data.h"
+#include "process_table.h"
+
+#include "Tuareg_syslog_locations.h"
+#include "highspeed_loggers.h"
+#include "syslog.h"
+#include "fault_log.h"
 
 #include "systick_timer.h"
 
-#include "Tuareg_fueling_controls.h"
-
-#include "syslog.h"
-#include "highspeed_loggers.h"
 
 #define TUAREG_REQUIRED_CONFIG_VERSION 3
 

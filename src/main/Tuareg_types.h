@@ -1,7 +1,7 @@
 #ifndef TUAREGTYPES_H_INCLUDED
 #define TUAREGTYPES_H_INCLUDED
 
-#include "../stm32_libs/boctok_types.h"
+#include "stm32_libs/boctok_types.h"
 
 
 /**

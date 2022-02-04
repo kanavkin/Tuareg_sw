@@ -1,24 +1,18 @@
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-
 
 #include "Tuareg.h"
-#include "syslog.h"
 
-#include "analog_sensors.h"
-#include "digital_sensors.h"
 #include "Tuareg_sensors.h"
 #include "sensor_calibration.h"
 #include "sensors_syslog_locations.h"
 
+#include "syslog.h"
 
+//#define SENSORS_DEBUGMSG
+
+#ifdef SENSORS_DEBUGMSG
 #include "debug_port_messages.h"
-
-//#define SENSORS_DEBUG_OUTPUT
-
-#ifdef SENSORS_DEBUG_OUTPUT
 #warning debug outputs enabled
-#endif // SENSORS_DEBUG_OUTPUT
+#endif // SENSORS_DEBUGMSG
 
 
 /******************************************************************************************************************************
@@ -45,32 +39,37 @@ void init_Sensors()
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load sensor calibration
+        /**
+        failed to load sensor calibration
+        */
         Tuareg.errors.sensor_calibration_error= true;
-        Tuareg.flags.limited_op= true;
-        Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_LOAD_FAIL);
 
-        #ifdef SENSORS_DEBUG_OUTPUT
+        //enter limp mode
+        Limp(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIGLOAD_ERROR);
+
+        #ifdef SENSORS_DEBUGMSG
         DebugMsg_Error("Failed to load Sensor Calibration!");
-        #endif // SENSORS_DEBUG_OUTPUT
+        #endif // SENSORS_DEBUGMSG
     }
     else if(Sensor_Calibration.Version != SENSORS_REQUIRED_CALIBRATION_VERSION)
     {
-        //loaded wrong sensor calibration version
+        /**
+        loaded wrong sensor calibration version
+        */
         Tuareg.errors.sensor_calibration_error= true;
-        Tuareg.flags.limited_op= true;
-        Syslog_Error(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_VERSION_MISMATCH);
 
-        #ifdef SENSORS_DEBUG_OUTPUT
+        //enter limp mode
+        Limp(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIGVERSION_ERROR);
+
+        #ifdef SENSORS_DEBUGMSG
         DebugMsg_Error("Sensor Calibration version does not match");
-        #endif // SENSORS_DEBUG_OUTPUT
+        #endif // SENSORS_DEBUGMSG
     }
     else
     {
         //loaded sensor calibration with correct Version
         Tuareg.errors.sensor_calibration_error= false;
 
-        Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_CONFIG_LOAD_SUCCESS);
     }
 
     //init logic part
@@ -79,6 +78,7 @@ void init_Sensors()
     //init digital sensors
     init_digital_sensors();
 
+    Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_READY);
 }
 
 

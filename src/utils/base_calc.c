@@ -9,14 +9,12 @@ subject to refactoring:
 TBD!
 
 */
-#include "stm32_libs/boctok_types.h"
-
 #include "Tuareg.h"
 
-#include "debug_port_messages.h"
 #include "syslog.h"
 #include "base_calc_syslog_locations.h"
 
+//#include "debug_port_messages.h"
 
 /// TODO (oli#7#): add range check and clipping
 

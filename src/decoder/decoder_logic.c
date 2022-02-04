@@ -24,9 +24,6 @@
 
 #define DECODER_CIS_DEBUG
 
-#ifdef DECODER_TIMING_DEBUG
-#warning decoder timing debug enabled
-#endif // DECODER_TIMING_DEBUG
 
 
 volatile Tuareg_decoder_t Decoder;
@@ -90,7 +87,7 @@ void reset_internal_data()
 
 void decoder_set_state(decoder_internal_state_t NewState)
 {
-    Assert(NewState < DSTATE_COUNT, TID_DECODER_LOGIC, DECODER_SETSTATE_ERROR);
+    Assert(NewState < DSTATE_COUNT, TID_DECODER_LOGIC, DECODER_LOC_SETSTATE_ERROR);
 
     //collect debug information
     #ifdef DECODER_EVENT_DEBUG

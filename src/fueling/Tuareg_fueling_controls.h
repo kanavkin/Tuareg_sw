@@ -1,10 +1,8 @@
 #ifndef TUAREG_FUELING_CONTROLS_H_INCLUDED
 #define TUAREG_FUELING_CONTROLS_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
+
 #include "Tuareg_types.h"
-
-
 
 
 
@@ -92,8 +90,6 @@ typedef struct _fueling_control_t {
 
 } fueling_control_t;
 
-
-//void Tuareg_notify_fueling_cranking_end();
 
 void Tuareg_update_fueling_controls();
 

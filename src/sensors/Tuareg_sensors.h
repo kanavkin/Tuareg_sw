@@ -1,9 +1,10 @@
 #ifndef TUAREG_SENSORS_H_INCLUDED
 #define TUAREG_SENSORS_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
+
 #include "analog_sensors.h"
+#include "digital_sensors.h"
 
 #define SENSORS_REQUIRED_CALIBRATION_VERSION 4
 

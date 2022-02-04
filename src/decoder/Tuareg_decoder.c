@@ -4,23 +4,25 @@
 #include "base_calc.h"
 
 #include "Tuareg.h"
+#include "Tuareg_errors.h"
 
 #include "decoder_hw.h"
 #include "decoder_logic.h"
 #include "decoder_config.h"
+#include "decoder_syslog_locations.h"
 
 #include "uart.h"
 #include "uart_printf.h"
 
-#include "debug_port_messages.h"
 
-//#define DECODER_DEBUG
 
-#ifdef DECODER_DEBUG
+//#define DECODER_DEBUGMSG
+
+#ifdef DECODER_DEBUGMSG
 #warning Decoder Debug messages enabled
-#endif // DECODER_DEBUG
+#include "debug_port_messages.h"
+#endif // DECODER_DEBUGMSG
 
-/// TODO (oli#8#): implement decoder syslog messages
 
 
 /******************************************************************************************************************************
@@ -36,36 +38,51 @@ volatile decoder_output_t * init_Decoder()
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load Decoder Config
+        /**
+        failed to load Decoder Config
+        */
         Tuareg.errors.decoder_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
+
+        //load built in defaults
         load_essential_Decoder_Setup();
 
-        #ifdef DECODER_DEBUG
+        #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Failed to load Decoder Config!");
         DebugMsg_Warning("Decoder essential Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
     else if(Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION)
     {
-        //loaded wrong Decoder Config Version
+        /**
+        loaded wrong Decoder Config Version
+        */
         Tuareg.errors.decoder_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGVERSION_ERROR);
+
+        //load built in defaults
         load_essential_Decoder_Setup();
 
-        #ifdef DECODER_DEBUG
+        #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Decoder Config version does not match");
         DebugMsg_Warning("Decoder essential Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
     else
     {
-        //loaded Decoder Config with correct Version
+        /**
+        loaded Decoder Config with correct Version
+        */
         Tuareg.errors.decoder_config_error= false;
 
-        #ifdef DECODER_DEBUG
+
+        #ifdef DECODER_DEBUGMSG
         print(DEBUG_PORT, "\r\nDecoder Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
 
 
@@ -74,6 +91,9 @@ volatile decoder_output_t * init_Decoder()
 
     //init logic part
     init_decoder_logic();
+
+    //report to syslog
+    Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_READY);
 
     return &(Decoder.out);
 }

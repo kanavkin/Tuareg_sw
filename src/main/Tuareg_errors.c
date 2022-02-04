@@ -1,30 +1,14 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
 
 #include "Tuareg.h"
-#include "Tuareg_errors.h"
-#include "Tuareg_ID.h"
-
-#include "syslog.h"
-#include "Tuareg_syslog_locations.h"
-#include "debug_port_messages.h"
 
 #include "dash_logic.h"
 
-#include "fault_log.h"
+//#define ERRORS_DEBUGMSG
 
-
-//#define ERRORS_DEBUG_OUTPUT
-
-#ifdef ERRORS_DEBUG_OUTPUT
+#ifdef ERRORS_DEBUGMSG
 #warning Errors debug outputs enabled
-#endif // ERRORS_DEBUG_OUTPUT
+#include "debug_port_messages.h"
+#endif // ERRORS_DEBUGMSG
 
 
 
@@ -48,11 +32,11 @@ void Fatal(Tuareg_ID Id, U8 Location)
     Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
     log_Fault(Id, Location);
 
-    #ifdef ERRORS_DEBUG_OUTPUT
+    #ifdef ERRORS_DEBUGMSG
     DebugMsg_Error("FATAL --");
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
-    #endif // ERRORS_DEBUG_OUTPUT
+    #endif // ERRORS_DEBUGMSG
 
     //interim solution
     dash_set_mil(MIL_PERMANENT);
@@ -79,11 +63,11 @@ void Limp(Tuareg_ID Id, U8 Location)
     Syslog_Error(TID_TUAREG, TUAREG_LOC_ENTER_LIMP_MODE);
     log_Fault(Id, Location);
 
-    #ifdef ERRORS_DEBUG_OUTPUT
+    #ifdef ERRORS_DEBUGMSG
     DebugMsg_Error("LIMP --");
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
-    #endif // ERRORS_DEBUG_OUTPUT
+    #endif // ERRORS_DEBUGMSG
 
     //interim solution
     dash_set_mil(MIL_PERMANENT);

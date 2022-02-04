@@ -3,13 +3,14 @@
 
 #include "base_calc.h"
 
-//#include "decoder_logic.h"
+
 #include "Tuareg_decoder.h"
 
 #include "Tuareg_ignition.h"
 #include "Tuareg_ignition_controls.h"
 #include "ignition_hw.h"
 #include "ignition_config.h"
+#include "Ignition_syslog_locations.h"
 
 #include "scheduler.h"
 #include "uart.h"
@@ -19,8 +20,6 @@
 #include "eeprom.h"
 
 #include "syslog.h"
-#include "Ignition_syslog_locations.h"
-#include "debug_port_messages.h"
 #include "diagnostics.h"
 #include "ignition_diag.h"
 #include "Tuareg.h"
@@ -29,11 +28,12 @@
 #define IGNITION_REQUIRED_CONFIG_VERSION 4
 
 
-//#define IGNITION_DEBUG_OUTPUT
+//#define IGNITION_DEBUGMSG
 
-#ifdef IGNITION_DEBUG_OUTPUT
+#ifdef IGNITION_DEBUGMSG
+#include "debug_port_messages.h"
 #warning debug outputs enabled
-#endif // IGNITION_DEBUG_OUTPUT
+#endif // IGNITION_DEBUGMSG
 
 
 /**
@@ -71,38 +71,44 @@ void init_Ignition()
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load Ignition Config
+        /**
+        failed to load Ignition Config
+        */
         Tuareg.errors.ignition_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIGLOAD_ERROR);
+
+        //load built in defaults
         load_essential_Ignition_Config();
 
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
-
-        #ifdef IGNITION_DEBUG_OUTPUT
+        #ifdef IGNITION_DEBUGMSG
         DebugMsg_Error("Failed to load Ignition config!");
         DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
+        #endif // IGNITION_DEBUGMSG
     }
     else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
     {
-        //loaded wrong Ignition Config Version
+        /**
+        loaded wrong Ignition Config Version
+        */
         Tuareg.errors.ignition_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIGVERSION_ERROR);
+
+        //load built in defaults
         load_essential_Ignition_Config();
 
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
-
-        #ifdef IGNITION_DEBUG_OUTPUT
+        #ifdef IGNITION_DEBUGMSG
         DebugMsg_Error("Ignition config version does not match");
         DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
+        #endif // IGNITION_DEBUGMSG
     }
     else
     {
         //loaded Ignition config with correct Version
         Tuareg.errors.ignition_config_error= false;
-
-        Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
     }
 
     //init hw part
@@ -113,6 +119,8 @@ void init_Ignition()
 
     //provide ignition controls for startup
     Tuareg_update_ignition_controls();
+
+    Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_READY);
 }
 
 
