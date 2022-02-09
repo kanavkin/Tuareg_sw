@@ -14,9 +14,6 @@ TBD!
 #include "syslog.h"
 #include "base_calc_syslog_locations.h"
 
-//#include "debug_port_messages.h"
-
-/// TODO (oli#7#): add range check and clipping
 
 /**
 calculate the duration (in us) corresponding to an rotation angle

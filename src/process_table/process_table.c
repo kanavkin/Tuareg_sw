@@ -42,7 +42,6 @@ void update_process_table(VU32 Crank_period_us)
     //fill table according to crank angle data
     for(pos= 0; pos < CRK_POSITION_COUNT; pos++)
     {
-        /// TODO (oli#1#): check if this access is correct (packed structure)
         advance_deg= Tuareg_Setup.trigger_advance_map[pos];
 
         /*

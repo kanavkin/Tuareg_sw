@@ -389,7 +389,7 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     Check that all values aren't just the same
     (This regularly happens with things like the fuel trim maps)
 
-/// TODO (oli#4#): improve float equality check
+/// TODO (oli#7#): improve float equality check
 
     if( (A == B) && (A == C) && (A == D) )
     {

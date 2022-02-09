@@ -100,8 +100,6 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     U32 engine_runtime_ms;
 
     U32 inj_delay_us;
-    F32 avg_MAP_kPa;
-
 
 } Output_Channels_t;
 

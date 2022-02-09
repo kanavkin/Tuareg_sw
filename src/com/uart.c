@@ -15,7 +15,24 @@
 //#include "debug.h"
 
 //#define UART_PUSH_DEBUG
+
+#ifdef UART_PUSH_DEBUG
+#warning uart push debug enabled
+#endif // UART_PUSH_DEBUG
+
+
+//#define SERIAL_MONITOR
+
+#ifdef SERIAL_MONITOR
+#warning serial monitor enabled
+#endif // SERIAL_MONITOR
+
 //#define UART_SEND_DEBUG
+
+#ifdef UART_SEND_DEBUG
+#warning uart send debug enabled
+#endif // UART_SEND_DEBUG
+
 
 VU8 TS_Rx_Buffer_data[TS_RX_BUFFER_SIZE];
 //VU8 Debug_Tx_Buffer_data[DEBUG_TX_BUFFER_SIZE];
@@ -135,9 +152,6 @@ blocks program flow until data sent!
 void UART_Tx(USART_TypeDef * Port, char msg)
 {
     #ifdef SERIAL_MONITOR
-    /**
-    serial monitor
-    */
     UART_nolisten();
     monitor_log(msg, DIRECTION_OUT);
     #endif // SERIAL_MONITOR
@@ -312,7 +326,6 @@ U32 serial_buffer_push(volatile serial_buffer_t * buffer, VU8 data_in)
     buffer->available++;
 
     #ifdef UART_PUSH_DEBUG
-    /// TODO (oli#1#): debug action enabled
     if(data_in != 'A')
     {
         print(DEBUG_PORT, "\r\n+");
@@ -372,7 +385,6 @@ U32 serial_buffer_pull(volatile serial_buffer_t * buffer, VU8 * data_out)
     }
 
     #ifdef UART_DEBUG
-    /// TODO (oli#1#): debug action enabled
     UART_Tx(DEBUG_PORT, '-');
     UART_Tx(DEBUG_PORT, buffer->buffer[buffer->tail]);
     #endif //UART_DEBUG
@@ -419,7 +431,6 @@ void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length
     U8 msg;
 
     #ifdef UART_SEND_DEBUG
-    /// TODO (oli#1#): debug action enabled
     print(DEBUG_PORT, "\r\nsending l:");
     printf_U(DEBUG_PORT, Length, NO_PAD | NO_TRAIL);
     #endif //UART_DEBUG
@@ -429,7 +440,6 @@ void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length
         msg= *(pData + i);
 
         #ifdef UART_SEND_DEBUG
-        /// TODO (oli#1#): debug action enabled
         print(DEBUG_PORT, "\r\n");
         printf_U(DEBUG_PORT, i, NO_PAD);
         print(DEBUG_PORT, ": ");
@@ -461,9 +471,6 @@ void USART1_IRQHandler(void)
         serial_buffer_push(&TS_Rx_Buffer, data_in);
 
         #ifdef SERIAL_MONITOR
-        /**
-        serial monitor
-        */
         monitor_log(data_in, DIRECTION_IN);
         #endif // SERIAL_MONITOR
     }

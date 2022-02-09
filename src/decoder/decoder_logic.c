@@ -22,9 +22,6 @@
 #include "diagnostics.h"
 #include "highspeed_loggers.h"
 
-#define DECODER_CIS_DEBUG
-
-
 
 volatile Tuareg_decoder_t Decoder;
 
@@ -392,7 +389,9 @@ void decoder_crank_handler()
                 decoder_set_timer_continuous_mode_on();
 
                 //collect debug information
+                #ifdef DECODER_EVENT_DEBUG
                 register_got_sync_debug_event();
+                #endif // DECODER_EVENT_DEBUG
 
             }
             else

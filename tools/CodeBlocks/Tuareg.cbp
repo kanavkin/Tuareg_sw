@@ -13,6 +13,7 @@
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
 					<Add option="-g3" />
+					<Add option="-gdwarf-4 -g3" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -79,7 +80,7 @@
 		<Linker>
 			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
 			<Add option="-I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/boctok" />
-			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
+			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -Wl,-Map=main.map" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />
@@ -111,6 +112,7 @@
 		</Unit>
 		<Unit filename="../../src/com/TunerStudio_service.h" />
 		<Unit filename="../../src/com/TunerStudio_syslog_locations.h" />
+		<Unit filename="../../src/com/console_syslog_locations.h" />
 		<Unit filename="../../src/com/serial_monitor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -309,10 +311,15 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/core_cm4.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/core_cmFunc.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.c">

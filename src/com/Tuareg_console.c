@@ -1,11 +1,12 @@
-#include <boctok_types.h>
-#include "../main/Tuareg_types.h"
+#include "Tuareg_types.h"
 
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
 
 #include "Tuareg_console.h"
+#include "console_syslog_locations.h"
+
 #include "TunerStudio.h"
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
@@ -20,7 +21,6 @@
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
-//#include "sensors.h"
 #include "base_calc.h"
 
 #include "fueling_config.h"
@@ -42,6 +42,11 @@
 #warning Tuareg Console debugging enabled
 #endif // CONSOLE_DEBUG
 
+//#define CONSOLE_DEBUGMSG
+
+#ifdef CONSOLE_DEBUGMSG
+#warning Tuareg Console debug port messages enabled
+#endif // CONSOLE_DEBUGMSG
 
 
 const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2022.01";
@@ -64,7 +69,6 @@ void Tuareg_update_console()
         Tuareg_console.active_cmd =0;
 
         #ifdef CONSOLE_DEBUG
-        /// TODO (oli#1#): TS debugging enabled
         print(DEBUG_PORT, "---x");
         #endif // CONSOLE_DEBUG
 
@@ -83,7 +87,6 @@ void Tuareg_update_console()
         Tuareg_console.ts_cmd_watchdog= TS_CMD_WATCHDOG_S;
 
         #ifdef CONSOLE_DEBUG
-        /// TODO (oli#1#): TS debugging enabled
         if(Tuareg_console.active_cmd != 'A')
         {
             print(DEBUG_PORT, "\r\n>");
@@ -132,7 +135,6 @@ void Tuareg_update_console()
         value |= UART_getRX();
 
         #ifdef CONSOLE_DEBUG
-        /// TODO (oli#1#): TS debugging enabled
         print(DEBUG_PORT, "\r\n@");
         printf_U(DEBUG_PORT, value, NO_PAD | NO_TRAIL);
         #endif // CONSOLE_DEBUG
@@ -177,7 +179,6 @@ void Tuareg_update_console()
         value |= UART_getRX();
 
         #ifdef CONSOLE_DEBUG
-        /// TODO (oli#1#): TS debugging enabled
         print(DEBUG_PORT, "\r\n@");
         printf_U(DEBUG_PORT, value, NO_PAD | NO_TRAIL);
         #endif // CONSOLE_DEBUG
@@ -279,7 +280,6 @@ void Tuareg_update_console()
             Tuareg_console.ts_active_page= value;
 
             #ifdef CONSOLE_DEBUG
-            /// TODO (oli#1#): TS debugging enabled
             print(DEBUG_PORT, "\r\n@");
             printf_U(DEBUG_PORT, value, NO_PAD);
             #endif // CONSOLE_DEBUG
@@ -338,7 +338,6 @@ void Tuareg_update_console()
             value= UART_getRX();
 
             #ifdef CONSOLE_DEBUG
-            /// TODO (oli#1#): debug action enabled
             print(DEBUG_PORT, "\r\n@ o:");
             printf_U(DEBUG_PORT, offset, NO_PAD);
             print(DEBUG_PORT, "v:");
@@ -498,40 +497,63 @@ inline void cli_showPage(U32 Page)
 /*
 
 */
-inline void cli_checkPermissions(U32 Value)
+void cli_checkPermissions(U32 Value)
 {
-/// TODO (oli#9#): implement debugportmsg api
-
     switch(Value)
     {
     case 'cal#':
         Tuareg_console.cli_permissions.calib_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked calibration modification");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_SENSORCALIB_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked calibration modification");
+        #endif // CONSOLE_DEBUGMSG
+
         break;
 
     case 'dec#':
         Tuareg_console.cli_permissions.decoder_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked decoder config modification");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_DECODERCONF_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked decoder config modification");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'ign#':
         Tuareg_console.cli_permissions.ignition_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked ignition config modification");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_IGNCONF_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked ignition config modification");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'fue#':
         Tuareg_console.cli_permissions.fueling_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked fueling config modification");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_FUELCONF_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked fueling config modification");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'tua#':
         Tuareg_console.cli_permissions.tsetup_mod_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked tuareg setup modification");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_TUAREGSETUP_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked tuareg setup modification");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'brn!':
         Tuareg_console.cli_permissions.burn_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked config burn");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_BURN_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked config burn");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'lock':
@@ -542,12 +564,21 @@ inline void cli_checkPermissions(U32 Value)
         Tuareg_console.cli_permissions.ignition_mod_permission = false;
         Tuareg_console.cli_permissions.tsetup_mod_permission = false;
         Tuareg_console.cli_permissions.faultlog_permission = false;
-        print(DEBUG_PORT, "\r\nINFO config locked");
+
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_LOCK_CONFIG);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("config locked");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     case 'faul':
         Tuareg_console.cli_permissions.faultlog_permission = true;
-        print(DEBUG_PORT, "\r\nINFO unlocked fault log");
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_FAULTLOG_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked fault log");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     default:
@@ -561,8 +592,10 @@ inline void cli_checkPermissions(U32 Value)
 /**
 this function implements the TS interface binary config page read command
 */
-inline void cli_show_help()
+void cli_show_help()
 {
+/// TODO (oli#9#): update command list
+
     UART_Tx(TS_PORT, '\n');
     print(TS_PORT, "===Command Help===\n\r");
     print(TS_PORT, "All commands are single character and are concatenated with their parameters \n\r");

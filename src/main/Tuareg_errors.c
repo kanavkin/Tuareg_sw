@@ -3,11 +3,12 @@
 
 #include "dash_logic.h"
 
-//#define ERRORS_DEBUGMSG
+#define ERRORS_DEBUGMSG
 
 #ifdef ERRORS_DEBUGMSG
 #warning Errors debug outputs enabled
 #include "debug_port_messages.h"
+#include "uart_printf.h"
 #endif // ERRORS_DEBUGMSG
 
 
@@ -33,7 +34,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUGMSG
-    DebugMsg_Error("FATAL --");
+    DebugMsg_Error("FATAL -- ");
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUGMSG
@@ -64,7 +65,7 @@ void Limp(Tuareg_ID Id, U8 Location)
     log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUGMSG
-    DebugMsg_Error("LIMP --");
+    DebugMsg_Error("LIMP -- ");
     printf_U(DEBUG_PORT, Id, NO_PAD);
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUGMSG

@@ -14,13 +14,13 @@ decoder debugging functions - compiler switches
 ******************************************************************************************************************************/
 
 //enable event debugging messages?
-#define DECODER_EVENT_DEBUG
+//#define DECODER_EVENT_DEBUG
 
 //enable cis debugging?
-#define DECODER_CIS_DEBUG
+//#define DECODER_CIS_DEBUG
 
 //decoder timing debugging?
-#define DECODER_TIMING_DEBUG
+//#define DECODER_TIMING_DEBUG
 
 
 /*********************************************************************************************************************************

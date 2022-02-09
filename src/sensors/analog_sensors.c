@@ -346,7 +346,7 @@ void ADC_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-            //TODO
+/// TODO (oli#1#): handle this case
             return;
         }
 
@@ -368,49 +368,6 @@ void ADC_IRQHandler()
 
         //ready
         //__enable_irq();
-
-
-
-
-            /**
-            Sensor_Calibration.MAP_sample_len_rev formerly defined, how many full crank turns shall be sampled
-            */
-
-
-                /**
-                MAP average and derivative calculation
-
-                on transition from sensor error state
-                - the map average value shall be initialised with a sane value
-                - ddt MAP shall be zero
-
-                if(SInterface.asensors_valid_samples[ASENSOR_MAP] == 0)
-                {
-                    //the first captured, valid sample -> no calculation
-                    avg_MAP_kPa= MAP_kPa;
-                    ddt_MAP= 0;
-                }
-                else
-                {
-                    //last average MAP and ddt MAP values should be valid
-
-                    //calculate average MAP
-                    avg_MAP_kPa= calculate_average_MAP(MAP_kPa, SInternals.last_avg_MAP_kPa);
-
-                    //calculate ddt_MAP
-                    if(Tuareg.pDecoder->outputs.period_valid == true)
-                    {
-                        //the interval given to calculate_ddt_MAP should reflect the actual sample interval (T720 if sampling 2 crank turns)
-                        ddt_MAP= calculate_ddt_MAP(MAP_kPa, SInternals.last_MAP_kPa, SInternals.last_ddt_MAP, Sensor_Calibration.MAP_sample_len_rev * Tuareg.pDecoder->crank_period_us);
-                    }
-                    else
-                    {
-                        ddt_MAP= 0;
-                    }
-                }
-                */
-
-
 
        }
 
@@ -444,7 +401,7 @@ void DMA2_Stream0_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-            //TODO
+            /// TODO (oli#1#): handle this case
             return;
         }
 

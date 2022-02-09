@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Thu Jan 13 23:00:28 CET 2022
-#Thu Jan 13 23:00:28 CET 2022
+#Last Saved on: Wed Feb 09 23:08:49 CET 2022
+#Wed Feb 09 23:08:49 CET 2022
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -16,9 +16,9 @@ config_permissionConfig\ Permissions_height=420
 config_permissionGet\ Permissions_width=372
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 sparkSettingsSpark\ Settings_width=372
-CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil
-engine_constantsEngine\ Constants_X=276
 veTableDialogVE\ Table_width=598
+engine_constantsEngine\ Constants_X=276
+CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil
 engine_constantsEngine\ Constants_Y=342
 InjectorTimingCurveInjector\ dead\ time_width=725
 faultlogView\ Fault\ Log_width=731
@@ -30,8 +30,8 @@ AccelCompCurveAE_height=738
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 afrTable1TblAFR\ Table_width=558
 config_permissionGet\ Permissions_Y=120
-config_permissionGet\ Permissions_X=621
 Tuareg.VeTable_MAP_std_yAxisMin=50.0
+config_permissionGet\ Permissions_X=621
 engine_constantsEngine\ Constants_width=651
 serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
@@ -46,11 +46,11 @@ airdensity_curveIAT\ density\ correction_X=704
 airdensity_curveIAT\ density\ correction_Y=343
 triggerSettingsTrigger\ Settings_width=518
 AccelCompCurveAE_Y=30
-AccelCompCurveAE_X=841
 sparkMap3DIgnition\ Advance\ Table_Y=261
+AccelCompCurveAE_X=841
 sparkMap3DIgnition\ Advance\ Table_X=555
 veGenerator_txtPkTqRpm=6500
-sensor_calibrationSensor\ Calibration_X=727
+sensor_calibrationSensor\ Calibration_X=70
 sensor_calibrationSensor\ Calibration_Y=31
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_X=273
 2DTable_VeTable_TPS_tableInitialDir=/home/oli/Desktop
@@ -63,11 +63,11 @@ ignition_setupIgnition\ Setup_X=847
 RevLimiterSRev\ Limiter_Y=407
 ignition_setupIgnition\ Setup_Y=149
 afrTable1TblAFR\ Table_Y=316
-afrTable1TblAFR\ Table_X=684
 sparkSettingsSpark\ Settings_Y=386
+afrTable1TblAFR\ Table_X=684
 fuelpumpFuel\ pump_X=777
-serviceService_width=372
 decoder_setupDecoder\ Setup_height=565
+serviceService_width=372
 InjectorTimingCurveInjector\ dead\ time_height=494
 veGenerator_txtPkHpRpm=7500
 fuelpumpFuel\ pump_Y=435
@@ -232,7 +232,7 @@ CommSettingMSCommDriver.controllerInterfaceId=RS232 Serial Interface
 CrankingFuelCurveCranking\ base\ fuel\ mass_height=738
 Tuareg.VeTable_MAP_std_xAxisMax=5000.0
 veGenerator_txtPkHp=84
-firmwareDescription=Tuareg V0.23 2021.11
+firmwareDescription=Tuareg V0.23 2022.01
 veGenerator_txtDisplacementCid=52
 CommSettingMSCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil
 serial3IOSerial3\ IO\ interface_Y=428

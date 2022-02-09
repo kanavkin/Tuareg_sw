@@ -312,9 +312,6 @@ void update_strategy(volatile fueling_control_t * pTarget)
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_SPD);
-
-        //check if the engine speed requires the MAP value to be smoothed out
-        pTarget->flags.VE_avg_MAP= (Tuareg.pDecoder->crank_rpm > Fueling_Setup.MAP_filter_max_rpm) ? false : true;
     }
     else
     {
@@ -365,7 +362,7 @@ void update_volumetric_efficiency(volatile fueling_control_t * pTarget)
     if(pTarget->flags.SPD_active == true)
     {
         //look up the VE based on the smoothed out or current MAP value
-        VE_value= getValue_VeTable_MAP(Tuareg.pDecoder->crank_rpm, (pTarget->flags.VE_avg_MAP == true)? Tuareg.process.avg_MAP_kPa : Tuareg.process.MAP_kPa);
+        VE_value= getValue_VeTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa);
     }
     else
     {
@@ -400,7 +397,7 @@ void update_air_density(volatile fueling_control_t * pTarget)
     VF32 intake_pres_kPa, charge_temp_K, charge_density;
 
     //use the smoothed out or current MAP value
-    intake_pres_kPa= (pTarget->flags.VE_avg_MAP == true)? Tuareg.process.avg_MAP_kPa : Tuareg.process.MAP_kPa;
+    intake_pres_kPa= Tuareg.process.MAP_kPa;
 
     //cR_gas is a constant -> DIV/0 not possible
     charge_density= (intake_pres_kPa * cM_air) / cR_gas;

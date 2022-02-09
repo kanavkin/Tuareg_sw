@@ -142,10 +142,6 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     //injDelay        = scalar,   U32,    103, "us",  1.000, 0.000
     Out.inj_delay_us= Tuareg.fueling_controls.injector_deadtime_us;
 
-    //avgMAP          = scalar,   F32,    107, "kpa",    1.000, 0.000
-    Out.avg_MAP_kPa= Tuareg.process.avg_MAP_kPa;
-
-
     /**
     send output channels
     */

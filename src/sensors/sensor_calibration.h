@@ -6,10 +6,13 @@
 
 /***************************************************************************************************************************************************
 *   analog sensor calibration page
+*
+*   the analog sensor calibration can not be packed because of the sensor parameters, which are passed by pointers, leading to unaligned accesses
 ***************************************************************************************************************************************************/
-typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
+//typedef struct __attribute__ ((__packed__)) _Sensor_Calibration_t {
+typedef struct _Sensor_Calibration_t {
 
-    U8 Version;
+    U32 Version;
 
     /*
     holds the parameter sets for analog sensors

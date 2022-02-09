@@ -1,6 +1,6 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
+//#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
+//#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
+//#include "stm32_libs/boctok_types.h"
 
 #include "Tuareg_types.h"
 #include "Tuareg.h"
@@ -15,10 +15,6 @@
 #include "uart.h"
 #include "uart_printf.h"
 #include "debug_port_messages.h"
-
-
-
-
 
 #include "decoder_debug.h"
 

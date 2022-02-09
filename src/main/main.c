@@ -80,6 +80,8 @@ SCHEDULER (ignition)
 #include "analog_sensors.h"
 
 
+#include "debug.h"
+
 /**
 process data shall be updated prior to
 * ignition controls update
@@ -92,10 +94,6 @@ process data shall be updated prior to
 global status object
 */
 volatile Tuareg_t Tuareg;
-
-
-/// TODO (oli#5#): implement memset function?
-
 
 
 /**
@@ -162,6 +160,8 @@ sensors: no timers
 */
 int main(void)
 {
+    //SWO_Init(0x1, SystemCoreClock);
+
     Tuareg_Init();
 
     while(1)
@@ -197,8 +197,10 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_100_ms= false;
 
+            #ifdef DECODER_EVENT_DEBUG
             //process debug messages from decoder
             decoder_process_debug_events();
+            #endif // DECODER_EVENT_DEBUG
         }
 
 
