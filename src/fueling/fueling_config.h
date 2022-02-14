@@ -18,6 +18,7 @@ typedef union
      struct
      {
         U8 load_transient_comp_enabled :1;
+        U8 legacy_load_transient_comp :1;
         U8 sequential_mode_enabled :1;
         U8 warmup_comp_enabled :1;
         U8 afterstart_corr_enabled :1;
@@ -53,12 +54,17 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     F32 accel_comp_thres_MAP;
     F32 decel_comp_thres_TPS;
     F32 decel_comp_thres_MAP;
+
     F32 accel_comp_taper_factor;
     U16 accel_comp_scaling_thres_rpm;
     U16 accel_comp_scaling_max_rpm;
     U8 cold_accel_pct;
-    U8 decel_comp_pct;
+
+    U16 decel_comp_ug;
+
     U8 accel_comp_cycles;
+    U8 decel_comp_cycles;
+
     U8 accel_comp_taper_thres;
 
     //after start compensation
@@ -132,14 +138,14 @@ exec_result_t store_AccelCompTableTPS();
 void show_AccelCompTableTPS(USART_TypeDef * Port);
 exec_result_t modify_AccelCompTableTPS(U32 Offset, U32 Value);
 void send_AccelCompTableTPS(USART_TypeDef * Port);
-VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS);
+VU32 getValue_AccelCompTableTPS(VF32 Ddt_TPS);
 
 //Fueling acceleration compensation table MAP based - AccelCompTableMAP
 exec_result_t store_AccelCompTableMAP();
 void show_AccelCompTableMAP(USART_TypeDef * Port);
 exec_result_t modify_AccelCompTableMAP(U32 Offset, U32 Value);
 void send_AccelCompTableMAP(USART_TypeDef * Port);
-VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP);
+VU32 getValue_AccelCompTableMAP(VF32 Ddt_MAP);
 
 //Fueling Warm up Enrichment compensation table - WarmUpCompTable
 exec_result_t store_WarmUpCompTable();

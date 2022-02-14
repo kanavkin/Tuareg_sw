@@ -135,7 +135,7 @@ void Tuareg_update_console()
         value |= UART_getRX();
 
         #ifdef CONSOLE_DEBUG
-        print(DEBUG_PORT, "\r\n@");
+        print(DEBUG_PORT, "@");
         printf_U(DEBUG_PORT, value, NO_PAD | NO_TRAIL);
         #endif // CONSOLE_DEBUG
 
@@ -179,7 +179,7 @@ void Tuareg_update_console()
         value |= UART_getRX();
 
         #ifdef CONSOLE_DEBUG
-        print(DEBUG_PORT, "\r\n@");
+        print(DEBUG_PORT, "@");
         printf_U(DEBUG_PORT, value, NO_PAD | NO_TRAIL);
         #endif // CONSOLE_DEBUG
 
@@ -280,13 +280,13 @@ void Tuareg_update_console()
             Tuareg_console.ts_active_page= value;
 
             #ifdef CONSOLE_DEBUG
-            print(DEBUG_PORT, "\r\n@");
+            print(DEBUG_PORT, "@");
             printf_U(DEBUG_PORT, value, NO_PAD);
             #endif // CONSOLE_DEBUG
         }
         else
         {
-            print(DEBUG_PORT, "\r\nWARNING -P- invalid page specified");
+            DebugMsg_Warning("TS cmd -P- invalid page specified");
         }
 
         break;
@@ -338,7 +338,7 @@ void Tuareg_update_console()
             value= UART_getRX();
 
             #ifdef CONSOLE_DEBUG
-            print(DEBUG_PORT, "\r\n@ o:");
+            print(DEBUG_PORT, "@ o:");
             printf_U(DEBUG_PORT, offset, NO_PAD);
             print(DEBUG_PORT, "v:");
             printf_U32hex(DEBUG_PORT, value);
@@ -380,6 +380,11 @@ inline void cli_showPage(U32 Page)
         case CALIBPAGE:
 
                 show_Sensor_Calibration(TS_PORT);
+                break;
+
+        case INVCLT_TABLE:
+
+                show_InvTableCLT(TS_PORT);
                 break;
 
         case DECODERPAGE:

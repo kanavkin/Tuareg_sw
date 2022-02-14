@@ -14,7 +14,10 @@
 
 #include "diagnostics.h"
 
-
+/**
+use the lookup table for CLT sensor
+*/
+#define CLT_LOOKUP
 
 /// TODO (oli#1#): check data width (16 bit adc transfers vs. 32 bit readout)
 VU16 DMA_Buffer[LAST_ASYNC_ASENSOR];
@@ -221,12 +224,13 @@ void reset_integrator(volatile asensor_data_t * pSensorData)
 /*************************************************************************************************************************************************
 helper function - analog sensor readout validation and conversion, health status update
 *************************************************************************************************************************************************/
-void update_analog_sensor(U32 Sample, volatile asensor_data_t * pSensorData, volatile asensor_parameters_t * pSensorParameters)
+void update_analog_sensor(asensors_t Sensor, U32 Sample)
 {
     VU32 average;
     VF32 result;
     bool process_data_now= false;
-
+    volatile asensor_data_t * const pSensorData= &(Analog_Sensors[Sensor]);
+    volatile asensor_parameters_t * const pSensorParameters= &(Sensor_Calibration.Asensor_Parameters[Sensor]);
 
     //check if the input sample is valid
     if((Sample >= pSensorParameters->min_valid) && (Sample <= pSensorParameters->max_valid))
@@ -266,8 +270,17 @@ void update_analog_sensor(U32 Sample, volatile asensor_data_t * pSensorData, vol
         //check if the calculated average value from sample data is ready for processing
         if(process_data_now == true)
         {
-            //calculate the physical input value
-            result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
+        #ifdef CLT_LOOKUP
+            if(Sensor == ASENSOR_CLT)
+            {
+                result= getValue_InvTableCLT(average);
+            }
+            else
+        #endif // CLT_LOOKUP
+            {
+                //calculate the physical input value
+                result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
+            }
 
             //export outputs
             pSensorData->out= result;
@@ -324,9 +337,6 @@ void ADC_IRQHandler()
 {
     VU32 sample;
 
-    volatile asensor_data_t * pSensorData;
-    volatile asensor_parameters_t * pSensorParameters;
-
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_ADCIRQ_CALLS);
 
@@ -356,15 +366,7 @@ void ADC_IRQHandler()
         /**
         update MAP sensor
         */
-
-        //access to sensor management data
-        pSensorData= &(Analog_Sensors[ASENSOR_MAP]);
-
-        //access to sensor calibration parameters
-        pSensorParameters= &(Sensor_Calibration.Asensor_Parameters[ASENSOR_MAP]);
-
-        //run update function
-        update_analog_sensor(sample, pSensorData, pSensorParameters);
+        update_analog_sensor(ASENSOR_MAP, sample);
 
         //ready
         //__enable_irq();
@@ -380,10 +382,7 @@ the effective update interval for each sensor depends on its configured target s
 */
 void DMA2_Stream0_IRQHandler()
 {
-    VU32 sensor, sample;
-
-    volatile asensor_data_t * pSensorData;
-    volatile asensor_parameters_t * pSensorParameters;
+    VU32 sensor;
 
     //collect diagnostic data
     sensors_diag_log_event(SNDIAG_DMAIRQ_CALLS);
@@ -411,17 +410,8 @@ void DMA2_Stream0_IRQHandler()
         //for every async asensor
         for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
         {
-            //read ADC input value from DMA buffer
-            sample= DMA_Buffer[sensor];
-
-            //access to sensor management data
-            pSensorData= &(Analog_Sensors[sensor]);
-
-            //access to sensor calibration parameters
-            pSensorParameters= &(Sensor_Calibration.Asensor_Parameters[sensor]);
-
             //run update function
-            update_analog_sensor(sample, pSensorData, pSensorParameters);
+            update_analog_sensor(sensor, DMA_Buffer[sensor]);
         }
 
         //ready

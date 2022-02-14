@@ -7,7 +7,7 @@
 
 
 /**
-fueling_logic_flags_t
+fueling_control_flags_t
 */
 typedef union
 {
@@ -29,14 +29,19 @@ typedef union
 
         U16 injection_begin_valid :1;
 
+        //AE
         U16 accel_comp_active :1;
+        U16 legacy_accel_comp :1;
+        U16 legacy_accel_comp_decel :1;
+
         U16 warmup_comp_active :1;
         U16 afterstart_comp_active :1;
 
         U16 dry_cranking :1;
+
      };
 
-} fueling_logic_flags_t;
+} fueling_control_flags_t;
 
 
 
@@ -46,13 +51,13 @@ ignition_control_t defines a transfer object
 typedef struct _fueling_control_t {
 
     //VE in %
-    VF32 VE_pct;
+    F32 VE_pct;
 
     //air density is in micro gram per cubic centimeter
-    VF32 air_density;
+    F32 air_density;
 
     //air mass flow rate in gram per second
-    VF32 air_flowrate_gps;
+    F32 air_flowrate_gps;
 
     F32 AFR_target;
 
@@ -66,7 +71,7 @@ typedef struct _fueling_control_t {
     U32 target_fuel_mass_ug;
 
     //accel pump
-    F32 fuel_mass_accel_corr_pct;
+    U32 fuel_mass_accel_corr_ug;
     U32 fuel_mass_accel_corr_cycles_left;
 
     //warmup compensation
@@ -84,7 +89,7 @@ typedef struct _fueling_control_t {
     U32 injector2_timing_us;
 
     //status data
-    fueling_logic_flags_t flags;
+    fueling_control_flags_t flags;
 
 } fueling_control_t;
 

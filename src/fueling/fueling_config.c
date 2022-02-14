@@ -120,7 +120,7 @@ void load_essential_Fueling_Config()
     Fueling_Setup.accel_comp_thres_MAP= 10000.0;
     Fueling_Setup.decel_comp_thres_TPS= -10000.0;
     Fueling_Setup.decel_comp_thres_MAP= -10000.0;
-    Fueling_Setup.decel_comp_pct= 0;
+    Fueling_Setup.decel_comp_ug= 0;
     Fueling_Setup.accel_comp_cycles= 0;
 
     Fueling_Setup.afterstart_comp_pct= 0;
@@ -216,17 +216,28 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncold engine acceleration compensation bonus fuel (%):");
     printf_U(Port, Fueling_Setup.cold_accel_pct, NO_PAD);
 
+
+    U16 decel_comp_ug;
+
+    U8 accel_comp_cycles;
+    U8 decel_comp_cycles;
+
+    U8 accel_comp_taper_thres;
+
     //U8 decel_comp_pct
-    print(Port, "\r\ndeceleration compensation (%):");
-    printf_U(Port, Fueling_Setup.decel_comp_pct, NO_PAD);
+    print(Port, "\r\ndeceleration compensation (ug):");
+    printf_U(Port, Fueling_Setup.decel_comp_ug, NO_PAD);
 
     //U8 accel_comp_cycles
     print(Port, "\r\nacceleration compensation duration (events):");
     printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
 
+
     //U8 accel_comp_taper_thres
     print(Port, "\r\nacceleration compensation taper begin (remaining events):");
     printf_U(Port, Fueling_Setup.accel_comp_taper_thres, NO_PAD);
+
+
 
 
     //U8 afterstart_comp_pct
@@ -502,6 +513,8 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 * y-Axis -> Acceleration compensation value in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
+const U32 cAccelCompMultiplier= 256;
+
 exec_result_t store_AccelCompTableTPS()
 {
     return store_t2D_data(&(AccelCompTableTPS.data), EEPROM_FUELING_ACCELCOMPTPS_BASE);
@@ -533,11 +546,11 @@ void send_AccelCompTableTPS(USART_TypeDef * Port)
 
 
 /**
-returns the acceleration compensation value in percent
+returns the acceleration compensation value in microgram
 */
-VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS)
+VU32 getValue_AccelCompTableTPS(VF32 Ddt_TPS)
 {
-    return getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
+    return cAccelCompMultiplier * (VU32) getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
 }
 
 
@@ -581,9 +594,9 @@ void send_AccelCompTableMAP(USART_TypeDef * Port)
 /**
 returns the acceleration compensation value in percent
 */
-VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP)
+VU32 getValue_AccelCompTableMAP(VF32 Ddt_MAP)
 {
-    return getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
+    return cAccelCompMultiplier * (VU32) getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
 }
 
 

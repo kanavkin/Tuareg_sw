@@ -120,18 +120,18 @@ holds the parameters per analog sensor channel
 a sample is considered valid if it is between min_valid and max_valid
 target sample length indicates, how many valid samples will form the moving average
 */
-typedef struct {
+typedef struct __attribute__ ((__packed__)) {
 
     //linearization parameters
     VF32 M;
     VF32 N;
 
     //validation thresholds
-    VU32 min_valid;
-    VU32 max_valid;
+    VU16 min_valid;
+    VU16 max_valid;
 
     //update parameters
-    VU32 target_sample_length;
+    VU8 target_sample_length;
 
 } asensor_parameters_t;
 
@@ -149,7 +149,7 @@ void sensors_start_injected_group_conversion();
 
 
 void reset_integrator(volatile asensor_data_t * pSensorData);
-void update_analog_sensor(U32 Sample, volatile asensor_data_t * pSensorData, volatile asensor_parameters_t * pSensorParameters);
+void update_analog_sensor(asensors_t Sensor, U32 Sample);
 
 
 #endif // SENSORS_H_INCLUDED

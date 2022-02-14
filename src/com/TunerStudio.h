@@ -9,6 +9,7 @@ typedef enum {
     TS_ZERO_PAGE, // 0
 
     CALIBPAGE,
+    INVCLT_TABLE,
 
     DECODERPAGE,
 

@@ -569,13 +569,17 @@ any new trigger condition will enlarge the fuel mass compensation interval
 accelerating shortly after decellerating will activate enrichment
 
 */
+
+static const F32 cMax_cold_accel_pct= 30.0;
+static const U32 cAccelCompMinThres= 500;
+
 void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 {
-    VF32 comp_perc_MAP, comp_perc_TPS, comp_perc, scaling;
+    VF32 comp_MAP_ug, comp_TPS_ug, comp_ug, scaling;
 
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.fueling_config_error == true) ||
-        (Fueling_Setup.features.load_transient_comp_enabled == false))
+        (Fueling_Setup.features.load_transient_comp_enabled == false) || (Fueling_Setup.features.legacy_load_transient_comp == false))
     {
         disable_fuel_mass_accel_correction(pTarget);
         return;
@@ -589,21 +593,33 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
         /**
         engine is accelerating - turn on AE
         */
-
         pTarget->flags.accel_comp_active= true;
+        pTarget->flags.legacy_accel_comp= true;
+        pTarget->flags.legacy_accel_comp_decel= false;
         pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.accel_comp_cycles;
 
         //look up the correction factors
-        comp_perc_TPS= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
-        comp_perc_MAP= getValue_AccelCompTableMAP(Tuareg.process.ddt_MAP);
+        comp_TPS_ug= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
+        comp_MAP_ug= getValue_AccelCompTableMAP(Tuareg.process.ddt_MAP);
 
         //select the greater one
-        comp_perc= (comp_perc_TPS > comp_perc_MAP)? comp_perc_TPS : comp_perc_MAP;
+        comp_ug= (comp_TPS_ug > comp_MAP_ug)? comp_TPS_ug : comp_MAP_ug;
+/// TODO (oli#1#): implement config item definition to check TS project, including scope, thresholds
 
         //add extra fuel if engine is cold
-        if(pTarget->flags.warmup_comp_active == true)
+        if((pTarget->flags.warmup_comp_active == true) && (Fueling_Setup.cold_accel_pct > 0.99))
         {
-            comp_perc += Fueling_Setup.cold_accel_pct;
+            //check if the fuel config provides valid data
+            if(Fueling_Setup.cold_accel_pct > cMax_cold_accel_pct)
+            {
+                //set a valid default
+                Fueling_Setup.cold_accel_pct= cMax_cold_accel_pct;
+
+                //emit a warning
+                Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_ACCELCOMP_CLIP_COLD_ACCEL_PCT);
+            }
+
+            comp_ug += Fueling_Setup.cold_accel_pct * (comp_ug / 100);
         }
 
         /**
@@ -617,17 +633,21 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 
             if(scaling > 1.0)
             {
+                //use a valid default
+                scaling= 0.95;
+
+                //emit an error message
                 Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_ACCELCOMP_RPMSCALE);
             }
 
-            comp_perc *= scaling;
+            comp_ug *= scaling;
 
             //log diag data
             fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_RPMSCALED);
         }
 
         //export
-        pTarget->fuel_mass_accel_corr_pct= comp_perc;
+        pTarget->fuel_mass_accel_corr_ug= (VU32) comp_ug;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_ACCEL);
@@ -640,10 +660,12 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
         */
 
         pTarget->flags.accel_comp_active= true;
-        pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.accel_comp_cycles;
+        pTarget->flags.legacy_accel_comp= true;
+        pTarget->flags.legacy_accel_comp_decel= true;
+        pTarget->fuel_mass_accel_corr_cycles_left= Fueling_Setup.decel_comp_cycles;
 
         //export the correction factor
-        pTarget->fuel_mass_accel_corr_pct= -Fueling_Setup.decel_comp_pct;
+        pTarget->fuel_mass_accel_corr_ug= Fueling_Setup.decel_comp_ug;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_DECEL);
@@ -670,17 +692,37 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 
         example: alpha := 0.9 and n := 9
 
-        */
-        if((pTarget->fuel_mass_accel_corr_pct > 0) && (Fueling_Setup.accel_comp_cycles > Fueling_Setup.accel_comp_taper_thres) && (pTarget->fuel_mass_accel_corr_cycles_left < Fueling_Setup.accel_comp_taper_thres))
-        {
-            //scale the fuel correction
-            pTarget->fuel_mass_accel_corr_pct *= Fueling_Setup.accel_comp_taper_factor;
+        --
 
-            //log diag data
-            fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_TAPERED);
+        accel taper does nott applys to deceleration!
+
+        */
+
+        //check if acceleration shall be compensated
+        if(pTarget->flags.legacy_accel_comp_decel == false)
+        {
+            //check if compensation will have practical effect
+            if(pTarget->fuel_mass_accel_corr_ug < cAccelCompMinThres)
+            {
+                //end compensation
+                disable_fuel_mass_accel_correction(pTarget);
+                return;
+            }
+
+            if((Fueling_Setup.accel_comp_cycles > Fueling_Setup.accel_comp_taper_thres) && (pTarget->fuel_mass_accel_corr_cycles_left < Fueling_Setup.accel_comp_taper_thres))
+            {
+                //scale the fuel correction
+                pTarget->fuel_mass_accel_corr_ug *= Fueling_Setup.accel_comp_taper_factor;
+
+                //log diag data
+                fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_TAPERED);
+            }
+
         }
 
-        //one compensation cycle has been consumed
+        /**
+        one compensation cycle has been consumed
+        */
         pTarget->fuel_mass_accel_corr_cycles_left -= 1;
 
     }
@@ -698,8 +740,10 @@ void update_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 void disable_fuel_mass_accel_correction(volatile fueling_control_t * pTarget)
 {
     pTarget->flags.accel_comp_active= false;
+    pTarget->flags.legacy_accel_comp= true;
+    pTarget->flags.legacy_accel_comp_decel= false;
     pTarget->fuel_mass_accel_corr_cycles_left= 0;
-    pTarget->fuel_mass_accel_corr_pct= 0.0;
+    pTarget->fuel_mass_accel_corr_ug= 0;
 }
 
 
@@ -785,25 +829,24 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 *   fueling controls update helper functions - target fuel mass
 ****************************************************************************************************************************************/
 
-const F32 cMax_fuel_mass_comp_pct= 200.0;
+const F32 cMax_fuel_rel_comp_pct= 200.0;
+const F32 cMin_fuel_rel_comp_pct= 0.99;
+const U32 cMax_fuel_abs_comp_ug= 10000;
 
 /**
 calculate the required fuel mass to be injected into each cylinder
 */
 void update_target_fuel_mass(volatile fueling_control_t * pTarget)
 {
-    VF32 compensation_pct= 0.0;
-    VF32 base_fuel_mass_ug;
-
-    //get current base fuel mass in float format
-    base_fuel_mass_ug= pTarget->base_fuel_mass_ug;
+    VF32 rel_comp_pct= 0.0;
+    VU32 target_fuel_mass_ug= pTarget->base_fuel_mass_ug;
 
 
     //check preconditions
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.flags.cranking == true))
     {
         //copy base fuel mass only
-        pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
+        pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_TGTFMASS_PRECOND_FAIL);
@@ -812,11 +855,15 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
         return;
     }
 
+    /**
+    step #1 - relative compensation:
+    warm up, after start
+    */
 
     //check if after start compensation is active
     if(pTarget->flags.afterstart_comp_active == true)
     {
-        compensation_pct += pTarget->fuel_mass_afterstart_corr_pct;
+        rel_comp_pct= pTarget->fuel_mass_afterstart_corr_pct;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_TGTFMASS_ASE_ACT);
@@ -825,57 +872,68 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     //check if warm up enrichment is active
     if(pTarget->flags.warmup_comp_active == true)
     {
-        compensation_pct += pTarget->fuel_mass_warmup_corr_pct;
+        rel_comp_pct += pTarget->fuel_mass_warmup_corr_pct;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_TGTFMASS_WUE_ACT);
     }
 
-    //check if load transient compensation is active
-    if(pTarget->flags.accel_comp_active == true)
+
+    //check if compensation is needed
+    if(rel_comp_pct > cMin_fuel_rel_comp_pct)
     {
-        compensation_pct += pTarget->fuel_mass_accel_corr_pct;
+        //check if compensation is within interval
+        if(rel_comp_pct > cMax_fuel_rel_comp_pct)
+        {
+            //clip compensation
+            rel_comp_pct= cMax_fuel_rel_comp_pct;
+
+            Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_REL_COMP_CLIP);
+        }
+
+        //enrichment of cMin_fuel_mass_comp_pct ... cMax_fuel_mass_comp_pct
+        target_fuel_mass_ug += rel_comp_pct * (VF32) (pTarget->base_fuel_mass_ug / 100);
+    }
+
+
+
+    /**
+    step #1 - absolute compensation: acceleration, decelleration
+    */
+
+    //check if load transient compensation is active
+    if((pTarget->flags.accel_comp_active == true) && (pTarget->flags.legacy_accel_comp == true))
+    {
+        //check if acceleration shall be compensated
+        if(pTarget->flags.legacy_accel_comp_decel == false)
+        {
+            //check if compensation is within interval
+            if(pTarget->fuel_mass_accel_corr_ug > cMax_fuel_abs_comp_ug)
+            {
+                //clip compensation
+                pTarget->fuel_mass_accel_corr_ug= cMax_fuel_abs_comp_ug;
+
+                Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_ABS_COMP_CLIP);
+            }
+
+            //add accelleration enrichment fuel
+            target_fuel_mass_ug += pTarget->fuel_mass_accel_corr_ug;
+        }
+        else
+        {
+            //remove decelleration fuel
+            sub_VU32(&target_fuel_mass_ug, pTarget->fuel_mass_accel_corr_ug);
+        }
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_TGTFMASS_AE_ACT);
     }
 
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wfloat-equal"
 
-    //check if compensation is needed
-    if(compensation_pct == 0.0)
-    {
-        //copy base fuel mass only
-        pTarget->target_fuel_mass_ug= (VU32) base_fuel_mass_ug;
-
-        //early exit
-        return;
-    }
-
-    #pragma GCC diagnostic pop
-
-    //check if compensation is within interval
-    if(compensation_pct < -99.9)
-    {
-        //reduce 100% fuel -> no fuel
-        pTarget->target_fuel_mass_ug= 0;
-
-         //log diag data
-        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_ZERO);
-
-        //early exit
-        return;
-    }
-    else if(compensation_pct > cMax_fuel_mass_comp_pct)
-    {
-        compensation_pct= cMax_fuel_mass_comp_pct;
-
-        Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_COMPENSATION_CLIP);
-    }
-
-    //enrichment or lean out -99.9 % ... max_fuel_mass_comp %
-    pTarget->target_fuel_mass_ug= ((100.0 + compensation_pct) * base_fuel_mass_ug) / 100.0;
+    /**
+    export target fuel
+    */
+    pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
 
 }
 

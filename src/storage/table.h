@@ -30,6 +30,25 @@ typedef struct _table_cache_t {
 
 } table_cache_t;
 
+/**
+table integrity data
+*/
+typedef struct _table_integrity_params_t {
+
+    /**
+    Define X, Y, Z axis data validity interval
+    */
+    U32 X_min_valid;
+    U32 X_max_valid;
+
+    U32 Y_min_valid;
+    U32 Y_max_valid;
+
+    U32 Z_min_valid;
+    U32 Z_max_valid;
+
+} table_integrity_params_t;
+
 
 /**
 This is the data container for one 2D table
@@ -77,7 +96,10 @@ This is a 2D config table
 typedef struct _t2D_t {
 
     //table_cache_t cache;
+    table_integrity_params_t iParm;
+
     t2D_data_t data;
+
 
 } t2D_t;
 
@@ -87,6 +109,7 @@ This is a 3D config table
 */
 typedef struct _t3D_t {
 
+    table_integrity_params_t iParm;
     table_cache_t cache;
     t3D_data_t data;
 
@@ -103,8 +126,14 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y);
 exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress);
 exec_result_t load_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress);
 
+exec_result_t load_t2D(volatile t2D_t * pTable, U32 BaseAddress);
+exec_result_t load_t3D(volatile t3D_t * pTable, U32 BaseAddress);
+
 exec_result_t store_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress);
 exec_result_t store_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress);
+
+exec_result_t store_t2D(volatile t2D_t * pTable, U32 BaseAddress);
+exec_result_t store_t3D(volatile t3D_t * pTable, U32 BaseAddress);
 
 
 exec_result_t modify_t2D_data(volatile t2D_data_t * pTableData, U32 Offset, U32 Value);

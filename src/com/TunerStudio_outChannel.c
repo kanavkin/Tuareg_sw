@@ -23,8 +23,6 @@
 
 #include "process_table.h"
 
-#define TS_DEBUG
-
 
 Output_Channels_t Out;
 

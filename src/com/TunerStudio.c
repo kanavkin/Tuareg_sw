@@ -4,29 +4,11 @@
 #include "Tuareg_console.h"
 
 #include "TunerStudio.h"
-//#include "TunerStudio_outChannel.h"
-//#include "TunerStudio_service.h"
-
-
-#include "syslog.h"
 #include "TunerStudio_syslog_locations.h"
 
-//#include "table.h"
-
+#include "syslog.h"
 #include "uart.h"
-//#include "uart_printf.h"
-//#include "conversion.h"
-
-//#include "Tuareg.h"
-//#include "eeprom.h"
-//#include "eeprom_layout.h"
-
 #include "debug_port_messages.h"
-
-//#include "base_calc.h"
-//#include "diagnostics.h"
-//#include "bitfields.h"
-
 #include "fueling_config.h"
 #include "ignition_config.h"
 #include "decoder_config.h"
@@ -34,13 +16,11 @@
 #include "sensor_calibration.h"
 #include "fault_log.h"
 
-//#include "process_table.h"
-
-
 
 //#define TS_DEBUG
 
 #ifdef TS_DEBUG
+#include "uart_printf.h"
 #warning Tuner Studio debugging enabled
 #endif // TS_DEBUG
 
@@ -54,6 +34,10 @@ void ts_readPage(U32 Page)
     {
         case CALIBPAGE:
             send_Sensor_Calibration(TS_PORT);
+            break;
+
+        case INVCLT_TABLE:
+            send_InvTableCLT(TS_PORT);
             break;
 
         case DECODERPAGE:
@@ -143,7 +127,7 @@ this function implements the TS interface valueWrite command
 */
 exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 {
-    exec_result_t result= false;
+    exec_result_t result= EXEC_ERROR;
 
     switch(Page)
     {
@@ -220,6 +204,22 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             }
 
             result= modify_Sensor_Calibration(Offset, Value);
+            break;
+
+
+        case INVCLT_TABLE:
+
+            if(Tuareg_console.cli_permissions.calib_mod_permission == false)
+            {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** LCT table modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return result;
+            }
+
+            result= modify_InvTableCLT(Offset, Value);
             break;
 
 
@@ -460,6 +460,11 @@ exec_result_t ts_burnPage(U32 Page)
        case CALIBPAGE:
 
             result= store_Sensor_Calibration();
+            break;
+
+        case INVCLT_TABLE:
+
+            result= store_InvTableCLT();
             break;
 
         case DECODERPAGE:

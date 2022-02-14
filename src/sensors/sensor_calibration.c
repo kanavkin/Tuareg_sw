@@ -20,6 +20,9 @@ volatile U8 * const pSensor_Calibration_data= (volatile U8 *) &Sensor_Calibratio
 const U32 cSensor_Calibration_size= sizeof(Sensor_Calibration);
 
 
+volatile t2D_t InvTableCLT;
+
+
 /**
 *
 * reads sensor calibration data from eeprom
@@ -27,10 +30,19 @@ const U32 cSensor_Calibration_size= sizeof(Sensor_Calibration);
 */
 exec_result_t load_Sensor_Calibration()
 {
+    exec_result_t load_result;
+
     //bring up eeprom
     Eeprom_init();
 
-    return Eeprom_load_data(EEPROM_SENSOR_CALIBRATION_BASE, pSensor_Calibration_data, cSensor_Calibration_size);
+    load_result= Eeprom_load_data(EEPROM_SENSOR_CALIBRATION_BASE, pSensor_Calibration_data, cSensor_Calibration_size);
+
+    ASSERT_EXEC_OK(load_result);
+
+    //load_result= load_t2D_data(&(InvTableCLT.data), EEPROM_SENSOR_INVTABLECLT_BASE);
+    load_result= load_t2D(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
+
+    return load_result;
 }
 
 
@@ -56,87 +68,6 @@ void show_Sensor_Calibration(USART_TypeDef * Port)
     print(Port, "\r\nVersion: ");
     printf_U(Port, Sensor_Calibration.Version, NO_PAD | NO_TRAIL);
 
-    /*
-    IAT
-
-    print(Port, "\r\nIAT M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.IAT_calib_M);
-    printf_F32(Port, Sensor_Calibration.IAT_calib_N);
-    printf_U(Port, Sensor_Calibration.IAT_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.IAT_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.IAT_sample_len, NO_PAD | NO_TRAIL);
-
-
-    CLT
-
-    print(Port, "\r\nCLT M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.CLT_calib_M);
-    printf_F32(Port, Sensor_Calibration.CLT_calib_N);
-    printf_U(Port, Sensor_Calibration.CLT_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.CLT_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.CLT_sample_len, NO_PAD | NO_TRAIL);
-
-
-    TPS
-
-    print(Port, "\r\nTPS M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.TPS_calib_M);
-    printf_F32(Port, Sensor_Calibration.TPS_calib_N);
-    printf_U(Port, Sensor_Calibration.TPS_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.TPS_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.TPS_sample_len, NO_PAD | NO_TRAIL);
-
-
-    MAP
-
-    print(Port, "\r\nMAP M N min max filter_alpha: ");
-    printf_F32(Port, Sensor_Calibration.MAP_calib_M);
-    printf_F32(Port, Sensor_Calibration.MAP_calib_N);
-    printf_U(Port, Sensor_Calibration.MAP_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.MAP_max_valid, NO_PAD | NO_TRAIL);
-    printf_F32(Port, Sensor_Calibration.MAP_filter_alpha);
-
-
-    BARO
-    print(Port, "\r\nBARO M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.BARO_calib_M);
-    printf_F32(Port, Sensor_Calibration.BARO_calib_N);
-    printf_U(Port, Sensor_Calibration.BARO_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.BARO_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.BARO_sample_len, NO_PAD | NO_TRAIL);
-
-    O2
-    print(Port, "\r\nO2 M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.O2_calib_M);
-    printf_F32(Port, Sensor_Calibration.O2_calib_N);
-    printf_U(Port, Sensor_Calibration.O2_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.O2_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.O2_sample_len, NO_PAD | NO_TRAIL);
-
-    VBAT
-    print(Port, "\r\nVBAT M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.VBAT_calib_M);
-    printf_F32(Port, Sensor_Calibration.VBAT_calib_N);
-    printf_U(Port, Sensor_Calibration.VBAT_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.VBAT_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.VBAT_sample_len, NO_PAD | NO_TRAIL);
-
-    KNOCK
-    print(Port, "\r\nKNOCK M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.KNOCK_calib_M);
-    printf_F32(Port, Sensor_Calibration.KNOCK_calib_N);
-    printf_U(Port, Sensor_Calibration.KNOCK_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.KNOCK_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.KNOCK_sample_len, NO_PAD | NO_TRAIL);
-
-    GEAR
-    print(Port, "\r\nGEAR M N min max samples: ");
-    printf_F32(Port, Sensor_Calibration.GEAR_calib_M);
-    printf_F32(Port, Sensor_Calibration.GEAR_calib_N);
-    printf_U(Port, Sensor_Calibration.GEAR_min_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.GEAR_max_valid, NO_PAD);
-    printf_U(Port, Sensor_Calibration.GEAR_sample_len, NO_PAD | NO_TRAIL);
-*/
 }
 
 
@@ -162,4 +93,55 @@ this function implements the TS interface binary config page read command for Se
 void send_Sensor_Calibration(USART_TypeDef * Port)
 {
    UART_send_data(Port, pSensor_Calibration_data, cSensor_Calibration_size);
+}
+
+
+
+/***************************************************************************************************************************************************
+*   Sensor Calibration CLT inverse transfer function - lookup Table - InvTableCLT
+*
+* x-Axis -> rpm (no offset, no scaling)
+* y-Axis -> TPS angle in ° (no offset, no scaling)
+*
+***************************************************************************************************************************************************/
+
+const F32 cInvCLTMult= 2.0;
+
+exec_result_t store_InvTableCLT()
+{
+    //return store_t2D_data(&(InvTableCLT.data), EEPROM_SENSOR_INVTABLECLT_BASE);
+    return store_t2D(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
+}
+
+
+void show_InvTableCLT(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nSensor Calibration CLT lookup Table (x2 K)\r\n");
+
+    show_t2D_data(TS_PORT, &(InvTableCLT.data));
+}
+
+
+exec_result_t modify_InvTableCLT(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(InvTableCLT.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for InvTableCLT
+*/
+void send_InvTableCLT(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(InvTableCLT.data));
+}
+
+
+/**
+returns the coolant temperature in K
+*/
+VF32 getValue_InvTableCLT(VU32 Raw)
+{
+    return cInvCLTMult * getValue_t2D(&InvTableCLT, Raw);
 }

@@ -3,7 +3,7 @@
 
 #include "dash_logic.h"
 
-#define ERRORS_DEBUGMSG
+//#define ERRORS_DEBUGMSG
 
 #ifdef ERRORS_DEBUGMSG
 #warning Errors debug outputs enabled
