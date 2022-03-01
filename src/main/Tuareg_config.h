@@ -4,9 +4,6 @@
 #include "uart.h"
 
 
-#define TUAREG_SETUP_SIZE 53
-
-
 /**
 Tuareg_Setup_flags_t
 */
@@ -20,6 +17,7 @@ typedef union
         U8 RunSwitch_trig_high :1;
         U8 SidestandSensor_trig_high :1;
         U8 Halt_on_SidestandSensor :1;
+        U8 Halt_on_CrashSensor :1;
      };
 
 } Tuareg_Setup_flags_t;
@@ -54,6 +52,9 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     //conversion factors for ground speed calculation
     VF32 gear_ratio[GEAR_COUNT];
 
+    //EMA filter factors
+    VF32 TPS_alpha;
+    VF32 MAP_alpha;
 
     //all boolean elements
     volatile Tuareg_Setup_flags_t flags;

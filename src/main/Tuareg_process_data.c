@@ -62,7 +62,8 @@ void Tuareg_update_process_data()
     raw= Tuareg_update_MAP_sensor();
 
     //apply the ema filter
-    filter= calc_ema(cMAP_alpha, Process_memory.last_MAP_kPa, raw);
+  //  filter= calc_ema(Tuareg_Setup.MAP_alpha, Process_memory.last_MAP_kPa, raw);
+    filter= calc_ema(0.3, Process_memory.last_MAP_kPa, raw);
 
     //calculate MAP change rate
     derive=((period_us > 0) && (Tuareg.errors.sensor_MAP_error == false))? calc_derivative_s(Process_memory.last_MAP_kPa, filter, period_us): 0.0;
@@ -79,7 +80,7 @@ void Tuareg_update_process_data()
     raw= Tuareg_update_TPS_sensor();
 
     //apply the ema filter
-    filter= calc_ema(cTPS_alpha, Process_memory.last_TPS_deg, raw);
+    filter= calc_ema(Tuareg_Setup.TPS_alpha, Process_memory.last_TPS_deg, raw);
 
     //calculate MAP change rate
     derive=((period_us > 0) && (Tuareg.errors.sensor_TPS_error == false))? calc_derivative_s(Process_memory.last_TPS_deg, filter, period_us): 0.0;

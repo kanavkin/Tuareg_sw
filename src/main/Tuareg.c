@@ -278,6 +278,8 @@ void Tuareg_update_run_inhibit()
     check if the RUN switch, SIDESTAND sensor or CRASH sensor or the OVERHEAT protector indicate a HALT condition
     */
 
+/// TODO (oli#2#02/18/22): in case of config error run switch polarity setup can be wrong (RunSwitchTrig_high flag := 0) -> no engine stop by switch, only main sw
+
     //shut engine off if the RUN switch is DISENGAGED
     Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run != Tuareg_Setup.flags.RunSwitch_trig_high) ? true : false;
 
@@ -306,7 +308,7 @@ void Tuareg_update_run_inhibit()
     the run_inhibit flag indicates that engine operation is temporarily restricted
     */
     Tuareg.flags.run_inhibit=(  (Tuareg.flags.run_switch_deactivated == true) ||
-                                (Tuareg.flags.crash_sensor_triggered == true) ||
+                                ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.Halt_on_CrashSensor == true)) ||
                                 ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Halt_on_SidestandSensor == true)) ||
                                 (Tuareg.flags.overheat_detected == true) ||
                                 (Tuareg.flags.service_mode == true) );

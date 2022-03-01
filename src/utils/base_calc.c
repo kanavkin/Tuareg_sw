@@ -354,7 +354,7 @@ VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value)
 {
     VF32 ema;
 
-    Assert(Alpha > 0.0, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+    Assert(Alpha >= 0.0, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
     Assert(Alpha < 1.01, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
 
 /*

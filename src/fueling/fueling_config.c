@@ -120,16 +120,24 @@ void load_essential_Fueling_Config()
     Fueling_Setup.accel_comp_thres_MAP= 10000.0;
     Fueling_Setup.decel_comp_thres_TPS= -10000.0;
     Fueling_Setup.decel_comp_thres_MAP= -10000.0;
+
+    Fueling_Setup.accel_comp_taper_factor= 0;
+    Fueling_Setup.accel_comp_scaling_thres_rpm= 0;
+    Fueling_Setup.accel_comp_scaling_max_rpm= 0;
+    Fueling_Setup.cold_accel_pct= 0;
     Fueling_Setup.decel_comp_ug= 0;
     Fueling_Setup.accel_comp_cycles= 0;
+    Fueling_Setup.decel_comp_cycles= 0;
+    Fueling_Setup.accel_comp_taper_thres= 0;
 
     Fueling_Setup.afterstart_comp_pct= 0;
     Fueling_Setup.afterstart_comp_cycles= 0;
+    Fueling_Setup.afterstart_thres_K= 0;
 
     Fueling_Setup.spd_min_rpm= 10000;
     Fueling_Setup.spd_max_rpm= 3;
 
-    Fueling_Setup.MAP_filter_max_rpm= 0;
+    Fueling_Setup.dry_cranking_TPS_thres= 0;
 
     Fueling_Setup.features.all_flags= 0;
 
@@ -216,15 +224,7 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncold engine acceleration compensation bonus fuel (%):");
     printf_U(Port, Fueling_Setup.cold_accel_pct, NO_PAD);
 
-
-    U16 decel_comp_ug;
-
-    U8 accel_comp_cycles;
-    U8 decel_comp_cycles;
-
-    U8 accel_comp_taper_thres;
-
-    //U8 decel_comp_pct
+    //U16 decel_comp_ug
     print(Port, "\r\ndeceleration compensation (ug):");
     printf_U(Port, Fueling_Setup.decel_comp_ug, NO_PAD);
 
@@ -232,12 +232,13 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\nacceleration compensation duration (events):");
     printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
 
+    //U8 decel_comp_cycles
+    print(Port, "\r\ndeceleration compensation duration (events):");
+    printf_U(Port, Fueling_Setup.decel_comp_cycles, NO_PAD);
 
     //U8 accel_comp_taper_thres
     print(Port, "\r\nacceleration compensation taper begin (remaining events):");
     printf_U(Port, Fueling_Setup.accel_comp_taper_thres, NO_PAD);
-
-
 
 
     //U8 afterstart_comp_pct
@@ -268,20 +269,21 @@ void show_Fueling_Setup(USART_TypeDef * Port)
 
 
     //features
-    print(Port, "\r\nfeature enabled features: AE-WUE-ASE-seq-dry: ");
+    print(Port, "\r\nfeature enabled features: AE-legacyAE-sequential-WUE-ASE-seq-dry: ");
 
     UART_Tx(TS_PORT, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.legacy_load_transient_comp? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.warmup_comp_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.afterstart_corr_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.dry_cranking_enabled? '1' :'0'));
 
 }
-
 
 
 /**
@@ -701,7 +703,7 @@ VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 * y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 512 ug increments)
 ***************************************************************************************************************************************************/
 
-const U32 cCrkFuelMultiplier= 512;
+const U32 cCrkFuelMultiplier= 256;
 
 exec_result_t store_CrankingFuelTable()
 {

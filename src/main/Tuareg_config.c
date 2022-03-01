@@ -68,6 +68,9 @@ void load_essential_Tuareg_Setup()
     Tuareg_Setup.gear_ratio[GEAR_5]= 0.0;
     Tuareg_Setup.gear_ratio[GEAR_NEUTRAL]= 0.0;
 
+    Tuareg_Setup.TPS_alpha= 0.85;
+    Tuareg_Setup.MAP_alpha= 0.85;
+
     Tuareg_Setup.flags.all_flags=0;
 
 }
@@ -139,8 +142,19 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
         printf_F32(Port, Tuareg_Setup.gear_ratio[gear]);
     }
 
+
+    /*
+    filter parameters
+    */
+    print(Port, "\r\nTPS filter coefficient: ");
+    printf_F32(Port, Tuareg_Setup.TPS_alpha);
+
+    print(Port, "\r\nMAP filter coefficient: ");
+    printf_F32(Port, Tuareg_Setup.MAP_alpha);
+
+
     //flags
-    print(Port, "\r\nfeature enabled flags: CrashSenPol-RunSenPol-SidestandSenPol-HaltOnSidestand: ");
+    print(Port, "\r\nfeature enabled flags: CrashSenPol-RunSenPol-SidestandSenPol-HaltOnSidestand-HaltOnCrash: ");
 
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
@@ -149,6 +163,8 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.SidestandSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_SidestandSensor? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_CrashSensor? '1' :'0'));
 }
 
 

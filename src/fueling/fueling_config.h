@@ -58,6 +58,7 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     F32 accel_comp_taper_factor;
     U16 accel_comp_scaling_thres_rpm;
     U16 accel_comp_scaling_max_rpm;
+
     U8 cold_accel_pct;
 
     U16 decel_comp_ug;
@@ -75,9 +76,6 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     //VE base lookup parameters
     U16 spd_min_rpm;
     U16 spd_max_rpm;
-
-    //MAP filter
-    U16 MAP_filter_max_rpm;
 
     //dry cranking
     U8 dry_cranking_TPS_thres;

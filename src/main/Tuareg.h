@@ -24,7 +24,7 @@
 #include "systick_timer.h"
 
 
-#define TUAREG_REQUIRED_CONFIG_VERSION 3
+#define TUAREG_REQUIRED_CONFIG_VERSION 4
 
 
 /**

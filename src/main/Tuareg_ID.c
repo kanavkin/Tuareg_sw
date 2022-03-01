@@ -18,7 +18,7 @@ Tuareg ID labels
 
 const char Tuareg_ID_labels [TID_COUNT] [TUAREG_ID_LABELS_LEN] __attribute__((__section__(".rodata"))) = {
 
-"INVALID",
+    "INVALID",
     "ACTORS_HW",
     "ACTORS_LOGIC",
     "SERIAL_MONITOR",
@@ -65,7 +65,7 @@ const char Tuareg_ID_labels [TID_COUNT] [TUAREG_ID_LABELS_LEN] __attribute__((__
     "SYSTICK_TIMER",
     "BASE_CALC",
     "BITFIELDS",
-    "CONVERSION"
+    "CONVERSION",
 
 };
 
