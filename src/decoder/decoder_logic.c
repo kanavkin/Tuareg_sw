@@ -84,7 +84,7 @@ void reset_internal_data()
 
 void decoder_set_state(decoder_internal_state_t NewState)
 {
-    Assert(NewState < DSTATE_COUNT, TID_DECODER_LOGIC, DECODER_LOC_SETSTATE_ERROR);
+    VitalAssert(NewState < DSTATE_COUNT, TID_DECODER_LOGIC, DECODER_LOC_SETSTATE_ERROR);
 
     //collect debug information
     #ifdef DECODER_EVENT_DEBUG
@@ -305,6 +305,14 @@ void init_decoder_logic()
 }
 
 
+void disable_decoder_logic()
+{
+    //wipe internal and output data
+    reset_internal_data();
+
+    //assume that the engine will come to standstill quickly
+    Decoder.out.flags.standstill= true;
+}
 
 /******************************************************************************************************************************
 crankshaft position sensor - irq handler
@@ -506,10 +514,8 @@ void decoder_crank_handler()
 
 
         default:
-            //add fatal?
 
-            //invalid state
-            decoder_set_state(DSTATE_INIT);
+            Fatal(TID_DECODER_LOGIC, DECODER_LOC_CRKHDL_STATE_ERROR);
             break;
 
         } //switch Decoder.sync_mode

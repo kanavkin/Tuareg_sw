@@ -95,7 +95,7 @@ void scheduler_diag_log_event(scheduler_diag_t Event)
 {
     #ifdef USE_SCHEDULER_DIAG
 
-    Assert(Event < SCHEDIAG_COUNT, 0, 0);
+    VitalAssert(Event < SCHEDIAG_COUNT, 0, 0);
 
     scheduler_diag[Event] += 1;
 

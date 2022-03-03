@@ -22,17 +22,28 @@ BUT
 An error could upset the program logic in a way that RunMode will not be updated to FATAL.
 
 So vital actors operation is inhibited already here.
+
+Correcting config parameter errors through the console shall be possible.
+
 */
 void Fatal(Tuareg_ID Id, U8 Location)
 {
-    __disable_irq();
 
     Tuareg.errors.fatal_error= true;
     Tuareg.flags.run_inhibit= true;
+    Tuareg.flags.service_mode= false;
 
     Syslog_Error(Id, Location);
     Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
     log_Fault(Id, Location);
+
+    //turn off actors
+    Tuareg_deactivate_vital_actors();
+    set_fuel_pump_unpowered();
+
+    //disable decoder
+    disable_Decoder();
+
 
     #ifdef ERRORS_DEBUGMSG
     DebugMsg_Error("FATAL ERROR -- in module:");
@@ -48,7 +59,15 @@ void Fatal(Tuareg_ID Id, U8 Location)
 }
 
 
-void Assert(bool Condition, Tuareg_ID Id, U8 Location)
+/**
+Assertion of a vital condition
+
+-> not recoverable
+-> programming error
+-> system shutdown
+
+*/
+void VitalAssert(bool Condition, Tuareg_ID Id, U8 Location)
 {
     if(!Condition)
     {
@@ -58,11 +77,35 @@ void Assert(bool Condition, Tuareg_ID Id, U8 Location)
 
 
 /**
+Assertion of a condition required to normal system operation
+
+-> avoiding the use of this function in Limp mode
+-> parameter / config error
+-> console must be kept functional to correct parameter errors
+
+*/
+void rrrr(bool Condition, Tuareg_ID Id, U8 Location)
+{
+    if(!Condition)
+    {
+        Limp(Id, Location);
+    }
+}
+
+
+/**
 Activates the systems limited operation strategy when a critical error has been detected
 */
 void Limp(Tuareg_ID Id, U8 Location)
 {
+    //Fatal mode will persist until reboot
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     Tuareg.flags.limited_op= true;
+    Tuareg.flags.service_mode= false;
 
     Syslog_Error(Id, Location);
     Syslog_Error(TID_TUAREG, TUAREG_LOC_ENTER_LIMP_MODE);

@@ -30,7 +30,7 @@ a given interval at a given rpm
 */
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
-    Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
+    VitalAssert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
 
     return (360 * Interval_us) / Period_us;
 }
@@ -41,7 +41,7 @@ calculate the rpm figure from rotational period
 */
 U32 calc_rpm(U32 Period_us)
 {
-    Assert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
+    VitalAssert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
 
     return (60000000UL) / Period_us;
 }
@@ -327,7 +327,7 @@ VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
 
-    Assert(M != 0.0, TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
+    VitalAssert(M != 0.0, TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
 
 /*
     if(M == 0.0)
@@ -354,17 +354,22 @@ VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value)
 {
     VF32 ema;
 
+/*
+    using bogus arguments will not lead to hard fault
+    fatal state will prevent setting proper values through tuner studio
+    wrong values will lead to wrong results
+    sw shall be robust
+
     Assert(Alpha >= 0.0, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
     Assert(Alpha < 1.01, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+*/
 
-/*
     //check alpha range
-    if((Alpha <= 0) || (Alpha > 1.0))
+    if((Alpha < 0) || (Alpha > 1.0))
     {
         Syslog_Error(TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
-        return 0.0;
+        return New_value;
     }
-*/
 
     // EMA: y[n]= y[n−1] * (1−α) + x[n] * α
     ema= (1 - Alpha) * Last_value + Alpha * New_value;
@@ -381,7 +386,7 @@ VF32 calc_derivative_s(VF32 Last_Value, VF32 New_Value, VU32 Interval_us)
 {
     VF32 diff, deriv;
 
-    Assert(Interval_us > 0, TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
+    VitalAssert(Interval_us > 0, TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
 
 /*
     #pragma GCC diagnostic push

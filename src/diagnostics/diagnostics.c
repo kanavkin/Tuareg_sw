@@ -27,7 +27,7 @@ exec_result_t copy_diag_data(VU32 * pSource, U32 Length)
     if(shadow_occupied == true) return EXEC_ERROR;
 
     //prevent post fence error
-    Assert(Length < DIAG_SHADOW_LEN, 0, 0);
+    VitalAssert(Length < DIAG_SHADOW_LEN, 0, 0);
 
     //mark shadow memory as occupied
     shadow_occupied= true;
@@ -46,7 +46,7 @@ exec_result_t copy_diag_data(VU32 * pSource, U32 Length)
 VU32 get_diag_data(VU32 Index)
 {
     //prevent post fence error
-    Assert(Index < DIAG_SHADOW_LEN, 0, 0);
+    VitalAssert(Index < DIAG_SHADOW_LEN, 0, 0);
 
     return Diag_Shadow[Index];
 }

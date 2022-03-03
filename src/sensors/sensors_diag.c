@@ -47,7 +47,7 @@ void sensors_diag_log_event(sensors_diag_t Event)
 {
     #ifdef USE_SENSORS_DIAG
 
-    Assert(Event < SNDIAG_COUNT, 0, 0);
+    VitalAssert(Event < SNDIAG_COUNT, 0, 0);
 
     sensors_diag[Event] += 1;
 

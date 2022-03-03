@@ -306,10 +306,10 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
     volatile scheduler_channel_state_t * pChannelState;
 
     //init check
-    Assert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_SETCH_INITCHECK);
+    VitalAssert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_SETCH_INITCHECK);
 
     //safety check - commanded channel
-    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_CH);
+    VitalAssert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_CH);
 
     //get channel reference
     pChannelState= &(Scheduler.channels[Channel]);
@@ -320,10 +320,10 @@ void scheduler_set_channel(scheduler_channel_t Channel, volatile scheduler_activ
     ******************************************************/
 
     //safety check - interval1_us
-    Assert(pParameters->interval1_us <= SCHEDULER_MAX_PERIOD_US, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT1);
+    VitalAssert(pParameters->interval1_us <= SCHEDULER_MAX_PERIOD_US, TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT1);
 
     //safety check - interval2_us
-    Assert((pParameters->interval2_us <= SCHEDULER_MAX_PERIOD_US) || (pParameters->flags.interval2_enabled == false), TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT2);
+    VitalAssert((pParameters->interval2_us <= SCHEDULER_MAX_PERIOD_US) || (pParameters->flags.interval2_enabled == false), TID_SCHEDULER, VITALSCHED_LOC_SETCH_PARMCHECK_INT2);
 
     //safety check - min interval 1
     if(pParameters->interval1_us < SCHEDULER_MIN_PERIOD_US)
@@ -400,10 +400,10 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
     volatile scheduler_channel_state_t * pChannelState;
 
     //init check
-    Assert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
+    VitalAssert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
 
     //safety check - requested channel
-    Assert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
+    VitalAssert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
 
     //get channel reference
     pChannelState= &(Scheduler.channels[Channel]);

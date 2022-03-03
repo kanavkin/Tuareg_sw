@@ -75,7 +75,7 @@ void decoder_diag_log_event(decoder_diag_t Event)
 {
     #ifdef USE_DECODER_DIAG
 
-    Assert(Event < DDIAG_COUNT, 0, 0);
+    VitalAssert(Event < DDIAG_COUNT, 0, 0);
 
     decoder_diag[Event] += 1;
 

@@ -99,6 +99,27 @@ volatile decoder_output_t * init_Decoder()
 }
 
 
+/******************************************************************************************************************************
+Decoder shutdown
+ ******************************************************************************************************************************/
+void disable_Decoder()
+{
+    //disable hw
+    disable_decoder_hw();
+
+    //disable logic
+    disable_decoder_logic();
+
+    Tuareg.errors.decoder_config_error= true;
+
+    //report to syslog
+    Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_HALTED);
+
+
+    #ifdef DECODER_DEBUGMSG
+    DebugMsg_Warning("Decoder disabled");
+    #endif // DECODER_DEBUGMSG
+}
 
 
 /******************************************************************************************************************************

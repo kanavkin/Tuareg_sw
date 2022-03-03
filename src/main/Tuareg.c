@@ -219,7 +219,6 @@ const U32 cInj_wd_thres_ms= 100;
 
 void Tuareg_update()
 {
-
     //injector watchdog check
     if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
     {
@@ -482,7 +481,7 @@ void Tuareg_update_fuel_pump_control()
         return;
     }
 
-    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
+    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false)) || (Tuareg.errors.fatal_error == true))
     {
         //fuel pump shall be deactivated
         if(Tuareg.flags.fuel_pump == true)

@@ -77,7 +77,7 @@ print Tuareg ID labels
 
 void print_Tuareg_ID_label(USART_TypeDef * Port, Tuareg_ID Id)
 {
-    Assert(Id < TID_COUNT, 0, 0);
+    VitalAssert(Id < TID_COUNT, 0, 0);
 
     print_flash(Port, Tuareg_ID_labels[Id]);
 }

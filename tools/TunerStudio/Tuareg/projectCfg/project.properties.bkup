@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Fri Feb 18 16:24:04 CET 2022
-#Fri Feb 18 16:24:04 CET 2022
+#Last Saved on: Tue Mar 01 13:13:03 CET 2022
+#Tue Mar 01 13:13:03 CET 2022
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -38,8 +38,8 @@ serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
 VeAnalyzeConsole.VeTable_TPS_verticalSplitPos=569
 decoder_setupDecoder\ Setup_width=433
-tuareg_setupTuareg\ Setup_Y=150
-tuareg_setupTuareg\ Setup_X=1227
+tuareg_setupTuareg\ Setup_Y=106
+tuareg_setupTuareg\ Setup_X=344
 AccelCompCurveTPSAE\ TPS_height=703
 tool_boxService\ Tools\ -\ Ignition_width=372
 VeTable_TPSVE\ vs.\ TPS_width=1366
@@ -110,14 +110,14 @@ canId=-1
 logTuningPanel_selectionTable1=InjectorTimingCurve
 veTableDialogVE\ Table_X=386
 veTableDialogVE\ Table_Y=261
-tuareg_setupTuareg\ Setup_height=910
+tuareg_setupTuareg\ Setup_height=934
 disabledLogFields.=
 service_fuelService\ Tools\ -\ Fuelling_width=372
 WarmUpCompCurveWarm\ Up_height=497
 service_ignitionService\ Tools\ -\ Ignition_X=777
 service_ignitionService\ Tools\ -\ Ignition_Y=358
 fueling_setup_ae_legacylegacy\ AE_width=419
-tuareg_setupTuareg\ Setup_width=496
+tuareg_setupTuareg\ Setup_width=500
 projectName=Tuareg
 invCLT_CurveCLT\ Characteristics_X=0
 invCLT_CurveCLT\ Characteristics_Y=184

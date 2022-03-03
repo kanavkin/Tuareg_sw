@@ -124,6 +124,10 @@ void ts_readPage(U32 Page)
 
 /**
 this function implements the TS interface valueWrite command
+
+
+updating setup / calib only when engine is at standstill?
+
 */
 exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 {

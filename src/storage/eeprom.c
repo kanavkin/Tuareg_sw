@@ -366,9 +366,9 @@ eeprom_result_t eeprom_read_bytes(U32 Address, U32 * pTarget, U32 Length)
     eeprom_result_t ee_result;
     U8 data;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
-    Assert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
-    Assert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
+    VitalAssert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
 
     /**
     Eeprom data order: Little Endian ->  <MSB> <LSB>
@@ -396,9 +396,9 @@ eeprom_result_t eeprom_write_bytes(U32 Address, U32 Data, U32 Length)
     U32 i;
     eeprom_result_t ee_result;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
-    Assert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
-    Assert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
+    VitalAssert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
 
     for(i=0; i< Length; i++)
     {
@@ -421,7 +421,7 @@ eeprom_result_t eeprom_update_byte(U32 Address, U32 Data)
     eeprom_result_t ee_result;
     U8 eeprom_data;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
 
     //read current data
     ee_result= eeprom_read_byte(Address, &eeprom_data);
@@ -465,9 +465,9 @@ eeprom_result_t eeprom_update_bytes(U32 Address, U32 Data, U32 Length)
     U32 i;
     eeprom_result_t ee_result;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
-    Assert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
-    Assert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Length > 0, TID_EEPROM, STORAGE_EEPROM_MIN_LENGTH);
+    VitalAssert(Length < 5, TID_EEPROM, STORAGE_EEPROM_MAX_LENGTH);
 
     for(i=0; i< Length; i++)
     {
@@ -494,7 +494,7 @@ exec_result_t Eeprom_load_data(U32 BaseAddress, VU8 * const pTarget, U32 Length)
     eeprom_result_t ee_result;
     U8 data;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
 
     for(i=0; i< Length; i++)
     {
@@ -515,7 +515,7 @@ exec_result_t Eeprom_write_data(U32 BaseAddress, VU8 * const pSource, U32 Length
     U32 i;
     eeprom_result_t ee_result;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
 
     for(i=0; i< Length; i++)
     {
@@ -533,7 +533,7 @@ exec_result_t Eeprom_update_data(U32 BaseAddress, VU8 * const pSource, U32 Lengt
     U32 i;
     eeprom_result_t ee_result;
 
-    Assert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
+    VitalAssert(Eeprom_Init_done == true, TID_EEPROM, STORAGE_EEPROM_NOINIT);
 
     for(i=0; i< Length; i++)
     {

@@ -75,9 +75,71 @@ void load_essential_Tuareg_Setup()
 
 }
 
+
 /**
 *
-* writes decoder config data to eeprom
+* check Tuareg config data integrity to prevent writing bogus data to storage
+*
+*/
+exec_result_t check_Tuareg_Setup()
+{
+/*
+    VU32 i;
+
+
+    //VU16 trigger_advance_map[CRK_POSITION_COUNT]
+    for(i=0; i < CRK_POSITION_COUNT; i++)
+    {
+        if(Tuareg_Setup.trigger_advance_map[i] > 360)
+        {
+            return EXEC_ERROR;
+        }
+    }
+
+    //U16 decoder_delay_us
+    if(Tuareg_Setup.decoder_delay_us > 500)
+    {
+        return EXEC_ERROR;
+    }
+
+    //rev limiter function
+    U16 max_rpm;
+    U16 limp_max_rpm;
+
+    //overheat protection
+    U16 overheat_thres_K;
+
+    //standby timeout
+    U8 standby_timeout_s;
+
+    //rpm until cranking features are activated
+    U16 cranking_end_rpm;
+
+    //conversion factors for ground speed calculation
+    VF32 gear_ratio[GEAR_COUNT];
+
+    //EMA filter factors
+    VF32 TPS_alpha;
+    VF32 MAP_alpha;
+
+    //all boolean elements
+    volatile Tuareg_Setup_flags_t flags;
+
+
+
+
+*/
+
+    return EXEC_ERROR;
+}
+
+
+
+
+
+/**
+*
+* writes Tuareg config data to eeprom
 *
 */
 exec_result_t store_Tuareg_Setup()

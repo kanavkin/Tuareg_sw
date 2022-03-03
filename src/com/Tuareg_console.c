@@ -55,13 +55,15 @@ const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V
 volatile Tuareg_console_t Tuareg_console;
 
 
+const U32 cTSmaxChunkLen= 4;
+
 /**
 This is the periodic, re-entrant function that processes received input data.
 The (current) active command will be reset, once the function reaches its end.
 */
 void Tuareg_update_console()
 {
-    VU32 offset, value, on, off;
+    VU32 offset, count, value, on, off;
 
     // reset active command when timeout occurred
     if((Tuareg_console.active_cmd > 0) && (Tuareg_console.ts_cmd_watchdog == 0))
@@ -74,17 +76,26 @@ void Tuareg_update_console()
 
     }
 
+
     //nothing to do if no new rx data is available
     if( UART_available() == 0)
     {
         return;
     }
 
+    //collect diagnostic information
+    //wrong diagnostic domain
+    //tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
+
     //fetch new command
     if(Tuareg_console.active_cmd == 0)
     {
         Tuareg_console.active_cmd= UART_getRX();
         Tuareg_console.ts_cmd_watchdog= TS_CMD_WATCHDOG_S;
+        Tuareg_console.param_count= 0;
+        Tuareg_console.param_offset= 0;
+        Tuareg_console.params_valid= false;
+
 
         #ifdef CONSOLE_DEBUG
         if(Tuareg_console.active_cmd != 'A')
@@ -319,11 +330,85 @@ void Tuareg_update_console()
             break;
 
 
+        case 'U':
+
+            /**
+            A defined command to write a block of bytes to a Controller
+            Data format: U%2o%2c%2v -> U\ Offset MSB\ Offset LSB\ Count MSB\ Count LSB\ Value MSB ... Value LSB
+            */
+
+            /*
+            try to parse the required command parameters
+            */
+            if(Tuareg_console.params_valid == false)
+            {
+
+                if(UART_available() < 4)
+                {
+                    return;
+                }
+
+                //offset <LSB> <MSB>
+                offset= UART_getRX();
+                offset |= UART_getRX() << 8;
+
+                if(offset < 0xFFFF)
+                {
+                    Tuareg_console.param_offset= offset;
+                }
+
+                //count <LSB> <MSB>
+                count= UART_getRX();
+                count |= UART_getRX() << 8;
+
+                if(count <= cTSmaxChunkLen)
+                {
+                    Tuareg_console.param_count= count;
+                    Tuareg_console.params_valid= true;
+                }
+
+                #ifdef CONSOLE_DEBUG
+                print(DEBUG_PORT, "@ o:");
+                printf_U(DEBUG_PORT, Tuareg_console.param_offset, NO_PAD);
+                print(DEBUG_PORT, "c:");
+                printf_U(DEBUG_PORT, Tuareg_console.param_count, NO_PAD);
+                #endif // CONSOLE_DEBUG
+            }
+
+            /**
+            pause until the announced amount of data has been received
+            */
+            if(UART_available() < Tuareg_console.param_count)
+            {
+                return;
+            }
+
+
+            /**
+            add up and shift data bytes for
+            value <LSB> <1> <2> <MSB>
+            */
+            for(count=0; count < Tuareg_console.param_count; count++)
+            {
+                value= UART_getRX();
+                //value |= UART_getRX() << 8;
+
+                #ifdef CONSOLE_DEBUG
+                print(DEBUG_PORT, "\r\nv:");
+                printf_U32hex(DEBUG_PORT, value);
+                #endif // CONSOLE_DEBUG
+            }
+
+            //ts_valueWrite(Tuareg_console.ts_active_page, Tuareg_console.param_offset, value);
+
+            break; // W cmd
+
+
         case 'W':
 
             /**
             pageValueWrite writes one byte to the currently selected page
-            Data format: U%2o%v -> U\ Offset MSB\ Offset LSB\ Value
+            Data format: W%2o%v -> U\ Offset MSB\ Offset LSB\ Value
             */
             if(UART_available() < 3)
             {

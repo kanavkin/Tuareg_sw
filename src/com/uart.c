@@ -234,7 +234,7 @@ U32 UART_available()
 
 U32 UART_getRX()
 {
-    U8 data;
+    U8 data =0;
     serial_buffer_pull(&TS_Rx_Buffer, &data);
     return data;
 }

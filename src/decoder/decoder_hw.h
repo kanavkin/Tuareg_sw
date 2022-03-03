@@ -60,6 +60,8 @@ typedef struct {
 extern volatile decoder_hw_t Decoder_hw;
 
 void init_decoder_hw();
+void disable_decoder_hw();
+
 void decoder_start_timer();
 void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms);
 void update_decoder_timer_compare();

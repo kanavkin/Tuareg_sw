@@ -55,26 +55,7 @@ typedef struct {
 extern volatile Tuareg_decoder_t Decoder;
 
 void init_decoder_logic();
-
-
-
-/*
-void decoder_set_state(decoder_internal_state_t NewState);
-
-//timing data
-void update_timing_data();
-void reset_timing_data();
-
-void reset_position_data();
-void reset_internal_data();
-void reset_timeout_counter();
-
-
-//sync checker
-bool check_sync_ratio();
-bool check_sync_ratio_async();
-*/
-
+void disable_decoder_logic();
 
 
 //Decoder_hw callback functions

@@ -166,14 +166,6 @@ int main(void)
 
     while(1)
     {
-
-        if(Tuareg.errors.fatal_error == true)
-        {
-            //FATAL mode to be implemented soon ...
-            DebugMsg_Error("fatal mode");
-            break;
-        }
-
         /**
         100 Hz actions
         */
@@ -181,13 +173,8 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_10_ms= false;
 
-            if(Tuareg.pDecoder->flags.standstill == true)
-            {
-                Tuareg_update_process_data();
-
-                Tuareg_update_ignition_controls();
-                Tuareg_update_fueling_controls();
-            }
+            //console - even in fatal mode!
+            Tuareg_update_console();
         }
 
         /**
@@ -201,20 +188,36 @@ int main(void)
             //process debug messages from decoder
             decoder_process_debug_events();
             #endif // DECODER_EVENT_DEBUG
+
+            if(Tuareg.errors.fatal_error == false)
+            {
+                Tuareg_update_trip();
+            }
         }
 
 
         /**
-        handle console
+        1 Hz actions
         */
-        if( (Tuareg.pTimer->flags.cycle_66_ms == true) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
+        if( Tuareg.pTimer->flags.cycle_1000_ms == true)
         {
-            Tuareg.pTimer->flags.cycle_66_ms= false;
+            Tuareg.pTimer->flags.cycle_1000_ms= false;
 
-            //collect diagnostic information
-            tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
+            //console timer
+            cli_cyclic_update();
 
-            Tuareg_update_console();
+            if(Tuareg.errors.fatal_error == false)
+            {
+                //update fuel consumption statistics
+                Tuareg_update_consumption_data();
+
+                //fuel pump priming
+                if(Tuareg.fuel_pump_priming_remain_s > 0)
+                {
+                    Tuareg.fuel_pump_priming_remain_s -= 1;
+                }
+            }
+
         }
     }
 
@@ -242,6 +245,12 @@ void EXTI2_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line2;
+
+    //no engine operation in Fatal state
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
 
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
@@ -275,22 +284,15 @@ void EXTI2_IRQHandler(void)
 
 /******************************************************************************************************************************
 sw generated irq when a spark has fired
-******************************************************************************************************************************/
 void EXTI3_IRQHandler(void)
 {
     //clear pending register
     EXTI->PR= EXTI_Line3;
 
-    /*
-    main task here is to turn on the coils for dwell in dynamic mode
-    */
-    //Tuareg_ignition_irq_handler();
-
-
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
-
 }
+******************************************************************************************************************************/
 
 
 

@@ -12,11 +12,11 @@ typedef union
      struct
      {
         U8 cycle_10_ms :1;
-        U8 cycle_20_ms :1;
-        U8 cycle_33_ms :1;
-        U8 cycle_66_ms :1;
+ //       U8 cycle_20_ms :1;
+ //       U8 cycle_33_ms :1;
+ //       U8 cycle_66_ms :1;
         U8 cycle_100_ms :1;
-        U8 cycle_250_ms :1;
+ //       U8 cycle_250_ms :1;
         U8 cycle_1000_ms :1;
      };
 
@@ -37,11 +37,11 @@ typedef struct _systick_mgr_t {
     timestamp_t system_time;
 
     U32 counter_10_ms;
-    U32 counter_20_ms;
-    U32 counter_33_ms;
-    U32 counter_66_ms;
+ //   U32 counter_20_ms;
+ //   U32 counter_33_ms;
+ //   U32 counter_66_ms;
     U32 counter_100_ms;
-    U32 counter_250_ms;
+ //   U32 counter_250_ms;
     U32 counter_1000_ms;
 
     volatile systick_t out;

@@ -31,10 +31,13 @@ typedef union
 typedef struct _Tuareg_console_t
 {
     //Tuner Studio variables
-    TS_page_t ts_active_page;
     U32 ts_cmd_watchdog;
-    bool ts_connected;
+    U32 param_offset;
+    U32 param_count;
+    TS_page_t ts_active_page;
     U8 ts_secl;
+    bool ts_connected;
+    bool params_valid;
 
     //CLI variables
     U8 active_cmd;

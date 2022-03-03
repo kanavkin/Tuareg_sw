@@ -169,7 +169,10 @@ void service_functions_periodic_update()
     now= Tuareg.pTimer->system_time;
 
     //check other restrictions needed?
-
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
 
     //update fueling system
     fuel_pump_periodic_update(now);

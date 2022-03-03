@@ -139,6 +139,7 @@ extern volatile Tuareg_Setup_t Tuareg_Setup;
 
 exec_result_t load_Tuareg_Setup();
 void load_essential_Tuareg_Setup();
+exec_result_t check_Tuareg_Setup();
 exec_result_t store_Tuareg_Setup();
 
 void show_Tuareg_Setup(USART_TypeDef * Port);

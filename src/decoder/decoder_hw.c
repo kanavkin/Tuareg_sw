@@ -430,6 +430,30 @@ void decoder_request_timer_reset()
 
 
 
+void disable_decoder_hw()
+{
+    //disable crank pickup irq
+    NVIC_DisableIRQ(EXTI0_IRQn);
+    decoder_mask_crank_irq();
+    set_crank_pickup_sensing_disabled();
+
+    //disable cis irq
+    NVIC_DisableIRQ(EXTI1_IRQn);
+    decoder_mask_cis_irq();
+    set_cis_sensing_disabled();
+
+    //disable timer 9 compare 1 irq
+    NVIC_DisableIRQ(TIM1_BRK_TIM9_IRQn);
+    decoder_stop_timer();
+
+    //disable sw exti irq
+    NVIC_DisableIRQ(EXTI2_IRQn);
+}
+
+
+
+
+
 /******************************************************************************************************************************
 crankshaft position sensor
  ******************************************************************************************************************************/
