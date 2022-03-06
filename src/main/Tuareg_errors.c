@@ -28,22 +28,25 @@ Correcting config parameter errors through the console shall be possible.
 */
 void Fatal(Tuareg_ID Id, U8 Location)
 {
-
     Tuareg.errors.fatal_error= true;
     Tuareg.flags.run_inhibit= true;
     Tuareg.flags.service_mode= false;
+    Tuareg.flags.limited_op= false;
+    Tuareg.flags.standby= false;
 
     Syslog_Error(Id, Location);
     Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
     log_Fault(Id, Location);
 
     //turn off actors
-    Tuareg_deactivate_vital_actors();
-    set_fuel_pump_unpowered();
+    set_ignition_ch1(ACTOR_UNPOWERED);
+    set_ignition_ch2(ACTOR_UNPOWERED);
+    set_injector1(ACTOR_UNPOWERED);
+    set_injector2(ACTOR_UNPOWERED);
+    set_fuel_pump(ACTOR_UNPOWERED);
 
     //disable decoder
     disable_Decoder();
-
 
     #ifdef ERRORS_DEBUGMSG
     DebugMsg_Error("FATAL ERROR -- in module:");
@@ -84,7 +87,7 @@ Assertion of a condition required to normal system operation
 -> console must be kept functional to correct parameter errors
 
 */
-void rrrr(bool Condition, Tuareg_ID Id, U8 Location)
+void FunctionalAssert(bool Condition, Tuareg_ID Id, U8 Location)
 {
     if(!Condition)
     {
@@ -112,8 +115,11 @@ void Limp(Tuareg_ID Id, U8 Location)
     log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUGMSG
-    DebugMsg_Error("LIMP -- ");
+    DebugMsg_Error("LIMP -- in module:");
+
     printf_U(DEBUG_PORT, Id, NO_PAD);
+    print_Tuareg_ID_label(DEBUG_PORT, Id);
+    print(DEBUG_PORT, " location: ");
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUGMSG
 

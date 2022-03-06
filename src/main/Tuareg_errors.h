@@ -6,7 +6,8 @@
 #include "Tuareg_ID.h"
 
 
-extern void VitalAssert(bool Condition, Tuareg_ID Id, U8 Location);
+void VitalAssert(bool Condition, Tuareg_ID Id, U8 Location);
+void FunctionalAssert(bool Condition, Tuareg_ID Id, U8 Location);
 void Fatal(Tuareg_ID Id, U8 Location);
 void Limp(Tuareg_ID Id, U8 Location);
 

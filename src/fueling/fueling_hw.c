@@ -16,6 +16,12 @@ injector hardware control
 ******************************************************************************************************************************/
 void set_injector1_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 8, PIN_ON);
 
@@ -34,6 +40,12 @@ void set_injector1_unpowered()
 
 void set_injector2_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 9, PIN_ON);
 
@@ -55,6 +67,12 @@ fuel pump hardware control
 
  void set_fuel_pump_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 10, PIN_ON);
 

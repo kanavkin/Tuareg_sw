@@ -481,7 +481,7 @@ void Tuareg_update_fuel_pump_control()
         return;
     }
 
-    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false)) || (Tuareg.errors.fatal_error == true))
+    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
     {
         //fuel pump shall be deactivated
         if(Tuareg.flags.fuel_pump == true)

@@ -391,15 +391,19 @@ void Tuareg_update_console()
             for(count=0; count < Tuareg_console.param_count; count++)
             {
                 value= UART_getRX();
-                //value |= UART_getRX() << 8;
 
+                ts_valueWrite(Tuareg_console.ts_active_page, Tuareg_console.param_offset + count, value);
+
+
+                /*
+                would destroy timing
                 #ifdef CONSOLE_DEBUG
                 print(DEBUG_PORT, "\r\nv:");
                 printf_U32hex(DEBUG_PORT, value);
                 #endif // CONSOLE_DEBUG
+                */
             }
 
-            //ts_valueWrite(Tuareg_console.ts_active_page, Tuareg_console.param_offset, value);
 
             break; // W cmd
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Sun Mar 06 22:08:40 CET 2022"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.06 - EFI Analytics, Inc." tuneComment="&lt;html&gt;Restore Point: Project close - &lt;br&gt;warm engine, no compensation -&gt; VE 37%" writeDate="Sun Mar 06 22:08:40 CET 2022"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.23+2022.01" nPages="20" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>

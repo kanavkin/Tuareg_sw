@@ -17,6 +17,12 @@ ignition actuator control - helper functions
 ******************************************************************************************************************************/
 void set_coil1_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 6, PIN_ON);
 
@@ -34,6 +40,12 @@ void set_coil1_unpowered()
 
 void set_coil2_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 7, PIN_ON);
 

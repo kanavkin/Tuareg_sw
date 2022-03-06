@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Mar 01 13:13:03 CET 2022
-#Tue Mar 01 13:13:03 CET 2022
+#Last Saved on: Tue Mar 01 16:47:33 CET 2022
+#Tue Mar 01 16:47:33 CET 2022
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -13,13 +13,13 @@ AfrTable_MAPAFR\ vs.\ MAP_Y=236
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/tuareg
 AfrTable_MAPAFR\ vs.\ MAP_X=202
 config_permissionConfig\ Permissions_height=420
-config_permissionGet\ Permissions_width=372
 invCLT_CurveCLT\ Characteristics_width=1679
+config_permissionGet\ Permissions_width=372
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 sparkSettingsSpark\ Settings_width=372
-veTableDialogVE\ Table_width=598
-engine_constantsEngine\ Constants_X=276
 CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil
+engine_constantsEngine\ Constants_X=276
+veTableDialogVE\ Table_width=598
 engine_constantsEngine\ Constants_Y=342
 InjectorTimingCurveInjector\ dead\ time_width=725
 faultlogView\ Fault\ Log_width=731
@@ -31,8 +31,8 @@ AccelCompCurveAE_height=738
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-50.0
 afrTable1TblAFR\ Table_width=558
 config_permissionGet\ Permissions_Y=120
-Tuareg.VeTable_MAP_std_yAxisMin=50.0
 config_permissionGet\ Permissions_X=621
+Tuareg.VeTable_MAP_std_yAxisMin=50.0
 engine_constantsEngine\ Constants_width=651
 serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
@@ -47,8 +47,8 @@ airdensity_curveIAT\ density\ correction_X=704
 airdensity_curveIAT\ density\ correction_Y=343
 triggerSettingsTrigger\ Settings_width=518
 AccelCompCurveAE_Y=30
-sparkMap3DIgnition\ Advance\ Table_Y=261
 AccelCompCurveAE_X=841
+sparkMap3DIgnition\ Advance\ Table_Y=261
 sparkMap3DIgnition\ Advance\ Table_X=555
 veGenerator_txtPkTqRpm=6500
 sensor_calibrationSensor\ Calibration_X=70
