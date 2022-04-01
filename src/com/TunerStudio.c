@@ -106,6 +106,10 @@ void ts_readPage(U32 Page)
             send_CrankingFuelTable(TS_PORT);
             break;
 
+        case BAROCORR_TABLE:
+            send_BAROtable(TS_PORT);
+            break;
+
 
         case SYSLOG_PAGE:
             send_syslog(TS_PORT);
@@ -409,6 +413,21 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_CrankingFuelTable(Offset, Value);
             break;
 
+        case BAROCORR_TABLE:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return result;
+            }
+
+            result= modify_BAROtable(Offset, Value);
+            break;
+
         default:
             break;
 
@@ -549,6 +568,11 @@ exec_result_t ts_burnPage(U32 Page)
         case CRANKINGFUEL_TABLE:
 
             result= store_CrankingFuelTable();
+            break;
+
+        case BAROCORR_TABLE:
+
+            result= store_BAROtable();
             break;
 
 

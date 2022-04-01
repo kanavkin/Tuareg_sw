@@ -7,14 +7,15 @@
 /**
 basic types to handle a return value safely on a 32 bit platform
 */
-typedef U32 exec_result_t;
+//typedef U32 exec_result_t;
 
 typedef enum {
 
     EXEC_ERROR,
     EXEC_OK
 
-} exec_result_codes_t;
+//} exec_result_codes_t;
+} exec_result_t;
 
 #define ASSERT_EXEC_OK(result) if((result) != EXEC_OK) return (result)
 #define ASSERT_EXEC_OK_VOID(result) if((result) != EXEC_OK) return
@@ -108,6 +109,9 @@ extern const F32 cKelvin_offset;
 extern const F32 cR_gas;
 extern const F32 cM_air;
 extern const F32 cPi;
+extern const F32 cEuler;
+
+extern const U32 cU32max;
 
 
 

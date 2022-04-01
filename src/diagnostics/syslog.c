@@ -83,7 +83,7 @@ void Syslog_Error(Tuareg_ID Src, U8 Location)
     Syslog[Syslog_Mgr.Msg_E_ptr].location= Location | (1<< SYSLOG_LOC_BIT_E);
 
     //calculate next E message location
-    Syslog_Mgr.Msg_E_ptr= subtract_VU32(Syslog_Mgr.Msg_E_ptr, 1);
+    Syslog_Mgr.Msg_E_ptr= subtract_U32(Syslog_Mgr.Msg_E_ptr, 1);
 
     Syslog_Mgr.flags.syslog_new_entry= true;
 }

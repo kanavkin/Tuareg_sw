@@ -12,6 +12,7 @@ TBD!
 #include "Tuareg.h"
 
 #include "syslog.h"
+#include "base_calc.h"
 #include "base_calc_syslog_locations.h"
 
 
@@ -50,7 +51,7 @@ U32 calc_rpm(U32 Period_us)
 /**
 safe subtraction with clipping
 */
-void sub_VU32(VU32 * pMin, VU32 Subtr)
+void sub_VU32(VU32 * pMin, U32 Subtr)
 {
     if(*pMin > Subtr)
     {
@@ -66,7 +67,7 @@ void sub_VU32(VU32 * pMin, VU32 Subtr)
 /**
 safe subtraction with clipping
 */
-VU16 subtract_VU16(VU16 Min, VU16 Subtr)
+U16 subtract_VU16(U16 Min, U16 Subtr)
 {
     if(Min > Subtr)
     {
@@ -82,7 +83,7 @@ VU16 subtract_VU16(VU16 Min, VU16 Subtr)
 /**
 safe subtraction with clipping
 */
-VU32 subtract_VU32(VU32 Min, VU32 Subtr)
+U32 subtract_U32(U32 Min, U32 Subtr)
 {
 
     if(Min > Subtr)
@@ -99,7 +100,7 @@ VU32 subtract_VU32(VU32 Min, VU32 Subtr)
 /**
 safe absolute difference
 */
-VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
+U32 abs_delta_U32(U32 Val1, U32 Val2)
 {
 
     if(Val1 > Val2)
@@ -125,7 +126,7 @@ VU32 abs_delta_VU32(VU32 Val1, VU32 Val2)
 /**
 unsigned int ->  unsigned int
 */
-VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
+U32 divide_U32(U32 Dividend, U32 Divisor)
 {
     if(Divisor == 0)
     {
@@ -140,7 +141,7 @@ VU32 divide_VU32(VU32 Dividend, VU32 Divisor)
 /**
 unsigned int -> float
 */
-VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
+F32 divide_F32(U32 Dividend, U32 Divisor)
 {
 
     if(Divisor == 0)
@@ -149,14 +150,14 @@ VF32 divide_VF32(VU32 Dividend, VU32 Divisor)
         return 0.0;
     }
 
-    return ((VF32) Dividend) / ((VF32) Divisor);
+    return ((F32) Dividend) / ((F32) Divisor);
 }
 
 
 /**
 safe float division
 */
-VF32 divide_float(VF32 Dividend, VF32 Divisor)
+F32 divide_float(F32 Dividend, F32 Divisor)
 {
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
@@ -214,7 +215,7 @@ EX -> COMP
 UNDEF -> UNDEF
 
 */
-volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
+engine_phase_t opposite_phase(engine_phase_t Phase_in)
 {
     if(Phase_in == PHASE_CYL1_COMP)
     {
@@ -227,63 +228,6 @@ volatile engine_phase_t opposite_phase(volatile engine_phase_t Phase_in)
 
     return PHASE_UNDEFINED;
 }
-
-
-
-
-
-
-/*
-void setBit_U8(U32 Pos, VU8 * pTarget)
-{
-    if(Pos < 8)
-    {
-        *pTarget |= (1 << Pos);
-    }
-}
-
-void setBit_U16(U32 Pos, VU16 * pTarget)
-{
-    if(Pos < 16)
-    {
-        *pTarget |= (1 << Pos);
-    }
-}
-
-void setBit_U32(U32 Pos, VU32 * pTarget)
-{
-    if(Pos < 32)
-    {
-        *pTarget |= (1 << Pos);
-    }
-}
-
-
-U8 lowByte(U16 in)
-{
-    return (U8)(in & 0x00FF);
-}
-
-U8 highByte(U16 in)
-{
-    return (U8)(in >> 8);
-}
-
-U16 word(U8 high, U8 low)
-{
-    return ((high << 8) | low);
-}
-
-U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb)
-{
-    return ( (Msb << 24) | (Mid1 << 16) | (Mid2 << 8) | Lsb );
-}
-
-
-*/
-
-
-
 
 
 void memclr_boctok(void * pBegin, U32 Length)
@@ -319,7 +263,7 @@ U32 ceiling_boctok(VF32 Argument)
 /**
 solves the linear equation y = mx + n
 */
-VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
+F32 solve_linear(F32 Y, F32 M, F32 N)
 {
     VF32 inverse;
 
@@ -350,9 +294,9 @@ VF32 solve_linear(VF32 Y, VF32 M, VF32 N)
 implements the exponential moving average filter
 EMA: y[n]= y[n−1] * (1−α) + x[n] * α
 */
-VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value)
+F32 calc_ema(F32 Alpha, F32 Last_value, F32 New_value)
 {
-    VF32 ema;
+    F32 ema;
 
 /*
     using bogus arguments will not lead to hard fault
@@ -382,9 +326,9 @@ VF32 calc_ema(VF32 Alpha, VF32 Last_value, VF32 New_value)
 calculates d/dt
 result is in #/s
 */
-VF32 calc_derivative_s(VF32 Last_Value, VF32 New_Value, VU32 Interval_us)
+F32 calc_derivative_s(F32 Last_Value, F32 New_Value, U32 Interval_us)
 {
-    VF32 diff, deriv;
+    F32 diff, deriv;
 
     VitalAssert(Interval_us > 0, TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
 
@@ -403,12 +347,137 @@ VF32 calc_derivative_s(VF32 Last_Value, VF32 New_Value, VU32 Interval_us)
 
     //calculate the current change rate and scale to a one second interval
     diff= 1000000 * (New_Value - Last_Value);
-    deriv= diff / (VF32) Interval_us;
+    deriv= diff / (F32) Interval_us;
 
     return deriv;
+}
+
+/*
+
+
+constexpr float expf_taylor_impl(float x, uint8_t n)
+{
+	if (x < -2)
+	{
+		return 0.818f;
+	}
+	else if (x > 0)
+	{
+		return 1;
+	}
+
+	x = x + 1;
+
+	float x_power = x;
+	int fac = 1;
+	float sum = 1;
+
+	for (int i = 1; i <= n; i++)
+	{
+		fac *= i;
+		sum += x_power / fac;
+
+		x_power *= x;
+	}
+
+	return sum / constant_e;
+}
+
+
+
+*/
+
+/**
+calculates the exponential function e^x
+implements taylor expansion of "Order", centered at "Base"
+
+E(x, a, N) := ( 1 + (x-a)/1 + (x-a)/2 + (x-a)/6 + (x-a)/24 ) * e^a
+E(x, a, N) := ( 1 + SUM_N( x_shift_pow / factorial ) * e^a
+
+*/
+F32 calc_expf(F32 Arg, S32 Base, U32 MaxOrder)
+{
+    F32 x_shift= 0.0, x_shift_pow= 1.0, p_sum= 1.0;
+    U32 factorial= 1, order= 0;
+
+	/**
+	shifted argument x
+	*/
+	x_shift= Arg - Base;
+
+    //0 order - per initialization
+    //x_shift_pow= 1.0;
+    //factorial= 1;
+    //p_sum= 1.0;
+
+
+    //summands 1..N order
+	for(order= 1; order <= MaxOrder; order++)
+	{
+        //taylor series summands
+		x_shift_pow *= x_shift;
+        factorial *= order;
+
+        //partial sum n
+        p_sum += x_shift_pow / factorial;
+	}
+
+	/**
+	handle e^a
+	*/
+	if(Base == 0)
+	{
+        return p_sum;
+	}
+
+	if(Base < 0)
+	{
+        return divide_float(p_sum, calc_pow_float(cEuler, -Base));
+	}
+    else
+    {
+        return p_sum * calc_pow_float(cEuler, Base);
+    }
+
 }
 
 
 
 
+F32 calc_pow_float(F32 Base, U32 Exp)
+{
+    F32 result;
+    U32 n;
+
+    if(Exp == 0)
+    {
+        return 1.0;
+    }
+    else if(Exp == 1)
+    {
+        return Base;
+    }
+
+    result= Base;
+
+    for(n= 1; n < Exp; n++)
+	{
+        result *= Base;
+    }
+
+    return result;
+}
+
+
+U32 calc_pow_U32(U32 Base, U32 Exp)
+{
+    U32 n, result= 1;
+
+    for(n= 0; n < Exp; n++)
+	{
+        result *= Base;
+    }
+
+    return result;
+}
 

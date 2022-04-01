@@ -27,6 +27,7 @@ typedef struct _process_data_t {
     VU32 ground_speed_mmps;
 
     VF32 load_pct;
+    VF32 IVT_K;
 
 } process_data_t;
 

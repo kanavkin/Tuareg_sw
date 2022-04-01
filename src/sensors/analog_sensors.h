@@ -46,19 +46,6 @@ ADC channels vs analog sensors
 
 
 
-/**
-generic values
-
-MAP sensor average configuration:
-
-For the XTZ 850 engine, MAP value be calculated at every crank turn, based on the samples taken on every crank position update
-*/
-#define ASENSOR_SYNC_SAMPLE_CRK_REVS 1
-
-#define ASENSOR_SYNC_SAMPLE_LEN (ASENSOR_SYNC_SAMPLE_CRK_REVS * CRK_POSITION_COUNT)
-
-#define ASENSOR_ERROR_THRES 0xFF
-
 /*********************************************************************************************************************************
 analog sensor definition
 
@@ -142,7 +129,7 @@ extern volatile asensor_data_t Analog_Sensors[ASENSOR_COUNT];
 
 
 
-void init_sensor_inputs(U32 Init_count);
+void init_analog_sensors(U32 Init_count);
 
 void sensors_start_regular_group_conversion();
 void sensors_start_injected_group_conversion();

@@ -6,7 +6,7 @@
 #include "Tuareg_decoder.h"
 
 
-
+void cli_show_debug_help();
 void ts_debug_features(U32 FeatureID);
 void ts_debug_info(U32 InfoID, USART_TypeDef * Port);
 

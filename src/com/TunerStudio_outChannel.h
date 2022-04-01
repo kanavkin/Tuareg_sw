@@ -59,28 +59,12 @@ typedef union
 typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
 
     U8 secl;
+
     ts_tuareg_bits_t tuareg_bits;
-    U8 ignition_bits;
-    U16 fueling_bits;
     U8 com_bits;
 
     U16 rpm;
     F32 ddt_rpm;
-
-    U16 ignition_adv_deg;
-    U16 ignition_dwell_us;
-
-    F32 VE_pct;
-    F32 air_dens;
-    F32 air_rate_gps;
-    U32 base_fuel_mass_ug;
-    U32 target_fuel_mass_ug;
-
-    F32 target_AFR;
-
-    U32 inj1_interval_us;
-    U32 inj2_interval_us;
-    U32 inj_dc_pct;
 
     F32 MAP_kPa;
     F32 ddt_MAP;
@@ -92,26 +76,38 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     F32 BAT_V;
     F32 AFR;
     F32 Knock;
+    F32 IVT_K;
 
     gears_t Gear;
     U16 ground_speed_mmps;
-
-    U32 conspumtion_ugps;
     U32 engine_runtime_ms;
 
+    U8 ignition_bits;
+    U16 ignition_adv_deg;
+    U16 ignition_dwell_us;
+
+    U16 fueling_bits;
+    F32 VE_pct;
+    F32 AFR_target;
+    F32 air_rate_gps;
+
+    F32 base_fuel_mass_ug;
+    F32 target_fuel_mass_ug;
+    F32 cmd_fuel_mass_ug;
+    F32 wall_fuel_mass_ug;
+
+    U32 inj1_interval_us;
+    U32 inj2_interval_us;
     U32 inj_delay_us;
+    F32 inj_dc_pct;
+
+    U32 conspumtion_ugps;
 
 } Output_Channels_t;
 
 
 
-
-
-
-
 void ts_sendOutputChannels(USART_TypeDef * Port);
-
-void ts_sendOutputChannels_new(USART_TypeDef * Port);
 
 void ts_tuareg_bits(ts_tuareg_bits_t * pTarget);
 

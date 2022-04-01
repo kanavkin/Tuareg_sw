@@ -119,8 +119,8 @@ typedef struct _t3D_t {
 
 
 
-VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X);
-VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y);
+F32 getValue_t2D(volatile t2D_t *fromTable, U32 X);
+F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y);
 
 
 exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress);

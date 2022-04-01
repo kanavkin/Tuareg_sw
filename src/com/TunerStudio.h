@@ -28,6 +28,7 @@ typedef enum {
     INJ_TIMING_TABLE,
     INJ_PHASE_TABLE,
     CRANKINGFUEL_TABLE,
+    BAROCORR_TABLE,
 
     TSETUP_PAGE,
 

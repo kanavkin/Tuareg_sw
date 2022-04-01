@@ -137,7 +137,7 @@ VU32 decoder_get_position_data_age_us()
     if(Decoder_hw.state.timer_continuous_mode == true)
     {
         //timer continuously counting since last position update
-        interval_us= Decoder_hw.timer_period_us * subtract_VU32(now_ts, update_ts);
+        interval_us= Decoder_hw.timer_period_us * subtract_U32(now_ts, update_ts);
     }
     else
     {

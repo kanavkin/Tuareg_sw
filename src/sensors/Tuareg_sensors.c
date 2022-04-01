@@ -72,8 +72,8 @@ void init_Sensors()
 
     }
 
-    //init logic part
-    init_sensor_inputs(ASENSOR_VALIDITY_THRES);
+    //init analog part
+    init_analog_sensors(ASENSOR_VALIDITY_THRES -1);
 
     //init digital sensors
     init_digital_sensors();

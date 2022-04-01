@@ -186,7 +186,8 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
             /**
             print current process table fancy
             */
-            print_process_table_fancy(Port);
+//            print_process_table_fancy(Port);
+            print_process_table(Port);
             break;
 
 
@@ -211,11 +212,44 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
 
 
     default:
+        cli_show_debug_help();
       break;
   }
 }
 
 #pragma GCC diagnostic pop
+
+
+
+void cli_show_debug_help()
+{
+/// TODO (oli#9#): keep command list up to date
+
+    print(TS_PORT, "\r\n*** Tuareg Debug CLI Help ***\n\r");
+
+    print(TS_PORT, "AD - show sensor diagnostics\n\r");
+    print(TS_PORT, "DD - show decoder diagnostics\n\r");
+    print(TS_PORT, "DI - show decoder interface\n\r");
+
+    #ifdef DECODER_CIS_DEBUG
+    print(TS_PORT, "DC - show decoder CIS debug data\n\r");
+    #endif // DECODER_CIS_DEBUG
+
+    print(TS_PORT, "FD - show fueling diagnostics\n\r");
+
+    print(TS_PORT, "TD - show Tuareg diagnostics\n\r");
+    print(TS_PORT, "SD - show scheduler diagnostics\n\r");
+    print(TS_PORT, "ID - show ignition diagnostics\n\r");
+    print(TS_PORT, "IC - show ignition controls\n\r");
+
+    print(TS_PORT, "PR - show process data\n\r");
+    print(TS_PORT, "PT - show process table\n\r");
+
+    print(TS_PORT, "se - show sensor data\n\r");
+    print(TS_PORT, "HL - show high speed log\n\r");
+}
+
+
 
 
 void cli_show_process_data(volatile process_data_t * pImage)

@@ -117,7 +117,7 @@ void Tuareg_fueling_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false) || (Tuareg.fueling_controls.target_fuel_mass_ug == 0))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false))
     {
         //collect diagnostic information
         fueling_diag_log_event(FDIAG_CRKPOSH_VIT_PRECOND_FAIL);
@@ -129,6 +129,7 @@ void Tuareg_fueling_update_crankpos_handler()
         scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
         //delete fueling controls
+        //replace by invalid_fueling_controls?
         Tuareg_update_fueling_controls();
 
         //nothing to do

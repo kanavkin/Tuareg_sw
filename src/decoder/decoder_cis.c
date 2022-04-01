@@ -90,7 +90,7 @@ void decoder_update_cis()
     //check if the cis has detected a rising and a falling signal edge
     if( (Decoder.cis.flags.lobe_begin_detected == true) && (Decoder.cis.flags.lobe_end_detected == true))
     {
-        lobe_interval_us= Decoder_hw.timer_period_us * subtract_VU32(Decoder.cis.lobe_end_timestamp, Decoder.cis.lobe_begin_timestamp);
+        lobe_interval_us= Decoder_hw.timer_period_us * subtract_U32(Decoder.cis.lobe_end_timestamp, Decoder.cis.lobe_begin_timestamp);
 
         lobe_angle_deg= calc_rot_angle_deg(lobe_interval_us, Decoder.out.crank_period_us);
 

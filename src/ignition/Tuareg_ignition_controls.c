@@ -255,7 +255,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     ASSERT_EXEC_OK_VOID(result);
 
     //ignition_timing_us reflects the scheduler delay to set up
-    pTarget->ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.pDecoder->crank_period_us);
+    pTarget->ignition_timing_us= calc_rot_duration_us( subtract_U32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.pDecoder->crank_period_us);
 
 
     /**
@@ -269,25 +269,25 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     if(pTarget->flags.sequential_mode == true)
     {
         //sequential mode: delay := T720 - target dwell duration
-        dwell_avail_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+        dwell_avail_us= subtract_U32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_U32( dwell_avail_us, Dwell_target_us);
 
-        pTarget->dwell_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
+        pTarget->dwell_us= subtract_U32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
     }
     else
     {
         //batch mode: delay := T360 - target dwell duration
-        dwell_avail_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+        dwell_avail_us= subtract_U32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_U32( dwell_avail_us, Dwell_target_us);
 
         /*
         if dwell is shorter than the resulting ignition timing, the scheduler will begin dwell at the iginition base position
         */
         if(pTarget->ignition_timing_us + pTarget->dwell_timing_us < Tuareg.pDecoder->crank_period_us)
         {
-            pTarget->dwell_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
+            pTarget->dwell_us= subtract_U32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
         }
         else
         {

@@ -40,7 +40,7 @@ typedef struct _Tuareg_console_t
     bool params_valid;
 
     //CLI variables
-    U8 active_cmd;
+    U32 active_cmd;
     cli_permission_flags_t cli_permissions;
 
 } Tuareg_console_t ;
@@ -58,7 +58,7 @@ void cli_cyclic_update();
 
 extern void cli_showPage(U32 Page);
 
-extern void cli_checkPermissions(U32 Value);
+extern void cli_setPermissions(U32 Value);
 
 
 #endif // TUAREG_CONSOLE_H_INCLUDED

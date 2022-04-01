@@ -67,7 +67,7 @@ API functions
 void request_service_mode()
 {
     //enter service only if the engine has been halted and the crank has stopped spinning
-    if(Tuareg.flags.standby == false)
+    if((Tuareg.flags.standby == false) || (Tuareg.errors.fatal_error == true) || (Tuareg.flags.limited_op))
     {
         return;
     }

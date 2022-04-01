@@ -111,9 +111,9 @@ This function pulls a 1D linear interpolated value from a 2D table
 
 x axis data order: value ~ index
 */
-VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
+F32 getValue_t2D(volatile t2D_t *fromTable, U32 X)
 {
-    VU32 xMin =0, xMax =0, yMin =0, yMax =0, i =0;
+    U32 xMin =0, xMax =0, yMin =0, yMax =0, i =0;
     F32 m, y;
 
 
@@ -207,7 +207,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
     }
 
     //error
-    Limp(TID_TABLE, STORAGE_LOC_T2D_NO_MATCH);
+    Fatal(TID_TABLE, STORAGE_LOC_T2D_NO_MATCH);
     return 0;
 
 }
@@ -217,7 +217,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
+F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y)
 {
     F32 A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;

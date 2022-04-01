@@ -299,8 +299,8 @@ void send_highspeedlog(USART_TypeDef * Port)
             alias_data_out[2]= HLOGA_ALIAS;
 
             //alias fraction timestamp: 5 us earlier
-            alias_data_out[3]= subtract_VU32(pTarget->fraction_ts, 5) >> 8;
-            alias_data_out[4]= subtract_VU32(pTarget->fraction_ts, 5);
+            alias_data_out[3]= subtract_U32(pTarget->fraction_ts, 5) >> 8;
+            alias_data_out[4]= subtract_U32(pTarget->fraction_ts, 5);
         }
 
         //send data

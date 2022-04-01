@@ -57,18 +57,18 @@ void update_process_table(VU32 Crank_period_us)
         if(pos == 0)
         {
             //compression stroke directly before the reference cTDC
-            ProcessTable[0]= subtract_VU32(advance_deg, delay_deg);
+            ProcessTable[0]= subtract_U32(advance_deg, delay_deg);
 
             //exhaust stroke
-            ProcessTable[CRK_POSITION_COUNT]= 360 + subtract_VU32(advance_deg, delay_deg);
+            ProcessTable[CRK_POSITION_COUNT]= 360 + subtract_U32(advance_deg, delay_deg);
 
             //previous compression stroke
-            ProcessTable[2* CRK_POSITION_COUNT]= 720 + subtract_VU32(advance_deg, delay_deg);
+            ProcessTable[2* CRK_POSITION_COUNT]= 720 + subtract_U32(advance_deg, delay_deg);
         }
         else
         {
             //compression stroke directly before the reference cTDC
-            ProcessTable[pos]= subtract_VU32(advance_deg, delay_deg);
+            ProcessTable[pos]= subtract_U32(advance_deg, delay_deg);
 
             //exhaust stroke
             ProcessTable[pos + CRK_POSITION_COUNT]= 360 + advance_deg - delay_deg;
@@ -340,7 +340,6 @@ void print_process_table(USART_TypeDef * Port)
 /*
 
 -|+++|-------------------------|+++++++++++++++++++|-----------------------------------------|++++|-----------------------------------------|++++|
-*/
 void print_process_table_fancy()
 {
     U32 phase, pos, index;
@@ -465,3 +464,4 @@ void print_process_table_fancy()
     }
 }
 
+*/

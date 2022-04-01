@@ -115,11 +115,11 @@ bool check_sync_ratio()
         return false;
     }
 
-    sync_interval= subtract_VU32(Decoder_hw.current_timer_value, Decoder_hw.prev2_timer_value);
-    key_interval= subtract_VU32(Decoder_hw.prev1_timer_value, Decoder_hw.prev2_timer_value);
+    sync_interval= subtract_U32(Decoder_hw.current_timer_value, Decoder_hw.prev2_timer_value);
+    key_interval= subtract_U32(Decoder_hw.prev1_timer_value, Decoder_hw.prev2_timer_value);
 
     //calculate key/gap ratio in percent
-    sync_ratio= divide_VU32(100 * key_interval, sync_interval);
+    sync_ratio= divide_U32(100 * key_interval, sync_interval);
 
     //check the key/gap ratio against the sync interval
     if( (sync_ratio < Decoder_Setup.sync_ratio_min_pct) || (sync_ratio > Decoder_Setup.sync_ratio_max_pct) )

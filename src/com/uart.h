@@ -37,7 +37,7 @@ typedef struct _serial_buffer_t {
 
 } serial_buffer_t ;
 
-
+/*
 //serial buffer functions
 U32 serial_buffer_push(volatile serial_buffer_t * buffer, VU8 data_in);
 U32 serial_buffer_available(volatile serial_buffer_t * buffer);
@@ -45,6 +45,7 @@ U32 serial_buffer_pull(volatile serial_buffer_t * buffer, VU8 * data_out);
 void get_serial_buffer_access(volatile serial_buffer_t * buffer);
 void free_serial_buffer_access(volatile serial_buffer_t * buffer);
 void serial_buffer_reset(volatile serial_buffer_t * buffer);
+*/
 
 //buffered serial communication
 U32 UART_transmit(USART_TypeDef * Port, char data);

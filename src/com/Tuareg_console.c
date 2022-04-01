@@ -35,6 +35,7 @@
 #include "fault_log.h"
 
 #include "highspeed_loggers.h"
+#include "serial_buffer.h"
 
 #define CONSOLE_DEBUG
 
@@ -64,6 +65,7 @@ The (current) active command will be reset, once the function reaches its end.
 void Tuareg_update_console()
 {
     VU32 offset, count, value, on, off;
+    exec_result_t result;
 
     // reset active command when timeout occurred
     if((Tuareg_console.active_cmd > 0) && (Tuareg_console.ts_cmd_watchdog == 0))
@@ -78,7 +80,7 @@ void Tuareg_update_console()
 
 
     //nothing to do if no new rx data is available
-    if( UART_available() == 0)
+    if( ComRx_Buffer_avail() == 0)
     {
         return;
     }
@@ -90,7 +92,8 @@ void Tuareg_update_console()
     //fetch new command
     if(Tuareg_console.active_cmd == 0)
     {
-        Tuareg_console.active_cmd= UART_getRX();
+        ComRx_Buffer_pull(&(Tuareg_console.active_cmd));
+
         Tuareg_console.ts_cmd_watchdog= TS_CMD_WATCHDOG_S;
         Tuareg_console.param_count= 0;
         Tuareg_console.param_offset= 0;
@@ -132,7 +135,7 @@ void Tuareg_update_console()
     case 'D':
 
         //received debug feature command takes 2 bytes of input data
-        if(UART_available() < 2)
+        if(ComRx_Buffer_avail() < 2)
         {
             return;
         }
@@ -141,9 +144,10 @@ void Tuareg_update_console()
         format:
         MSB, LSB
         */
-        value= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
+        result= ComRx_Buffer_pull_U16(&value);
+
+        ASSERT_EXEC_OK_VOID(result);
+
 
         #ifdef CONSOLE_DEBUG
         print(DEBUG_PORT, "@");
@@ -176,7 +180,7 @@ void Tuareg_update_console()
     case 'I':
 
         //received service info command takes 2 bytes of input data
-        if(UART_available() < 2)
+        if(ComRx_Buffer_avail() < 2)
         {
             return;
         }
@@ -185,9 +189,9 @@ void Tuareg_update_console()
         format:
         MSB, LSB
         */
-        value= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
+        result= ComRx_Buffer_pull_U16(&value);
+
+        ASSERT_EXEC_OK_VOID(result);
 
         #ifdef CONSOLE_DEBUG
         print(DEBUG_PORT, "@");
@@ -199,29 +203,23 @@ void Tuareg_update_console()
         break;
 
 
-
-
     case 'J':
 
         /**
         user permission management
         4 bytes following
         */
-        if(UART_available() < 4)
+        if(ComRx_Buffer_avail() < 4)
         {
             return;
         }
 
-        value= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
-        value <<= 8;
-        value |= UART_getRX();
+        result= ComRx_Buffer_pull_U32(&value);
+
+        ASSERT_EXEC_OK_VOID(result);
 
         //check requested permissions
-        cli_checkPermissions(value);
+        cli_setPermissions(value);
 
         break;
 
@@ -237,7 +235,7 @@ void Tuareg_update_console()
 
     case 'M':
 
-        if(UART_available() < 4)
+        if(ComRx_Buffer_avail() < 4)
         {
             return;
         }
@@ -249,12 +247,21 @@ void Tuareg_update_console()
 
                 <offset> <on> <off> <value>
         */
-        offset= UART_getRX();
+        result= ComRx_Buffer_pull(&offset);
 
-        on= UART_getRX();
-        off= UART_getRX();
+        ASSERT_EXEC_OK_VOID(result);
 
-        value= UART_getRX();
+        result= ComRx_Buffer_pull(&on);
+
+        ASSERT_EXEC_OK_VOID(result);
+
+        result= ComRx_Buffer_pull(&off);
+
+        ASSERT_EXEC_OK_VOID(result);
+
+        result= ComRx_Buffer_pull(&value);
+
+        ASSERT_EXEC_OK_VOID(result);
 
         //check if the received command is a "service mode request"
         if( (offset == 0xFF) && (on == 0xFF) && (off == 0x00) && (value == 0x00) )
@@ -275,16 +282,22 @@ void Tuareg_update_console()
         set the (current) active Tuner Studio page
         Data format: P\ Page ID MSB (ascii)\ Page ID LSB (ascii)
         */
-        if(UART_available() < 2)
+        if(ComRx_Buffer_avail() < 2)
         {
             return;
         }
 
-        //ID MSB - convert ascii number to decimal
-        value= 10* subtract_VU32( UART_getRX(), 0x30);
+        //ID MSB
+        result= ComRx_Buffer_pull(&offset);
+
+        //convert ascii number to decimal
+        value= 10* subtract_U32(offset, 0x30);
+
+        //ID LSB
+        result= ComRx_Buffer_pull(&offset);
 
         //ID LSB - convert ascii number to decimal
-        value += subtract_VU32( UART_getRX(), 0x30);
+        value += subtract_U32(offset, 0x30);
 
         if((value > 0) && (value < TSPAGE_COUNT))
         {
@@ -343,14 +356,15 @@ void Tuareg_update_console()
             if(Tuareg_console.params_valid == false)
             {
 
-                if(UART_available() < 4)
+                if(ComRx_Buffer_avail() < 4)
                 {
                     return;
                 }
 
                 //offset <LSB> <MSB>
-                offset= UART_getRX();
-                offset |= UART_getRX() << 8;
+                result= ComRx_Buffer_pull_U16(&offset);
+
+                ASSERT_EXEC_OK_VOID(result);
 
                 if(offset < 0xFFFF)
                 {
@@ -358,8 +372,9 @@ void Tuareg_update_console()
                 }
 
                 //count <LSB> <MSB>
-                count= UART_getRX();
-                count |= UART_getRX() << 8;
+                result= ComRx_Buffer_pull_U16(&count);
+
+                ASSERT_EXEC_OK_VOID(result);
 
                 if(count <= cTSmaxChunkLen)
                 {
@@ -378,19 +393,20 @@ void Tuareg_update_console()
             /**
             pause until the announced amount of data has been received
             */
-            if(UART_available() < Tuareg_console.param_count)
+            if(ComRx_Buffer_avail() < Tuareg_console.param_count)
             {
                 return;
             }
 
 
             /**
-            add up and shift data bytes for
-            value <LSB> <1> <2> <MSB>
+            process received data bytes
             */
             for(count=0; count < Tuareg_console.param_count; count++)
             {
-                value= UART_getRX();
+                result= ComRx_Buffer_pull(&count);
+
+                ASSERT_EXEC_OK_VOID(result);
 
                 ts_valueWrite(Tuareg_console.ts_active_page, Tuareg_console.param_offset + count, value);
 
@@ -414,17 +430,18 @@ void Tuareg_update_console()
             pageValueWrite writes one byte to the currently selected page
             Data format: W%2o%v -> U\ Offset MSB\ Offset LSB\ Value
             */
-            if(UART_available() < 3)
+            if(ComRx_Buffer_avail() < 3)
             {
                 return;
             }
 
             //offset <LSB> <MSB>
-            offset= UART_getRX();
-            offset |= UART_getRX() << 8;
+            result= ComRx_Buffer_pull_U16(&offset);
+            ASSERT_EXEC_OK_VOID(result);
 
             //value
-            value= UART_getRX();
+            result= ComRx_Buffer_pull(&value);
+            ASSERT_EXEC_OK_VOID(result);
 
             #ifdef CONSOLE_DEBUG
             print(DEBUG_PORT, "@ o:");
@@ -567,6 +584,12 @@ inline void cli_showPage(U32 Page)
             show_CrankingFuelTable(TS_PORT);
             break;
 
+        case BAROCORR_TABLE:
+
+            print(TS_PORT, "\r\nBarometric Correction\r\n");
+            show_BAROtable(TS_PORT);
+            break;
+
 
         case TSETUP_PAGE:
 
@@ -591,7 +614,7 @@ inline void cli_showPage(U32 Page)
 /*
 
 */
-void cli_checkPermissions(U32 Value)
+void cli_setPermissions(U32 Value)
 {
     switch(Value)
     {
@@ -688,31 +711,19 @@ this function implements the TS interface binary config page read command
 */
 void cli_show_help()
 {
-/// TODO (oli#9#): update command list
+/// TODO (oli#9#): keep command list up to date
 
-    UART_Tx(TS_PORT, '\n');
-    print(TS_PORT, "===Command Help===\n\r");
-    print(TS_PORT, "All commands are single character and are concatenated with their parameters \n\r");
-    print(TS_PORT, "without spaces. Some parameters are binary and cannot be entered through this \n\r");
-    print(TS_PORT, "prompt by conventional means. \n\r");
-    print(TS_PORT, "Syntax:  <command>+<parameter1>+<parameter2>+<parameterN>\n\r");
-    print(TS_PORT, "===List of Commands===\n\r");
-    print(TS_PORT, "A - Send Tuareg output channels (live data)\n\r");
-    print(TS_PORT, "B - Burn current map and configPage values to eeprom\n\r");
-    print(TS_PORT, "C - Test COM port.  Used by Tunerstudio to see whether an ECU is on a given serial \n\r");
-    print(TS_PORT, "    port. Returns a binary number.\n\r");
-    print(TS_PORT, "L - Displays map page (aka table) or configPage values.  Use P to change page (not \n\r");
-    print(TS_PORT, "    every page is a map)\n\r");
-    print(TS_PORT, "J - get permissions <mod#>, <cal#>, <ign#>, <dec#> or <brn!> \n\r");
-    print(TS_PORT, "N - Print new line.\n\r");
-    print(TS_PORT, "P - Set current page.  Syntax:  P+<pageNumber>\n\r");
-    print(TS_PORT, "S - Display signature number\n\r");
-    print(TS_PORT, "U - update configuration / calibration value U<Offset MSB, LSB><Value MSB, x, x, LSB> \n\r");
-    print(TS_PORT, "Q - Same as S command\n\r");
-    print(TS_PORT, "V - Display map or configPage values in binary\n\r");
-    print(TS_PORT, "W - Set one byte in map or configPage.  Expects binary parameters. \n\r");
-    print(TS_PORT, "    Syntax:  W+<offset>+<new byte>\n\r");
+    print(TS_PORT, "\r\n*** Tuareg CLI Help ***\n\r");
+    print(TS_PORT, "List of all commands for human interaction on CLI:\n\r");
+    print(TS_PORT, "(all input in ascii)\n\r");
+
+    print(TS_PORT, "B - Burn current page\n\r");
+    print(TS_PORT, "L - Show current page data\n\r");
+    print(TS_PORT, "J - Set permissions <mod#>, <cal#>, <ign#>, <dec#> or <brn!> \n\r");
+    print(TS_PORT, "P - Set current page number: P<tens><ones>\n\r");
+    print(TS_PORT, "S - Show signature number\n\r");
     print(TS_PORT, "? - Displays this help page\n\r");
+    print(TS_PORT, "I - Show debug information: I<a><b>\n\r");
 
 
 }

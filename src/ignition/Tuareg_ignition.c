@@ -200,7 +200,7 @@ void Tuareg_ignition_update_crankpos_handler()
             scheduler_parameters.flags.complete_cycle_realloc= true;
 
             scheduler_parameters.interval2_us= Tuareg.ignition_controls.dwell_timing_us;
-            scheduler_parameters.interval1_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
+            scheduler_parameters.interval1_us= subtract_U32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
 
 
             //check if sequential mode has been commanded

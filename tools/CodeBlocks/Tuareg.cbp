@@ -113,6 +113,10 @@
 		<Unit filename="../../src/com/TunerStudio_service.h" />
 		<Unit filename="../../src/com/TunerStudio_syslog_locations.h" />
 		<Unit filename="../../src/com/console_syslog_locations.h" />
+		<Unit filename="../../src/com/serial_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/serial_buffer.h" />
 		<Unit filename="../../src/com/serial_monitor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -200,10 +204,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/Tuareg_fueling_controls.h" />
+		<Unit filename="../../src/fueling/accel_comp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/accel_comp.h" />
 		<Unit filename="../../src/fueling/fueling_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_config.h" />
+		<Unit filename="../../src/fueling/fueling_corrections.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_corrections.h" />
 		<Unit filename="../../src/fueling/fueling_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -216,6 +228,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_logic.h" />
+		<Unit filename="../../src/fueling/injector_parameters.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/injector_parameters.h" />
 		<Unit filename="../../src/ignition/Ignition_syslog_locations.h" />
 		<Unit filename="../../src/ignition/Tuareg_ignition.c">
 			<Option compilerVar="CC" />

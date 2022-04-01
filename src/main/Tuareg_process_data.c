@@ -92,8 +92,8 @@ void Tuareg_update_process_data()
     Tuareg.process.ddt_TPS= derive;
 
 
-    /*
-    other important sensors
+    /**
+    process other analog sensors
     */
     Tuareg.process.Baro_kPa= Tuareg_update_BARO_sensor();
     Tuareg.process.IAT_K= Tuareg_update_IAT_sensor();
@@ -127,7 +127,9 @@ void Tuareg_update_process_data()
     #endif
 
 
-    //ground speed
+    /**
+    calculate ground speed
+    */
     if((Tuareg.pDecoder->flags.rpm_valid) && (Tuareg.process.Gear < GEAR_NEUTRAL))
     {
         Tuareg.process.ground_speed_mmps= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
@@ -137,7 +139,11 @@ void Tuareg_update_process_data()
         Tuareg.process.ground_speed_mmps= 0;
     }
 
-
+    /**
+    calculate intake valve temp
+    TODO (oli#3#03/22/22): implement intake valve temperature model
+    */
+    Tuareg.process.IVT_K= Tuareg.process.CLT_K;
 
 }
 

@@ -297,7 +297,7 @@ void Tuareg_update_run_inhibit()
     {
         Tuareg.flags.overheat_detected= true;
     }
-    else if((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_VU32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K)))
+    else if((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K)))
     {
         Tuareg.flags.overheat_detected= false;
     }
@@ -380,7 +380,7 @@ void Tuareg_update_rev_limiter()
     {
         Tuareg.flags.rev_limiter= true;
     }
-    else if((Tuareg.pDecoder->flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_VU32(max_rpm, cRevlimiter_hist_rpm))))
+    else if((Tuareg.pDecoder->flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_U32(max_rpm, cRevlimiter_hist_rpm))))
     {
         Tuareg.flags.rev_limiter= false;
     }

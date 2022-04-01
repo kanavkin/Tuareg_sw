@@ -3,7 +3,6 @@
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
 #include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
 
 #include "base_calc.h"
 
@@ -40,7 +39,7 @@ const U32 cASensorErrorThres= 100;
 /**
 bring up analog and digital sensors
 */
-void init_sensor_inputs(U32 Init_count)
+void init_analog_sensors(U32 Init_count)
 {
     DMA_InitTypeDef DMA_InitStructure;
     VU32 channel;
@@ -186,12 +185,7 @@ void init_sensor_inputs(U32 Init_count)
     NVIC_ClearPendingIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_IRQn);
 
-    /**
-    fast init feature:
-
-    initialize the valid sample count with its fast init value "init_count"
-    this makes sensor data available earlier in case of engine startup
-    */
+    //fast init feature can make sensor data available earlier in case of engine startup
     for(channel =0; channel < ASENSOR_COUNT; channel++)
     {
         Analog_Sensors[channel].valid_count= Init_count;
@@ -228,103 +222,76 @@ void update_analog_sensor(asensors_t Sensor, U32 Sample)
 {
     VU32 average;
     VF32 result;
-    bool process_data_now= false;
     volatile asensor_data_t * const pSensorData= &(Analog_Sensors[Sensor]);
     volatile asensor_parameters_t * const pSensorParameters= &(Sensor_Calibration.Asensor_Parameters[Sensor]);
 
-    //check if the input sample is valid
-    if((Sample >= pSensorParameters->min_valid) && (Sample <= pSensorParameters->max_valid))
+
+    //export raw sample value for diagnostic purposes
+    pSensorData->raw= Sample;
+
+
+    //check if the input sample is invalid
+    if((Sample < pSensorParameters->min_valid) || (Sample > pSensorParameters->max_valid))
     {
-        /**
-        valid sample
-        */
-
-        //check if moving average filtering is disabled for this channel
-        if(pSensorParameters->target_sample_length == 0)
-        {
-            //no averaging
-            average= Sample;
-            process_data_now= true;
-        }
-        else
-        {
-            //update integrator
-            pSensorData->integrator += Sample;
-            pSensorData->integrator_count += 1;
-
-            //check if enough samples have been collected
-            if(pSensorData->integrator_count >= pSensorParameters->target_sample_length)
-            {
-                //calculate average, (integrator_count cannot be zero)
-                average= pSensorData->integrator / pSensorData->integrator_count;
-
-                //clean up
-                reset_integrator(pSensorData);
-
-                //ready to process data
-                process_data_now= true;
-            }
-        }
-
-
-        //check if the calculated average value from sample data is ready for processing
-        if(process_data_now == true)
-        {
-        #ifdef CLT_LOOKUP
-            if(Sensor == ASENSOR_CLT)
-            {
-                result= getValue_InvTableCLT(average);
-            }
-            else
-        #endif // CLT_LOOKUP
-            {
-                //calculate the physical input value
-                result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
-            }
-
-            //export outputs
-            pSensorData->out= result;
-            pSensorData->raw= average;
-
-            //update health statistics, value cannot roll over within a realistic uptime
-            pSensorData->valid_count += 1;
-            pSensorData->invalid_count= 0;
-        }
-
-    }
-    else
-    {
-        /**
-        invalid reading, do error handling
-        */
-
         //clean up
         reset_integrator(pSensorData);
 
-        if(pSensorData->invalid_count < cASensorErrorThres)
-        {
-            /**
-            sensor has not read valid data for a short period of time,
-            perhaps its previous data is still valid
-            */
+        //update health statistics, value cannot roll over within a realistic uptime
+        pSensorData->invalid_count += 1;
 
-            //update health statistics, value cannot roll over within a realistic uptime
-            pSensorData->invalid_count += 1;
-        }
-        else
+        //check if the error threshold has been reached
+        if(pSensorData->invalid_count > cASensorErrorThres)
         {
-            /**
-            sensor temporarily disturbed, no output data available
-            */
-
-            //update interface
+            //sensor disturbed, no output data available
             pSensorData->out= 0;
-            pSensorData->raw= 0;
-
-            //no more consecutive valid readings
             pSensorData->valid_count= 0;
         }
+
+        //no input data to process
+        return;
     }
+
+    //update integrator
+    pSensorData->integrator += Sample;
+    pSensorData->integrator_count += 1;
+
+
+    //check if enough samples have been collected
+    if(pSensorData->integrator_count < pSensorParameters->target_sample_length)
+    {
+        //no input data to process
+        return;
+    }
+
+    //calculate average
+    average= divide_U32(pSensorData->integrator, pSensorData->integrator_count);
+
+    //clean up
+    reset_integrator(pSensorData);
+
+
+    #ifdef CLT_LOOKUP
+    if(Sensor == ASENSOR_CLT)
+    {
+        result= getValue_InvTableCLT(average);
+    }
+    else
+    #endif // CLT_LOOKUP
+    {
+        //calculate the physical input value
+        result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
+    }
+
+    //export outputs
+    pSensorData->out= result;
+
+    //update health statistics
+    if(pSensorData->valid_count < cU32max)
+    {
+        pSensorData->valid_count += 1;
+    }
+
+    pSensorData->invalid_count= 0;
 }
 
 
@@ -356,7 +323,7 @@ void ADC_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-/// TODO (oli#1#): handle this case
+/// TODO (oli#1#): handle this case?
             return;
         }
 
@@ -400,7 +367,7 @@ void DMA2_Stream0_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-            /// TODO (oli#1#): handle this case
+            /// TODO (oli#1#): handle this case?
             return;
         }
 

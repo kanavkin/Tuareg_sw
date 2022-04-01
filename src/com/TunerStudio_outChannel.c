@@ -16,7 +16,6 @@
 #include "Tuareg.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
-//#include "sensors.h"
 #include "base_calc.h"
 #include "diagnostics.h"
 #include "bitfields.h"
@@ -41,104 +40,51 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
         Tuareg_console.ts_connected= true;
     }
 
-    //secl             = scalar, U08,  0, "sec",    1.000, 0.000
     Out.secl= Tuareg_console.ts_secl;
 
-    //tuareg           = scalar, U32,  1, "bits",   1.000, 0.000
     ts_tuareg_bits(&(Out.tuareg_bits));
-
-    //ignition         = scalar,  U08,    5, "bits",   1.000, 0.000
-    Out.ignition_bits= Tuareg.ignition_controls.flags.all_flags;
-
-    //fueling         = scalar,  U16,    6, "bits",   1.000, 0.000
-    Out.fueling_bits= Tuareg.fueling_controls.flags.all_flags;
-
-    //comm             = scalar, U08,  8, "bits",   1.000, 0.000
     Out.com_bits= Tuareg_console.cli_permissions.all_flags;
 
-    //rpm              = scalar,   U16,    9, "rpm",    1.000, 0.000
     Out.rpm= (Tuareg.pDecoder->flags.rpm_valid == true)? Tuareg.pDecoder->crank_rpm : 0;
-
-    //rpmDOT           = scalar,   F32,    11, "rpm/s",  1.000, 0.000
     Out.ddt_rpm= (Tuareg.pDecoder->flags.accel_valid == true)? 1 : 0;
 
-    //advance         = scalar,   U16,    15, "deg",    1.000, 0.000
-    Out.ignition_adv_deg= Tuareg.ignition_controls.ignition_advance_deg;
-
-    //dwell	        = scalar,   U16,    17, "us",     0.100, 0.00
-    Out.ignition_dwell_us= Tuareg.ignition_controls.dwell_us;
-
-    //VE              = scalar,   F32,    19, "%",  1.000, 0.000
-    Out.VE_pct= Tuareg.fueling_controls.VE_pct;
-
-    //airDens         = scalar,   F32,    23, "ug/cm3",  1.000, 0.000
-    Out.air_dens= Tuareg.fueling_controls.air_density;
-
-    //airRate         = scalar,   F32,    nextOffset, "g/s",  1.000, 0.000
-    Out.air_rate_gps= Tuareg.fueling_controls.air_flowrate_gps;
-
-    //BasefuelMass    = scalar,   U32,    27, "ug",  1.000, 0.000
-    Out.base_fuel_mass_ug= Tuareg.fueling_controls.base_fuel_mass_ug;
-
-    //TargetfuelMass  = scalar,   U32,    31, "ug",  1.000, 0.000
-    Out.target_fuel_mass_ug= Tuareg.fueling_controls.target_fuel_mass_ug;
-
-    //AFRtgt          = scalar,   F32,    35, "AFR",  1.000, 0.000
-    Out.target_AFR= Tuareg.fueling_controls.AFR_target;
-
-    //inj1Iv          = scalar,   U32,    39, "us",  1.000, 0.000
-    Out.inj1_interval_us= Tuareg.fueling_controls.injector1_interval_us;
-
-    //inj2Iv          = scalar,   U32,    43, "us",  1.000, 0.000
-    Out.inj2_interval_us= Tuareg.fueling_controls.injector2_interval_us;
-
-    //injDcTgt        = scalar,   U32,    47, "us",  1.000, 0.000
-    Out.inj_dc_pct= Tuareg.fueling_controls.injector_target_dc;
-
-    //MAP             = scalar,   F32,    51, "kpa",    1.000, 0.000
     Out.MAP_kPa= Tuareg.process.MAP_kPa;
-
-    //MAPdot          = scalar,   F32,    55, "kpa/s",    1.000, 0.000
     Out.ddt_MAP= Tuareg.process.ddt_MAP;
-
-    //baro            = scalar,   F32,    59, "kpa",      1.000, 0.000
     Out.BARO_kPa= Tuareg.process.Baro_kPa;
-
-    //TPS             = scalar,   F32,    63, "deg",      1.000, 0.000
     Out.TPS_deg= Tuareg.process.TPS_deg;
-
-    //TPSdot          = scalar,   F32,    67, "deg/s",    10.00, 0.000
     Out.ddt_TPS= Tuareg.process.ddt_TPS;
-
-    //IAT             = scalar,   F32,    71, "K",    1.000, -273.15
     Out.IAT_K= Tuareg.process.IAT_K;
-
-    //CLT             = scalar,   F32,    75, "K",    1.000, -273.15
     Out.CLT_K= Tuareg.process.CLT_K;
-
-    //battery         = scalar,   F32,    79, "V",      1.000, 0.000
     Out.BAT_V= Tuareg.process.VBAT_V;
-
-    //AFR             = scalar,   F32,    83, "O2",     1.000, 0.000
     Out.AFR= Tuareg.process.O2_AFR;
-
-    //knock level     = scalar,   F32,    87, "Knock",     1.000, 0.000
     Out.Knock= Tuareg.process.Knock_level;
-
-    //gear             = scalar,   U08,    91, "gear",    1.000, 0.000
+    Out.IVT_K= Tuareg.process.IVT_K;
     Out.Gear= Tuareg.process.Gear;
 
-    //ground_speed     = scalar,   U16,    92, "mm/s",    1.000, 0.000
     Out.ground_speed_mmps= Tuareg.process.ground_speed_mmps;
-
-    //consumpt_1s    = scalar,   U32,    94, "ug",  1.000, 0.000
-    Out.conspumtion_ugps= Tuareg.fuel_consumpt_1s_ug;
-
-    //EngineRunTime   = scalar,   U32,    98, "#",  1.000, 0.000
     Out.engine_runtime_ms= Tuareg.engine_runtime;
 
-    //injDelay        = scalar,   U32,    103, "us",  1.000, 0.000
+    Out.ignition_bits= Tuareg.ignition_controls.flags.all_flags;
+    Out.ignition_adv_deg= Tuareg.ignition_controls.ignition_advance_deg;
+    Out.ignition_dwell_us= Tuareg.ignition_controls.dwell_us;
+
+    Out.fueling_bits= Tuareg.fueling_controls.flags.all_flags;
+    Out.VE_pct= Tuareg.fueling_controls.VE_pct;
+    Out.AFR_target= Tuareg.fueling_controls.AFR_target;
+    Out.air_rate_gps= Tuareg.fueling_controls.air_flowrate_gps;
+
+    Out.base_fuel_mass_ug= Tuareg.fueling_controls.base_fuel_mass_ug;
+    Out.target_fuel_mass_ug= Tuareg.fueling_controls.target_fuel_mass_ug;
+    Out.cmd_fuel_mass_ug= Tuareg.fueling_controls.cmd_fuel_mass_ug;
+    Out.wall_fuel_mass_ug= Tuareg.fueling_controls.wall_fuel_mass_ug;
+
+    Out.inj1_interval_us= Tuareg.fueling_controls.injector1_interval_us;
+    Out.inj2_interval_us= Tuareg.fueling_controls.injector2_interval_us;
+    Out.inj_dc_pct= Tuareg.fueling_controls.injector_target_dc;
     Out.inj_delay_us= Tuareg.fueling_controls.injector_deadtime_us;
+
+    Out.conspumtion_ugps= Tuareg.fuel_consumpt_1s_ug;
+
 
     /**
     send output channels

@@ -34,9 +34,6 @@ void Fatal(Tuareg_ID Id, U8 Location)
     Tuareg.flags.limited_op= false;
     Tuareg.flags.standby= false;
 
-    Syslog_Error(Id, Location);
-    Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
-    log_Fault(Id, Location);
 
     //turn off actors
     set_ignition_ch1(ACTOR_UNPOWERED);
@@ -47,6 +44,10 @@ void Fatal(Tuareg_ID Id, U8 Location)
 
     //disable decoder
     disable_Decoder();
+
+    Syslog_Error(Id, Location);
+    Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
+    log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUGMSG
     DebugMsg_Error("FATAL ERROR -- in module:");
@@ -97,12 +98,12 @@ void FunctionalAssert(bool Condition, Tuareg_ID Id, U8 Location)
 
 
 /**
-Activates the systems limited operation strategy when a critical error has been detected
+Activates the systems limited operation strategy when the systems functionality is degraded due to an error
 */
 void Limp(Tuareg_ID Id, U8 Location)
 {
-    //Fatal mode will persist until reboot
-    if(Tuareg.errors.fatal_error == true)
+    //Fatal mode will persist until reboot, do not spam the syslog
+    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.limited_op == true))
     {
         return;
     }
