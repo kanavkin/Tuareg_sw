@@ -73,10 +73,20 @@ void init_Sensors()
     }
 
     //init analog part
-    init_analog_sensors(ASENSOR_VALIDITY_THRES -1);
+    init_analog_sensors();
 
     //init digital sensors
     init_digital_sensors();
+
+    Tuareg_update_MAP_sensor();
+    Tuareg_update_BARO_sensor();
+    Tuareg_update_KNOCK_sensor();
+    Tuareg_update_VBAT_sensor();
+    Tuareg_update_CLT_sensor();
+    Tuareg_update_IAT_sensor();
+    Tuareg_update_TPS_sensor();
+    Tuareg_update_O2_sensor();
+    Tuareg_update_GEAR_sensor();
 
     Syslog_Info(TID_TUAREG_SENSORS, SENSORS_LOC_READY);
 }

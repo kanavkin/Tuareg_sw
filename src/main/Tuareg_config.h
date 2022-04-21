@@ -14,10 +14,10 @@ typedef union
      struct
      {
         U8 CrashSensor_trig_high :1;
-        U8 RunSwitch_trig_high :1;
         U8 SidestandSensor_trig_high :1;
-        U8 Halt_on_SidestandSensor :1;
-        U8 Halt_on_CrashSensor :1;
+        U8 RunSwitch_override :1;
+        U8 Sidestand_override :1;
+        U8 CrashSensor_override :1;
      };
 
 } Tuareg_Setup_flags_t;

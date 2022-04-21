@@ -129,14 +129,14 @@ extern volatile asensor_data_t Analog_Sensors[ASENSOR_COUNT];
 
 
 
-void init_analog_sensors(U32 Init_count);
+void init_analog_sensors();
 
 void sensors_start_regular_group_conversion();
 void sensors_start_injected_group_conversion();
 
 
 void reset_integrator(volatile asensor_data_t * pSensorData);
-void update_analog_sensor(asensors_t Sensor, U32 Sample);
+void update_analog_sensor(asensors_t Sensor, U32 Sample, bool ForceProcessing);
 
 
 #endif // SENSORS_H_INCLUDED

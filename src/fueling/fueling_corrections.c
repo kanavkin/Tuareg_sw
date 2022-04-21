@@ -15,39 +15,24 @@
 
 
 
+
+/****************************************************************************************************************************************
+*   fueling controls update wrapper function
+****************************************************************************************************************************************/
 void update_fuel_mass_corrections(volatile fueling_control_t * pTarget)
 {
-    /**
-        after start compensation
-        feature will not be activated in limp mode
-        */
-        update_fuel_mass_afterstart_correction(pTarget);
+    //after start compensation
+    update_fuel_mass_afterstart_correction(pTarget);
 
-        /**
-        warm up compensation
-        feature will not be activated in limp mode
-        */
-        update_fuel_mass_warmup_correction(pTarget);
+    //warm up compensation
+    update_fuel_mass_warmup_correction(pTarget);
 
-        /**
-        barometric pressure compensation
-        feature will not be activated in limp mode
-        */
-        update_fuel_mass_barometric_correction(pTarget);
+    //barometric pressure compensation
+    update_fuel_mass_barometric_correction(pTarget);
 
-        /**
-        legacy AE - load transient compensation
-        feature will not be activated in limp mode
-        */
-        update_legacy_AE(pTarget);
-
+    //legacy AE - load transient compensation
+    update_legacy_AE(pTarget);
 }
-
-
-
-
-
-
 
 
 
@@ -63,13 +48,13 @@ const U32 cAfterstart_thres= 50;
 /****************************************************************************************************************************************
 *   fueling controls update helper functions - after start fuel mass correction
 *
-*   calculate the fuel mass compensation factor for engine warmup
+*   adds extra fuel for the first seconds of an cold engine that has just started
 *
 ****************************************************************************************************************************************/
 void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget)
 {
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Fueling_Setup.features.ASE_enabled == false))
+    if((Fueling_Setup.features.ASE_enabled == false) || (Tuareg.errors.sensor_CLT_error == true))
     {
         disable_fuel_mass_afterstart_correction(pTarget);
         return;
@@ -126,8 +111,7 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
     F32 warmup_comp;
 
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_CLT_error == true) ||
-        (Fueling_Setup.features.WUE_enabled == false))
+    if((Tuareg.errors.sensor_CLT_error == true) || (Fueling_Setup.features.WUE_enabled == false))
     {
         pTarget->flags.WUE_active= false;
         pTarget->WUE_pct= 0.0;
@@ -155,8 +139,7 @@ void update_fuel_mass_barometric_correction(volatile fueling_control_t * pTarget
     F32 baro_comp;
 
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.errors.sensor_BARO_error == true) ||
-        (Fueling_Setup.features.BARO_correction_enabled == false))
+    if((Tuareg.errors.sensor_BARO_error == true) || (Fueling_Setup.features.BARO_correction_enabled == false))
     {
         pTarget->flags.BARO_corr_active= false;
         pTarget->BARO_pct= 0.0;

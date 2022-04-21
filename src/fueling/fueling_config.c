@@ -871,7 +871,7 @@ returns the Barometric pressure correction factor in %
 */
 F32 getValue_BAROtable(F32 BARO_kPa)
 {
-    return 100.0 - getValue_t2D(&BAROtable, 1000 * subtract_U32(BARO_kPa, cBAROtableOffset_kPa));
+    return getValue_t2D(&BAROtable, 1000 * subtract_U32((U32) BARO_kPa, cBAROtableOffset_kPa) / 100.0);
 }
 
 

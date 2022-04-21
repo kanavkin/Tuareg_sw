@@ -8,6 +8,10 @@ Provides the access functions to MIL and tachometer
 #include "Tuareg.h"
 
 
+volatile dashctrl_t Dash;
+
+
+
             //working!!
             //set_user_lamp(ON);
             //lowprio_scheduler_togglemode_channel(LOWPRIO_CH1, set_user_lamp, 1000, 5000);
@@ -61,21 +65,124 @@ Access function for MIL
 ******************************************************************************************************************/
 void dash_set_mil(volatile mil_state_t State)
 {
-    switch(State)
+    if(State == Dash.mil)
     {
-    case MIL_PERMANENT:
+        //nothing to do
+        return;
+    }
+
+    if(State < MIL_COUNT)
+    {
+        //store new state
+        Dash.mil= State;
+    }
+
+
+    if(State == MIL_PERMANENT)
+    {
         set_mil(PIN_ON);
-        break;
-
-
-    case MIL_OFF:
+    }
+    else
+    {
         set_mil(PIN_OFF);
-        break;
+
+        //let dash update function enable blinking
+        Dash.mil_cycle= 0;
+    }
+
+}
 
 
-    default:
-        set_mil(PIN_ON);
-        break;
+/******************************************************************************************************************
+Dash periodic update function
 
+
+called every 100 ms from systick timer in interrupt context
+
+
+indication scheme:
+
+1. prio:    fatal error / service mode (no engine operation possible)   --> permanent
+2. prio:    run inhibit set due to overheat / crash / sidestand         --> fast blink
+3. prio:    limp mode                                                   --> slow blink
+
+
+
+
+
+******************************************************************************************************************/
+void update_dash()
+{
+
+    /**
+    calculate new mil state
+    */
+    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true))
+    {
+        dash_set_mil(MIL_PERMANENT);
+        return;
+    }
+    else if( (Tuareg.flags.run_inhibit == true) && ((Tuareg.flags.overheat_detected == true) || (Tuareg.flags.crash_sensor_triggered == true) || (Tuareg.flags.sidestand_sensor_triggered == true)) )
+    {
+        dash_set_mil(MIL_BLINK_FAST);
+    }
+    else if(Tuareg.flags.limited_op == true)
+    {
+        dash_set_mil(MIL_BLINK_SLOW);
+    }
+    else
+    {
+        dash_set_mil(MIL_OFF);
+        return;
+    }
+
+
+
+
+    //check if interval has expired
+    if(Dash.mil_cycle > 0)
+    {
+        Dash.mil_cycle--;
+    }
+    else
+    {
+        //interval has possibly expired, select action
+        switch(Dash.mil)
+        {
+
+        case MIL_BLINK_SLOW:
+
+            if(Tuareg.flags.mil == true)
+            {
+                set_mil(PIN_OFF);
+                Dash.mil_cycle= MIL_BLINK_SLOW_OFF_ITV;
+            }
+            else
+            {
+                set_mil(PIN_ON);
+                Dash.mil_cycle= MIL_BLINK_SLOW_ON_ITV;
+            }
+
+            break;
+
+        case MIL_BLINK_FAST:
+
+            if(Tuareg.flags.mil == true)
+            {
+                set_mil(PIN_OFF);
+                Dash.mil_cycle= MIL_BLINK_FAST_OFF_ITV;
+            }
+            else
+            {
+                set_mil(PIN_ON);
+                Dash.mil_cycle= MIL_BLINK_FAST_ON_ITV;
+            }
+
+            break;
+
+
+        default:
+            break;
+        }
     }
 }

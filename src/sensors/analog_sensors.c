@@ -25,21 +25,27 @@ VU16 DMA_Buffer[LAST_ASYNC_ASENSOR];
 volatile asensor_data_t Analog_Sensors[ASENSOR_COUNT];
 
 
-
 /**
 an analog sensor shall be considered as temporarily disturbed, when the following amount of consecutive invalid samples have been detected
 
-with the configured update rate (currently 100 Hz) a timeout of 1 second results
+with the configured update rate (currently 100 Hz) a timeout of 3 second results
 */
-const U32 cASensorErrorThres= 100;
+const U32 cASensorErrorThres= 300;
 
+
+const U32 cASensorInitCycles= 10;
+
+
+
+VU32 Regular_Group_Init_counter= 0;
+VU32 Injected_Group_Init_counter= 0;
 
 
 
 /**
 bring up analog and digital sensors
 */
-void init_analog_sensors(U32 Init_count)
+void init_analog_sensors()
 {
     DMA_InitTypeDef DMA_InitStructure;
     VU32 channel;
@@ -185,12 +191,38 @@ void init_analog_sensors(U32 Init_count)
     NVIC_ClearPendingIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_IRQn);
 
-    //fast init feature can make sensor data available earlier in case of engine startup
+
     for(channel =0; channel < ASENSOR_COUNT; channel++)
     {
-        Analog_Sensors[channel].valid_count= Init_count;
+        Analog_Sensors[channel].valid_count= ASENSOR_VALIDITY_THRES;
         Analog_Sensors[channel].invalid_count= 0;
     }
+
+    Injected_Group_Init_counter= 0;
+    sensors_start_injected_group_conversion();
+
+    while(Injected_Group_Init_counter <= cASensorInitCycles)
+    {
+        //asm volatile ("nop");
+    }
+
+    Regular_Group_Init_counter= 0;
+    sensors_start_regular_group_conversion();
+
+    while(Regular_Group_Init_counter <= cASensorInitCycles)
+    {
+        //asm volatile ("nop");
+    }
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -218,7 +250,7 @@ void reset_integrator(volatile asensor_data_t * pSensorData)
 /*************************************************************************************************************************************************
 helper function - analog sensor readout validation and conversion, health status update
 *************************************************************************************************************************************************/
-void update_analog_sensor(asensors_t Sensor, U32 Sample)
+void update_analog_sensor(asensors_t Sensor, U32 Sample, bool ForceProcessing)
 {
     VU32 average;
     VF32 result;
@@ -236,7 +268,7 @@ void update_analog_sensor(asensors_t Sensor, U32 Sample)
         //clean up
         reset_integrator(pSensorData);
 
-        //update health statistics, value cannot roll over within a realistic uptime
+        //update health statistics, value cannot roll over within a realistic up time
         pSensorData->invalid_count += 1;
 
         //check if the error threshold has been reached
@@ -256,8 +288,8 @@ void update_analog_sensor(asensors_t Sensor, U32 Sample)
     pSensorData->integrator_count += 1;
 
 
-    //check if enough samples have been collected
-    if(pSensorData->integrator_count < pSensorParameters->target_sample_length)
+    //check if samples has to be processed
+    if((pSensorData->integrator_count < pSensorParameters->target_sample_length) && (ForceProcessing == false))
     {
         //no input data to process
         return;
@@ -323,23 +355,26 @@ void ADC_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-/// TODO (oli#1#): handle this case?
+/// TODO (oli#1#): handle this case: LIMP
             return;
         }
 
-        //begin critical section
-        //__disable_irq();
+        if(Injected_Group_Init_counter > cASensorInitCycles)
+        {
+            //update MAP sensor
+            update_analog_sensor(ASENSOR_MAP, sample, false);
+        }
+        else
+        {
+            //update MAP sensor without averaging
+            update_analog_sensor(ASENSOR_MAP, sample, true);
 
-        /**
-        update MAP sensor
-        */
-        update_analog_sensor(ASENSOR_MAP, sample);
+            Injected_Group_Init_counter++;
 
-        //ready
-        //__enable_irq();
-
-       }
-
+            //start the next conversion right now
+            sensors_start_injected_group_conversion();
+        }
+    }
 }
 
 
@@ -371,18 +406,33 @@ void DMA2_Stream0_IRQHandler()
             return;
         }
 
-        //begin critical section
-        //__disable_irq();
-
-        //for every async asensor
-        for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
+        if(Regular_Group_Init_counter > cASensorInitCycles)
         {
-            //run update function
-            update_analog_sensor(sensor, DMA_Buffer[sensor]);
+            //update every async asensor
+            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
+            {
+                //run update function
+                update_analog_sensor(sensor, DMA_Buffer[sensor], false);
+            }
+        }
+        else
+        {
+            //update every async asensor without averaging
+            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
+            {
+                //run update function
+                update_analog_sensor(sensor, DMA_Buffer[sensor], true);
+            }
+
+            Regular_Group_Init_counter++;
+
+            //start the next conversion right now
+            sensors_start_regular_group_conversion();
         }
 
-        //ready
-        //__enable_irq();
+
+
+
 
     }
 }

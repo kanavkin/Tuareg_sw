@@ -216,19 +216,18 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
 
 
     //flags
-    print(Port, "\r\nfeature enabled flags: CrashSenPol-RunSenPol-SidestandSenPol-HaltOnSidestand-HaltOnCrash: ");
+    print(Port, "\r\nfeature enabled flags: CrashPol-SidesPol-RunSwOver-SidesOver-CrashOver: ");
 
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Tuareg_Setup.flags.RunSwitch_trig_high? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.SidestandSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_SidestandSensor? '1' :'0'));
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.RunSwitch_override? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_CrashSensor? '1' :'0'));
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Sidestand_override? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_override? '1' :'0'));
 }
-
 
 
 /**

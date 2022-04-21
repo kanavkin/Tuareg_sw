@@ -74,6 +74,8 @@ void request_service_mode()
 
     Tuareg.flags.service_mode= true;
 
+    dash_set_mil(MIL_BLINK_SLOW);
+
     Syslog_Info(TID_SERVICE, SERVICE_LOC_SERVICE_ENABLED);
 
     #ifdef SERVICE_DEBUG_OUTPUT

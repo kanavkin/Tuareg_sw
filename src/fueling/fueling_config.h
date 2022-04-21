@@ -50,7 +50,7 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U16 injector2_rate_mgps;
     U8 max_injector_duty_cycle_pct;
 
-    //throttle transient compensation
+    //legacy AE
     F32 accel_comp_thres_TPS;
     F32 accel_comp_thres_MAP;
     F32 decel_comp_thres_TPS;

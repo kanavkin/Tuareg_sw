@@ -12,6 +12,9 @@ typedef enum {
 
     IGNITION_LOC_SEQUENTIAL_FAIL,
 
+    IGNITION_LOC_TPS_ERROR,
+
+
 
 
 

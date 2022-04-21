@@ -110,7 +110,7 @@ exec_result_t ComRx_Buffer_pull(VU32 * Output)
 
 
 */
-exec_result_t ComRx_Buffer_pull_U16(VU32 * Output)
+exec_result_t ComRx_Buffer_pull_U16(VU32 * Output, bool BigEndian)
 {
     VU32 byte1, byte2;
     exec_result_t result;
@@ -124,12 +124,19 @@ exec_result_t ComRx_Buffer_pull_U16(VU32 * Output)
     ASSERT_EXEC_OK(result);
 
     //set output
-    *Output= (byte1 << 8) | byte2;
+    if(BigEndian == true)
+    {
+        *Output= (byte2 << 8) | byte1;
+    }
+    else
+    {
+        *Output= (byte1 << 8) | byte2;
+    }
 
     return EXEC_OK;
 }
 
-exec_result_t ComRx_Buffer_pull_U32(VU32 * Output)
+exec_result_t ComRx_Buffer_pull_U32(VU32 * Output, bool BigEndian)
 {
     VU32 byte1, byte2, byte3, byte4;
     exec_result_t result;
@@ -151,7 +158,14 @@ exec_result_t ComRx_Buffer_pull_U32(VU32 * Output)
     ASSERT_EXEC_OK(result);
 
     //set output
-    *Output= (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+    if(BigEndian == true)
+    {
+        *Output= (byte4 << 24) | (byte3 << 16) | (byte2 << 8) | byte1;
+    }
+    else
+    {
+        *Output= (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+    }
 
     return EXEC_OK;
 }

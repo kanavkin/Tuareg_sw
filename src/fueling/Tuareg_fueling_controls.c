@@ -104,20 +104,19 @@ void Tuareg_update_fueling_controls()
     //log diag data
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
-
     //vital precondition: fueling config data available
     VitalAssert(Tuareg.errors.fueling_config_error == false, TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_VITAL_PRECOND);
 
-    //vital precondition: at least one sensor to determine engine load is available
-    VitalAssert((Tuareg.errors.sensor_MAP_error == false) || (Tuareg.errors.sensor_TPS_error == false), TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_VITAL_PRECOND);
-
-
     /**
-    preconditions:
+    functional preconditions:
+        - at least one sensor to determine engine load is available
+        without a load estimation, fueling the engine shall not be possible
+        -> no functional impact on ignition!
     */
     if( (Tuareg.errors.fatal_error == true) ||
         (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) ||
-        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.engine_runtime == 0))) )
+        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.engine_runtime == 0))) ||
+        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true)) )
     {
         //reset controls
         invalid_fueling_controls(pTarget);
@@ -204,8 +203,7 @@ void Tuareg_update_fueling_controls()
         */
         update_base_fuel_mass(pTarget);
 
-        //experimental air mass flow rate calculation
-
+        //run correction algoritms
         update_fuel_mass_corrections(pTarget);
 
     }

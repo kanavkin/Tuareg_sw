@@ -28,7 +28,6 @@ Output_Channels_t Out;
 volatile U8 * const pOut_data= (volatile U8 *) &Out;
 const U32 cOut_size= sizeof(Out);
 
-
 void ts_sendOutputChannels(USART_TypeDef * Port)
 {
     /**

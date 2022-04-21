@@ -9,6 +9,7 @@
 #include "Tuareg_console.h"
 #include "scheduler.h"
 #include "Tuareg_service_functions.h"
+#include "dash_logic.h"
 
 
 
@@ -80,7 +81,9 @@ void SysTick_Handler(void)
     Systick_Mgr.system_time++;
     Systick_Mgr.out.system_time= Systick_Mgr.system_time;
 
-    //init check
+    /**
+    no further action will be triggered while the system is in initialization phase
+    */
     if(Tuareg.errors.init_not_completed == true)
     {
         return;
@@ -191,6 +194,7 @@ void SysTick_Handler(void)
         Systick_Mgr.out.flags.cycle_100_ms= true;
 
         //actions to be taken in irq scope
+        update_dash();
     }
 
 /*

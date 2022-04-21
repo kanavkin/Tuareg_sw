@@ -24,8 +24,8 @@ void ComRx_Buffer_reset();
 VU32 ComRx_Buffer_avail();
 exec_result_t ComRx_Buffer_push(VU8 Input);
 exec_result_t ComRx_Buffer_pull(VU32 * Output);
-exec_result_t ComRx_Buffer_pull_U16(VU32 * Output);
-exec_result_t ComRx_Buffer_pull_U32(VU32 * Output);
+exec_result_t ComRx_Buffer_pull_U16(VU32 * Output, bool BigEndian);
+exec_result_t ComRx_Buffer_pull_U32(VU32 * Output, bool BigEndian);
 
 
 

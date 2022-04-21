@@ -125,6 +125,6 @@ void Limp(Tuareg_ID Id, U8 Location)
     #endif // ERRORS_DEBUGMSG
 
     //interim solution
-    dash_set_mil(MIL_PERMANENT);
+    dash_set_mil(MIL_BLINK_FAST);
 }
 

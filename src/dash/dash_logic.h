@@ -18,30 +18,48 @@ typedef enum {
 
     MIL_OFF,
     MIL_PERMANENT,
+
     MIL_BLINK_SLOW,
-    MIL_BLINK_MIDDLE,
     MIL_BLINK_FAST,
+    /*
     MIL_CODE_TWO,
     MIL_CODE_THREE,
     MIL_CODE_FOUR,
     MIL_CODE_FIVE,
     MIL_CODE_SIX,
     MIL_CODE_SEVEN,
-    MIL_CODE_EIGHT
+    MIL_CODE_EIGHT,
+    */
+    MIL_COUNT
 
 } mil_state_t;
 
 
+
+#define MIL_BLINK_SLOW_ON_ITV 10
+#define MIL_BLINK_SLOW_OFF_ITV 15
+
+#define MIL_BLINK_FAST_ON_ITV 5
+#define MIL_BLINK_FAST_OFF_ITV 5
+
+
+
+
+
+
 typedef struct {
 
-    volatile tachoctrl_t tachoctrl;
-    volatile mil_state_t mil;
+    tachoctrl_t tachoctrl;
+    mil_state_t mil;
+    U32 mil_cycle;
 
 } dashctrl_t;
 
 
 
 void init_dash();
+void update_dash();
+
 void dash_set_tachometer(volatile tachoctrl_t State);
 void dash_set_mil(volatile mil_state_t State);
 

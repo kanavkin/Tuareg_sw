@@ -50,13 +50,14 @@
 #endif // CONSOLE_DEBUGMSG
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2022.01";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2022.04";
 
 
 volatile Tuareg_console_t Tuareg_console;
 
 
-const U32 cTSmaxChunkLen= 4;
+const U32 cTSmaxChunkLen= 50;
+const U32 cTSmaxOffset= 320;
 
 /**
 This is the periodic, re-entrant function that processes received input data.
@@ -140,11 +141,8 @@ void Tuareg_update_console()
             return;
         }
 
-        /**
-        format:
-        MSB, LSB
-        */
-        result= ComRx_Buffer_pull_U16(&value);
+        //MSB, LSB (Tuareg format: Little endian)
+        result= ComRx_Buffer_pull_U16(&value, false);
 
         ASSERT_EXEC_OK_VOID(result);
 
@@ -185,11 +183,8 @@ void Tuareg_update_console()
             return;
         }
 
-        /**
-        format:
-        MSB, LSB
-        */
-        result= ComRx_Buffer_pull_U16(&value);
+        //MSB, LSB, (Tuareg format: Little endian)
+        result= ComRx_Buffer_pull_U16(&value, false);
 
         ASSERT_EXEC_OK_VOID(result);
 
@@ -214,7 +209,8 @@ void Tuareg_update_console()
             return;
         }
 
-        result= ComRx_Buffer_pull_U32(&value);
+        //Tuareg format: Little endian
+        result= ComRx_Buffer_pull_U32(&value, false);
 
         ASSERT_EXEC_OK_VOID(result);
 
@@ -361,18 +357,27 @@ void Tuareg_update_console()
                     return;
                 }
 
-                //offset <LSB> <MSB>
-                result= ComRx_Buffer_pull_U16(&offset);
+                //offset <LSB> <MSB>, (TunerStudio format: Big endian)
+                result= ComRx_Buffer_pull_U16(&offset, true);
 
                 ASSERT_EXEC_OK_VOID(result);
 
-                if(offset < 0xFFFF)
+                if(offset < cTSmaxOffset)
                 {
                     Tuareg_console.param_offset= offset;
                 }
+                else
+                {
+                    #ifdef CONSOLE_DEBUG
+                    print(DEBUG_PORT, "@ INVALID o:");
+                    printf_U(DEBUG_PORT, Tuareg_console.param_offset, NO_PAD);
+                    #endif // CONSOLE_DEBUG
 
-                //count <LSB> <MSB>
-                result= ComRx_Buffer_pull_U16(&count);
+                    break;
+                }
+
+                //count <LSB> <MSB>, (TunerStudio format: Big endian)
+                result= ComRx_Buffer_pull_U16(&count, true);
 
                 ASSERT_EXEC_OK_VOID(result);
 
@@ -380,6 +385,17 @@ void Tuareg_update_console()
                 {
                     Tuareg_console.param_count= count;
                     Tuareg_console.params_valid= true;
+                }
+                else
+                {
+                    #ifdef CONSOLE_DEBUG
+                    print(DEBUG_PORT, "@ o:");
+                    printf_U(DEBUG_PORT, Tuareg_console.param_offset, NO_PAD);
+                    print(DEBUG_PORT, "INVALID c:");
+                    printf_U(DEBUG_PORT, Tuareg_console.param_count, NO_PAD);
+                    #endif // CONSOLE_DEBUG
+
+                    break;
                 }
 
                 #ifdef CONSOLE_DEBUG
@@ -404,20 +420,20 @@ void Tuareg_update_console()
             */
             for(count=0; count < Tuareg_console.param_count; count++)
             {
-                result= ComRx_Buffer_pull(&count);
+                result= ComRx_Buffer_pull(&value);
 
                 ASSERT_EXEC_OK_VOID(result);
 
                 ts_valueWrite(Tuareg_console.ts_active_page, Tuareg_console.param_offset + count, value);
 
 
-                /*
-                would destroy timing
+
+                //can destroy timing
                 #ifdef CONSOLE_DEBUG
                 print(DEBUG_PORT, "\r\nv:");
                 printf_U32hex(DEBUG_PORT, value);
                 #endif // CONSOLE_DEBUG
-                */
+
             }
 
 
@@ -435,8 +451,8 @@ void Tuareg_update_console()
                 return;
             }
 
-            //offset <LSB> <MSB>
-            result= ComRx_Buffer_pull_U16(&offset);
+            //offset <LSB> <MSB>,(Big Endian)
+            result= ComRx_Buffer_pull_U16(&offset, true);
             ASSERT_EXEC_OK_VOID(result);
 
             //value
@@ -699,6 +715,9 @@ void cli_setPermissions(U32 Value)
         break;
 
     default:
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Error("invalid permission request");
+        #endif // CONSOLE_DEBUGMSG
         break;
 
     }

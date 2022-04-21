@@ -199,7 +199,9 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     /**
     select ignition advance and dwell
     */
-    if( (Tuareg.pDecoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) && (Ignition_Setup.flags.cold_idle_enabled == true) )
+    if( (Tuareg.pDecoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) &&
+       (Tuareg.errors.sensor_CLT_error == false) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) &&
+       (Ignition_Setup.flags.cold_idle_enabled == true) )
     {
         //cold idle function activated
         pTarget->flags.cold_idle= true;
@@ -210,6 +212,16 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     }
     else
     {
+        /**
+        TPS is required to look up ignition advance
+        The ignition advance, associated with its default value will be selected to operate the engine.
+        This could lead to engine damage - limit power output!
+        */
+        if(Tuareg.errors.sensor_TPS_error == true)
+        {
+            Limp(TID_IGNITION_CONFIG, IGNITION_LOC_TPS_ERROR);
+        }
+
         //get target ignition advance angle - TPS default value will be sufficient, in case
         Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
 

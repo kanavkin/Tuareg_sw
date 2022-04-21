@@ -107,9 +107,9 @@ void Tuareg_Init()
     /**
     vital modules
     */
+    init_Sensors();
     init_Ignition();
     init_Fueling();
-    init_Sensors();
     Tuareg.pDecoder= init_Decoder();
 
     //provide initial process data
@@ -277,27 +277,26 @@ void Tuareg_update_run_inhibit()
     check if the RUN switch, SIDESTAND sensor or CRASH sensor or the OVERHEAT protector indicate a HALT condition
     */
 
-/// TODO (oli#2#02/18/22): in case of config error run switch polarity setup can be wrong (RunSwitchTrig_high flag := 0) -> no engine stop by switch, only main sw
-
     //shut engine off if the RUN switch is DISENGAGED
-    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run != Tuareg_Setup.flags.RunSwitch_trig_high) ? true : false;
+    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run == false) ? true : false;
 
     //shut engine off if the CRASH sensor is engaged
     Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high) ? true : false;
 
     //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
-    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL)) ? true : false;
+    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL) && (Tuareg.errors.sensor_GEAR_error == false)) ? true : false;
 
 
     /**
     check if the overheating protector indicates a HALT condition
-    a failed coolant sensor will show its default value and may never trigger this protector
+    a failed coolant sensor will never trigger this protector
     */
-    if(Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K)
+    if((Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K) && (Tuareg.errors.sensor_CLT_error == false))
     {
         Tuareg.flags.overheat_detected= true;
     }
-    else if((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K)))
+    else if( ((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K))) ||
+             (Tuareg.errors.sensor_CLT_error == true) )
     {
         Tuareg.flags.overheat_detected= false;
     }
@@ -306,9 +305,9 @@ void Tuareg_update_run_inhibit()
     /**
     the run_inhibit flag indicates that engine operation is temporarily restricted
     */
-    Tuareg.flags.run_inhibit=(  (Tuareg.flags.run_switch_deactivated == true) ||
-                                ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.Halt_on_CrashSensor == true)) ||
-                                ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Halt_on_SidestandSensor == true)) ||
+    Tuareg.flags.run_inhibit=(  ((Tuareg.flags.run_switch_deactivated == true) && (Tuareg_Setup.flags.RunSwitch_override == false)) ||
+                                ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.CrashSensor_override == false)) ||
+                                ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Sidestand_override == false)) ||
                                 (Tuareg.flags.overheat_detected == true) ||
                                 (Tuareg.flags.service_mode == true) );
 }
