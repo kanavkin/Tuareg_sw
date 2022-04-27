@@ -37,13 +37,13 @@
 #include "highspeed_loggers.h"
 #include "serial_buffer.h"
 
-#define CONSOLE_DEBUG
+//#define CONSOLE_DEBUG
 
 #ifdef CONSOLE_DEBUG
 #warning Tuareg Console debugging enabled
 #endif // CONSOLE_DEBUG
 
-#define CONSOLE_DEBUGMSG
+//#define CONSOLE_DEBUGMSG
 
 #ifdef CONSOLE_DEBUGMSG
 #warning Tuareg Console debug port messages enabled

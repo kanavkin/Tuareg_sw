@@ -54,6 +54,8 @@ typedef enum {
     TID_BITFIELDS,
     TID_CONVERSION,
 
+    TID_DUMMY,
+
     TID_COUNT
 
 } Tuareg_ID;

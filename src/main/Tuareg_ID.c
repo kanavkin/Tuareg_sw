@@ -66,6 +66,7 @@ const char Tuareg_ID_labels [TID_COUNT] [TUAREG_ID_LABELS_LEN] __attribute__((__
     "BASE_CALC",
     "BITFIELDS",
     "CONVERSION",
+    "DUMMY"
 
 };
 

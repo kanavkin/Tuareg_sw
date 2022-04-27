@@ -17,7 +17,7 @@
 #include "fault_log.h"
 
 
-#define TS_DEBUG
+//#define TS_DEBUG
 
 #ifdef TS_DEBUG
 #include "uart_printf.h"

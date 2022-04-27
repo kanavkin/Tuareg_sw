@@ -12,17 +12,15 @@
 
 #include "accel_comp.h"
 
+///do not enable wall fuel code by now
+#define WALL_FUEL_WIP
+
 /*
 built in defaults
 */
 static const F32 cMax_cold_accel_pct= 30.0;
 static const F32 cAccelCompMinThres= 500.0;
 static const U32 cAccelCompMinRpm= 1000;
-
-
-
-
-
 
 
 
@@ -44,32 +42,7 @@ const F32 cImpact_Factor= 0.3;
 F32 calc_tau()
 {
     F32 tau= 0.5;
-/*
-	if (!engineConfiguration->complexWallModel) {
-		return engineConfiguration->wwaeTau;
-	}
 
-	// Default to normal operating temperature in case of
-	// CLT failure, this is not critical to get perfect
-	float clt = Sensor::get(SensorType::Clt).value_or(90);
-
-	float tau = interpolate2d(
-		clt,
-		engineConfiguration->wwCltBins,
-		engineConfiguration->wwTauCltValues
-	);
-
-	// If you have a MAP sensor, apply MAP correction
-	if (Sensor::hasSensor(SensorType::Map)) {
-		auto map = Sensor::get(SensorType::Map).value_or(60);
-
-		tau *= interpolate2d(
-			map,
-			engineConfiguration->wwMapBins,
-			engineConfiguration->wwTauMapValues
-		);
-	}
-*/
 	return tau;
 }
 
@@ -81,8 +54,6 @@ F32 calc_alpha(U32 Rpm, F32 Tau)
 
     alpha= calc_expf(-120 / (Rpm * Tau), -1, 4);
 
-
-
 	return alpha;
 }
 
@@ -90,37 +61,6 @@ F32 calc_alpha(U32 Rpm, F32 Tau)
 F32 calc_beta(F32 Alpha)
 {
     F32 beta= 1.0;
-    /*
-	if (!engineConfiguration->complexWallModel) {
-		return engineConfiguration->wwaeBeta;
-	}
-
-	// Default to normal operating temperature in case of
-	// CLT failure, this is not critical to get perfect
-	float clt = Sensor::get(SensorType::Clt).value_or(90);
-
-	float beta = interpolate2d(
-		clt,
-		engineConfiguration->wwCltBins,
-		engineConfiguration->wwBetaCltValues
-	);
-
-	// If you have a MAP sensor, apply MAP correction
-	if (Sensor::hasSensor(SensorType::Map)) {
-		auto map = Sensor::get(SensorType::Map).value_or(60);
-
-		beta *= interpolate2d(
-			map,
-			engineConfiguration->wwMapBins,
-			engineConfiguration->wwBetaMapValues
-		);
-	}
-
-	// Clamp to 0..1 (you can't have more than 100% of the fuel hit the wall!)
-	return clampF(0, beta, 1);
-	*/
-
-
 
 	if(Alpha < cImpact_Factor)
 	{
@@ -150,11 +90,14 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
     F32 alpha, beta, tau;
     F32 cmd_fuel_mass_ug;
 
-
+#ifndef WALL_FUEL_WIP
     //check preconditions
     if( (Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) ||
         ((Tuareg.errors.sensor_TPS_error == true) && (Tuareg.errors.sensor_MAP_error == true)) ||
         (Fueling_Setup.features.load_transient_comp_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm) )
+#else
+    if(true)
+#endif
     {
         disable_load_transient_comp(pTarget);
     }
@@ -163,16 +106,6 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
     tau= calc_tau();
     alpha= calc_alpha(Tuareg.pDecoder->crank_rpm, tau);
     beta= calc_beta(alpha);
-
-    /*
-	// if tau or beta is really small, we get div/0.
-	// you probably meant to disable wwae.
-	if (tau < 0.01f || beta < 0.01f) {
-		m_enable = false;
-		return;
-	}
-    */
-
 
 	cmd_fuel_mass_ug= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta));
 

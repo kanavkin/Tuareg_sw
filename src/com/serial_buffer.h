@@ -2,7 +2,7 @@
 #define SERIAL_BUFFER_H_INCLUDED
 
 
-#define COMRX_BUFFER_SIZE 64
+#define COMRX_BUFFER_SIZE 260
 
 
 
