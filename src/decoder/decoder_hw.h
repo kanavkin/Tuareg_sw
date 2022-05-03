@@ -74,7 +74,7 @@ void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing);
 void decoder_set_cis_sensing(decoder_sensing_t sensing);
 void trigger_decoder_irq();
 
-VU32 decoder_get_timestamp();
+U32 decoder_get_timestamp();
 
 void decoder_set_timer_continuous_mode_on();
 void decoder_set_timer_continuous_mode_off();

@@ -1,54 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-#include "bitfields.h"
-#include "Tuareg_decoder.h"
-
-#include "Tuareg_ignition.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-
-#include "Tuareg_fueling.h"
-
-#include "Tuareg_sensors.h"
-
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "Tuareg_console.h"
-#include "Tuareg_config.h"
-#include "table.h"
-#include "eeprom.h"
-#include "analog_sensors.h"
-#include "digital_sensors.h"
-#include "fueling_hw.h"
-#include "Tuareg_fueling_controls.h"
-
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "act_hw.h"
-#include "act_logic.h"
-
-#include "process_table.h"
-
-#include "diagnostics.h"
-#include "Tuareg_diag.h"
-#include "Tuareg.h"
-#include "uart_printf.h"
-#include "module_test.h"
-
-#include "syslog.h"
-#include "debug_port_messages.h"
-#include "Tuareg_syslog_locations.h"
-#include "fault_log.h"
-
-#include "highspeed_loggers.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 //#define TUAREG_DEBUG_OUTPUT
 
@@ -120,7 +71,7 @@ void Tuareg_Init()
     */
     Tuareg_init_console();
 
-    init_lowprio_scheduler();
+    init_Lowprio_Scheduler();
     init_dash();
 
     #ifdef TUAREG_DEBUG_OUTPUT

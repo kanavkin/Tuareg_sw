@@ -1,17 +1,7 @@
 #ifndef DASHLOGIC_H_INCLUDED
 #define DASHLOGIC_H_INCLUDED
 
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-
-
-typedef enum {
-
-    TACHOCTRL_CRANK,
-    TACHOCTRL_0RPM
-
-} tachoctrl_t;
+#include "Tuareg_platform.h"
 
 
 typedef enum {
@@ -42,14 +32,18 @@ typedef enum {
 #define MIL_BLINK_FAST_ON_ITV 5
 #define MIL_BLINK_FAST_OFF_ITV 5
 
-
+#define TACH_MAX_READING_RPM 10000
 
 
 
 
 typedef struct {
 
-    tachoctrl_t tachoctrl;
+    U32 tacho_reading_rpm;
+    U32 tacho_on_interval_ms;
+    U32 tacho_off_interval_ms;
+    U32 tacho_counter;
+
     mil_state_t mil;
     U32 mil_cycle;
 
@@ -58,9 +52,11 @@ typedef struct {
 
 
 void init_dash();
-void update_dash();
 
-void dash_set_tachometer(volatile tachoctrl_t State);
-void dash_set_mil(volatile mil_state_t State);
+void update_mil();
+void update_tachometer();
+
+void set_tachometer(U32 Reading_rpm);
+void set_mil(mil_state_t State);
 
 #endif // DASHLOGIC_H_INCLUDED

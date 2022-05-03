@@ -1,12 +1,10 @@
 /**
 Provides the access functions to MIL and tachometer
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "Tuareg.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
+#include "dash_hw.h"
 
 volatile dashctrl_t Dash;
 
@@ -36,10 +34,10 @@ void init_dash()
     init_dash_hw();
 
     //turn tachometer off
-    dash_set_tachometer(TACHOCTRL_0RPM);
+    set_tachometer(0);
 
     //turn the engine lamp off
-    dash_set_mil(MIL_OFF);
+    set_mil(MIL_OFF);
 
 }
 
@@ -48,13 +46,29 @@ void init_dash()
 /******************************************************************************************************************
 Access function for tachometer
 ******************************************************************************************************************/
-void dash_set_tachometer(volatile tachoctrl_t State)
+void set_tachometer(U32 Reading)
 {
 
 }
 
-void gen_tachometer_pulse(U32 Duration_us)
+
+/******************************************************************************************************************
+TACH periodic update function
+
+
+called every 1 ms from systick timer in interrupt context!
+
+******************************************************************************************************************/
+void update_tachometer()
 {
+    if((Dash.tacho_reading_rpm == 0) || (Dash.tacho_on_interval_ms == 0) || (Dash.tacho_off_interval_ms == 0))
+    {
+        set_tachometer_hw(PIN_OFF);
+        return;
+    }
+
+
+
 
 }
 
@@ -63,7 +77,7 @@ void gen_tachometer_pulse(U32 Duration_us)
 /******************************************************************************************************************
 Access function for MIL
 ******************************************************************************************************************/
-void dash_set_mil(volatile mil_state_t State)
+void set_mil(volatile mil_state_t State)
 {
     if(State == Dash.mil)
     {
@@ -80,11 +94,11 @@ void dash_set_mil(volatile mil_state_t State)
 
     if(State == MIL_PERMANENT)
     {
-        set_mil(PIN_ON);
+        set_mil_hw(ACTOR_POWERED);
     }
     else
     {
-        set_mil(PIN_OFF);
+        set_mil_hw(ACTOR_UNPOWERED);
 
         //let dash update function enable blinking
         Dash.mil_cycle= 0;
@@ -94,7 +108,7 @@ void dash_set_mil(volatile mil_state_t State)
 
 
 /******************************************************************************************************************
-Dash periodic update function
+MIL periodic update function
 
 
 called every 100 ms from systick timer in interrupt context
@@ -111,7 +125,7 @@ indication scheme:
 
 
 ******************************************************************************************************************/
-void update_dash()
+void update_mil()
 {
 
     /**
@@ -119,20 +133,20 @@ void update_dash()
     */
     if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true))
     {
-        dash_set_mil(MIL_PERMANENT);
+        set_mil(MIL_PERMANENT);
         return;
     }
     else if( (Tuareg.flags.run_inhibit == true) && ((Tuareg.flags.overheat_detected == true) || (Tuareg.flags.crash_sensor_triggered == true) || (Tuareg.flags.sidestand_sensor_triggered == true)) )
     {
-        dash_set_mil(MIL_BLINK_FAST);
+        set_mil(MIL_BLINK_FAST);
     }
     else if(Tuareg.flags.limited_op == true)
     {
-        dash_set_mil(MIL_BLINK_SLOW);
+        set_mil(MIL_BLINK_SLOW);
     }
     else
     {
-        dash_set_mil(MIL_OFF);
+        set_mil(MIL_OFF);
         return;
     }
 
@@ -154,12 +168,12 @@ void update_dash()
 
             if(Tuareg.flags.mil == true)
             {
-                set_mil(PIN_OFF);
+                set_mil_hw(ACTOR_UNPOWERED);
                 Dash.mil_cycle= MIL_BLINK_SLOW_OFF_ITV;
             }
             else
             {
-                set_mil(PIN_ON);
+                set_mil_hw(ACTOR_POWERED);
                 Dash.mil_cycle= MIL_BLINK_SLOW_ON_ITV;
             }
 
@@ -169,12 +183,12 @@ void update_dash()
 
             if(Tuareg.flags.mil == true)
             {
-                set_mil(PIN_OFF);
+                set_mil_hw(ACTOR_UNPOWERED);
                 Dash.mil_cycle= MIL_BLINK_FAST_OFF_ITV;
             }
             else
             {
-                set_mil(PIN_ON);
+                set_mil_hw(ACTOR_POWERED);
                 Dash.mil_cycle= MIL_BLINK_FAST_ON_ITV;
             }
 

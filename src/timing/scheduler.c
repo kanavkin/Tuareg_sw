@@ -12,23 +12,11 @@ timer resources:
 
 a timer update event is expected every ~74 min op scheduler operation
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "Tuareg.h"
-
-#include "scheduler.h"
-#include "ignition_hw.h"
-#include "fueling_hw.h"
-
-#include "diagnostics.h"
 #include "vital_scheduler_syslog_locations.h"
-#include "Tuareg_errors.h"
 
-#include "uart.h"
-#include "uart_printf.h"
-#include "debug_port_messages.h"
 
 volatile scheduler_mgr_t Scheduler;
 
@@ -60,13 +48,13 @@ VU32 debug_compare_cnt =0;
 timer channel 1 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_timer_channel_1(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_1(U32 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM5->CCR1= (U32) 0xFFFFFFFF;
+        TIM5->CCR1= cU32max;
 
         //enable preload feature
         TIM5->CCMR1 |= TIM_CCMR1_OC1PE;
@@ -77,7 +65,7 @@ void allocate_timer_channel_1(VU32 Compare, volatile bool CurrentCycle, volatile
     }
 
     //set compare register CCR1
-    TIM5->CCR1= (U32) Compare;
+    TIM5->CCR1= Compare;
 
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC1IF;
@@ -97,7 +85,7 @@ void reset_timer_channel_1()
     TIM5->CCMR1 &= ~TIM_CCMR1_OC1PE;
 
     //set temporary compare value
-    TIM5->CCR1= (U32) 0xFFFFFFFF;
+    TIM5->CCR1= cU32max;
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC1IF;
@@ -109,13 +97,13 @@ void reset_timer_channel_1()
 timer channel 2 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_timer_channel_2(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_2(U32 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM5->CCR2= (U32) 0xFFFFFFFF;
+        TIM5->CCR2= cU32max;
 
         //enable preload feature
         TIM5->CCMR1 |= TIM_CCMR1_OC2PE;
@@ -126,7 +114,7 @@ void allocate_timer_channel_2(VU32 Compare, volatile bool CurrentCycle, volatile
     }
 
     //set compare register CCR2
-    TIM5->CCR2= (U32) Compare;
+    TIM5->CCR2= Compare;
 
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC2IF;
@@ -145,7 +133,7 @@ void reset_timer_channel_2()
     TIM5->CCMR1 &= ~TIM_CCMR1_OC2PE;
 
     //set temporary compare value
-    TIM5->CCR2= (U32) 0xFFFFFFFF;
+    TIM5->CCR2= cU32max;
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC2IF;
@@ -156,13 +144,13 @@ void reset_timer_channel_2()
 timer channel 3 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_timer_channel_3(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_3(U32 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM5->CCR3= (U32) 0xFFFFFFFF;
+        TIM5->CCR3= cU32max;
 
         //enable preload feature
         TIM5->CCMR2 |= TIM_CCMR2_OC3PE;
@@ -173,7 +161,7 @@ void allocate_timer_channel_3(VU32 Compare, volatile bool CurrentCycle, volatile
     }
 
     //set compare register CCR1
-    TIM5->CCR3= (U32) Compare;
+    TIM5->CCR3= Compare;
 
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC3IF;
@@ -191,7 +179,7 @@ void reset_timer_channel_3()
     TIM5->CCMR2 &= ~TIM_CCMR2_OC3PE;
 
     //set temporary compare value
-    TIM5->CCR3= (U32) 0xFFFFFFFF;
+    TIM5->CCR3= cU32max;
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC3IF;
@@ -204,13 +192,13 @@ void reset_timer_channel_3()
 timer channel 4 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_timer_channel_4(VU32 Compare, volatile bool CurrentCycle, volatile bool EnablePreload)
+void allocate_timer_channel_4(U32 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM5->CCR4= (U32) 0xFFFFFFFF;
+        TIM5->CCR4= cU32max;
 
         //enable preload feature
         TIM5->CCMR2 |= TIM_CCMR2_OC4PE;
@@ -221,7 +209,7 @@ void allocate_timer_channel_4(VU32 Compare, volatile bool CurrentCycle, volatile
     }
 
     //set compare register CCR1
-    TIM5->CCR4= (U32) Compare;
+    TIM5->CCR4= Compare;
 
     //clear pending flag
     TIM5->SR    = (U16) ~TIM_SR_CC4IF;
@@ -240,7 +228,7 @@ void reset_timer_channel_4()
     TIM5->CCMR2 &= ~TIM_CCMR2_OC4PE;
 
     //set temporary compare value
-    TIM5->CCR4= (U32) 0xFFFFFFFF;
+    TIM5->CCR4= cU32max;
 
     //clear irq pending bit
     TIM5->SR= (U16) ~TIM_SR_CC4IF;
@@ -423,12 +411,12 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
 
 
 
-void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us)
+void allocate_channel(scheduler_channel_t Channel, U32 Delay_us)
 {
-    VU64 compare;
-    VU32 now;
-    volatile bool use_preload= false;
-    volatile bool curr_cycle= false;
+    U64 compare;
+    U32 now;
+    bool use_preload= false;
+    bool curr_cycle= false;
     volatile scheduler_channel_state_t * pChannelState;
 
     //get channel reference
@@ -452,13 +440,13 @@ void allocate_channel(scheduler_channel_t Channel, VU32 Delay_us)
     /*
     calculate the appropriate compare value and if the preload feature shall be activated
     */
-    if(compare > 0xFFFFFFFF)
+    if(compare > cU32max)
     {
         /*
         the timer will wrap around until the commanded delay will expire
         the compare value to be set is the remaining amount of ticks after the timer update event
         */
-        compare -= 0xFFFFFFFF;
+        compare -= cU32max;
 
         /*
         check if setting the new timer compare value would "short circuit" the timer update event

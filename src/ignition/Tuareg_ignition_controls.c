@@ -1,26 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-//#include "decoder_logic.h"
-
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
-#include "ignition_hw.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-
-#include "ignition_config.h"
-
-//#include "debug.h"
-#include "diagnostics.h"
-#include "ignition_diag.h"
-#include "Tuareg.h"
-#include "Ignition_syslog_locations.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 const U32 cDynamic_min_rpm= 500;
 

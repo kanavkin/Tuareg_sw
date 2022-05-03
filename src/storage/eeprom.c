@@ -1,11 +1,7 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
+
 #include "eeprom.h"
-
-#include "Tuareg_ID.h"
-#include "Tuareg_errors.h"
-
 #include "storage_syslog_locations.h"
 
 

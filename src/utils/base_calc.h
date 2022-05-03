@@ -1,8 +1,7 @@
 #ifndef BASECALC_H_INCLUDED
 #define BASECALC_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 U32 calc_rot_duration_us(U32 Angle_deg, U32 Period_us);
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us);

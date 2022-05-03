@@ -1,15 +1,8 @@
 /**
 this module covers the ignition hardware layer control
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-
-#include "Tuareg.h"
-#include "fueling_hw.h"
-#include "highspeed_loggers.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 /******************************************************************************************************************************
 injector hardware control

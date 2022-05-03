@@ -1,15 +1,5 @@
-//#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-//#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-#include "systick_timer.h"
-
-#include "Tuareg.h"
-#include "analog_sensors.h"
-#include "digital_sensors.h"
-#include "Tuareg_console.h"
-#include "scheduler.h"
-#include "Tuareg_service_functions.h"
-#include "dash_logic.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 
 
@@ -194,7 +184,7 @@ void SysTick_Handler(void)
         Systick_Mgr.out.flags.cycle_100_ms= true;
 
         //actions to be taken in irq scope
-        update_dash();
+        update_mil();
     }
 
 /*

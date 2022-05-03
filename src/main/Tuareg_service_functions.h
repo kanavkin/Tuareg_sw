@@ -1,10 +1,8 @@
 #ifndef TUAREG_SERVICE_FUNCTIONS_H_INCLUDED
 #define TUAREG_SERVICE_FUNCTIONS_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-
-#include "Tuareg_ignition.h"
+#include <Tuareg_platform.h>
+#include "service_syslog_locations.h"
 
 
 #define SERVICE_FUELPUMP_MAX_TIMEOUT_S 180

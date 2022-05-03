@@ -1,9 +1,7 @@
 #ifndef CONVERSION_H_INCLUDED
 #define CONVERSION_H_INCLUDED
 
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 
 /*

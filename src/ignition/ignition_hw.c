@@ -1,16 +1,8 @@
 /**
 this module covers the ignition hardware layer
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "ignition_hw.h"
-
-#include "Tuareg.h"
-
-#include "highspeed_loggers.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 /******************************************************************************************************************************
 ignition actuator control - helper functions

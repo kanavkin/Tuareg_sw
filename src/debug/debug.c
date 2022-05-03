@@ -4,15 +4,10 @@ that should never be integrated to a
 production version
 */
 
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 #include "debug.h"
-
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
 
 
 /**

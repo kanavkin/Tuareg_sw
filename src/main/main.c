@@ -55,32 +55,9 @@ SCHEDULER (ignition)
 -> now self aligning to target scheduler period
 
 */
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-
-
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "Tuareg_types.h"
-#include "Tuareg.h"
-
-#include "Tuareg_decoder.h"
-#include "decoder_debug.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_fueling.h"
-#include "scheduler.h"
-#include "Tuareg_console.h"
-
-#include "diagnostics.h"
-#include "Tuareg_diag.h"
-#include "debug_port_messages.h"
-#include "syslog.h"
-#include "analog_sensors.h"
-
-
-#include "debug.h"
 
 /**
 process data shall be updated prior to
@@ -162,6 +139,10 @@ int main(void)
 {
     //SWO_Init(0x1, SystemCoreClock);
 
+
+    lowprio_scheduler_activation_parameters_t LowPrioParams;
+
+
     Tuareg_Init();
 
     while(1)
@@ -216,6 +197,25 @@ int main(void)
                 {
                     Tuareg.fuel_pump_priming_remain_s -= 1;
                 }
+
+
+                ///DEBUG -  test lowprio scheduler
+                LowPrioParams.flags.interval_B_enabled= false;
+                LowPrioParams.flags.interval_Pause_enabled= false;
+                LowPrioParams.flags.power_after_interval_A= false;
+                LowPrioParams.flags.free_running= false;
+                LowPrioParams.cycles= 1;
+                LowPrioParams.intervals_us[INTERVAL_A]= 500000;
+                LowPrioParams.intervals_us[INTERVAL_B]= 0;
+                LowPrioParams.intervals_us[INTERVAL_PAUSE]= 0;
+
+                lowprio_scheduler_set_channel(LOWPRIO_CH_TACH, &LowPrioParams);
+
+
+
+
+
+
             }
 
         }

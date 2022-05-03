@@ -3,16 +3,9 @@
 
 
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "Tuareg_types.h"
-#include "Tuareg_ID.h"
-#include "Tuareg_errors.h"
-
-
-#include <stdbool.h>
 
 void setBit_BF8(U32 Pos, VBF8 * pTarget)
 {

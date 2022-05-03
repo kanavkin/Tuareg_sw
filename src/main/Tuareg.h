@@ -1,27 +1,42 @@
 #ifndef TUAREG_H_INCLUDED
 #define TUAREG_H_INCLUDED
 
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 #include "Tuareg_ID.h"
-
 #include "Tuareg_config.h"
+#include "Tuareg_diag.h"
 #include "Tuareg_errors.h"
+#include "Tuareg_process_data.h"
+#include "Tuareg_syslog_locations.h"
 
 #include "Tuareg_decoder.h"
 #include "Tuareg_ignition.h"
 #include "Tuareg_fueling.h"
 #include "Tuareg_sensors.h"
+#include "Tuareg_console.h"
+#include "Tuareg_dash.h"
+#include "Tuareg_service_functions.h"
 
-#include "Tuareg_process_data.h"
+#include "scheduler.h"
+#include "lowprio_scheduler.h"
+#include "systick_timer.h"
+
+#include "eeprom.h"
 #include "process_table.h"
+#include "table.h"
 
-#include "Tuareg_syslog_locations.h"
 #include "highspeed_loggers.h"
 #include "syslog.h"
 #include "fault_log.h"
+#include "diagnostics.h"
 
-#include "systick_timer.h"
+#include "debug_port_messages.h"
+
+#include "uart.h"
+#include "uart_printf.h"
+
+#include "conversion.h"
 
 
 #define TUAREG_REQUIRED_CONFIG_VERSION 4

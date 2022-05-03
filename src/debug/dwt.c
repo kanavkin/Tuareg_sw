@@ -4,13 +4,11 @@ that should never be integrated to a
 production version
 */
 
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-
-#include <boctok_types.h>
+#include <Tuareg_platform.h>
 
 #include "dwt.h"
 
+//dwt header never included in Tuareg.h
 #include <uart.h>
 #include <uart_printf.h>
 

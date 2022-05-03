@@ -1,29 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-
-
-#include "Tuareg_decoder.h"
-
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-#include "Ignition_syslog_locations.h"
-
-#include "scheduler.h"
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
-#include "table.h"
-#include "eeprom.h"
-
-#include "syslog.h"
-#include "diagnostics.h"
-#include "ignition_diag.h"
-#include "Tuareg.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 #define IGNITION_REQUIRED_CONFIG_VERSION 4
 
@@ -31,7 +7,6 @@
 //#define IGNITION_DEBUGMSG
 
 #ifdef IGNITION_DEBUGMSG
-#include "debug_port_messages.h"
 #warning debug outputs enabled
 #endif // IGNITION_DEBUGMSG
 

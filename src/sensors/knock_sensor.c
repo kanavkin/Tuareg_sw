@@ -1,21 +1,5 @@
-#include <math.h>
-
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-
-//#include "sensors.h"
-#include "sensor_calibration.h"
-
-#include "Tuareg.h"
-
-#include "diagnostics.h"
-
-
-#include "knock_sensor.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 
 #ifdef KNOCK_SENSOR_CODE_READY

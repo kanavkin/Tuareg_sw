@@ -1,10 +1,14 @@
 #ifndef TUAREG_SENSORS_H_INCLUDED
 #define TUAREG_SENSORS_H_INCLUDED
 
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 #include "analog_sensors.h"
 #include "digital_sensors.h"
+#include "knock_sensor.h"
+#include "sensor_calibration.h"
+#include "sensors_diag.h"
+#include "sensors_syslog_locations.h"
 
 #define SENSORS_REQUIRED_CALIBRATION_VERSION 4
 

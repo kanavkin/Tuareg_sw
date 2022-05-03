@@ -1,13 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "decoder_cis.h"
-#include "decoder_config.h"
-
-#include "diagnostics.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 volatile decoder_hw_t Decoder_hw;
 
@@ -395,7 +387,7 @@ void init_decoder_hw()
 
 
 //returns the current decoder timestamp
-VU32 decoder_get_timestamp()
+U32 decoder_get_timestamp()
 {
     return TIM9->CNT;
 }

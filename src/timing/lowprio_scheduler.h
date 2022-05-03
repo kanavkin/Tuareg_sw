@@ -1,31 +1,20 @@
 #ifndef LOWPRIOSCHEDULER_H_INCLUDED
 #define LOWPRIOSCHEDULER_H_INCLUDED
 
-#include "Tuareg.h"
+#include <Tuareg_platform.h>
 
-
-#define LOWPRIO_SCHEDULER_PERIOD_US 200
+//#define SCHEDULER_DEBUG
 
 //we are using a 16 bit timer
 #define LOWPRIO_SCHEDULER_MAX_PERIOD_US (U16) 0xFFFF * LOWPRIO_SCHEDULER_PERIOD_US -1
 
+//witch maximum interval will make sense? the technically maximum possible one is not needed
+#define LOWPRIO_SCHEDULER_PERIOD_US 200
+#define LOWPRIO_SCHEDULER_MIN_PERIOD_US LOWPRIO_SCHEDULER_PERIOD_US
 
-#define TOGGLE_CH1_ENABLE_MASK 0
-#define TOGGLE_CH2_ENABLE_MASK 1
-#define TOGGLE_CH3_ENABLE_MASK 2
-#define TOGGLE_CH4_ENABLE_MASK 3
-
-#define TOGGLE_CH1_CYCLE_MASK 4
-#define TOGGLE_CH2_CYCLE_MASK 5
-#define TOGGLE_CH3_CYCLE_MASK 6
-#define TOGGLE_CH4_CYCLE_MASK 7
-
-#define TOGGLE_CH1_SEQUENCE_MASK 8
-#define TOGGLE_CH2_SEQUENCE_MASK 9
-
-
-
-typedef void (* lowprio_callback)(output_pin_t);
+typedef void (* lowprio_scheduler_callback_func)(actor_control_t);
+typedef void (* lowprio_timer_alloc_func)(U32, bool, bool);
+typedef void (* lowprio_timer_reset_func)();
 
 
 typedef enum {
@@ -33,52 +22,99 @@ typedef enum {
     LOWPRIO_CH1,
     LOWPRIO_CH2,
     LOWPRIO_CH3,
-    LOWPRIO_CH4
+    LOWPRIO_CH_TACH,
+
+    LOWPRIO_CH_COUNT
 
 } lowprio_scheduler_channel_t;
 
 
+typedef enum {
 
-typedef struct _lowprio_scheduler_t {
+    INTERVAL_A,
+    INTERVAL_B,
+    INTERVAL_PAUSE,
 
-    lowprio_callback ch1_callback;
-    lowprio_callback ch2_callback;
-    lowprio_callback ch3_callback;
-    lowprio_callback ch4_callback;
+    INTERVAL_COUNT
 
-    output_pin_t ch1_action;
-    output_pin_t ch2_action;
-    output_pin_t ch3_action;
-    output_pin_t ch4_action;
-
-    VU32 ch1_delay1_us;
-    VU32 ch1_delay2_us;
-    VU32 ch1_delay3_us;
-    VU32 ch2_delay1_us;
-    VU32 ch2_delay2_us;
-    VU32 ch2_delay3_us;
-    VU32 ch3_delay1_us;
-    VU32 ch3_delay2_us;
-    VU32 ch4_delay1_us;
-    VU32 ch4_delay2_us;
-
-    VU32 toggle_ctrl;
-
-    VU32 ch1_toggle_counter;
-    VU32 ch2_toggle_counter;
-
-    VU32 ch1_sequence_length;
-    VU32 ch2_sequence_length;
+} lowprio_scheduler_intervals_t;
 
 
-} lowprio_scheduler_t;
+typedef union
+{
+     U32 all_flags;
+
+     struct
+     {
+        U32 interval_B_enabled :1;
+        U32 interval_Pause_enabled :1;
+
+        U32 power_after_interval_A :1;
+
+        U32 free_running :1;
+
+     };
+
+} lowprio_scheduler_activation_flags_t;
 
 
 
-void init_lowprio_scheduler();
-void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), output_pin_t action, U32 delay_us);
-void lowprio_scheduler_togglemode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us);
-void lowprio_scheduler_seqmode_channel(lowprio_scheduler_channel_t target_ch, void (* callback_funct)(output_pin_t), U32 delay1_us, U32 delay2_us, U32 delay3_us, U32 seq_length);
-void lowprio_scheduler_reset_channel(lowprio_scheduler_channel_t target_ch);
+/**
+transfer object for lowprio scheduler activation
+*/
+typedef struct _lowprio_scheduler_activation_parameters_t {
+
+    U32 intervals_us[INTERVAL_COUNT];
+
+    //total amount of sequences to generate
+    U32 cycles;
+
+    //amount of high/low pulses in one sequence between pause
+    U32 sequence_length;
+
+    lowprio_scheduler_activation_flags_t flags;
+
+} lowprio_scheduler_activation_parameters_t;
+
+
+
+
+
+typedef struct _lowprio_scheduler_channel_state_t {
+
+    //channel activation parameters
+    lowprio_scheduler_activation_parameters_t parameters;
+
+    //channel data
+    lowprio_scheduler_intervals_t allocated_interval;
+    U32 cycle_counter;
+    U32 sequence_counter;
+
+    //worker functions
+    lowprio_scheduler_callback_func callback;
+    lowprio_timer_alloc_func timer_alloc;
+    lowprio_timer_reset_func timer_reset;
+
+} lowprio_scheduler_channel_state_t;
+
+
+//lowprio scheduler manager
+typedef struct _lowprio_scheduler_mgr_t {
+
+    lowprio_scheduler_channel_state_t channels[LOWPRIO_CH_COUNT];
+    bool init_done;
+
+} lowprio_scheduler_mgr_t;
+
+
+
+
+
+
+
+void init_Lowprio_Scheduler();
+
+void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t Channel, lowprio_scheduler_activation_parameters_t * pParameters);
+void lowprio_scheduler_reset_channel(lowprio_scheduler_channel_t Channel);
 
 #endif // LOWPRIOSCHEDULER_H_INCLUDED

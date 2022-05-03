@@ -1,11 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-
-#include "Tuareg_types.h"
-
-#include "digital_sensors.h"
-#include "diagnostics.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 
 //integrator

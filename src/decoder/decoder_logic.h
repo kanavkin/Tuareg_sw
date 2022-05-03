@@ -1,12 +1,9 @@
 #ifndef DECODERLOGIC_H_INCLUDED
 #define DECODERLOGIC_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "decoder_cis.h"
-#include "decoder_debug.h"
-#include "Tuareg_decoder.h"
 
 
 

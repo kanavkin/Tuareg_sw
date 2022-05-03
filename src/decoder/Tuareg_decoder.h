@@ -1,7 +1,8 @@
 #ifndef TUAREG_DECODER_H_INCLUDED
 #define TUAREG_DECODER_H_INCLUDED
 
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
+
 
 
 #define DECODER_REQUIRED_CONFIG_VERSION 3
@@ -13,13 +14,13 @@ data that describes the internal state of the decoder which is visible to other 
 
 typedef struct {
 
-    VU8 position_valid :1;
-    VU8 phase_valid :1;
-    VU8 period_valid :1;
-    VU8 rpm_valid :1;
-    VU8 accel_valid :1;
+    U8 position_valid :1;
+    U8 phase_valid :1;
+    U8 period_valid :1;
+    U8 rpm_valid :1;
+    U8 accel_valid :1;
 
-    VU8 standstill :1;
+    U8 standstill :1;
 
 } decoder_output_flags_t;
 
@@ -48,7 +49,19 @@ typedef struct _decoder_output_t {
 volatile decoder_output_t * init_Decoder();
 void disable_Decoder();
 
-VU32 decoder_get_position_data_age_us();
+U32 decoder_get_position_data_age_us();
+
+
+/**
+provide includes for all decoder related code
+*/
+#include "decoder_hw.h"
+#include "decoder_cis.h"
+#include "decoder_debug.h"
+#include "decoder_logic.h"
+#include "decoder_config.h"
+#include "decoder_debug.h"
+#include "decoder_syslog_locations.h"
 
 
 #endif // TUAREG_DECODER_H_INCLUDED

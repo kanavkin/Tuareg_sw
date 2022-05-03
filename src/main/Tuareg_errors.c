@@ -1,15 +1,11 @@
-
-#include "Tuareg.h"
-
-#include "dash_logic.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 #define ERRORS_DEBUGMSG
 
 #ifdef ERRORS_DEBUGMSG
 //#warning Errors debug outputs enabled
 #pragma message "Errors debug outputs enabled"
-#include "debug_port_messages.h"
-#include "uart_printf.h"
 #endif // ERRORS_DEBUGMSG
 
 
@@ -59,7 +55,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     #endif // ERRORS_DEBUGMSG
 
     //interim solution
-    dash_set_mil(MIL_PERMANENT);
+    set_mil(MIL_PERMANENT);
 }
 
 
@@ -125,6 +121,6 @@ void Limp(Tuareg_ID Id, U8 Location)
     #endif // ERRORS_DEBUGMSG
 
     //interim solution
-    dash_set_mil(MIL_BLINK_FAST);
+    set_mil(MIL_BLINK_FAST);
 }
 

@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
-					<Add option="-g3" />
 					<Add option="-gdwarf-4 -g3" />
 				</Compiler>
 			</Target>
@@ -59,23 +58,23 @@
 			<Add directory="../../src/stm32_libs/stm32f4xx/cmsis" />
 			<Add directory="../../src/stm32_libs/stm32f4xx/spl" />
 			<Add directory="../../src/stm32_libs/stm32f4xx" />
-			<Add directory="../../src" />
-			<Add directory="../../src/com" />
-			<Add directory="../../src/dash" />
-			<Add directory="../../src/debug" />
-			<Add directory="../../src/decoder" />
-			<Add directory="../../src/diagnostics" />
-			<Add directory="../../src/ignition" />
-			<Add directory="../../src/main" />
-			<Add directory="../../src/module_test" />
-			<Add directory="../../src/process_table" />
-			<Add directory="../../src/sensors" />
-			<Add directory="../../src/storage" />
-			<Add directory="../../src/timing" />
-			<Add directory="../../src/utils" />
-			<Add directory="../../src/fuelling" />
-			<Add directory="../../src/actors" />
+			<Add directory="../../src/stm32_libs/stm32f4xx/boctok" />
 			<Add directory="../../src/fueling" />
+			<Add directory="../../src/utils" />
+			<Add directory="../../src/actors" />
+			<Add directory="../../src/timing" />
+			<Add directory="../../src/storage" />
+			<Add directory="../../src/sensors" />
+			<Add directory="../../src/process_table" />
+			<Add directory="../../src/module_test" />
+			<Add directory="../../src/main" />
+			<Add directory="../../src/ignition" />
+			<Add directory="../../src/diagnostics" />
+			<Add directory="../../src/decoder" />
+			<Add directory="../../src/debug" />
+			<Add directory="../../src/dash" />
+			<Add directory="../../src/com" />
+			<Add directory="../../src" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
@@ -129,13 +128,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/com/uart_printf.h" />
+		<Unit filename="../../src/dash/Tuareg_dash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/dash/Tuareg_dash.h" />
 		<Unit filename="../../src/dash/dash_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/dash/dash_hw.h" />
-		<Unit filename="../../src/dash/dash_logic.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../../src/dash/dash_logic.h" />
 		<Unit filename="../../src/debug/debug.c">
 			<Option compilerVar="CC" />
@@ -224,10 +224,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_hw.h" />
-		<Unit filename="../../src/fueling/fueling_logic.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/fueling/fueling_logic.h" />
 		<Unit filename="../../src/fueling/injector_parameters.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -273,6 +269,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_errors.h" />
+		<Unit filename="../../src/main/Tuareg_platform.h" />
 		<Unit filename="../../src/main/Tuareg_process_data.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -371,6 +368,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/lowprio_scheduler.h" />
+		<Unit filename="../../src/timing/lowprio_scheduler_syslog_locations.h" />
 		<Unit filename="../../src/timing/scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>

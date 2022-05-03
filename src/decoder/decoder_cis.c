@@ -1,28 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "Tuareg_types.h"
-#include "Tuareg.h"
-
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "decoder_config.h"
-#include "decoder_diag.h"
-#include "decoder_debug.h"
-
-#include "base_calc.h"
-
-#include "uart.h"
-#include "uart_printf.h"
-#include "debug_port_messages.h"
-
-#include "diagnostics.h"
-#include "highspeed_loggers.h"
-
-
-
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 /******************************************************************************************************************************
 evaluates the data gathered from the cylinder identification sensor:

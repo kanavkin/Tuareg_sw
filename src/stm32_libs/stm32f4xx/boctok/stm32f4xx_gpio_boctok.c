@@ -1,6 +1,6 @@
 #include "stm32f4xx.h"
 #include "../boctok_types.h"
-#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_gpio_boctok.h"
 
 
 void GPIO_configure(GPIO_TypeDef * Port, U32 Pin, U32 Mode, U32 OutputType, U32 Speed, U32 Pud)

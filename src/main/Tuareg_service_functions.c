@@ -1,48 +1,6 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "base_calc.h"
-
-#include "Tuareg_decoder.h"
-
-#include "Tuareg_ignition.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-
-#include "Tuareg_sensors.h"
-
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "Tuareg_console.h"
-#include "Tuareg_config.h"
-#include "table.h"
-#include "eeprom.h"
-//#include "sensors.h"
-#include "fueling_hw.h"
-#include "fueling_logic.h"
-
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "act_hw.h"
-#include "act_logic.h"
-
-#include "process_table.h"
-
-#include "diagnostics.h"
-#include "Tuareg.h"
-#include "uart_printf.h"
-#include "module_test.h"
-
-#include "syslog.h"
-#include "debug_port_messages.h"
-#include "service_syslog_locations.h"
-
-#include "Tuareg_service_functions.h"
 
 #define SERVICE_VERBOSE_OUTPUT
 
@@ -74,7 +32,7 @@ void request_service_mode()
 
     Tuareg.flags.service_mode= true;
 
-    dash_set_mil(MIL_BLINK_SLOW);
+    set_mil(MIL_BLINK_SLOW);
 
     Syslog_Info(TID_SERVICE, SERVICE_LOC_SERVICE_ENABLED);
 

@@ -1,26 +1,10 @@
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-
-#include "base_calc.h"
-
-#include "Tuareg.h"
-#include "Tuareg_errors.h"
-
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "decoder_config.h"
-#include "decoder_syslog_locations.h"
-
-#include "uart.h"
-#include "uart_printf.h"
-
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 //#define DECODER_DEBUGMSG
 
 #ifdef DECODER_DEBUGMSG
 #warning Decoder Debug messages enabled
-#include "debug_port_messages.h"
 #endif // DECODER_DEBUGMSG
 
 
@@ -126,9 +110,9 @@ void disable_Decoder()
 calculate position data age
 ******************************************************************************************************************************/
 
-VU32 decoder_get_position_data_age_us()
+U32 decoder_get_position_data_age_us()
 {
-    VU32 now_ts, update_ts, interval_us;
+    U32 now_ts, update_ts, interval_us;
 
     now_ts= decoder_get_timestamp();
     update_ts= Decoder_hw.current_timer_value;
