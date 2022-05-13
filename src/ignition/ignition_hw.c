@@ -55,12 +55,12 @@ void set_coil2_unpowered()
 
 /******************************************************************************************************************************
 ignition irq control - helper function
-******************************************************************************************************************************/
 void trigger_ignition_irq()
 {
     ///trigger sw irq
     EXTI->SWIER= EXTI_SWIER_SWIER3;
 }
+******************************************************************************************************************************/
 
 
 
@@ -68,42 +68,55 @@ void trigger_ignition_irq()
 ignition actuator control
 
 a spark will be generated when switching from powered to unpowered state
+high speed log will be updated on level change
 
  ******************************************************************************************************************************/
 void set_ignition_ch1(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.ignition_coil_1;
+
     if(level == ACTOR_POWERED)
     {
         set_coil1_powered();
-        highspeedlog_register_coil1_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_coil1_power();
+        }
     }
     else
     {
         set_coil1_unpowered();
-        highspeedlog_register_coil1_unpower();
 
-        //prepare irq
-       // Tuareg.flags.ign1_irq_flag= true;
-       // trigger_ignition_irq();
+        if(old_state == true)
+        {
+            highspeedlog_register_coil1_unpower();
+        }
     }
 }
 
 
 void set_ignition_ch2(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.ignition_coil_2;
+
     if(level == ACTOR_POWERED)
     {
         set_coil2_powered();
-        highspeedlog_register_coil2_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_coil2_power();
+        }
     }
     else
     {
         set_coil2_unpowered();
-        highspeedlog_register_coil2_unpower();
 
-        //prepare irq
-       // Tuareg.flags.ign2_irq_flag= true;
-       // trigger_ignition_irq();
+        if(old_state == true)
+        {
+            highspeedlog_register_coil2_unpower();
+        }
     }
 }
 
@@ -116,7 +129,7 @@ using
     -GPIOC6 for ignition coil 1
     -GPIOC7 for ignition coil 2
 
-    -use EXTI IRQ 3 after spark has fired
+    -do not use EXTI IRQ 3 after spark has fired
 
  ******************************************************************************************************************************/
 void init_ignition_hw()
@@ -127,7 +140,7 @@ void init_ignition_hw()
     //coil1,2
     GPIO_configure(GPIOC, 6, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 7, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-
+/*
     //sw irq on exti line 3
     EXTI->IMR |= EXTI_IMR_MR3;
 
@@ -136,7 +149,6 @@ void init_ignition_hw()
     NVIC_ClearPendingIRQ(EXTI3_IRQn);
     NVIC_EnableIRQ(EXTI3_IRQn);
 
-    //this will not trigger the ignition irq right away
-    set_coil1_unpowered();
-    set_coil2_unpowered();
+
+*/
 }

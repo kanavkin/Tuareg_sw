@@ -42,6 +42,9 @@
 #define TUAREG_REQUIRED_CONFIG_VERSION 4
 
 
+#define LOWPRIOSCHEDULER_WIP
+
+
 /**
 
 REQ_UNITS_DEF:
@@ -224,6 +227,6 @@ void Tuareg_update_consumption_data();
 void Tuareg_update_trip();
 
 
-void Tuareg_deactivate_vital_actors();
+void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump);
 
 #endif // TUAREG_H_INCLUDED

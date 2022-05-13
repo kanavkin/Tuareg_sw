@@ -80,13 +80,13 @@ void SysTick_Handler(void)
     }
 
     //injector_1 watchdog
-    if((Tuareg.flags.fuel_injector_1 == true) && (Tuareg.injector1_watchdog_ms < 0xFFFFFFFF))
+    if((Tuareg.flags.fuel_injector_1 == true) && (Tuareg.injector1_watchdog_ms < cU32max))
     {
         Tuareg.injector1_watchdog_ms += 1;
     }
 
     //injector_2 watchdog
-    if((Tuareg.flags.fuel_injector_2 == true) && (Tuareg.injector2_watchdog_ms < 0xFFFFFFFF))
+    if((Tuareg.flags.fuel_injector_2 == true) && (Tuareg.injector2_watchdog_ms < cU32max))
     {
         Tuareg.injector2_watchdog_ms += 1;
     }

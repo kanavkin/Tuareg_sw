@@ -70,6 +70,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.fueling_bits= Tuareg.fueling_controls.flags.all_flags;
     Out.VE_pct= Tuareg.fueling_controls.VE_pct;
     Out.AFR_target= Tuareg.fueling_controls.AFR_target;
+    Out.charge_temp_K= Tuareg.fueling_controls.charge_temp_K;
     Out.air_rate_gps= Tuareg.fueling_controls.air_flowrate_gps;
 
     Out.base_fuel_mass_ug= Tuareg.fueling_controls.base_fuel_mass_ug;

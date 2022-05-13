@@ -344,7 +344,8 @@ void update_air_flow(volatile fueling_control_t * pTarget)
     //by now the charge temperature is assumed not to depend on engine state
 /// TODO (oli#3#): coolant temperature and throttle shall affect the effective charge temperature calculation
 /// TODO (oli#3#): altitude shall affect the effective charge density calculation
-    charge_temp_K= Tuareg.process.IAT_K;
+    charge_temp_K= getValue_ChargeTempTable(Tuareg.process.IAT_K, Tuareg.process.CLT_K);
+    pTarget->charge_temp_K= charge_temp_K;
 
     //division by charge_temp_K needs DIV/0 protection
     pTarget->air_density= divide_float(charge_density, charge_temp_K);

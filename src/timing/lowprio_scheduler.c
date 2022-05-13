@@ -12,6 +12,11 @@ the 4 scheduler channels can be allocated freely to callback functions that can 
 
 #include "dash_hw.h"
 
+
+
+#ifndef LOWPRIOSCHEDULER_WIP
+
+
 volatile lowprio_scheduler_mgr_t Lowprio_Scheduler;
 
 
@@ -25,30 +30,30 @@ static void safe_callback(actor_control_t dummy)
 timer channel 1 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_lowprio_timer_channel_1(U32 Compare, bool CurrentCycle, bool EnablePreload)
+void allocate_lowprio_timer_channel_1(U16 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM11->CCR1= cU32max;
+        TIM1->CCR1= cU16max;
 
         //enable preload feature
-        TIM11->CCMR1 |= TIM_CCMR1_OC1PE;
+        TIM1->CCMR1 |= TIM_CCMR1_OC1PE;
     }
     else
     {
-        TIM11->CCMR1 &= ~TIM_CCMR1_OC1PE;
+        TIM1->CCMR1 &= ~TIM_CCMR1_OC1PE;
     }
 
     //set compare register CCR1
-    TIM11->CCR1= Compare;
+    TIM1->CCR1= Compare;
 
     //clear pending flag
-    TIM11->SR    = (U16) ~TIM_SR_CC1IF;
+    TIM1->SR    = (U16) ~TIM_SR_CC1IF;
 
     //enable irq
-    TIM11->DIER |= (U16) TIM_DIER_CC1IE;
+    TIM1->DIER |= (U16) TIM_DIER_CC1IE;
 }
 
 
@@ -56,16 +61,16 @@ void reset_lowprio_timer_channel_1()
 {
 
     //disable compare irq
-    TIM11->DIER &= (U16) ~TIM_DIER_CC1IE;
+    TIM1->DIER &= (U16) ~TIM_DIER_CC1IE;
 
     //disable compare preload feature
-    TIM11->CCMR1 &= ~TIM_CCMR1_OC1PE;
+    TIM1->CCMR1 &= ~TIM_CCMR1_OC1PE;
 
     //set temporary compare value
-    TIM11->CCR1= cU32max;
+    TIM1->CCR1= cU16max;
 
     //clear irq pending bit
-    TIM11->SR= (U16) ~TIM_SR_CC1IF;
+    TIM1->SR= (U16) ~TIM_SR_CC1IF;
 
 }
 
@@ -74,46 +79,46 @@ void reset_lowprio_timer_channel_1()
 timer channel 2 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_lowprio_timer_channel_2(U32 Compare, bool CurrentCycle, bool EnablePreload)
+void allocate_lowprio_timer_channel_2(U16 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM11->CCR2= cU32max;
+        TIM1->CCR2= cU16max;
 
         //enable preload feature
-        TIM11->CCMR1 |= TIM_CCMR1_OC2PE;
+        TIM1->CCMR1 |= TIM_CCMR1_OC2PE;
     }
     else
     {
-        TIM11->CCMR1 &= ~TIM_CCMR1_OC2PE;
+        TIM1->CCMR1 &= ~TIM_CCMR1_OC2PE;
     }
 
     //set compare register CCR2
-    TIM11->CCR2= Compare;
+    TIM1->CCR2= Compare;
 
     //clear pending flag
-    TIM11->SR    = (U16) ~TIM_SR_CC2IF;
+    TIM1->SR    = (U16) ~TIM_SR_CC2IF;
 
     //enable irq
-    TIM11->DIER |= (U16) TIM_DIER_CC2IE;
+    TIM1->DIER |= (U16) TIM_DIER_CC2IE;
 }
 
 
 void reset_lowprio_timer_channel_2()
 {
     //disable compare irq
-    TIM11->DIER &= (U16) ~TIM_DIER_CC2IE;
+    TIM1->DIER &= (U16) ~TIM_DIER_CC2IE;
 
     //disable compare preload feature
-    TIM11->CCMR1 &= ~TIM_CCMR1_OC2PE;
+    TIM1->CCMR1 &= ~TIM_CCMR1_OC2PE;
 
     //set temporary compare value
-    TIM11->CCR2= cU32max;
+    TIM1->CCR2= cU16max;
 
     //clear irq pending bit
-    TIM11->SR= (U16) ~TIM_SR_CC2IF;
+    TIM1->SR= (U16) ~TIM_SR_CC2IF;
 }
 
 
@@ -121,45 +126,45 @@ void reset_lowprio_timer_channel_2()
 timer channel 3 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_lowprio_timer_channel_3(U32 Compare, bool CurrentCycle, bool EnablePreload)
+void allocate_lowprio_timer_channel_3(U16 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM11->CCR3= cU32max;
+        TIM1->CCR3= cU16max;
 
         //enable preload feature
-        TIM11->CCMR2 |= TIM_CCMR2_OC3PE;
+        TIM1->CCMR2 |= TIM_CCMR2_OC3PE;
     }
     else
     {
-        TIM11->CCMR2 &= ~TIM_CCMR2_OC3PE;
+        TIM1->CCMR2 &= ~TIM_CCMR2_OC3PE;
     }
 
     //set compare register CCR1
-    TIM11->CCR3= Compare;
+    TIM1->CCR3= Compare;
 
     //clear pending flag
-    TIM11->SR    = (U16) ~TIM_SR_CC3IF;
+    TIM1->SR    = (U16) ~TIM_SR_CC3IF;
 
     //enable irq
-    TIM11->DIER |= (U16) TIM_DIER_CC3IE;
+    TIM1->DIER |= (U16) TIM_DIER_CC3IE;
 }
 
 void reset_lowprio_timer_channel_3()
 {
     //disable compare irq
-    TIM11->DIER &= (U16) ~TIM_DIER_CC3IE;
+    TIM1->DIER &= (U16) ~TIM_DIER_CC3IE;
 
     //disable compare preload feature
-    TIM11->CCMR2 &= ~TIM_CCMR2_OC3PE;
+    TIM1->CCMR2 &= ~TIM_CCMR2_OC3PE;
 
     //set temporary compare value
-    TIM11->CCR3= cU32max;
+    TIM1->CCR3= cU16max;
 
     //clear irq pending bit
-    TIM11->SR= (U16) ~TIM_SR_CC3IF;
+    TIM1->SR= (U16) ~TIM_SR_CC3IF;
 
 }
 
@@ -169,46 +174,46 @@ void reset_lowprio_timer_channel_3()
 timer channel 4 - helper functions
 ******************************************************************************************************************************/
 
-void allocate_lowprio_timer_channel_4(U32 Compare, bool CurrentCycle, bool EnablePreload)
+void allocate_lowprio_timer_channel_4(U16 Compare, bool CurrentCycle, bool EnablePreload)
 {
     //check if the preload feature has been requested
     if(EnablePreload == true)
     {
         //use a temporary compare value that will not trigger any compare events
-        TIM11->CCR4= cU32max;
+        TIM1->CCR4= cU16max;
 
         //enable preload feature
-        TIM11->CCMR2 |= TIM_CCMR2_OC4PE;
+        TIM1->CCMR2 |= TIM_CCMR2_OC4PE;
     }
     else
     {
-        TIM11->CCMR2 &= ~TIM_CCMR2_OC4PE;
+        TIM1->CCMR2 &= ~TIM_CCMR2_OC4PE;
     }
 
     //set compare register CCR1
-    TIM11->CCR4= Compare;
+    TIM1->CCR4= Compare;
 
     //clear pending flag
-    TIM11->SR    = (U16) ~TIM_SR_CC4IF;
+    TIM1->SR    = (U16) ~TIM_SR_CC4IF;
 
     //enable irq
-    TIM11->DIER |= (U16) TIM_DIER_CC4IE;
+    TIM1->DIER |= (U16) TIM_DIER_CC4IE;
 }
 
 
 void reset_lowprio_timer_channel_4()
 {
     //disable compare irq
-    TIM11->DIER &= (U16) ~TIM_DIER_CC4IE;
+    TIM1->DIER &= (U16) ~TIM_DIER_CC4IE;
 
     //disable compare preload feature
-    TIM11->CCMR2 &= ~TIM_CCMR2_OC4PE;
+    TIM1->CCMR2 &= ~TIM_CCMR2_OC4PE;
 
     //set temporary compare value
-    TIM11->CCR4= cU32max;
+    TIM1->CCR4= cU16max;
 
     //clear irq pending bit
-    TIM11->SR= (U16) ~TIM_SR_CC4IF;
+    TIM1->SR= (U16) ~TIM_SR_CC4IF;
 }
 
 
@@ -228,9 +233,6 @@ void lowprio_scheduler_reset_channel(lowprio_scheduler_channel_t Channel)
     //get channel reference
     pChannelState= &(Lowprio_Scheduler.channels[Channel]);
 
-    //turn off the actor
-    pChannelState->callback(ACTOR_UNPOWERED);
-
     //clear parameters
     pChannelState->parameters.flags.all_flags= 0;
     pChannelState->parameters.intervals_us[INTERVAL_A]= 0;
@@ -249,8 +251,7 @@ void lowprio_scheduler_reset_channel(lowprio_scheduler_channel_t Channel)
 
 void lowprio_scheduler_allocate_channel(lowprio_scheduler_channel_t Channel, lowprio_scheduler_intervals_t Interval)
 {
-    U64 compare;
-    U32 interval_us, now;
+    U32 compare, interval_us, now;
     bool use_preload= false;
     bool curr_cycle= false;
     volatile lowprio_scheduler_channel_state_t * pChannelState;
@@ -271,7 +272,7 @@ void lowprio_scheduler_allocate_channel(lowprio_scheduler_channel_t Channel, low
     __disable_irq();
 
     //get current timer value
-    now= TIM11->CNT;
+    now= TIM1->CNT;
 
     //compare value at delay end in ticks
     compare= now  + (interval_us / LOWPRIO_SCHEDULER_PERIOD_US);
@@ -281,13 +282,13 @@ void lowprio_scheduler_allocate_channel(lowprio_scheduler_channel_t Channel, low
     /*
     calculate the appropriate compare value and if the preload feature shall be activated
     */
-    if(compare > cU32max)
+    if(compare > cU16max)
     {
         /*
         the timer will wrap around until the commanded delay will expire
         the compare value to be set is the remaining amount of ticks after the timer update event
         */
-        compare -= cU32max;
+        compare -= cU16max;
 
         /*
         check if setting the new timer compare value would "short circuit" the timer update event
@@ -323,17 +324,17 @@ void init_Lowprio_Scheduler()
     }
 
     //clock
-    RCC->APB2ENR |= RCC_APB2ENR_TIM11EN;
+    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
 
     // clear flags
-    TIM11->SR= (U16) 0;
+    TIM1->SR= (U16) 0;
 
     //set prescaler
-    TIM11->PSC= (U16) LOWPRIO_SCHEDULER_PERIOD_US * (SystemCoreClock / 1000000) - 1;
+    TIM1->PSC= (U16) LOWPRIO_SCHEDULER_PERIOD_US * (SystemCoreClock / 1000000) - 1;
 
     //start timer counter
-    TIM11->CR1 |= TIM_CR1_CEN;
-    TIM11->EGR |= TIM_EGR_UG;
+    TIM1->CR1 |= TIM_CR1_CEN;
+    //TIM1->EGR |= TIM_EGR_UG;
 
     //set up channel pointers
     Lowprio_Scheduler.channels[LOWPRIO_CH1].callback= safe_callback;
@@ -351,10 +352,10 @@ void init_Lowprio_Scheduler()
     Lowprio_Scheduler.channels[LOWPRIO_CH3].timer_reset= reset_lowprio_timer_channel_3;
     Lowprio_Scheduler.channels[LOWPRIO_CH_TACH].timer_reset= reset_lowprio_timer_channel_4;
 
-    //enable timer 11 irq (prio 2)
-    NVIC_SetPriority(TIM1_TRG_COM_TIM11_IRQn, 15UL );
-    NVIC_ClearPendingIRQ(TIM1_TRG_COM_TIM11_IRQn);
-    NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
+    //enable timer 1 compare irq (prio 15)
+    NVIC_SetPriority(TIM1_CC_IRQn, 15UL );
+    NVIC_ClearPendingIRQ(TIM1_CC_IRQn);
+    NVIC_EnableIRQ(TIM1_CC_IRQn);
 
     Lowprio_Scheduler.init_done= true;
 }
@@ -365,7 +366,9 @@ lowprio scheduler interface
 
 scheduler operating modes:
 - one shot mode: wait until interval_1 has expired, take action_1, reset channel
---> power_after_interval_A must not be enabled!!
+--> power_after_interval_A must not be enabled
+--> rationale?
+
     activation: interval_2_enabled= false, interval_3_enabled= false
 - pwm mode: take action_1 at the end of interval_1 and !action_1 at the end of interval_2; runs forever if free_running= true or for the amount of "cycles"
     activation: interval_1,2_enabled=true; interval_3_enabled= false
@@ -407,7 +410,7 @@ void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t Channel, lowprio_
     VitalAssert( (pParameters->flags.interval_Pause_enabled == false) || (pParameters->sequence_length > 0), TID_LOWPRIO_SCHEDULER, LPSCHED_LOC_SETCH_PARMCHECK_SEQLEN);
 
     //safety check - polarity in one shot mode
-    VitalAssert( (pParameters->flags.interval_B_enabled == true) || (pParameters->flags.power_after_interval_A == false), TID_LOWPRIO_SCHEDULER, LPSCHED_LOC_SETCH_PARMCHECK_POLARITY);
+   // VitalAssert( (pParameters->flags.interval_B_enabled == true) || (pParameters->flags.power_after_interval_A == false), TID_LOWPRIO_SCHEDULER, LPSCHED_LOC_SETCH_PARMCHECK_POLARITY);
 
 
     //safety check - min interval 1
@@ -432,7 +435,7 @@ void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t Channel, lowprio_
     allocate the scheduler channel
     ******************************************************/
 
-    //clean the channel
+    //clean the channel parameters
     lowprio_scheduler_reset_channel(Channel);
 
     //store the commanded actions
@@ -452,10 +455,23 @@ void lowprio_scheduler_set_channel(lowprio_scheduler_channel_t Channel, lowprio_
 }
 
 
+
+void TIM1_UP_TIM10_IRQHandler(void)
+{
+    //if((TIM1->SR & TIM_SR_UIF) && (TIM1->DIER & TIM_DIER_UIE))
+    if(TIM1->SR & TIM_SR_UIF)
+    {
+        //clear irq pending bit
+        TIM1->SR= (U16) ~TIM_SR_UIF;
+    }
+}
+
+
+
 /******************************************************
 lowprio scheduler timer worker irq
 ******************************************************/
-void TIM1_TRG_COM_TIM11_IRQHandler(void)
+void TIM1_CC_IRQHandler(void)
 {
     volatile lowprio_scheduler_channel_state_t * pChannelState;
     bool trigger[LOWPRIO_CH_COUNT];
@@ -467,40 +483,40 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
     }
 
     //timer channel 1
-    if((TIM11->SR & TIM_SR_CC1IF) && (TIM11->DIER & TIM_DIER_CC1IE))
+    if((TIM1->SR & TIM_SR_CC1IF) && (TIM1->DIER & TIM_DIER_CC1IE))
     {
         //clear irq pending bit
-        TIM11->SR= (U16) ~TIM_SR_CC1IF;
+        TIM1->SR= (U16) ~TIM_SR_CC1IF;
 
         //channel triggered
         trigger[LOWPRIO_CH1]= true;
     }
 
     //timer channel 2
-    if((TIM11->SR & TIM_SR_CC2IF) && (TIM11->DIER & TIM_DIER_CC2IE))
+    if((TIM1->SR & TIM_SR_CC2IF) && (TIM1->DIER & TIM_DIER_CC2IE))
     {
         //clear irq pending bit
-        TIM11->SR= (U16) ~TIM_SR_CC2IF;
+        TIM1->SR= (U16) ~TIM_SR_CC2IF;
 
         //channel triggered
         trigger[LOWPRIO_CH2]= true;
     }
 
     //timer channel 3
-    if((TIM11->SR & TIM_SR_CC3IF) && (TIM11->DIER & TIM_DIER_CC3IE))
+    if((TIM1->SR & TIM_SR_CC3IF) && (TIM1->DIER & TIM_DIER_CC3IE))
     {
         //clear irq pending bit
-        TIM11->SR= (U16) ~TIM_SR_CC3IF;
+        TIM1->SR= (U16) ~TIM_SR_CC3IF;
 
         //channel triggered
         trigger[LOWPRIO_CH3]= true;
     }
 
     //timer channel 4
-    if((TIM11->SR & TIM_SR_CC4IF) && (TIM11->DIER & TIM_DIER_CC4IE))
+    if((TIM1->SR & TIM_SR_CC4IF) && (TIM1->DIER & TIM_DIER_CC4IE))
     {
         //clear irq pending bit
-        TIM11->SR= (U16) ~TIM_SR_CC4IF;
+        TIM1->SR= (U16) ~TIM_SR_CC4IF;
 
         //channel triggered
         trigger[LOWPRIO_CH_TACH]= true;
@@ -528,7 +544,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
                 //check if a cycle length has to be observed
                 if((pChannelState->parameters.flags.free_running == false) && (pChannelState->cycle_counter == 0))
                 {
-                    //the commanded amount of cycles has been executed -> unpower actor
+                    //the commanded amount of cycles has been executed -> finish
                     lowprio_scheduler_reset_channel(channel);
                 }
                 else
@@ -558,15 +574,20 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
                     //check if pwm or sequence mode has been commanded (interval "B" enabled)
                     if(pChannelState->parameters.flags.interval_B_enabled == true)
                     {
-                        //trigger action "high"
+                        //trigger action "A"
                         pChannelState->callback(pChannelState->parameters.flags.power_after_interval_A? ACTOR_POWERED : ACTOR_UNPOWERED);
 
-                        //allocate channel with "low" interval
+                        //allocate channel with "B" interval
                         lowprio_scheduler_allocate_channel(channel, INTERVAL_B);
                     }
                     else
                     {
-                        //one shot mode -> unpower actor
+                        ///one shot mode
+
+                        //trigger action "A"
+                        pChannelState->callback(pChannelState->parameters.flags.power_after_interval_A? ACTOR_POWERED : ACTOR_UNPOWERED);
+
+                        //finish
                         lowprio_scheduler_reset_channel(channel);
                     }
 
@@ -588,13 +609,18 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
                     if((pChannelState->parameters.flags.interval_B_enabled == true) && (pChannelState->parameters.flags.interval_Pause_enabled == false))
                     {
                         /**
-                        pwm mode: "high" follows "low" interval, if free running or if cycles left
+                        pwm mode: "A" follows "B" interval, if free running or if cycles left
                         */
 
                         //check if a cycle length has to be observed
                         if((pChannelState->parameters.flags.free_running == false) && (pChannelState->cycle_counter == 0))
                         {
-                            //the commanded amount of cycles has been executed -> unpower actor
+                            ///the commanded amount of cycles has been executed
+
+                            //unpower actor
+                            pChannelState->callback(ACTOR_UNPOWERED);
+
+                            //finish
                             lowprio_scheduler_reset_channel(channel);
                         }
                         else
@@ -604,6 +630,9 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
 
                             //one cycle in pwm mode has been completed
                             pChannelState->cycle_counter -= 1;
+
+                            //allocate channel with "A" interval
+                            lowprio_scheduler_allocate_channel(channel, INTERVAL_A);
                         }
                     }
                     else if((pChannelState->parameters.flags.interval_B_enabled == true) && (pChannelState->parameters.flags.interval_Pause_enabled == true))
@@ -655,10 +684,13 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
 
 
 
-    if((TIM11->SR & TIM_SR_UIF) && (TIM11->DIER & TIM_DIER_UIE))
+    //if((TIM1->SR & TIM_SR_UIF) && (TIM1->DIER & TIM_DIER_UIE))
+    if(TIM1->SR & TIM_SR_UIF)
     {
         //clear irq pending bit
-        TIM11->SR= (U16) ~TIM_SR_UIF;
+        TIM1->SR= (U16) ~TIM_SR_UIF;
     }
 
 }
+
+#endif

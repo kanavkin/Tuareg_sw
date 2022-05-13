@@ -7,6 +7,15 @@
 #warning debug outputs enabled
 #endif // TUAREG_DEBUG_OUTPUT
 
+
+//#define HIL_HW
+
+
+#ifdef HIL_HW
+#warning built for HIL tester
+#warning do not install on ECU hw
+#endif // TUAREG_DEBUG_OUTPUT
+
 const U32 cFuel_pump_priming_duration_s= 3;
 
 /******************************************************************************************************************************
@@ -71,17 +80,25 @@ void Tuareg_Init()
     */
     Tuareg_init_console();
 
+    #ifndef LOWPRIOSCHEDULER_WIP
     init_Lowprio_Scheduler();
+    #endif // LOWPRIOSCHEDULER_WIP
+
     init_dash();
 
     #ifdef TUAREG_DEBUG_OUTPUT
     Tuareg_print_init_message();
     #endif // TUAREG_DEBUG_OUTPUT
 
+    /// TODO (oli#9#05/12/22): print firmware version to datalog
+
     //begin fuel pump priming
-    Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
-    Tuareg.flags.fuel_pump_priming= true;
-    Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+    if(Tuareg.errors.fatal_error == false)
+    {
+        Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
+        Tuareg.flags.fuel_pump_priming= true;
+        Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+    }
 
     //init_act_hw();
     //init_act_logic();
@@ -150,12 +167,8 @@ void Tuareg_load_config()
 
 void Tuareg_print_init_message()
 {
-    #ifdef TUAREG_MODULE_TEST
-    moduletest_initmsg_action();
-    #else
     print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
     print(DEBUG_PORT, "V 0.7");
-    #endif
 }
 
 
@@ -164,6 +177,10 @@ void Tuareg_print_init_message()
 Update - periodic update function
 
 called every 10 ms from systick timer (100 Hz)
+
+this function will be executed in all system states and has to take care of all system errors
+
+
 ******************************************************************************************************************************/
 
 const U32 cInj_wd_thres_ms= 100;
@@ -186,15 +203,18 @@ void Tuareg_update()
     //fuel pump
     Tuareg_update_fuel_pump_control();
 
-
     /**
+    vital actors control
+    (fuel pump is separated to allow fuel priming)
+
     while the system is in normal operating conditions the vital actors shall be deactivated in standby mode or when run inhibit is set
     in service mode vital actor control is given to the service functions
+    fuel pump priming normally takes place when the run switch is off
     */
     if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)))
     {
-        //keep vital actors deactivated, ignores fuel pump
-        Tuareg_deactivate_vital_actors();
+        //keep vital actors deactivated, allow fuel pump priming
+        Tuareg_deactivate_vital_actors(true);
     }
 
 }
@@ -217,7 +237,7 @@ const U32 cOverheat_hist_K= 20;
 
 void Tuareg_update_run_inhibit()
 {
-    //check precondition - no fatal error
+    //check precondition - no fatal error present
     if(Tuareg.errors.fatal_error == true)
     {
         Tuareg.flags.run_inhibit= true;
@@ -277,7 +297,7 @@ void Tuareg_update_limited_op()
 {
     //nothing to do if already in limp mode
     //limited_op can be cleared only only by reset
-    if(Tuareg.flags.limited_op == true)
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fatal_error == true))
     {
         return;
     }
@@ -387,7 +407,7 @@ void Tuareg_update_standby()
         (Tuareg.pDecoder->flags.rpm_valid == true))
     {
         //engine is running -> increment runtime counter
-        if(Tuareg.engine_runtime < 0xFFFFFFFF)
+        if(Tuareg.engine_runtime < cU32max)
         {
             Tuareg.engine_runtime += 1;
         }
@@ -408,11 +428,16 @@ pressure
 
 void Tuareg_update_fuel_pump_control()
 {
+    //check precondition -no fatal error present
+    if(Tuareg.errors.fatal_error == true)
+    {
+        set_fuel_pump(ACTOR_UNPOWERED);
+        return;
+    }
+
     /**
     fuel pump priming control
     */
-
-    //check if fuel pump priming shall be deactivated
     if((Tuareg.flags.fuel_pump_priming == true) && (Tuareg.fuel_pump_priming_remain_s == 0))
     {
         Tuareg.flags.fuel_pump_priming= false;
@@ -421,72 +446,62 @@ void Tuareg_update_fuel_pump_control()
 
     /**
     fuel pump control
-    - in service mode fuel pump control is given to the service functions
-    - under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
     */
 
-    //check preconditions
+    //in service mode fuel pump control is given to the service functions
     if(Tuareg.flags.service_mode == true)
     {
         return;
     }
 
-    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
+    //under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
+    if( ((Tuareg.flags.standby == false) && (Tuareg.flags.run_inhibit == false)) || (Tuareg.flags.fuel_pump_priming == true) )
     {
-        //fuel pump shall be deactivated
-        if(Tuareg.flags.fuel_pump == true)
-        {
-            set_fuel_pump(ACTOR_UNPOWERED);
-        }
+        //fuel pump shall be active
+        set_fuel_pump(ACTOR_POWERED);
     }
     else
     {
-        //fuel pump shall be active
-        if(Tuareg.flags.fuel_pump == false)
-        {
-            set_fuel_pump(ACTOR_POWERED);
-        }
+        //fuel pump shall be deactivated
+        set_fuel_pump(ACTOR_UNPOWERED);
     }
 }
 
 
 /******************************************************************************************************************************
-periodic helper function - keep vital actors deactivated
+keep vital actors deactivated
+
+if a fatal error is present, force all actors off
+in normal mode, ignoring the fuel pump is allowed
 ******************************************************************************************************************************/
-void Tuareg_deactivate_vital_actors()
+void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump)
 {
+    //turn off ignition system
+    set_ignition_ch1(ACTOR_UNPOWERED);
+    set_ignition_ch2(ACTOR_UNPOWERED);
+
+    //turn off fueling system
+    set_injector1(ACTOR_UNPOWERED);
+    set_injector2(ACTOR_UNPOWERED);
+
     //reset scheduler
     scheduler_reset_channel(SCHEDULER_CH_IGN1);
     scheduler_reset_channel(SCHEDULER_CH_IGN2);
     scheduler_reset_channel(SCHEDULER_CH_FUEL1);
     scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
-    //turn off ignition system
-    if(Tuareg.flags.ignition_coil_1 == true)
+
+    //the fuel pump is normally allowed to finish its priming stage
+    if((IgnoreFuelPump == false) || (Tuareg.errors.fatal_error == true))
     {
-        set_ignition_ch1(ACTOR_UNPOWERED);
+        set_fuel_pump(ACTOR_UNPOWERED);
     }
 
-    if(Tuareg.flags.ignition_coil_2 == true)
-    {
-        set_ignition_ch2(ACTOR_UNPOWERED);
-    }
-
-    //turn off fueling system
-    if(Tuareg.flags.fuel_injector_1 == true)
-    {
-        set_injector1(ACTOR_UNPOWERED);
-    }
-
-    if(Tuareg.flags.fuel_injector_2 == true)
-    {
-        set_injector2(ACTOR_UNPOWERED);
-    }
 }
 
 
 /******************************************************************************************************************************
-periodic helper function - update driven way based on the ground speed figure
+periodic helper function - integrate the trip based on the estimated ground speed
 called every 100 ms from systick timer (10 Hz)
 ******************************************************************************************************************************/
 void Tuareg_update_trip()

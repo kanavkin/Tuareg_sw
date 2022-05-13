@@ -25,18 +25,17 @@ Correcting config parameter errors through the console shall be possible.
 void Fatal(Tuareg_ID Id, U8 Location)
 {
     Tuareg.errors.fatal_error= true;
+
+    //these flags will be acknowledged by Tuareg_update() again
     Tuareg.flags.run_inhibit= true;
     Tuareg.flags.service_mode= false;
     Tuareg.flags.limited_op= false;
     Tuareg.flags.standby= false;
+    Tuareg.flags.fuel_pump_priming= false;
 
 
     //turn off actors
-    set_ignition_ch1(ACTOR_UNPOWERED);
-    set_ignition_ch2(ACTOR_UNPOWERED);
-    set_injector1(ACTOR_UNPOWERED);
-    set_injector2(ACTOR_UNPOWERED);
-    set_fuel_pump(ACTOR_UNPOWERED);
+    Tuareg_deactivate_vital_actors(false);
 
     //disable decoder
     disable_Decoder();
@@ -54,8 +53,6 @@ void Fatal(Tuareg_ID Id, U8 Location)
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUGMSG
 
-    //interim solution
-    set_mil(MIL_PERMANENT);
 }
 
 
@@ -120,7 +117,5 @@ void Limp(Tuareg_ID Id, U8 Location)
     printf_U(DEBUG_PORT, Location, NO_PAD | NO_TRAIL);
     #endif // ERRORS_DEBUGMSG
 
-    //interim solution
-    set_mil(MIL_BLINK_FAST);
 }
 

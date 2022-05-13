@@ -122,8 +122,8 @@ void Tuareg_ignition_update_crankpos_handler()
         ignition_diag_log_event(IGNDIAG_CRKPOSH_INHIBIT);
 
         //turn off all ignition actors
-        set_coil1_unpowered();
-        set_coil2_unpowered();
+        set_ignition_ch1(ACTOR_UNPOWERED);
+        set_ignition_ch2(ACTOR_UNPOWERED);
 
         //delete ignition controls
         Tuareg_update_ignition_controls();

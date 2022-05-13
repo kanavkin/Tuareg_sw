@@ -521,17 +521,10 @@ inline void cli_showPage(U32 Page)
             break;
 
         case IGNITIONMAP_TPS:
-            print(TS_PORT, "\r\nIgnition Map TPS (in boctok 3D coordinate system)\r\n");
             show_ignAdvTable_TPS(TS_PORT);
             break;
-/*
-        case IGNITIONMAP_MAP:
-            print(TS_PORT, "\r \nIgnition Map MAP (in boctok 3D coordinate system)\r\n");
-            //show_ignAdvTable_MAP(TS_PORT);
-            break;
-*/
+
         case IGNITIONMAP_DWELL:
-            print(TS_PORT, "\r\nIgnition Dwell table \r\n");
             show_ignDwellTable(TS_PORT);
             break;
 
@@ -542,68 +535,62 @@ inline void cli_showPage(U32 Page)
 
         case VEMAP_TPS:
 
-            print(TS_PORT, "\r\nVE Map - TPS (in boctok 3D coordinate system)\r\n");
             show_VeTable_TPS(TS_PORT);
             break;
 
         case VEMAP_MAP:
 
-            print(TS_PORT, "\r\nVE Map - MAP (in boctok 3D coordinate system)\r\n");
             show_VeTable_MAP(TS_PORT);
             break;
 
         case AFRMAP_TPS:
 
-            print(TS_PORT, "\r\nAFR Map - TPS (in boctok 3D coordinate system)\r\n");
             show_AfrTable_TPS(TS_PORT);
             break;
 
         case AFRMAP_MAP:
 
-            print(TS_PORT, "\r\nAFR Map - MAP (in boctok 3D coordinate system)\r\n");
             show_AfrTable_MAP(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
 
-            print(TS_PORT, "\r\nAcceleration compensation - TPS based\r\n");
             show_AccelCompTableTPS(TS_PORT);
             break;
 
         case ACCELCOMP_MAP:
 
-            print(TS_PORT, "\r\nAcceleration compensation - MAP based\r\n");
             show_AccelCompTableMAP(TS_PORT);
             break;
 
         case WARMUPCOMP_TABLE:
 
-            print(TS_PORT, "\r\nWarm up compensation\r\n");
             show_WarmUpCompTable(TS_PORT);
             break;
 
         case INJ_TIMING_TABLE:
 
-            print(TS_PORT, "\r\nInjector Timing\r\n");
             show_InjectorTimingTable(TS_PORT);
             break;
 
         case INJ_PHASE_TABLE:
 
-            print(TS_PORT, "\r\nInjector Phase\r\n");
             show_InjectorPhaseTable(TS_PORT);
             break;
 
         case CRANKINGFUEL_TABLE:
 
-            print(TS_PORT, "\r\nCranking Fuel mass\r\n");
             show_CrankingFuelTable(TS_PORT);
             break;
 
         case BAROCORR_TABLE:
 
-            print(TS_PORT, "\r\nBarometric Correction\r\n");
             show_BAROtable(TS_PORT);
+            break;
+
+        case CHARGETEMP_TABLE:
+
+            show_ChargeTempTable(TS_PORT);
             break;
 
 
@@ -732,7 +719,7 @@ void cli_show_help()
 {
 /// TODO (oli#9#): keep command list up to date
 
-    print(TS_PORT, "\r\n*** Tuareg CLI Help ***\n\r");
+    print(TS_PORT, "\r\n\r\n\r\n*** Tuareg CLI Help ***\n\r");
     print(TS_PORT, "List of all commands for human interaction on CLI:\n\r");
     print(TS_PORT, "(all input in ascii)\n\r");
 

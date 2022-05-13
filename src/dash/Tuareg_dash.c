@@ -10,22 +10,6 @@ volatile dashctrl_t Dash;
 
 
 
-            //working!!
-            //set_user_lamp(ON);
-            //lowprio_scheduler_togglemode_channel(LOWPRIO_CH1, set_user_lamp, 1000, 5000);
-
-            /*
-            //working!!!
-            set_debug_pin(ON);
-            lowprio_scheduler_seqmode_channel(LOWPRIO_CH1, set_debug_pin, 1000, 5000, 10000, 3);
-            */
-
-            /*
-            set_user_lamp(ON);
-            lowprio_scheduler_seqmode_channel(LOWPRIO_CH1, set_user_lamp, 400000, 500000, 3000000, 4);
-            */
-
-
 /******************************************************************************************************************
 Init function
 ******************************************************************************************************************/
@@ -38,7 +22,6 @@ void init_dash()
 
     //turn the engine lamp off
     set_mil(MIL_OFF);
-
 }
 
 
@@ -131,12 +114,13 @@ void update_mil()
     /**
     calculate new mil state
     */
-    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true))
+    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true) || (Tuareg.flags.rev_limiter == true))
     {
         set_mil(MIL_PERMANENT);
         return;
     }
-    else if( (Tuareg.flags.run_inhibit == true) && ((Tuareg.flags.overheat_detected == true) || (Tuareg.flags.crash_sensor_triggered == true) || (Tuareg.flags.sidestand_sensor_triggered == true)) )
+    else if( (Tuareg.flags.run_inhibit == true) &&
+            ((Tuareg.flags.overheat_detected == true) || (Tuareg.flags.crash_sensor_triggered == true) || (Tuareg.flags.sidestand_sensor_triggered == true)) )
     {
         set_mil(MIL_BLINK_FAST);
     }

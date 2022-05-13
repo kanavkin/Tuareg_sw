@@ -78,9 +78,9 @@ Tuareg IRQ priorities:
 
 1    decoder:
     crank pickup (EXTI) -> EXTI0_IRQn
-    crank pickup filter (timer 2) -> TIM2_IRQn NEW: TIM1_BRK_TIM9_IRQn
+    crank pickup filter (timer 9) -> TIM1_BRK_TIM9_IRQn
 
-2   scheduler (timer 3) -> TIM3_IRQn
+2   scheduler (timer 5) -> TIM5_IRQn
 
 3   cis (part of decoder) (EXTI) -> EXTI1_IRQn
 
@@ -122,9 +122,9 @@ allocated timers:
 
 lowspeed_timers: derived from SysTick
 
-decoder: timer2 (16 bit general-purpose timer) --> new: TIM9 (16 bit general-purpose timer)
+decoder: TIM9 (16 bit general-purpose timer)
 
-scheduler: timer 3  (16 bit general-purpose timer) --> new: TIM5 (32 bit general-purpose timer)
+scheduler: TIM5 (32 bit general-purpose timer)
 
 lowprio_scheduler: TIM11 (32 bit general-purpose timer)
 
@@ -137,13 +137,9 @@ sensors: no timers
 */
 int main(void)
 {
-    //SWO_Init(0x1, SystemCoreClock);
-
-
-    lowprio_scheduler_activation_parameters_t LowPrioParams;
-
 
     Tuareg_Init();
+
 
     while(1)
     {
@@ -164,11 +160,6 @@ int main(void)
         if( Tuareg.pTimer->flags.cycle_100_ms == true)
         {
             Tuareg.pTimer->flags.cycle_100_ms= false;
-
-            #ifdef DECODER_EVENT_DEBUG
-            //process debug messages from decoder
-            decoder_process_debug_events();
-            #endif // DECODER_EVENT_DEBUG
 
             if(Tuareg.errors.fatal_error == false)
             {
@@ -197,25 +188,6 @@ int main(void)
                 {
                     Tuareg.fuel_pump_priming_remain_s -= 1;
                 }
-
-
-                ///DEBUG -  test lowprio scheduler
-                LowPrioParams.flags.interval_B_enabled= false;
-                LowPrioParams.flags.interval_Pause_enabled= false;
-                LowPrioParams.flags.power_after_interval_A= false;
-                LowPrioParams.flags.free_running= false;
-                LowPrioParams.cycles= 1;
-                LowPrioParams.intervals_us[INTERVAL_A]= 500000;
-                LowPrioParams.intervals_us[INTERVAL_B]= 0;
-                LowPrioParams.intervals_us[INTERVAL_PAUSE]= 0;
-
-                lowprio_scheduler_set_channel(LOWPRIO_CH_TACH, &LowPrioParams);
-
-
-
-
-
-
             }
 
         }
@@ -279,22 +251,4 @@ void EXTI2_IRQHandler(void)
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 }
-
-
-
-/******************************************************************************************************************************
-sw generated irq when a spark has fired
-void EXTI3_IRQHandler(void)
-{
-    //clear pending register
-    EXTI->PR= EXTI_Line3;
-
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
-}
-******************************************************************************************************************************/
-
-
-
-
 

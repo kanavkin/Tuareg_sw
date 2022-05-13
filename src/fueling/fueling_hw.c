@@ -87,30 +87,50 @@ ignition actuator control
 ******************************************************************************************************************************/
 void set_injector1(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.fuel_injector_1;
+
     if(level == ACTOR_POWERED)
     {
         set_injector1_powered();
-        highspeedlog_register_injector1_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_injector1_power();
+        }
     }
     else
     {
         set_injector1_unpowered();
-        highspeedlog_register_injector1_unpower();
+
+        if(old_state == true)
+        {
+            highspeedlog_register_injector1_unpower();
+        }
     }
 }
 
 
 void set_injector2(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.fuel_injector_2;
+
     if(level == ACTOR_POWERED)
     {
         set_injector2_powered();
-        highspeedlog_register_injector2_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_injector2_power();
+        }
     }
     else
     {
         set_injector2_unpowered();
-        highspeedlog_register_injector2_unpower();
+
+        if(old_state == true)
+        {
+            highspeedlog_register_injector2_unpower();
+        }
     }
 }
 

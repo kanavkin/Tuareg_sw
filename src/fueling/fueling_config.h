@@ -196,6 +196,14 @@ exec_result_t modify_BAROtable(U32 Offset, U32 Value);
 void send_BAROtable(USART_TypeDef * Port);
 F32 getValue_BAROtable(F32 BARO_kPa);
 
+//charge temperature table - ChargeTempTable
+exec_result_t load_ChargeTempTable();
+exec_result_t store_ChargeTempTable();
+void show_ChargeTempTable(USART_TypeDef * Port);
+exec_result_t modify_ChargeTempTable(U32 Offset, U32 Value);
+void send_ChargeTempTable(USART_TypeDef * Port);
+F32 getValue_ChargeTempTable(F32 IAT_K, F32 CLT_K);
+
 
 /***************************************************************************************************************************************************
 *   helper macros

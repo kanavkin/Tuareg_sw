@@ -171,6 +171,11 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
             cli_show_ignition_controls(&(Tuareg.ignition_controls));
             break;
 
+        case 'FC':
+
+            cli_show_fueling_controls(&(Tuareg.fueling_controls));
+            break;
+
 
         case 'PR':
 
@@ -225,22 +230,25 @@ void cli_show_debug_help()
 {
 /// TODO (oli#9#): keep command list up to date
 
-    print(TS_PORT, "\r\n*** Tuareg Debug CLI Help ***\n\r");
+    print(TS_PORT, "\r\n\r\n\r\n*** Tuareg Debug CLI Help ***\n\r");
 
     print(TS_PORT, "AD - show sensor diagnostics\n\r");
-    print(TS_PORT, "DD - show decoder diagnostics\n\r");
+
     print(TS_PORT, "DI - show decoder interface\n\r");
+    print(TS_PORT, "DD - show decoder diagnostics\n\r");
 
     #ifdef DECODER_CIS_DEBUG
     print(TS_PORT, "DC - show decoder CIS debug data\n\r");
     #endif // DECODER_CIS_DEBUG
 
+    print(TS_PORT, "FC - show fueling controls\n\r");
     print(TS_PORT, "FD - show fueling diagnostics\n\r");
+
+    print(TS_PORT, "IC - show ignition controls\n\r");
+    print(TS_PORT, "ID - show ignition diagnostics\n\r");
 
     print(TS_PORT, "TD - show Tuareg diagnostics\n\r");
     print(TS_PORT, "SD - show scheduler diagnostics\n\r");
-    print(TS_PORT, "ID - show ignition diagnostics\n\r");
-    print(TS_PORT, "IC - show ignition controls\n\r");
 
     print(TS_PORT, "PR - show process data\n\r");
     print(TS_PORT, "PT - show process table\n\r");
@@ -254,43 +262,41 @@ void cli_show_debug_help()
 
 void cli_show_process_data(volatile process_data_t * pImage)
 {
-    /**
-    volatile crank_position_t crank_position;
-    volatile crank_position_table_t crank_position_table;
-    VU32 crank_T_us;
-    VU32 engine_rpm;
+    print(TS_PORT, "\r\n\r\nProcess data:\r\n");
 
-    volatile ctrl_strategy_t ctrl_strategy;
-
-    VF32 MAP_Pa;
-    VF32 Baro_Pa;
-    VF32 TPS_deg;
-    VF32 ddt_TPS;
-    VF32 IAT_C;
-    VF32 CLT_C;
-    VF32 VBAT_V;
-    */
-
-    print(TS_PORT, "\r\n\r\nprocess data image:\r\n");
-/*
-    print(TS_PORT, "rpm: ");
-    printf_U(TS_PORT, pImage->crank_rpm, NO_PAD);
-*/
-
-
-    print(TS_PORT, "\r\nMAP (kPa), BARO (kPa), TPS (deg), ddt_TPS, IAT (C), CLT (C), VBAT (V), O2 (AFR), Gear:\r\n");
-
+    print(TS_PORT, "\r\nMAP (kPa), change rate (kPa/s): ");
     printf_F32(TS_PORT, pImage->MAP_kPa);
-    printf_F32(TS_PORT, pImage->Baro_kPa);
+    printf_F32(TS_PORT, pImage->ddt_MAP);
+
+    print(TS_PORT, "\r\nTPS (deg), change rate (°/s): ");
     printf_F32(TS_PORT, pImage->TPS_deg);
     printf_F32(TS_PORT, pImage->ddt_TPS);
+
+    print(TS_PORT, "\r\nIAT (°C): ");
     printf_F32(TS_PORT, pImage->IAT_K - cKelvin_offset);
+
+    print(TS_PORT, "\r\nCLT (°C): ");
     printf_F32(TS_PORT, pImage->CLT_K - cKelvin_offset);
+
+    print(TS_PORT, "\r\nBARO (kPa): ");
+    printf_F32(TS_PORT, pImage->Baro_kPa);
+
+    print(TS_PORT, "\r\nBAT (V): ");
     printf_F32(TS_PORT, pImage->VBAT_V);
+
+    print(TS_PORT, "\r\nAFR: ");
     printf_F32(TS_PORT, pImage->O2_AFR);
+
+    print(TS_PORT, "\r\nGear: ");
+    printf_U(TS_PORT, pImage->Gear, NO_PAD);
+
+    print(TS_PORT, "\r\nGround Speed (mm/s): ");
     printf_U(TS_PORT, pImage->Gear, NO_PAD);
 
 }
+
+
+
 
 void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
 {
@@ -322,6 +328,104 @@ void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
     UART_Tx(TS_PORT, (pTiming->flags.advance_map? '1' :'0'));
 
 }
+
+
+void cli_show_fueling_controls(volatile fueling_control_t * pControls)
+{
+    print(TS_PORT, "\r\n\r\ncurrent fueling controls:");
+
+    //basic parameters
+    print(TS_PORT, "\r\nVE (%): ");
+    printf_F32(TS_PORT, pControls->VE_pct);
+
+    print(TS_PORT, "\r\ncharge temperature (°C): ");
+    printf_F32(TS_PORT, pControls->charge_temp_K - cKelvin_offset);
+
+    print(TS_PORT, "\r\nair density (µg/cm³): ");
+    printf_F32(TS_PORT, pControls->air_density);
+
+    print(TS_PORT, "\r\nair flow rate (g/s): ");
+    printf_F32(TS_PORT, pControls->air_flowrate_gps);
+
+    print(TS_PORT, "\r\nAFR target: ");
+    printf_F32(TS_PORT, pControls->AFR_target);
+
+
+    //WUE
+    print(TS_PORT, "\r\nWUE (%): ");
+    printf_F32(TS_PORT, pControls->WUE_pct);
+
+    //ASE
+    print(TS_PORT, "\r\nASE (%), cycles left: ");
+    printf_F32(TS_PORT, pControls->ASE_pct);
+    printf_U(TS_PORT, pControls->ASE_cycles_left, NO_PAD | NO_TRAIL);
+
+    //BARO
+    print(TS_PORT, "\r\nBARO corr (%): ");
+    printf_F32(TS_PORT, pControls->BARO_pct);
+
+    //legacy AE
+    print(TS_PORT, "\r\nlegacy AE (µg), cycles left: ");
+    printf_F32(TS_PORT, pControls->legacy_AE_ug);
+    printf_U(TS_PORT, pControls->legacy_AE_cycles_left, NO_PAD | NO_TRAIL);
+
+    //fuel masses
+    print(TS_PORT, "\r\nbase fuel mass (µg): ");
+    printf_F32(TS_PORT, pControls->base_fuel_mass_ug);
+    print(TS_PORT, "\r\ntarget fuel mass (µg): ");
+    printf_F32(TS_PORT, pControls->target_fuel_mass_ug);
+
+    // X-Tau load compensation
+    print(TS_PORT, "\r\nwall fuel mass (µg): ");
+    printf_F32(TS_PORT, pControls->wall_fuel_mass_ug);
+    print(TS_PORT, "\r\ncommanded fuel mass (µg): ");
+    printf_F32(TS_PORT, pControls->cmd_fuel_mass_ug);
+
+    //injector parameters
+    print(TS_PORT, "\r\ninjector target dc (%), intervals 1/2 (µs),  dead time (µs): ");
+    printf_F32(TS_PORT, pControls->injector_target_dc);
+    printf_F32(TS_PORT, pControls->injector1_interval_us);
+    printf_F32(TS_PORT, pControls->injector2_interval_us);
+    printf_F32(TS_PORT, pControls->injector_deadtime_us);
+
+    print(TS_PORT, "\r\ninjector begin pos, timing 1/2, phase 1/2: ");
+    printf_crkpos(TS_PORT, pControls->injection_begin_pos);
+    printf_F32(TS_PORT, pControls->injector1_timing_us);
+    printf_F32(TS_PORT, pControls->injector2_timing_us);
+    printf_phase(TS_PORT, pControls->seq_injector1_begin_phase);
+    printf_phase(TS_PORT, pControls->seq_injector2_begin_phase);
+
+    //status data
+    print(TS_PORT, "\r\nflags\r\nvalid MAP_nTPS AFR_fallback inj_beg_valid: ");
+    UART_Tx(TS_PORT, (pControls->flags.valid? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.MAP_nTPS? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.AFR_fallback? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.injection_begin_valid? '1' :'0'));
+
+    print(TS_PORT, "\r\ndry_cranking sequential_mode injector_dc_clip: ");
+    UART_Tx(TS_PORT, (pControls->flags.dry_cranking? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.sequential_mode? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.injector_dc_clip? '1' :'0'));
+
+
+    print(TS_PORT, "\r\nWUE ASE BARO_corr legacy_AE load_comp: ");
+    UART_Tx(TS_PORT, (pControls->flags.WUE_active? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.ASE_active? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.BARO_corr_active? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.load_transient_comp? '1' :'0'));
+
+}
+
 
 
 void cli_show_decoder_interface(volatile decoder_output_t * pInterface)

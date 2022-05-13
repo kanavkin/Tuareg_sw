@@ -38,6 +38,8 @@ volatile t2D_t InjectorPhaseTable;
 
 volatile t2D_t BAROtable;
 
+volatile t3D_t ChargeTempTable;
+
 volatile U8 * const pFueling_Setup_data= (volatile U8 *) &Fueling_Setup;
 const U32 cFueling_Setup_size= sizeof(Fueling_Setup);
 
@@ -72,6 +74,8 @@ exec_result_t load_Fueling_Config()
     ASSERT_EXEC_OK( load_InjectorPhaseTable() );
 
     ASSERT_EXEC_OK( load_BAROtable() );
+
+    ASSERT_EXEC_OK( load_ChargeTempTable() );
 
     return EXEC_OK;
 }
@@ -718,7 +722,7 @@ F32 getValue_InjectorTimingTable(F32 Bat_V)
 *   Cranking base fuel mass table - CrankingFuelTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 512 ug increments)
+* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 256 ug increments)
 ***************************************************************************************************************************************************/
 
 const F32 cCrkFuelMultiplier= 256.0;
@@ -875,6 +879,59 @@ F32 getValue_BAROtable(F32 BARO_kPa)
 }
 
 
+
+/***************************************************************************************************************************************************
+*   charge temperature table - ChargeTempTable
+*
+* x-Axis -> IAT in K (no offset, no scaling)
+* y-Axis -> CLT in K (no offset, no scaling)
+* z-Axis -> charge temperature in K (offset := 173,15K, no scaling)
+***************************************************************************************************************************************************/
+
+const F32 cChargeTempOffset_K= 173.15;
+
+exec_result_t load_ChargeTempTable()
+{
+    return load_t3D_data(&(ChargeTempTable.data), EEPROM_FUELING_CHARGETEMP_BASE);
+}
+
+exec_result_t store_ChargeTempTable()
+{
+    return store_t3D_data(&(ChargeTempTable.data), EEPROM_FUELING_CHARGETEMP_BASE);
+}
+
+
+void show_ChargeTempTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\ncharge temperature table (K):\r\n");
+
+    show_t3D_data(TS_PORT, &(ChargeTempTable.data));
+}
+
+
+exec_result_t modify_ChargeTempTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t3D_data(&(ChargeTempTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for ChargeTempTable
+*/
+void send_ChargeTempTable(USART_TypeDef * Port)
+{
+    send_t3D_data(Port, &(ChargeTempTable.data));
+}
+
+
+/**
+returns the Barometric pressure correction factor in %
+*/
+F32 getValue_ChargeTempTable(F32 IAT_K, F32 CLT_K)
+{
+    return cChargeTempOffset_K + getValue_t3D(&ChargeTempTable, IAT_K, CLT_K);
+}
 
 
 

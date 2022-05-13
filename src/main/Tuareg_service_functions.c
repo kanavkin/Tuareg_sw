@@ -563,8 +563,8 @@ void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     //take over control
     Service_mgr.flags.coil1_control= true;
 
-    //command fuel hardware
-    set_coil1_powered();
+    //command ignition hardware
+    set_ignition_ch1(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_BEGIN);
@@ -574,7 +574,7 @@ void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_coil1()
 {
-    set_coil1_unpowered();
+    set_ignition_ch1(ACTOR_UNPOWERED);
     Service_mgr.coil1_on_remain_ms= 0;
     Service_mgr.flags.coil1_control= false;
 
@@ -591,7 +591,7 @@ void coil1_periodic_update(VU32 now)
         //check if the actor has been powered
         if(Tuareg.flags.ignition_coil_1 == true)
         {
-            set_coil1_unpowered();
+            set_ignition_ch1(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.coil1_on_remain_ms), Service_mgr.coil1_on_ms);
@@ -612,7 +612,7 @@ void coil1_periodic_update(VU32 now)
             //actor has been off
 
             //command hardware
-            set_coil1_powered();
+            set_ignition_ch1(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.coil1_toggle= now + Service_mgr.coil1_on_ms;
@@ -683,7 +683,7 @@ void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     Service_mgr.flags.coil2_control= true;
 
     //command hardware
-    set_coil2_powered();
+    set_ignition_ch2(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_BEGIN);
@@ -693,7 +693,7 @@ void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_coil2()
 {
-    set_coil2_unpowered();
+    set_ignition_ch2(ACTOR_UNPOWERED);
     Service_mgr.coil2_on_remain_ms= 0;
     Service_mgr.flags.coil2_control= false;
 
@@ -710,7 +710,7 @@ void coil2_periodic_update(VU32 now)
         //check if the actor has been powered
         if(Tuareg.flags.ignition_coil_2 == true)
         {
-            set_coil2_unpowered();
+            set_ignition_ch2(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.coil2_on_remain_ms), Service_mgr.coil2_on_ms);
@@ -731,7 +731,7 @@ void coil2_periodic_update(VU32 now)
             //actor has been off
 
             //command hardware
-            set_coil2_powered();
+            set_ignition_ch2(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.coil2_toggle= now + Service_mgr.coil2_on_ms;

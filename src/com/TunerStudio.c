@@ -110,6 +110,9 @@ void ts_readPage(U32 Page)
             send_BAROtable(TS_PORT);
             break;
 
+        case CHARGETEMP_TABLE:
+            send_ChargeTempTable(TS_PORT);
+            break;
 
         case SYSLOG_PAGE:
             send_syslog(TS_PORT);
@@ -424,6 +427,21 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_BAROtable(Offset, Value);
             break;
 
+        case CHARGETEMP_TABLE:
+
+            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return result;
+            }
+
+            result= modify_ChargeTempTable(Offset, Value);
+            break;
+
         default:
             break;
 
@@ -569,6 +587,11 @@ exec_result_t ts_burnPage(U32 Page)
         case BAROCORR_TABLE:
 
             result= store_BAROtable();
+            break;
+
+        case CHARGETEMP_TABLE:
+
+            result= store_ChargeTempTable();
             break;
 
 

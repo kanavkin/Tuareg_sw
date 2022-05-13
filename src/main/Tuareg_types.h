@@ -111,6 +111,7 @@ extern const F32 cM_air;
 extern const F32 cPi;
 extern const F32 cEuler;
 
+extern const U32 cU16max;
 extern const U32 cU32max;
 
 

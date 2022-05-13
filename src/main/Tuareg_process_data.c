@@ -72,7 +72,6 @@ void Tuareg_update_process_data()
     Tuareg.process.Gear= Tuareg_update_GEAR_sensor();
 
 
-
     #ifdef TUAREG_LOAD_CODE
     /*
     At least one method to determine engine load is required to operate the engine

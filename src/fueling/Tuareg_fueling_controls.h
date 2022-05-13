@@ -42,6 +42,7 @@ typedef struct _fueling_control_t {
 
     //basic parameters
     F32 VE_pct;
+    F32 charge_temp_K;
     F32 air_density;
     F32 air_flowrate_gps;
     F32 AFR_target;

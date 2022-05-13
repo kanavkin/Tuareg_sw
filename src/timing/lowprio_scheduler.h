@@ -13,7 +13,7 @@
 #define LOWPRIO_SCHEDULER_MIN_PERIOD_US LOWPRIO_SCHEDULER_PERIOD_US
 
 typedef void (* lowprio_scheduler_callback_func)(actor_control_t);
-typedef void (* lowprio_timer_alloc_func)(U32, bool, bool);
+typedef void (* lowprio_timer_alloc_func)(U16, bool, bool);
 typedef void (* lowprio_timer_reset_func)();
 
 
