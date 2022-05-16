@@ -194,7 +194,7 @@ void init_analog_sensors()
 
     while(Injected_Group_Init_counter <= cASensorInitCycles)
     {
-        //asm volatile ("nop");
+        __asm volatile ("nop");
     }
 
     Regular_Group_Init_counter= 0;
@@ -202,17 +202,8 @@ void init_analog_sensors()
 
     while(Regular_Group_Init_counter <= cASensorInitCycles)
     {
-        //asm volatile ("nop");
+        __asm volatile ("nop");
     }
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -299,11 +290,14 @@ void update_analog_sensor(asensors_t Sensor, U32 Sample, bool ForceProcessing)
         result= getValue_InvTableCLT(average);
     }
     else
-    #endif // CLT_LOOKUP
     {
         //calculate the physical input value
         result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
     }
+    #else
+        //calculate the physical input value
+        result= solve_linear(average, pSensorParameters->M, pSensorParameters->N);
+    #endif // CLT_LOOKUP
 
     //export outputs
     pSensorData->out= result;

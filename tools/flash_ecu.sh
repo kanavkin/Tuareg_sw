@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ST=/opt/stlink/st-upload.sh
+export LD_LIBRARY_PATH=/opt/stlink
+
+ST=/opt/stlink/st-flash
 
 if [ "$1" != "" ];
 then
@@ -10,7 +12,9 @@ else
     exit 1
 fi
 
-$ST ../Releases/$TUAREG/Tuareg.bin
+#st-flash write ../Releases/$TUAREG/Tuareg.bin 0x8000000
+$ST  write ../Releases/$TUAREG/Tuareg.bin 0x8000000
+
 
 
 
