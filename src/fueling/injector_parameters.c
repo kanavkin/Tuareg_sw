@@ -68,7 +68,7 @@ void update_injector_deadtime(volatile fueling_control_t * pTarget)
 ****************************************************************************************************************************************/
 void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 {
-    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us, target_duty_cycle;
+    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us, target_duty_cycle =0;
 
     //start over with clean flags
     pTarget->flags.injector_dc_clip= false;
@@ -143,9 +143,7 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
 ****************************************************************************************************************************************/
 void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
 {
-    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us;
-
-    U32 target_duty_cycle;
+    U32 inj1_target_interval_us, inj2_target_interval_us, max_powered_interval_us, target_duty_cycle =0;
 
     //start over with clean flags
     pTarget->flags.injector_dc_clip= false;

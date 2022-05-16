@@ -209,9 +209,9 @@ void send_ignAdvTable_TPS(USART_TypeDef * Port)
 }
 
 
-VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
+U32 getValue_ignAdvTable_TPS(U32 Rpm, F32 TPS)
 {
-    return (VU32) getValue_t3D(&ignAdvTable_TPS, Rpm, TPS);
+    return (U32) getValue_t3D(&ignAdvTable_TPS, Rpm, TPS);
 }
 
 
@@ -251,8 +251,8 @@ void send_ignDwellTable(USART_TypeDef * Port)
 /**
 returns the dwell time in us
 */
-VU32 getValue_ignDwellTable(VU32 Rpm)
+U32 getValue_ignDwellTable(U32 Rpm)
 {
     //ignDwellTable stores the Dwell time in 48 us increments
-    return (VU32) 48 * getValue_t2D(&ignDwellTable, Rpm);
+    return (U32) 48 * getValue_t2D(&ignDwellTable, Rpm);
 }

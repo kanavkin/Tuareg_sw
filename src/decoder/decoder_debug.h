@@ -101,7 +101,7 @@ typedef struct _decoder_cis_debug_t {
 
 
 void decoder_cis_debug_next_cycle();
-void decoder_update_cis_debug(VU32 Lobe_interval_us, VU32 Lobe_angle_deg);
+void decoder_update_cis_debug(U32 Lobe_interval_us, U32 Lobe_angle_deg);
 void print_decoder_cis_debug_data(USART_TypeDef * Port);
 
 

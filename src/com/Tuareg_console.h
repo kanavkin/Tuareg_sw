@@ -52,13 +52,13 @@ extern volatile Tuareg_console_t Tuareg_console;
 void Tuareg_update_console();
 void Tuareg_init_console();
 
-extern void cli_show_help();
+void cli_show_help();
 
 void cli_cyclic_update();
 
-extern void cli_showPage(U32 Page);
+void cli_showPage(U32 Page);
 
-extern void cli_setPermissions(U32 Value);
+void cli_setPermissions(U32 Value);
 
 
 #endif // TUAREG_CONSOLE_H_INCLUDED

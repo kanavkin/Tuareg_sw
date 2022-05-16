@@ -40,19 +40,19 @@ typedef struct {
 
 typedef struct {
 
-    VU32 timer_prescaler;
-    VU32 timer_period_us;
-    VU32 timer_overflow_ms;
+    U32 timer_prescaler;
+    U32 timer_period_us;
+    U32 timer_overflow_ms;
 
-    VU32 current_timer_value;
-    VU32 prev1_timer_value;
-    VU32 prev2_timer_value;
-    VU32 captured_positions_cont;
+    U32 current_timer_value;
+    U32 prev1_timer_value;
+    U32 prev2_timer_value;
+    U32 captured_positions_cont;
 
-    volatile decoder_sensing_t crank_pickup_sensing;
-    volatile decoder_sensing_t cis_sensing;
+    decoder_sensing_t crank_pickup_sensing;
+    decoder_sensing_t cis_sensing;
 
-    volatile decoder_hw_state_t state;
+    decoder_hw_state_t state;
 
 } decoder_hw_t;
 
@@ -63,7 +63,7 @@ void init_decoder_hw();
 void disable_decoder_hw();
 
 void decoder_start_timer();
-void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms);
+void decoder_set_timer_prescaler(U32 Prescaler, U32 Period_us, U32 Overflow_ms);
 void update_decoder_timer_compare();
 void decoder_stop_timer();
 void decoder_mask_crank_irq();

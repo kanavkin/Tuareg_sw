@@ -50,7 +50,7 @@
 #endif // CONSOLE_DEBUGMSG
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23 2022.04";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.1 2022.05";
 
 
 volatile Tuareg_console_t Tuareg_console;
@@ -331,7 +331,6 @@ void Tuareg_update_console()
             /**
             send code version
             */
-            //print(TS_PORT, "Tuareg V0.22 2021.10");
             print_flash(TS_PORT, Tuareg_Version);
 
             //This is required in TS3 due to its stricter timings
@@ -495,7 +494,7 @@ void Tuareg_update_console()
 /**
 prints the content of the currently selected page for manual inspection
 */
-inline void cli_showPage(U32 Page)
+void cli_showPage(U32 Page)
 {
     switch(Page)
     {

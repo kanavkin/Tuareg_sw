@@ -62,7 +62,7 @@ void decoder_start_timer()
 }
 
 
-void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms)
+void decoder_set_timer_prescaler(U32 Prescaler, U32 Period_us, U32 Overflow_ms)
 {
     TIM9->PSC= (U16) (Prescaler -1);
 
