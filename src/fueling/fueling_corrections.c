@@ -30,6 +30,7 @@ void update_fuel_mass_corrections(volatile fueling_control_t * pTarget)
     //barometric pressure compensation
     update_fuel_mass_barometric_correction(pTarget);
 
+
     //legacy AE - load transient compensation
     update_legacy_AE(pTarget);
 }
@@ -50,6 +51,7 @@ const U32 cAfterstart_thres= 50;
 *
 *   adds extra fuel for the first seconds of an cold engine that has just started
 *
+*   cannot be activated without valid CLT information
 ****************************************************************************************************************************************/
 void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget)
 {
@@ -105,6 +107,7 @@ void disable_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarge
 *
 *   calculate the fuel mass compensation factor for engine warmup
 *
+*   cannot be activated without valid CLT information
 ****************************************************************************************************************************************/
 void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 {

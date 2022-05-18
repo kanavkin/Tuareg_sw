@@ -151,8 +151,7 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
     F32 comp_MAP_ug, comp_TPS_ug, comp_ug, scaling;
 
     //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.fueling_config_error == true) ||
-        (Fueling_Setup.features.legacy_AE_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm) )
+    if((Fueling_Setup.features.legacy_AE_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm))
     {
         disable_legacy_AE(pTarget);
         return;
@@ -227,18 +226,27 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
     else if((Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS) || (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP))
     {
         /**
-        engine is decelerating - lean out mixture
+        engine is decelerating
+
+        -> lean out mixture if system condition allows this
+
+        (this is a feature to save fuel, choose a rich mixture when limit operation strategy is active)
         */
+        if(Tuareg.flags.limited_op == false)
+        {
+            pTarget->flags.legacy_AE= true;
+            pTarget->legacy_AE_cycles_left= Fueling_Setup.decel_comp_cycles;
 
-        pTarget->flags.legacy_AE= true;
-        pTarget->legacy_AE_cycles_left= Fueling_Setup.decel_comp_cycles;
+            //export the correction factor
+            pTarget->legacy_AE_ug= -Fueling_Setup.decel_comp_ug;
 
-        //export the correction factor
-        pTarget->legacy_AE_ug= -Fueling_Setup.decel_comp_ug;
-
-        //log diag data
-        fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_DECEL);
-
+            //log diag data
+            fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_DECEL);
+        }
+        else
+        {
+            disable_legacy_AE(pTarget);
+        }
     }
     else if(pTarget->legacy_AE_cycles_left > 0)
     {

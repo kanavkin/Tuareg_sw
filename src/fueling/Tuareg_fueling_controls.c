@@ -128,6 +128,9 @@ void Tuareg_update_fueling_controls()
         return;
     }
 
+    /**
+    calculate the fuel mass to be commanded
+    */
 
     //check if the engine is cranking
     if(Tuareg.flags.cranking == true)
@@ -199,28 +202,22 @@ void Tuareg_update_fueling_controls()
         /**
         base fuel mass
         calculation based on the calculated VE and AFR values
-        in case of fueling config error the default value for cylinder volume applies
         */
         update_base_fuel_mass(pTarget);
 
         //run correction algoritms
         update_fuel_mass_corrections(pTarget);
 
+        //apply all activated corrections
+        update_target_fuel_mass(pTarget);
+
+        /**
+        run X-Tau load transient compensation
+        in limp mode the commanded fuel mass will be simply the target fuel mass
+        */
+        update_load_transient_comp(pTarget);
+
     }
-
-
-    /**
-    apply all activated corrections
-    in limp mode or when cranking the target fuel mass will be simply the base fuel mass
-    */
-    update_target_fuel_mass(pTarget);
-
-    /**
-    run X-Tau load transient compensation
-    in limp mode or when cranking the commanded fuel mass will be simply the target fuel mass
-    */
-    update_load_transient_comp(pTarget);
-
 
     /**
     injector dead time
@@ -416,6 +413,8 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
 ****************************************************************************************************************************************/
 void update_fuel_mass_cranking(volatile fueling_control_t * pTarget)
 {
+    F32 fuel_mass_ug;
+
     /**
     begin with clean controls -> this will disable all corrections and compensations, too
     */
@@ -431,11 +430,17 @@ void update_fuel_mass_cranking(volatile fueling_control_t * pTarget)
     }
     else
     {
-        /**
-        look up the cranking mode base fuel mass from the table
-        if the CLT sensor has failed its default value will be sufficient, too
-        */
-        pTarget->cmd_fuel_mass_ug= getValue_CrankingFuelTable(Tuareg.process.CLT_K);
+        //look up the cranking mode base fuel mass from the table
+        //if the CLT sensor has failed its default value will be sufficient, too
+        fuel_mass_ug= getValue_CrankingFuelTable(Tuareg.process.CLT_K);
+
+        //set consistent output values
+        pTarget->base_fuel_mass_ug= fuel_mass_ug;
+        pTarget->target_fuel_mass_ug= fuel_mass_ug;
+        pTarget->cmd_fuel_mass_ug= fuel_mass_ug;
+
+        //dummy valuee to produce a nice TunerStudio image
+        pTarget->charge_temp_K= Tuareg.process.IAT_K;
     }
 }
 
@@ -474,19 +479,6 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     VF32 rel_comp_pct= 0.0;
     VF32 target_fuel_mass_ug= pTarget->base_fuel_mass_ug;
 
-
-    //check preconditions
-    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) || (Tuareg.flags.cranking == true))
-    {
-        //copy base fuel mass only
-        pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
-
-        //log diag data
-        fueling_diag_log_event(FDIAG_UPD_TGTFMASS_PRECOND_FAIL);
-
-        //nothing to do
-        return;
-    }
 
     /**
     step #1 - relative compensation: warm up, after start, barometric
@@ -536,7 +528,6 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
         target_fuel_mass_ug += rel_comp_pct * (target_fuel_mass_ug / 100.0);
     }
 
-
     /**
     step #2 - absolute compensation: acceleration, deceleration
     */
@@ -571,5 +562,4 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     export target fuel
     */
     pTarget->target_fuel_mass_ug= target_fuel_mass_ug;
-
 }
