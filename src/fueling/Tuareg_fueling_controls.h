@@ -27,7 +27,11 @@ typedef union
         U16 WUE_active :1;
         U16 ASE_active :1;
         U16 BARO_corr_active :1;
-        U16 legacy_AE :1;
+        U16 legacy_AE_active :1;
+        U16 legacy_AE_trig_MAP_accel :1;
+        U16 legacy_AE_trig_MAP_decel :1;
+        U16 legacy_AE_trig_TPS_accel :1;
+        U16 legacy_AE_trig_TPS_decel :1;
         U16 load_transient_comp :1;
      };
 

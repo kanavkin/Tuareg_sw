@@ -533,7 +533,7 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
     */
 
     //check if legacy load transient compensation is active
-    if(pTarget->flags.legacy_AE == true)
+    if(pTarget->flags.legacy_AE_active == true)
     {
         //check if compensation is within interval
         if(pTarget->legacy_AE_ug > cMax_fuel_abs_comp_ug)

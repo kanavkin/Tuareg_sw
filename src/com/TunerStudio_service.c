@@ -413,17 +413,26 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
     UART_Tx(TS_PORT, (pControls->flags.injector_dc_clip? '1' :'0'));
 
 
-    print(TS_PORT, "\r\nWUE ASE BARO_corr legacy_AE load_comp: ");
+    print(TS_PORT, "\r\nWUE ASE BARO_corr load_comp: ");
     UART_Tx(TS_PORT, (pControls->flags.WUE_active? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pControls->flags.ASE_active? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pControls->flags.BARO_corr_active? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pControls->flags.legacy_AE? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pControls->flags.load_transient_comp? '1' :'0'));
 
+    print(TS_PORT, "\r\nAE active, MAP_accel, TPS_accel, MAP_decel, TPS_decel: ");
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE_active? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE_trig_MAP_accel? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE_trig_TPS_accel? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE_trig_MAP_decel? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (pControls->flags.legacy_AE_trig_TPS_decel? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
 }
 
 

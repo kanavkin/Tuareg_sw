@@ -50,8 +50,7 @@
 #endif // CONSOLE_DEBUGMSG
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.2 2022.05";
-
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.3 2022.05";
 
 volatile Tuareg_console_t Tuareg_console;
 

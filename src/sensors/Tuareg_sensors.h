@@ -18,7 +18,7 @@ ASENSOR_VALIDITY_THRES of consecutive valid captures an analog sensor has to pro
 
 the counter will be initialized with ASENSOR_VALIDITY_FASTINIT to provide sensor data for startup
 */
-#define ASENSOR_VALIDITY_THRES 150
+#define ASENSOR_VALIDITY_THRES 50
 
 
 /**

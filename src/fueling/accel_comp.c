@@ -100,6 +100,7 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
 #endif
     {
         disable_load_transient_comp(pTarget);
+        return;
     }
 
 
@@ -149,6 +150,7 @@ void disable_load_transient_comp(volatile fueling_control_t * pTarget)
 void update_legacy_AE(volatile fueling_control_t * pTarget)
 {
     F32 comp_MAP_ug, comp_TPS_ug, comp_ug, scaling;
+    bool trig_MAP_accel, trig_TPS_accel, trig_MAP_decel, trig_TPS_decel;
 
     //check preconditions
     if((Fueling_Setup.features.legacy_AE_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm))
@@ -157,21 +159,31 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         return;
     }
 
+    //process triggers
+    trig_MAP_accel= (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP);
+    trig_TPS_accel= (Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS);
+    trig_MAP_decel= (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP);
+    trig_TPS_decel= (Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS);
+
 
     /**
     check if acceleration compensation shall be (re)triggered
     */
-    if((Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS) || (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP))
+    if((trig_MAP_accel == true) || (trig_TPS_accel == true))
     {
         /**
         engine is accelerating - turn on AE
         */
-        pTarget->flags.legacy_AE= true;
+        pTarget->flags.legacy_AE_active= true;
+        pTarget->flags.legacy_AE_trig_MAP_accel= trig_MAP_accel;
+        pTarget->flags.legacy_AE_trig_TPS_accel= trig_TPS_accel;
+        pTarget->flags.legacy_AE_trig_MAP_decel= false;
+        pTarget->flags.legacy_AE_trig_TPS_decel= false;
         pTarget->legacy_AE_cycles_left= Fueling_Setup.accel_comp_cycles;
 
         //look up the correction factors
-        comp_TPS_ug= getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS);
-        comp_MAP_ug= getValue_AccelCompTableMAP(Tuareg.process.ddt_MAP);
+        comp_MAP_ug= (trig_MAP_accel == true)? getValue_AccelCompTableMAP(Tuareg.process.ddt_MAP) : 0;
+        comp_TPS_ug= (trig_TPS_accel == true)? getValue_AccelCompTableTPS(Tuareg.process.ddt_TPS) : 0;
 
         //select the greater one
         comp_ug= (comp_TPS_ug > comp_MAP_ug)? comp_TPS_ug : comp_MAP_ug;
@@ -223,7 +235,7 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         fueling_diag_log_event(FDIAG_UPD_ACCELCOMP_ACCEL);
 
     }
-    else if((Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS) || (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP))
+    else if((trig_MAP_decel == true) || (trig_TPS_decel == true))
     {
         /**
         engine is decelerating
@@ -234,7 +246,11 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         */
         if(Tuareg.flags.limited_op == false)
         {
-            pTarget->flags.legacy_AE= true;
+            pTarget->flags.legacy_AE_active= true;
+            pTarget->flags.legacy_AE_trig_MAP_accel= false;
+            pTarget->flags.legacy_AE_trig_TPS_accel= false;
+            pTarget->flags.legacy_AE_trig_MAP_decel= trig_MAP_decel;
+            pTarget->flags.legacy_AE_trig_TPS_decel= trig_TPS_decel;
             pTarget->legacy_AE_cycles_left= Fueling_Setup.decel_comp_cycles;
 
             //export the correction factor
@@ -319,7 +335,11 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
 ****************************************************************************************************************************************/
 void disable_legacy_AE(volatile fueling_control_t * pTarget)
 {
-    pTarget->flags.legacy_AE= false;
+    pTarget->flags.legacy_AE_active= false;
+    pTarget->flags.legacy_AE_trig_MAP_accel= false;
+    pTarget->flags.legacy_AE_trig_TPS_accel= false;
+    pTarget->flags.legacy_AE_trig_MAP_decel= false;
+    pTarget->flags.legacy_AE_trig_TPS_decel= false;
     pTarget->legacy_AE_cycles_left= 0;
     pTarget->legacy_AE_ug= 0.0;
 }
