@@ -1,0 +1,1 @@
+gpspipe -r | socat - PTY,link=/home/oli/ts_gps_pty,raw

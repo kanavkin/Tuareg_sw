@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export LD_LIBRARY_PATH=/opt/stlink
+#export LD_LIBRARY_PATH=/opt/stlink
 
-ST=/opt/stlink/st-flash
+#ST=/opt/stlink/st-flash
+ST=st-flash
 
 if [ "$1" != "" ];
 then

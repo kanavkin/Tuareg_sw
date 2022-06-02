@@ -44,8 +44,8 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     ts_tuareg_bits(&(Out.tuareg_bits));
     Out.com_bits= Tuareg_console.cli_permissions.all_flags;
 
-    Out.rpm= (Tuareg.pDecoder->flags.rpm_valid == true)? Tuareg.pDecoder->crank_rpm : 0;
-    Out.ddt_rpm= (Tuareg.pDecoder->flags.accel_valid == true)? 1 : 0;
+    Out.rpm= Tuareg.pDecoder->crank_rpm;
+    Out.ddt_rpm= Tuareg.pDecoder->crank_acceleration;
 
     Out.MAP_kPa= Tuareg.process.MAP_kPa;
     Out.ddt_MAP= Tuareg.process.ddt_MAP;
