@@ -184,6 +184,7 @@ void SysTick_Handler(void)
         Systick_Mgr.out.flags.cycle_100_ms= true;
 
         //actions to be taken in irq scope
+        update_tachometer();
         update_mil();
     }
 

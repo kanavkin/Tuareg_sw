@@ -131,10 +131,30 @@ lowprio_scheduler: TIM11 (32 bit general-purpose timer)
 sensors: no timers
 
 
+STM32F410 available timers: TIM1, TIM5, TIM6, TIM9, TIM11, LPTIM1
 
 
+IRQs:
+
+    TIM1_BRK_TIM9_IRQn
+
+    TIM1_UP_TIM10_IRQn
+    TIM1_TRG_COM_TIM11_IRQn
+
+    TIM1_CC_IRQn
+
+
+    TIM5_IRQn
+
+    TIM6_DAC_IRQn
+
+    LPTIM1_IRQn
 
 */
+
+
+
+
 int main(void)
 {
 
