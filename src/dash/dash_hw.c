@@ -9,22 +9,11 @@ this module covers the dash elements HAL
 /******************************************************************************************************************************
 dash actuator control
  ******************************************************************************************************************************/
-void set_tachometer_hw(actor_control_t level)
+void set_tachometer_compare(U32 Compare)
 {
-    if(level == ACTOR_POWERED)
-    {
-        gpio_set_pin(GPIOC, 11, PIN_ON);
+    VitalAssert(Compare < cU16max, TID_DASH_HW, 0);
 
-        Syslog_Info(TID_DASH_HW, 42);
-
-    }
-    else
-    {
-        // OFF
-        gpio_set_pin(GPIOC, 11, PIN_OFF);
-
-        Syslog_Info(TID_DASH_HW, 41);
-    }
+    TIM11->CCR1= (U16) Compare;
 }
 
 /*
@@ -35,13 +24,13 @@ void set_mil_hw(actor_control_t level)
 {
     if(level == ACTOR_POWERED)
     {
-        gpio_set_pin(GPIOC, 12, PIN_ON);
+        gpio_set_pin(GPIOC, 11, PIN_ON);
         Tuareg.flags.mil= true;
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 12, PIN_OFF);
+        gpio_set_pin(GPIOC, 11, PIN_OFF);
         Tuareg.flags.mil= false;
     }
 }
@@ -50,7 +39,8 @@ void set_mil_hw(actor_control_t level)
 
 /**
     using
-    -GPIOC11 for tachometer
+    -GPIOC12 for tachometer
+    -AF for TIM11 PWM
     -GPIOC11 for user dash lamp (mil)
     connected to VNLD5090 low side driver
     with open drain control input
@@ -60,16 +50,34 @@ void init_dash_hw()
     //clock
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
-    #ifdef HIL_HW
-    //active output for HIL
-    GPIO_configure(GPIOC, 11, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    GPIO_configure(GPIOC, 12, GPIO_MODE_OUT, GPIO_OUT_PP, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    #else
     //open drain output to driver IC
     GPIO_configure(GPIOC, 11, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    GPIO_configure(GPIOC, 12, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
-    #endif // HIL_HW
+    GPIO_configure(GPIOC, 12, GPIO_MODE_AF, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
-    set_tachometer_hw(ACTOR_UNPOWERED);
+    //connect PIN 12 to Timer 11 CH 1
+    GPIO_SetAF(GPIOC, 12, 3);
+
+    /**
+    init timer for tachometer PWM signal
+    */
+
+    //clock
+    RCC->APB2ENR |= RCC_APB2ENR_TIM11EN;
+
+    // clear flags
+    TIM11->SR= (U16) 0;
+
+    //set prescaler -> f_PWM := 500 Hz
+    TIM11->PSC= (U16) 2000 * (SystemCoreClock / 1000000) - 1;
+
+    //enable PWM mode 1 on CH 1 with preload
+    TIM11->CCMR1= TIM_CCMR1_OC1PE | TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1;
+
+    //start timer counter
+    TIM11->CR1 |= TIM_CR1_CEN;
+
+    TIM11->CCR1= (U16) 0;
+
+
     set_mil_hw(ACTOR_UNPOWERED);
 }
