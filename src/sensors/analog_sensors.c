@@ -394,7 +394,7 @@ void DMA2_Stream0_IRQHandler()
         if(Regular_Group_Init_counter > cASensorInitCycles)
         {
             //update every async asensor
-            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
+            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR +1; sensor++)
             {
                 //run update function
                 update_analog_sensor(sensor, DMA_Buffer[sensor], false);
@@ -403,7 +403,7 @@ void DMA2_Stream0_IRQHandler()
         else
         {
             //update every async asensor without averaging
-            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR; sensor++)
+            for(sensor= 0; sensor < LAST_ASYNC_ASENSOR +1; sensor++)
             {
                 //run update function
                 update_analog_sensor(sensor, DMA_Buffer[sensor], true);
