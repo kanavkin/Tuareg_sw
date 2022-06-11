@@ -533,7 +533,7 @@ void cli_print_sensor_data(USART_TypeDef * Port)
     print(Port, ")");
 
     print(Port, "\r\n");
-    print(Port, "\r\nDIGITAL: SPARE2-NEUTRAL-RUN-CRASH-DEBUG\r\n");
+    print(Port, "\r\nDIGITAL: SPARE2-SIDESTAND-RUN-CRASH-DEBUG\r\n");
 
     for(sensor=0; sensor < DSENSOR_COUNT; sensor++)
     {
