@@ -27,13 +27,13 @@ void set_mil_hw(actor_control_t level)
 {
     if(level == ACTOR_POWERED)
     {
-        gpio_set_pin(GPIOC, 11, PIN_ON);
+        gpio_set_pin(GPIOC, 12, PIN_ON);
         Tuareg.flags.mil= true;
     }
     else
     {
         // OFF
-        gpio_set_pin(GPIOC, 11, PIN_OFF);
+        gpio_set_pin(GPIOC, 12, PIN_OFF);
         Tuareg.flags.mil= false;
     }
 }
@@ -42,9 +42,9 @@ void set_mil_hw(actor_control_t level)
 
 /**
     using
-    -GPIOC12 for tachometer
-    -AF for TIM11 PWM
-    -GPIOC11 for user dash lamp (mil)
+    (in later versions hw change:-GPIOC12 for tachometer
+    -AF for TIM11 PWM)
+    -GPIOC12 for user dash lamp (mil)
     connected to VNLD5090 low side driver
     with open drain control input
 */
@@ -54,7 +54,7 @@ void init_dash_hw()
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
     //MIL - open drain output to driver IC
-    GPIO_configure(GPIOC, 11, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
+    GPIO_configure(GPIOC, 12, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     set_mil_hw(ACTOR_UNPOWERED);
 
