@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <dsh xmlns="http://www.EFIAnalytics.com/:dsh">
-    <bibliography author="TunerStudio 3.1.08 - EFI Analytics - support@efianalytics.com" company="EFI Analytics, © 2007 - 2022, All Rights Reserved." writeDate="Mon May 16 16:06:24 CEST 2022"/>
+    <bibliography author="TunerStudio 3.1.08 - EFI Analytics - support@efianalytics.com" company="EFI Analytics, © 2007 - 2022, All Rights Reserved." writeDate="Mon Jun 13 16:21:03 CEST 2022"/>
     <versionInfo fileFormat="3.0" firmwareSignature="rusEFI v1.04"/>
     <gaugeCluster antiAliasing="true" backgroundDitherColor="-8355712" clusterBackgroundColor="-16777216" clusterBackgroundImageFileName="" clusterBackgroundImageStyle="Tile" forceAspect="false" forceAspectHeight="9.0" forceAspectWidth="16.0">
         <dashComp type="Gauge">
@@ -26,7 +26,7 @@
             <HighCriticalVP type="ValueProvider">9000.0</HighCriticalVP>
             <HighWarning type="double">8000.0</HighWarning>
             <HighWarningVP type="ValueProvider">8000.0</HighWarningVP>
-            <HistoricalPeakValue type="double">328.0</HistoricalPeakValue>
+            <HistoricalPeakValue type="double">0.0</HistoricalPeakValue>
             <HistoryDelay type="int">15000</HistoryDelay>
             <LowCritical type="double">-1.0</LowCritical>
             <LowCriticalVP type="ValueProvider">-1.0</LowCriticalVP>
@@ -39,7 +39,7 @@
             <NeedleColor alpha="255" blue="255" green="255" red="0" type="Color">-16711681</NeedleColor>
             <NeedleSmoothing type="int">1</NeedleSmoothing>
             <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-            <ShortestSize type="int">378</ShortestSize>
+            <ShortestSize type="int">226</ShortestSize>
             <SmoothedValue type="double">0.0</SmoothedValue>
             <StartAngle type="int">0</StartAngle>
             <SweepAngle type="int">300</SweepAngle>
@@ -101,7 +101,7 @@
             <HighCriticalVP type="ValueProvider">9000.0</HighCriticalVP>
             <HighWarning type="double">8000.0</HighWarning>
             <HighWarningVP type="ValueProvider">8000.0</HighWarningVP>
-            <HistoricalPeakValue type="double">328.0</HistoricalPeakValue>
+            <HistoricalPeakValue type="double">0.0</HistoricalPeakValue>
             <HistoryDelay type="int">15000</HistoryDelay>
             <LowCritical type="double">-1.0</LowCritical>
             <LowCriticalVP type="ValueProvider">-1.0</LowCriticalVP>
@@ -114,7 +114,7 @@
             <NeedleColor alpha="255" blue="102" green="0" red="0" type="Color">-16777114</NeedleColor>
             <NeedleSmoothing type="int">1</NeedleSmoothing>
             <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-            <ShortestSize type="int">76</ShortestSize>
+            <ShortestSize type="int">45</ShortestSize>
             <SmoothedValue type="double">0.0</SmoothedValue>
             <StartAngle type="int">0</StartAngle>
             <SweepAngle type="int">300</SweepAngle>
@@ -176,7 +176,7 @@
             <HighCriticalVP type="ValueProvider">110.0</HighCriticalVP>
             <HighWarning type="double">105.0</HighWarning>
             <HighWarningVP type="ValueProvider">105.0</HighWarningVP>
-            <HistoricalPeakValue type="double">100.50505065917969</HistoricalPeakValue>
+            <HistoricalPeakValue type="double">0.0</HistoricalPeakValue>
             <HistoryDelay type="int">15000</HistoryDelay>
             <LowCritical type="double">0.0</LowCritical>
             <LowCriticalVP type="ValueProvider">0.0</LowCriticalVP>
@@ -189,7 +189,7 @@
             <NeedleColor alpha="255" blue="0" green="0" red="255" type="Color">-65536</NeedleColor>
             <NeedleSmoothing type="int">1</NeedleSmoothing>
             <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-            <ShortestSize type="int">378</ShortestSize>
+            <ShortestSize type="int">226</ShortestSize>
             <SmoothedValue type="double">0.0</SmoothedValue>
             <StartAngle type="int">0</StartAngle>
             <SweepAngle type="int">300</SweepAngle>
@@ -251,7 +251,7 @@
             <HighCriticalVP type="ValueProvider">110.0</HighCriticalVP>
             <HighWarning type="double">105.0</HighWarning>
             <HighWarningVP type="ValueProvider">105.0</HighWarningVP>
-            <HistoricalPeakValue type="double">100.50505065917969</HistoricalPeakValue>
+            <HistoricalPeakValue type="double">0.0</HistoricalPeakValue>
             <HistoryDelay type="int">15000</HistoryDelay>
             <LowCritical type="double">0.0</LowCritical>
             <LowCriticalVP type="ValueProvider">0.0</LowCriticalVP>
@@ -264,7 +264,7 @@
             <NeedleColor alpha="255" blue="102" green="0" red="0" type="Color">-16777114</NeedleColor>
             <NeedleSmoothing type="int">1</NeedleSmoothing>
             <RelativeBorderWidth2 type="double">NaN</RelativeBorderWidth2>
-            <ShortestSize type="int">76</ShortestSize>
+            <ShortestSize type="int">45</ShortestSize>
             <SmoothedValue type="double">0.0</SmoothedValue>
             <StartAngle type="int">0</StartAngle>
             <SweepAngle type="int">300</SweepAngle>
