@@ -3,6 +3,8 @@
 
 #include "Tuareg_platform.h"
 
+#include "dash_hw.h"
+
 
 typedef enum {
 

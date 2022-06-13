@@ -18,20 +18,10 @@ void init_dash()
     init_dash_hw();
 
     //turn tachometer off
-    set_tachometer(0);
+    //set_tachometer_compare(0);
 
     //turn the engine lamp off
     set_mil(MIL_OFF);
-}
-
-
-
-/******************************************************************************************************************
-Access function for tachometer
-******************************************************************************************************************/
-void set_tachometer(U32 Reading)
-{
-
 }
 
 
@@ -44,15 +34,11 @@ called every 1 ms from systick timer in interrupt context!
 ******************************************************************************************************************/
 void update_tachometer()
 {
-    if((Dash.tacho_reading_rpm == 0) || (Dash.tacho_on_interval_ms == 0) || (Dash.tacho_off_interval_ms == 0))
-    {
-        set_tachometer_hw(PIN_OFF);
-        return;
-    }
+    //U32 compare= 0;
 
+    //compare= (cU16max * Tuareg.pDecoder->crank_rpm) / 10000;
 
-
-
+    //set_tachometer_compare(compare);
 }
 
 

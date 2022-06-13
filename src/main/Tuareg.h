@@ -39,10 +39,13 @@
 #include "conversion.h"
 
 
-#define TUAREG_REQUIRED_CONFIG_VERSION 4
+#define TUAREG_REQUIRED_CONFIG_VERSION 5
 
 
 #define LOWPRIOSCHEDULER_WIP
+
+
+extern const char Tuareg_Version [];
 
 
 /**

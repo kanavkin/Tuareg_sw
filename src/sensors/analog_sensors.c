@@ -10,7 +10,7 @@ use the lookup table for CLT sensor
 #define CLT_LOOKUP
 
 /// TODO (oli#1#): check data width (16 bit adc transfers vs. 32 bit readout)
-VU16 DMA_Buffer[LAST_ASYNC_ASENSOR];
+VU16 DMA_Buffer[LAST_ASYNC_ASENSOR +1];
 
 
 volatile asensor_data_t Analog_Sensors[ASENSOR_COUNT];
@@ -127,8 +127,13 @@ void init_analog_sensors()
     adc_set_regular_group(ADC1, 7, ADC_BARO_CH);
     adc_set_regular_group(ADC1, 8, ADC_GEAR_CH);
 
-    //set the number of channels in the regular group in sensors.h!
-    adc_set_regular_group_length(ADC1, LAST_ASYNC_ASENSOR);
+    /**
+    set the number of channels in the regular group
+    according to the LAST_ASYNC_ASENSOR setting
+
+    asensors_t counts from 0 to ASENSOR_XX, so the group length is 1 + sensor name
+    */
+    adc_set_regular_group_length(ADC1, LAST_ASYNC_ASENSOR +1);
 
     /**
     setting up the injected group is a bit tricky:
@@ -147,7 +152,7 @@ void init_analog_sensors()
     DMA_InitStructure.DMA_PeripheralBaseAddr= (U32)&ADC1->DR;
     DMA_InitStructure.DMA_Memory0BaseAddr= (U32)DMA_Buffer;
     //DMA_InitStructure.DMA_DIR= DMA_DIR_PeripheralToMemory;
-    DMA_InitStructure.DMA_BufferSize= LAST_ASYNC_ASENSOR;
+    DMA_InitStructure.DMA_BufferSize= LAST_ASYNC_ASENSOR +1;
     //DMA_InitStructure.DMA_PeripheralInc= DMA_PeripheralInc_Disable;
     DMA_InitStructure.DMA_MemoryInc= DMA_MemoryInc_Enable;
     DMA_InitStructure.DMA_PeripheralDataSize= DMA_PeripheralDataSize_HalfWord;
@@ -393,6 +398,10 @@ void DMA2_Stream0_IRQHandler()
 
         if(Regular_Group_Init_counter > cASensorInitCycles)
         {
+            /**
+            analog sensors already initialized
+            */
+
             //update every async asensor
             for(sensor= 0; sensor < LAST_ASYNC_ASENSOR +1; sensor++)
             {
@@ -402,6 +411,10 @@ void DMA2_Stream0_IRQHandler()
         }
         else
         {
+            /**
+            analog sensor init stage
+            */
+
             //update every async asensor without averaging
             for(sensor= 0; sensor < LAST_ASYNC_ASENSOR +1; sensor++)
             {

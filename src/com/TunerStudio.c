@@ -1,20 +1,8 @@
-#include <boctok_types.h>
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "Tuareg_console.h"
-
-#include "TunerStudio.h"
 #include "TunerStudio_syslog_locations.h"
-
-#include "syslog.h"
-#include "uart.h"
-#include "debug_port_messages.h"
-#include "fueling_config.h"
-#include "ignition_config.h"
-#include "decoder_config.h"
-#include "Tuareg_config.h"
-#include "sensor_calibration.h"
-#include "fault_log.h"
+#include "TunerStudio.h"
 
 
 //#define TS_DEBUG

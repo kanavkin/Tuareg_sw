@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.08 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Fri May 13 15:13:50 CEST 2022"/>
-    <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.23+2022.04" nPages="22" signature="rusEFI v1.04"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.08 - EFI Analytics, Inc." tuneComment="warm engine, no compensation -&gt; VE 37%" writeDate="Mon Jun 13 12:22:38 CEST 2022"/>
+    <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.23.4+2022.06" nPages="22" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
         <pcVariable digits="0" name="serviceActivationOnTime" units="ms">2.0</pcVariable>
@@ -20,14 +20,14 @@
         <constant digits="0" name="TPScalibMin" units="#">300.0</constant>
         <constant digits="0" name="TPScalibMax" units="#">3500.0</constant>
         <constant digits="0" name="TPSsampleLen" units="#">20.0</constant>
-        <constant digits="2" name="IATcalibM" units="#/°C">27.899902</constant>
+        <constant digits="2" name="IATcalibM" units="#/°C">27.9</constant>
         <constant digits="2" name="IATcalibN" units="#">-7035.0</constant>
-        <constant digits="0" name="IATcalibMin" units="#">10.0</constant>
+        <constant digits="0" name="IATcalibMin" units="#">300.0</constant>
         <constant digits="0" name="IATcalibMax" units="#">2200.0</constant>
         <constant digits="0" name="IATsampleLen" units="#">50.0</constant>
         <constant digits="2" name="CLTcalibM" units="#/°C">0.0</constant>
         <constant digits="2" name="CLTcalibN" units="#">0.0</constant>
-        <constant digits="0" name="CLTcalibMin" units="#">10.0</constant>
+        <constant digits="0" name="CLTcalibMin" units="#">100.0</constant>
         <constant digits="0" name="CLTcalibMax" units="#">3500.0</constant>
         <constant digits="0" name="CLTsampleLen" units="#">50.0</constant>
         <constant digits="2" name="VBATcalibM" units="#/V">205.0</constant>
@@ -223,7 +223,7 @@
       </constant>
     </page>
     <page number="6" size="51">
-        <constant digits="0" name="FuelingSetupVersion" units="#">5.0</constant>
+        <constant digits="0" name="FuelingSetupVersion" units="#">6.0</constant>
         <constant digits="0" name="FuelingSetupCylinderVolume" units="ccm">425.0</constant>
         <constant name="FuelingSetupInjRefPos">"CRK_POSITION_A1"</constant>
         <constant digits="0" name="FuelingSetupInj1Rate" units="mg/s">3850.0</constant>
@@ -231,29 +231,29 @@
         <constant digits="0" name="FuelingSetupInjMaxDc" units="%">85.0</constant>
         <constant digits="1" name="FuelingSetupAccelCompThresTPS" units="°/s">50.0</constant>
         <constant digits="1" name="FuelingSetupAccelCompThresMAP" units="kPa/s">150.0</constant>
-        <constant digits="1" name="FuelingSetupDecelCompThresTPS" units="°/s">-300.0</constant>
-        <constant digits="1" name="FuelingSetupDecelCompThresMAP" units="kPa/s">-600.0</constant>
+        <constant digits="1" name="FuelingSetupDecelCompThresTPS" units="°/s">-600.0</constant>
+        <constant digits="1" name="FuelingSetupDecelCompThresMAP" units="kPa/s">-800.0</constant>
         <constant digits="1" name="FuelingSetupAccelCompTaperFactor" units="1">0.79999924</constant>
         <constant digits="1" name="FuelingSetupAccelCompScalingThresRpm" units="rpm">5000.0</constant>
         <constant digits="1" name="FuelingSetupAccelCompScalingMaxRpm" units="rpm">8000.0</constant>
         <constant digits="0" name="FuelingSetupColdAccelPct" units="%">5.0</constant>
-        <constant digits="0" name="FuelingSetupDecelCompM" units="ug">3860.0</constant>
+        <constant digits="0" name="FuelingSetupDecelCompM" units="ug">100.0</constant>
         <constant digits="0" name="FuelingSetupAccelCompCyc" units="cyc">15.0</constant>
-        <constant digits="0" name="FuelingSetupDecelCompCyc" units="cyc">7.0</constant>
+        <constant digits="0" name="FuelingSetupDecelCompCyc" units="cyc">3.0</constant>
         <constant digits="0" name="FuelingSetupAccelCompTaperThres" units="cyc">10.0</constant>
         <constant digits="0" name="FuelingSetupAsCompPct" units="%">7.0</constant>
         <constant digits="0" name="FuelingSetupAsCompCyc" units="cyc">80.0</constant>
         <constant digits="0" name="FuelingSetupAsCompThres" units="K">320.0</constant>
         <constant digits="0" name="FuelingSetupSPDmin" units="rpm">500.0</constant>
         <constant digits="0" name="FuelingSetupSPDmax" units="rpm">5000.0</constant>
-        <constant digits="0" name="FuelingBaroThrs" units="kPa">16173.0</constant>
-        <constant digits="0" name="FuelingSetupDryCrankTPSthrs" units="%">0.0</constant>
+        <constant digits="0" name="FuelingBaroThrs" units="kPa">120.0</constant>
+        <constant digits="0" name="FuelingSetupDryCrankTPSthrs" units="%">45.0</constant>
         <constant name="FuelingSetupFeatLoadComp">"Off"</constant>
-        <constant name="FuelingSetupFeatLegacyAE">"Off"</constant>
-        <constant name="FuelingSetupFeatSeqMode">"Off"</constant>
-        <constant name="FuelingSetupFeatWUE">"Off"</constant>
-        <constant name="FuelingSetupFeatASE">"Off"</constant>
-        <constant name="FuelingSetupFeatDryCrank">"Off"</constant>
+        <constant name="FuelingSetupFeatLegacyAE">"On"</constant>
+        <constant name="FuelingSetupFeatSeqMode">"On"</constant>
+        <constant name="FuelingSetupFeatWUE">"On"</constant>
+        <constant name="FuelingSetupFeatASE">"On"</constant>
+        <constant name="FuelingSetupFeatDryCrank">"On"</constant>
         <constant name="FuelingSetupFeatBAROComp">"Off"</constant>
     </page>
     <page number="7" size="320">
@@ -294,22 +294,22 @@
          90.0 
       </constant>
         <constant cols="16" digits="0" name="fuelVE_TPS_z" rows="16" units="prc">
-         33.0 33.0 33.0 33.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 
-         35.0 36.0 35.0 36.0 46.0 45.0 43.0 47.0 45.0 41.0 41.0 41.0 41.0 41.0 41.0 41.0 
-         38.0 38.0 38.0 39.0 51.0 49.0 47.0 53.0 47.0 46.0 44.0 44.0 42.0 41.0 44.0 44.0 
-         40.0 41.0 40.0 42.0 55.0 54.0 54.0 56.0 50.0 54.0 52.0 53.0 45.0 46.0 42.0 38.0 
-         43.0 43.0 43.0 45.0 59.0 56.0 56.0 56.0 57.0 54.0 57.0 55.0 49.0 46.0 44.0 40.0 
-         45.0 46.0 45.0 48.0 63.0 58.0 57.0 58.0 58.0 57.0 57.0 55.0 54.0 54.0 41.0 44.0 
-         48.0 49.0 48.0 51.0 67.0 66.0 63.0 63.0 62.0 62.0 63.0 64.0 57.0 58.0 58.0 48.0 
-         50.0 51.0 50.0 54.0 70.0 70.0 69.0 66.0 65.0 67.0 67.0 68.0 65.0 66.0 66.0 66.0 
-         53.0 54.0 53.0 56.0 73.0 73.0 72.0 75.0 73.0 73.0 71.0 70.0 70.0 70.0 72.0 72.0 
-         55.0 56.0 55.0 59.0 77.0 77.0 76.0 75.0 75.0 76.0 75.0 76.0 75.0 73.0 75.0 75.0 
-         58.0 59.0 58.0 62.0 77.0 78.0 78.0 77.0 77.0 77.0 77.0 77.0 77.0 77.0 79.0 79.0 
-         60.0 62.0 60.0 65.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 81.0 79.0 
-         63.0 64.0 63.0 68.0 83.0 83.0 83.0 83.0 82.0 82.0 82.0 82.0 82.0 82.0 83.0 81.0 
-         65.0 67.0 65.0 71.0 83.0 83.0 83.0 83.0 83.0 84.0 84.0 84.0 84.0 84.0 85.0 84.0 
-         68.0 69.0 68.0 74.0 85.0 85.0 85.0 85.0 86.0 86.0 86.0 86.0 86.0 86.0 87.0 86.0 
-         70.0 72.0 70.0 77.0 85.0 85.0 86.0 86.0 87.0 87.0 87.0 88.0 88.0 87.0 88.0 87.0 
+         25.0 27.0 25.0 25.0 25.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 35.0 
+         28.0 30.0 28.0 28.0 30.0 35.0 37.0 37.0 37.0 37.0 37.0 37.0 37.0 37.0 37.0 37.0 
+         31.0 35.0 33.0 32.0 35.0 39.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 
+         34.0 38.0 36.0 35.0 46.0 54.0 54.0 56.0 45.0 54.0 52.0 53.0 45.0 46.0 42.0 38.0 
+         37.0 40.0 38.0 39.0 54.0 56.0 56.0 56.0 57.0 54.0 57.0 55.0 49.0 46.0 44.0 40.0 
+         40.0 43.0 41.0 42.0 60.0 58.0 57.0 58.0 58.0 57.0 57.0 55.0 54.0 54.0 41.0 44.0 
+         43.0 46.0 45.0 46.0 65.0 66.0 63.0 63.0 62.0 62.0 63.0 64.0 57.0 58.0 58.0 48.0 
+         46.0 49.0 47.0 49.0 70.0 70.0 69.0 66.0 65.0 67.0 67.0 68.0 65.0 66.0 66.0 66.0 
+         49.0 52.0 51.0 53.0 71.0 73.0 72.0 75.0 73.0 73.0 71.0 70.0 70.0 70.0 72.0 72.0 
+         52.0 55.0 53.0 53.0 71.0 77.0 76.0 75.0 75.0 76.0 75.0 76.0 75.0 73.0 75.0 75.0 
+         55.0 58.0 57.0 56.0 72.0 78.0 78.0 77.0 77.0 77.0 77.0 77.0 77.0 77.0 79.0 79.0 
+         58.0 61.0 59.0 60.0 73.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 80.0 81.0 79.0 
+         61.0 63.0 61.0 65.0 73.0 75.0 78.0 80.0 82.0 82.0 82.0 82.0 82.0 82.0 83.0 81.0 
+         64.0 66.0 64.0 65.0 74.0 76.0 79.0 81.0 83.0 84.0 84.0 84.0 84.0 84.0 85.0 84.0 
+         67.0 69.0 67.0 70.0 74.0 77.0 80.0 83.0 86.0 86.0 86.0 86.0 86.0 86.0 87.0 86.0 
+         70.0 72.0 68.0 72.0 75.0 78.0 81.0 84.0 87.0 87.0 87.0 88.0 88.0 87.0 88.0 87.0 
       </constant>
     </page>
     <page number="8" size="320">
@@ -350,22 +350,22 @@
          98.0 
       </constant>
         <constant cols="16" digits="0" name="fuelVE_MAP_z" rows="16" units="prc">
-         30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 
-         30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 
-         30.0 30.0 30.0 30.0 30.0 32.0 33.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 
-         31.0 31.0 31.0 31.0 32.0 34.0 34.0 34.0 33.0 33.0 32.0 32.0 32.0 32.0 32.0 32.0 
-         32.0 32.0 32.0 32.0 34.0 36.0 36.0 35.0 34.0 33.0 33.0 33.0 35.0 35.0 33.0 33.0 
-         33.0 33.0 33.0 33.0 35.0 37.0 37.0 36.0 34.0 35.0 36.0 37.0 38.0 39.0 39.0 39.0 
-         36.0 36.0 36.0 36.0 36.0 38.0 38.0 37.0 36.0 36.0 38.0 39.0 39.0 39.0 39.0 39.0 
-         37.0 37.0 37.0 37.0 37.0 39.0 39.0 37.0 36.0 36.0 38.0 38.0 38.0 38.0 38.0 39.0 
-         38.0 38.0 38.0 38.0 38.0 40.0 40.0 37.0 36.0 36.0 38.0 38.0 39.0 40.0 40.0 41.0 
-         40.0 40.0 40.0 40.0 40.0 42.0 42.0 38.0 37.0 38.0 39.0 40.0 41.0 41.0 42.0 42.0 
-         42.0 42.0 42.0 42.0 42.0 44.0 44.0 40.0 38.0 39.0 40.0 42.0 43.0 44.0 45.0 44.0 
-         44.0 44.0 44.0 44.0 44.0 46.0 46.0 42.0 40.0 42.0 44.0 45.0 46.0 46.0 46.0 47.0 
+         25.0 25.0 25.0 25.0 25.0 25.0 27.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 
+         25.0 25.0 25.0 25.0 30.0 29.0 29.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 
+         30.0 27.0 27.0 30.0 30.0 31.0 31.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 32.0 
+         30.0 27.0 27.0 31.0 32.0 33.0 33.0 34.0 33.0 33.0 32.0 32.0 32.0 32.0 32.0 32.0 
+         30.0 27.0 27.0 32.0 34.0 35.0 36.0 35.0 34.0 33.0 33.0 33.0 35.0 35.0 33.0 33.0 
+         30.0 30.0 30.0 33.0 35.0 36.0 37.0 36.0 34.0 35.0 36.0 37.0 38.0 39.0 39.0 39.0 
+         36.0 36.0 36.0 38.0 40.0 40.0 40.0 37.0 36.0 36.0 38.0 39.0 39.0 39.0 39.0 39.0 
+         37.0 37.0 37.0 38.0 40.0 40.0 40.0 37.0 36.0 36.0 38.0 38.0 38.0 38.0 38.0 39.0 
+         38.0 38.0 38.0 40.0 40.0 40.0 40.0 37.0 36.0 36.0 38.0 38.0 39.0 40.0 40.0 41.0 
+         40.0 40.0 40.0 40.0 40.0 42.0 45.0 38.0 37.0 38.0 39.0 40.0 41.0 41.0 42.0 42.0 
+         42.0 42.0 42.0 42.0 42.0 44.0 45.0 40.0 38.0 39.0 40.0 42.0 43.0 44.0 45.0 44.0 
+         44.0 44.0 44.0 44.0 44.0 46.0 50.0 42.0 40.0 42.0 44.0 45.0 46.0 46.0 46.0 47.0 
          50.0 50.0 50.0 50.0 50.0 52.0 52.0 44.0 44.0 45.0 48.0 51.0 53.0 51.0 52.0 52.0 
          59.0 59.0 59.0 59.0 59.0 61.0 61.0 55.0 50.0 51.0 53.0 56.0 58.0 59.0 60.0 59.0 
-         69.0 69.0 69.0 69.0 69.0 71.0 71.0 65.0 59.0 61.0 63.0 66.0 66.0 68.0 68.0 69.0 
-         70.0 70.0 70.0 70.0 70.0 72.0 72.0 69.0 68.0 70.0 72.0 77.0 76.0 75.0 71.0 79.0 
+         30.0 30.0 40.0 69.0 69.0 71.0 71.0 65.0 59.0 61.0 63.0 66.0 66.0 68.0 68.0 69.0 
+         30.0 30.0 40.0 70.0 70.0 72.0 72.0 69.0 68.0 70.0 72.0 77.0 76.0 75.0 71.0 79.0 
       </constant>
     </page>
     <page number="9" size="320">
@@ -462,22 +462,22 @@
          97.0 
       </constant>
         <constant cols="16" digits="1" name="fuelAFR_MAP_z" rows="16" units="AFR">
-         17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 
-         17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 
-         14.5 14.5 14.5 14.5 14.5 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
-         14.5 14.5 14.5 14.5 14.5 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
-         14.5 14.5 14.5 14.5 14.5 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
-         14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 
-         14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 
-         12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 
-         12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 
-         12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
-         12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
-         12.0 12.0 12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 13.0 13.0 13.0 13.0 
-         12.0 12.0 12.0 12.0 12.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 13.0 13.0 13.0 13.0 
+         15.5 15.5 15.5 15.5 16.0 16.0 16.0 16.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 
+         15.0 15.0 15.0 15.5 15.5 15.5 15.5 15.5 17.0 17.0 17.0 17.0 17.0 17.0 17.0 17.0 
+         14.0 15.0 15.0 14.5 14.5 15.0 15.0 15.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
+         14.0 15.0 15.0 14.5 14.5 15.0 15.0 15.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
+         14.0 15.0 15.0 14.5 14.5 15.0 15.0 15.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 16.0 
+         14.0 14.0 14.0 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 
+         13.5 13.5 13.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 15.0 
+         13.0 13.0 13.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 
+         12.0 13.0 13.0 14.5 14.5 14.5 14.5 14.5 14.5 14.5 15.0 15.0 15.0 15.0 15.0 15.0 
+         12.0 12.0 12.0 13.5 13.5 13.5 13.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         12.0 12.0 12.0 13.5 13.5 13.5 13.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 14.5 
+         12.0 12.0 12.0 13.5 13.5 13.5 13.5 14.5 14.5 14.5 14.5 14.5 13.0 13.0 13.0 13.0 
+         12.0 12.0 12.0 12.0 13.0 13.0 13.0 14.0 14.5 14.5 14.5 14.5 13.0 13.0 13.0 13.0 
          12.0 12.0 12.0 12.0 12.0 12.0 12.0 13.5 13.5 13.5 13.5 13.5 13.0 13.0 13.0 13.0 
-         12.0 12.0 12.0 12.0 12.0 12.0 12.0 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 
-         12.0 12.0 12.0 12.0 12.0 12.0 12.0 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 
+         11.0 11.0 11.0 11.0 11.0 11.0 11.0 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 
+         14.5 14.5 11.0 11.0 11.0 11.0 11.0 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 12.4 
       </constant>
     </page>
     <page number="11" size="48">
@@ -501,20 +501,20 @@
       </constant>
         <constant cols="1" digits="0" name="AccelCompTPS_y" rows="16" units="%">
          15104.0 
-         15360.0 
-         15872.0 
-         16128.0 
-         16384.0 
-         16640.0 
-         17152.0 
-         17408.0 
-         17664.0 
-         17920.0 
-         18432.0 
-         18688.0 
-         18944.0 
-         19200.0 
-         19712.0 
+         15104.0 
+         15104.0 
+         15104.0 
+         15104.0 
+         15104.0 
+         16896.0 
+         16896.0 
+         16896.0 
+         16896.0 
+         16896.0 
+         19968.0 
+         19968.0 
+         19968.0 
+         19968.0 
          19968.0 
       </constant>
     </page>
@@ -562,9 +562,9 @@
          -5.15 
          -0.15 
          5.85 
-         11.85 
-         17.85 
-         24.85 
+         9.85 
+         13.85 
+         15.85 
          30.85 
          36.85 
          42.85 
@@ -576,60 +576,60 @@
          69.85 
       </constant>
         <constant cols="1" digits="0" name="WarmUpComp_y" rows="16" units="%">
-         35.0 
-         35.0 
-         35.0 
-         35.0 
-         33.0 
-         30.0 
          10.0 
-         8.0 
+         10.0 
+         10.0 
          5.0 
          5.0 
-         10.0 
-         10.0 
-         10.0 
-         7.0 
          5.0 
+         5.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
+         0.0 
          0.0 
       </constant>
     </page>
     <page number="14" size="48">
         <constant cols="1" digits="1" name="InjDead_x" rows="16" units="mV">
-         8.0 
-         8.5 
          9.0 
-         9.5 
          10.0 
-         10.4 
          11.0 
          11.5 
          12.0 
-         12.5 
-         13.0 
+         12.3 
+         12.6 
+         12.9 
+         13.2 
          13.5 
+         13.8 
          14.0 
-         14.5 
-         14.9 
+         14.1 
+         14.4 
+         14.7 
          15.0 
       </constant>
         <constant cols="1" digits="0" name="InjDead_y" rows="16" units="us">
          1512.0 
          1416.0 
+         1440.0 
+         1368.0 
          1296.0 
+         1248.0 
          1200.0 
-         1200.0 
-         1104.0 
-         1104.0 
-         1104.0 
+         1152.0 
+         1128.0 
+         1080.0 
+         1032.0 
          1008.0 
+         984.0 
+         960.0 
          912.0 
-         840.0 
-         792.0 
-         792.0 
-         792.0 
-         792.0 
-         792.0 
+         912.0 
       </constant>
     </page>
     <page number="15" size="48">
@@ -652,9 +652,6 @@
          10000.0 
       </constant>
         <constant cols="1" digits="0" name="InjPhase_y" rows="16" units="deg">
-         260.0 
-         250.0 
-         250.0 
          300.0 
          300.0 
          300.0 
@@ -667,7 +664,10 @@
          300.0 
          300.0 
          300.0 
-         140.0 
+         300.0 
+         300.0 
+         300.0 
+         300.0 
       </constant>
     </page>
     <page number="16" size="48">
@@ -690,22 +690,22 @@
          69.85 
       </constant>
         <constant cols="1" digits="0" name="CrankFuel_y" rows="16" units="ug">
-         34816.0 
-         34816.0 
-         34816.0 
-         34816.0 
-         30208.0 
-         30208.0 
-         30208.0 
-         30208.0 
+         45056.0 
+         45056.0 
+         45056.0 
+         40960.0 
+         40960.0 
          25088.0 
          25088.0 
          25088.0 
-         19968.0 
-         19968.0 
-         19968.0 
-         19968.0 
-         19968.0 
+         25088.0 
+         18944.0 
+         18944.0 
+         18944.0 
+         17920.0 
+         17920.0 
+         17920.0 
+         16896.0 
       </constant>
     </page>
     <page number="17" size="48">
@@ -796,14 +796,14 @@
          -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
          -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
          -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
-         -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
-         -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
+         -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 35.0 37.0 40.0 40.0 40.0 
+         -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 35.0 37.0 40.0 40.0 40.0 
          -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
          -15.0 -10.0 -5.0 0.0 5.0 10.0 15.0 20.0 25.0 30.0 35.0 40.0 40.0 40.0 40.0 40.0 
       </constant>
     </page>
-    <page number="19" size="61">
-        <constant digits="0" name="TuaregSetupVersion" units="#">4.0</constant>
+    <page number="19" size="62">
+        <constant digits="0" name="TuaregSetupVersion" units="#">5.0</constant>
         <constant digits="0" name="TuaregSetupCrkPosTbl_B2" units="deg">3.0</constant>
         <constant digits="0" name="TuaregSetupCrkPosTbl_B1" units="deg">10.0</constant>
         <constant digits="0" name="TuaregSetupCrkPosTbl_A2" units="deg">60.0</constant>
@@ -826,10 +826,11 @@
         <constant digits="2" name="TuaregSetupGear_N" units="kmh/rpm">0.0</constant>
         <constant digits="2" name="TuaregSetupTPSAlpha">0.8499985</constant>
         <constant digits="2" name="TuaregSetupMAPAlpha">0.5</constant>
+        <constant digits="0" name="TuaregSetupFuelPumpPriming" units="s">3.0</constant>
         <constant name="TuaregSetupCrashSensHigh">"high level"</constant>
         <constant name="TuaregSetupSideStandHigh">"high level"</constant>
-        <constant name="TuaregSetupRunOver">"On"</constant>
-        <constant name="TuaregSetupSidesOver">"Off"</constant>
+        <constant name="TuaregSetupRunOver">"Off"</constant>
+        <constant name="TuaregSetupSidesOver">"On"</constant>
         <constant name="TuaregSetupCrashOver">"On"</constant>
     </page>
     <page number="20" size="210">
@@ -845,85 +846,85 @@
         <constant digits="0" name="Syslog_01_src" units="Module-ID">30.0</constant>
         <constant name="Syslog_01_d">"Off"</constant>
         <constant name="Syslog_01_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_02_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_02_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_02_type">"II"</constant>
         <constant name="Syslog_02_loc">"4"</constant>
         <constant digits="0" name="Syslog_02_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_02_d">"Off"</constant>
         <constant name="Syslog_02_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_03_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_03_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_03_type">"II"</constant>
         <constant name="Syslog_03_loc">"18"</constant>
         <constant digits="0" name="Syslog_03_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_03_d">"Off"</constant>
         <constant name="Syslog_03_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_04_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_04_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_04_type">"II"</constant>
         <constant name="Syslog_04_loc">"14"</constant>
         <constant digits="0" name="Syslog_04_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_04_d">"Off"</constant>
         <constant name="Syslog_04_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_05_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_05_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_05_type">"II"</constant>
         <constant name="Syslog_05_loc">"12"</constant>
         <constant digits="0" name="Syslog_05_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_05_d">"Off"</constant>
         <constant name="Syslog_05_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_06_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_06_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_06_type">"II"</constant>
         <constant name="Syslog_06_loc">"10"</constant>
         <constant digits="0" name="Syslog_06_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_06_d">"Off"</constant>
         <constant name="Syslog_06_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_07_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_07_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_07_type">"II"</constant>
         <constant name="Syslog_07_loc">"8"</constant>
         <constant digits="0" name="Syslog_07_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_07_d">"Off"</constant>
         <constant name="Syslog_07_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_08_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_08_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_08_type">"II"</constant>
         <constant name="Syslog_08_loc">"6"</constant>
         <constant digits="0" name="Syslog_08_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_08_d">"Off"</constant>
         <constant name="Syslog_08_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_09_ts" units="Timestamp">47.0</constant>
+        <constant digits="0" name="Syslog_09_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_09_type">"II"</constant>
-        <constant name="Syslog_09_loc">"2"</constant>
+        <constant name="Syslog_09_loc">"20"</constant>
         <constant digits="0" name="Syslog_09_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_09_d">"Off"</constant>
         <constant name="Syslog_09_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_10_ts" units="Timestamp">123.0</constant>
+        <constant digits="0" name="Syslog_10_ts" units="Timestamp">46.0</constant>
         <constant name="Syslog_10_type">"II"</constant>
         <constant name="Syslog_10_loc">"2"</constant>
-        <constant digits="0" name="Syslog_10_src" units="Module-ID">27.0</constant>
+        <constant digits="0" name="Syslog_10_src" units="Module-ID">36.0</constant>
         <constant name="Syslog_10_d">"Off"</constant>
         <constant name="Syslog_10_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_11_ts" units="Timestamp">518.0</constant>
+        <constant digits="0" name="Syslog_11_ts" units="Timestamp">122.0</constant>
         <constant name="Syslog_11_type">"II"</constant>
         <constant name="Syslog_11_loc">"2"</constant>
-        <constant digits="0" name="Syslog_11_src" units="Module-ID">22.0</constant>
+        <constant digits="0" name="Syslog_11_src" units="Module-ID">27.0</constant>
         <constant name="Syslog_11_d">"Off"</constant>
         <constant name="Syslog_11_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_12_ts" units="Timestamp">521.0</constant>
+        <constant digits="0" name="Syslog_12_ts" units="Timestamp">515.0</constant>
         <constant name="Syslog_12_type">"II"</constant>
         <constant name="Syslog_12_loc">"2"</constant>
-        <constant digits="0" name="Syslog_12_src" units="Module-ID">17.0</constant>
+        <constant digits="0" name="Syslog_12_src" units="Module-ID">22.0</constant>
         <constant name="Syslog_12_d">"Off"</constant>
         <constant name="Syslog_12_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_13_ts" units="Timestamp">521.0</constant>
+        <constant digits="0" name="Syslog_13_ts" units="Timestamp">518.0</constant>
         <constant name="Syslog_13_type">"II"</constant>
-        <constant name="Syslog_13_loc">"41"</constant>
-        <constant digits="0" name="Syslog_13_src" units="Module-ID">10.0</constant>
+        <constant name="Syslog_13_loc">"2"</constant>
+        <constant digits="0" name="Syslog_13_src" units="Module-ID">17.0</constant>
         <constant name="Syslog_13_d">"Off"</constant>
         <constant name="Syslog_13_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_14_ts" units="Timestamp">521.0</constant>
+        <constant digits="0" name="Syslog_14_ts" units="Timestamp">518.0</constant>
         <constant name="Syslog_14_type">"II"</constant>
         <constant name="Syslog_14_loc">"16"</constant>
         <constant digits="0" name="Syslog_14_src" units="Module-ID">22.0</constant>
         <constant name="Syslog_14_d">"Off"</constant>
         <constant name="Syslog_14_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_15_ts" units="Timestamp">3531.0</constant>
+        <constant digits="0" name="Syslog_15_ts" units="Timestamp">3528.0</constant>
         <constant name="Syslog_15_type">"II"</constant>
         <constant name="Syslog_15_loc">"17"</constant>
         <constant digits="0" name="Syslog_15_src" units="Module-ID">22.0</constant>

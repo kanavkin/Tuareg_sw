@@ -16,7 +16,10 @@
 #warning do not install on ECU hw
 #endif // TUAREG_DEBUG_OUTPUT
 
-const U32 cFuel_pump_priming_duration_s= 3;
+
+
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.4 2022.06";
+
 
 /******************************************************************************************************************************
 INIT
@@ -90,14 +93,15 @@ void Tuareg_Init()
     Tuareg_print_init_message();
     #endif // TUAREG_DEBUG_OUTPUT
 
-    /// TODO (oli#9#05/12/22): print firmware version to datalog
-
     //begin fuel pump priming
     if(Tuareg.errors.fatal_error == false)
     {
-        Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
-        Tuareg.flags.fuel_pump_priming= true;
-        Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+        if(Tuareg_Setup.fuel_pump_priming_duration > 0)
+        {
+            Tuareg.fuel_pump_priming_remain_s= Tuareg_Setup.fuel_pump_priming_duration;
+            Tuareg.flags.fuel_pump_priming= true;
+            Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+        }
     }
 
     //init_act_hw();

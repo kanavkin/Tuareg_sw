@@ -31,7 +31,7 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     U8 Version;
 
     //advance angles corresponding to crank_position_t
-    VU16 trigger_advance_map[CRK_POSITION_COUNT];
+    U16 trigger_advance_map[CRK_POSITION_COUNT];
 
     //dynamic delay introduced by VR interface schematics (between key passing sensor and decoder event generation)
     U16 decoder_delay_us;
@@ -50,11 +50,14 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     U16 cranking_end_rpm;
 
     //conversion factors for ground speed calculation
-    VF32 gear_ratio[GEAR_COUNT];
+    F32 gear_ratio[GEAR_COUNT];
 
     //EMA filter factors
-    VF32 TPS_alpha;
-    VF32 MAP_alpha;
+    F32 TPS_alpha;
+    F32 MAP_alpha;
+
+    //fuel pump priming duration
+    U8 fuel_pump_priming_duration;
 
     //all boolean elements
     volatile Tuareg_Setup_flags_t flags;

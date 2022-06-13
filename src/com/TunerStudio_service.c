@@ -215,6 +215,12 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
             show_highspeedlog(Port);
             break;
 
+        case 'FL':
+
+            //show Fault Log
+            show_Fault_Log(TS_PORT);
+            break;
+
 
     default:
         cli_show_debug_help();
@@ -254,7 +260,9 @@ void cli_show_debug_help()
     print(TS_PORT, "PT - show process table\n\r");
 
     print(TS_PORT, "se - show sensor data\n\r");
+
     print(TS_PORT, "HL - show high speed log\n\r");
+    print(TS_PORT, "FL - fault log\n\r");
 }
 
 

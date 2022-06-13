@@ -1,4 +1,6 @@
-#include "Tuareg.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
+
 #include "serial_buffer.h"
 
 

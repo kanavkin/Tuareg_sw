@@ -27,6 +27,8 @@ typedef enum {
     SACT_COIL_1,
     SACT_COIL_2,
 
+    SACT_TACH,
+
     SACT_COUNT
 
 } service_actor_t;
@@ -73,34 +75,33 @@ typedef struct _service_mgr_t {
 
 
 void request_service_mode();
-void request_service_activation(VU32 Actor, VU32 On, VU32 Off, VU32 End);
+void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End);
 
 void init_service_functions();
 void service_functions_periodic_update();
 
-void activate_fuel_pump(VU32 Timeout_s);
+void activate_fuel_pump(U32 Timeout_s);
 void deactivate_fuel_pump();
 void fuel_pump_periodic_update(U32 now);
 
-void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s);
+void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s);
 void deactivate_injector1();
-void injector1_periodic_update(VU32 now);
+void injector1_periodic_update(U32 now);
 
-void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s);
+void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s);
 void deactivate_injector2();
-void injector2_periodic_update(VU32 now);
+void injector2_periodic_update(U32 now);
 
 void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
 void deactivate_coil1();
-void coil1_periodic_update(VU32 now);
+void coil1_periodic_update(U32 now);
 
 void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 Cycles);
 void deactivate_coil2();
-void coil2_periodic_update(VU32 now);
+void coil2_periodic_update(U32 now);
 
-void activate_fatal();
-void activate_reset();
-
+void activate_tachometer(U32 Compare);
+void deactivate_tachometer();
 
 
 #endif // TUAREG_SERVICE_FUNCTIONS_H_INCLUDED

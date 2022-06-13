@@ -1,12 +1,8 @@
 #ifndef TUAREG_CONSOLE_H_INCLUDED
 #define TUAREG_CONSOLE_H_INCLUDED
 
-
 #include "TunerStudio.h"
 
-#include "process_table.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
 
 typedef union
 {

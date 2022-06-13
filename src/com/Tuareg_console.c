@@ -1,41 +1,15 @@
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
+#include "serial_buffer.h"
 
-#include "Tuareg_console.h"
 #include "console_syslog_locations.h"
 
 #include "TunerStudio.h"
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
+#include "TunerStudio_syslog_locations.h"
 
-#include "Tuareg_service_functions.h"
-
-#include "table.h"
-
-#include "decoder_config.h"
-#include "ignition_config.h"
-#include "sensor_calibration.h"
-#include "Tuareg.h"
-#include "eeprom.h"
-#include "eeprom_layout.h"
-#include "base_calc.h"
-
-#include "fueling_config.h"
-
-#include "diagnostics.h"
-#include "bitfields.h"
-
-#include "process_table.h"
-
-#include "debug_port_messages.h"
-#include "syslog.h"
-#include "fault_log.h"
-
-#include "highspeed_loggers.h"
-#include "serial_buffer.h"
 
 //#define CONSOLE_DEBUG
 
@@ -49,8 +23,6 @@
 #warning Tuareg Console debug port messages enabled
 #endif // CONSOLE_DEBUGMSG
 
-
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.3 2022.05";
 
 volatile Tuareg_console_t Tuareg_console;
 
@@ -160,14 +132,6 @@ void Tuareg_update_console()
         //send serial protocol version
         print(TS_PORT, "001");
         break;
-
-
-    case 'G':
-
-        //show Fault Log
-        show_Fault_Log(TS_PORT);
-        break;
-
 
     case 'H':
         send_highspeedlog(TS_PORT);
@@ -717,7 +681,9 @@ void cli_show_help()
 {
 /// TODO (oli#9#): keep command list up to date
 
-    print(TS_PORT, "\r\n\r\n\r\n*** Tuareg CLI Help ***\n\r");
+    print(TS_PORT, "\r\n\r\n\r\n *** ");
+    print_flash(TS_PORT, Tuareg_Version);
+    print(TS_PORT, " CLI ***\n\r");
     print(TS_PORT, "List of all commands for human interaction on CLI:\n\r");
     print(TS_PORT, "(all input in ascii)\n\r");
 
@@ -728,8 +694,6 @@ void cli_show_help()
     print(TS_PORT, "S - Show signature number\n\r");
     print(TS_PORT, "? - Displays this help page\n\r");
     print(TS_PORT, "I - Show debug information: I<a><b>\n\r");
-
-
 }
 
 

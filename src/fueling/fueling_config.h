@@ -3,9 +3,6 @@
 
 #include "Tuareg_fueling.h"
 
-#define FUELING_SETUP_SIZE 47
-
-
 
 /**
 fueling_features_t

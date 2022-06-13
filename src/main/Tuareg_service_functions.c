@@ -81,6 +81,11 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
                 deactivate_injector2();
                 break;
 
+            case SACT_TACH:
+
+                deactivate_tachometer();
+                break;
+
 
         default:
           break;
@@ -116,11 +121,17 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
                 activate_injector2(On, Off, End);
                 break;
 
+            case SACT_TACH:
+
+                activate_tachometer(On << 8 | Off);
+                break;
+
             default:
                 break;
         }
     }
 }
+
 
 void service_functions_periodic_update()
 {
@@ -214,7 +225,7 @@ void deactivate_fuel_pump()
 }
 
 
-void fuel_pump_periodic_update(VU32 now)
+void fuel_pump_periodic_update(U32 now)
 {
     //check fuel pump timeout
     if((Service_mgr.flags.fuel_pump_control == true) && (now >= Service_mgr.fuel_pump_timeout))
@@ -229,7 +240,7 @@ void fuel_pump_periodic_update(VU32 now)
 injector 1
 **********************************************************************************************************************/
 
-void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -326,7 +337,7 @@ void deactivate_injector1()
 }
 
 
-void injector1_periodic_update(VU32 now)
+void injector1_periodic_update(U32 now)
 {
     //update injector 1
     if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_toggle))
@@ -370,7 +381,7 @@ void injector1_periodic_update(VU32 now)
 injector 2
 **********************************************************************************************************************/
 
-void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -464,7 +475,7 @@ void deactivate_injector2()
 }
 
 
-void injector2_periodic_update(VU32 now)
+void injector2_periodic_update(U32 now)
 {
     if((Service_mgr.flags.injector2_control == true) && (now >= Service_mgr.injector2_toggle))
     {
@@ -506,7 +517,7 @@ void injector2_periodic_update(VU32 now)
 coil 1
 **********************************************************************************************************************/
 
-void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -584,7 +595,7 @@ void deactivate_coil1()
 }
 
 
-void coil1_periodic_update(VU32 now)
+void coil1_periodic_update(U32 now)
 {
     if((Service_mgr.flags.coil1_control == true) && (now >= Service_mgr.coil1_toggle))
     {
@@ -625,7 +636,7 @@ void coil1_periodic_update(VU32 now)
 coil 2
 **********************************************************************************************************************/
 
-void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -703,7 +714,7 @@ void deactivate_coil2()
 }
 
 
-void coil2_periodic_update(VU32 now)
+void coil2_periodic_update(U32 now)
 {
     if((Service_mgr.flags.coil2_control == true) && (now >= Service_mgr.coil2_toggle))
     {
@@ -742,9 +753,58 @@ void coil2_periodic_update(VU32 now)
 
 
 
+/**********************************************************************************************************************
+tachometer
+**********************************************************************************************************************/
+
+void activate_tachometer(U32 Compare)
+{
+    /*
+    //check preconditions
+    if(Tuareg.flags.service_mode == false)
+    {
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_PERMISSION);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("tachometer service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
+        return;
+    }
 
 
+    if(Compare > cU16max)
+    {
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_COMPARE);
 
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("tachometer compare value invalid!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
+        return;
+    }
+
+    //command dash hardware
+    //set_tachometer_compare(Compare);
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_BEGIN);
+    #endif // SERVICE_VERBOSE_OUTPUT
+    */
+}
+
+
+void deactivate_tachometer()
+{
+    /*
+    //command dash hardware
+    //set_tachometer_compare(0);
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_TACH);
+    #endif // SERVICE_VERBOSE_OUTPUT
+    */
+}
 
 
 
