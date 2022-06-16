@@ -32,8 +32,6 @@ void request_service_mode()
 
     Tuareg.flags.service_mode= true;
 
-    set_mil(MIL_BLINK_SLOW);
-
     Syslog_Info(TID_SERVICE, SERVICE_LOC_SERVICE_ENABLED);
 
     #ifdef SERVICE_DEBUG_OUTPUT
@@ -123,7 +121,7 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
 
             case SACT_TACH:
 
-                activate_tachometer(On << 8 | Off);
+                activate_tachometer(1000 * On + 100 * Off + End);
                 break;
 
             default:
@@ -759,7 +757,6 @@ tachometer
 
 void activate_tachometer(U32 Compare)
 {
-    /*
     //check preconditions
     if(Tuareg.flags.service_mode == false)
     {
@@ -773,7 +770,7 @@ void activate_tachometer(U32 Compare)
     }
 
 
-    if(Compare > cU16max)
+    if(Compare > 10000)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_COMPARE);
 
@@ -785,25 +782,23 @@ void activate_tachometer(U32 Compare)
     }
 
     //command dash hardware
-    //set_tachometer_compare(Compare);
+    set_tachometer_compare(Compare);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_BEGIN);
     #endif // SERVICE_VERBOSE_OUTPUT
-    */
+
 }
 
 
 void deactivate_tachometer()
 {
-    /*
     //command dash hardware
-    //set_tachometer_compare(0);
+    set_tachometer_compare(10);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_TACH);
     #endif // SERVICE_VERBOSE_OUTPUT
-    */
 }
 
 

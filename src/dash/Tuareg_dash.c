@@ -9,36 +9,18 @@ Provides the access functions to MIL and tachometer
 volatile dashctrl_t Dash;
 
 
-
 /******************************************************************************************************************
-Init function
-******************************************************************************************************************/
-void init_dash()
-{
-    init_dash_hw();
-
-    //turn tachometer off
-    //set_tachometer_compare(0);
-
-    //turn the engine lamp off
-    set_mil(MIL_OFF);
-}
-
-
-/******************************************************************************************************************
-TACH periodic update function
-
-
-called every 1 ms from systick timer in interrupt context!
-
+TACH update function
 ******************************************************************************************************************/
 void update_tachometer()
 {
-    //U32 compare= 0;
+    //tachometer control could be up to service mode
+    if(Tuareg.flags.service_mode == true)
+    {
+        return;
+    }
 
-    //compare= (cU16max * Tuareg.pDecoder->crank_rpm) / 10000;
-
-    //set_tachometer_compare(compare);
+    set_tachometer_compare(Tuareg.pDecoder->crank_rpm);
 }
 
 
@@ -79,19 +61,11 @@ void set_mil(volatile mil_state_t State)
 /******************************************************************************************************************
 MIL periodic update function
 
-
-called every 100 ms from systick timer in interrupt context
-
-
 indication scheme:
 
 1. prio:    fatal error / service mode (no engine operation possible)   --> permanent
 2. prio:    run inhibit set due to overheat / crash / sidestand         --> fast blink
 3. prio:    limp mode                                                   --> slow blink
-
-
-
-
 
 ******************************************************************************************************************/
 void update_mil()
@@ -119,8 +93,6 @@ void update_mil()
         set_mil(MIL_OFF);
         return;
     }
-
-
 
 
     //check if interval has expired
@@ -170,3 +142,26 @@ void update_mil()
         }
     }
 }
+
+/******************************************************************************************************************
+Init function
+******************************************************************************************************************/
+void init_dash()
+{
+    init_dash_hw();
+
+    //turn the engine lamp off
+    set_mil(MIL_OFF);
+}
+
+/******************************************************************************************************************
+Update function
+
+called every 100 ms from systick timer in interrupt context
+******************************************************************************************************************/
+void update_dash()
+{
+    update_mil();
+    update_tachometer();
+}
+

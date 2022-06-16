@@ -41,11 +41,7 @@ typedef enum {
 
 typedef struct {
 
-    U32 tacho_reading_rpm;
-    U32 tacho_on_interval_ms;
-    U32 tacho_off_interval_ms;
-    U32 tacho_counter;
-
+    //U32 tach_reading_rpm;
     mil_state_t mil;
     U32 mil_cycle;
 
@@ -54,11 +50,12 @@ typedef struct {
 
 
 void init_dash();
+void update_dash();
 
-void update_mil();
-void update_tachometer();
+//void update_mil();
+//void update_tachometer();
 
-void set_tachometer(U32 Reading_rpm);
-void set_mil(mil_state_t State);
+//void set_tachometer(U32 Reading_rpm);
+//void set_mil(mil_state_t State);
 
 #endif // DASHLOGIC_H_INCLUDED

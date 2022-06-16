@@ -184,15 +184,7 @@ void SysTick_Handler(void)
         Systick_Mgr.out.flags.cycle_100_ms= true;
 
         //actions to be taken in irq scope
-/*
-        //tachometer control could be up to service mode
-        if(Tuareg.flags.service_mode == false)
-        {
-            update_tachometer();
-        }
-*/
-        //mil has to be controlled only by systick timer
-        update_mil();
+        update_dash();
     }
 
 /*
