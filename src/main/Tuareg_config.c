@@ -11,16 +11,20 @@
 #include "conversion.h"
 
 
-///the decoder configuration page
+///Tuareg main configuration page
 volatile Tuareg_Setup_t Tuareg_Setup;
 
 volatile U8 * const pTuareg_Setup_data= (volatile U8 *) &Tuareg_Setup;
 const U32 cTuareg_Setup_size= sizeof(Tuareg_Setup);
 
+//tach table
+volatile t2D_t TachTable;
+
+
 
 /**
 *
-* reads decoder config data from eeprom
+* reads Tuareg main config data from eeprom
 *
 */
 exec_result_t load_Tuareg_Setup()
@@ -31,7 +35,7 @@ exec_result_t load_Tuareg_Setup()
 
 /**
 *
-* provides sane defaults if config data from eeprom is not available (limp home mode)
+* provides built in defaults if config data from eeprom is not available
 *
 */
 void load_essential_Tuareg_Setup()
@@ -254,4 +258,53 @@ void send_Tuareg_Setup(USART_TypeDef * Port)
     UART_send_data(Port, pTuareg_Setup_data, cTuareg_Setup_size);
 }
 
+/***************************************************************************************************************************************************
+*   Tachometer output table - TachTable
+*
+* x-Axis -> tachometer reading to be displayed in rpm (no offset, no scaling)
+* y-Axis -> timer compare value in % (no offset, no scaling)
+***************************************************************************************************************************************************/
+
+exec_result_t load_TachTable()
+{
+    return load_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+}
+
+exec_result_t store_TachTable()
+{
+    return store_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+}
+
+
+void show_TachTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nTachometer output table:\r\n");
+
+    show_t2D_data(TS_PORT, &(TachTable.data));
+}
+
+
+exec_result_t modify_TachTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(TachTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for TachTable
+*/
+void send_TachTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(TachTable.data));
+}
+
+
+/**
+returns the timer compare value # that makes the tachometer display the commanded speed
+*/
+U32 getValue_TachTable(U32 Rpm)
+{
+    return getValue_t2D(&TachTable, Rpm);
+}
 

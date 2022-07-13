@@ -770,7 +770,7 @@ void activate_tachometer(U32 Compare)
     }
 
 
-    if(Compare > 10000)
+    if(Compare > TACH_PWM_RESOLUTION)
     {
         Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_COMPARE);
 

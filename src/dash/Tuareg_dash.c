@@ -14,13 +14,22 @@ TACH update function
 ******************************************************************************************************************/
 void update_tachometer()
 {
+    VU32 compare;
+
     //tachometer control could be up to service mode
     if(Tuareg.flags.service_mode == true)
     {
         return;
     }
 
-    set_tachometer_compare(Tuareg.pDecoder->crank_rpm);
+    //look up the timer compare value to command
+    compare= getValue_TachTable(Tuareg.pDecoder->crank_rpm);
+
+    //the tachometer output parameter is user input data
+    if(compare > TACH_PWM_RESOLUTION) compare=0;
+
+    //command dash hw layer
+    set_tachometer_compare(compare);
 }
 
 
@@ -79,8 +88,7 @@ void update_mil()
         set_mil(MIL_PERMANENT);
         return;
     }
-    else if( (Tuareg.flags.run_inhibit == true) &&
-            ((Tuareg.flags.overheat_detected == true) || (Tuareg.flags.crash_sensor_triggered == true) || (Tuareg.flags.sidestand_sensor_triggered == true)) )
+    else if( (Tuareg.flags.run_inhibit == true) && (Tuareg.flags.run_switch_deactivated == false))
     {
         set_mil(MIL_BLINK_FAST);
     }

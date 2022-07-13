@@ -514,10 +514,8 @@ F32 getValue_AfrTable_TPS(U32 Rpm, F32 Tps_deg)
 *   Fueling acceleration compensation table - AccelCompTableTPS
 *
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
-* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in ug (no offset, no scaling)
 ***************************************************************************************************************************************************/
-
-const F32 cAccelCompMultiplier= 256.0;
 
 exec_result_t load_AccelCompTableTPS()
 {
@@ -555,11 +553,11 @@ void send_AccelCompTableTPS(USART_TypeDef * Port)
 
 
 /**
-returns the acceleration compensation value in microgram
+returns the acceleration compensation value in ug
 */
 F32 getValue_AccelCompTableTPS(F32 Ddt_TPS)
 {
-    return cAccelCompMultiplier * getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
+    return getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
 }
 
 
@@ -567,7 +565,7 @@ F32 getValue_AccelCompTableTPS(F32 Ddt_TPS)
 *   Fueling acceleration compensation table - AccelCompTableMAP
 *
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
-* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in ug (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
 exec_result_t load_AccelCompTableMAP()
@@ -606,11 +604,11 @@ void send_AccelCompTableMAP(USART_TypeDef * Port)
 
 
 /**
-returns the acceleration compensation value in percent
+returns the acceleration compensation value in ug
 */
 F32 getValue_AccelCompTableMAP(F32 Ddt_MAP)
 {
-    return cAccelCompMultiplier * getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
+    return getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
 }
 
 
@@ -618,8 +616,10 @@ F32 getValue_AccelCompTableMAP(F32 Ddt_MAP)
 *   Fueling Warm up Enrichment compensation table - WarmUpCompTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Warm up compensation value in % (no offset, no scaling)
+* y-Axis -> Warm up compensation value in % (no offset, scaling * 10)
 ***************************************************************************************************************************************************/
+
+const F32 cWarmUpDivider= 10.0;
 
 exec_result_t load_WarmUpCompTable()
 {
@@ -661,7 +661,7 @@ returns the Warm up Enrichment compensation in percent
 */
 F32 getValue_WarmUpCompTable(F32 CLT_K)
 {
-    return getValue_t2D(&WarmUpCompTable, CLT_K);
+    return getValue_t2D(&WarmUpCompTable, CLT_K) / cWarmUpDivider;
 }
 
 
@@ -671,8 +671,6 @@ F32 getValue_WarmUpCompTable(F32 CLT_K)
 * x-Axis -> System Voltage in mV (no offset, no scaling)
 * y-Axis -> Injector dead time in us (no offset, table values are in 24 us increments)
 ***************************************************************************************************************************************************/
-
-const F32 cInjTimingMultiplier= 24.0;
 
 exec_result_t load_InjectorTimingTable()
 {
@@ -714,7 +712,7 @@ returns the injector dead time in its intervals
 */
 F32 getValue_InjectorTimingTable(F32 Bat_V)
 {
-    return cInjTimingMultiplier * getValue_t2D(&InjectorTimingTable, 1000.0 * Bat_V);
+    return getValue_t2D(&InjectorTimingTable, 1000.0 * Bat_V);
 }
 
 
@@ -724,8 +722,6 @@ F32 getValue_InjectorTimingTable(F32 Bat_V)
 * x-Axis -> CLT in K (no offset, no scaling)
 * y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 256 ug increments)
 ***************************************************************************************************************************************************/
-
-const F32 cCrkFuelMultiplier= 256.0;
 
 exec_result_t load_CrankingFuelTable()
 {
@@ -767,7 +763,7 @@ returns the Cranking base fuel mass in its increments
 */
 F32 getValue_CrankingFuelTable(F32 CLT_K)
 {
-    return cCrkFuelMultiplier * getValue_t2D(&CrankingFuelTable, CLT_K);
+    return getValue_t2D(&CrankingFuelTable, CLT_K);
 }
 
 
@@ -776,10 +772,8 @@ F32 getValue_CrankingFuelTable(F32 CLT_K)
 *   Injection end target advance relative to Intake valve opening - InjectorPhaseTable
 *
 * x-Axis -> rpm (no offset, no scaling)
-* y-Axis -> Injection end target advance (offset := 128, table values are in 2 deg increments)
+* y-Axis -> Injection end target advance (no offset, no scaling)
 ***************************************************************************************************************************************************/
-
-const U32 cInjPhaseMultiplier= 2.0;
 
 exec_result_t load_InjectorPhaseTable()
 {
@@ -817,11 +811,11 @@ void send_InjectorPhaseTable(USART_TypeDef * Port)
 
 
 /**
-returns the Injection end target advance in 2 deg interval
+returns the Injection end target advance
 */
 F32 getValue_InjectorPhaseTable(U32 Rpm)
 {
-    return cInjPhaseMultiplier * getValue_t2D(&InjectorPhaseTable, Rpm);
+    return getValue_t2D(&InjectorPhaseTable, Rpm);
 }
 
 
@@ -833,6 +827,7 @@ F32 getValue_InjectorPhaseTable(U32 Rpm)
 ***************************************************************************************************************************************************/
 
 const U32 cBAROtableOffset_kPa= 50;
+const F32 cBAROdivider= 100.0;
 
 
 exec_result_t load_BAROtable()
@@ -875,7 +870,7 @@ returns the Barometric pressure correction factor in %
 */
 F32 getValue_BAROtable(F32 BARO_kPa)
 {
-    return getValue_t2D(&BAROtable, 1000 * subtract_U32((U32) BARO_kPa, cBAROtableOffset_kPa) / 100.0);
+    return getValue_t2D(&BAROtable, 1000 * subtract_U32((U32) BARO_kPa, cBAROtableOffset_kPa)) / cBAROdivider;
 }
 
 

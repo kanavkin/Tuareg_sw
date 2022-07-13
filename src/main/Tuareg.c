@@ -18,7 +18,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.4 2022.06";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.5 2022.07";
 
 
 /******************************************************************************************************************************
@@ -90,7 +90,8 @@ void Tuareg_Init()
     init_dash();
 
     #ifdef TUAREG_DEBUG_OUTPUT
-    Tuareg_print_init_message();
+    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
+    print_flash(DEBUG_PORT, Tuareg_Version);
     #endif // TUAREG_DEBUG_OUTPUT
 
     //begin fuel pump priming
@@ -125,7 +126,7 @@ void Tuareg_load_config()
     //bring up eeprom
     Eeprom_init();
 
-    //loading the config data is essential, failure forces "limp home mode"
+    //loading setup data is essential, failure forces "limp home mode"
     result= load_Tuareg_Setup();
 
     //check if config has been loaded
@@ -166,14 +167,11 @@ void Tuareg_load_config()
 
         Syslog_Info(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_SUCCESS);
     }
+
+    //load tachometer output table
+    load_TachTable();
 }
 
-
-void Tuareg_print_init_message()
-{
-    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    print(DEBUG_PORT, "V 0.7");
-}
 
 
 
@@ -187,7 +185,7 @@ this function will be executed in all system states and has to take care of all 
 
 ******************************************************************************************************************************/
 
-const U32 cInj_wd_thres_ms= 100;
+const U32 cInj_wd_thres_ms= 200;
 
 void Tuareg_update()
 {
@@ -253,13 +251,13 @@ void Tuareg_update_run_inhibit()
     */
 
     //shut engine off if the RUN switch is DISENGAGED
-    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run == false) ? true : false;
+    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run == false);
 
     //shut engine off if the CRASH sensor is engaged
-    Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high) ? true : false;
+    Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high);
 
-    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
-    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL) && (Tuareg.errors.sensor_GEAR_error == false)) ? true : false;
+    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected AND the indicated gear is trustworthy
+    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL) && (Tuareg.errors.sensor_GEAR_error == false));
 
 
     /**

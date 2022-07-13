@@ -152,6 +152,16 @@ exec_result_t modify_Tuareg_Setup(U32 Offset, U32 Value);
 void send_Tuareg_Setup(USART_TypeDef * Port);
 
 
+
+exec_result_t load_TachTable();
+exec_result_t store_TachTable();
+void show_TachTable(USART_TypeDef * Port);
+exec_result_t modify_TachTable(U32 Offset, U32 Value);
+void send_TachTable(USART_TypeDef * Port);
+U32 getValue_TachTable(U32 Rpm);
+
+
+
 /***************************************************************************************************************************************************
 *   helper macros
 ***************************************************************************************************************************************************/

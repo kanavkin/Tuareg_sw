@@ -2,6 +2,8 @@
 #define DASHHW_H_INCLUDED
 
 #include "Tuareg_platform.h"
+#define TACH_PWM_RESOLUTION 5000
+
 
 void init_dash_hw();
 

@@ -217,7 +217,6 @@ extern volatile Tuareg_t Tuareg;
 
 void Tuareg_Init();
 void Tuareg_load_config();
-void Tuareg_print_init_message();
 
 
 void Tuareg_update();

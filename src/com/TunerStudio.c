@@ -36,6 +36,9 @@ void ts_readPage(U32 Page)
             send_Tuareg_Setup(TS_PORT);
             break;
 
+        case TACH_TABLE:
+            send_TachTable(TS_PORT);
+            break;
 
         case IGNITIONPAGE:
             send_Ignition_Setup(TS_PORT);
@@ -154,6 +157,21 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             }
 
             result= modify_Tuareg_Setup(Offset, Value);
+            break;
+
+        case TACH_TABLE:
+
+            if(Tuareg_console.cli_permissions.tsetup_mod_permission == false)
+            {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** tachometer table modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return result;
+            }
+
+            result= modify_TachTable(Offset, Value);
             break;
 
         case IGNITIONPAGE:
@@ -500,6 +518,11 @@ exec_result_t ts_burnPage(U32 Page)
         case TSETUP_PAGE:
 
             result= store_Tuareg_Setup();
+            break;
+
+        case TACH_TABLE:
+
+            result= store_TachTable();
             break;
 
         case IGNITIONPAGE:

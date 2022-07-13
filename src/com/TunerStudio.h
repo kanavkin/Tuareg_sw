@@ -32,6 +32,7 @@ typedef enum {
     CHARGETEMP_TABLE,
 
     TSETUP_PAGE,
+    TACH_TABLE,
 
     SYSLOG_PAGE,
     FAULTLOG_PAGE,

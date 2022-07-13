@@ -200,11 +200,10 @@ void Tuareg_update_console()
         }
 
         /**
-        byte format: <actor> <on> <off> <end>
+        4 byte fixed length command
 
-        variable allocation:
-
-                <offset> <on> <off> <value>
+        format:                 <actor> <on> <off> <end>
+        variable allocation:    <offset> <on> <off> <value>
         */
         result= ComRx_Buffer_pull(&offset);
 
@@ -559,6 +558,11 @@ void cli_showPage(U32 Page)
         case TSETUP_PAGE:
 
                 show_Tuareg_Setup(TS_PORT);
+                break;
+
+        case TACH_TABLE:
+
+                show_TachTable(TS_PORT);
                 break;
 
         case SYSLOG_PAGE:

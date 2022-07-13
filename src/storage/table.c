@@ -22,10 +22,7 @@ some thoughts about table / map storage:
 all use cases can be implemented via positive x,y,z axis values
 all use cases can be implemented via data scaling
 
-U8 is ok for y/z axis
-
-t2d dimension too large?
-
+2D table shall be U16->U16
 
 */
 
@@ -46,6 +43,8 @@ helper function - checks the integrity of the axes
 
 by now only the monotony is checked
 loops through the axis data and checks the monotony
+
+/// TODO (oli#1#): implement table integrity checks
 */
 exec_result_t check_t2D_integrity(volatile t2D_t * pTable)
 {
@@ -131,7 +130,7 @@ F32 getValue_t2D(volatile t2D_t *fromTable, U32 X)
     }
 
     /**
-    check if the requested argument is covered by the tables range -> early exit!
+    check if the requested argument is outside of the table range -> early exit!
     */
     if(X >= xMax)
     {
@@ -452,20 +451,9 @@ F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y)
     C= fromTable->data.axisZ[yMax_index][xMin_index];
     D= fromTable->data.axisZ[yMax_index][xMax_index];
 
-    /**
-    Check that all values aren't just the same
-    (This regularly happens with things like the fuel trim maps)
-
-/// TODO (oli#7#): improve float equality check
-
-    if( (A == B) && (A == C) && (A == D) )
-    {
-        return A;
-    }
-    */
 
     /**
-    RESULTS finally
+    apply some math?
     */
     A *= ((F32) xMax - (F32) X) * ((F32) yMax - (F32) Y);
     B *= ((F32) X - (F32) xMin)  * ((F32) yMax - (F32) Y);

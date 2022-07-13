@@ -53,18 +53,14 @@ typedef struct _table_integrity_params_t {
 /**
 This is the data container for one 2D table
 
-It stores 16-bit unsigned values in X and Y.
-
-This is the data Tuner Studio operates on.
-
 Y = f(X)
 
-for simplicity all 2D table axes have the same dimension (T2D_DATA_DIMENSION)
+all 2D table axes have the same dimension (T2D_DATA_DIMENSION)
 */
 typedef struct __attribute__ ((__packed__)) _t2D_data_t {
 
     U16 axisX[T2D_DATA_DIMENSION];
-    U8 axisY[T2D_DATA_DIMENSION];
+    U16 axisY[T2D_DATA_DIMENSION];
 
 } t2D_data_t;
 

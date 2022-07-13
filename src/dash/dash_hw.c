@@ -18,14 +18,12 @@ void set_mil_hw(actor_control_t level)
 {
     if(level == ACTOR_POWERED)
     {
-        //gpio_set_pin(GPIOC, 12, PIN_ON);
         gpio_set_pin(GPIOC, 11, PIN_ON);
         Tuareg.flags.mil= true;
     }
     else
     {
         // OFF
-        //gpio_set_pin(GPIOC, 12, PIN_OFF);
         gpio_set_pin(GPIOC, 11, PIN_OFF);
         Tuareg.flags.mil= false;
     }
@@ -35,11 +33,9 @@ void set_mil_hw(actor_control_t level)
 
 /**
     using
-    (in later versions hw change:-GPIOC12 for tachometer
-    -AF for TIM11 PWM)
-    -GPIOC12 for user dash lamp (mil)
-    connected to VNLD5090 low side driver
-    with open drain control input
+    -GPIOC12 for tachometer via TIM11 PWM AF
+    -GPIOC11 for user dash lamp (mil)
+    both connected to VNLD5090 low side driver with open drain control input
 */
 void init_dash_hw()
 {
@@ -47,7 +43,6 @@ void init_dash_hw()
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
     //MIL - open drain output to driver IC
-    //GPIO_configure(GPIOC, 12, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
     GPIO_configure(GPIOC, 11, GPIO_MODE_OUT, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_NONE);
 
     set_mil_hw(ACTOR_UNPOWERED);
@@ -62,12 +57,10 @@ void init_dash_hw()
     RCC->APB2ENR |= RCC_APB2ENR_TIM11EN;
 
     /*
-    clock setup
-    pwm resolution: 10000 steps
-    target freq: ~500 Hz
+    pwm resolution: 5000 steps, psc: 20 -> target freq: ~1000 Hz
     */
-    TIM11->PSC= (U16) 15;
-    TIM11->ARR= (U16) 9999;
+    TIM11->PSC= (U16) 20;
+    TIM11->ARR= (U16) TACH_PWM_RESOLUTION -1;
 
     /*
     compare CH 1 setup
@@ -84,9 +77,11 @@ void init_dash_hw()
     TIM11->EGR= TIM_EGR_UG;
 }
 
+
 void set_tachometer_compare(U32 Compare)
 {
-    VitalAssert(Compare <= 10000, TID_DASH_HW, 0);
+    //protect hw layer against programming errors
+    VitalAssert(Compare <= TACH_PWM_RESOLUTION, TID_DASH_HW, 0);
 
     TIM11->CCR1= (U16) Compare;
 }
