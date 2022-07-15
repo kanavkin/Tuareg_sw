@@ -387,23 +387,60 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
 {
     volatile scheduler_channel_state_t * pChannelState;
 
-    //init check
-    VitalAssert(Scheduler.init_done, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
+    /**
+    design warning: scheduler_reset_channel() is called inside the Fatal() function
+    every VitalAssert() here may result in a loop!!!
+    */
 
-    //safety check - requested channel
-    VitalAssert(Channel < SCHEDULER_CH_COUNT, TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
 
-    //get channel reference
-    pChannelState= &(Scheduler.channels[Channel]);
+    /**
+    Check if the indicated scheduler channel is valid
+    */
+    if(Channel < SCHEDULER_CH_COUNT)
+    {
+        //get channel reference
+        pChannelState= &(Scheduler.channels[Channel]);
 
-    //clear parameters
-    pChannelState->parameters.flags.all_flags= 0;
-    pChannelState->parameters.interval1_us= 0;
-    pChannelState->parameters.interval2_us= 0;
-    pChannelState->flags.all_flags= 0;
+        //clear parameters
+        pChannelState->parameters.flags.all_flags= 0;
+        pChannelState->parameters.interval1_us= 0;
+        pChannelState->parameters.interval2_us= 0;
+        pChannelState->flags.all_flags= 0;
+    }
+    else
+    {
+        /**
+        Dont loop here if the invalid indicated scheduler channel was the source for the fatal error
+        */
+        if(Tuareg.errors.fatal_error == false)
+        {
+            Fatal(TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
+        }
+    }
 
-    //clear timer channel
-    pChannelState->timer_reset();
+
+    /**
+    clear timer channel
+
+    CONSTRAINT: timer_reset() function pointer shall be dereferenced only when the scheduler has been initialised
+    SOLUTION: perform an init check first
+    */
+    if(Scheduler.init_done == true)
+    {
+        pChannelState->timer_reset();
+    }
+    else
+    {
+        /**
+        The vital schedulers reset function may be called uninitialized when the
+        first fatal error in the system occurs earlier. E.g. config load errors
+        */
+        if(Tuareg.errors.fatal_error == false)
+        {
+            Fatal(TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
+        }
+
+    }
 
     //collect diagnostic information
     scheduler_diag_log_event(SCHEDIAG_ICH1_RESET + Channel);

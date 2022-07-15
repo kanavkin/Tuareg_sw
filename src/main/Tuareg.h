@@ -39,7 +39,7 @@
 #include "conversion.h"
 
 
-#define TUAREG_REQUIRED_CONFIG_VERSION 5
+#define TUAREG_REQUIRED_CONFIG_VERSION 6
 
 
 #define LOWPRIOSCHEDULER_WIP

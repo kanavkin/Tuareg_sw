@@ -105,7 +105,6 @@ void send_Sensor_Calibration(USART_TypeDef * Port)
 *
 ***************************************************************************************************************************************************/
 
-const F32 cInvCLTMult= 2.0;
 
 exec_result_t store_InvTableCLT()
 {
@@ -143,5 +142,5 @@ returns the coolant temperature in K
 */
 VF32 getValue_InvTableCLT(VU32 Raw)
 {
-    return cInvCLTMult * getValue_t2D(&InvTableCLT, Raw);
+    return getValue_t2D(&InvTableCLT, Raw);
 }

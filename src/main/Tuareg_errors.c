@@ -21,6 +21,7 @@ So vital actors operation is inhibited already here.
 
 Correcting config parameter errors through the console shall be possible.
 
+DESIGN WARNING: If a function called by Fatal() will call Fatal() again, the system ends up in a loop!
 */
 void Fatal(Tuareg_ID Id, U8 Location)
 {
@@ -32,7 +33,6 @@ void Fatal(Tuareg_ID Id, U8 Location)
     Tuareg.flags.limited_op= false;
     Tuareg.flags.standby= false;
     Tuareg.flags.fuel_pump_priming= false;
-
 
     //turn off actors
     Tuareg_deactivate_vital_actors(false);

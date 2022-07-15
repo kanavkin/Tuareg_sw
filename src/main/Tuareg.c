@@ -123,41 +123,20 @@ void Tuareg_load_config()
 {
     exec_result_t result;
 
-    //bring up eeprom
-    Eeprom_init();
-
-    //loading setup data is essential, failure forces "limp home mode"
-    result= load_Tuareg_Setup();
+    //load Tuareg main config data
+    result= load_Tuareg_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION))
     {
         //failed to load config
         Tuareg.errors.tuareg_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Tuareg_Setup();
 
-        Syslog_Error(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_FAIL);
-        Syslog_Warning(TID_TUAREG, TUAREG_LOC_ESSENTIALS_CONFIG_LOADED);
+        //no engine operation possible
+        Fatal(TID_TUAREG, TUAREG_LOC_CONFIG_ERROR);
 
         #ifdef TUAREG_DEBUG_OUTPUT
         DebugMsg_Error("Failed to load Tuareg config");
-        DebugMsg_Warning("Tuareg essential config has been loaded");
-        #endif // TUAREG_DEBUG_OUTPUT
-    }
-    else if(Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION)
-    {
-        //loaded wrong config version
-        Tuareg.errors.tuareg_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Tuareg_Setup();
-
-        Syslog_Error(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_VERSION_FAIL);
-        Syslog_Warning(TID_TUAREG, TUAREG_LOC_ESSENTIALS_CONFIG_LOADED);
-
-        #ifdef TUAREG_DEBUG_OUTPUT
-        DebugMsg_Error("Tuareg config loaded version does not match");
-        DebugMsg_Warning("Tuareg essential config has been loaded");
         #endif // TUAREG_DEBUG_OUTPUT
     }
     else
@@ -168,8 +147,6 @@ void Tuareg_load_config()
         Syslog_Info(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_SUCCESS);
     }
 
-    //load tachometer output table
-    load_TachTable();
 }
 
 

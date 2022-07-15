@@ -24,121 +24,22 @@ volatile t2D_t TachTable;
 
 /**
 *
-* reads Tuareg main config data from eeprom
+* loads all Tuareg main config data from eeprom
 *
 */
-exec_result_t load_Tuareg_Setup()
+exec_result_t load_Tuareg_Config()
 {
-   return Eeprom_load_data(EEPROM_TUAREG_CONFIG_BASE, pTuareg_Setup_data, cTuareg_Setup_size);
+    //bring up eeprom
+    Eeprom_init();
+
+    //load setup
+    ASSERT_EXEC_OK( Eeprom_load_data(EEPROM_TUAREG_CONFIG_BASE, pTuareg_Setup_data, cTuareg_Setup_size) );
+
+    //load tachometer output table
+    ASSERT_EXEC_OK( load_TachTable() );
+
+    return EXEC_OK;
 }
-
-
-/**
-*
-* provides built in defaults if config data from eeprom is not available
-*
-*/
-void load_essential_Tuareg_Setup()
-{
-    Tuareg_Setup.Version= 0;
-
-    /**
-    trigger position map initialization
-    */
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_A1]= TUAREG_SETUP_DEFAULT_POSITION_A1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_A2]= TUAREG_SETUP_DEFAULT_POSITION_A2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_B1]= TUAREG_SETUP_DEFAULT_POSITION_B1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_B2]= TUAREG_SETUP_DEFAULT_POSITION_B2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_C1]= TUAREG_SETUP_DEFAULT_POSITION_C1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_C2]= TUAREG_SETUP_DEFAULT_POSITION_C2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_D1]= TUAREG_SETUP_DEFAULT_POSITION_D1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_D2]= TUAREG_SETUP_DEFAULT_POSITION_D2_ADVANCE;
-
-    Tuareg_Setup.decoder_delay_us= TUAREG_SETUP_DEFAULT_DECODER_DELAY;
-
-    Tuareg_Setup.max_rpm= 0;
-    Tuareg_Setup.limp_max_rpm= TUAREG_SETUP_DEFAULT_MAX_RPM;
-
-    Tuareg_Setup.overheat_thres_K= 100 + cKelvin_offset;
-
-    Tuareg_Setup.standby_timeout_s= 5;
-
-    Tuareg_Setup.cranking_end_rpm= 800;
-
-    Tuareg_Setup.gear_ratio[GEAR_1]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_2]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_3]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_4]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_5]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_NEUTRAL]= 0.0;
-
-    Tuareg_Setup.TPS_alpha= 0.85;
-    Tuareg_Setup.MAP_alpha= 0.85;
-
-    Tuareg_Setup.flags.all_flags=0;
-
-}
-
-
-/**
-*
-* check Tuareg config data integrity to prevent writing bogus data to storage
-*
-*/
-exec_result_t check_Tuareg_Setup()
-{
-/*
-    VU32 i;
-
-
-    //VU16 trigger_advance_map[CRK_POSITION_COUNT]
-    for(i=0; i < CRK_POSITION_COUNT; i++)
-    {
-        if(Tuareg_Setup.trigger_advance_map[i] > 360)
-        {
-            return EXEC_ERROR;
-        }
-    }
-
-    //U16 decoder_delay_us
-    if(Tuareg_Setup.decoder_delay_us > 500)
-    {
-        return EXEC_ERROR;
-    }
-
-    //rev limiter function
-    U16 max_rpm;
-    U16 limp_max_rpm;
-
-    //overheat protection
-    U16 overheat_thres_K;
-
-    //standby timeout
-    U8 standby_timeout_s;
-
-    //rpm until cranking features are activated
-    U16 cranking_end_rpm;
-
-    //conversion factors for ground speed calculation
-    VF32 gear_ratio[GEAR_COUNT];
-
-    //EMA filter factors
-    VF32 TPS_alpha;
-    VF32 MAP_alpha;
-
-    //all boolean elements
-    volatile Tuareg_Setup_flags_t flags;
-
-
-
-
-*/
-
-    return EXEC_ERROR;
-}
-
-
-
 
 
 /**

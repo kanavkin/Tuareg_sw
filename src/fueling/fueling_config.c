@@ -81,51 +81,6 @@ exec_result_t load_Fueling_Config()
 }
 
 
-/**
-*
-* provides sane defaults if config data from eeprom is not available (limp home mode)
-*
-*/
-void load_essential_Fueling_Config()
-{
-    Fueling_Setup.Version= 0;
-
-    Fueling_Setup.cylinder_volume_ccm= 425;
-
-    Fueling_Setup.injection_reference_pos= CRK_POSITION_A1;
-
-    Fueling_Setup.injector1_rate_mgps= 4000;
-    Fueling_Setup.injector2_rate_mgps= 4000;
-    Fueling_Setup.max_injector_duty_cycle_pct= 0;
-
-    Fueling_Setup.accel_comp_thres_TPS= 10000.0;
-    Fueling_Setup.accel_comp_thres_MAP= 10000.0;
-    Fueling_Setup.decel_comp_thres_TPS= -10000.0;
-    Fueling_Setup.decel_comp_thres_MAP= -10000.0;
-
-    Fueling_Setup.accel_comp_taper_factor= 0;
-    Fueling_Setup.accel_comp_scaling_thres_rpm= 0;
-    Fueling_Setup.accel_comp_scaling_max_rpm= 0;
-    Fueling_Setup.cold_accel_pct= 0;
-    Fueling_Setup.decel_comp_ug= 0;
-    Fueling_Setup.accel_comp_cycles= 0;
-    Fueling_Setup.decel_comp_cycles= 0;
-    Fueling_Setup.accel_comp_taper_thres= 0;
-
-    Fueling_Setup.afterstart_comp_pct= 0;
-    Fueling_Setup.afterstart_comp_cycles= 0;
-    Fueling_Setup.afterstart_thres_K= 0;
-
-    Fueling_Setup.spd_min_rpm= 10000;
-    Fueling_Setup.spd_max_rpm= 3;
-
-    Fueling_Setup.dry_cranking_TPS_thres= 0;
-
-    Fueling_Setup.features.all_flags= 0;
-
-}
-
-
 /***************************************************************************************************************************************************
 *   Fueling Setup
 ***************************************************************************************************************************************************/

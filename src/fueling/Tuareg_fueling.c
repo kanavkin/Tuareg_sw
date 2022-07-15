@@ -45,40 +45,18 @@ void init_Fueling()
     result= load_Fueling_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION))
     {
         /**
         failed to load Fueling Config
         */
         Tuareg.errors.fueling_config_error= true;
 
-        //enter limp mode
-        Limp(TID_TUAREG_FUELING, FUELING_LOC_CONFIGLOAD_ERROR);
-
-        //load built in defaults
-        load_essential_Fueling_Config();
+        //no engine operation possible
+        Fatal(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_ERROR);
 
         #ifdef FUELING_DEBUGMSG
         DebugMsg_Error("Failed to load Fueling config!");
-        DebugMsg_Warning("Fueling essential config has been loaded");
-        #endif // FUELING_DEBUGMSG
-    }
-    else if(Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION)
-    {
-        /**
-        loaded wrong Fueling Config Version
-        */
-        Tuareg.errors.fueling_config_error= true;
-
-        //enter limp mode
-        Limp(TID_TUAREG_FUELING, FUELING_LOC_CONFIGVERSION_ERROR);
-
-        //load built in defaults
-        load_essential_Fueling_Config();
-
-        #ifdef FUELING_DEBUGMSG
-        DebugMsg_Error("Fueling config version does not match");
-        DebugMsg_Warning("Fueling essential config has been loaded");
         #endif // FUELING_DEBUGMSG
     }
     else

@@ -1,7 +1,7 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
-#define IGNITION_REQUIRED_CONFIG_VERSION 4
+#define IGNITION_REQUIRED_CONFIG_VERSION 5
 
 
 //#define IGNITION_DEBUGMSG
@@ -44,40 +44,18 @@ void init_Ignition()
     result= load_Ignition_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION))
     {
         /**
         failed to load Ignition Config
         */
         Tuareg.errors.ignition_config_error= true;
 
-        //enter limp mode
-        Limp(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIGLOAD_ERROR);
-
-        //load built in defaults
-        load_essential_Ignition_Config();
+        //no engine operation possible
+        Fatal(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_ERROR);
 
         #ifdef IGNITION_DEBUGMSG
         DebugMsg_Error("Failed to load Ignition config!");
-        DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUGMSG
-    }
-    else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
-    {
-        /**
-        loaded wrong Ignition Config Version
-        */
-        Tuareg.errors.ignition_config_error= true;
-
-        //enter limp mode
-        Limp(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIGVERSION_ERROR);
-
-        //load built in defaults
-        load_essential_Ignition_Config();
-
-        #ifdef IGNITION_DEBUGMSG
-        DebugMsg_Error("Ignition config version does not match");
-        DebugMsg_Warning("Ignition essential config has been loaded");
         #endif // IGNITION_DEBUGMSG
     }
     else
