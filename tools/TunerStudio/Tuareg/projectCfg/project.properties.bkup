@@ -1,11 +1,11 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Sat Jul 16 00:06:35 CEST 2022
-#Sat Jul 16 00:06:35 CEST 2022
+#Last Saved on: Sat Jul 16 00:46:23 CEST 2022
+#Sat Jul 16 00:46:23 CEST 2022
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
-VeAnalyzePanel_VeTable_MAP_applyPeriod=15
 faultlogView\ Fault\ Log_X=597
+VeAnalyzePanel_VeTable_MAP_applyPeriod=15
 sparkSettingsSpark\ Settings_X=777
 config_permissionConfig\ Permissions_width=372
 sparkSettingsSpark\ Settings_height=290
@@ -14,8 +14,8 @@ AfrTable_MAPAFR\ vs.\ MAP_Y=30
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceCom\ Port=/dev/tuareg
 AfrTable_MAPAFR\ vs.\ MAP_X=0
 config_permissionConfig\ Permissions_height=420
-invCLT_CurveCLT\ Characteristics_width=1366
 config_permissionGet\ Permissions_width=372
+invCLT_CurveCLT\ Characteristics_width=1366
 CommSettingMSCommDriver.RS232\ Serial\ InterfaceBluetooth\ Port=false
 sparkSettingsSpark\ Settings_width=372
 CommSettingboctokCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil
@@ -33,19 +33,19 @@ AccelCompCurveAE_height=738
 WarmUpCompCurve_Set\ X\ Axis\ Minimum=-20.0
 afrTable1TblAFR\ Table_width=558
 BaroCorrCurveBARO\ Correction_Y=128
-BaroCorrCurveBARO\ Correction_X=314
 CommSettingsputnikCommDriver.controllerInterfaceId=RS232 Serial Interface
+BaroCorrCurveBARO\ Correction_X=314
 config_permissionGet\ Permissions_Y=120
-config_permissionGet\ Permissions_X=621
 Tuareg.VeTable_MAP_std_yAxisMin=50.0
+config_permissionGet\ Permissions_X=621
 engine_constantsEngine\ Constants_width=651
 serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
 VeAnalyzeConsole.VeTable_TPS_verticalSplitPos=532
 decoder_setupDecoder\ Setup_width=433
 tuareg_setupTuareg\ Setup_Y=0
-VeAnalyzePanel_VeTable_TPS_maxPercentChange=2.0
 tuareg_setupTuareg\ Setup_X=298
+VeAnalyzePanel_VeTable_TPS_maxPercentChange=2.0
 AccelCompCurveTPSAE\ TPS_height=703
 tool_boxService\ Tools\ -\ Ignition_width=372
 VeTable_TPSVE\ vs.\ TPS_width=1366

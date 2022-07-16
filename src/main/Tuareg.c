@@ -8,13 +8,12 @@
 #endif // TUAREG_DEBUG_OUTPUT
 
 
-//#define HIL_HW
 
 
-#ifdef HIL_HW
-#warning built for HIL tester
-#warning do not install on ECU hw
-#endif // TUAREG_DEBUG_OUTPUT
+#ifdef DEBUG_TARGET
+#warning developer build
+#warning not to be installed on a production system!
+#endif
 
 
 

@@ -22,6 +22,10 @@ void update_tachometer()
         return;
     }
 
+    /**
+    do not steal the drivers attention in dash quiet mode -> show only'engine speed!
+    */
+
     //look up the timer compare value to command
     compare= getValue_TachTable(Tuareg.pDecoder->crank_rpm);
 
@@ -54,7 +58,8 @@ void set_mil(volatile mil_state_t State)
 
     if(State == MIL_PERMANENT)
     {
-        set_mil_hw(ACTOR_POWERED);
+        //activate the physical MIL lamp only if dash is not in quiet mode
+        set_mil_hw( (Tuareg_Setup.flags.QuietDash == true)? ACTOR_UNPOWERED : ACTOR_POWERED );
     }
     else
     {
@@ -76,10 +81,15 @@ indication scheme:
 2. prio:    run inhibit set due to overheat / crash / sidestand         --> fast blink
 3. prio:    limp mode                                                   --> slow blink
 
+
+Quiet dash mode:
+suppress activation of the physical MIL lamp. In Tunerstudio (and its logs) the real MIL state is indicated
+
+
+
 ******************************************************************************************************************/
 void update_mil()
 {
-
     /**
     calculate new mil state
     */
@@ -123,7 +133,9 @@ void update_mil()
             }
             else
             {
-                set_mil_hw(ACTOR_POWERED);
+                //activate the physical MIL lamp only if dash is not in quiet mode
+                set_mil_hw( (Tuareg_Setup.flags.QuietDash == true)? ACTOR_UNPOWERED : ACTOR_POWERED );
+
                 Dash.mil_cycle= MIL_BLINK_SLOW_ON_ITV;
             }
 
@@ -138,7 +150,9 @@ void update_mil()
             }
             else
             {
-                set_mil_hw(ACTOR_POWERED);
+                //activate the physical MIL lamp only if dash is not in quiet mode
+                set_mil_hw( (Tuareg_Setup.flags.QuietDash == true)? ACTOR_UNPOWERED : ACTOR_POWERED );
+
                 Dash.mil_cycle= MIL_BLINK_FAST_ON_ITV;
             }
 

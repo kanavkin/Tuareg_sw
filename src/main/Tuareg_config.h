@@ -18,6 +18,7 @@ typedef union
         U8 RunSwitch_override :1;
         U8 Sidestand_override :1;
         U8 CrashSensor_override :1;
+        U8 QuietDash :1;
      };
 
 } Tuareg_Setup_flags_t;

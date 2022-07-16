@@ -416,6 +416,8 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
         {
             Fatal(TID_SCHEDULER, VITALSCHED_LOC_RESETCH_PARMCHECK_CH);
         }
+
+        return;
     }
 
 
@@ -440,6 +442,7 @@ void scheduler_reset_channel(scheduler_channel_t Channel)
             Fatal(TID_SCHEDULER, VITALSCHED_LOC_RESETCH_INITCHECK);
         }
 
+        return;
     }
 
     //collect diagnostic information
