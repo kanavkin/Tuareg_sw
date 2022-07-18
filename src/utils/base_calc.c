@@ -481,3 +481,24 @@ U32 calc_pow_U32(U32 Base, U32 Exp)
     return result;
 }
 
+
+/**********************
+float absolute value as integer
+
+*/
+U32 abs_F32(F32 Arg)
+{
+    if(Arg < 0.0)
+    {
+        return (U32) -Arg;
+    }
+    else if(Arg > 0.0)
+    {
+        return (U32) Arg;
+    }
+    else
+    {
+        return 0;
+    }
+}
+

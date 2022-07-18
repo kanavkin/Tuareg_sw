@@ -20,8 +20,8 @@ const F32 cMin_AFR_target= 6.0;
 const F32 cMax_AFR_target= 20.0;
 const F32 cMin_VE_val= 10.0;
 const F32 cMax_VE_val= 120.0;
-const F32 cMax_fuel_rel_comp_pct= 200.0;
-const F32 cMin_fuel_rel_comp_pct= 0.99;
+const F32 cMax_fuel_rel_comp_pct= 100.0;
+const F32 cMin_fuel_rel_comp_pct= -50.0;
 const F32 cMax_fuel_abs_comp_ug= 10000.0;
 
 
@@ -513,13 +513,20 @@ void update_target_fuel_mass(volatile fueling_control_t * pTarget)
 
 
     //check if compensation is needed
-    if(rel_comp_pct > cMin_fuel_rel_comp_pct)
+    if( abs_F32(rel_comp_pct) > 0)
     {
         //check if compensation is within interval
         if(rel_comp_pct > cMax_fuel_rel_comp_pct)
         {
             //clip compensation
             rel_comp_pct= cMax_fuel_rel_comp_pct;
+
+            Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_REL_COMP_CLIP);
+        }
+        else if(rel_comp_pct < cMin_fuel_rel_comp_pct)
+        {
+            //clip compensation
+            rel_comp_pct= cMin_fuel_rel_comp_pct;
 
             Syslog_Warning(TID_FUELING_CONTROLS, FUELING_LOC_REL_COMP_CLIP);
         }

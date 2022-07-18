@@ -75,9 +75,6 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U16 spd_min_rpm;
     U16 spd_max_rpm;
 
-    //BARO correction
-    U16 Baro_min_thres_kPa;
-
     //dry cranking
     U8 dry_cranking_TPS_thres;
 

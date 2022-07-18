@@ -35,6 +35,8 @@ U8 highByte(U16);
 U32 dword(U8 Msb, U8 Mid1, U8 Mid2, U8 Lsb);
 
 
+U32 abs_F32(F32 Arg);
+
 void memclr_boctok(void * pBegin, U32 Length);
 
 U32 floor_boctok(F32 Argument);

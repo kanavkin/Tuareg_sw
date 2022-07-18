@@ -137,6 +137,11 @@ void update_fuel_mass_warmup_correction(volatile fueling_control_t * pTarget)
 *   calculate the fuel mass compensation factor for changing barometric pressure
 *
 ****************************************************************************************************************************************/
+
+const F32 cBaroMaxCompRich= 50.0;
+const F32 cBaroMaxCompLean= -30.0;
+
+
 void update_fuel_mass_barometric_correction(volatile fueling_control_t * pTarget)
 {
     F32 baro_comp;
@@ -152,8 +157,27 @@ void update_fuel_mass_barometric_correction(volatile fueling_control_t * pTarget
     //look up the correction factor and export
     baro_comp= getValue_BAROtable(Tuareg.process.Baro_kPa);
 
+    //check if the correction factor is valid
+    if((baro_comp > cBaroMaxCompRich) || (baro_comp < cBaroMaxCompLean))
+    {
+        pTarget->flags.BARO_corr_active= false;
+        pTarget->BARO_pct= 0.0;
+
+        //log the error
+        Syslog_Error(TID_FUELING_CORRECTIONS, FUELING_LOC_BAROCORR_INVALID);
+
+        return;
+    }
+
+    //use the correction factor
     pTarget->BARO_pct= baro_comp;
-    pTarget->flags.BARO_corr_active= (baro_comp > 0.0) ? true : false;
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wfloat-equal"
+
+    pTarget->flags.BARO_corr_active= ( baro_comp != 0.0) ? true : false;
+
+    #pragma GCC diagnostic pop
 
 }
 

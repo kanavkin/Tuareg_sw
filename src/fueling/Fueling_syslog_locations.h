@@ -26,6 +26,8 @@ typedef enum {
 
     FUELING_LOC_ACCELCOMP_CLIP_COLD_ACCEL_PCT,
 
+    FUELING_LOC_BAROCORR_INVALID,
+
     FUELING_LOC_COUNT
 
 } fueling_sysloc_locations_t;

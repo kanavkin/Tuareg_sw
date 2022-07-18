@@ -777,12 +777,11 @@ F32 getValue_InjectorPhaseTable(U32 Rpm)
 /***************************************************************************************************************************************************
 *   Barometric pressure correction - BAROtable
 *
-* x-Axis -> Barometric pressure in Pa (offset := 50 kPa, no scaling)
-* y-Axis -> correction  in % (offset := 100%, no scaling)
+* x-Axis -> Barometric pressure in hPa (no offset, no scaling)
+* y-Axis -> correction  in % (offset := 100, no scaling)
 ***************************************************************************************************************************************************/
 
-const U32 cBAROtableOffset_kPa= 50;
-const F32 cBAROdivider= 100.0;
+const F32 cBAROtableOffset_pct= 100.0;
 
 
 exec_result_t load_BAROtable()
@@ -825,7 +824,10 @@ returns the Barometric pressure correction factor in %
 */
 F32 getValue_BAROtable(F32 BARO_kPa)
 {
-    return getValue_t2D(&BAROtable, 1000 * subtract_U32((U32) BARO_kPa, cBAROtableOffset_kPa)) / cBAROdivider;
+    VF32 raw;
+
+    raw= getValue_t2D(&BAROtable, 10.0 * BARO_kPa);
+    return raw - cBAROtableOffset_pct;
 }
 
 
@@ -876,7 +878,7 @@ void send_ChargeTempTable(USART_TypeDef * Port)
 
 
 /**
-returns the Barometric pressure correction factor in %
+returns the charge temperature in K
 */
 F32 getValue_ChargeTempTable(F32 IAT_K, F32 CLT_K)
 {

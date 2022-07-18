@@ -28,8 +28,10 @@ const char Tuareg_ID_labels [TID_COUNT] [TUAREG_ID_LABELS_LEN] __attribute__((__
     "TUNERSTUDIO_SERVICE",
     "UART",
     "UART_PRINTF",
+
     "DASH_HW",
-    "DASH_LOGIC",
+    "TID_TUAREG_DASH",
+
     "DEBUG",
     "DWT",
     "DECODER_CONFIG",
@@ -38,11 +40,17 @@ const char Tuareg_ID_labels [TID_COUNT] [TUAREG_ID_LABELS_LEN] __attribute__((__
     "TUAREG_DECODER",
     "DIAGNOSTICS",
     "FAULTLOG",
+
+    "TID_FUELING_ACCELCOMP",
     "FUELING_CONFIG",
-    "FUELING_CONTROLS",
+    "TID_FUELING_CORRECTIONS",
+    "TID_FUELING_DIAG",
+    "TID_FUELING_HW",
+    "TID_FUELING_INJECTOR_PARAMS",
     "TUAREG_FUELING",
+    "FUELING_CONTROLS",
+
     "SYSLOG",
-    "FUEL_HW",
     "IGNITION_CONFIG",
     "IGNITION_HW",
     "TUAREG_IGNITION",
