@@ -98,13 +98,13 @@ void Tuareg_update_process_data()
     /**
     calculate ground speed
     */
-    if((Tuareg.pDecoder->flags.rpm_valid) && (Tuareg.process.Gear < GEAR_NEUTRAL))
+    if((Tuareg.pDecoder->flags.rpm_valid) && (Tuareg.process.Gear > GEAR_NEUTRAL) && (Tuareg.process.Gear < GEAR_COUNT))
     {
-        Tuareg.process.ground_speed_mmps= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
+        Tuareg.process.speed_kmh= divide_F32(Tuareg.pDecoder->crank_rpm, Tuareg_Setup.gear_ratio[Tuareg.process.Gear -1]);
     }
     else
     {
-        Tuareg.process.ground_speed_mmps= 0;
+        Tuareg.process.speed_kmh= 0.0;
     }
 
     /**

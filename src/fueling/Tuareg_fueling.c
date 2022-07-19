@@ -158,7 +158,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
 
                 //register fuel mass injected
-                Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.fuel_mass_integrator_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG1_SEQ);
@@ -172,7 +172,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
 
                 //register fuel mass injected
-                Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.fuel_mass_integrator_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG2_SEQ);
@@ -210,7 +210,7 @@ void Tuareg_fueling_update_crankpos_handler()
         in sequential mode either injector #1 or #2 injects the full target fuel mass
         in batch mode each injector injects half of the target fuel mass
         */
-        Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+        Tuareg.fuel_mass_integrator_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
     }
 }
 

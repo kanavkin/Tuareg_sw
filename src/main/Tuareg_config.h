@@ -51,7 +51,7 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     U16 cranking_end_rpm;
 
     //conversion factors for ground speed calculation
-    F32 gear_ratio[GEAR_COUNT];
+    F32 gear_ratio[GEAR_COUNT -1];
 
     //EMA filter factors
     F32 TPS_alpha;

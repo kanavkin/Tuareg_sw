@@ -198,10 +198,11 @@ typedef struct _Tuareg_t {
     /*
     fuel consumption data
     */
-    VU32 injected_mass_ug;
-    VU32 trip_mm;
-    VU32 fuel_consumpt_1s_ug;
-    VU32 trip_1s_mm;
+    VU32 fuel_mass_integrator_ug;
+    VU32 trip_integrator_mm;
+
+    VF32 fuel_rate_gps;
+    VF32 fuel_eff_mpg;
 
     //fuel pump priming
     VU32 fuel_pump_priming_remain_s;

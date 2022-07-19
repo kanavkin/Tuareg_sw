@@ -102,11 +102,11 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     */
     print(Port, "\r\ngear ratio map\r\n");
 
-    for(gear=0; gear< GEAR_COUNT; gear++)
+    for(gear=GEAR_1; gear < GEAR_COUNT; gear++)
     {
-        printf_U(Port, Tuareg_Setup.gear_ratio[gear], PAD_2 | NO_TRAIL);
+        printf_U(Port, gear, PAD_2 | NO_TRAIL);
         UART_Tx(Port, ':');
-        printf_F32(Port, Tuareg_Setup.gear_ratio[gear]);
+        printf_F32(Port, Tuareg_Setup.gear_ratio[gear -1]);
     }
 
 

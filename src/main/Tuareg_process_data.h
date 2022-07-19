@@ -24,7 +24,7 @@ typedef struct _process_data_t {
 
     gears_t Gear;
 
-    U32 ground_speed_mmps;
+    F32 speed_kmh;
 
     F32 load_pct;
     F32 IVT_K;

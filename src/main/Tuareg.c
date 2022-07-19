@@ -487,9 +487,10 @@ void Tuareg_update_trip()
     U32 trip_increment_mm;
 
     //s := v * t
-    trip_increment_mm= Tuareg.process.ground_speed_mmps / 10;
+    //v_mps = v_kmh / 3.6
+    trip_increment_mm= Tuareg.process.speed_kmh / 36.0;
 
-    Tuareg.trip_mm += trip_increment_mm;
+    Tuareg.trip_integrator_mm += trip_increment_mm;
 
 }
 
@@ -501,11 +502,27 @@ called every second from systick timer
 ******************************************************************************************************************************/
 void Tuareg_update_consumption_data()
 {
-        //export data
-        Tuareg.fuel_consumpt_1s_ug= Tuareg.injected_mass_ug;
-        Tuareg.trip_1s_mm= Tuareg.trip_mm;
+    VF32 rate_gps, efficiency_mpg;
+    VU32 trip_mm, mass_ug;
 
-        //reset counters
-        Tuareg.injected_mass_ug= 0;
-        Tuareg.trip_mm= 0;
+    //read data
+    trip_mm= Tuareg.trip_integrator_mm;
+    mass_ug= Tuareg.fuel_mass_integrator_ug;
+
+    /*
+    calculate fuel efficiency
+    eff := s / m = m * 10⁻3 / g * 10⁻6 = 1000 * trip_mm / injected_mass_ug
+    */
+    efficiency_mpg= divide_F32(1000 * trip_mm, mass_ug);
+
+    //calculate fuel flow rate
+    rate_gps= divide_F32(mass_ug, 1000000);
+
+    //export data
+    Tuareg.fuel_rate_gps= rate_gps;
+    Tuareg.fuel_eff_mpg= efficiency_mpg;
+
+    //reset counters
+    Tuareg.fuel_mass_integrator_ug= 0;
+    Tuareg.trip_integrator_mm= 0;
 }

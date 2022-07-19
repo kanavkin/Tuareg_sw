@@ -79,7 +79,7 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     F32 IVT_K;
 
     gears_t Gear;
-    U16 ground_speed_mmps;
+    U8 speed_kmh;
     U32 engine_runtime_ms;
 
     U8 ignition_bits;
@@ -102,7 +102,8 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     U32 inj_delay_us;
     F32 inj_dc_pct;
 
-    U32 conspumtion_ugps;
+    F32 fuel_rate_gps;
+    F32 fuel_eff_mpg;
 
 } Output_Channels_t;
 

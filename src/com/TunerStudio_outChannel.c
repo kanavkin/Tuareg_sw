@@ -28,6 +28,8 @@ Output_Channels_t Out;
 volatile U8 * const pOut_data= (volatile U8 *) &Out;
 const U32 cOut_size= sizeof(Out);
 
+
+
 void ts_sendOutputChannels(USART_TypeDef * Port)
 {
     /**
@@ -60,7 +62,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.IVT_K= Tuareg.process.IVT_K;
     Out.Gear= Tuareg.process.Gear;
 
-    Out.ground_speed_mmps= Tuareg.process.ground_speed_mmps;
+    Out.speed_kmh= Tuareg.process.speed_kmh;
     Out.engine_runtime_ms= Tuareg.engine_runtime;
 
     Out.ignition_bits= Tuareg.ignition_controls.flags.all_flags;
@@ -83,8 +85,8 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.inj_dc_pct= Tuareg.fueling_controls.injector_target_dc;
     Out.inj_delay_us= Tuareg.fueling_controls.injector_deadtime_us;
 
-    Out.conspumtion_ugps= Tuareg.fuel_consumpt_1s_ug;
-
+    Out.fuel_rate_gps= Tuareg.fuel_rate_gps;
+    Out.fuel_eff_mpg= Tuareg.fuel_eff_mpg;
 
     /**
     send output channels
