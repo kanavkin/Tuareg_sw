@@ -13,7 +13,11 @@
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
 					<Add option="-g3" />
+					<Add option="-DDEBUG_TARGET" />
 				</Compiler>
+				<Linker>
+					<Add option="-Wl,-g" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Tuareg" prefix_auto="1" extension_auto="1" />
@@ -22,20 +26,12 @@
 				<Option compiler="gnu_gcc_compiler_for_stm32" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,--gc-sections" />
 				</Linker>
-			</Target>
-			<Target title="module_test">
-				<Option output="bin/Debug/Tuareg" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_for_stm32" />
-				<Compiler>
-					<Add option="-g3" />
-					<Add option="-DTUAREG_MODULE_TEST" />
-				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
@@ -50,7 +46,6 @@
 			<Add option="-march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
 			<Add option="-Wdouble-promotion -fsingle-precision-constant" />
 			<Add option="-fno-common  -fno-builtin -ffreestanding  -Wall" />
-			<Add option="-ffunction-sections -fdata-sections -Wl,--gc-sections" />
 			<Add option="-DSTM32F410xx" />
 			<Add option='-DHSE_VALUE=&quot;((uint32_t)8000000)&quot;' />
 			<Add option="-DUSE_STDPERIPH_DRIVER" />
@@ -58,28 +53,28 @@
 			<Add directory="../../src/stm32_libs/stm32f4xx/cmsis" />
 			<Add directory="../../src/stm32_libs/stm32f4xx/spl" />
 			<Add directory="../../src/stm32_libs/stm32f4xx" />
-			<Add directory="../../src" />
-			<Add directory="../../src/com" />
-			<Add directory="../../src/dash" />
-			<Add directory="../../src/debug" />
-			<Add directory="../../src/decoder" />
-			<Add directory="../../src/diagnostics" />
-			<Add directory="../../src/ignition" />
-			<Add directory="../../src/main" />
-			<Add directory="../../src/module_test" />
-			<Add directory="../../src/process_table" />
-			<Add directory="../../src/sensors" />
-			<Add directory="../../src/storage" />
-			<Add directory="../../src/timing" />
-			<Add directory="../../src/utils" />
-			<Add directory="../../src/fuelling" />
-			<Add directory="../../src/actors" />
+			<Add directory="../../src/stm32_libs/stm32f4xx/boctok" />
 			<Add directory="../../src/fueling" />
+			<Add directory="../../src/utils" />
+			<Add directory="../../src/actors" />
+			<Add directory="../../src/timing" />
+			<Add directory="../../src/storage" />
+			<Add directory="../../src/sensors" />
+			<Add directory="../../src/process_table" />
+			<Add directory="../../src/module_test" />
+			<Add directory="../../src/main" />
+			<Add directory="../../src/ignition" />
+			<Add directory="../../src/diagnostics" />
+			<Add directory="../../src/decoder" />
+			<Add directory="../../src/debug" />
+			<Add directory="../../src/dash" />
+			<Add directory="../../src/com" />
+			<Add directory="../../src" />
 		</Compiler>
 		<Linker>
-			<Add option="-Wl,--gc-sections  -T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
+			<Add option="-T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
 			<Add option="-I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/cmsis -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/spl -I$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/boctok" />
-			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb" />
+			<Add option="-march=armv7e-m -nostdlib  -nostartfiles -march=armv7e-m -mfloat-abi=hard  -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -Wl,-Map=main.map" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size $(TARGET_OUTPUT_FILE)" />
@@ -110,6 +105,12 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/com/TunerStudio_service.h" />
+		<Unit filename="../../src/com/TunerStudio_syslog_locations.h" />
+		<Unit filename="../../src/com/console_syslog_locations.h" />
+		<Unit filename="../../src/com/serial_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/com/serial_buffer.h" />
 		<Unit filename="../../src/com/serial_monitor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -122,13 +123,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/com/uart_printf.h" />
+		<Unit filename="../../src/dash/Tuareg_dash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/dash/Tuareg_dash.h" />
 		<Unit filename="../../src/dash/dash_hw.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/dash/dash_hw.h" />
-		<Unit filename="../../src/dash/dash_logic.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../../src/dash/dash_logic.h" />
 		<Unit filename="../../src/debug/debug.c">
 			<Option compilerVar="CC" />
@@ -146,6 +148,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/decoder/Tuareg_decoder.h" />
+		<Unit filename="../../src/decoder/decoder_cis.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/decoder/decoder_cis.h" />
 		<Unit filename="../../src/decoder/decoder_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -193,10 +199,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/Tuareg_fueling_controls.h" />
+		<Unit filename="../../src/fueling/accel_comp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/accel_comp.h" />
 		<Unit filename="../../src/fueling/fueling_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_config.h" />
+		<Unit filename="../../src/fueling/fueling_corrections.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/fueling/fueling_corrections.h" />
 		<Unit filename="../../src/fueling/fueling_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -205,10 +219,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/fueling/fueling_hw.h" />
-		<Unit filename="../../src/fueling/fueling_logic.c">
+		<Unit filename="../../src/fueling/injector_parameters.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/fueling/fueling_logic.h" />
+		<Unit filename="../../src/fueling/injector_parameters.h" />
 		<Unit filename="../../src/ignition/Ignition_syslog_locations.h" />
 		<Unit filename="../../src/ignition/Tuareg_ignition.c">
 			<Option compilerVar="CC" />
@@ -250,6 +264,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_errors.h" />
+		<Unit filename="../../src/main/Tuareg_platform.h" />
 		<Unit filename="../../src/main/Tuareg_process_data.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -279,6 +294,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/Tuareg_sensors.h" />
+		<Unit filename="../../src/sensors/analog_sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/analog_sensors.h" />
+		<Unit filename="../../src/sensors/digital_sensors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/sensors/digital_sensors.h" />
 		<Unit filename="../../src/sensors/knock_sensor.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -287,23 +310,24 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/sensor_calibration.h" />
-		<Unit filename="../../src/sensors/sensors.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/sensors/sensors.h" />
 		<Unit filename="../../src/sensors/sensors_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/sensors/sensors_diag.h" />
 		<Unit filename="../../src/sensors/sensors_syslog_locations.h" />
-		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.c">
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h" />
-		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.c">
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/core_cm4.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/core_cmFunc.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.s" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/stm32f4xx.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.c">
@@ -339,6 +363,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/timing/lowprio_scheduler.h" />
+		<Unit filename="../../src/timing/lowprio_scheduler_syslog_locations.h" />
 		<Unit filename="../../src/timing/scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -368,7 +393,7 @@
 		<Extensions>
 			<debugger>
 				<remote_debugging>
-					<options conn_type="0" serial_baud="115200" ip_address="localhost" ip_port="4242" additional_cmds="load" additional_cmds_before="file $(TARGET_OUTPUT_BASENAME)" extended_remote="1" />
+					<options conn_type="0" ip_address="localhost" ip_port="4242" additional_cmds="load" additional_cmds_before="file $(TARGET_OUTPUT_BASENAME)" extended_remote="1" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />

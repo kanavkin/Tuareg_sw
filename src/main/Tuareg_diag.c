@@ -46,9 +46,6 @@ const char tuareg_diag_legend [TDIAG_COUNT] [TUAREG_DIAG_LEGEND_LEN] __attribute
 
     "IGNITIONCALC_CALLS",
 
-
-    "TSTUDIO_CALLS",
-
     "UPDATE_RUNMODE_CALLS",
     "HALTSRC_PRESENT",
     "HALTSRC_CLEAR",
@@ -81,7 +78,7 @@ void tuareg_diag_log_event(tuareg_diag_t Event)
 {
     #ifdef USE_TUAREG_DIAG
 
-    Assert(Event < TDIAG_COUNT, 0, 0);
+    VitalAssert(Event < TDIAG_COUNT, 0, 0);
 
     tuareg_diag[Event] += 1;
 

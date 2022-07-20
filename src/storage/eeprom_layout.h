@@ -13,12 +13,13 @@ this is the last permitted eeprom address
 defining addresses beyond this address will lead to system error
 */
 #define EEPROM_FINAL_ADDRESS 8000
+#define EEPROM_WARNING_LEVEL 6000
 
 //see ct3D_data_size for address calculation!!! 320
 #define TABLE3D_RESERVED_SPACE 320
 
 //see ct2D_data_size for address calculation!!!
-#define TABLE2D_RESERVED_SPACE 48
+#define TABLE2D_RESERVED_SPACE 64
 
 
 /**
@@ -34,13 +35,19 @@ sensor calibration data
 */
 #define EEPROM_SENSOR_CALIBRATION_BASE (EEPROM_TUAREG_CONFIG_BASE + EEPROM_TUAREG_CONFIG_RESERVED_SPACE)
 
-#define EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE 125
+#define EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE 200
 
+
+/**
+CLT inverse transfer function - lookup Table - InvTableCLT
+2D
+*/
+#define EEPROM_SENSOR_INVTABLECLT_BASE (EEPROM_SENSOR_CALIBRATION_BASE + EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE)
 
 /**
 decoder configuration
 */
-#define EEPROM_DECODER_CONFIG_BASE (EEPROM_SENSOR_CALIBRATION_BASE + EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE)
+#define EEPROM_DECODER_CONFIG_BASE (EEPROM_SENSOR_INVTABLECLT_BASE + TABLE2D_RESERVED_SPACE)
 
 #define EEPROM_DECODER_CONFIG_RESERVED_SPACE 20
 
@@ -66,6 +73,7 @@ Ignition advance table 3D (MAP based)
 
 /**
 Ignition dwell table
+2D
 */
 #define EEPROM_IGNITION_DWELLTABLE_BASE (EEPROM_IGNITION_ADVTPS_BASE + TABLE3D_RESERVED_SPACE)
 
@@ -78,59 +86,88 @@ Fueling configuration
 #define EEPROM_FUELING_SETUP_RESERVED_SPACE 60
 
 /**
-Fueling VE Table 3D (TPS based) - VeTable_TPS
+Fueling VE Table (TPS based) - VeTable_TPS
+3D
 */
 #define EEPROM_FUELING_VETPS_BASE (EEPROM_FUELING_SETUP_BASE + EEPROM_FUELING_SETUP_RESERVED_SPACE)
 
 /**
-Fueling VE Table 3D (MAP based) - VeTable_MAP
+Fueling VE Table (MAP based) - VeTable_MAP
+3D
 */
 #define EEPROM_FUELING_VEMAP_BASE (EEPROM_FUELING_VETPS_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
-Fueling AFR target Table 3D (TPS based) - AfrTable_TPS
+Fueling AFR target Table (TPS based) - AfrTable_TPS
+3D
 */
 #define EEPROM_FUELING_AFRTPS_BASE (EEPROM_FUELING_VEMAP_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
-Fueling AFR target Table 3D (MAP based) - AfrTable_MAP
+Fueling AFR target Table (MAP based) - AfrTable_MAP
+3D
 */
 #define EEPROM_FUELING_AFRMAP_BASE (EEPROM_FUELING_AFRTPS_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
 Fueling acceleration compensation table - AccelCompTableTPS
+2D
 */
 #define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_AFRMAP_BASE + TABLE3D_RESERVED_SPACE)
 
 /**
 Fueling acceleration compensation table - AccelCompTableMAP
+2D
 */
 #define EEPROM_FUELING_ACCELCOMPMAP_BASE (EEPROM_FUELING_ACCELCOMPTPS_BASE + TABLE2D_RESERVED_SPACE)
 
 /**
 Fueling Warm up enrichment compensation table - WarmUpCompTable
+2D
 */
 #define EEPROM_FUELING_WARMUPCOMP_BASE (EEPROM_FUELING_ACCELCOMPMAP_BASE + TABLE2D_RESERVED_SPACE)
 
 /**
 Injector dead time table - InjectorTimingTable
+2D
 */
 #define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE2D_RESERVED_SPACE)
 
 /**
 Cranking base fuel mass table - CrankingFuelTable
+2D
 */
 #define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE2D_RESERVED_SPACE)
 
 /**
 Injection end target advance - InjectorPhaseTable
+2D
 */
 #define EEPROM_FUELING_INJECTORPHASE_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
 /**
+Barometric pressure correction - BAROtable
+2D
+*/
+#define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_INJECTORPHASE_BASE + TABLE2D_RESERVED_SPACE)
+
+/**
+charge temperature table - ChargeTempTable
+3D
+*/
+#define EEPROM_FUELING_CHARGETEMP_BASE (EEPROM_FUELING_BARO_BASE + TABLE2D_RESERVED_SPACE)
+
+/**
+tachometer table - TachTable
+2D
+*/
+#define EEPROM_TACHTABLE_BASE (EEPROM_FUELING_CHARGETEMP_BASE + TABLE3D_RESERVED_SPACE)
+
+
+/**
 Fault Log - Fault_Log
 */
-#define EEPROM_FAULT_LOG_BASE (EEPROM_FUELING_INJECTORPHASE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FAULT_LOG_BASE (EEPROM_TACHTABLE_BASE + TABLE2D_RESERVED_SPACE)
 
 
 /**
@@ -139,8 +176,12 @@ This is the last used eeprom address -> memory dump will be read until here
 #define EEPROM_STORAGE_END (EEPROM_FAULT_LOG_BASE + 20)
 
 
+#if (EEPROM_STORAGE_END > EEPROM_WARNING_LEVEL)
+#warning Eeprom utilization warning threshold reached
+#endif
+
 #if (EEPROM_STORAGE_END > EEPROM_FINAL_ADDRESS)
-#error Eeprom layout defines storage addresses beyond the final one!
+#error Eeprom layout does not fit the physical storage size
 #endif
 
 #endif // EEPROM_LAYOUT_H_INCLUDED

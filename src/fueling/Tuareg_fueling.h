@@ -1,13 +1,13 @@
 #ifndef TUAREG_FUELING_H_INCLUDED
 #define TUAREG_FUELING_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
 #include "Tuareg_types.h"
 
 #include "fueling_hw.h"
+#include "fueling_config.h"
 #include "Tuareg_fueling_controls.h"
 
-#define FUELING_REQUIRED_CONFIG_VERSION 5
+#define FUELING_REQUIRED_CONFIG_VERSION 7
 
 
 void init_Fueling();

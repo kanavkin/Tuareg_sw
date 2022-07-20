@@ -73,7 +73,7 @@ void fueling_diag_log_event(fueling_diag_t Event)
 {
     #ifdef USE_FUELING_DIAG
 
-    Assert(Event < FDIAG_COUNT, 0, 0);
+    VitalAssert(Event < FDIAG_COUNT, 0, 0);
 
     fueling_diag[Event] += 1;
 

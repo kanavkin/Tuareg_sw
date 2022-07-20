@@ -1,8 +1,7 @@
 #ifndef EEPROM_H_INCLUDED
 #define EEPROM_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 
 // E0 = E1 = E2 = 0

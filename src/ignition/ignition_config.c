@@ -36,35 +36,16 @@ const U32 cIgnition_Setup_size= sizeof(Ignition_Setup);
 */
 exec_result_t load_Ignition_Config()
 {
-    exec_result_t load_result;
-
     //bring up eeprom
     Eeprom_init();
 
-    load_result= Eeprom_load_data(EEPROM_IGNITION_SETUP_BASE, pIgnition_Setup_data, cIgnition_Setup_size);
+    ASSERT_EXEC_OK( Eeprom_load_data(EEPROM_IGNITION_SETUP_BASE, pIgnition_Setup_data, cIgnition_Setup_size) );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE) );
 
-    load_result= load_t3D_data(&(ignAdvTable_TPS.data), EEPROM_IGNITION_ADVTPS_BASE);
+    ASSERT_EXEC_OK( load_t2D_data(&(ignDwellTable.data), EEPROM_IGNITION_DWELLTABLE_BASE) );
 
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(ignDwellTable.data), EEPROM_IGNITION_DWELLTABLE_BASE);
-
-   return load_result;
-}
-
-
-/**
-*
-* provides sane defaults if config data from eeprom is not available (limp home mode)
-*
-*/
-void load_essential_Ignition_Config()
-{
-    //ignition control module has all vital defaults compiled in
-
-
+    return EXEC_OK;
 }
 
 
@@ -209,9 +190,9 @@ void send_ignAdvTable_TPS(USART_TypeDef * Port)
 }
 
 
-VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS)
+U32 getValue_ignAdvTable_TPS(U32 Rpm, F32 TPS)
 {
-    return (VU32) getValue_t3D(&ignAdvTable_TPS, Rpm, TPS);
+    return (U32) getValue_t3D(&ignAdvTable_TPS, Rpm, TPS);
 }
 
 
@@ -251,8 +232,8 @@ void send_ignDwellTable(USART_TypeDef * Port)
 /**
 returns the dwell time in us
 */
-VU32 getValue_ignDwellTable(VU32 Rpm)
+U32 getValue_ignDwellTable(U32 Rpm)
 {
     //ignDwellTable stores the Dwell time in 48 us increments
-    return (VU32) 48 * getValue_t2D(&ignDwellTable, Rpm);
+    return getValue_t2D(&ignDwellTable, Rpm);
 }

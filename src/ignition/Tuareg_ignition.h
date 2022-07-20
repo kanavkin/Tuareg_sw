@@ -1,11 +1,13 @@
 #ifndef TUAREG_IGNITION_H_INCLUDED
 #define TUAREG_IGNITION_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
+#include "ignition_config.h"
+#include "ignition_diag.h"
 #include "ignition_hw.h"
 #include "Tuareg_ignition_controls.h"
+#include "Ignition_syslog_locations.h"
 
 void init_Ignition();
 

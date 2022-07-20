@@ -36,103 +36,48 @@ volatile t2D_t CrankingFuelTable;
 
 volatile t2D_t InjectorPhaseTable;
 
+volatile t2D_t BAROtable;
+
+volatile t3D_t ChargeTempTable;
+
 volatile U8 * const pFueling_Setup_data= (volatile U8 *) &Fueling_Setup;
 const U32 cFueling_Setup_size= sizeof(Fueling_Setup);
 
 
 
 /**
-*
 * reads Fueling config (setup and tables) data from eeprom
 *
 */
 exec_result_t load_Fueling_Config()
 {
-    exec_result_t load_result;
-
-    //bring up eeprom
+    //bring up eeprom first
     Eeprom_init();
 
-    load_result= Eeprom_load_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
+    ASSERT_EXEC_OK( load_Fueling_Setup() );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_VeTable_TPS() );
+    ASSERT_EXEC_OK( load_VeTable_MAP() );
 
-    load_result= load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
+    ASSERT_EXEC_OK( load_AfrTable_MAP() );
+    ASSERT_EXEC_OK( load_AfrTable_TPS() );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_AccelCompTableTPS() );
+    ASSERT_EXEC_OK( load_AccelCompTableMAP() );
 
-    load_result= load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
+    ASSERT_EXEC_OK( load_WarmUpCompTable() );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_InjectorTimingTable() );
 
-    load_result= load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
+    ASSERT_EXEC_OK( load_CrankingFuelTable() );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_InjectorPhaseTable() );
 
-    load_result= load_t3D_data(&(AfrTable_MAP.data), EEPROM_FUELING_AFRMAP_BASE);
+    ASSERT_EXEC_OK( load_BAROtable() );
 
-    ASSERT_EXEC_OK(load_result);
+    ASSERT_EXEC_OK( load_ChargeTempTable() );
 
-    load_result= load_t2D_data(&(AccelCompTableTPS.data), EEPROM_FUELING_ACCELCOMPTPS_BASE);
-
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(AccelCompTableMAP.data), EEPROM_FUELING_ACCELCOMPMAP_BASE);
-
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(WarmUpCompTable.data), EEPROM_FUELING_WARMUPCOMP_BASE);
-
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
-
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
-
-    ASSERT_EXEC_OK(load_result);
-
-    load_result= load_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
-
-    return load_result;
-}
-
-
-/**
-*
-* provides sane defaults if config data from eeprom is not available (limp home mode)
-*
-*/
-void load_essential_Fueling_Config()
-{
-    Fueling_Setup.Version= 0;
-
-    Fueling_Setup.cylinder_volume_ccm= 425;
-
-    Fueling_Setup.injection_reference_pos= CRK_POSITION_A1;
-
-    Fueling_Setup.injector1_rate_mgps= 4000;
-    Fueling_Setup.injector2_rate_mgps= 4000;
-    Fueling_Setup.max_injector_duty_cycle_pct= 0;
-
-    Fueling_Setup.accel_comp_thres_TPS= 10000.0;
-    Fueling_Setup.accel_comp_thres_MAP= 10000.0;
-    Fueling_Setup.decel_comp_thres_TPS= -10000.0;
-    Fueling_Setup.decel_comp_thres_MAP= -10000.0;
-    Fueling_Setup.decel_comp_pct= 0;
-    Fueling_Setup.accel_comp_cycles= 0;
-
-    Fueling_Setup.afterstart_comp_pct= 0;
-    Fueling_Setup.afterstart_comp_cycles= 0;
-
-    Fueling_Setup.spd_min_rpm= 10000;
-    Fueling_Setup.spd_max_rpm= 3;
-
-    Fueling_Setup.MAP_filter_max_rpm= 0;
-
-    Fueling_Setup.features.all_flags= 0;
-
+    return EXEC_OK;
 }
 
 
@@ -141,11 +86,11 @@ void load_essential_Fueling_Config()
 ***************************************************************************************************************************************************/
 
 
-/**
-*
-* writes Fueling config data to eeprom
-*
-*/
+exec_result_t load_Fueling_Setup()
+{
+    return Eeprom_load_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
+}
+
 exec_result_t store_Fueling_Setup()
 {
     return Eeprom_update_data(EEPROM_FUELING_SETUP_BASE, pFueling_Setup_data, cFueling_Setup_size);
@@ -216,13 +161,17 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncold engine acceleration compensation bonus fuel (%):");
     printf_U(Port, Fueling_Setup.cold_accel_pct, NO_PAD);
 
-    //U8 decel_comp_pct
-    print(Port, "\r\ndeceleration compensation (%):");
-    printf_U(Port, Fueling_Setup.decel_comp_pct, NO_PAD);
+    //U16 decel_comp_ug
+    print(Port, "\r\ndeceleration compensation (ug):");
+    printf_U(Port, Fueling_Setup.decel_comp_ug, NO_PAD);
 
     //U8 accel_comp_cycles
     print(Port, "\r\nacceleration compensation duration (events):");
     printf_U(Port, Fueling_Setup.accel_comp_cycles, NO_PAD);
+
+    //U8 decel_comp_cycles
+    print(Port, "\r\ndeceleration compensation duration (events):");
+    printf_U(Port, Fueling_Setup.decel_comp_cycles, NO_PAD);
 
     //U8 accel_comp_taper_thres
     print(Port, "\r\nacceleration compensation taper begin (remaining events):");
@@ -257,20 +206,21 @@ void show_Fueling_Setup(USART_TypeDef * Port)
 
 
     //features
-    print(Port, "\r\nfeature enabled features: AE-WUE-ASE-seq-dry: ");
+    print(Port, "\r\nfeature enabled features: AE-legacyAE-sequential-WUE-ASE-seq-dry: ");
 
     UART_Tx(TS_PORT, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.warmup_comp_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.afterstart_corr_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, (Fueling_Setup.features.legacy_AE_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.WUE_enabled? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Fueling_Setup.features.ASE_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Fueling_Setup.features.dry_cranking_enabled? '1' :'0'));
 
 }
-
 
 
 /**
@@ -307,6 +257,11 @@ void send_Fueling_Setup(USART_TypeDef * Port)
 * z-Axis -> VE in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
+exec_result_t load_VeTable_TPS()
+{
+    return load_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
+}
+
 exec_result_t store_VeTable_TPS()
 {
     return store_t3D_data(&(VeTable_TPS.data), EEPROM_FUELING_VETPS_BASE);
@@ -340,7 +295,7 @@ void send_VeTable_TPS(USART_TypeDef * Port)
 /**
 returns the volumetric efficiency in percent
 */
-VF32 getValue_VeTable_TPS(VU32 Rpm, VF32 Tps_deg)
+F32 getValue_VeTable_TPS(U32 Rpm, F32 Tps_deg)
 {
     return getValue_t3D(&VeTable_TPS, Rpm, Tps_deg);
 }
@@ -354,6 +309,11 @@ VF32 getValue_VeTable_TPS(VU32 Rpm, VF32 Tps_deg)
 * y-Axis -> MAP in kPa (no offset, no scaling)
 * z-Axis -> VE in % (no offset, no scaling)
 ***************************************************************************************************************************************************/
+
+exec_result_t load_VeTable_MAP()
+{
+    return load_t3D_data(&(VeTable_MAP.data), EEPROM_FUELING_VEMAP_BASE);
+}
 
 exec_result_t store_VeTable_MAP()
 {
@@ -388,7 +348,7 @@ void send_VeTable_MAP(USART_TypeDef * Port)
 /**
 returns the volumetric efficiency in percent
 */
-VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
+F32 getValue_VeTable_MAP(U32 Rpm, F32 Map_kPa)
 {
     return getValue_t3D(&VeTable_MAP, Rpm, Map_kPa);
 }
@@ -405,6 +365,11 @@ VF32 getValue_VeTable_MAP(VU32 Rpm, VF32 Map_kPa)
 
 const F32 cAfrDivider= 10.0;
 
+
+exec_result_t load_AfrTable_MAP()
+{
+    return load_t3D_data(&(AfrTable_TPS.data), EEPROM_FUELING_AFRTPS_BASE);
+}
 
 exec_result_t store_AfrTable_MAP()
 {
@@ -439,9 +404,9 @@ void send_AfrTable_MAP(USART_TypeDef * Port)
 /**
 returns the AFR target
 */
-VF32 getValue_AfrTable_MAP(VU32 Rpm, VF32 Map_kPa)
+F32 getValue_AfrTable_MAP(U32 Rpm, F32 Map_kPa)
 {
-    return (getValue_t3D(&AfrTable_MAP, Rpm, Map_kPa) / cAfrDivider);
+    return getValue_t3D(&AfrTable_MAP, Rpm, Map_kPa) / cAfrDivider;
 }
 
 
@@ -454,6 +419,11 @@ VF32 getValue_AfrTable_MAP(VU32 Rpm, VF32 Map_kPa)
 * z-Axis -> target AFR (no offset, table values are multiplied by 10)
 ***************************************************************************************************************************************************/
 
+
+exec_result_t load_AfrTable_TPS()
+{
+    return load_t3D_data(&(AfrTable_MAP.data), EEPROM_FUELING_AFRMAP_BASE);
+}
 
 exec_result_t store_AfrTable_TPS()
 {
@@ -488,9 +458,9 @@ void send_AfrTable_TPS(USART_TypeDef * Port)
 returns the target AFR value
 (divided by 10 for decimal place storage in table)
 */
-VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
+F32 getValue_AfrTable_TPS(U32 Rpm, F32 Tps_deg)
 {
-    return (getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / cAfrDivider);
+    return getValue_t3D(&AfrTable_TPS, Rpm, Tps_deg) / cAfrDivider;
 }
 
 
@@ -499,8 +469,13 @@ VF32 getValue_AfrTable_TPS(VU32 Rpm, VF32 Tps_deg)
 *   Fueling acceleration compensation table - AccelCompTableTPS
 *
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
-* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in ug (no offset, no scaling)
 ***************************************************************************************************************************************************/
+
+exec_result_t load_AccelCompTableTPS()
+{
+    return load_t2D_data(&(AccelCompTableTPS.data), EEPROM_FUELING_ACCELCOMPTPS_BASE);
+}
 
 exec_result_t store_AccelCompTableTPS()
 {
@@ -533,9 +508,9 @@ void send_AccelCompTableTPS(USART_TypeDef * Port)
 
 
 /**
-returns the acceleration compensation value in percent
+returns the acceleration compensation value in ug
 */
-VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS)
+F32 getValue_AccelCompTableTPS(F32 Ddt_TPS)
 {
     return getValue_t2D(&AccelCompTableTPS, Ddt_TPS);
 }
@@ -545,8 +520,13 @@ VF32 getValue_AccelCompTableTPS(VF32 Ddt_TPS)
 *   Fueling acceleration compensation table - AccelCompTableMAP
 *
 * x-Axis -> TPS change rate in °/s (no offset, no scaling)
-* y-Axis -> Acceleration compensation value in % (no offset, no scaling)
+* y-Axis -> Acceleration compensation value in ug (no offset, no scaling)
 ***************************************************************************************************************************************************/
+
+exec_result_t load_AccelCompTableMAP()
+{
+    return load_t2D_data(&(AccelCompTableMAP.data), EEPROM_FUELING_ACCELCOMPMAP_BASE);
+}
 
 exec_result_t store_AccelCompTableMAP()
 {
@@ -579,9 +559,9 @@ void send_AccelCompTableMAP(USART_TypeDef * Port)
 
 
 /**
-returns the acceleration compensation value in percent
+returns the acceleration compensation value in ug
 */
-VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP)
+F32 getValue_AccelCompTableMAP(F32 Ddt_MAP)
 {
     return getValue_t2D(&AccelCompTableMAP, Ddt_MAP);
 }
@@ -591,8 +571,15 @@ VF32 getValue_AccelCompTableMAP(VF32 Ddt_MAP)
 *   Fueling Warm up Enrichment compensation table - WarmUpCompTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Warm up compensation value in % (no offset, no scaling)
+* y-Axis -> Warm up compensation value in % (no offset, scaling * 10)
 ***************************************************************************************************************************************************/
+
+const F32 cWarmUpDivider= 10.0;
+
+exec_result_t load_WarmUpCompTable()
+{
+    return load_t2D_data(&(WarmUpCompTable.data), EEPROM_FUELING_WARMUPCOMP_BASE);
+}
 
 exec_result_t store_WarmUpCompTable()
 {
@@ -627,9 +614,9 @@ void send_WarmUpCompTable(USART_TypeDef * Port)
 /**
 returns the Warm up Enrichment compensation in percent
 */
-VF32 getValue_WarmUpCompTable(VF32 CLT_K)
+F32 getValue_WarmUpCompTable(F32 CLT_K)
 {
-    return getValue_t2D(&WarmUpCompTable, CLT_K);
+    return getValue_t2D(&WarmUpCompTable, CLT_K) / cWarmUpDivider;
 }
 
 
@@ -640,7 +627,10 @@ VF32 getValue_WarmUpCompTable(VF32 CLT_K)
 * y-Axis -> Injector dead time in us (no offset, table values are in 24 us increments)
 ***************************************************************************************************************************************************/
 
-const U32 cInjTimingMultiplier= 24;
+exec_result_t load_InjectorTimingTable()
+{
+    return load_t2D_data(&(InjectorTimingTable.data), EEPROM_FUELING_INJECTORTIMING_BASE);
+}
 
 exec_result_t store_InjectorTimingTable()
 {
@@ -675,9 +665,9 @@ void send_InjectorTimingTable(USART_TypeDef * Port)
 /**
 returns the injector dead time in its intervals
 */
-VU32 getValue_InjectorTimingTable(VF32 Bat_V)
+F32 getValue_InjectorTimingTable(F32 Bat_V)
 {
-    return cInjTimingMultiplier * (VU32) getValue_t2D(&InjectorTimingTable, 1000 * Bat_V);
+    return getValue_t2D(&InjectorTimingTable, 1000.0 * Bat_V);
 }
 
 
@@ -685,10 +675,13 @@ VU32 getValue_InjectorTimingTable(VF32 Bat_V)
 *   Cranking base fuel mass table - CrankingFuelTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 512 ug increments)
+* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 256 ug increments)
 ***************************************************************************************************************************************************/
 
-const U32 cCrkFuelMultiplier= 512;
+exec_result_t load_CrankingFuelTable()
+{
+    return load_t2D_data(&(CrankingFuelTable.data), EEPROM_FUELING_CRANKINGTABLE_BASE);
+}
 
 exec_result_t store_CrankingFuelTable()
 {
@@ -723,9 +716,9 @@ void send_CrankingFuelTable(USART_TypeDef * Port)
 /**
 returns the Cranking base fuel mass in its increments
 */
-VU32 getValue_CrankingFuelTable(VF32 CLT_K)
+F32 getValue_CrankingFuelTable(F32 CLT_K)
 {
-    return cCrkFuelMultiplier * (VU32) getValue_t2D(&CrankingFuelTable, CLT_K);
+    return getValue_t2D(&CrankingFuelTable, CLT_K);
 }
 
 
@@ -734,10 +727,13 @@ VU32 getValue_CrankingFuelTable(VF32 CLT_K)
 *   Injection end target advance relative to Intake valve opening - InjectorPhaseTable
 *
 * x-Axis -> rpm (no offset, no scaling)
-* y-Axis -> Injection end target advance (offset := 128, table values are in 2 deg increments)
+* y-Axis -> Injection end target advance (no offset, no scaling)
 ***************************************************************************************************************************************************/
 
-const U32 cInjPhaseMultiplier= 2;
+exec_result_t load_InjectorPhaseTable()
+{
+    return load_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
+}
 
 exec_result_t store_InjectorPhaseTable()
 {
@@ -770,14 +766,124 @@ void send_InjectorPhaseTable(USART_TypeDef * Port)
 
 
 /**
-returns the Injection end target advance in 2 deg interval
+returns the Injection end target advance
 */
-VU32 getValue_InjectorPhaseTable(VU32 Rpm)
+F32 getValue_InjectorPhaseTable(U32 Rpm)
 {
-    return cInjPhaseMultiplier * (VU32) getValue_t2D(&InjectorPhaseTable, Rpm);
+    return getValue_t2D(&InjectorPhaseTable, Rpm);
 }
 
 
+/***************************************************************************************************************************************************
+*   Barometric pressure correction - BAROtable
+*
+* x-Axis -> Barometric pressure in hPa (no offset, no scaling)
+* y-Axis -> correction  in % (offset := 100, no scaling)
+***************************************************************************************************************************************************/
+
+const F32 cBAROtableOffset_pct= 100.0;
+
+
+exec_result_t load_BAROtable()
+{
+    return load_t2D_data(&(BAROtable.data), EEPROM_FUELING_BARO_BASE);
+}
+
+exec_result_t store_BAROtable()
+{
+    return store_t2D_data(&(BAROtable.data), EEPROM_FUELING_BARO_BASE);
+}
+
+
+void show_BAROtable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nBARO correction table:\r\n");
+
+    show_t2D_data(TS_PORT, &(BAROtable.data));
+}
+
+
+exec_result_t modify_BAROtable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(BAROtable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for BAROtable
+*/
+void send_BAROtable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(BAROtable.data));
+}
+
+
+/**
+returns the Barometric pressure correction factor in %
+*/
+F32 getValue_BAROtable(F32 BARO_kPa)
+{
+    VF32 raw;
+
+    raw= getValue_t2D(&BAROtable, 10.0 * BARO_kPa);
+    return raw - cBAROtableOffset_pct;
+}
+
+
+
+/***************************************************************************************************************************************************
+*   charge temperature table - ChargeTempTable
+*
+* x-Axis -> IAT in K (no offset, no scaling)
+* y-Axis -> CLT in K (no offset, no scaling)
+* z-Axis -> charge temperature in K (offset := 173,15K, no scaling)
+***************************************************************************************************************************************************/
+
+const F32 cChargeTempOffset_K= 173.15;
+
+exec_result_t load_ChargeTempTable()
+{
+    return load_t3D_data(&(ChargeTempTable.data), EEPROM_FUELING_CHARGETEMP_BASE);
+}
+
+exec_result_t store_ChargeTempTable()
+{
+    return store_t3D_data(&(ChargeTempTable.data), EEPROM_FUELING_CHARGETEMP_BASE);
+}
+
+
+void show_ChargeTempTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\ncharge temperature table (K):\r\n");
+
+    show_t3D_data(TS_PORT, &(ChargeTempTable.data));
+}
+
+
+exec_result_t modify_ChargeTempTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t3D_data(&(ChargeTempTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for ChargeTempTable
+*/
+void send_ChargeTempTable(USART_TypeDef * Port)
+{
+    send_t3D_data(Port, &(ChargeTempTable.data));
+}
+
+
+/**
+returns the charge temperature in K
+*/
+F32 getValue_ChargeTempTable(F32 IAT_K, F32 CLT_K)
+{
+    return cChargeTempOffset_K + getValue_t3D(&ChargeTempTable, IAT_K, CLT_K);
+}
 
 
 

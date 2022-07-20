@@ -108,7 +108,7 @@ void highspeedlog_write(highspeedlog_event_t Event)
     //phasing
     pTarget->flags.cam_lobe= Highspeedlog_Mgr.cam_lobe_begin_triggered;
     pTarget->flags.phase_comp= (Tuareg.pDecoder->phase == PHASE_CYL1_COMP) ? true : false;
-    pTarget->flags.phase_valid= Tuareg.pDecoder->outputs.phase_valid;
+    pTarget->flags.phase_valid= Tuareg.pDecoder->flags.phase_valid;
 
     __enable_irq();
 
@@ -299,8 +299,8 @@ void send_highspeedlog(USART_TypeDef * Port)
             alias_data_out[2]= HLOGA_ALIAS;
 
             //alias fraction timestamp: 5 us earlier
-            alias_data_out[3]= subtract_VU32(pTarget->fraction_ts, 5) >> 8;
-            alias_data_out[4]= subtract_VU32(pTarget->fraction_ts, 5);
+            alias_data_out[3]= subtract_U32(pTarget->fraction_ts, 5) >> 8;
+            alias_data_out[4]= subtract_U32(pTarget->fraction_ts, 5);
         }
 
         //send data

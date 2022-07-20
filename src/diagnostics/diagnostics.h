@@ -15,7 +15,7 @@
 
 
 exec_result_t copy_diag_data(VU32 * pSource, U32 Length);
-VU32 get_diag_data(VU32 Index);
+VU32 get_diag_data(U32 Index);
 void release_diag_shadow();
 
 

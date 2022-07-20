@@ -65,12 +65,12 @@
    application
   */
 
-  /**
+/**
 dirty hack
 
 TODO implement assert logic
 */
- #define assert_param(expr) ((void)0)
+#define assert_param(expr) ((void)0)
 
 
 
@@ -10855,6 +10855,7 @@ typedef struct
 #define SYSCFG_EXTICR2_EXTI7_PI         ((uint16_t)0x8000) /*!<PI[7] pin */
 #define SYSCFG_EXTICR2_EXTI7_PJ         ((uint16_t)0x9000) /*!<PJ[7] pin */
 #define SYSCFG_EXTICR2_EXTI7_PK         ((uint16_t)0xA000) /*!<PK[7] pin */
+
 
 /*****************  Bit definition for SYSCFG_EXTICR3 register  ***************/
 #define SYSCFG_EXTICR3_EXTI8            ((uint16_t)0x000F) /*!<EXTI 8 configuration */

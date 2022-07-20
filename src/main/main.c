@@ -55,27 +55,8 @@ SCHEDULER (ignition)
 -> now self aligning to target scheduler period
 
 */
-
-
-
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "Tuareg_types.h"
-#include "Tuareg.h"
-
-#include "Tuareg_decoder.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_fueling.h"
-#include "scheduler.h"
-#include "Tuareg_console.h"
-
-#include "diagnostics.h"
-#include "Tuareg_diag.h"
-#include "debug_port_messages.h"
-#include "syslog.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 
 /**
@@ -92,18 +73,14 @@ global status object
 volatile Tuareg_t Tuareg;
 
 
-/// TODO (oli#5#): implement memset function?
-
-
-
 /**
 Tuareg IRQ priorities:
 
 1    decoder:
     crank pickup (EXTI) -> EXTI0_IRQn
-    crank pickup filter (timer 2) -> TIM2_IRQn NEW: TIM1_BRK_TIM9_IRQn
+    crank pickup filter (timer 9) -> TIM1_BRK_TIM9_IRQn
 
-2   scheduler (timer 3) -> TIM3_IRQn
+2   scheduler (timer 5) -> TIM5_IRQn
 
 3   cis (part of decoder) (EXTI) -> EXTI1_IRQn
 
@@ -145,33 +122,47 @@ allocated timers:
 
 lowspeed_timers: derived from SysTick
 
-decoder: timer2 (16 bit general-purpose timer) --> new: TIM9 (16 bit general-purpose timer)
+decoder: TIM9 (16 bit general-purpose timer)
 
-scheduler: timer 3  (16 bit general-purpose timer) --> new: TIM5 (32 bit general-purpose timer)
+scheduler: TIM5 (32 bit general-purpose timer)
 
 lowprio_scheduler: TIM11 (32 bit general-purpose timer)
 
 sensors: no timers
 
 
+STM32F410 available timers: TIM1, TIM5, TIM6, TIM9, TIM11, LPTIM1
 
 
+IRQs:
+
+    TIM1_BRK_TIM9_IRQn
+
+    TIM1_UP_TIM10_IRQn
+    TIM1_TRG_COM_TIM11_IRQn
+
+    TIM1_CC_IRQn
+
+
+    TIM5_IRQn
+
+    TIM6_DAC_IRQn
+
+    LPTIM1_IRQn
 
 */
+
+
+
+
 int main(void)
 {
+
     Tuareg_Init();
+
 
     while(1)
     {
-
-        if(Tuareg.errors.fatal_error == true)
-        {
-            //FATAL mode to be implemented soon ...
-            DebugMsg_Error("fatal mode");
-            break;
-        }
-
         /**
         100 Hz actions
         */
@@ -179,13 +170,8 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_10_ms= false;
 
-            if(Tuareg.pDecoder->outputs.standstill == true)
-            {
-                Tuareg_update_process_data();
-
-                Tuareg_update_ignition_controls();
-                Tuareg_update_fueling_controls();
-            }
+            //console - even in fatal mode!
+            Tuareg_update_console();
         }
 
         /**
@@ -195,22 +181,35 @@ int main(void)
         {
             Tuareg.pTimer->flags.cycle_100_ms= false;
 
-            //process debug messages from decoder
-            decoder_process_debug_events();
+            if(Tuareg.errors.fatal_error == false)
+            {
+                Tuareg_update_trip();
+            }
         }
 
 
         /**
-        handle console
+        1 Hz actions
         */
-        if( (Tuareg.pTimer->flags.cycle_66_ms == true) || (UART_available() > SERIAL_BUFFER_THRESHOLD) )
+        if( Tuareg.pTimer->flags.cycle_1000_ms == true)
         {
-            Tuareg.pTimer->flags.cycle_66_ms= false;
+            Tuareg.pTimer->flags.cycle_1000_ms= false;
 
-            //collect diagnostic information
-            tuareg_diag_log_event(TDIAG_TSTUDIO_CALLS);
+            //console timer
+            cli_cyclic_update();
 
-            Tuareg_update_console();
+            if(Tuareg.errors.fatal_error == false)
+            {
+                //update fuel consumption statistics
+                Tuareg_update_consumption_data();
+
+                //fuel pump priming
+                if(Tuareg.fuel_pump_priming_remain_s > 0)
+                {
+                    Tuareg.fuel_pump_priming_remain_s -= 1;
+                }
+            }
+
         }
     }
 
@@ -239,6 +238,12 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
+    //no engine operation in Fatal state
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
@@ -250,7 +255,7 @@ void EXTI2_IRQHandler(void)
     if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
     {
         //update process table with data supplied by decoder
-        update_process_table( (Tuareg.pDecoder->outputs.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
+        update_process_table( (Tuareg.pDecoder->flags.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
 
         //update process data
         Tuareg_update_process_data();
@@ -266,29 +271,4 @@ void EXTI2_IRQHandler(void)
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_DECODER_UPDATE);
 }
-
-
-
-/******************************************************************************************************************************
-sw generated irq when a spark has fired
-******************************************************************************************************************************/
-void EXTI3_IRQHandler(void)
-{
-    //clear pending register
-    EXTI->PR= EXTI_Line3;
-
-    /*
-    main task here is to turn on the coils for dwell in dynamic mode
-    */
-    //Tuareg_ignition_irq_handler();
-
-
-    //collect diagnostic information
-    tuareg_diag_log_event(TDIAG_IGNITION_IRQ);
-
-}
-
-
-
-
 

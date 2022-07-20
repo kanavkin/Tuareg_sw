@@ -1,31 +1,51 @@
 #ifndef TUAREG_H_INCLUDED
 #define TUAREG_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
-#include "Tuareg_errors.h"
+#include "Tuareg_ID.h"
 #include "Tuareg_config.h"
-
+#include "Tuareg_diag.h"
+#include "Tuareg_errors.h"
 #include "Tuareg_process_data.h"
-
-#include "table.h"
-#include "sensors.h"
-#include "process_table.h"
-
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
+#include "Tuareg_syslog_locations.h"
 
 #include "Tuareg_decoder.h"
+#include "Tuareg_ignition.h"
+#include "Tuareg_fueling.h"
+#include "Tuareg_sensors.h"
+#include "Tuareg_console.h"
+#include "Tuareg_dash.h"
+#include "Tuareg_service_functions.h"
 
+#include "scheduler.h"
+#include "lowprio_scheduler.h"
 #include "systick_timer.h"
 
-#include "Tuareg_fueling_controls.h"
+#include "eeprom.h"
+#include "process_table.h"
+#include "table.h"
 
-#include "syslog.h"
 #include "highspeed_loggers.h"
+#include "syslog.h"
+#include "fault_log.h"
+#include "diagnostics.h"
 
-#define TUAREG_REQUIRED_CONFIG_VERSION 3
+#include "debug_port_messages.h"
+
+#include "uart.h"
+#include "uart_printf.h"
+
+#include "conversion.h"
+
+
+#define TUAREG_REQUIRED_CONFIG_VERSION 6
+
+
+#define LOWPRIOSCHEDULER_WIP
+
+
+extern const char Tuareg_Version [];
 
 
 /**
@@ -129,12 +149,11 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    volatile Tuareg_decoder_t * pDecoder;
+    volatile decoder_output_t * pDecoder;
 
     /**
     access to core components
     */
-    volatile sensor_interface_t * pSensors;
     volatile systick_t * pTimer;
 
     /**
@@ -169,7 +188,7 @@ typedef struct _Tuareg_t {
     volatile highspeedlog_flags_t * pHighspeedlog;
 
     /*
-
+    system watchdogs
     */
     VU32 decoder_watchdog;
     VU32 injector1_watchdog_ms;
@@ -179,12 +198,17 @@ typedef struct _Tuareg_t {
     /*
     fuel consumption data
     */
-    VU32 injected_mass_ug;
-    VU32 trip_mm;
-    VU32 fuel_consumpt_1s_ug;
-    VU32 trip_1s_mm;
+    VU32 fuel_mass_integrator_1s_ug;
+    VF32 fuel_mass_integrator_1min_mg;
+    VU32 trip_integrator_1min_mm;
+    VU32 consumption_counter;
 
-    //fuel pump priming
+    VF32 fuel_rate_gps;
+    VF32 fuel_eff_mpg;
+
+    /*
+    fuel pump priming
+    */
     VU32 fuel_pump_priming_remain_s;
 
 } Tuareg_t;
@@ -198,7 +222,6 @@ extern volatile Tuareg_t Tuareg;
 
 void Tuareg_Init();
 void Tuareg_load_config();
-void Tuareg_print_init_message();
 
 
 void Tuareg_update();
@@ -211,6 +234,6 @@ void Tuareg_update_consumption_data();
 void Tuareg_update_trip();
 
 
-void Tuareg_deactivate_vital_actors();
+void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump);
 
 #endif // TUAREG_H_INCLUDED

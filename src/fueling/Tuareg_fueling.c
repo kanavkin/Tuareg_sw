@@ -1,35 +1,29 @@
 #include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
 #include "stm32_libs/boctok_types.h"
 
-#include "base_calc.h"
 
-#include "decoder_logic.h"
+#include "Tuareg.h"
+#include "Tuareg_decoder.h"
 
 #include "Tuareg_fueling.h"
 #include "Tuareg_fueling_controls.h"
 #include "fueling_hw.h"
 #include "fueling_config.h"
-
-#include "scheduler.h"
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
-#include "table.h"
-#include "eeprom.h"
-
-#include "syslog.h"
 #include "Fueling_syslog_locations.h"
-#include "debug_port_messages.h"
-#include "diagnostics.h"
 #include "fueling_diag.h"
-#include "Tuareg.h"
+
+#include "base_calc.h"
+#include "scheduler.h"
+#include "syslog.h"
+#include "diagnostics.h"
 
 
-//#define FUELING_DEBUG_OUTPUT
+//#define FUELING_DEBUGMSG
 
-#ifdef FUELING_DEBUG_OUTPUT
+#ifdef FUELING_DEBUGMSG
+#include "debug_port_messages.h"
 #warning Fueling debug outputs enabled
-#endif // FUELING_DEBUG_OUTPUT
+#endif // FUELING_DEBUGMSG
 
 
 
@@ -51,40 +45,25 @@ void init_Fueling()
     result= load_Fueling_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION))
     {
-        //failed to load Fueling Config
+        /**
+        failed to load Fueling Config
+        */
         Tuareg.errors.fueling_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Fueling_Config();
 
-        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_FAIL);
+        //no engine operation possible
+        Fatal(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_ERROR);
 
-        #ifdef FUELING_DEBUG_OUTPUT
+        #ifdef FUELING_DEBUGMSG
         DebugMsg_Error("Failed to load Fueling config!");
-        DebugMsg_Warning("Fueling essential config has been loaded");
-        #endif // FUELING_DEBUG_OUTPUT
-    }
-    else if(Fueling_Setup.Version != FUELING_REQUIRED_CONFIG_VERSION)
-    {
-        //loaded wrong Fueling Config Version
-        Tuareg.errors.fueling_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Fueling_Config();
-
-        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_VERSION_MISMATCH);
-
-        #ifdef FUELING_DEBUG_OUTPUT
-        DebugMsg_Error("Fueling config version does not match");
-        DebugMsg_Warning("Fueling essential config has been loaded");
-        #endif // FUELING_DEBUG_OUTPUT
+        #endif // FUELING_DEBUGMSG
     }
     else
     {
         //loaded Fueling config with correct Version
         Tuareg.errors.fueling_config_error= false;
 
-        Syslog_Info(TID_TUAREG_FUELING, FUELING_LOC_CONFIG_LOAD_SUCCESS);
     }
 
     //init hw part
@@ -93,6 +72,7 @@ void init_Fueling()
     //bring up vital scheduler
     init_Vital_Scheduler();
 
+    Syslog_Info(TID_TUAREG_FUELING, FUELING_LOC_READY);
 }
 
 
@@ -115,7 +95,7 @@ void Tuareg_fueling_update_crankpos_handler()
     /**
     check vital preconditions
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false) || (Tuareg.fueling_controls.target_fuel_mass_ug == 0))
+    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false))
     {
         //collect diagnostic information
         fueling_diag_log_event(FDIAG_CRKPOSH_VIT_PRECOND_FAIL);
@@ -127,6 +107,7 @@ void Tuareg_fueling_update_crankpos_handler()
         scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
         //delete fueling controls
+        //replace by invalid_fueling_controls?
         Tuareg_update_fueling_controls();
 
         //nothing to do
@@ -152,7 +133,7 @@ void Tuareg_fueling_update_crankpos_handler()
         if(Tuareg.fueling_controls.flags.sequential_mode == true)
         {
             //check if sufficient information for this mode is available
-            if(Tuareg.pDecoder->outputs.phase_valid == false)
+            if(Tuareg.pDecoder->flags.phase_valid == false)
             {
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_SEQ_ERROR);
@@ -177,7 +158,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
 
                 //register fuel mass injected
-                Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG1_SEQ);
@@ -191,7 +172,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
 
                 //register fuel mass injected
-                Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG2_SEQ);
@@ -229,7 +210,7 @@ void Tuareg_fueling_update_crankpos_handler()
         in sequential mode either injector #1 or #2 injects the full target fuel mass
         in batch mode each injector injects half of the target fuel mass
         */
-        Tuareg.injected_mass_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+        Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
     }
 }
 

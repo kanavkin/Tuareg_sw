@@ -11,70 +11,40 @@
 #include "conversion.h"
 
 
-///the decoder configuration page
+///Tuareg main configuration page
 volatile Tuareg_Setup_t Tuareg_Setup;
 
 volatile U8 * const pTuareg_Setup_data= (volatile U8 *) &Tuareg_Setup;
 const U32 cTuareg_Setup_size= sizeof(Tuareg_Setup);
 
+//tach table
+volatile t2D_t TachTable;
+
+
 
 /**
 *
-* reads decoder config data from eeprom
+* loads all Tuareg main config data from eeprom
 *
 */
-exec_result_t load_Tuareg_Setup()
+exec_result_t load_Tuareg_Config()
 {
-   return Eeprom_load_data(EEPROM_TUAREG_CONFIG_BASE, pTuareg_Setup_data, cTuareg_Setup_size);
+    //bring up eeprom
+    Eeprom_init();
+
+    //load setup
+    ASSERT_EXEC_OK( Eeprom_load_data(EEPROM_TUAREG_CONFIG_BASE, pTuareg_Setup_data, cTuareg_Setup_size) );
+
+    //load tachometer output table
+    ASSERT_EXEC_OK( load_TachTable() );
+
+    return EXEC_OK;
 }
 
 
 /**
 *
-* provides sane defaults if config data from eeprom is not available (limp home mode)
-*
-*/
-void load_essential_Tuareg_Setup()
-{
-    Tuareg_Setup.Version= 0;
-
-    /**
-    trigger position map initialization
-    */
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_A1]= TUAREG_SETUP_DEFAULT_POSITION_A1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_A2]= TUAREG_SETUP_DEFAULT_POSITION_A2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_B1]= TUAREG_SETUP_DEFAULT_POSITION_B1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_B2]= TUAREG_SETUP_DEFAULT_POSITION_B2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_C1]= TUAREG_SETUP_DEFAULT_POSITION_C1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_C2]= TUAREG_SETUP_DEFAULT_POSITION_C2_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_D1]= TUAREG_SETUP_DEFAULT_POSITION_D1_ADVANCE;
-    Tuareg_Setup.trigger_advance_map[CRK_POSITION_D2]= TUAREG_SETUP_DEFAULT_POSITION_D2_ADVANCE;
-
-    Tuareg_Setup.decoder_delay_us= TUAREG_SETUP_DEFAULT_DECODER_DELAY;
-
-    Tuareg_Setup.max_rpm= 0;
-    Tuareg_Setup.limp_max_rpm= TUAREG_SETUP_DEFAULT_MAX_RPM;
-
-    Tuareg_Setup.overheat_thres_K= 100 + cKelvin_offset;
-
-    Tuareg_Setup.standby_timeout_s= 5;
-
-    Tuareg_Setup.cranking_end_rpm= 800;
-
-    Tuareg_Setup.gear_ratio[GEAR_1]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_2]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_3]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_4]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_5]= 0.0;
-    Tuareg_Setup.gear_ratio[GEAR_NEUTRAL]= 0.0;
-
-    Tuareg_Setup.flags.all_flags=0;
-
-}
-
-/**
-*
-* writes decoder config data to eeprom
+* writes Tuareg config data to eeprom
 *
 */
 exec_result_t store_Tuareg_Setup()
@@ -132,25 +102,37 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     */
     print(Port, "\r\ngear ratio map\r\n");
 
-    for(gear=0; gear< GEAR_COUNT; gear++)
+    for(gear=GEAR_1; gear < GEAR_COUNT; gear++)
     {
-        printf_U(Port, Tuareg_Setup.gear_ratio[gear], PAD_2 | NO_TRAIL);
+        printf_U(Port, gear, PAD_2 | NO_TRAIL);
         UART_Tx(Port, ':');
-        printf_F32(Port, Tuareg_Setup.gear_ratio[gear]);
+        printf_F32(Port, Tuareg_Setup.gear_ratio[gear -1]);
     }
 
+
+    /*
+    filter parameters
+    */
+    print(Port, "\r\nTPS filter coefficient: ");
+    printf_F32(Port, Tuareg_Setup.TPS_alpha);
+
+    print(Port, "\r\nMAP filter coefficient: ");
+    printf_F32(Port, Tuareg_Setup.MAP_alpha);
+
+
     //flags
-    print(Port, "\r\nfeature enabled flags: CrashSenPol-RunSenPol-SidestandSenPol-HaltOnSidestand: ");
+    print(Port, "\r\nfeature enabled flags: CrashPol-SidesPol-RunSwOver-SidesOver-CrashOver: ");
 
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Tuareg_Setup.flags.RunSwitch_trig_high? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Tuareg_Setup.flags.SidestandSensor_trig_high? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Halt_on_SidestandSensor? '1' :'0'));
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.RunSwitch_override? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.Sidestand_override? '1' :'0'));
+    UART_Tx(TS_PORT, '-');
+    UART_Tx(TS_PORT, (Tuareg_Setup.flags.CrashSensor_override? '1' :'0'));
 }
-
 
 
 /**
@@ -177,4 +159,53 @@ void send_Tuareg_Setup(USART_TypeDef * Port)
     UART_send_data(Port, pTuareg_Setup_data, cTuareg_Setup_size);
 }
 
+/***************************************************************************************************************************************************
+*   Tachometer output table - TachTable
+*
+* x-Axis -> tachometer reading to be displayed in rpm (no offset, no scaling)
+* y-Axis -> timer compare value in % (no offset, no scaling)
+***************************************************************************************************************************************************/
+
+exec_result_t load_TachTable()
+{
+    return load_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+}
+
+exec_result_t store_TachTable()
+{
+    return store_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+}
+
+
+void show_TachTable(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\nTachometer output table:\r\n");
+
+    show_t2D_data(TS_PORT, &(TachTable.data));
+}
+
+
+exec_result_t modify_TachTable(U32 Offset, U32 Value)
+{
+    //modify_t2D_data provides offset range check!
+    return modify_t2D_data(&(TachTable.data), Offset, Value);
+}
+
+
+/**
+this function implements the TS interface binary config page read command for TachTable
+*/
+void send_TachTable(USART_TypeDef * Port)
+{
+    send_t2D_data(Port, &(TachTable.data));
+}
+
+
+/**
+returns the timer compare value # that makes the tachometer display the commanded speed
+*/
+U32 getValue_TachTable(U32 Rpm)
+{
+    return getValue_t2D(&TachTable, Rpm);
+}
 

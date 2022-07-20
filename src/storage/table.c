@@ -22,10 +22,7 @@ some thoughts about table / map storage:
 all use cases can be implemented via positive x,y,z axis values
 all use cases can be implemented via data scaling
 
-U8 is ok for y/z axis
-
-t2d dimension too large?
-
+2D table shall be U16->U16
 
 */
 
@@ -35,7 +32,76 @@ const U32 ct3D_data_size= sizeof(t3D_data_t);
 
 
 const U32 ct2D_data_dimension= T2D_DATA_DIMENSION;
-const U32 ct3D_data_dimension= 16;
+const U32 ct3D_data_dimension= T3D_DATA_DIMENSION;
+
+
+
+
+
+/**
+helper function - checks the integrity of the axes
+
+by now only the monotony is checked
+loops through the axis data and checks the monotony
+
+/// TODO (oli#1#): implement table integrity checks
+*/
+exec_result_t check_t2D_integrity(volatile t2D_t * pTable)
+{
+    VU32 i;
+
+    /**
+    check axis monotony
+    */
+    for(i=0; i < ct2D_data_dimension -1; i++)
+    {
+        //axisX
+        if(pTable->data.axisX[i] >= pTable->data.axisX[i+1])
+        {
+            return EXEC_ERROR;
+        }
+
+        //axisY
+        if(pTable->data.axisY[i] >= pTable->data.axisY[i+1])
+        {
+            return EXEC_ERROR;
+        }
+    }
+
+    /**
+    check axis data range
+    */
+    for(i=0; i < ct2D_data_dimension; i++)
+    {
+        //axisX
+        if(pTable->data.axisX[i] < pTable->iParm.X_min_valid)
+        {
+            return EXEC_ERROR;
+        }
+
+        if(pTable->data.axisX[i] > pTable->iParm.X_max_valid)
+        {
+            return EXEC_ERROR;
+        }
+
+        //axisY
+        if(pTable->data.axisY[i] < pTable->iParm.Y_min_valid)
+        {
+            return EXEC_ERROR;
+        }
+
+        if(pTable->data.axisY[i] > pTable->iParm.Y_max_valid)
+        {
+            return EXEC_ERROR;
+        }
+    }
+
+    return EXEC_OK;
+}
+
+
+
+
 
 
 
@@ -44,9 +110,9 @@ This function pulls a 1D linear interpolated value from a 2D table
 
 x axis data order: value ~ index
 */
-VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
+F32 getValue_t2D(volatile t2D_t *fromTable, U32 X)
 {
-    VU32 xMin =0, xMax =0, yMin =0, yMax =0, i =0;
+    U32 xMin =0, xMax =0, yMin =0, yMax =0, i =0;
     F32 m, y;
 
 
@@ -64,7 +130,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
     }
 
     /**
-    check if the requested argument is covered by the tables range -> early exit!
+    check if the requested argument is outside of the table range -> early exit!
     */
     if(X >= xMax)
     {
@@ -140,7 +206,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
     }
 
     //error
-    Limp(TID_TABLE, STORAGE_LOC_T2D_NO_MATCH);
+    Fatal(TID_TABLE, STORAGE_LOC_T2D_NO_MATCH);
     return 0;
 
 }
@@ -150,7 +216,7 @@ VF32 getValue_t2D(volatile t2D_t *fromTable, VU32 X)
 This function pulls a value from a 3D table given a target for X and Y coordinates.
 It performs a bilinear interpolation
 */
-VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
+F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y)
 {
     F32 A =0, B =0, C =0, D =0;
     U32 xMin =0, xMax =0, yMin =0, yMax =0;
@@ -385,20 +451,9 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
     C= fromTable->data.axisZ[yMax_index][xMin_index];
     D= fromTable->data.axisZ[yMax_index][xMax_index];
 
-    /**
-    Check that all values aren't just the same
-    (This regularly happens with things like the fuel trim maps)
-
-/// TODO (oli#4#): improve float equality check
-
-    if( (A == B) && (A == C) && (A == D) )
-    {
-        return A;
-    }
-    */
 
     /**
-    RESULTS finally
+    apply some math?
     */
     A *= ((F32) xMax - (F32) X) * ((F32) yMax - (F32) Y);
     B *= ((F32) X - (F32) xMin)  * ((F32) yMax - (F32) Y);
@@ -413,6 +468,7 @@ VF32 getValue_t3D(volatile t3D_t * fromTable, VU32 X, VU32 Y)
 *
 * Load 2D table data from EEPROM
 *
+* table data is always packed, we have to be careful with unaligned accesses when using pointers!
 ****************************************************************************************************************************************************/
 exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
 {
@@ -425,17 +481,41 @@ exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
     return load_result;
 }
 
+//more comfortable syntax
+exec_result_t load_t2D(volatile t2D_t * pTable, U32 BaseAddress)
+{
+    exec_result_t load_result;
+
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
+
+    load_result= Eeprom_load_data(BaseAddress, pData, ct2D_data_size);
+
+    return load_result;
+}
 
 /****************************************************************************************************************************************************
 *
 * Load 3D table data from EEPROM
 *
+* table data is always packed, we have to be careful with unaligned accesses when using pointers!
 ****************************************************************************************************************************************************/
 exec_result_t load_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress)
 {
     exec_result_t load_result;
 
     volatile U8 * const pData= (volatile U8 *) pTableData;
+
+    load_result= Eeprom_load_data(BaseAddress, pData, ct3D_data_size);
+
+    return load_result;
+}
+
+//more comfortable syntax
+exec_result_t load_t3D(volatile t3D_t * pTable, U32 BaseAddress)
+{
+    exec_result_t load_result;
+
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
     load_result= Eeprom_load_data(BaseAddress, pData, ct3D_data_size);
 
@@ -455,6 +535,13 @@ exec_result_t store_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
     return Eeprom_update_data(BaseAddress, pData, ct2D_data_size);
 }
 
+exec_result_t store_t2D(volatile t2D_t * pTable, U32 BaseAddress)
+{
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
+
+    return Eeprom_update_data(BaseAddress, pData, ct2D_data_size);
+}
+
 
 /****************************************************************************************************************************************************
 *
@@ -464,6 +551,13 @@ exec_result_t store_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
 exec_result_t store_t3D_data(volatile t3D_data_t * pTableData, U32 BaseAddress)
 {
     volatile U8 * const pData= (volatile U8 *) pTableData;
+
+    return Eeprom_update_data(BaseAddress, pData, ct3D_data_size);
+}
+
+exec_result_t store_t3D(volatile t3D_t * pTable, U32 BaseAddress)
+{
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
     return Eeprom_update_data(BaseAddress, pData, ct3D_data_size);
 }
@@ -536,19 +630,25 @@ void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
 {
     U32 column;
 
+    print(pPort, "Y: ");
+
     // Y values, printing from left to right y[0..15]
     for (column = 0; column < T2D_DATA_DIMENSION; column++)
     {
         printf_U(pPort, pTableData->axisY[column], PAD_5);
+        print(pPort, " | ");
     }
 
     //separator
-    print(pPort, "\r\n................................................................................................\r\n");
+    //print(pPort, "\r\n................................................................................................\r\n");
+
+    print(pPort, "\r\nX: ");
 
     // X-axis
     for (column = 0; column < T2D_DATA_DIMENSION; column++)
     {
         printf_U(pPort, pTableData->axisX[column], PAD_5);
+        print(pPort, " | ");
     }
 
 }

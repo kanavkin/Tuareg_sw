@@ -70,7 +70,7 @@ exec_result_t store_ignAdvTable_TPS();
 void show_ignAdvTable_TPS(USART_TypeDef * Port);
 exec_result_t modify_ignAdvTable_TPS(U32 Offset, U32 Value);
 void send_ignAdvTable_TPS(USART_TypeDef * Port);
-VU32 getValue_ignAdvTable_TPS(VU32 Rpm, VF32 TPS);
+U32 getValue_ignAdvTable_TPS(U32 Rpm, F32 TPS);
 
 
 //Ignition Dwell time table - ignDwellTable
@@ -78,7 +78,7 @@ exec_result_t store_ignDwellTable();
 void show_ignDwellTable(USART_TypeDef * Port);
 exec_result_t modify_ignDwellTable(U32 Offset, U32 Value);
 void send_ignDwellTable(USART_TypeDef * Port);
-VU32 getValue_ignDwellTable(VU32 Rpm);
+U32 getValue_ignDwellTable(U32 Rpm);
 
 /***************************************************************************************************************************************************
 *   helper macros

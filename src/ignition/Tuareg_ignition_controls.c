@@ -1,25 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-//#include "decoder_logic.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
-#include "ignition_hw.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-
-#include "ignition_config.h"
-
-//#include "debug.h"
-#include "diagnostics.h"
-#include "ignition_diag.h"
-#include "Tuareg.h"
-#include "Ignition_syslog_locations.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 const U32 cDynamic_min_rpm= 500;
 
@@ -63,7 +43,7 @@ void Tuareg_update_ignition_controls()
     }
 
     //check preconditions for ignition controls calculations
-    if((Tuareg.pDecoder->outputs.rpm_valid == false) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
+    if((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.flags.limited_op == true) || (Tuareg.errors.ignition_config_error == true))
     {
         default_ignition_controls(pTarget);
         return;
@@ -198,7 +178,9 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     /**
     select ignition advance and dwell
     */
-    if( (Tuareg.pDecoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) && (Ignition_Setup.flags.cold_idle_enabled == true) )
+    if( (Tuareg.pDecoder->crank_rpm < Ignition_Setup.cold_idle_cutoff_rpm) &&
+       (Tuareg.errors.sensor_CLT_error == false) && (Tuareg.process.CLT_K < Ignition_Setup.cold_idle_cutoff_CLT_K) &&
+       (Ignition_Setup.flags.cold_idle_enabled == true) )
     {
         //cold idle function activated
         pTarget->flags.cold_idle= true;
@@ -209,6 +191,16 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     }
     else
     {
+        /**
+        TPS is required to look up ignition advance
+        The ignition advance, associated with its default value will be selected to operate the engine.
+        This could lead to engine damage - limit power output!
+        */
+        if(Tuareg.errors.sensor_TPS_error == true)
+        {
+            Limp(TID_IGNITION_CONFIG, IGNITION_LOC_TPS_ERROR);
+        }
+
         //get target ignition advance angle - TPS default value will be sufficient, in case
         Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
 
@@ -233,7 +225,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     /**
     check for sequential / batch mode capabilities
     */
-    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->outputs.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true) && (Ignition_Setup.flags.sequential_mode_enabled == true));
+    pTarget->flags.sequential_mode= ((Tuareg.pDecoder->flags.phase_valid == true) && (Ignition_Setup.flags.second_coil_installed == true) && (Ignition_Setup.flags.sequential_mode_enabled == true));
 
     /******************************************************
     * prepare the ignition control object
@@ -254,7 +246,7 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     ASSERT_EXEC_OK_VOID(result);
 
     //ignition_timing_us reflects the scheduler delay to set up
-    pTarget->ignition_timing_us= calc_rot_duration_us( subtract_VU32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.pDecoder->crank_period_us);
+    pTarget->ignition_timing_us= calc_rot_duration_us( subtract_U32(ignition_POS.base_PA, Ign_advance_deg), Tuareg.pDecoder->crank_period_us);
 
 
     /**
@@ -268,25 +260,25 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
     if(pTarget->flags.sequential_mode == true)
     {
         //sequential mode: delay := T720 - target dwell duration
-        dwell_avail_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+        dwell_avail_us= subtract_U32( 2* Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_U32( dwell_avail_us, Dwell_target_us);
 
-        pTarget->dwell_us= subtract_VU32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
+        pTarget->dwell_us= subtract_U32( 2* Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
     }
     else
     {
         //batch mode: delay := T360 - target dwell duration
-        dwell_avail_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
+        dwell_avail_us= subtract_U32( Tuareg.pDecoder->crank_period_us, Ignition_Setup.spark_duration_us);
 
-        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_VU32( dwell_avail_us, Dwell_target_us);
+        pTarget->dwell_timing_us= Ignition_Setup.spark_duration_us + subtract_U32( dwell_avail_us, Dwell_target_us);
 
         /*
         if dwell is shorter than the resulting ignition timing, the scheduler will begin dwell at the iginition base position
         */
         if(pTarget->ignition_timing_us + pTarget->dwell_timing_us < Tuareg.pDecoder->crank_period_us)
         {
-            pTarget->dwell_us= subtract_VU32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
+            pTarget->dwell_us= subtract_U32( Tuareg.pDecoder->crank_period_us, pTarget->dwell_timing_us);
         }
         else
         {

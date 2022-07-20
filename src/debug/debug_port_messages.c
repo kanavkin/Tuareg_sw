@@ -1,13 +1,14 @@
 /**
+functions to print debug messages supporting the developers work
+
+In a release none of this messages are allowed!
+
 this module contains the helper functions to print debug messages to the DEBUG_PORT
 
 hint: to receive these messages physical access to the USART Port is required
 */
 
-
-#include "stm32_libs/boctok_types.h"
-
-
+#include "Tuareg_types.h"
 
 #include "uart.h"
 #include "uart_printf.h"
@@ -15,8 +16,6 @@ hint: to receive these messages physical access to the USART Port is required
 
 void DebugMsg_Error(char messg[])
 {
-    //timestamp
-
     //header
     print(DEBUG_PORT, "\r\nEE ");
 
@@ -27,8 +26,6 @@ void DebugMsg_Error(char messg[])
 
 void DebugMsg_Warning(char messg[])
 {
-    //timestamp
-
     //header
     print(DEBUG_PORT, "\r\nWW ");
 
@@ -37,17 +34,10 @@ void DebugMsg_Warning(char messg[])
 }
 
 
-/**
-function to print debug messages supporting the developers work
-
-In a release none of this messages are allowed!
-*/
-void DevMsg(char messg[])
+void DebugMsg_Info(char messg[])
 {
-    #warning Debug port message enabled
-
     //header
-    print(DEBUG_PORT, "\r\n ");
+    print(DEBUG_PORT, "\r\nII ");
 
     //message
     print(DEBUG_PORT, messg);

@@ -1,48 +1,6 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "base_calc.h"
-
-#include "Tuareg_decoder.h"
-
-#include "Tuareg_ignition.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-
-#include "Tuareg_sensors.h"
-
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "Tuareg_console.h"
-#include "Tuareg_config.h"
-#include "table.h"
-#include "eeprom.h"
-#include "sensors.h"
-#include "fueling_hw.h"
-#include "fueling_logic.h"
-
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "act_hw.h"
-#include "act_logic.h"
-
-#include "process_table.h"
-
-#include "diagnostics.h"
-#include "Tuareg.h"
-#include "uart_printf.h"
-#include "module_test.h"
-
-#include "syslog.h"
-#include "debug_port_messages.h"
-#include "service_syslog_locations.h"
-
-#include "Tuareg_service_functions.h"
 
 #define SERVICE_VERBOSE_OUTPUT
 
@@ -67,7 +25,7 @@ API functions
 void request_service_mode()
 {
     //enter service only if the engine has been halted and the crank has stopped spinning
-    if(Tuareg.flags.standby == false)
+    if((Tuareg.pDecoder->flags.standstill == false) || (Tuareg.errors.fatal_error == true) )
     {
         return;
     }
@@ -121,6 +79,11 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
                 deactivate_injector2();
                 break;
 
+            case SACT_TACH:
+
+                deactivate_tachometer();
+                break;
+
 
         default:
           break;
@@ -156,11 +119,17 @@ void request_service_activation(U32 Actor, U32 On, U32 Off, U32 End)
                 activate_injector2(On, Off, End);
                 break;
 
+            case SACT_TACH:
+
+                activate_tachometer(1000 * On + 100 * Off + End);
+                break;
+
             default:
                 break;
         }
     }
 }
+
 
 void service_functions_periodic_update()
 {
@@ -169,7 +138,10 @@ void service_functions_periodic_update()
     now= Tuareg.pTimer->system_time;
 
     //check other restrictions needed?
-
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
 
     //update fueling system
     fuel_pump_periodic_update(now);
@@ -251,7 +223,7 @@ void deactivate_fuel_pump()
 }
 
 
-void fuel_pump_periodic_update(VU32 now)
+void fuel_pump_periodic_update(U32 now)
 {
     //check fuel pump timeout
     if((Service_mgr.flags.fuel_pump_control == true) && (now >= Service_mgr.fuel_pump_timeout))
@@ -266,7 +238,7 @@ void fuel_pump_periodic_update(VU32 now)
 injector 1
 **********************************************************************************************************************/
 
-void activate_injector1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_injector1(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -363,7 +335,7 @@ void deactivate_injector1()
 }
 
 
-void injector1_periodic_update(VU32 now)
+void injector1_periodic_update(U32 now)
 {
     //update injector 1
     if((Service_mgr.flags.injector1_control == true) && (now >= Service_mgr.injector1_toggle))
@@ -407,7 +379,7 @@ void injector1_periodic_update(VU32 now)
 injector 2
 **********************************************************************************************************************/
 
-void activate_injector2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_injector2(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -501,7 +473,7 @@ void deactivate_injector2()
 }
 
 
-void injector2_periodic_update(VU32 now)
+void injector2_periodic_update(U32 now)
 {
     if((Service_mgr.flags.injector2_control == true) && (now >= Service_mgr.injector2_toggle))
     {
@@ -543,7 +515,7 @@ void injector2_periodic_update(VU32 now)
 coil 1
 **********************************************************************************************************************/
 
-void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_coil1(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -600,8 +572,8 @@ void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     //take over control
     Service_mgr.flags.coil1_control= true;
 
-    //command fuel hardware
-    set_coil1_powered();
+    //command ignition hardware
+    set_ignition_ch1(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL1_BEGIN);
@@ -611,7 +583,7 @@ void activate_coil1(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_coil1()
 {
-    set_coil1_unpowered();
+    set_ignition_ch1(ACTOR_UNPOWERED);
     Service_mgr.coil1_on_remain_ms= 0;
     Service_mgr.flags.coil1_control= false;
 
@@ -621,14 +593,14 @@ void deactivate_coil1()
 }
 
 
-void coil1_periodic_update(VU32 now)
+void coil1_periodic_update(U32 now)
 {
     if((Service_mgr.flags.coil1_control == true) && (now >= Service_mgr.coil1_toggle))
     {
         //check if the actor has been powered
         if(Tuareg.flags.ignition_coil_1 == true)
         {
-            set_coil1_unpowered();
+            set_ignition_ch1(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.coil1_on_remain_ms), Service_mgr.coil1_on_ms);
@@ -649,7 +621,7 @@ void coil1_periodic_update(VU32 now)
             //actor has been off
 
             //command hardware
-            set_coil1_powered();
+            set_ignition_ch1(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.coil1_toggle= now + Service_mgr.coil1_on_ms;
@@ -662,7 +634,7 @@ void coil1_periodic_update(VU32 now)
 coil 2
 **********************************************************************************************************************/
 
-void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
+void activate_coil2(U32 On_time_ms, U32 Off_time_ms, U32 On_target_s)
 {
     //check preconditions
     if(Tuareg.flags.service_mode == false)
@@ -720,7 +692,7 @@ void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
     Service_mgr.flags.coil2_control= true;
 
     //command hardware
-    set_coil2_powered();
+    set_ignition_ch2(ACTOR_POWERED);
 
     #ifdef SERVICE_VERBOSE_OUTPUT
     Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_COIL2_BEGIN);
@@ -730,7 +702,7 @@ void activate_coil2(VU32 On_time_ms, VU32 Off_time_ms, VU32 On_target_s)
 
 void deactivate_coil2()
 {
-    set_coil2_unpowered();
+    set_ignition_ch2(ACTOR_UNPOWERED);
     Service_mgr.coil2_on_remain_ms= 0;
     Service_mgr.flags.coil2_control= false;
 
@@ -740,14 +712,14 @@ void deactivate_coil2()
 }
 
 
-void coil2_periodic_update(VU32 now)
+void coil2_periodic_update(U32 now)
 {
     if((Service_mgr.flags.coil2_control == true) && (now >= Service_mgr.coil2_toggle))
     {
         //check if the actor has been powered
         if(Tuareg.flags.ignition_coil_2 == true)
         {
-            set_coil2_unpowered();
+            set_ignition_ch2(ACTOR_UNPOWERED);
 
             //actor has been on -> less remaining on time
             sub_VU32(&(Service_mgr.coil2_on_remain_ms), Service_mgr.coil2_on_ms);
@@ -768,7 +740,7 @@ void coil2_periodic_update(VU32 now)
             //actor has been off
 
             //command hardware
-            set_coil2_powered();
+            set_ignition_ch2(ACTOR_POWERED);
 
             //store toggle timestamp
             Service_mgr.coil2_toggle= now + Service_mgr.coil2_on_ms;
@@ -779,9 +751,55 @@ void coil2_periodic_update(VU32 now)
 
 
 
+/**********************************************************************************************************************
+tachometer
+**********************************************************************************************************************/
+
+void activate_tachometer(U32 Compare)
+{
+    //check preconditions
+    if(Tuareg.flags.service_mode == false)
+    {
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_PERMISSION);
+
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("tachometer service activation not permitted!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
+        return;
+    }
 
 
+    if(Compare > TACH_PWM_RESOLUTION)
+    {
+        Syslog_Warning(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_COMPARE);
 
+        #ifdef SERVICE_DEBUG_OUTPUT
+        DebugMsg_Warning("tachometer compare value invalid!");
+        #endif // SERVICE_DEBUG_OUTPUT
+
+        return;
+    }
+
+    //command dash hardware
+    set_tachometer_compare(Compare);
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_ACTIVATE_TACH_BEGIN);
+    #endif // SERVICE_VERBOSE_OUTPUT
+
+}
+
+
+void deactivate_tachometer()
+{
+    //command dash hardware
+    set_tachometer_compare(10);
+
+    #ifdef SERVICE_VERBOSE_OUTPUT
+    Syslog_Info(TID_SERVICE, SERVICE_LOC_DEACTIVATE_TACH);
+    #endif // SERVICE_VERBOSE_OUTPUT
+}
 
 
 

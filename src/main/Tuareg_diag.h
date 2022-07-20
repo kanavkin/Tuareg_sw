@@ -29,10 +29,6 @@ typedef enum {
     //Tuareg_update_ignition_timing()
     TDIAG_IGNITIONCALC_CALLS,
 
-
-    //main()
-    TDIAG_TSTUDIO_CALLS,
-
     //Tuareg_update_Runmode()
     TDIAG_UPDATE_RUNMODE_CALLS,
     TDIAG_HALTSRC_PRESENT,

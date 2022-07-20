@@ -1,8 +1,7 @@
 #ifndef TUAREG_IGNITION_CONTROLS_H_INCLUDED
 #define TUAREG_IGNITION_CONTROLS_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
 
 
 /**

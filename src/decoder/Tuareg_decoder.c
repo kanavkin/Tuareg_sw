@@ -1,33 +1,20 @@
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "Tuareg.h"
+//#define DECODER_DEBUGMSG
 
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "decoder_config.h"
-
-#include "uart.h"
-#include "uart_printf.h"
-
-#include "debug_port_messages.h"
-
-//#define DECODER_DEBUG
-
-#ifdef DECODER_DEBUG
+#ifdef DECODER_DEBUGMSG
 #warning Decoder Debug messages enabled
-#endif // DECODER_DEBUG
+#endif // DECODER_DEBUGMSG
 
-/// TODO (oli#8#): implement decoder syslog messages
 
 
 /******************************************************************************************************************************
 Decoder initialization
  ******************************************************************************************************************************/
-volatile Tuareg_decoder_t * init_Decoder()
+volatile decoder_output_t * init_Decoder()
 {
     exec_result_t result;
-    volatile Tuareg_decoder_t * pInterface;
 
     //setup shall be loaded first
     result= load_Decoder_Setup();
@@ -35,36 +22,51 @@ volatile Tuareg_decoder_t * init_Decoder()
     //check if config has been loaded
     if(result != EXEC_OK)
     {
-        //failed to load Decoder Config
+        /**
+        failed to load Decoder Config
+        */
         Tuareg.errors.decoder_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
+
+        //load built in defaults
         load_essential_Decoder_Setup();
 
-        #ifdef DECODER_DEBUG
+        #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Failed to load Decoder Config!");
         DebugMsg_Warning("Decoder essential Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
     else if(Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION)
     {
-        //loaded wrong Decoder Config Version
+        /**
+        loaded wrong Decoder Config Version
+        */
         Tuareg.errors.decoder_config_error= true;
-        Tuareg.flags.limited_op= true;
+
+        //enter limp mode
+        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGVERSION_ERROR);
+
+        //load built in defaults
         load_essential_Decoder_Setup();
 
-        #ifdef DECODER_DEBUG
+        #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Decoder Config version does not match");
         DebugMsg_Warning("Decoder essential Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
     else
     {
-        //loaded Decoder Config with correct Version
+        /**
+        loaded Decoder Config with correct Version
+        */
         Tuareg.errors.decoder_config_error= false;
 
-        #ifdef DECODER_DEBUG
+
+        #ifdef DECODER_DEBUGMSG
         print(DEBUG_PORT, "\r\nDecoder Config has been loaded");
-        #endif // DECODER_DEBUG
+        #endif // DECODER_DEBUGMSG
     }
 
 
@@ -72,12 +74,62 @@ volatile Tuareg_decoder_t * init_Decoder()
     init_decoder_hw();
 
     //init logic part
-    pInterface= init_decoder_logic();
+    init_decoder_logic();
 
-    return pInterface;
+    //report to syslog
+    Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_READY);
+
+    return &(Decoder.out);
 }
 
 
+/******************************************************************************************************************************
+Decoder shutdown
+ ******************************************************************************************************************************/
+void disable_Decoder()
+{
+    //disable hw
+    disable_decoder_hw();
+
+    //disable logic
+    disable_decoder_logic();
+
+    Tuareg.errors.decoder_config_error= true;
+
+    //report to syslog
+    Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_HALTED);
 
 
+    #ifdef DECODER_DEBUGMSG
+    DebugMsg_Warning("Decoder disabled");
+    #endif // DECODER_DEBUGMSG
+}
+
+
+/******************************************************************************************************************************
+calculate position data age
+******************************************************************************************************************************/
+
+U32 decoder_get_position_data_age_us()
+{
+    U32 now_ts, update_ts, interval_us;
+
+    now_ts= decoder_get_timestamp();
+    update_ts= Decoder_hw.current_timer_value;
+
+    //check counting mode
+    if(Decoder_hw.state.timer_continuous_mode == true)
+    {
+        //timer continuously counting since last position update
+        interval_us= Decoder_hw.timer_period_us * subtract_U32(now_ts, update_ts);
+    }
+    else
+    {
+        //timer has been reset on last position update
+        interval_us= Decoder_hw.timer_period_us * now_ts;
+    }
+
+    return interval_us;
+
+}
 

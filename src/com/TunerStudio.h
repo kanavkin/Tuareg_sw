@@ -9,6 +9,7 @@ typedef enum {
     TS_ZERO_PAGE, // 0
 
     CALIBPAGE,
+    INVCLT_TABLE,
 
     DECODERPAGE,
 
@@ -27,8 +28,11 @@ typedef enum {
     INJ_TIMING_TABLE,
     INJ_PHASE_TABLE,
     CRANKINGFUEL_TABLE,
+    BAROCORR_TABLE,
+    CHARGETEMP_TABLE,
 
     TSETUP_PAGE,
+    TACH_TABLE,
 
     SYSLOG_PAGE,
     FAULTLOG_PAGE,
@@ -39,8 +43,8 @@ typedef enum {
 
 
 void ts_readPage(U32 Page);
-void ts_valueWrite(U32 Page, U32 Offset, U32 Value);
-void ts_burnPage(U32 Page);
+exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value);
+exec_result_t ts_burnPage(U32 Page);
 
 
 #endif // TUNERSTUDIO_H_INCLUDED

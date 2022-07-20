@@ -1,0 +1,3018 @@
+Archive member included to satisfy reference by file (symbol)
+
+/opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+                              obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o (__libc_init_array)
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 obj/Release/src/actors/act_hw.o
+ .data          0x0000000000000000        0x0 obj/Release/src/actors/act_hw.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/actors/act_hw.o
+ .text.set_act1
+                0x0000000000000000       0x20 obj/Release/src/actors/act_hw.o
+ .text.set_act2
+                0x0000000000000000       0x20 obj/Release/src/actors/act_hw.o
+ .text.init_act_hw
+                0x0000000000000000       0x4c obj/Release/src/actors/act_hw.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/actors/act_hw.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/actors/act_hw.o
+ .text          0x0000000000000000        0x0 obj/Release/src/actors/act_logic.o
+ .data          0x0000000000000000        0x0 obj/Release/src/actors/act_logic.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/actors/act_logic.o
+ .text.init_act_logic
+                0x0000000000000000        0x2 obj/Release/src/actors/act_logic.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/actors/act_logic.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/actors/act_logic.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/serial_buffer.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/serial_buffer.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/serial_buffer.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/serial_monitor.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/serial_monitor.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/serial_monitor.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/com/serial_monitor.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/com/serial_monitor.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/Tuareg_console.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/Tuareg_console.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/Tuareg_console.o
+ .rodata.cTSmaxChunkLen
+                0x0000000000000000        0x4 obj/Release/src/com/Tuareg_console.o
+ .rodata.cTSmaxOffset
+                0x0000000000000000        0x4 obj/Release/src/com/Tuareg_console.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/TunerStudio.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_outChannel.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_outChannel.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_outChannel.o
+ .rodata.cOut_size
+                0x0000000000000000        0x4 obj/Release/src/com/TunerStudio_outChannel.o
+ .rodata.pOut_data
+                0x0000000000000000        0x4 obj/Release/src/com/TunerStudio_outChannel.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_service.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_service.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/TunerStudio_service.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/uart.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/uart.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/uart.o
+ .text.UART_listen
+                0x0000000000000000        0xa obj/Release/src/com/uart.o
+ .text.UART_nolisten
+                0x0000000000000000        0xa obj/Release/src/com/uart.o
+ .text          0x0000000000000000        0x0 obj/Release/src/com/uart_printf.o
+ .data          0x0000000000000000        0x0 obj/Release/src/com/uart_printf.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/com/uart_printf.o
+ .text.printf_S
+                0x0000000000000000       0x20 obj/Release/src/com/uart_printf.o
+ .text.printf_U8
+                0x0000000000000000       0x42 obj/Release/src/com/uart_printf.o
+ .text.printf_U32hex
+                0x0000000000000000       0x30 obj/Release/src/com/uart_printf.o
+ .text          0x0000000000000000        0x0 obj/Release/src/dash/dash_hw.o
+ .data          0x0000000000000000        0x0 obj/Release/src/dash/dash_hw.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/dash/dash_hw.o
+ .text          0x0000000000000000        0x0 obj/Release/src/dash/Tuareg_dash.o
+ .data          0x0000000000000000        0x0 obj/Release/src/dash/Tuareg_dash.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/dash/Tuareg_dash.o
+ .text          0x0000000000000000        0x0 obj/Release/src/debug/debug.o
+ .data          0x0000000000000000        0x0 obj/Release/src/debug/debug.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/debug/debug.o
+ .text.set_debug_led
+                0x0000000000000000       0x10 obj/Release/src/debug/debug.o
+ .text.set_debug_pin
+                0x0000000000000000       0x10 obj/Release/src/debug/debug.o
+ .text.init_debug_pins
+                0x0000000000000000       0x4c obj/Release/src/debug/debug.o
+ .text.enable_sysclk_check
+                0x0000000000000000       0x44 obj/Release/src/debug/debug.o
+ .text.SWO_Init
+                0x0000000000000000       0x6c obj/Release/src/debug/debug.o
+ .text.SWO_PrintChar
+                0x0000000000000000       0x3e obj/Release/src/debug/debug.o
+ .text.SWO_PrintString
+                0x0000000000000000       0x16 obj/Release/src/debug/debug.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/debug/debug.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/debug/debug.o
+ .text          0x0000000000000000        0x0 obj/Release/src/debug/debug_port_messages.o
+ .data          0x0000000000000000        0x0 obj/Release/src/debug/debug_port_messages.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/debug/debug_port_messages.o
+ .text.DebugMsg_Error
+                0x0000000000000000       0x24 obj/Release/src/debug/debug_port_messages.o
+ .text.DebugMsg_Info
+                0x0000000000000000       0x24 obj/Release/src/debug/debug_port_messages.o
+ .rodata.DebugMsg_Error.str1.1
+                0x0000000000000000        0x6 obj/Release/src/debug/debug_port_messages.o
+ .rodata.DebugMsg_Info.str1.1
+                0x0000000000000000        0x6 obj/Release/src/debug/debug_port_messages.o
+ .text          0x0000000000000000        0x0 obj/Release/src/debug/dwt.o
+ .data          0x0000000000000000        0x0 obj/Release/src/debug/dwt.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/debug/dwt.o
+ .text.dwt_init
+                0x0000000000000000       0x24 obj/Release/src/debug/dwt.o
+ .text.dwt_stop_cyclecounter
+                0x0000000000000000       0x10 obj/Release/src/debug/dwt.o
+ .text.dwt_get_cyclecounter
+                0x0000000000000000        0xc obj/Release/src/debug/dwt.o
+ .text.dwt_set_begin
+                0x0000000000000000       0x1c obj/Release/src/debug/dwt.o
+ .text.dwt_set_end
+                0x0000000000000000       0x1c obj/Release/src/debug/dwt.o
+ .text.print_dwt_delay
+                0x0000000000000000       0x70 obj/Release/src/debug/dwt.o
+ .text.poll_dwt_printout
+                0x0000000000000000       0x18 obj/Release/src/debug/dwt.o
+ .text.delay_us
+                0x0000000000000000       0x28 obj/Release/src/debug/dwt.o
+ .text.dwt_get_interval_us
+                0x0000000000000000       0x1c obj/Release/src/debug/dwt.o
+ .bss.DWT_Delay
+                0x0000000000000000        0x4 obj/Release/src/debug/dwt.o
+ .bss.DWT_End   0x0000000000000000        0x4 obj/Release/src/debug/dwt.o
+ .bss.DWT_Timestamp_1
+                0x0000000000000000        0x4 obj/Release/src/debug/dwt.o
+ .bss.DWT_Timestamp_2
+                0x0000000000000000        0x4 obj/Release/src/debug/dwt.o
+ .rodata.print_dwt_delay.str1.1
+                0x0000000000000000       0x1d obj/Release/src/debug/dwt.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/debug/dwt.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/debug/dwt.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_cis.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_cis.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_cis.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_config.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_config.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_config.o
+ .rodata.cDecoder_Setup_size
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_config.o
+ .rodata.pDecoder_Setup_data
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_config.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_debug.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_debug.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_debug.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/decoder/decoder_debug.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/decoder/decoder_debug.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_hw.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_hw.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_hw.o
+ .text.decoder_set_timer_prescaler
+                0x0000000000000000       0x20 obj/Release/src/decoder/decoder_hw.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_logic.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/decoder_logic.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/decoder_logic.o
+ .rodata.cDecoderTimeout
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_logic.o
+ .rodata.cDecoder_max_valid_rpm
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_logic.o
+ .rodata.cDecoder_min_valid_period
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_logic.o
+ .rodata.cDecoder_min_valid_rpm
+                0x0000000000000000        0x4 obj/Release/src/decoder/decoder_logic.o
+ .text          0x0000000000000000        0x0 obj/Release/src/decoder/Tuareg_decoder.o
+ .data          0x0000000000000000        0x0 obj/Release/src/decoder/Tuareg_decoder.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/decoder/Tuareg_decoder.o
+ .text          0x0000000000000000        0x0 obj/Release/src/diagnostics/diagnostics.o
+ .data          0x0000000000000000        0x0 obj/Release/src/diagnostics/diagnostics.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/diagnostics/diagnostics.o
+ .text          0x0000000000000000        0x0 obj/Release/src/diagnostics/fault_log.o
+ .data          0x0000000000000000        0x0 obj/Release/src/diagnostics/fault_log.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/diagnostics/fault_log.o
+ .rodata.cFault_Log_size
+                0x0000000000000000        0x4 obj/Release/src/diagnostics/fault_log.o
+ .rodata.pFault_Log_data
+                0x0000000000000000        0x4 obj/Release/src/diagnostics/fault_log.o
+ .text          0x0000000000000000        0x0 obj/Release/src/diagnostics/highspeed_loggers.o
+ .data          0x0000000000000000        0x0 obj/Release/src/diagnostics/highspeed_loggers.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/diagnostics/highspeed_loggers.o
+ .text          0x0000000000000000        0x0 obj/Release/src/diagnostics/syslog.o
+ .data          0x0000000000000000        0x0 obj/Release/src/diagnostics/syslog.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/diagnostics/syslog.o
+ .text.append_datalog
+                0x0000000000000000       0x44 obj/Release/src/diagnostics/syslog.o
+ .text.Syslog_Error_Datalog
+                0x0000000000000000       0x54 obj/Release/src/diagnostics/syslog.o
+ .text.Syslog_Warning_Datalog
+                0x0000000000000000       0x68 obj/Release/src/diagnostics/syslog.o
+ .text.Syslog_Info_Datalog
+                0x0000000000000000       0x64 obj/Release/src/diagnostics/syslog.o
+ .rodata.cSyslog_size
+                0x0000000000000000        0x4 obj/Release/src/diagnostics/syslog.o
+ .rodata.pSyslog_data
+                0x0000000000000000        0x4 obj/Release/src/diagnostics/syslog.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/accel_comp.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/accel_comp.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/accel_comp.o
+ .text.calc_tau
+                0x0000000000000000        0x6 obj/Release/src/fueling/accel_comp.o
+ .text.calc_alpha
+                0x0000000000000000       0x24 obj/Release/src/fueling/accel_comp.o
+ .text.calc_beta
+                0x0000000000000000       0x18 obj/Release/src/fueling/accel_comp.o
+ .text.disable_load_transient_comp
+                0x0000000000000000       0x16 obj/Release/src/fueling/accel_comp.o
+ .rodata.cImpact_Factor
+                0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .rodata.cK1    0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .rodata.cK2    0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .rodata.cK3    0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .rodata.cK4    0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .rodata.cK5    0x0000000000000000        0x4 obj/Release/src/fueling/accel_comp.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_config.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_config.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/fueling_config.o
+ .rodata.cAfrDivider
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .rodata.cBAROtableOffset_pct
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .rodata.cChargeTempOffset_K
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .rodata.cFueling_Setup_size
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .rodata.cWarmUpDivider
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .rodata.pFueling_Setup_data
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_config.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_corrections.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_corrections.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/fueling_corrections.o
+ .text.disable_fuel_mass_afterstart_correction
+                0x0000000000000000       0x16 obj/Release/src/fueling/fueling_corrections.o
+ .rodata.cAfterstart_begin_thres
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_corrections.o
+ .rodata.cAfterstart_thres
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_corrections.o
+ .rodata.cBaroMaxCompLean
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_corrections.o
+ .rodata.cBaroMaxCompRich
+                0x0000000000000000        0x4 obj/Release/src/fueling/fueling_corrections.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/fueling_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_hw.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/fueling_hw.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/fueling_hw.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/injector_parameters.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/injector_parameters.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/injector_parameters.o
+ .rodata.cDefault_injector_deadtime_us
+                0x0000000000000000        0x4 obj/Release/src/fueling/injector_parameters.o
+ .rodata.cMax_injection_end_target_advance_deg
+                0x0000000000000000        0x4 obj/Release/src/fueling/injector_parameters.o
+ .rodata.cMin_injection_end_target_advance_deg
+                0x0000000000000000        0x4 obj/Release/src/fueling/injector_parameters.o
+ .rodata.cMin_injector_deadtime_us
+                0x0000000000000000        0x4 obj/Release/src/fueling/injector_parameters.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling.o
+ .rodata.fueling_controls_update_pos
+                0x0000000000000000        0x1 obj/Release/src/fueling/Tuareg_fueling.o
+ .text          0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .data          0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cDefault_AFR_target
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMax_AFR_target
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMax_VE_val
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMax_fuel_abs_comp_ug
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMax_fuel_rel_comp_pct
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMin_AFR_target
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMin_VE_val
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .rodata.cMin_fuel_rel_comp_pct
+                0x0000000000000000        0x4 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .text          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_config.o
+ .data          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_config.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/ignition/ignition_config.o
+ .bss.ignAdvTable_MAP
+                0x0000000000000000      0x168 obj/Release/src/ignition/ignition_config.o
+ .rodata.cIgnition_Setup_size
+                0x0000000000000000        0x4 obj/Release/src/ignition/ignition_config.o
+ .rodata.pIgnition_Setup_data
+                0x0000000000000000        0x4 obj/Release/src/ignition/ignition_config.o
+ .text          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/ignition/ignition_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_hw.o
+ .data          0x0000000000000000        0x0 obj/Release/src/ignition/ignition_hw.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/ignition/ignition_hw.o
+ .text          0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition.o
+ .data          0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition.o
+ .rodata.ignition_controls_update_pos
+                0x0000000000000000        0x1 obj/Release/src/ignition/Tuareg_ignition.o
+ .text          0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .data          0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .rodata.cDynamic_min_rpm
+                0x0000000000000000        0x4 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .rodata.cIgn_max_Dwell_target_us
+                0x0000000000000000        0x4 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .rodata.cIgn_max_advance_deg
+                0x0000000000000000        0x4 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .rodata.cIgn_min_Dwell_target_us
+                0x0000000000000000        0x4 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .rodata.cIgn_min_advance_deg
+                0x0000000000000000        0x4 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/main.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/main.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/main.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg.o
+ .rodata.cInj_wd_thres_ms
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg.o
+ .rodata.cLoad_error_limp_thres
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg.o
+ .rodata.cMaxCrankingEntry
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg.o
+ .rodata.cOverheat_hist_K
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg.o
+ .rodata.cRevlimiter_hist_rpm
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_config.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_config.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_config.o
+ .rodata.cTuareg_Setup_size
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_config.o
+ .rodata.pTuareg_Setup_data
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_config.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_errors.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_errors.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_errors.o
+ .text.FunctionalAssert
+                0x0000000000000000        0xe obj/Release/src/main/Tuareg_errors.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_ID.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_ID.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_ID.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_process_data.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_process_data.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_process_data.o
+ .rodata.cMAP_alpha
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_process_data.o
+ .rodata.cTPS_alpha
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_process_data.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_service_functions.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_service_functions.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_service_functions.o
+ .text.init_service_functions
+                0x0000000000000000        0x2 obj/Release/src/main/Tuareg_service_functions.o
+ .text          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_types.o
+ .data          0x0000000000000000        0x0 obj/Release/src/main/Tuareg_types.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/main/Tuareg_types.o
+ .rodata.cEuler
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_types.o
+ .rodata.cPi    0x0000000000000000        0x4 obj/Release/src/main/Tuareg_types.o
+ .rodata.cU16max
+                0x0000000000000000        0x4 obj/Release/src/main/Tuareg_types.o
+ .text          0x0000000000000000        0x0 obj/Release/src/module_test/module_test.o
+ .data          0x0000000000000000        0x0 obj/Release/src/module_test/module_test.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/module_test/module_test.o
+ .text.moduletest_main_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .text.moduletest_irq2_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .text.moduletest_irq3_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .text.moduletest_moduleinit_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .text.moduletest_initmsg_action
+                0x0000000000000000       0x24 obj/Release/src/module_test/module_test.o
+ .text.moduletest_scheduler_main_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .text.moduletest_scheduler_irq3_action
+                0x0000000000000000        0x2 obj/Release/src/module_test/module_test.o
+ .bss.mtest_scheduler_state
+                0x0000000000000000        0x4 obj/Release/src/module_test/module_test.o
+ .bss.mtest_scheduler_tests_finished
+                0x0000000000000000        0x4 obj/Release/src/module_test/module_test.o
+ .bss.mtest_scheduler_tests_started
+                0x0000000000000000        0x4 obj/Release/src/module_test/module_test.o
+ .data.mtest_scheduler_delay
+                0x0000000000000000        0x4 obj/Release/src/module_test/module_test.o
+ .rodata.moduletest_initmsg_action.str1.1
+                0x0000000000000000       0x82 obj/Release/src/module_test/module_test.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/module_test/module_test.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/module_test/module_test.o
+ .text          0x0000000000000000        0x0 obj/Release/src/process_table/process_table.o
+ .data          0x0000000000000000        0x0 obj/Release/src/process_table/process_table.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/process_table/process_table.o
+ .text.find_process_position_after
+                0x0000000000000000       0x38 obj/Release/src/process_table/process_table.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/analog_sensors.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/analog_sensors.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/analog_sensors.o
+ .text.reset_integrator
+                0x0000000000000000        0x8 obj/Release/src/sensors/analog_sensors.o
+ .rodata.cASensorErrorThres
+                0x0000000000000000        0x4 obj/Release/src/sensors/analog_sensors.o
+ .rodata.cASensorInitCycles
+                0x0000000000000000        0x4 obj/Release/src/sensors/analog_sensors.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/digital_sensors.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/digital_sensors.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/digital_sensors.o
+ .rodata.cCycleLength
+                0x0000000000000000        0x4 obj/Release/src/sensors/digital_sensors.o
+ .rodata.cHighThres
+                0x0000000000000000        0x4 obj/Release/src/sensors/digital_sensors.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/knock_sensor.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/knock_sensor.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/knock_sensor.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/sensors/knock_sensor.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/sensors/knock_sensor.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/sensor_calibration.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/sensor_calibration.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/sensor_calibration.o
+ .rodata.cSensor_Calibration_size
+                0x0000000000000000        0x4 obj/Release/src/sensors/sensor_calibration.o
+ .rodata.pSensor_Calibration_data
+                0x0000000000000000        0x4 obj/Release/src/sensors/sensor_calibration.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/sensors_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/sensors_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/sensors_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/sensors/Tuareg_sensors.o
+ .data          0x0000000000000000        0x0 obj/Release/src/sensors/Tuareg_sensors.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/sensors/Tuareg_sensors.o
+ .rodata.cGearsRoundOffset
+                0x0000000000000000        0x4 obj/Release/src/sensors/Tuareg_sensors.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .text.gpio_set_pin_high
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .text.gpio_set_pin_low
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .text.gpio_get_pin
+                0x0000000000000000       0x22 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .text          0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .text.SystemCoreClockUpdate
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .data.AHBPrescTable
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .text.NVIC_Init
+                0x0000000000000000       0x58 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .text.NVIC_SetVectorTable
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .text.NVIC_SystemLPConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .text.SysTick_CLKSourceConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_DeInit
+                0x0000000000000000      0x110 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_Cmd  0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_PeriphIncOffsetSizeConfig
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_FlowControllerConfig
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_SetCurrDataCounter
+                0x0000000000000000        0x4 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetCurrDataCounter
+                0x0000000000000000        0x6 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_DoubleBufferModeConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_DoubleBufferModeCmd
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_MemoryTargetConfig
+                0x0000000000000000        0xa obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetCurrentMemoryTarget
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetCmdStatus
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetFIFOStatus
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetFlagStatus
+                0x0000000000000000       0x38 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_ClearFlag
+                0x0000000000000000       0x30 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_ITConfig
+                0x0000000000000000       0x3e obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_GetITStatus
+                0x0000000000000000       0x54 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text.DMA_ClearITPendingBit
+                0x0000000000000000        0x4 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_DeInit
+                0x0000000000000000       0x60 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_StructInit
+                0x0000000000000000       0x1c obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_AnalogFilterCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_DigitalFilterConfig
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_OwnAddress2Config
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_DualAddressCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_GeneralCallCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_SoftwareResetCmd
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_StretchClockCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_FastModeDutyCycleConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_NACKPositionConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_SMBusAlertConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_ARPCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_TransmitPEC
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_PECPositionConfig
+                0x0000000000000000        0x4 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_CalculatePEC
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_GetPEC
+                0x0000000000000000        0x6 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_DMACmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_DMALastTransferCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_ReadRegister
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_ITConfig
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_GetLastEvent
+                0x0000000000000000        0xe obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_GetITStatus
+                0x0000000000000000       0x1a obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text.I2C_ClearITPendingBit
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_DeInit
+                0x0000000000000000       0x3c obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_HSEConfig
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AdjustHSICalibrationValue
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_HSICmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_LSEConfig
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_LSICmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PLLConfig
+                0x0000000000000000       0x28 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PLLCmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PLLI2SCmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PLLSAICmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_ClockSecuritySystemCmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_MCO1Config
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_MCO2Config
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_SYSCLKConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_GetSYSCLKSource
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_HCLKConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PCLK1Config
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_PCLK2Config
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_RTCCLKConfig
+                0x0000000000000000       0x30 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_RTCCLKCmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_BackupResetCmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_I2SCLKConfig
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_SAIPLLI2SClkDivConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_SAIPLLSAIClkDivConfig
+                0x0000000000000000       0x1c obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_LTDCCLKDivConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_TIMCLKPresConfig
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB1PeriphClockCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB2PeriphClockCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB1PeriphClockCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB2PeriphClockCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB1PeriphResetCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB2PeriphResetCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB1PeriphResetCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB2PeriphResetCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB1PeriphClockLPModeCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_AHB2PeriphClockLPModeCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB1PeriphClockLPModeCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_APB2PeriphClockLPModeCmd
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_LSEModeConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_LPTIM1ClockSourceConfig
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_FMPI2C1ClockSourceConfig
+                0x0000000000000000       0x20 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_MCO1Cmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_MCO2Cmd
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_ITConfig
+                0x0000000000000000       0x18 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_GetFlagStatus
+                0x0000000000000000       0x28 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_WaitForHSEStartUp
+                0x0000000000000000       0x30 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_ClearFlag
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_GetITStatus
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text.RCC_ClearITPendingBit
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .text          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .data          0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_DeInit
+                0x0000000000000000       0xe8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_StructInit
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_ClockInit
+                0x0000000000000000       0x1e obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_ClockStructInit
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SetPrescaler
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_OverSampling8Cmd
+                0x0000000000000000       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_OneBitMethodCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SendData
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SetAddress
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_ReceiverWakeUpCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_WakeUpConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_LINBreakDetectLengthConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_LINCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SendBreak
+                0x0000000000000000        0xa obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_HalfDuplexCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SetGuardTime
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SmartCardCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_SmartCardNACKCmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_IrDAConfig
+                0x0000000000000000       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_IrDACmd
+                0x0000000000000000       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_DMACmd
+                0x0000000000000000       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_GetFlagStatus
+                0x0000000000000000        0xc obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_ClearFlag
+                0x0000000000000000        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_GetITStatus
+                0x0000000000000000       0x3e obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text.USART_ClearITPendingBit
+                0x0000000000000000        0xe obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .text          0x0000000000000000        0x0 obj/Release/src/storage/eeprom.o
+ .data          0x0000000000000000        0x0 obj/Release/src/storage/eeprom.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/storage/eeprom.o
+ .text.Eeprom_deinit
+                0x0000000000000000       0x58 obj/Release/src/storage/eeprom.o
+ .text.eeprom_read_bytes
+                0x0000000000000000       0x78 obj/Release/src/storage/eeprom.o
+ .text.eeprom_write_bytes
+                0x0000000000000000       0x68 obj/Release/src/storage/eeprom.o
+ .text.eeprom_update_bytes
+                0x0000000000000000       0x68 obj/Release/src/storage/eeprom.o
+ .text.Eeprom_write_data
+                0x0000000000000000       0x38 obj/Release/src/storage/eeprom.o
+ .text          0x0000000000000000        0x0 obj/Release/src/storage/table.o
+ .data          0x0000000000000000        0x0 obj/Release/src/storage/table.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/storage/table.o
+ .text.check_t2D_integrity
+                0x0000000000000000       0x8c obj/Release/src/storage/table.o
+ .text.load_t3D
+                0x0000000000000000       0x10 obj/Release/src/storage/table.o
+ .text.store_t3D
+                0x0000000000000000       0x10 obj/Release/src/storage/table.o
+ .rodata.ct2D_data_dimension
+                0x0000000000000000        0x4 obj/Release/src/storage/table.o
+ .rodata.ct2D_data_size
+                0x0000000000000000        0x4 obj/Release/src/storage/table.o
+ .rodata.ct3D_data_dimension
+                0x0000000000000000        0x4 obj/Release/src/storage/table.o
+ .rodata.ct3D_data_size
+                0x0000000000000000        0x4 obj/Release/src/storage/table.o
+ .text          0x0000000000000000        0x0 obj/Release/src/timing/lowprio_scheduler.o
+ .data          0x0000000000000000        0x0 obj/Release/src/timing/lowprio_scheduler.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/timing/lowprio_scheduler.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/timing/lowprio_scheduler.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/timing/lowprio_scheduler.o
+ .text          0x0000000000000000        0x0 obj/Release/src/timing/scheduler.o
+ .data          0x0000000000000000        0x0 obj/Release/src/timing/scheduler.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/timing/scheduler.o
+ .text          0x0000000000000000        0x0 obj/Release/src/timing/scheduler_diag.o
+ .data          0x0000000000000000        0x0 obj/Release/src/timing/scheduler_diag.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/timing/scheduler_diag.o
+ .text          0x0000000000000000        0x0 obj/Release/src/timing/systick_timer.o
+ .data          0x0000000000000000        0x0 obj/Release/src/timing/systick_timer.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/timing/systick_timer.o
+ .rodata.cSystickLoadValue
+                0x0000000000000000        0x4 obj/Release/src/timing/systick_timer.o
+ .text          0x0000000000000000        0x0 obj/Release/src/utils/base_calc.o
+ .data          0x0000000000000000        0x0 obj/Release/src/utils/base_calc.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/utils/base_calc.o
+ .text.subtract_VU16
+                0x0000000000000000        0xc obj/Release/src/utils/base_calc.o
+ .text.abs_delta_U32
+                0x0000000000000000       0x10 obj/Release/src/utils/base_calc.o
+ .text.memclr_boctok
+                0x0000000000000000       0x10 obj/Release/src/utils/base_calc.o
+ .text.floor_boctok
+                0x0000000000000000       0x28 obj/Release/src/utils/base_calc.o
+ .text.ceiling_boctok
+                0x0000000000000000       0x28 obj/Release/src/utils/base_calc.o
+ .text.calc_pow_float
+                0x0000000000000000       0x22 obj/Release/src/utils/base_calc.o
+ .text.calc_expf
+                0x0000000000000000       0x80 obj/Release/src/utils/base_calc.o
+ .text.calc_pow_U32
+                0x0000000000000000       0x12 obj/Release/src/utils/base_calc.o
+ .text          0x0000000000000000        0x0 obj/Release/src/utils/bitfields.o
+ .data          0x0000000000000000        0x0 obj/Release/src/utils/bitfields.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/utils/bitfields.o
+ .text.setBit_BF8
+                0x0000000000000000       0x26 obj/Release/src/utils/bitfields.o
+ .text.setBit_BF16
+                0x0000000000000000       0x26 obj/Release/src/utils/bitfields.o
+ .text.setBit_BF32
+                0x0000000000000000       0x24 obj/Release/src/utils/bitfields.o
+ .text.getBit_BF16
+                0x0000000000000000       0x26 obj/Release/src/utils/bitfields.o
+ .text.getBit_BF32
+                0x0000000000000000       0x28 obj/Release/src/utils/bitfields.o
+ .text          0x0000000000000000        0x0 obj/Release/src/utils/conversion.o
+ .data          0x0000000000000000        0x0 obj/Release/src/utils/conversion.o
+ .bss           0x0000000000000000        0x0 obj/Release/src/utils/conversion.o
+ .text.serialize_float_U32
+                0x0000000000000000        0x6 obj/Release/src/utils/conversion.o
+ .text.serialize_float_U8
+                0x0000000000000000       0x18 obj/Release/src/utils/conversion.o
+ .text.send_float
+                0x0000000000000000       0x1e obj/Release/src/utils/conversion.o
+ .text.serialize_U16_U8
+                0x0000000000000000       0x1a obj/Release/src/utils/conversion.o
+ .text.serialize_U16_U8_reversed
+                0x0000000000000000       0x1a obj/Release/src/utils/conversion.o
+ .text.compose_float
+                0x0000000000000000        0x6 obj/Release/src/utils/conversion.o
+ .text.compose_U32
+                0x0000000000000000       0x18 obj/Release/src/utils/conversion.o
+ .text.serialize_U32_U8
+                0x0000000000000000       0x1c obj/Release/src/utils/conversion.o
+ .text.serialize_U32_U8_reversed
+                0x0000000000000000       0x20 obj/Release/src/utils/conversion.o
+ .comment       0x0000000000000000       0x7f obj/Release/src/utils/conversion.o
+ .ARM.attributes
+                0x0000000000000000       0x39 obj/Release/src/utils/conversion.o
+ .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+ .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+ .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+ .debug_frame   0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000008000000 0x0000000000020000 xr
+RAM              0x0000000020000000 0x0000000000008000 xrw
+MEMORY_B1        0x0000000060000000 0x0000000000000000 xr
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD obj/Release/src/actors/act_hw.o
+LOAD obj/Release/src/actors/act_logic.o
+LOAD obj/Release/src/com/serial_buffer.o
+LOAD obj/Release/src/com/serial_monitor.o
+LOAD obj/Release/src/com/Tuareg_console.o
+LOAD obj/Release/src/com/TunerStudio.o
+LOAD obj/Release/src/com/TunerStudio_outChannel.o
+LOAD obj/Release/src/com/TunerStudio_service.o
+LOAD obj/Release/src/com/uart.o
+LOAD obj/Release/src/com/uart_printf.o
+LOAD obj/Release/src/dash/dash_hw.o
+LOAD obj/Release/src/dash/Tuareg_dash.o
+LOAD obj/Release/src/debug/debug.o
+LOAD obj/Release/src/debug/debug_port_messages.o
+LOAD obj/Release/src/debug/dwt.o
+LOAD obj/Release/src/decoder/decoder_cis.o
+LOAD obj/Release/src/decoder/decoder_config.o
+LOAD obj/Release/src/decoder/decoder_debug.o
+LOAD obj/Release/src/decoder/decoder_diag.o
+LOAD obj/Release/src/decoder/decoder_hw.o
+LOAD obj/Release/src/decoder/decoder_logic.o
+LOAD obj/Release/src/decoder/Tuareg_decoder.o
+LOAD obj/Release/src/diagnostics/diagnostics.o
+LOAD obj/Release/src/diagnostics/fault_log.o
+LOAD obj/Release/src/diagnostics/highspeed_loggers.o
+LOAD obj/Release/src/diagnostics/syslog.o
+LOAD obj/Release/src/fueling/accel_comp.o
+LOAD obj/Release/src/fueling/fueling_config.o
+LOAD obj/Release/src/fueling/fueling_corrections.o
+LOAD obj/Release/src/fueling/fueling_diag.o
+LOAD obj/Release/src/fueling/fueling_hw.o
+LOAD obj/Release/src/fueling/injector_parameters.o
+LOAD obj/Release/src/fueling/Tuareg_fueling.o
+LOAD obj/Release/src/fueling/Tuareg_fueling_controls.o
+LOAD obj/Release/src/ignition/ignition_config.o
+LOAD obj/Release/src/ignition/ignition_diag.o
+LOAD obj/Release/src/ignition/ignition_hw.o
+LOAD obj/Release/src/ignition/Tuareg_ignition.o
+LOAD obj/Release/src/ignition/Tuareg_ignition_controls.o
+LOAD obj/Release/src/main/main.o
+LOAD obj/Release/src/main/Tuareg.o
+LOAD obj/Release/src/main/Tuareg_config.o
+LOAD obj/Release/src/main/Tuareg_diag.o
+LOAD obj/Release/src/main/Tuareg_errors.o
+LOAD obj/Release/src/main/Tuareg_ID.o
+LOAD obj/Release/src/main/Tuareg_process_data.o
+LOAD obj/Release/src/main/Tuareg_service_functions.o
+LOAD obj/Release/src/main/Tuareg_types.o
+LOAD obj/Release/src/module_test/module_test.o
+LOAD obj/Release/src/process_table/process_table.o
+LOAD obj/Release/src/sensors/analog_sensors.o
+LOAD obj/Release/src/sensors/digital_sensors.o
+LOAD obj/Release/src/sensors/knock_sensor.o
+LOAD obj/Release/src/sensors/sensor_calibration.o
+LOAD obj/Release/src/sensors/sensors_diag.o
+LOAD obj/Release/src/sensors/Tuareg_sensors.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+LOAD obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+LOAD obj/Release/src/storage/eeprom.o
+LOAD obj/Release/src/storage/table.o
+LOAD obj/Release/src/timing/lowprio_scheduler.o
+LOAD obj/Release/src/timing/scheduler.o
+LOAD obj/Release/src/timing/scheduler_diag.o
+LOAD obj/Release/src/timing/systick_timer.o
+LOAD obj/Release/src/utils/base_calc.o
+LOAD obj/Release/src/utils/bitfields.o
+LOAD obj/Release/src/utils/conversion.o
+                0x0000000020008000                _estack = 0x20008000
+                0x0000000000000000                _Min_Heap_Size = 0x0
+                0x0000000000000100                _Min_Stack_Size = 0x100
+
+.isr_vector     0x0000000008000000      0x1c8
+                0x0000000008000000                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x0000000008000000      0x1c8 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+                0x0000000008000000                g_pfnVectors
+                0x00000000080001c8                . = ALIGN (0x4)
+
+.text           0x00000000080001c8     0xc278
+                0x00000000080001c8                . = ALIGN (0x4)
+ *(.text)
+ *(.text*)
+ .text.ComRx_Buffer_reset
+                0x00000000080001c8       0x3c obj/Release/src/com/serial_buffer.o
+                0x00000000080001c8                ComRx_Buffer_reset
+ .text.ComRx_Buffer_avail
+                0x0000000008000204        0xc obj/Release/src/com/serial_buffer.o
+                0x0000000008000204                ComRx_Buffer_avail
+ .text.ComRx_Buffer_push
+                0x0000000008000210       0x50 obj/Release/src/com/serial_buffer.o
+                0x0000000008000210                ComRx_Buffer_push
+ .text.ComRx_Buffer_pull
+                0x0000000008000260       0x44 obj/Release/src/com/serial_buffer.o
+                0x0000000008000260                ComRx_Buffer_pull
+ .text.ComRx_Buffer_pull_U16
+                0x00000000080002a4       0x30 obj/Release/src/com/serial_buffer.o
+                0x00000000080002a4                ComRx_Buffer_pull_U16
+ .text.ComRx_Buffer_pull_U32
+                0x00000000080002d4       0x56 obj/Release/src/com/serial_buffer.o
+                0x00000000080002d4                ComRx_Buffer_pull_U32
+ *fill*         0x000000000800032a        0x2 
+ .text.cli_showPage
+                0x000000000800032c       0xa8 obj/Release/src/com/Tuareg_console.o
+                0x000000000800032c                cli_showPage
+ .text.cli_setPermissions
+                0x00000000080003d4      0x11c obj/Release/src/com/Tuareg_console.o
+                0x00000000080003d4                cli_setPermissions
+ .text.cli_show_help
+                0x00000000080004f0       0x9c obj/Release/src/com/Tuareg_console.o
+                0x00000000080004f0                cli_show_help
+ .text.Tuareg_update_console
+                0x000000000800058c      0x290 obj/Release/src/com/Tuareg_console.o
+                0x000000000800058c                Tuareg_update_console
+ .text.cli_cyclic_update
+                0x000000000800081c       0x1c obj/Release/src/com/Tuareg_console.o
+                0x000000000800081c                cli_cyclic_update
+ .text.Tuareg_init_console
+                0x0000000008000838       0x18 obj/Release/src/com/Tuareg_console.o
+                0x0000000008000838                Tuareg_init_console
+ .text.ts_readPage
+                0x0000000008000850       0xb4 obj/Release/src/com/TunerStudio.o
+                0x0000000008000850                ts_readPage
+ .text.ts_valueWrite
+                0x0000000008000904      0x1a8 obj/Release/src/com/TunerStudio.o
+                0x0000000008000904                ts_valueWrite
+ .text.ts_burnPage
+                0x0000000008000aac       0xcc obj/Release/src/com/TunerStudio.o
+                0x0000000008000aac                ts_burnPage
+ .text.ts_tuareg_bits
+                0x0000000008000b78      0x1d4 obj/Release/src/com/TunerStudio_outChannel.o
+                0x0000000008000b78                ts_tuareg_bits
+ .text.ts_sendOutputChannels
+                0x0000000008000d4c      0x12c obj/Release/src/com/TunerStudio_outChannel.o
+                0x0000000008000d4c                ts_sendOutputChannels
+ .text.ts_debug_features
+                0x0000000008000e78       0xc4 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008000e78                ts_debug_features
+ .text.cli_show_debug_help
+                0x0000000008000f3c       0xc0 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008000f3c                cli_show_debug_help
+ .text.cli_show_process_data
+                0x0000000008000ffc      0x114 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008000ffc                cli_show_process_data
+ .text.cli_show_ignition_controls
+                0x0000000008001110      0x108 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008001110                cli_show_ignition_controls
+ .text.cli_show_fueling_controls
+                0x0000000008001218      0x3b8 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008001218                cli_show_fueling_controls
+ .text.cli_show_decoder_interface
+                0x00000000080015d0      0x124 obj/Release/src/com/TunerStudio_service.o
+                0x00000000080015d0                cli_show_decoder_interface
+ .text.cli_print_sensor_data
+                0x00000000080016f4      0x21c obj/Release/src/com/TunerStudio_service.o
+                0x00000000080016f4                cli_print_sensor_data
+ .text.ts_debug_info
+                0x0000000008001910       0xd8 obj/Release/src/com/TunerStudio_service.o
+                0x0000000008001910                ts_debug_info
+ .text.UART_TS_PORT_Init
+                0x00000000080019e8       0xa0 obj/Release/src/com/uart.o
+                0x00000000080019e8                UART_TS_PORT_Init
+ .text.UART_DEBUG_PORT_Init
+                0x0000000008001a88       0x68 obj/Release/src/com/uart.o
+                0x0000000008001a88                UART_DEBUG_PORT_Init
+ .text.UART_Tx  0x0000000008001af0        0xc obj/Release/src/com/uart.o
+                0x0000000008001af0                UART_Tx
+ .text.UART_send_data
+                0x0000000008001afc       0x1a obj/Release/src/com/uart.o
+                0x0000000008001afc                UART_send_data
+ *fill*         0x0000000008001b16        0x2 
+ .text.USART1_IRQHandler
+                0x0000000008001b18       0x30 obj/Release/src/com/uart.o
+                0x0000000008001b18                USART1_IRQHandler
+ .text.printf_U
+                0x0000000008001b48      0x164 obj/Release/src/com/uart_printf.o
+                0x0000000008001b48                printf_U
+ .text.printf_F32
+                0x0000000008001cac       0xcc obj/Release/src/com/uart_printf.o
+                0x0000000008001cac                printf_F32
+ .text.printf_nib_hex
+                0x0000000008001d78       0x10 obj/Release/src/com/uart_printf.o
+                0x0000000008001d78                printf_nib_hex
+ .text.print    0x0000000008001d88       0x16 obj/Release/src/com/uart_printf.o
+                0x0000000008001d88                print
+ *fill*         0x0000000008001d9e        0x2 
+ .text.printf_U8hex
+                0x0000000008001da0       0x38 obj/Release/src/com/uart_printf.o
+                0x0000000008001da0                printf_U8hex
+ .text.printf_crkpos
+                0x0000000008001dd8       0x6c obj/Release/src/com/uart_printf.o
+                0x0000000008001dd8                printf_crkpos
+ .text.printf_phase
+                0x0000000008001e44       0x30 obj/Release/src/com/uart_printf.o
+                0x0000000008001e44                printf_phase
+ .text.printf_decoder_sensing
+                0x0000000008001e74       0x54 obj/Release/src/com/uart_printf.o
+                0x0000000008001e74                printf_decoder_sensing
+ .text.print_flash
+                0x0000000008001ec8        0x4 obj/Release/src/com/uart_printf.o
+                0x0000000008001ec8                print_flash
+ .text.set_mil_hw
+                0x0000000008001ecc       0x38 obj/Release/src/dash/dash_hw.o
+                0x0000000008001ecc                set_mil_hw
+ .text.init_dash_hw
+                0x0000000008001f04       0x78 obj/Release/src/dash/dash_hw.o
+                0x0000000008001f04                init_dash_hw
+ .text.set_tachometer_compare
+                0x0000000008001f7c       0x28 obj/Release/src/dash/dash_hw.o
+                0x0000000008001f7c                set_tachometer_compare
+ .text.update_tachometer
+                0x0000000008001fa4       0x38 obj/Release/src/dash/Tuareg_dash.o
+                0x0000000008001fa4                update_tachometer
+ .text.set_mil  0x0000000008001fdc       0x58 obj/Release/src/dash/Tuareg_dash.o
+                0x0000000008001fdc                set_mil
+ .text.update_mil
+                0x0000000008002034       0xac obj/Release/src/dash/Tuareg_dash.o
+                0x0000000008002034                update_mil
+ .text.init_dash
+                0x00000000080020e0       0x10 obj/Release/src/dash/Tuareg_dash.o
+                0x00000000080020e0                init_dash
+ .text.update_dash
+                0x00000000080020f0        0xe obj/Release/src/dash/Tuareg_dash.o
+                0x00000000080020f0                update_dash
+ *fill*         0x00000000080020fe        0x2 
+ .text.DebugMsg_Warning
+                0x0000000008002100       0x24 obj/Release/src/debug/debug_port_messages.o
+                0x0000000008002100                DebugMsg_Warning
+ .text.decoder_update_cis
+                0x0000000008002124      0x188 obj/Release/src/decoder/decoder_cis.o
+                0x0000000008002124                decoder_update_cis
+ .text.decoder_cis_handler
+                0x00000000080022ac       0x9c obj/Release/src/decoder/decoder_cis.o
+                0x00000000080022ac                decoder_cis_handler
+ .text.decoder_cis_noisefilter_handler
+                0x0000000008002348        0x4 obj/Release/src/decoder/decoder_cis.o
+                0x0000000008002348                decoder_cis_noisefilter_handler
+ .text.enable_cis
+                0x000000000800234c       0x4c obj/Release/src/decoder/decoder_cis.o
+                0x000000000800234c                enable_cis
+ .text.disable_cis
+                0x0000000008002398        0xe obj/Release/src/decoder/decoder_cis.o
+                0x0000000008002398                disable_cis
+ *fill*         0x00000000080023a6        0x2 
+ .text.load_Decoder_Setup
+                0x00000000080023a8       0x1c obj/Release/src/decoder/decoder_config.o
+                0x00000000080023a8                load_Decoder_Setup
+ .text.load_essential_Decoder_Setup
+                0x00000000080023c4       0x3c obj/Release/src/decoder/decoder_config.o
+                0x00000000080023c4                load_essential_Decoder_Setup
+ .text.store_Decoder_Setup
+                0x0000000008002400       0x10 obj/Release/src/decoder/decoder_config.o
+                0x0000000008002400                store_Decoder_Setup
+ .text.show_Decoder_Setup
+                0x0000000008002410      0x154 obj/Release/src/decoder/decoder_config.o
+                0x0000000008002410                show_Decoder_Setup
+ .text.modify_Decoder_Setup
+                0x0000000008002564       0x18 obj/Release/src/decoder/decoder_config.o
+                0x0000000008002564                modify_Decoder_Setup
+ .text.send_Decoder_Setup
+                0x000000000800257c        0xc obj/Release/src/decoder/decoder_config.o
+                0x000000000800257c                send_Decoder_Setup
+ .text.decoder_diag_log_event
+                0x0000000008002588       0x28 obj/Release/src/decoder/decoder_diag.o
+                0x0000000008002588                decoder_diag_log_event
+ .text.print_decoder_diag
+                0x00000000080025b0       0x68 obj/Release/src/decoder/decoder_diag.o
+                0x00000000080025b0                print_decoder_diag
+ .text.decoder_stop_timer
+                0x0000000008002618       0x1c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002618                decoder_stop_timer
+ .text.update_crank_noisefilter
+                0x0000000008002634       0x40 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002634                update_crank_noisefilter
+ .text.update_cam_noisefilter
+                0x0000000008002674       0x40 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002674                update_cam_noisefilter
+ .text.decoder_mask_crank_irq
+                0x00000000080026b4       0x10 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080026b4                decoder_mask_crank_irq
+ .text.decoder_unmask_crank_irq
+                0x00000000080026c4       0x14 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080026c4                decoder_unmask_crank_irq
+ .text.decoder_mask_cis_irq
+                0x00000000080026d8       0x10 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080026d8                decoder_mask_cis_irq
+ .text.decoder_unmask_cis_irq
+                0x00000000080026e8       0x14 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080026e8                decoder_unmask_cis_irq
+ .text.set_crank_pickup_sensing_rise
+                0x00000000080026fc       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080026fc                set_crank_pickup_sensing_rise
+ .text.set_crank_pickup_sensing_fall
+                0x0000000008002720       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002720                set_crank_pickup_sensing_fall
+ .text.set_crank_pickup_sensing_disabled
+                0x0000000008002744       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002744                set_crank_pickup_sensing_disabled
+ .text.set_cis_sensing_rise
+                0x0000000008002768       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002768                set_cis_sensing_rise
+ .text.set_cis_sensing_fall
+                0x000000000800278c       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x000000000800278c                set_cis_sensing_fall
+ .text.set_cis_sensing_disabled
+                0x00000000080027b0       0x24 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080027b0                set_cis_sensing_disabled
+ .text.decoder_set_crank_pickup_sensing
+                0x00000000080027d4       0x3c obj/Release/src/decoder/decoder_hw.o
+                0x00000000080027d4                decoder_set_crank_pickup_sensing
+ .text.decoder_set_cis_sensing
+                0x0000000008002810       0x3c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002810                decoder_set_cis_sensing
+ .text.trigger_decoder_irq
+                0x000000000800284c       0x14 obj/Release/src/decoder/decoder_hw.o
+                0x000000000800284c                trigger_decoder_irq
+ .text.init_decoder_hw
+                0x0000000008002860       0xcc obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002860                init_decoder_hw
+ .text.decoder_get_timestamp
+                0x000000000800292c        0xc obj/Release/src/decoder/decoder_hw.o
+                0x000000000800292c                decoder_get_timestamp
+ .text.decoder_set_timer_continuous_mode_on
+                0x0000000008002938       0x1c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002938                decoder_set_timer_continuous_mode_on
+ .text.decoder_set_timer_continuous_mode_off
+                0x0000000008002954       0x1c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002954                decoder_set_timer_continuous_mode_off
+ .text.decoder_start_timer
+                0x0000000008002970       0x5c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002970                decoder_start_timer
+ .text.decoder_request_timer_reset
+                0x00000000080029cc       0x10 obj/Release/src/decoder/decoder_hw.o
+                0x00000000080029cc                decoder_request_timer_reset
+ .text.disable_decoder_hw
+                0x00000000080029dc       0x3c obj/Release/src/decoder/decoder_hw.o
+                0x00000000080029dc                disable_decoder_hw
+ .text.EXTI0_IRQHandler
+                0x0000000008002a18       0x60 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002a18                EXTI0_IRQHandler
+ .text.TIM1_BRK_TIM9_IRQHandler
+                0x0000000008002a78       0x74 obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002a78                TIM1_BRK_TIM9_IRQHandler
+ .text.EXTI1_IRQHandler
+                0x0000000008002aec       0x1c obj/Release/src/decoder/decoder_hw.o
+                0x0000000008002aec                EXTI1_IRQHandler
+ .text.reset_timeout_counter
+                0x0000000008002b08       0x14 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002b08                reset_timeout_counter
+ .text.reset_timing_output
+                0x0000000008002b1c       0x2c obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002b1c                reset_timing_output
+ .text.reset_position_data
+                0x0000000008002b48       0x34 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002b48                reset_position_data
+ .text.reset_internal_data
+                0x0000000008002b7c       0x18 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002b7c                reset_internal_data
+ .text.decoder_set_state
+                0x0000000008002b94       0x20 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002b94                decoder_set_state
+ .text.check_sync_ratio
+                0x0000000008002bb4       0x74 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002bb4                check_sync_ratio
+ .text.check_sync_ratio_async
+                0x0000000008002c28       0x5c obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002c28                check_sync_ratio_async
+ .text.update_timing_data
+                0x0000000008002c84       0xc0 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002c84                update_timing_data
+ .text.init_decoder_logic
+                0x0000000008002d44       0x24 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002d44                init_decoder_logic
+ .text.disable_decoder_logic
+                0x0000000008002d68       0x18 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002d68                disable_decoder_logic
+ .text.decoder_crank_handler
+                0x0000000008002d80      0x138 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002d80                decoder_crank_handler
+ .text.decoder_crank_noisefilter_handler
+                0x0000000008002eb8        0x4 obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002eb8                decoder_crank_noisefilter_handler
+ .text.decoder_crank_timeout_handler
+                0x0000000008002ebc       0x3c obj/Release/src/decoder/decoder_logic.o
+                0x0000000008002ebc                decoder_crank_timeout_handler
+ .text.init_Decoder
+                0x0000000008002ef8       0x68 obj/Release/src/decoder/Tuareg_decoder.o
+                0x0000000008002ef8                init_Decoder
+ .text.disable_Decoder
+                0x0000000008002f60       0x28 obj/Release/src/decoder/Tuareg_decoder.o
+                0x0000000008002f60                disable_Decoder
+ .text.decoder_get_position_data_age_us
+                0x0000000008002f88       0x28 obj/Release/src/decoder/Tuareg_decoder.o
+                0x0000000008002f88                decoder_get_position_data_age_us
+ .text.copy_diag_data
+                0x0000000008002fb0       0x48 obj/Release/src/diagnostics/diagnostics.o
+                0x0000000008002fb0                copy_diag_data
+ .text.get_diag_data
+                0x0000000008002ff8       0x24 obj/Release/src/diagnostics/diagnostics.o
+                0x0000000008002ff8                get_diag_data
+ .text.release_diag_shadow
+                0x000000000800301c        0xc obj/Release/src/diagnostics/diagnostics.o
+                0x000000000800301c                release_diag_shadow
+ .text.load_Fault_Log
+                0x0000000008003028       0x1c obj/Release/src/diagnostics/fault_log.o
+                0x0000000008003028                load_Fault_Log
+ .text.load_void_Fault_Log
+                0x0000000008003044       0x18 obj/Release/src/diagnostics/fault_log.o
+                0x0000000008003044                load_void_Fault_Log
+ .text.init_Fault_Log
+                0x000000000800305c       0x4c obj/Release/src/diagnostics/fault_log.o
+                0x000000000800305c                init_Fault_Log
+ .text.store_Fault_Log
+                0x00000000080030a8       0x10 obj/Release/src/diagnostics/fault_log.o
+                0x00000000080030a8                store_Fault_Log
+ .text.log_Fault
+                0x00000000080030b8       0x68 obj/Release/src/diagnostics/fault_log.o
+                0x00000000080030b8                log_Fault
+ .text.show_Fault_Log
+                0x0000000008003120       0x74 obj/Release/src/diagnostics/fault_log.o
+                0x0000000008003120                show_Fault_Log
+ .text.clear_Fault_Log
+                0x0000000008003194       0x18 obj/Release/src/diagnostics/fault_log.o
+                0x0000000008003194                clear_Fault_Log
+ .text.Erase_Fault_Log
+                0x00000000080031ac       0x3c obj/Release/src/diagnostics/fault_log.o
+                0x00000000080031ac                Erase_Fault_Log
+ .text.send_Fault_Log
+                0x00000000080031e8        0xc obj/Release/src/diagnostics/fault_log.o
+                0x00000000080031e8                send_Fault_Log
+ .text.clear_highspeedlog
+                0x00000000080031f4       0x14 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x00000000080031f4                clear_highspeedlog
+ .text.highspeedlog_init
+                0x0000000008003208       0x14 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003208                highspeedlog_init
+ .text.highspeedlog_register_error
+                0x000000000800321c        0x2 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x000000000800321c                highspeedlog_register_error
+ *fill*         0x000000000800321e        0x2 
+ .text.highspeedlog_write
+                0x0000000008003220       0xb8 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003220                highspeedlog_write
+ .text.highspeedlog_register_crankpos
+                0x00000000080032d8        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x00000000080032d8                highspeedlog_register_crankpos
+ *fill*         0x00000000080032de        0x2 
+ .text.highspeedlog_register_cis_lobe_begin
+                0x00000000080032e0       0x10 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x00000000080032e0                highspeedlog_register_cis_lobe_begin
+ .text.highspeedlog_register_cis_lobe_end
+                0x00000000080032f0       0x10 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x00000000080032f0                highspeedlog_register_cis_lobe_end
+ .text.highspeedlog_register_coil1_power
+                0x0000000008003300        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003300                highspeedlog_register_coil1_power
+ .text.highspeedlog_register_coil1_unpower
+                0x0000000008003306        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003306                highspeedlog_register_coil1_unpower
+ .text.highspeedlog_register_coil2_power
+                0x000000000800330c        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x000000000800330c                highspeedlog_register_coil2_power
+ .text.highspeedlog_register_coil2_unpower
+                0x0000000008003312        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003312                highspeedlog_register_coil2_unpower
+ .text.highspeedlog_register_injector1_power
+                0x0000000008003318        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003318                highspeedlog_register_injector1_power
+ .text.highspeedlog_register_injector1_unpower
+                0x000000000800331e        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x000000000800331e                highspeedlog_register_injector1_unpower
+ .text.highspeedlog_register_injector2_power
+                0x0000000008003324        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003324                highspeedlog_register_injector2_power
+ .text.highspeedlog_register_injector2_unpower
+                0x000000000800332a        0x6 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x000000000800332a                highspeedlog_register_injector2_unpower
+ .text.send_highspeedlog
+                0x0000000008003330       0xc4 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000008003330                send_highspeedlog
+ .text.show_highspeedlog
+                0x00000000080033f4      0x150 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x00000000080033f4                show_highspeedlog
+ .text.clear_syslog
+                0x0000000008003544       0x38 obj/Release/src/diagnostics/syslog.o
+                0x0000000008003544                clear_syslog
+ .text.Syslog_init
+                0x000000000800357c       0x10 obj/Release/src/diagnostics/syslog.o
+                0x000000000800357c                Syslog_init
+ .text.Syslog_Error
+                0x000000000800358c       0x48 obj/Release/src/diagnostics/syslog.o
+                0x000000000800358c                Syslog_Error
+ .text.Syslog_Warning
+                0x00000000080035d4       0x6c obj/Release/src/diagnostics/syslog.o
+                0x00000000080035d4                Syslog_Warning
+ .text.Syslog_Info
+                0x0000000008003640       0x68 obj/Release/src/diagnostics/syslog.o
+                0x0000000008003640                Syslog_Info
+ .text.show_syslog
+                0x00000000080036a8      0x11c obj/Release/src/diagnostics/syslog.o
+                0x00000000080036a8                show_syslog
+ .text.send_syslog
+                0x00000000080037c4       0x20 obj/Release/src/diagnostics/syslog.o
+                0x00000000080037c4                send_syslog
+ .text.update_load_transient_comp
+                0x00000000080037e4       0x16 obj/Release/src/fueling/accel_comp.o
+                0x00000000080037e4                update_load_transient_comp
+ .text.disable_legacy_AE
+                0x00000000080037fa       0x46 obj/Release/src/fueling/accel_comp.o
+                0x00000000080037fa                disable_legacy_AE
+ .text.update_legacy_AE
+                0x0000000008003840      0x31c obj/Release/src/fueling/accel_comp.o
+                0x0000000008003840                update_legacy_AE
+ .text.load_Fueling_Setup
+                0x0000000008003b5c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003b5c                load_Fueling_Setup
+ .text.store_Fueling_Setup
+                0x0000000008003b6c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003b6c                store_Fueling_Setup
+ .text.show_Fueling_Setup
+                0x0000000008003b7c      0x30c obj/Release/src/fueling/fueling_config.o
+                0x0000000008003b7c                show_Fueling_Setup
+ .text.modify_Fueling_Setup
+                0x0000000008003e88       0x18 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003e88                modify_Fueling_Setup
+ .text.send_Fueling_Setup
+                0x0000000008003ea0        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008003ea0                send_Fueling_Setup
+ .text.load_VeTable_TPS
+                0x0000000008003eac       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003eac                load_VeTable_TPS
+ .text.store_VeTable_TPS
+                0x0000000008003ebc       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003ebc                store_VeTable_TPS
+ .text.show_VeTable_TPS
+                0x0000000008003ecc       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003ecc                show_VeTable_TPS
+ .text.modify_VeTable_TPS
+                0x0000000008003eec       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003eec                modify_VeTable_TPS
+ .text.send_VeTable_TPS
+                0x0000000008003efc        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008003efc                send_VeTable_TPS
+ .text.getValue_VeTable_TPS
+                0x0000000008003f08       0x14 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f08                getValue_VeTable_TPS
+ .text.load_VeTable_MAP
+                0x0000000008003f1c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f1c                load_VeTable_MAP
+ .text.store_VeTable_MAP
+                0x0000000008003f2c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f2c                store_VeTable_MAP
+ .text.show_VeTable_MAP
+                0x0000000008003f3c       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f3c                show_VeTable_MAP
+ .text.modify_VeTable_MAP
+                0x0000000008003f5c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f5c                modify_VeTable_MAP
+ .text.send_VeTable_MAP
+                0x0000000008003f6c        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f6c                send_VeTable_MAP
+ .text.getValue_VeTable_MAP
+                0x0000000008003f78       0x14 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f78                getValue_VeTable_MAP
+ .text.load_AfrTable_MAP
+                0x0000000008003f8c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f8c                load_AfrTable_MAP
+ .text.store_AfrTable_MAP
+                0x0000000008003f9c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003f9c                store_AfrTable_MAP
+ .text.show_AfrTable_MAP
+                0x0000000008003fac       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003fac                show_AfrTable_MAP
+ .text.modify_AfrTable_MAP
+                0x0000000008003fcc       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003fcc                modify_AfrTable_MAP
+ .text.send_AfrTable_MAP
+                0x0000000008003fdc        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008003fdc                send_AfrTable_MAP
+ .text.getValue_AfrTable_MAP
+                0x0000000008003fe8       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008003fe8                getValue_AfrTable_MAP
+ .text.load_AfrTable_TPS
+                0x0000000008004008       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004008                load_AfrTable_TPS
+ .text.store_AfrTable_TPS
+                0x0000000008004018       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004018                store_AfrTable_TPS
+ .text.show_AfrTable_TPS
+                0x0000000008004028       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004028                show_AfrTable_TPS
+ .text.modify_AfrTable_TPS
+                0x0000000008004048       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004048                modify_AfrTable_TPS
+ .text.send_AfrTable_TPS
+                0x0000000008004058        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008004058                send_AfrTable_TPS
+ .text.getValue_AfrTable_TPS
+                0x0000000008004064       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004064                getValue_AfrTable_TPS
+ .text.load_AccelCompTableTPS
+                0x0000000008004084       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004084                load_AccelCompTableTPS
+ .text.store_AccelCompTableTPS
+                0x0000000008004094       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004094                store_AccelCompTableTPS
+ .text.show_AccelCompTableTPS
+                0x00000000080040a4       0x20 obj/Release/src/fueling/fueling_config.o
+                0x00000000080040a4                show_AccelCompTableTPS
+ .text.modify_AccelCompTableTPS
+                0x00000000080040c4       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080040c4                modify_AccelCompTableTPS
+ .text.send_AccelCompTableTPS
+                0x00000000080040d4        0xc obj/Release/src/fueling/fueling_config.o
+                0x00000000080040d4                send_AccelCompTableTPS
+ .text.getValue_AccelCompTableTPS
+                0x00000000080040e0       0x14 obj/Release/src/fueling/fueling_config.o
+                0x00000000080040e0                getValue_AccelCompTableTPS
+ .text.load_AccelCompTableMAP
+                0x00000000080040f4       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080040f4                load_AccelCompTableMAP
+ .text.store_AccelCompTableMAP
+                0x0000000008004104       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004104                store_AccelCompTableMAP
+ .text.show_AccelCompTableMAP
+                0x0000000008004114       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004114                show_AccelCompTableMAP
+ .text.modify_AccelCompTableMAP
+                0x0000000008004134       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004134                modify_AccelCompTableMAP
+ .text.send_AccelCompTableMAP
+                0x0000000008004144        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008004144                send_AccelCompTableMAP
+ .text.getValue_AccelCompTableMAP
+                0x0000000008004150       0x14 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004150                getValue_AccelCompTableMAP
+ .text.load_WarmUpCompTable
+                0x0000000008004164       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004164                load_WarmUpCompTable
+ .text.store_WarmUpCompTable
+                0x0000000008004174       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004174                store_WarmUpCompTable
+ .text.show_WarmUpCompTable
+                0x0000000008004184       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004184                show_WarmUpCompTable
+ .text.modify_WarmUpCompTable
+                0x00000000080041a4       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080041a4                modify_WarmUpCompTable
+ .text.send_WarmUpCompTable
+                0x00000000080041b4        0xc obj/Release/src/fueling/fueling_config.o
+                0x00000000080041b4                send_WarmUpCompTable
+ .text.getValue_WarmUpCompTable
+                0x00000000080041c0       0x20 obj/Release/src/fueling/fueling_config.o
+                0x00000000080041c0                getValue_WarmUpCompTable
+ .text.load_InjectorTimingTable
+                0x00000000080041e0       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080041e0                load_InjectorTimingTable
+ .text.store_InjectorTimingTable
+                0x00000000080041f0       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080041f0                store_InjectorTimingTable
+ .text.show_InjectorTimingTable
+                0x0000000008004200       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004200                show_InjectorTimingTable
+ .text.modify_InjectorTimingTable
+                0x0000000008004220       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004220                modify_InjectorTimingTable
+ .text.send_InjectorTimingTable
+                0x0000000008004230        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008004230                send_InjectorTimingTable
+ .text.getValue_InjectorTimingTable
+                0x000000000800423c       0x20 obj/Release/src/fueling/fueling_config.o
+                0x000000000800423c                getValue_InjectorTimingTable
+ .text.load_CrankingFuelTable
+                0x000000000800425c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x000000000800425c                load_CrankingFuelTable
+ .text.store_CrankingFuelTable
+                0x000000000800426c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x000000000800426c                store_CrankingFuelTable
+ .text.show_CrankingFuelTable
+                0x000000000800427c       0x20 obj/Release/src/fueling/fueling_config.o
+                0x000000000800427c                show_CrankingFuelTable
+ .text.modify_CrankingFuelTable
+                0x000000000800429c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x000000000800429c                modify_CrankingFuelTable
+ .text.send_CrankingFuelTable
+                0x00000000080042ac        0xc obj/Release/src/fueling/fueling_config.o
+                0x00000000080042ac                send_CrankingFuelTable
+ .text.getValue_CrankingFuelTable
+                0x00000000080042b8       0x14 obj/Release/src/fueling/fueling_config.o
+                0x00000000080042b8                getValue_CrankingFuelTable
+ .text.load_InjectorPhaseTable
+                0x00000000080042cc       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080042cc                load_InjectorPhaseTable
+ .text.store_InjectorPhaseTable
+                0x00000000080042dc       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080042dc                store_InjectorPhaseTable
+ .text.show_InjectorPhaseTable
+                0x00000000080042ec       0x20 obj/Release/src/fueling/fueling_config.o
+                0x00000000080042ec                show_InjectorPhaseTable
+ .text.modify_InjectorPhaseTable
+                0x000000000800430c       0x10 obj/Release/src/fueling/fueling_config.o
+                0x000000000800430c                modify_InjectorPhaseTable
+ .text.send_InjectorPhaseTable
+                0x000000000800431c        0xc obj/Release/src/fueling/fueling_config.o
+                0x000000000800431c                send_InjectorPhaseTable
+ .text.getValue_InjectorPhaseTable
+                0x0000000008004328        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008004328                getValue_InjectorPhaseTable
+ .text.load_BAROtable
+                0x0000000008004334       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004334                load_BAROtable
+ .text.store_BAROtable
+                0x0000000008004344       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004344                store_BAROtable
+ .text.show_BAROtable
+                0x0000000008004354       0x20 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004354                show_BAROtable
+ .text.modify_BAROtable
+                0x0000000008004374       0x10 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004374                modify_BAROtable
+ .text.send_BAROtable
+                0x0000000008004384        0xc obj/Release/src/fueling/fueling_config.o
+                0x0000000008004384                send_BAROtable
+ .text.getValue_BAROtable
+                0x0000000008004390       0x38 obj/Release/src/fueling/fueling_config.o
+                0x0000000008004390                getValue_BAROtable
+ .text.load_ChargeTempTable
+                0x00000000080043c8       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080043c8                load_ChargeTempTable
+ .text.load_Fueling_Config
+                0x00000000080043d8       0xd8 obj/Release/src/fueling/fueling_config.o
+                0x00000000080043d8                load_Fueling_Config
+ .text.store_ChargeTempTable
+                0x00000000080044b0       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080044b0                store_ChargeTempTable
+ .text.show_ChargeTempTable
+                0x00000000080044c0       0x20 obj/Release/src/fueling/fueling_config.o
+                0x00000000080044c0                show_ChargeTempTable
+ .text.modify_ChargeTempTable
+                0x00000000080044e0       0x10 obj/Release/src/fueling/fueling_config.o
+                0x00000000080044e0                modify_ChargeTempTable
+ .text.send_ChargeTempTable
+                0x00000000080044f0        0xc obj/Release/src/fueling/fueling_config.o
+                0x00000000080044f0                send_ChargeTempTable
+ .text.getValue_ChargeTempTable
+                0x00000000080044fc       0x2c obj/Release/src/fueling/fueling_config.o
+                0x00000000080044fc                getValue_ChargeTempTable
+ .text.update_fuel_mass_afterstart_correction
+                0x0000000008004528       0xa4 obj/Release/src/fueling/fueling_corrections.o
+                0x0000000008004528                update_fuel_mass_afterstart_correction
+ .text.update_fuel_mass_warmup_correction
+                0x00000000080045cc       0x5c obj/Release/src/fueling/fueling_corrections.o
+                0x00000000080045cc                update_fuel_mass_warmup_correction
+ .text.update_fuel_mass_barometric_correction
+                0x0000000008004628       0x98 obj/Release/src/fueling/fueling_corrections.o
+                0x0000000008004628                update_fuel_mass_barometric_correction
+ .text.update_fuel_mass_corrections
+                0x00000000080046c0       0x1c obj/Release/src/fueling/fueling_corrections.o
+                0x00000000080046c0                update_fuel_mass_corrections
+ .text.fueling_diag_log_event
+                0x00000000080046dc       0x28 obj/Release/src/fueling/fueling_diag.o
+                0x00000000080046dc                fueling_diag_log_event
+ .text.print_fueling_diag
+                0x0000000008004704       0x68 obj/Release/src/fueling/fueling_diag.o
+                0x0000000008004704                print_fueling_diag
+ .text.set_injector1_powered
+                0x000000000800476c       0x28 obj/Release/src/fueling/fueling_hw.o
+                0x000000000800476c                set_injector1_powered
+ .text.set_injector1_unpowered
+                0x0000000008004794       0x28 obj/Release/src/fueling/fueling_hw.o
+                0x0000000008004794                set_injector1_unpowered
+ .text.set_injector2_powered
+                0x00000000080047bc       0x28 obj/Release/src/fueling/fueling_hw.o
+                0x00000000080047bc                set_injector2_powered
+ .text.set_injector2_unpowered
+                0x00000000080047e4       0x28 obj/Release/src/fueling/fueling_hw.o
+                0x00000000080047e4                set_injector2_unpowered
+ .text.set_fuel_pump_powered
+                0x000000000800480c       0x28 obj/Release/src/fueling/fueling_hw.o
+                0x000000000800480c                set_fuel_pump_powered
+ .text.set_fuel_pump_unpowered
+                0x0000000008004834       0x20 obj/Release/src/fueling/fueling_hw.o
+                0x0000000008004834                set_fuel_pump_unpowered
+ .text.set_injector1
+                0x0000000008004854       0x30 obj/Release/src/fueling/fueling_hw.o
+                0x0000000008004854                set_injector1
+ .text.set_injector2
+                0x0000000008004884       0x30 obj/Release/src/fueling/fueling_hw.o
+                0x0000000008004884                set_injector2
+ .text.set_fuel_pump
+                0x00000000080048b4        0xc obj/Release/src/fueling/fueling_hw.o
+                0x00000000080048b4                set_fuel_pump
+ .text.init_fueling_hw
+                0x00000000080048c0       0x5c obj/Release/src/fueling/fueling_hw.o
+                0x00000000080048c0                init_fueling_hw
+ .text.update_injector_deadtime
+                0x000000000800491c       0x50 obj/Release/src/fueling/injector_parameters.o
+                0x000000000800491c                update_injector_deadtime
+ .text.update_injector_intervals_sequential
+                0x000000000800496c       0xf8 obj/Release/src/fueling/injector_parameters.o
+                0x000000000800496c                update_injector_intervals_sequential
+ .text.update_injector_intervals_batch
+                0x0000000008004a64       0xf4 obj/Release/src/fueling/injector_parameters.o
+                0x0000000008004a64                update_injector_intervals_batch
+ .text.update_injection_begin_batch
+                0x0000000008004b58       0x34 obj/Release/src/fueling/injector_parameters.o
+                0x0000000008004b58                update_injection_begin_batch
+ .text.update_injection_begin_sequential
+                0x0000000008004b8c       0xf0 obj/Release/src/fueling/injector_parameters.o
+                0x0000000008004b8c                update_injection_begin_sequential
+ .text.init_Fueling
+                0x0000000008004c7c       0x54 obj/Release/src/fueling/Tuareg_fueling.o
+                0x0000000008004c7c                init_Fueling
+ .text.Tuareg_fueling_update_crankpos_handler
+                0x0000000008004cd0      0x198 obj/Release/src/fueling/Tuareg_fueling.o
+                0x0000000008004cd0                Tuareg_fueling_update_crankpos_handler
+ .text.invalid_fueling_controls
+                0x0000000008004e68       0x48 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008004e68                invalid_fueling_controls
+ .text.update_air_flow
+                0x0000000008004eb0       0x94 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008004eb0                update_air_flow
+ .text.update_AFR_target
+                0x0000000008004f44       0x78 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008004f44                update_AFR_target
+ .text.update_fuel_mass_cranking
+                0x0000000008004fbc       0x74 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008004fbc                update_fuel_mass_cranking
+ .text.update_base_fuel_mass
+                0x0000000008005030       0x48 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008005030                update_base_fuel_mass
+ .text.update_target_fuel_mass
+                0x0000000008005078      0x120 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008005078                update_target_fuel_mass
+ .text.Tuareg_update_fueling_controls
+                0x0000000008005198      0x234 obj/Release/src/fueling/Tuareg_fueling_controls.o
+                0x0000000008005198                Tuareg_update_fueling_controls
+ .text.load_Ignition_Config
+                0x00000000080053cc       0x6c obj/Release/src/ignition/ignition_config.o
+                0x00000000080053cc                load_Ignition_Config
+ .text.store_Ignition_Setup
+                0x0000000008005438       0x10 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005438                store_Ignition_Setup
+ .text.show_Ignition_Setup
+                0x0000000008005448      0x17c obj/Release/src/ignition/ignition_config.o
+                0x0000000008005448                show_Ignition_Setup
+ .text.modify_Ignition_Setup
+                0x00000000080055c4       0x18 obj/Release/src/ignition/ignition_config.o
+                0x00000000080055c4                modify_Ignition_Setup
+ .text.send_Ignition_Setup
+                0x00000000080055dc        0xc obj/Release/src/ignition/ignition_config.o
+                0x00000000080055dc                send_Ignition_Setup
+ .text.store_ignAdvTable_TPS
+                0x00000000080055e8       0x10 obj/Release/src/ignition/ignition_config.o
+                0x00000000080055e8                store_ignAdvTable_TPS
+ .text.show_ignAdvTable_TPS
+                0x00000000080055f8       0x20 obj/Release/src/ignition/ignition_config.o
+                0x00000000080055f8                show_ignAdvTable_TPS
+ .text.modify_ignAdvTable_TPS
+                0x0000000008005618       0x10 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005618                modify_ignAdvTable_TPS
+ .text.send_ignAdvTable_TPS
+                0x0000000008005628        0xc obj/Release/src/ignition/ignition_config.o
+                0x0000000008005628                send_ignAdvTable_TPS
+ .text.getValue_ignAdvTable_TPS
+                0x0000000008005634       0x20 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005634                getValue_ignAdvTable_TPS
+ .text.store_ignDwellTable
+                0x0000000008005654       0x10 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005654                store_ignDwellTable
+ .text.show_ignDwellTable
+                0x0000000008005664       0x20 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005664                show_ignDwellTable
+ .text.modify_ignDwellTable
+                0x0000000008005684       0x10 obj/Release/src/ignition/ignition_config.o
+                0x0000000008005684                modify_ignDwellTable
+ .text.send_ignDwellTable
+                0x0000000008005694        0xc obj/Release/src/ignition/ignition_config.o
+                0x0000000008005694                send_ignDwellTable
+ .text.getValue_ignDwellTable
+                0x00000000080056a0       0x18 obj/Release/src/ignition/ignition_config.o
+                0x00000000080056a0                getValue_ignDwellTable
+ .text.ignition_diag_log_event
+                0x00000000080056b8       0x28 obj/Release/src/ignition/ignition_diag.o
+                0x00000000080056b8                ignition_diag_log_event
+ .text.print_ignition_diag
+                0x00000000080056e0       0x68 obj/Release/src/ignition/ignition_diag.o
+                0x00000000080056e0                print_ignition_diag
+ .text.set_coil1_powered
+                0x0000000008005748       0x28 obj/Release/src/ignition/ignition_hw.o
+                0x0000000008005748                set_coil1_powered
+ .text.set_coil1_unpowered
+                0x0000000008005770       0x20 obj/Release/src/ignition/ignition_hw.o
+                0x0000000008005770                set_coil1_unpowered
+ .text.set_coil2_powered
+                0x0000000008005790       0x28 obj/Release/src/ignition/ignition_hw.o
+                0x0000000008005790                set_coil2_powered
+ .text.set_coil2_unpowered
+                0x00000000080057b8       0x20 obj/Release/src/ignition/ignition_hw.o
+                0x00000000080057b8                set_coil2_unpowered
+ .text.set_ignition_ch1
+                0x00000000080057d8       0x30 obj/Release/src/ignition/ignition_hw.o
+                0x00000000080057d8                set_ignition_ch1
+ .text.set_ignition_ch2
+                0x0000000008005808       0x30 obj/Release/src/ignition/ignition_hw.o
+                0x0000000008005808                set_ignition_ch2
+ .text.init_ignition_hw
+                0x0000000008005838       0x3c obj/Release/src/ignition/ignition_hw.o
+                0x0000000008005838                init_ignition_hw
+ .text.init_Ignition
+                0x0000000008005874       0x58 obj/Release/src/ignition/Tuareg_ignition.o
+                0x0000000008005874                init_Ignition
+ .text.Tuareg_ignition_update_crankpos_handler
+                0x00000000080058cc      0x154 obj/Release/src/ignition/Tuareg_ignition.o
+                0x00000000080058cc                Tuareg_ignition_update_crankpos_handler
+ .text.default_ignition_controls
+                0x0000000008005a20       0x24 obj/Release/src/ignition/Tuareg_ignition_controls.o
+                0x0000000008005a20                default_ignition_controls
+ .text.revlimiter_ignition_controls
+                0x0000000008005a44       0x1c obj/Release/src/ignition/Tuareg_ignition_controls.o
+                0x0000000008005a44                revlimiter_ignition_controls
+ .text.cranking_ignition_controls
+                0x0000000008005a60       0x38 obj/Release/src/ignition/Tuareg_ignition_controls.o
+                0x0000000008005a60                cranking_ignition_controls
+ .text.dynamic_ignition_controls
+                0x0000000008005a98      0x188 obj/Release/src/ignition/Tuareg_ignition_controls.o
+                0x0000000008005a98                dynamic_ignition_controls
+ .text.Tuareg_update_ignition_controls
+                0x0000000008005c20       0xa8 obj/Release/src/ignition/Tuareg_ignition_controls.o
+                0x0000000008005c20                Tuareg_update_ignition_controls
+ .text.startup.main
+                0x0000000008005cc8       0x78 obj/Release/src/main/main.o
+                0x0000000008005cc8                main
+ .text.EXTI2_IRQHandler
+                0x0000000008005d40       0x5c obj/Release/src/main/main.o
+                0x0000000008005d40                EXTI2_IRQHandler
+ .text.Tuareg_load_config
+                0x0000000008005d9c       0x4c obj/Release/src/main/Tuareg.o
+                0x0000000008005d9c                Tuareg_load_config
+ .text.Tuareg_Init
+                0x0000000008005de8       0xc0 obj/Release/src/main/Tuareg.o
+                0x0000000008005de8                Tuareg_Init
+ .text.Tuareg_update_run_inhibit
+                0x0000000008005ea8      0x140 obj/Release/src/main/Tuareg.o
+                0x0000000008005ea8                Tuareg_update_run_inhibit
+ .text.Tuareg_update_limited_op
+                0x0000000008005fe8       0x38 obj/Release/src/main/Tuareg.o
+                0x0000000008005fe8                Tuareg_update_limited_op
+ .text.Tuareg_update_rev_limiter
+                0x0000000008006020       0x60 obj/Release/src/main/Tuareg.o
+                0x0000000008006020                Tuareg_update_rev_limiter
+ .text.Tuareg_update_standby
+                0x0000000008006080       0xcc obj/Release/src/main/Tuareg.o
+                0x0000000008006080                Tuareg_update_standby
+ .text.Tuareg_update_fuel_pump_control
+                0x000000000800614c       0x54 obj/Release/src/main/Tuareg.o
+                0x000000000800614c                Tuareg_update_fuel_pump_control
+ .text.Tuareg_deactivate_vital_actors
+                0x00000000080061a0       0x50 obj/Release/src/main/Tuareg.o
+                0x00000000080061a0                Tuareg_deactivate_vital_actors
+ .text.Tuareg_update
+                0x00000000080061f0       0x58 obj/Release/src/main/Tuareg.o
+                0x00000000080061f0                Tuareg_update
+ .text.Tuareg_update_trip
+                0x0000000008006248       0x30 obj/Release/src/main/Tuareg.o
+                0x0000000008006248                Tuareg_update_trip
+ .text.Tuareg_update_consumption_data
+                0x0000000008006278       0x90 obj/Release/src/main/Tuareg.o
+                0x0000000008006278                Tuareg_update_consumption_data
+ .text.store_Tuareg_Setup
+                0x0000000008006308       0x10 obj/Release/src/main/Tuareg_config.o
+                0x0000000008006308                store_Tuareg_Setup
+ .text.show_Tuareg_Setup
+                0x0000000008006318      0x1e0 obj/Release/src/main/Tuareg_config.o
+                0x0000000008006318                show_Tuareg_Setup
+ .text.modify_Tuareg_Setup
+                0x00000000080064f8       0x18 obj/Release/src/main/Tuareg_config.o
+                0x00000000080064f8                modify_Tuareg_Setup
+ .text.send_Tuareg_Setup
+                0x0000000008006510        0xc obj/Release/src/main/Tuareg_config.o
+                0x0000000008006510                send_Tuareg_Setup
+ .text.load_TachTable
+                0x000000000800651c       0x10 obj/Release/src/main/Tuareg_config.o
+                0x000000000800651c                load_TachTable
+ .text.load_Tuareg_Config
+                0x000000000800652c       0x38 obj/Release/src/main/Tuareg_config.o
+                0x000000000800652c                load_Tuareg_Config
+ .text.store_TachTable
+                0x0000000008006564       0x10 obj/Release/src/main/Tuareg_config.o
+                0x0000000008006564                store_TachTable
+ .text.show_TachTable
+                0x0000000008006574       0x20 obj/Release/src/main/Tuareg_config.o
+                0x0000000008006574                show_TachTable
+ .text.modify_TachTable
+                0x0000000008006594       0x10 obj/Release/src/main/Tuareg_config.o
+                0x0000000008006594                modify_TachTable
+ .text.send_TachTable
+                0x00000000080065a4        0xc obj/Release/src/main/Tuareg_config.o
+                0x00000000080065a4                send_TachTable
+ .text.getValue_TachTable
+                0x00000000080065b0       0x18 obj/Release/src/main/Tuareg_config.o
+                0x00000000080065b0                getValue_TachTable
+ .text.tuareg_diag_log_event
+                0x00000000080065c8       0x28 obj/Release/src/main/Tuareg_diag.o
+                0x00000000080065c8                tuareg_diag_log_event
+ .text.print_tuareg_diag
+                0x00000000080065f0       0x68 obj/Release/src/main/Tuareg_diag.o
+                0x00000000080065f0                print_tuareg_diag
+ .text.Fatal    0x0000000008006658       0x68 obj/Release/src/main/Tuareg_errors.o
+                0x0000000008006658                Fatal
+ .text.VitalAssert
+                0x00000000080066c0        0xe obj/Release/src/main/Tuareg_errors.o
+                0x00000000080066c0                VitalAssert
+ *fill*         0x00000000080066ce        0x2 
+ .text.Limp     0x00000000080066d0       0x44 obj/Release/src/main/Tuareg_errors.o
+                0x00000000080066d0                Limp
+ .text.print_Tuareg_ID_label
+                0x0000000008006714       0x30 obj/Release/src/main/Tuareg_ID.o
+                0x0000000008006714                print_Tuareg_ID_label
+ .text.Tuareg_update_process_data
+                0x0000000008006744      0x168 obj/Release/src/main/Tuareg_process_data.o
+                0x0000000008006744                Tuareg_update_process_data
+ .text.request_service_mode
+                0x00000000080068ac       0x28 obj/Release/src/main/Tuareg_service_functions.o
+                0x00000000080068ac                request_service_mode
+ .text.activate_fuel_pump
+                0x00000000080068d4       0x5c obj/Release/src/main/Tuareg_service_functions.o
+                0x00000000080068d4                activate_fuel_pump
+ .text.deactivate_fuel_pump
+                0x0000000008006930       0x28 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006930                deactivate_fuel_pump
+ .text.fuel_pump_periodic_update
+                0x0000000008006958       0x1c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006958                fuel_pump_periodic_update
+ .text.activate_injector1
+                0x0000000008006974       0x6c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006974                activate_injector1
+ .text.deactivate_injector1
+                0x00000000080069e0       0x2c obj/Release/src/main/Tuareg_service_functions.o
+                0x00000000080069e0                deactivate_injector1
+ .text.injector1_periodic_update
+                0x0000000008006a0c       0x54 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006a0c                injector1_periodic_update
+ .text.activate_injector2
+                0x0000000008006a60       0x6c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006a60                activate_injector2
+ .text.deactivate_injector2
+                0x0000000008006acc       0x2c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006acc                deactivate_injector2
+ .text.injector2_periodic_update
+                0x0000000008006af8       0x54 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006af8                injector2_periodic_update
+ .text.activate_coil1
+                0x0000000008006b4c       0x8c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006b4c                activate_coil1
+ .text.deactivate_coil1
+                0x0000000008006bd8       0x2c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006bd8                deactivate_coil1
+ .text.coil1_periodic_update
+                0x0000000008006c04       0x54 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006c04                coil1_periodic_update
+ .text.activate_coil2
+                0x0000000008006c58       0x8c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006c58                activate_coil2
+ .text.deactivate_coil2
+                0x0000000008006ce4       0x2c obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006ce4                deactivate_coil2
+ .text.coil2_periodic_update
+                0x0000000008006d10       0x54 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006d10                coil2_periodic_update
+ .text.service_functions_periodic_update
+                0x0000000008006d64       0x40 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006d64                service_functions_periodic_update
+ .text.activate_tachometer
+                0x0000000008006da4       0x38 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006da4                activate_tachometer
+ .text.deactivate_tachometer
+                0x0000000008006ddc       0x14 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006ddc                deactivate_tachometer
+ .text.request_service_activation
+                0x0000000008006df0       0xb0 obj/Release/src/main/Tuareg_service_functions.o
+                0x0000000008006df0                request_service_activation
+ .text.update_process_table
+                0x0000000008006ea0       0xc0 obj/Release/src/process_table/process_table.o
+                0x0000000008006ea0                update_process_table
+ .text.get_position_from_index
+                0x0000000008006f60       0x5c obj/Release/src/process_table/process_table.o
+                0x0000000008006f60                get_position_from_index
+ .text.get_index_from_position
+                0x0000000008006fbc       0x38 obj/Release/src/process_table/process_table.o
+                0x0000000008006fbc                get_index_from_position
+ .text.find_process_position_before
+                0x0000000008006ff4       0x4c obj/Release/src/process_table/process_table.o
+                0x0000000008006ff4                find_process_position_before
+ .text.get_process_advance
+                0x0000000008007040       0x34 obj/Release/src/process_table/process_table.o
+                0x0000000008007040                get_process_advance
+ .text.print_process_table
+                0x0000000008007074       0x9c obj/Release/src/process_table/process_table.o
+                0x0000000008007074                print_process_table
+ .text.sensors_start_regular_group_conversion
+                0x0000000008007110        0xc obj/Release/src/sensors/analog_sensors.o
+                0x0000000008007110                sensors_start_regular_group_conversion
+ .text.sensors_start_injected_group_conversion
+                0x000000000800711c        0xc obj/Release/src/sensors/analog_sensors.o
+                0x000000000800711c                sensors_start_injected_group_conversion
+ .text.init_analog_sensors
+                0x0000000008007128      0x2d8 obj/Release/src/sensors/analog_sensors.o
+                0x0000000008007128                init_analog_sensors
+ .text.update_analog_sensor
+                0x0000000008007400       0xdc obj/Release/src/sensors/analog_sensors.o
+                0x0000000008007400                update_analog_sensor
+ .text.ADC_IRQHandler
+                0x00000000080074dc       0x6c obj/Release/src/sensors/analog_sensors.o
+                0x00000000080074dc                ADC_IRQHandler
+ .text.DMA2_Stream0_IRQHandler
+                0x0000000008007548       0x9c obj/Release/src/sensors/analog_sensors.o
+                0x0000000008007548                DMA2_Stream0_IRQHandler
+ .text.reset_dsensor_integrator
+                0x00000000080075e4       0x2c obj/Release/src/sensors/digital_sensors.o
+                0x00000000080075e4                reset_dsensor_integrator
+ .text.init_digital_sensors
+                0x0000000008007610       0x88 obj/Release/src/sensors/digital_sensors.o
+                0x0000000008007610                init_digital_sensors
+ .text.read_dsensors
+                0x0000000008007698       0x64 obj/Release/src/sensors/digital_sensors.o
+                0x0000000008007698                read_dsensors
+ .text.update_digital_sensors
+                0x00000000080076fc       0x6c obj/Release/src/sensors/digital_sensors.o
+                0x00000000080076fc                update_digital_sensors
+ .text.load_Sensor_Calibration
+                0x0000000008007768       0x2c obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007768                load_Sensor_Calibration
+ .text.store_Sensor_Calibration
+                0x0000000008007794       0x10 obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007794                store_Sensor_Calibration
+ .text.show_Sensor_Calibration
+                0x00000000080077a4       0x30 obj/Release/src/sensors/sensor_calibration.o
+                0x00000000080077a4                show_Sensor_Calibration
+ .text.modify_Sensor_Calibration
+                0x00000000080077d4       0x18 obj/Release/src/sensors/sensor_calibration.o
+                0x00000000080077d4                modify_Sensor_Calibration
+ .text.send_Sensor_Calibration
+                0x00000000080077ec        0xc obj/Release/src/sensors/sensor_calibration.o
+                0x00000000080077ec                send_Sensor_Calibration
+ .text.store_InvTableCLT
+                0x00000000080077f8       0x10 obj/Release/src/sensors/sensor_calibration.o
+                0x00000000080077f8                store_InvTableCLT
+ .text.show_InvTableCLT
+                0x0000000008007808       0x20 obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007808                show_InvTableCLT
+ .text.modify_InvTableCLT
+                0x0000000008007828       0x10 obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007828                modify_InvTableCLT
+ .text.send_InvTableCLT
+                0x0000000008007838        0xc obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007838                send_InvTableCLT
+ .text.getValue_InvTableCLT
+                0x0000000008007844       0x14 obj/Release/src/sensors/sensor_calibration.o
+                0x0000000008007844                getValue_InvTableCLT
+ .text.sensors_diag_log_event
+                0x0000000008007858       0x28 obj/Release/src/sensors/sensors_diag.o
+                0x0000000008007858                sensors_diag_log_event
+ .text.print_sensors_diag
+                0x0000000008007880       0x68 obj/Release/src/sensors/sensors_diag.o
+                0x0000000008007880                print_sensors_diag
+ .text.Tuareg_update_MAP_sensor
+                0x00000000080078e8       0x5c obj/Release/src/sensors/Tuareg_sensors.o
+                0x00000000080078e8                Tuareg_update_MAP_sensor
+ .text.Tuareg_update_O2_sensor
+                0x0000000008007944       0x54 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007944                Tuareg_update_O2_sensor
+ .text.Tuareg_update_TPS_sensor
+                0x0000000008007998       0x54 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007998                Tuareg_update_TPS_sensor
+ .text.Tuareg_update_IAT_sensor
+                0x00000000080079ec       0x64 obj/Release/src/sensors/Tuareg_sensors.o
+                0x00000000080079ec                Tuareg_update_IAT_sensor
+ .text.Tuareg_update_CLT_sensor
+                0x0000000008007a50       0x68 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007a50                Tuareg_update_CLT_sensor
+ .text.Tuareg_update_VBAT_sensor
+                0x0000000008007ab8       0x58 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007ab8                Tuareg_update_VBAT_sensor
+ .text.Tuareg_update_KNOCK_sensor
+                0x0000000008007b10       0x58 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007b10                Tuareg_update_KNOCK_sensor
+ .text.Tuareg_update_BARO_sensor
+                0x0000000008007b68       0x5c obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007b68                Tuareg_update_BARO_sensor
+ .text.Tuareg_update_GEAR_sensor
+                0x0000000008007bc4       0x74 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007bc4                Tuareg_update_GEAR_sensor
+ .text.init_Sensors
+                0x0000000008007c38       0xf0 obj/Release/src/sensors/Tuareg_sensors.o
+                0x0000000008007c38                init_Sensors
+ .text.adc_set_regular_group
+                0x0000000008007d28       0x6e obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+                0x0000000008007d28                adc_set_regular_group
+ .text.adc_set_regular_group_length
+                0x0000000008007d96       0x18 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+                0x0000000008007d96                adc_set_regular_group_length
+ .text.adc_set_sample_time
+                0x0000000008007dae       0x3c obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+                0x0000000008007dae                adc_set_sample_time
+ .text.adc_start_regular_group
+                0x0000000008007dea        0xa obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+                0x0000000008007dea                adc_start_regular_group
+ .text.adc_start_injected_group
+                0x0000000008007df4        0xa obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+                0x0000000008007df4                adc_start_injected_group
+ *fill*         0x0000000008007dfe        0x2 
+ .text.getScbDump
+                0x0000000008007e00       0x24 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007e00                getScbDump
+ .text.getStackRegisters
+                0x0000000008007e24       0x30 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007e24                getStackRegisters
+ .text.HardFault_Handler
+                0x0000000008007e54       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007e54                HardFault_Handler
+ .text.NMI_Handler
+                0x0000000008007e7c       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007e7c                NMI_Handler
+ .text.MemManage_Handler
+                0x0000000008007ea4       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007ea4                MemManage_Handler
+ .text.BusFault_Handler
+                0x0000000008007ecc       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007ecc                BusFault_Handler
+ .text.UsageFault_Handler
+                0x0000000008007ef4       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007ef4                UsageFault_Handler
+ .text.SVC_Handler
+                0x0000000008007f1c       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007f1c                SVC_Handler
+ .text.DebugMon_Handler
+                0x0000000008007f44       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007f44                DebugMon_Handler
+ .text.PendSV_Handler
+                0x0000000008007f6c       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007f6c                PendSV_Handler
+ .text.WWDG_IRQHandler
+                0x0000000008007f94       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007f94                WWDG_IRQHandler
+ .text.FPU_IRQHandler
+                0x0000000008007fbc       0x28 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000008007fbc                FPU_IRQHandler
+ .text.GPIO_configure
+                0x0000000008007fe4       0x6c obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+                0x0000000008007fe4                GPIO_configure
+ .text.SYSCFG_map_EXTI
+                0x0000000008008050       0x98 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+                0x0000000008008050                SYSCFG_map_EXTI
+ .text.gpio_set_pin
+                0x00000000080080e8       0x36 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+                0x00000000080080e8                gpio_set_pin
+ .text.GPIO_SetAF
+                0x000000000800811e       0x44 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+                0x000000000800811e                GPIO_SetAF
+ *fill*         0x0000000008008162        0x2 
+ .text.Reset_Handler
+                0x0000000008008164       0x50 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+                0x0000000008008164                Reset_Handler
+ .text.Default_Handler
+                0x00000000080081b4        0x2 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+                0x00000000080081b4                RTC_Alarm_IRQHandler
+                0x00000000080081b4                FMPI2C1_EV_IRQHandler
+                0x00000000080081b4                TIM1_CC_IRQHandler
+                0x00000000080081b4                DMA2_Stream5_IRQHandler
+                0x00000000080081b4                DMA1_Stream5_IRQHandler
+                0x00000000080081b4                PVD_IRQHandler
+                0x00000000080081b4                TAMP_STAMP_IRQHandler
+                0x00000000080081b4                EXTI3_IRQHandler
+                0x00000000080081b4                I2C2_EV_IRQHandler
+                0x00000000080081b4                DMA1_Stream2_IRQHandler
+                0x00000000080081b4                DMA2_Stream2_IRQHandler
+                0x00000000080081b4                SPI1_IRQHandler
+                0x00000000080081b4                TIM6_DAC_IRQHandler
+                0x00000000080081b4                DMA2_Stream3_IRQHandler
+                0x00000000080081b4                USART6_IRQHandler
+                0x00000000080081b4                I2C1_EV_IRQHandler
+                0x00000000080081b4                DMA1_Stream6_IRQHandler
+                0x00000000080081b4                DMA1_Stream1_IRQHandler
+                0x00000000080081b4                RCC_IRQHandler
+                0x00000000080081b4                Default_Handler
+                0x00000000080081b4                EXTI15_10_IRQHandler
+                0x00000000080081b4                DMA1_Stream7_IRQHandler
+                0x00000000080081b4                SPI5_IRQHandler
+                0x00000000080081b4                DMA2_Stream7_IRQHandler
+                0x00000000080081b4                EXTI9_5_IRQHandler
+                0x00000000080081b4                RTC_WKUP_IRQHandler
+                0x00000000080081b4                SPI2_IRQHandler
+                0x00000000080081b4                DMA1_Stream0_IRQHandler
+                0x00000000080081b4                FMPI2C1_ER_IRQHandler
+                0x00000000080081b4                EXTI4_IRQHandler
+                0x00000000080081b4                RNG_IRQHandler
+                0x00000000080081b4                TIM1_UP_IRQHandler
+                0x00000000080081b4                TIM1_TRG_COM_TIM11_IRQHandler
+                0x00000000080081b4                USART2_IRQHandler
+                0x00000000080081b4                I2C2_ER_IRQHandler
+                0x00000000080081b4                DMA2_Stream1_IRQHandler
+                0x00000000080081b4                FLASH_IRQHandler
+                0x00000000080081b4                DMA2_Stream4_IRQHandler
+                0x00000000080081b4                DMA1_Stream4_IRQHandler
+                0x00000000080081b4                I2C1_ER_IRQHandler
+                0x00000000080081b4                LPTIM1_IRQHandler
+                0x00000000080081b4                DMA2_Stream6_IRQHandler
+                0x00000000080081b4                DMA1_Stream3_IRQHandler
+ .text._init    0x00000000080081b6        0x2 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+                0x00000000080081b6                _init
+ .text.SystemInit
+                0x00000000080081b8       0xf0 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+                0x00000000080081b8                SystemInit
+ .text.NVIC_PriorityGroupConfig
+                0x00000000080082a8       0x14 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+                0x00000000080082a8                NVIC_PriorityGroupConfig
+ .text.DMA_Init
+                0x00000000080082bc       0x54 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+                0x00000000080082bc                DMA_Init
+ .text.DMA_StructInit
+                0x0000000008008310       0x22 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+                0x0000000008008310                DMA_StructInit
+ *fill*         0x0000000008008332        0x2 
+ .text.I2C_Init
+                0x0000000008008334       0xc8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008334                I2C_Init
+ .text.I2C_Cmd  0x00000000080083fc       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x00000000080083fc                I2C_Cmd
+ .text.I2C_GenerateSTART
+                0x0000000008008412       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008412                I2C_GenerateSTART
+ .text.I2C_GenerateSTOP
+                0x0000000008008428       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008428                I2C_GenerateSTOP
+ .text.I2C_Send7bitAddress
+                0x000000000800843e       0x12 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x000000000800843e                I2C_Send7bitAddress
+ .text.I2C_AcknowledgeConfig
+                0x0000000008008450       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008450                I2C_AcknowledgeConfig
+ .text.I2C_SendData
+                0x0000000008008466        0x4 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008466                I2C_SendData
+ .text.I2C_ReceiveData
+                0x000000000800846a        0x6 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x000000000800846a                I2C_ReceiveData
+ .text.I2C_CheckEvent
+                0x0000000008008470       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008470                I2C_CheckEvent
+ .text.I2C_GetFlagStatus
+                0x0000000008008486       0x34 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x0000000008008486                I2C_GetFlagStatus
+ .text.I2C_ClearFlag
+                0x00000000080084ba        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+                0x00000000080084ba                I2C_ClearFlag
+ *fill*         0x00000000080084c2        0x2 
+ .text.RCC_GetClocksFreq
+                0x00000000080084c4       0x88 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+                0x00000000080084c4                RCC_GetClocksFreq
+ .text.USART_Init
+                0x000000000800854c       0xb0 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+                0x000000000800854c                USART_Init
+ .text.USART_Cmd
+                0x00000000080085fc       0x16 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+                0x00000000080085fc                USART_Cmd
+ .text.USART_ReceiveData
+                0x0000000008008612        0x8 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+                0x0000000008008612                USART_ReceiveData
+ .text.USART_ITConfig
+                0x000000000800861a       0x32 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+                0x000000000800861a                USART_ITConfig
+ .text.Eeprom_init
+                0x000000000800864c       0xa0 obj/Release/src/storage/eeprom.o
+                0x000000000800864c                Eeprom_init
+ .text.eeprom_wait
+                0x00000000080086ec       0xb0 obj/Release/src/storage/eeprom.o
+                0x00000000080086ec                eeprom_wait
+ .text.eeprom_write_byte
+                0x000000000800879c      0x104 obj/Release/src/storage/eeprom.o
+                0x000000000800879c                eeprom_write_byte
+ .text.eeprom_read_byte
+                0x00000000080088a0      0x188 obj/Release/src/storage/eeprom.o
+                0x00000000080088a0                eeprom_read_byte
+ .text.eeprom_update_byte
+                0x0000000008008a28       0x58 obj/Release/src/storage/eeprom.o
+                0x0000000008008a28                eeprom_update_byte
+ .text.Eeprom_load_data
+                0x0000000008008a80       0x40 obj/Release/src/storage/eeprom.o
+                0x0000000008008a80                Eeprom_load_data
+ .text.Eeprom_update_data
+                0x0000000008008ac0       0x38 obj/Release/src/storage/eeprom.o
+                0x0000000008008ac0                Eeprom_update_data
+ .text.getValue_t2D
+                0x0000000008008af8       0xbc obj/Release/src/storage/table.o
+                0x0000000008008af8                getValue_t2D
+ .text.getValue_t3D
+                0x0000000008008bb4      0x2c6 obj/Release/src/storage/table.o
+                0x0000000008008bb4                getValue_t3D
+ .text.load_t2D_data
+                0x0000000008008e7a        0xc obj/Release/src/storage/table.o
+                0x0000000008008e7a                load_t2D_data
+ .text.load_t2D
+                0x0000000008008e86        0xe obj/Release/src/storage/table.o
+                0x0000000008008e86                load_t2D
+ .text.load_t3D_data
+                0x0000000008008e94        0xe obj/Release/src/storage/table.o
+                0x0000000008008e94                load_t3D_data
+ .text.store_t2D_data
+                0x0000000008008ea2        0xc obj/Release/src/storage/table.o
+                0x0000000008008ea2                store_t2D_data
+ .text.store_t2D
+                0x0000000008008eae        0xe obj/Release/src/storage/table.o
+                0x0000000008008eae                store_t2D
+ .text.store_t3D_data
+                0x0000000008008ebc        0xe obj/Release/src/storage/table.o
+                0x0000000008008ebc                store_t3D_data
+ *fill*         0x0000000008008eca        0x2 
+ .text.show_t3D_data
+                0x0000000008008ecc       0xa4 obj/Release/src/storage/table.o
+                0x0000000008008ecc                show_t3D_data
+ .text.show_t2D_data
+                0x0000000008008f70       0x64 obj/Release/src/storage/table.o
+                0x0000000008008f70                show_t2D_data
+ .text.modify_t2D_data
+                0x0000000008008fd4        0xe obj/Release/src/storage/table.o
+                0x0000000008008fd4                modify_t2D_data
+ .text.modify_t3D_data
+                0x0000000008008fe2       0x10 obj/Release/src/storage/table.o
+                0x0000000008008fe2                modify_t3D_data
+ .text.send_t2D_data
+                0x0000000008008ff2        0x6 obj/Release/src/storage/table.o
+                0x0000000008008ff2                send_t2D_data
+ .text.send_t3D_data
+                0x0000000008008ff8        0x8 obj/Release/src/storage/table.o
+                0x0000000008008ff8                send_t3D_data
+ .text.allocate_timer_channel_1
+                0x0000000008009000       0x3c obj/Release/src/timing/scheduler.o
+                0x0000000008009000                allocate_timer_channel_1
+ .text.reset_timer_channel_1
+                0x000000000800903c       0x30 obj/Release/src/timing/scheduler.o
+                0x000000000800903c                reset_timer_channel_1
+ .text.allocate_timer_channel_2
+                0x000000000800906c       0x3c obj/Release/src/timing/scheduler.o
+                0x000000000800906c                allocate_timer_channel_2
+ .text.reset_timer_channel_2
+                0x00000000080090a8       0x30 obj/Release/src/timing/scheduler.o
+                0x00000000080090a8                reset_timer_channel_2
+ .text.allocate_timer_channel_3
+                0x00000000080090d8       0x3c obj/Release/src/timing/scheduler.o
+                0x00000000080090d8                allocate_timer_channel_3
+ .text.reset_timer_channel_3
+                0x0000000008009114       0x30 obj/Release/src/timing/scheduler.o
+                0x0000000008009114                reset_timer_channel_3
+ .text.allocate_timer_channel_4
+                0x0000000008009144       0x3c obj/Release/src/timing/scheduler.o
+                0x0000000008009144                allocate_timer_channel_4
+ .text.reset_timer_channel_4
+                0x0000000008009180       0x30 obj/Release/src/timing/scheduler.o
+                0x0000000008009180                reset_timer_channel_4
+ .text.init_Vital_Scheduler
+                0x00000000080091b0       0xd0 obj/Release/src/timing/scheduler.o
+                0x00000000080091b0                init_Vital_Scheduler
+ .text.scheduler_reset_channel
+                0x0000000008009280       0x5c obj/Release/src/timing/scheduler.o
+                0x0000000008009280                scheduler_reset_channel
+ .text.allocate_channel
+                0x00000000080092dc       0x8c obj/Release/src/timing/scheduler.o
+                0x00000000080092dc                allocate_channel
+ .text.scheduler_set_channel
+                0x0000000008009368      0x108 obj/Release/src/timing/scheduler.o
+                0x0000000008009368                scheduler_set_channel
+ .text.TIM5_IRQHandler
+                0x0000000008009470      0x128 obj/Release/src/timing/scheduler.o
+                0x0000000008009470                TIM5_IRQHandler
+ .text.scheduler_diag_log_event
+                0x0000000008009598       0x28 obj/Release/src/timing/scheduler_diag.o
+                0x0000000008009598                scheduler_diag_log_event
+ .text.print_scheduler_diag
+                0x00000000080095c0       0x68 obj/Release/src/timing/scheduler_diag.o
+                0x00000000080095c0                print_scheduler_diag
+ .text.init_systick_timer
+                0x0000000008009628       0x24 obj/Release/src/timing/systick_timer.o
+                0x0000000008009628                init_systick_timer
+ .text.get_timestamp_fraction_us
+                0x000000000800964c       0x24 obj/Release/src/timing/systick_timer.o
+                0x000000000800964c                get_timestamp_fraction_us
+ .text.SysTick_Handler
+                0x0000000008009670       0xf4 obj/Release/src/timing/systick_timer.o
+                0x0000000008009670                SysTick_Handler
+ .text.calc_rot_duration_us
+                0x0000000008009764        0xc obj/Release/src/utils/base_calc.o
+                0x0000000008009764                calc_rot_duration_us
+ .text.calc_rot_angle_deg
+                0x0000000008009770       0x20 obj/Release/src/utils/base_calc.o
+                0x0000000008009770                calc_rot_angle_deg
+ .text.calc_rpm
+                0x0000000008009790       0x20 obj/Release/src/utils/base_calc.o
+                0x0000000008009790                calc_rpm
+ .text.sub_VU32
+                0x00000000080097b0       0x14 obj/Release/src/utils/base_calc.o
+                0x00000000080097b0                sub_VU32
+ .text.subtract_U32
+                0x00000000080097c4        0xa obj/Release/src/utils/base_calc.o
+                0x00000000080097c4                subtract_U32
+ .text.divide_U32
+                0x00000000080097ce       0x18 obj/Release/src/utils/base_calc.o
+                0x00000000080097ce                divide_U32
+ *fill*         0x00000000080097e6        0x2 
+ .text.divide_F32
+                0x00000000080097e8       0x2c obj/Release/src/utils/base_calc.o
+                0x00000000080097e8                divide_F32
+ .text.divide_float
+                0x0000000008009814       0x28 obj/Release/src/utils/base_calc.o
+                0x0000000008009814                divide_float
+ .text.crank_position_after
+                0x000000000800983c       0x14 obj/Release/src/utils/base_calc.o
+                0x000000000800983c                crank_position_after
+ .text.opposite_phase
+                0x0000000008009850       0x10 obj/Release/src/utils/base_calc.o
+                0x0000000008009850                opposite_phase
+ .text.solve_linear
+                0x0000000008009860       0x48 obj/Release/src/utils/base_calc.o
+                0x0000000008009860                solve_linear
+ .text.calc_ema
+                0x00000000080098a8       0x42 obj/Release/src/utils/base_calc.o
+                0x00000000080098a8                calc_ema
+ *fill*         0x00000000080098ea        0x2 
+ .text.calc_derivative_s
+                0x00000000080098ec       0x44 obj/Release/src/utils/base_calc.o
+                0x00000000080098ec                calc_derivative_s
+ .text.abs_F32  0x0000000008009930       0x24 obj/Release/src/utils/base_calc.o
+                0x0000000008009930                abs_F32
+ .text.getBit_BF8
+                0x0000000008009954       0x26 obj/Release/src/utils/bitfields.o
+                0x0000000008009954                getBit_BF8
+ *fill*         0x000000000800997a        0x2 
+ .text.__libc_init_array
+                0x000000000800997c       0x48 /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+                0x000000000800997c                __libc_init_array
+ *(.rodata)
+ .rodata        0x00000000080099c4      0x208 obj/Release/src/decoder/decoder_diag.o
+                0x00000000080099c4                decoder_diag_legend
+ .rodata        0x0000000008009bcc      0x348 obj/Release/src/fueling/fueling_diag.o
+                0x0000000008009bcc                fueling_diag_legend
+ .rodata        0x0000000008009f14      0x1a4 obj/Release/src/ignition/ignition_diag.o
+                0x0000000008009f14                ignition_diag_legend
+ .rodata        0x000000000800a0b8       0x15 obj/Release/src/main/Tuareg.o
+                0x000000000800a0b8                Tuareg_Version
+ .rodata        0x000000000800a0cd      0x258 obj/Release/src/main/Tuareg_diag.o
+                0x000000000800a0cd                tuareg_diag_legend
+ .rodata        0x000000000800a325      0x636 obj/Release/src/main/Tuareg_ID.o
+                0x000000000800a325                Tuareg_ID_labels
+ .rodata        0x000000000800a95b       0x7d obj/Release/src/sensors/sensors_diag.o
+                0x000000000800a95b                sensors_diag_legend
+ .rodata        0x000000000800a9d8      0x433 obj/Release/src/timing/scheduler_diag.o
+                0x000000000800a9d8                scheduler_diag_legend
+ *(.rodata*)
+ .rodata.Tuareg_update_console.str1.1
+                0x000000000800ae0b       0x33 obj/Release/src/com/Tuareg_console.o
+ .rodata.cli_show_help.str1.1
+                0x000000000800ae3e      0x165 obj/Release/src/com/Tuareg_console.o
+ .rodata.cli_print_sensor_data.str1.1
+                0x000000000800afa3       0x8c obj/Release/src/com/TunerStudio_service.o
+                                         0x8f (size before relaxing)
+ .rodata.cli_show_debug_help.str1.1
+                0x000000000800b02f      0x1b7 obj/Release/src/com/TunerStudio_service.o
+ .rodata.cli_show_decoder_interface.str1.1
+                0x000000000800b1e6       0xbe obj/Release/src/com/TunerStudio_service.o
+ .rodata.cli_show_fueling_controls.str1.1
+                0x000000000800b2a4      0x27c obj/Release/src/com/TunerStudio_service.o
+ .rodata.cli_show_ignition_controls.str1.1
+                0x000000000800b520       0x90 obj/Release/src/com/TunerStudio_service.o
+ .rodata.cli_show_process_data.str1.1
+                0x000000000800b5b0       0xb9 obj/Release/src/com/TunerStudio_service.o
+ .rodata.ts_debug_features.str1.1
+                0x000000000800b669       0x2f obj/Release/src/com/TunerStudio_service.o
+ .rodata.printf_U8hex.str1.1
+                0x000000000800b698        0x3 obj/Release/src/com/uart_printf.o
+ .rodata.printf_crkpos.str1.1
+                0x000000000800b69b       0x1b obj/Release/src/com/uart_printf.o
+ .rodata.printf_decoder_sensing.str1.1
+                0x000000000800b6b6       0x1f obj/Release/src/com/uart_printf.o
+ .rodata.printf_hex_digits
+                0x000000000800b6d5       0x11 obj/Release/src/com/uart_printf.o
+                0x000000000800b6d5                printf_hex_digits
+ .rodata.printf_phase.str1.1
+                0x000000000800b6e6        0x8 obj/Release/src/com/uart_printf.o
+ .rodata.DebugMsg_Warning.str1.1
+                0x000000000800b6ee        0x6 obj/Release/src/debug/debug_port_messages.o
+ .rodata.show_Decoder_Setup.str1.1
+                0x000000000800b6f4      0x14e obj/Release/src/decoder/decoder_config.o
+ .rodata.print_decoder_diag.str1.1
+                0x000000000800b842       0x1c obj/Release/src/decoder/decoder_diag.o
+                                         0x1f (size before relaxing)
+ .rodata.show_Fault_Log.str1.1
+                0x000000000800b85e       0x30 obj/Release/src/diagnostics/fault_log.o
+ .rodata.show_highspeedlog.str1.1
+                0x000000000800b88e       0x71 obj/Release/src/diagnostics/highspeed_loggers.o
+ .rodata.show_syslog.str1.1
+                0x000000000800b8ff       0x47 obj/Release/src/diagnostics/syslog.o
+                                         0x51 (size before relaxing)
+ .rodata.show_AccelCompTableMAP.str1.1
+                0x000000000800b946       0x35 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_AccelCompTableTPS.str1.1
+                0x000000000800b97b       0x35 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_AfrTable_MAP.str1.1
+                0x000000000800b9b0       0x25 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_AfrTable_TPS.str1.1
+                0x000000000800b9d5       0x32 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_BAROtable.str1.1
+                0x000000000800ba07       0x1d obj/Release/src/fueling/fueling_config.o
+ .rodata.show_ChargeTempTable.str1.1
+                0x000000000800ba24       0x24 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_Fueling_Setup.str1.1
+                0x000000000800ba48      0x430 obj/Release/src/fueling/fueling_config.o
+                                        0x43c (size before relaxing)
+ .rodata.show_InjectorPhaseTable.str1.1
+                0x000000000800be78       0x1c obj/Release/src/fueling/fueling_config.o
+ .rodata.show_InjectorTimingTable.str1.1
+                0x000000000800be94       0x1d obj/Release/src/fueling/fueling_config.o
+ .rodata.show_VeTable_MAP.str1.1
+                0x000000000800beb1       0x24 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_VeTable_TPS.str1.1
+                0x000000000800bed5       0x24 obj/Release/src/fueling/fueling_config.o
+ .rodata.show_WarmUpCompTable.str1.1
+                0x000000000800bef9       0x24 obj/Release/src/fueling/fueling_config.o
+ .rodata.print_fueling_diag.str1.1
+                0x000000000800bf1d       0x1c obj/Release/src/fueling/fueling_diag.o
+                                         0x1f (size before relaxing)
+ .rodata.show_Ignition_Setup.str1.1
+                0x000000000800bf39      0x17b obj/Release/src/ignition/ignition_config.o
+                                        0x187 (size before relaxing)
+ .rodata.show_ignAdvTable_TPS.str1.1
+                0x000000000800c0b4       0x24 obj/Release/src/ignition/ignition_config.o
+ .rodata.show_ignDwellTable.str1.1
+                0x000000000800c0d8       0x1c obj/Release/src/ignition/ignition_config.o
+ .rodata.print_ignition_diag.str1.1
+                0x000000000800c0f4       0x1d obj/Release/src/ignition/ignition_diag.o
+                                         0x20 (size before relaxing)
+ .rodata.show_TachTable.str1.1
+                0x000000000800c111       0x1f obj/Release/src/main/Tuareg_config.o
+ .rodata.show_Tuareg_Setup.str1.1
+                0x000000000800c130      0x17a obj/Release/src/main/Tuareg_config.o
+                                        0x186 (size before relaxing)
+ .rodata.print_tuareg_diag.str1.1
+                0x000000000800c2aa       0x1b obj/Release/src/main/Tuareg_diag.o
+                                         0x1e (size before relaxing)
+ *fill*         0x000000000800c2c5        0x3 
+ .rodata.cKelvin_offset
+                0x000000000800c2c8        0x4 obj/Release/src/main/Tuareg_types.o
+                0x000000000800c2c8                cKelvin_offset
+ .rodata.cM_air
+                0x000000000800c2cc        0x4 obj/Release/src/main/Tuareg_types.o
+                0x000000000800c2cc                cM_air
+ .rodata.cR_gas
+                0x000000000800c2d0        0x4 obj/Release/src/main/Tuareg_types.o
+                0x000000000800c2d0                cR_gas
+ .rodata.cU32max
+                0x000000000800c2d4        0x4 obj/Release/src/main/Tuareg_types.o
+                0x000000000800c2d4                cU32max
+ .rodata.print_process_table.str1.1
+                0x000000000800c2d8       0x61 obj/Release/src/process_table/process_table.o
+                                         0x65 (size before relaxing)
+ .rodata.show_InvTableCLT.str1.1
+                0x000000000800c339       0x31 obj/Release/src/sensors/sensor_calibration.o
+ .rodata.show_Sensor_Calibration.str1.1
+                0x000000000800c36a       0x18 obj/Release/src/sensors/sensor_calibration.o
+                                         0x24 (size before relaxing)
+ .rodata.print_sensors_diag.str1.1
+                0x000000000800c382       0x1b obj/Release/src/sensors/sensors_diag.o
+                                         0x1e (size before relaxing)
+ .rodata.show_t2D_data.str1.1
+                0x000000000800c39d        0xe obj/Release/src/storage/table.o
+ .rodata.show_t3D_data.str1.1
+                0x000000000800c3ab       0x76 obj/Release/src/storage/table.o
+                                         0x7c (size before relaxing)
+ .rodata.print_scheduler_diag.str1.1
+                0x000000000800c421       0x1e obj/Release/src/timing/scheduler_diag.o
+                                         0x21 (size before relaxing)
+ *(.glue_7)
+ .glue_7        0x000000000800c43f        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x000000000800c43f        0x0 linker stubs
+ *(.init)
+ *(.fini)
+                0x000000000800c440                . = ALIGN (0x4)
+ *fill*         0x000000000800c43f        0x1 
+                0x000000000800c440                _etext = .
+
+.vfp11_veneer   0x000000000800c440        0x0
+ .vfp11_veneer  0x000000000800c440        0x0 linker stubs
+
+.v4_bx          0x000000000800c440        0x0
+ .v4_bx         0x000000000800c440        0x0 linker stubs
+
+.iplt           0x000000000800c440        0x0
+ .iplt          0x000000000800c440        0x0 obj/Release/src/com/serial_buffer.o
+
+.rel.dyn        0x000000000800c440        0x0
+ .rel.iplt      0x000000000800c440        0x0 obj/Release/src/com/serial_buffer.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x000000000800c440        0x0
+                0x000000000800c440                __exidx_start = .
+ *(.ARM.exidx*)
+                0x000000000800c440                __exidx_end = .
+
+.ARM.attributes
+                0x000000000800c440       0x37
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x000000000800c440       0x39 obj/Release/src/com/serial_buffer.o
+ .ARM.attributes
+                0x000000000800c479       0x39 obj/Release/src/com/Tuareg_console.o
+ .ARM.attributes
+                0x000000000800c4b2       0x39 obj/Release/src/com/TunerStudio.o
+ .ARM.attributes
+                0x000000000800c4eb       0x39 obj/Release/src/com/TunerStudio_outChannel.o
+ .ARM.attributes
+                0x000000000800c524       0x39 obj/Release/src/com/TunerStudio_service.o
+ .ARM.attributes
+                0x000000000800c55d       0x39 obj/Release/src/com/uart.o
+ .ARM.attributes
+                0x000000000800c596       0x39 obj/Release/src/com/uart_printf.o
+ .ARM.attributes
+                0x000000000800c5cf       0x39 obj/Release/src/dash/dash_hw.o
+ .ARM.attributes
+                0x000000000800c608       0x39 obj/Release/src/dash/Tuareg_dash.o
+ .ARM.attributes
+                0x000000000800c641       0x39 obj/Release/src/debug/debug_port_messages.o
+ .ARM.attributes
+                0x000000000800c67a       0x39 obj/Release/src/decoder/decoder_cis.o
+ .ARM.attributes
+                0x000000000800c6b3       0x39 obj/Release/src/decoder/decoder_config.o
+ .ARM.attributes
+                0x000000000800c6ec       0x39 obj/Release/src/decoder/decoder_diag.o
+ .ARM.attributes
+                0x000000000800c725       0x39 obj/Release/src/decoder/decoder_hw.o
+ .ARM.attributes
+                0x000000000800c75e       0x39 obj/Release/src/decoder/decoder_logic.o
+ .ARM.attributes
+                0x000000000800c797       0x39 obj/Release/src/decoder/Tuareg_decoder.o
+ .ARM.attributes
+                0x000000000800c7d0       0x39 obj/Release/src/diagnostics/diagnostics.o
+ .ARM.attributes
+                0x000000000800c809       0x39 obj/Release/src/diagnostics/fault_log.o
+ .ARM.attributes
+                0x000000000800c842       0x39 obj/Release/src/diagnostics/highspeed_loggers.o
+ .ARM.attributes
+                0x000000000800c87b       0x39 obj/Release/src/diagnostics/syslog.o
+ .ARM.attributes
+                0x000000000800c8b4       0x39 obj/Release/src/fueling/accel_comp.o
+ .ARM.attributes
+                0x000000000800c8ed       0x39 obj/Release/src/fueling/fueling_config.o
+ .ARM.attributes
+                0x000000000800c926       0x39 obj/Release/src/fueling/fueling_corrections.o
+ .ARM.attributes
+                0x000000000800c95f       0x39 obj/Release/src/fueling/fueling_diag.o
+ .ARM.attributes
+                0x000000000800c998       0x39 obj/Release/src/fueling/fueling_hw.o
+ .ARM.attributes
+                0x000000000800c9d1       0x39 obj/Release/src/fueling/injector_parameters.o
+ .ARM.attributes
+                0x000000000800ca0a       0x39 obj/Release/src/fueling/Tuareg_fueling.o
+ .ARM.attributes
+                0x000000000800ca43       0x39 obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .ARM.attributes
+                0x000000000800ca7c       0x39 obj/Release/src/ignition/ignition_config.o
+ .ARM.attributes
+                0x000000000800cab5       0x39 obj/Release/src/ignition/ignition_diag.o
+ .ARM.attributes
+                0x000000000800caee       0x39 obj/Release/src/ignition/ignition_hw.o
+ .ARM.attributes
+                0x000000000800cb27       0x39 obj/Release/src/ignition/Tuareg_ignition.o
+ .ARM.attributes
+                0x000000000800cb60       0x39 obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .ARM.attributes
+                0x000000000800cb99       0x39 obj/Release/src/main/main.o
+ .ARM.attributes
+                0x000000000800cbd2       0x39 obj/Release/src/main/Tuareg.o
+ .ARM.attributes
+                0x000000000800cc0b       0x39 obj/Release/src/main/Tuareg_config.o
+ .ARM.attributes
+                0x000000000800cc44       0x39 obj/Release/src/main/Tuareg_diag.o
+ .ARM.attributes
+                0x000000000800cc7d       0x39 obj/Release/src/main/Tuareg_errors.o
+ .ARM.attributes
+                0x000000000800ccb6       0x39 obj/Release/src/main/Tuareg_ID.o
+ .ARM.attributes
+                0x000000000800ccef       0x39 obj/Release/src/main/Tuareg_process_data.o
+ .ARM.attributes
+                0x000000000800cd28       0x39 obj/Release/src/main/Tuareg_service_functions.o
+ .ARM.attributes
+                0x000000000800cd61       0x39 obj/Release/src/main/Tuareg_types.o
+ .ARM.attributes
+                0x000000000800cd9a       0x39 obj/Release/src/process_table/process_table.o
+ .ARM.attributes
+                0x000000000800cdd3       0x39 obj/Release/src/sensors/analog_sensors.o
+ .ARM.attributes
+                0x000000000800ce0c       0x39 obj/Release/src/sensors/digital_sensors.o
+ .ARM.attributes
+                0x000000000800ce45       0x39 obj/Release/src/sensors/sensor_calibration.o
+ .ARM.attributes
+                0x000000000800ce7e       0x39 obj/Release/src/sensors/sensors_diag.o
+ .ARM.attributes
+                0x000000000800ceb7       0x39 obj/Release/src/sensors/Tuareg_sensors.o
+ .ARM.attributes
+                0x000000000800cef0       0x39 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+ .ARM.attributes
+                0x000000000800cf29       0x39 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+ .ARM.attributes
+                0x000000000800cf62       0x39 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .ARM.attributes
+                0x000000000800cf9b       0x21 obj/Release/src/stm32_libs/stm32f4xx/cmsis/startup_stm32f410xx.o
+ .ARM.attributes
+                0x000000000800cfbc       0x39 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .ARM.attributes
+                0x000000000800cff5       0x39 obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .ARM.attributes
+                0x000000000800d02e       0x39 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .ARM.attributes
+                0x000000000800d067       0x39 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .ARM.attributes
+                0x000000000800d0a0       0x39 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .ARM.attributes
+                0x000000000800d0d9       0x39 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .ARM.attributes
+                0x000000000800d112       0x39 obj/Release/src/storage/eeprom.o
+ .ARM.attributes
+                0x000000000800d14b       0x39 obj/Release/src/storage/table.o
+ .ARM.attributes
+                0x000000000800d184       0x39 obj/Release/src/timing/scheduler.o
+ .ARM.attributes
+                0x000000000800d1bd       0x39 obj/Release/src/timing/scheduler_diag.o
+ .ARM.attributes
+                0x000000000800d1f6       0x39 obj/Release/src/timing/systick_timer.o
+ .ARM.attributes
+                0x000000000800d22f       0x39 obj/Release/src/utils/base_calc.o
+ .ARM.attributes
+                0x000000000800d268       0x39 obj/Release/src/utils/bitfields.o
+ .ARM.attributes
+                0x000000000800d2a1       0x34 /opt/gcc-arm-none-eabi-7-2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard/libc.a(lib_a-init.o)
+
+.preinit_array  0x000000000800c440        0x0
+                0x000000000800c440                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                0x000000000800c440                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x000000000800c440        0x0
+                0x000000000800c440                PROVIDE (__init_array_start, .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array*)
+                0x000000000800c440                PROVIDE (__init_array_end, .)
+
+.fini_array     0x000000000800c440        0x0
+                [!provide]                        PROVIDE (__fini_array_start, .)
+ *(.fini_array*)
+ *(SORT_BY_NAME(.fini_array.*))
+                [!provide]                        PROVIDE (__fini_array_end, .)
+                0x000000000800c440                _sidata = .
+
+.data           0x0000000020000000       0x14 load address 0x000000000800c440
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _sdata = .
+ *(.data)
+ *(.data*)
+ .data.SystemCoreClock
+                0x0000000020000000        0x4 obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+                0x0000000020000000                SystemCoreClock
+ .data.APBAHBPrescTable
+                0x0000000020000004       0x10 obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+                0x0000000020000014                . = ALIGN (0x4)
+                0x0000000020000014                _edata = .
+
+.igot.plt       0x0000000020000014        0x0 load address 0x000000000800c454
+ .igot.plt      0x0000000020000014        0x0 obj/Release/src/com/serial_buffer.o
+                0x0000000020000014                . = ALIGN (0x4)
+
+.bss            0x0000000020000014     0x1880 load address 0x000000000800c454
+                0x0000000020000014                _sbss = .
+                0x0000000020000014                __bss_start__ = _sbss
+ *(.bss)
+ *(.bss*)
+ .bss.ComRx_Buffer
+                0x0000000020000014      0x110 obj/Release/src/com/serial_buffer.o
+                0x0000000020000014                ComRx_Buffer
+ .bss.Tuareg_console
+                0x0000000020000124       0x18 obj/Release/src/com/Tuareg_console.o
+                0x0000000020000124                Tuareg_console
+ .bss.Out       0x000000002000013c       0x7d obj/Release/src/com/TunerStudio_outChannel.o
+                0x000000002000013c                Out
+ *fill*         0x00000000200001b9        0x3 
+ .bss.Dash      0x00000000200001bc        0x8 obj/Release/src/dash/Tuareg_dash.o
+                0x00000000200001bc                Dash
+ .bss.Decoder_Setup
+                0x00000000200001c4        0xf obj/Release/src/decoder/decoder_config.o
+                0x00000000200001c4                Decoder_Setup
+ *fill*         0x00000000200001d3        0x1 
+ .bss.decoder_diag
+                0x00000000200001d4       0x68 obj/Release/src/decoder/decoder_diag.o
+                0x00000000200001d4                decoder_diag
+ .bss.Decoder_hw
+                0x000000002000023c       0x20 obj/Release/src/decoder/decoder_hw.o
+                0x000000002000023c                Decoder_hw
+ .bss.Decoder   0x000000002000025c       0x30 obj/Release/src/decoder/decoder_logic.o
+                0x000000002000025c                Decoder
+ .bss.Diag_Shadow
+                0x000000002000028c       0xc8 obj/Release/src/diagnostics/diagnostics.o
+                0x000000002000028c                Diag_Shadow
+ .bss.shadow_occupied
+                0x0000000020000354        0x1 obj/Release/src/diagnostics/diagnostics.o
+                0x0000000020000354                shadow_occupied
+ .bss.Fault_Log
+                0x0000000020000355        0x7 obj/Release/src/diagnostics/fault_log.o
+                0x0000000020000355                Fault_Log
+ .bss.Init_done
+                0x000000002000035c        0x1 obj/Release/src/diagnostics/fault_log.o
+                0x000000002000035c                Init_done
+ *fill*         0x000000002000035d        0x3 
+ .bss.Highspeedlog
+                0x0000000020000360      0x1a4 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000020000360                Highspeedlog
+ .bss.Highspeedlog_Mgr
+                0x0000000020000504        0x8 obj/Release/src/diagnostics/highspeed_loggers.o
+                0x0000000020000504                Highspeedlog_Mgr
+ .bss.Datalog   0x000000002000050c       0xa0 obj/Release/src/diagnostics/syslog.o
+                0x000000002000050c                Datalog
+ .bss.Syslog    0x00000000200005ac       0xd2 obj/Release/src/diagnostics/syslog.o
+                0x00000000200005ac                Syslog
+ *fill*         0x000000002000067e        0x2 
+ .bss.Syslog_Mgr
+                0x0000000020000680       0x10 obj/Release/src/diagnostics/syslog.o
+                0x0000000020000680                Syslog_Mgr
+ .bss.AccelCompTableMAP
+                0x0000000020000690       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000690                AccelCompTableMAP
+ .bss.AccelCompTableTPS
+                0x00000000200006e8       0x58 obj/Release/src/fueling/fueling_config.o
+                0x00000000200006e8                AccelCompTableTPS
+ .bss.AfrTable_MAP
+                0x0000000020000740      0x168 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000740                AfrTable_MAP
+ .bss.AfrTable_TPS
+                0x00000000200008a8      0x168 obj/Release/src/fueling/fueling_config.o
+                0x00000000200008a8                AfrTable_TPS
+ .bss.BAROtable
+                0x0000000020000a10       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000a10                BAROtable
+ .bss.ChargeTempTable
+                0x0000000020000a68      0x168 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000a68                ChargeTempTable
+ .bss.CrankingFuelTable
+                0x0000000020000bd0       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000bd0                CrankingFuelTable
+ .bss.Fueling_Setup
+                0x0000000020000c28       0x31 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000c28                Fueling_Setup
+ *fill*         0x0000000020000c59        0x3 
+ .bss.InjectorPhaseTable
+                0x0000000020000c5c       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000c5c                InjectorPhaseTable
+ .bss.InjectorTimingTable
+                0x0000000020000cb4       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000cb4                InjectorTimingTable
+ .bss.VeTable_MAP
+                0x0000000020000d0c      0x168 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000d0c                VeTable_MAP
+ .bss.VeTable_TPS
+                0x0000000020000e74      0x168 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000e74                VeTable_TPS
+ .bss.WarmUpCompTable
+                0x0000000020000fdc       0x58 obj/Release/src/fueling/fueling_config.o
+                0x0000000020000fdc                WarmUpCompTable
+ .bss.fueling_diag
+                0x0000000020001034       0x70 obj/Release/src/fueling/fueling_diag.o
+                0x0000000020001034                fueling_diag
+ .bss.Ignition_Setup
+                0x00000000200010a4       0x10 obj/Release/src/ignition/ignition_config.o
+                0x00000000200010a4                Ignition_Setup
+ .bss.ignAdvTable_TPS
+                0x00000000200010b4      0x168 obj/Release/src/ignition/ignition_config.o
+                0x00000000200010b4                ignAdvTable_TPS
+ .bss.ignDwellTable
+                0x000000002000121c       0x58 obj/Release/src/ignition/ignition_config.o
+                0x000000002000121c                ignDwellTable
+ .bss.ignition_diag
+                0x0000000020001274       0x38 obj/Release/src/ignition/ignition_diag.o
+                0x0000000020001274                ignition_diag
+ .bss.Tuareg    0x00000000200012ac       0xf0 obj/Release/src/main/main.o
+                0x00000000200012ac                Tuareg
+ .bss.TachTable
+                0x000000002000139c       0x58 obj/Release/src/main/Tuareg_config.o
+                0x000000002000139c                TachTable
+ .bss.Tuareg_Setup
+                0x00000000200013f4       0x3a obj/Release/src/main/Tuareg_config.o
+                0x00000000200013f4                Tuareg_Setup
+ *fill*         0x000000002000142e        0x2 
+ .bss.tuareg_diag
+                0x0000000020001430       0x78 obj/Release/src/main/Tuareg_diag.o
+                0x0000000020001430                tuareg_diag
+ .bss.Process_memory
+                0x00000000200014a8       0x14 obj/Release/src/main/Tuareg_process_data.o
+                0x00000000200014a8                Process_memory
+ .bss.Service_mgr
+                0x00000000200014bc       0x48 obj/Release/src/main/Tuareg_service_functions.o
+                0x00000000200014bc                Service_mgr
+ .bss.ProcessTable
+                0x0000000020001504       0x30 obj/Release/src/process_table/process_table.o
+                0x0000000020001504                ProcessTable
+ .bss.ProcessTable_valid
+                0x0000000020001534        0x1 obj/Release/src/process_table/process_table.o
+                0x0000000020001534                ProcessTable_valid
+ *fill*         0x0000000020001535        0x3 
+ .bss.Analog_Sensors
+                0x0000000020001538       0xd8 obj/Release/src/sensors/analog_sensors.o
+                0x0000000020001538                Analog_Sensors
+ .bss.DMA_Buffer
+                0x0000000020001610       0x10 obj/Release/src/sensors/analog_sensors.o
+                0x0000000020001610                DMA_Buffer
+ .bss.Injected_Group_Init_counter
+                0x0000000020001620        0x4 obj/Release/src/sensors/analog_sensors.o
+                0x0000000020001620                Injected_Group_Init_counter
+ .bss.Regular_Group_Init_counter
+                0x0000000020001624        0x4 obj/Release/src/sensors/analog_sensors.o
+                0x0000000020001624                Regular_Group_Init_counter
+ .bss.DSensor_Intergrator
+                0x0000000020001628       0x14 obj/Release/src/sensors/digital_sensors.o
+                0x0000000020001628                DSensor_Intergrator
+ .bss.DSensor_Intergrator_count
+                0x000000002000163c        0x4 obj/Release/src/sensors/digital_sensors.o
+                0x000000002000163c                DSensor_Intergrator_count
+ .bss.Digital_Sensors
+                0x0000000020001640        0x4 obj/Release/src/sensors/digital_sensors.o
+                0x0000000020001640                Digital_Sensors
+ .bss.InvTableCLT
+                0x0000000020001644       0x58 obj/Release/src/sensors/sensor_calibration.o
+                0x0000000020001644                InvTableCLT
+ .bss.Sensor_Calibration
+                0x000000002000169c       0x76 obj/Release/src/sensors/sensor_calibration.o
+                0x000000002000169c                Sensor_Calibration
+ *fill*         0x0000000020001712        0x2 
+ .bss.sensors_diag
+                0x0000000020001714       0x14 obj/Release/src/sensors/sensors_diag.o
+                0x0000000020001714                sensors_diag
+ .bss.Pending_Fault
+                0x0000000020001728        0x1 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x0000000020001728                Pending_Fault
+ *fill*         0x0000000020001729        0x3 
+ .bss.Program_State
+                0x000000002000172c       0x20 obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x000000002000172c                Program_State
+ .bss.SCB_dump  0x000000002000174c        0xc obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+                0x000000002000174c                SCB_dump
+ .bss.Eeprom_Init_done
+                0x0000000020001758        0x1 obj/Release/src/storage/eeprom.o
+                0x0000000020001758                Eeprom_Init_done
+ *fill*         0x0000000020001759        0x3 
+ .bss.Scheduler
+                0x000000002000175c       0x74 obj/Release/src/timing/scheduler.o
+                0x000000002000175c                Scheduler
+ .bss.scheduler_diag
+                0x00000000200017d0       0xac obj/Release/src/timing/scheduler_diag.o
+                0x00000000200017d0                scheduler_diag
+ .bss.Systick_Mgr
+                0x000000002000187c       0x18 obj/Release/src/timing/systick_timer.o
+                0x000000002000187c                Systick_Mgr
+ *(COMMON)
+                0x0000000020001894                . = ALIGN (0x4)
+                0x0000000020001894                _ebss = .
+                0x0000000020001894                __bss_end__ = _ebss
+                [!provide]                        PROVIDE (end, _ebss)
+                [!provide]                        PROVIDE (_end, _ebss)
+
+._user_heap_stack
+                0x0000000020001894      0x100 load address 0x000000000800dcd4
+                0x0000000020001894                . = ALIGN (0x4)
+                0x0000000020001894                . = (. + _Min_Heap_Size)
+                0x0000000020001994                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000020001894      0x100 
+                0x0000000020001994                . = ALIGN (0x4)
+
+.memory_b1_text
+ *(.mb1text)
+ *(.mb1text*)
+ *(.mb1rodata)
+ *(.mb1rodata*)
+
+/DISCARD/
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+OUTPUT(bin/Release/Tuareg elf32-littlearm)
+
+.comment        0x0000000000000000       0x7e
+ .comment       0x0000000000000000       0x7e obj/Release/src/com/serial_buffer.o
+                                         0x7f (size before relaxing)
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/Tuareg_console.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/TunerStudio.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/TunerStudio_outChannel.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/TunerStudio_service.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/uart.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/com/uart_printf.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/dash/dash_hw.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/dash/Tuareg_dash.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/debug/debug_port_messages.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/decoder_cis.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/decoder_config.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/decoder_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/decoder_hw.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/decoder_logic.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/decoder/Tuareg_decoder.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/diagnostics/diagnostics.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/diagnostics/fault_log.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/diagnostics/highspeed_loggers.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/diagnostics/syslog.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/accel_comp.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/fueling_config.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/fueling_corrections.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/fueling_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/fueling_hw.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/injector_parameters.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/Tuareg_fueling.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/fueling/Tuareg_fueling_controls.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/ignition/ignition_config.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/ignition/ignition_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/ignition/ignition_hw.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/ignition/Tuareg_ignition.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/ignition/Tuareg_ignition_controls.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/main.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_config.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_errors.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_ID.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_process_data.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_service_functions.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/main/Tuareg_types.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/process_table/process_table.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/sensors/analog_sensors.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/sensors/digital_sensors.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/sensors/sensor_calibration.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/sensors/sensors_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/sensors/Tuareg_sensors.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio_boctok.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/cmsis/system_hse100_stm32f410.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/spl/misc.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_dma.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_i2c.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_rcc.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/storage/eeprom.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/storage/table.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/timing/scheduler.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/timing/scheduler_diag.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/timing/systick_timer.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/utils/base_calc.o
+ .comment       0x000000000000007e       0x7f obj/Release/src/utils/bitfields.o

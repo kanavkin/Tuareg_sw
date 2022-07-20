@@ -1,12 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "decoder_config.h"
-
-#include "diagnostics.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 volatile decoder_hw_t Decoder_hw;
 
@@ -44,7 +37,6 @@ void decoder_start_timer()
     TIM9->CNT= (U16) 0;
 
     //set prescaler
-    //TIM9->PSC= (U16) (DECODER_TIMER_PSC -1);
     decoder_set_timer_prescaler(DECODER_TIMER_PRESCALER, DECODER_TIMER_PERIOD_US, DECODER_TIMER_OVERFLOW_MS);
 
     //enable output compare for exti
@@ -70,7 +62,7 @@ void decoder_start_timer()
 }
 
 
-void decoder_set_timer_prescaler(VU32 Prescaler, VU32 Period_us, VU32 Overflow_ms)
+void decoder_set_timer_prescaler(U32 Prescaler, U32 Period_us, U32 Overflow_ms)
 {
     TIM9->PSC= (U16) (Prescaler -1);
 
@@ -113,7 +105,6 @@ void update_crank_noisefilter()
 
     //enable compare 1 event
     TIM9->DIER |= TIM_DIER_CC1IE;
-
 }
 
 
@@ -136,7 +127,6 @@ void update_cam_noisefilter()
 
     //enable compare 1 event
     TIM9->DIER |= TIM_DIER_CC2IE;
-
 }
 
 
@@ -359,18 +349,9 @@ void init_decoder_hw()
     SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
     SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
 
-    /**
-    configure crank pickup sensor EXTI
-    decoder_set_crank_pickup_sensing() keeps irq masked!
-    */
+    //configure EXTI polaries, but keep irqs masked for now
     decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
-
-    /**
-    configure cylinder identification sensor EXTI
-    for only rising edge
-    decoder_set_cis_sensing() keep cis irq masked!
-    */
-    decoder_set_cis_sensing(SENSING_RISE);
+    decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
 
     //reset timer values until TDC has been detected
     Decoder_hw.state.timer_continuous_mode= false;
@@ -406,7 +387,7 @@ void init_decoder_hw()
 
 
 //returns the current decoder timestamp
-VU32 decoder_get_timestamp()
+U32 decoder_get_timestamp()
 {
     return TIM9->CNT;
 }
@@ -438,6 +419,30 @@ void decoder_request_timer_reset()
 {
     Decoder_hw.state.timer_reset_req= true;
 }
+
+
+
+void disable_decoder_hw()
+{
+    //disable crank pickup irq
+    NVIC_DisableIRQ(EXTI0_IRQn);
+    decoder_mask_crank_irq();
+    set_crank_pickup_sensing_disabled();
+
+    //disable cis irq
+    NVIC_DisableIRQ(EXTI1_IRQn);
+    decoder_mask_cis_irq();
+    set_cis_sensing_disabled();
+
+    //disable timer 9 compare 1 irq
+    NVIC_DisableIRQ(TIM1_BRK_TIM9_IRQn);
+    decoder_stop_timer();
+
+    //disable sw exti irq
+    NVIC_DisableIRQ(EXTI2_IRQn);
+}
+
+
 
 
 

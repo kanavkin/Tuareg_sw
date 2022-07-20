@@ -1,0 +1,981 @@
+[33mcommit dea226350ae00858231411713b1b3b536acf27b9[m[33m ([m[1;36mHEAD -> [m[1;32mv23_devel[m[33m, [m[1;31morigin/v23_devel[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed May 18 23:44:47 2022 +0200
+
+    revised fueling logic, hil testing passed
+
+[33mcommit bd138d90602d1505bbdfc4c7d1025511353eee3e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon May 16 16:16:48 2022 +0200
+
+    no start
+
+[33mcommit 3b84f49b454f8a4522cfdc6e3c38119c2b5b3d51[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon May 16 10:29:38 2022 +0200
+
+    prepared V23.1 for testing
+
+[33mcommit d17b1a80693f9d253e2d9092699480d5971f1fb4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri May 13 15:14:11 2022 +0200
+
+    dropped lowprio_scheduler and tachometer control,
+    added charge temp table
+
+[33mcommit cc340476ae5855dc03cdd6a174d193918c8adcc1[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed May 4 00:18:20 2022 +0200
+
+    added platform header
+
+[33mcommit 49818f16530bdf09778c57b0d8c6ec712774477d[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Apr 27 23:44:54 2022 +0200
+
+    added datalog functions
+
+[33mcommit cfe41bb536a89d379a6e352faa2b08b00710b179[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Apr 21 23:08:43 2022 +0200
+
+    fixed pagechunkwrite
+
+[33mcommit f13d6072c70a690df4e9aab05bab52058c030e2e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Apr 1 15:43:11 2022 +0200
+
+    WIP updated fueling operating strategy and modes
+
+[33mcommit 1cbcc432afa946fc190b8154c90fcfee5e9fea9e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Mar 6 22:09:14 2022 +0100
+
+    WIP
+    - implemented fatal mode
+    - implemented PageWriteChunk command
+    
+    testing needed!
+
+[33mcommit 32ea80872111888ecc1bbe30b054ff7a70b6e2cc[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Mar 3 17:07:37 2022 +0100
+
+    WIP implementing fatal mode
+
+[33mcommit ea5a710d67a8eafe1eed6ecd7ea600a6fbf33fb3[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Mar 1 11:53:58 2022 +0100
+
+    WIP make EMA filter factors for ddtTPS and ddtMAP configurable
+
+[33mcommit c51e4beccc4eca6cada617bd69831cc673a33ebb[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Feb 14 16:29:54 2022 +0100
+
+    WIP: added CLT lookup table
+
+[33mcommit 705738b500516147a0b1d3ddd8e54a2c4b4ab410[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Feb 9 23:23:25 2022 +0100
+
+    packed sensor calibration data leads to unaligned access, removed avgMAP
+
+[33mcommit 96ba5790b29d1a5b2cc2086e7b3e3cb0748ec898[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Feb 4 16:16:07 2022 +0100
+
+    refactoring
+
+[33mcommit 7fb78a9c4882fa70001cccff91921aff5c441ebf[m
+Merge: c0e3f08 2f39375
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jan 31 22:45:35 2022 +0100
+
+    Merge remote-tracking branch 'origin/v22_fix' into v23_devel
+
+[33mcommit c0e3f089fb7ecc7ed92154559f00dbd2fa545476[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Jan 21 13:15:49 2022 +0100
+
+    rewrite of sensor subsystem
+
+[33mcommit 2f39375e457567ce49bd0778ac9620fb83c88b4e[m[33m ([m[1;31morigin/v22_fix[m[33m)[m
+Merge: f558290 b1eb645
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Jan 5 16:11:13 2022 +0100
+
+    integrated cid debounce feature
+    
+    Merge remote-tracking branch 'origin/v22_fix_cis_bounce' into v22_fix
+
+[33mcommit f558290660264bb80abb0264d1f0eda6c6b64e54[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Dec 13 16:41:57 2021 +0100
+
+    allowing multiple cam lobe end events processing
+
+[33mcommit b1eb6451d1e01af03618efe65b03e2f45cb16031[m[33m ([m[1;31morigin/v22_fix_cis_bounce[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Dec 13 16:41:57 2021 +0100
+
+    allowing multiple cam lobe end events processing
+
+[33mcommit f588471b4ef8c83df10619bee549d02386a67eea[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Nov 26 16:07:08 2021 +0100
+
+    integrated ignition fix
+
+[33mcommit 25a7718ebd0763ffc9831f9f56cd470705a770ed[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Nov 26 15:59:02 2021 +0100
+
+    added decoder cis debugging and printout to console
+
+[33mcommit f2a599bbed3157bc23f8e5a83a93a9bd8f87576e[m[33m ([m[1;31morigin/v22_fix_cis[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Nov 26 10:09:09 2021 +0100
+
+    added decoderdebug functions for cis
+
+[33mcommit 32363a15b3f7fa641b2b8a5b4c50b74e91309d4e[m[33m ([m[1;33mtag: v0.22[m[33m, [m[1;31morigin/v22_devel[m[33m, [m[1;32mv22_fix[m[33m, [m[1;32mv22_devel[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Nov 11 10:34:03 2021 +0100
+
+    Ready for testing
+
+[33mcommit 3bbfefc2f007084fa5b9ea67b8c8060853c50901[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Nov 8 15:56:29 2021 +0100
+
+    added experimental air mass flow rate calculation
+
+[33mcommit e833bfed3f4295e89396377ea3732cc8b20836d8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Nov 3 23:56:42 2021 +0100
+
+    improved diagnostic data printout
+
+[33mcommit 643ef42be95536cb6c9dead3c45723521f8d11bf[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Oct 29 15:20:03 2021 +0200
+
+    modified decoder diag and its printout function
+
+[33mcommit 886da99b61b5058fccda728a9a4b56c17639502c[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Oct 27 17:27:34 2021 +0200
+
+    added configurable filters for all analog sensor channels
+
+[33mcommit a01e28ffcdb8ac7cc5a50e3fea6dbf2b582945d5[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Oct 26 21:50:13 2021 +0200
+
+    restructured output channel generation
+
+[33mcommit 1198ae5bf2b7a3426e3a6cfae37bfbedec0f8c9f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 21 18:01:55 2021 +0200
+
+    WIP reimplemented TS output channel code
+
+[33mcommit 7382189e92df81794754f521c04a428ddcd139f3[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Oct 19 00:12:50 2021 +0200
+
+    WIP added fuel pump priming and sensors sample length runtime configuration
+
+[33mcommit 48252437edcb4e833428282e4de0ccd4eee87dff[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Oct 18 16:39:51 2021 +0200
+
+    WIP MAP filter
+
+[33mcommit e5a0fbde334eb969b64a06eaffa53525a700ee84[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Oct 15 16:20:51 2021 +0200
+
+    WIP implementing MAP averaging to support stable idle operation
+
+[33mcommit 0695bd5fba31582e9d1a86e4864a2fe597b868c3[m[33m ([m[1;33mtag: v0.21[m[33m, [m[1;31morigin/v20_devel[m[33m, [m[1;32mv20_devel[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Sep 30 18:14:17 2021 +0200
+
+    added highspeedlog printout
+
+[33mcommit b8edc09319dc696c9c1c0d0cffc8a03d1c4e759e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Sep 30 17:37:56 2021 +0200
+
+    added injector delay to outchannel, created nwe base tune
+
+[33mcommit c6af93576a878d4f12c20ce0c92557da245b0ab8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Sep 30 14:32:01 2021 +0200
+
+    hotfix fault log and fuel diagnostics printout
+
+[33mcommit 38b8e4ce4cff67413783758a71c3e242c277bad9[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Sep 30 00:53:17 2021 +0200
+
+    test drive
+
+[33mcommit 24174221a534bc2fb92550aee60640cfee87e82a[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Sep 29 16:29:57 2021 +0200
+
+    added AFR target map - MAP based
+
+[33mcommit 7c547e43a05333235b567bb8c8b540b2a24f3dc4[m[33m ([m[1;33mtag: v0.20[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 28 22:27:40 2021 +0200
+
+    test drive
+
+[33mcommit 754e30d17a889770b87f36add1b4a8f6de25f274[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 28 00:52:56 2021 +0200
+
+    test drive
+
+[33mcommit 777a32f3ec92643d0fa0f1bf1a6ed3bb96d1a3cd[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Sep 27 23:10:15 2021 +0200
+
+    v20 base tune
+
+[33mcommit 5b28e0405d4acb6b460a927bbcc5e4117ffefd82[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Sep 22 16:29:10 2021 +0200
+
+    corrected ignition handling bug, modified diagnostics
+
+[33mcommit 8479751fdab35d9ad28c11205a14b9d50759d0e9[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 21 16:33:31 2021 +0200
+
+    added fuel diag and working on scheduler diag
+
+[33mcommit 21a6d822b84434794f4a2d390c8e162cdb8abfd5[m
+Merge: a2ac08b c2625c3
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Sep 12 22:13:27 2021 +0200
+
+    Merge branch 'feature_mapdot_ae'
+
+[33mcommit c2625c383c7f20c9cc0f689f0e04e1ae50d8a536[m[33m ([m[1;31morigin/feature_mapdot_ae[m[33m, [m[1;32mfeature_mapdot_ae[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Sep 1 21:11:05 2021 +0200
+
+    added enhanced AE in TS
+
+[33mcommit 0707b624475fe0216bbe50c8818eb449d5ec1156[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Aug 29 23:34:40 2021 +0200
+
+    implemented AE scope
+
+[33mcommit a2ac08b2f43b008b530e86ab936fa0a8fc271441[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Aug 29 21:43:43 2021 +0200
+
+    test drive
+
+[33mcommit 11b7aef410bc076c8e8823df350897d7440c484f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Aug 27 17:27:24 2021 +0200
+
+    improving accelleration compensation - implement MAPdot
+
+[33mcommit 215c7fbad65000bc472a2161e3c37fbd6e6d4dd8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Aug 19 14:39:14 2021 +0200
+
+    test drive
+
+[33mcommit 60a21d1531992d6f3bbdafbec48569c0c5657406[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Aug 18 10:57:44 2021 +0200
+
+    test drive
+
+[33mcommit d8a4766ef3762386c9f8a923c50d90f0b954cb62[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Aug 16 13:44:49 2021 +0200
+
+    test drive
+
+[33mcommit 36a967fdf43a36f4a24f9e40a33979996fc467f4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Aug 1 22:17:51 2021 +0200
+
+    test drive
+
+[33mcommit f6044127a2b597939ffd9801f301bea9215eb2a2[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Aug 1 01:10:18 2021 +0200
+
+    test drive
+
+[33mcommit cb492253a4fbdb23a7d4323c3ff5ec7b5f58af41[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Jul 30 19:31:31 2021 +0200
+
+    test drive
+
+[33mcommit 7c29026b72a46d26da402b7777930a8612e9e7b5[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Jul 29 22:05:01 2021 +0200
+
+    test drive
+
+[33mcommit 335c52a227d231b46619d4029c5d4782e4927a55[m[33m ([m[1;33mtag: v0.10[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Jul 27 09:56:22 2021 +0200
+
+    test run
+
+[33mcommit 3584bed379ff3799d1564a6248723e45eedbad93[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jul 26 01:43:43 2021 +0200
+
+    implemented fault log, added eeprom init protection
+
+[33mcommit 128594d645ea862c11f366c5b7d14a17058e348a[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Jul 20 13:32:38 2021 +0200
+
+    added gear sensor conversion - needs tweak
+
+[33mcommit fa85ba9135f8047e26f8a22805f52b935b0dd852[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Jul 20 13:13:36 2021 +0200
+
+    modified accel enrichment dynamic range
+
+[33mcommit 29b3b679c31678ef2d1bfd0c65e9f925eb5607ea[m[33m ([m[1;33mtag: 0.9[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Jul 18 00:42:14 2021 +0200
+
+    test run with new clt sensor bung
+
+[33mcommit e88eeae0f06b2fbdd8657d92bffe3148829cdab3[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jul 12 00:29:09 2021 +0200
+
+    make the mil quite until limp / fatal condition (ok for now)
+
+[33mcommit f2a22eafd3550dd3c2806072cdcbed3cb8d53dd8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Jul 9 14:41:58 2021 +0200
+
+    - added injector dc clip indicator to dashboard
+    - added ignition parameter checks
+
+[33mcommit d79a36599be58fa1c0461814425f5fd764b7618d[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Jul 9 12:53:03 2021 +0200
+
+    added table 2d readout error handling
+
+[33mcommit da15df3ad03f455f721b37bc934d5776acf4cb04[m[33m ([m[1;33mtag: 0.8[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Jul 7 04:14:57 2021 +0200
+
+    -corrected bug in sensor evaluation code (affected battery voltage measurement precision)
+    -increased cranking fuel mass range
+    -corrected bug in ignition module (affected reported dwell time in batch mode)
+
+[33mcommit f42d7d0f3a01f6bc71ead326b9c7751e260106e3[m[33m ([m[1;33mtag: 0.7[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jul 5 23:31:59 2021 +0200
+
+    corrected bug in scheduler, implemented assert() for vital scheduler parameter checks
+    added injector watchdog
+
+[33mcommit 45730d4978c81ef1d548a4ecf2fe9704f3deb8ff[m[33m ([m[1;33mtag: 0.6[m[33m, [m[1;33mtag: 0.56[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Jun 29 12:19:58 2021 +0200
+
+    corrected ignition handler code
+
+[33mcommit d7cd76503636c51cd3defb4582aa4655625199b3[m[33m ([m[1;33mtag: 0.5[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Jun 4 15:07:56 2021 +0200
+
+    implemented fuel consumption monitor
+
+[33mcommit b994dc7e08392f8c2e2694cac59d41157d4fec4e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri May 28 20:20:36 2021 +0200
+
+    corrected bugs in service mode after field testing
+
+[33mcommit 9ff0a67eee6f15a8c838795aae69c558d87753b0[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu May 20 14:08:40 2021 +0200
+
+    corrected minor issues after manual testing
+
+[33mcommit 6c3d374050ec788ff17bcfa5db5204475952d617[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed May 19 17:25:34 2021 +0200
+
+    created tuner studio dashes, corrected minor issues after manual testing
+
+[33mcommit 87d663e6d9d6a8f53178023b4b85dfa09ef0546e[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri May 7 14:57:39 2021 +0200
+
+    corrected bug in sensors readout code
+
+[33mcommit d9aa5cf10e415e616b691b887641a3af35fac4a8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed May 5 14:19:29 2021 +0200
+
+    added high speed logger aliasing function
+
+[33mcommit cd49b9bfbdd1b0b3bc124e413a2da7460fc1b5d1[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue May 4 15:46:00 2021 +0200
+
+    started knock sensor implementation, implemented dual stage vital scheduler, corrected high speed logger
+
+[33mcommit 2d7559f55f69bcd7a1a4e434eee1086d71d65ccf[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Apr 19 16:49:55 2021 +0200
+
+    corrected fuel control logic and 2d table lookup
+
+[33mcommit 697189f551cbbd47da461553c8c11040e7085405[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Apr 15 17:12:17 2021 +0200
+
+    minor corrections in startup logic
+
+[33mcommit b51d378d3bb9417a9a3abbde534d30c7b53a4fe8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Apr 14 17:44:34 2021 +0200
+
+    minor corrections
+
+[33mcommit 0a41ec4922a08568564e1cbe37a65f2da14b24aa[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Apr 1 23:52:26 2021 +0200
+
+    base state machine rewrite
+
+[33mcommit 6b1d99e7c3cbd16726d2bda3e5864436576a7203[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Mar 30 22:36:06 2021 +0200
+
+    implemented fueling corrections
+
+[33mcommit bf09d634b608abc2d2c2bf2292de772e460e48f5[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Mar 26 17:34:16 2021 +0100
+
+    modified sensor handling code to allow sensor values to be used without averaging,
+    corrected ddtTPS calculation
+
+[33mcommit c70acec52e4be214d65c8ef192fcd999c677d1cb[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Mar 25 17:37:45 2021 +0100
+
+    corrected fueling calculations, implemented fueling config
+
+[33mcommit 42d3d5e30eaf2b439f22222bed42b148f77d7efe[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Mar 24 16:20:55 2021 +0100
+
+    moved rev limiter config item to tuareg setup
+
+[33mcommit 59c69135b6c37ca01e91faa558e9ff14be8513fd[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Mar 24 15:28:50 2021 +0100
+
+    fixed 2 bugs in decoder logic, cis sensor now working again
+
+[33mcommit 1c1862b14b85e901020c523b2b47d0c543dcda15[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Mar 23 17:18:05 2021 +0100
+
+    modified process table update function to tolerate crank periods of zero length
+
+[33mcommit 02182b6e7a4eac7d9a4a747a7855567bad462244[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Mar 23 15:44:16 2021 +0100
+
+    working on fueling module
+
+[33mcommit 3b65b37be425537390fdedaf9d3be02db32dace7[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Mar 19 15:55:15 2021 +0100
+
+    implementing fueling system
+
+[33mcommit 88fe5ae183b5df3be9835df04171ce762d5d8e3b[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Mar 4 17:55:35 2021 +0100
+
+    working on highspeedlog
+
+[33mcommit 07278c542eb610b5f419833fd1b4fe5e2812bb68[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Mar 3 16:39:00 2021 +0100
+
+    added fueling skeleton
+
+[33mcommit 565011a8649ca895d864e85e48d9ea85d2646dd5[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Mar 1 17:10:55 2021 +0100
+
+    implementing high speed logger
+
+[33mcommit b6eb549b921a43a654b5cc9c500dfc46d3cc6fbb[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Feb 24 16:50:38 2021 +0100
+
+    working on service functions
+
+[33mcommit 1eaa9fcff3a31d46ccaca3fd6cab006edadbd672[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Feb 22 18:55:36 2021 +0100
+
+    activated service mode and service commands
+
+[33mcommit 42740fec92b18a9e8afab77f64f2ae62dfad45c4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Feb 19 00:16:48 2021 +0100
+
+    implemented syslog
+
+[33mcommit 4c651b849ceb2d0aaa52f9b063b443a7f25b9960[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Feb 17 16:05:57 2021 +0100
+
+    updated repository structure
+
+[33mcommit 0b5f6bdf1cd408f536e9b11343dd5e00c096454c[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Feb 17 10:56:19 2021 +0100
+
+    updated decoder timer prescaler and output channel validation
+
+[33mcommit d7a16d1fc0cd8fe6b3b91520150850f131b552c4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Feb 15 17:32:25 2021 +0100
+
+    added sensor fast init and individual validation thresholds, updated TS config
+
+[33mcommit 99356c33eabfc67bdbe06e8774e2a3d5defeb9d2[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Feb 12 17:45:35 2021 +0100
+
+    Decoder rewritten
+    added cis handling
+    Scheduler rewritten
+    added reallocation feature
+    
+    issues: decoder config page transmission in tunerstudio.ini broken sensin bit field
+    
+    not tested, not functional
+
+[33mcommit 992a940e67ad153a3cd0162599730bd974309f58[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jan 25 17:07:31 2021 +0100
+
+    modified ignition system to use scheduler for dwell control
+
+[33mcommit 2a9899a976d057b3b9484d5fd7c071f4f8c0bd1b[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Dec 22 16:48:27 2020 +0100
+
+    restructured config handling and console
+    
+    *** Not yet functional *** not tested ***
+
+[33mcommit c93de1426bc70c4a37d2042a01119165c31ad960[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Dec 7 02:43:01 2020 +0100
+
+    working on tuner studio integration
+    
+    *** no functional state ***
+
+[33mcommit d85a62b9e95c21e904cf569f0c58163288cfcf55[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Dec 6 23:12:07 2020 +0100
+
+    work goes on
+    
+    No functional binary!
+
+[33mcommit de5f072cd6c3b423d13be3fc39c28aaa4ad0b4d4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Nov 19 07:09:00 2020 +0100
+
+    working on process definition
+    
+    No functional binary!
+
+[33mcommit 68ecf86dda21c2d9adf09105568770ae7dcf08c2[m[33m ([m[1;33mtag: 0.4[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Nov 6 08:33:06 2020 +0100
+
+    corrected battery voltage scaling in ts conf
+
+[33mcommit c376c7fcf3940485d1f203d9e7e2153667265306[m[33m ([m[1;33mtag: 0.3[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Nov 3 14:26:22 2020 +0100
+
+    corrected bug in calc_inverse_lin, added calibration for TDM 850 4tx style carb TPS
+
+[33mcommit d2ddc0142d6a84cc53bcb9f668532a79c9d5c239[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Nov 2 14:09:29 2020 +0100
+
+    updated decoder config script
+
+[33mcommit f1f2e3a39d03e8dc1ff4c3ef4030e7fa1ee9e45f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Oct 30 01:56:37 2020 +0100
+
+    changed ts project
+
+[33mcommit 4f1d0abc9bea48f87cdec60d85d927953300657f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Oct 30 00:09:57 2020 +0100
+
+    modified output channels
+
+[33mcommit d86466a29b38b48a5f872198738142b7d3be08a3[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Oct 28 13:53:51 2020 +0100
+
+    modified error handling, analog sensor access, outputchannels
+
+[33mcommit cb41a94ca85c210dd849309e95cc548d1f6ce5d5[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Oct 27 02:48:20 2020 +0100
+
+    added cold idle advance function, modified ignition config, initiated migration towards U cmd
+
+[33mcommit 6046daa94a9c86bb03f2d83608bbc8ca2214d88a[m[33m ([m[1;33mtag: 0.2[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 22 12:54:57 2020 +0200
+
+    using float for outputchannels
+
+[33mcommit 83a84511040e55fffeba8cd3120eb1f19192e005[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Oct 21 02:28:04 2020 +0200
+
+    working on tuner studio communication
+
+[33mcommit 60d7e4974c444962354faa9183dae24473de466c[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Oct 20 16:55:14 2020 +0200
+
+    added diagnostic system, restructured decoder, changed ignition dwell calculation
+
+[33mcommit c8b8d3939e1eee19f975c43051e0f9852e80ffa7[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 15 15:29:48 2020 +0200
+
+    added module tests, added diagnostic module, updated decoder module
+
+[33mcommit 99cee54ba3e7825b6905725515a7dab9b19bc078[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Oct 12 23:58:58 2020 +0200
+
+    added scheduler test code
+
+[33mcommit da8210f1096c2d5399c592b3690935c4236dfc15[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Oct 12 22:09:26 2020 +0200
+
+    added scheduler diagnostics
+
+[33mcommit d02d2370f257cc6fc0555076135c36077718ae06[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Oct 7 00:13:31 2020 +0200
+
+    changed digital sensor readout frequency and runmode responsiveness
+
+[33mcommit 0578ff4e41ed56b32020bf45c0f73d8c46a2a763[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Oct 6 22:56:51 2020 +0200
+
+    corrected wrong dwell calculation
+
+[33mcommit 46e7317f48712751d7561f75ea906cb121489e40[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 29 23:30:12 2020 +0200
+
+    changed to float calibration data and float process data
+
+[33mcommit 2ddb7ad7dd0e60d59d1e13737cce5536171d0451[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Aug 25 13:38:39 2020 +0200
+
+    prepared engine specific config
+
+[33mcommit 0b5cd3d8b8c24d8e9f8d9ad97197e4524ef410ee[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Aug 25 13:33:24 2020 +0200
+
+    working features:
+    TPS sensor, ignition advance lookup for XTZ 660 configuration
+
+[33mcommit efba73567faaefbc4f5224d4a2a236bb18d8c87f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Aug 20 16:37:58 2020 +0200
+
+    corrected 3d map coordinate transfomation
+
+[33mcommit dde06cedf99231f0bdd939fdb7ef6b45a692374b[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Aug 20 16:04:46 2020 +0200
+
+    updated ignition setup strategy
+
+[33mcommit 25938bb686689c216cd70d160d0d46230abd4cbf[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Aug 5 11:10:26 2020 +0200
+
+    added cranking mode
+
+[33mcommit 0559fb0f6eeab17b0f766714fa8fef9aa34b3f57[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Aug 4 00:45:59 2020 +0200
+
+    added relexed sync check
+
+[33mcommit 7ada405e47428993a309a3e9831f47e1890cdd34[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Aug 3 13:18:40 2020 +0200
+
+    merging to master branch
+
+[33mcommit c01c537e291c68c47f17f55abce038e1c808bd4e[m[33m ([m[1;31morigin/with_fpu[m[33m, [m[1;32mwith_fpu[m[33m)[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Aug 3 13:02:10 2020 +0200
+
+    diagnostics
+
+[33mcommit 28978423c5148f31acfeb20eaf8ec85fa0eb5a0d[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Jul 27 23:40:26 2020 +0200
+
+    modified decoder timeout handling and runmode api
+
+[33mcommit 0bd3f62e974cea8737f89dabde571b93bb034554[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Jul 15 15:09:02 2020 +0200
+
+    added statistics and diagnostics
+
+[33mcommit aa3a17c016582b56941b4ddc53c31520be3652f2[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri May 29 23:47:01 2020 +0200
+
+    added config scripts
+    changed analog sensor interface
+
+[33mcommit 0d32c5cce2ea31dff76a4d44b8121ca695a0ece9[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sat May 16 00:21:24 2020 +0200
+
+    added more diagnostic variables
+
+[33mcommit 87244afaa7d088c81b69c8f5d7e8839a74821e36[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu May 14 00:21:29 2020 +0200
+
+    restructuring codebase
+
+[33mcommit f775e418bc9c3e5d2d341a3a6938a01554e55ebc[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Fri Nov 8 00:31:09 2019 +0100
+
+    fixed sensors and tested lowprio_scheduler:
+    first output sequence is 1 impulse too long!
+
+[33mcommit 85c7415e0e786da7cd909d43e6954f50f6e3f1ca[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Nov 6 02:08:34 2019 +0100
+
+    added a low priority scheduler to control dash elements
+
+[33mcommit 14c0eab487fdd44d787cf1ba879100474bba1540[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 24 23:58:43 2019 +0200
+
+    modified ignition logic to use crank_period_us for calculation
+
+[33mcommit d6d5353b72ab78a50fb35eeb0364a602f7ac7b02[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 24 22:48:35 2019 +0200
+
+    added fueling module stub
+    fixed scheduler
+
+[33mcommit 6d7316c1889b4b4db1dc18bc07a79c8390197d7a[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Oct 21 01:27:25 2019 +0200
+
+    added debug cycle counter
+    worked on scheduler -> CH1 working, modify other channels accordingly
+
+[33mcommit 4ea41e362326ce9a804e9e74637921820b4e7fe9[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sat Oct 19 00:38:19 2019 +0200
+
+    fixed decoder
+
+[33mcommit ca9fec48883738444797a3b925e3565e0d6a8d81[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 17 23:57:43 2019 +0200
+
+    separated decoder and ignition modules in hw dependent and hw independent part
+
+[33mcommit c6d979700d36c655a66821ea59b71f52a00eec52[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Oct 13 01:42:58 2019 +0200
+
+    got tunerstudio to work
+
+[33mcommit 23d68482347c0d5e69441bcad1d9f6f14ca2ef8a[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 10 00:51:19 2019 +0200
+
+    ported adc and dma code in sensors.c to stm32f410
+
+[33mcommit f0363f8f149ebc817f5a4bbb61289bf89982b2c3[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Oct 3 01:53:12 2019 +0200
+
+    decoder working again
+
+[33mcommit 77fc8f613e388236d7329f008f3640b186cb6981[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Mon Sep 30 02:35:27 2019 +0200
+
+    fixed eeprom init
+
+[33mcommit 9a895787aa9b97448ff4282b5fe47f20016ad693[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Sep 22 00:19:27 2019 +0200
+
+    uart working
+
+[33mcommit 82640f71d185d54e23cf27ec45cd3885fa87801f[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Thu Sep 19 00:21:19 2019 +0200
+
+    now compiles for STM32F410
+    system not fully functional, modules must be further ported
+    compiling with hard float abi!
+
+[33mcommit 6aaee01563bb287df30c3c41786220c316eefc30[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 17 00:13:10 2019 +0200
+
+    started porting to STM32F410
+    platform not working
+
+[33mcommit a26de382ef2820e5b437ec18b162c2332ec145f8[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Tue Sep 10 00:15:47 2019 +0200
+
+    using FPU for most of the calculations
+
+[33mcommit eb9ebc591bd33eb62521b8875000ea0e6ffcd843[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Wed Apr 10 18:26:56 2019 +0200
+
+    fixed clock tree usage
+
+[33mcommit 21aa73a62f06cad54fc093cfadf7517c128389c1[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Feb 24 20:44:55 2019 +0100
+
+    corrected startup file selection -> STM32 can run only at 64MHz with HSI
+
+[33mcommit 7d5f8542bff52b9a3ff040b7bbbea45ce5c0e327[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Feb 24 20:41:11 2019 +0100
+
+    migrated project to new stm32_libs
+    now we will have to make it work with 72MHz
+
+[33mcommit 0b7d1c221916970b9bf7fba98379c8c6cef70f19[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Feb 24 19:44:49 2019 +0100
+
+    added new stm32 libs as submodule
+
+[33mcommit 4c7f06c99867ecf9206c611294bdecbc0731dacc[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sun Feb 24 19:43:29 2019 +0100
+
+    removed old stm32 libs
+
+[33mcommit 8488480afe993a03ae562aae358f9b37acd854a9[m
+Merge: 824d772 b53994d
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sat Jan 19 00:48:34 2019 +0100
+
+    Merge branch 'master' of https://github.com/kanavkin/Tuareg_sw
+
+[33mcommit 824d7729505ef37a63ab96c2f19e1e741dc24d70[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sat Jan 19 00:46:51 2019 +0100
+
+    inserted the local working directory
+
+[33mcommit b53994dba8d7da62fd6aa4375395a501f7518afc[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sat Jan 19 00:42:48 2019 +0100
+
+    Create README.md
+
+[33mcommit 416811d66961daa1cef0c2d04a12fd4d934b5fb4[m
+Author: Vladimir Kanavkin <vkanavkin@bk.ru>
+Date:   Sat Jan 19 00:40:25 2019 +0100
+
+    cleaned repository
+
+[33mcommit 2e018698660ca2503505725dc8142f0140eacd5c[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sun Jan 6 22:45:53 2019 +0100
+
+    Add files via upload
+
+[33mcommit a7ec86c5f057407489a4ef6793894a5092d41c63[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sun Jan 6 22:44:02 2019 +0100
+
+    Add files via upload
+
+[33mcommit cba9889eb2d6ace04a912f9376859d3a92526856[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sun Jan 6 22:42:24 2019 +0100
+
+    Add files via upload
+
+[33mcommit 03b1427a90c6eaf08f2badaf7be71cc2c02cac62[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sun Jan 6 22:39:19 2019 +0100
+
+    Add files via upload
+
+[33mcommit 01bd8773134dfc1c7c7eb45b6a79e39f1cffad0b[m
+Author: Vladimir Kanavkin <46387467+kanavkin@users.noreply.github.com>
+Date:   Sun Jan 6 22:36:59 2019 +0100
+
+    Add files via upload

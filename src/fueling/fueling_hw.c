@@ -1,21 +1,20 @@
 /**
 this module covers the ignition hardware layer control
 */
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-
-#include "Tuareg.h"
-#include "fueling_hw.h"
-#include "highspeed_loggers.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 /******************************************************************************************************************************
 injector hardware control
 ******************************************************************************************************************************/
 void set_injector1_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 8, PIN_ON);
 
@@ -34,6 +33,12 @@ void set_injector1_unpowered()
 
 void set_injector2_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 9, PIN_ON);
 
@@ -55,6 +60,12 @@ fuel pump hardware control
 
  void set_fuel_pump_powered()
 {
+    //check vital preconditions
+    if(Tuareg.errors.fatal_error == true)
+    {
+        return;
+    }
+
     //ON
     gpio_set_pin(GPIOC, 10, PIN_ON);
 
@@ -76,30 +87,50 @@ ignition actuator control
 ******************************************************************************************************************************/
 void set_injector1(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.fuel_injector_1;
+
     if(level == ACTOR_POWERED)
     {
         set_injector1_powered();
-        highspeedlog_register_injector1_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_injector1_power();
+        }
     }
     else
     {
         set_injector1_unpowered();
-        highspeedlog_register_injector1_unpower();
+
+        if(old_state == true)
+        {
+            highspeedlog_register_injector1_unpower();
+        }
     }
 }
 
 
 void set_injector2(actor_control_t level)
 {
+    bool old_state= Tuareg.flags.fuel_injector_2;
+
     if(level == ACTOR_POWERED)
     {
         set_injector2_powered();
-        highspeedlog_register_injector2_power();
+
+        if(old_state == false)
+        {
+            highspeedlog_register_injector2_power();
+        }
     }
     else
     {
         set_injector2_unpowered();
-        highspeedlog_register_injector2_unpower();
+
+        if(old_state == true)
+        {
+            highspeedlog_register_injector2_unpower();
+        }
     }
 }
 

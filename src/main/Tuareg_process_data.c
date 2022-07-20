@@ -1,34 +1,7 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "base_calc.h"
-#include "decoder_hw.h"
-#include "decoder_logic.h"
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
-#include "ignition_hw.h"
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "TunerStudio.h"
-#include "ignition_config.h"
-#include "table.h"
-#include "eeprom.h"
-#include "Tuareg_sensors.h"
-#include "sensors.h"
-#include "fueling_hw.h"
-#include "fueling_logic.h"
-
-
-
-
-//#include "debug.h"
-#include "diagnostics.h"
-#include "Tuareg.h"
+volatile process_data_memory_t Process_memory;
 
 
 
@@ -36,23 +9,65 @@
 *   Process data controls update
 ****************************************************************************************************************************************/
 
+const F32 cMAP_alpha= 0.85;
+const F32 cTPS_alpha= 0.85;
 
 void Tuareg_update_process_data()
 {
+    VF32 raw, filter, derive;
+    VU32 period_us= 0;
+
     //collect diagnostic information
     //tuareg_diag_log_event(TDIAG_PROCESSDATA_CALLS);
 
 
-    //process analog sensor data
-    Tuareg.process.MAP_kPa= Tuareg_update_MAP_sensor();
-    Tuareg.process.avg_MAP_kPa= Tuareg_update_avg_MAP();
-    Tuareg.process.ddt_MAP= Tuareg_update_ddt_MAP();
+    //get the interval since the last update
+    period_us= (Tuareg.pDecoder->flags.period_valid == true)? Tuareg.pDecoder->crank_period_us: 0;
+
+
+    /**
+    process MAP sensor
+    */
+    raw= Tuareg_update_MAP_sensor();
+
+    //apply the ema filter
+    filter= calc_ema(Tuareg_Setup.MAP_alpha, Process_memory.last_MAP_kPa, raw);
+    //filter= calc_ema(0.3, Process_memory.last_MAP_kPa, raw);
+
+    //calculate MAP change rate
+    derive=((period_us > 0) && (Tuareg.errors.sensor_MAP_error == false))? calc_derivative_s(Process_memory.last_MAP_kPa, filter, period_us): 0.0;
+
+    //export
+    Process_memory.last_MAP_kPa= filter;
+    Process_memory.last_ddt_MAP= derive;
+    Tuareg.process.MAP_kPa= filter;
+    Tuareg.process.ddt_MAP= derive;
+
+    /**
+    process TPS sensor
+    */
+    raw= Tuareg_update_TPS_sensor();
+
+    //apply the ema filter
+    filter= calc_ema(Tuareg_Setup.TPS_alpha, Process_memory.last_TPS_deg, raw);
+
+    //calculate MAP change rate
+    derive=((period_us > 0) && (Tuareg.errors.sensor_TPS_error == false))? calc_derivative_s(Process_memory.last_TPS_deg, filter, period_us): 0.0;
+
+    //export
+    Process_memory.last_TPS_deg= filter;
+    Process_memory.last_ddt_TPS= derive;
+    Tuareg.process.TPS_deg= filter;
+    Tuareg.process.ddt_TPS= derive;
+
+
+    /**
+    process other analog sensors
+    */
     Tuareg.process.Baro_kPa= Tuareg_update_BARO_sensor();
-    Tuareg.process.TPS_deg= Tuareg_update_TPS_sensor();
     Tuareg.process.IAT_K= Tuareg_update_IAT_sensor();
     Tuareg.process.CLT_K= Tuareg_update_CLT_sensor();
     Tuareg.process.VBAT_V= Tuareg_update_VBAT_sensor();
-    Tuareg.process.ddt_TPS= Tuareg_update_ddt_TPS();
     Tuareg.process.O2_AFR= Tuareg_update_O2_sensor();
     Tuareg.process.Gear= Tuareg_update_GEAR_sensor();
 
@@ -80,17 +95,23 @@ void Tuareg_update_process_data()
     #endif
 
 
-    //ground speed
-    if((Tuareg.pDecoder->outputs.rpm_valid) && (Tuareg.process.Gear < GEAR_NEUTRAL))
+    /**
+    calculate ground speed
+    */
+    if((Tuareg.pDecoder->flags.rpm_valid) && (Tuareg.process.Gear > GEAR_NEUTRAL) && (Tuareg.process.Gear < GEAR_COUNT))
     {
-        Tuareg.process.ground_speed_mmps= Tuareg.pDecoder->crank_rpm * Tuareg_Setup.gear_ratio[Tuareg.process.Gear];
+        Tuareg.process.speed_kmh= divide_F32(Tuareg.pDecoder->crank_rpm, Tuareg_Setup.gear_ratio[Tuareg.process.Gear -1]);
     }
     else
     {
-        Tuareg.process.ground_speed_mmps= 0;
+        Tuareg.process.speed_kmh= 0.0;
     }
 
-
+    /**
+    calculate intake valve temp
+    TODO (oli#3#03/22/22): implement intake valve temperature model
+    */
+    Tuareg.process.IVT_K= Tuareg.process.CLT_K;
 
 }
 
@@ -171,9 +192,6 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
 }
 
 #endif // TUAREG_LOAD_CODE
-
-
-
 
 
 

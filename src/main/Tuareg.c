@@ -1,53 +1,5 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_gpio.h"
-#include "stm32_libs/stm32f4xx/boctok/stm32f4xx_adc.h"
-#include "stm32_libs/boctok_types.h"
-
-#include "base_calc.h"
-#include "bitfields.h"
-#include "Tuareg_decoder.h"
-
-#include "Tuareg_ignition.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-
-#include "Tuareg_fueling.h"
-
-#include "Tuareg_sensors.h"
-
-#include "scheduler.h"
-#include "lowprio_scheduler.h"
-#include "uart.h"
-#include "conversion.h"
-#include "systick_timer.h"
-#include "Tuareg_console.h"
-#include "Tuareg_config.h"
-#include "table.h"
-#include "eeprom.h"
-#include "sensors.h"
-#include "fueling_hw.h"
-#include "Tuareg_fueling_controls.h"
-
-#include "dash_hw.h"
-#include "dash_logic.h"
-#include "act_hw.h"
-#include "act_logic.h"
-
-#include "process_table.h"
-
-#include "diagnostics.h"
-#include "Tuareg_diag.h"
-#include "Tuareg.h"
-#include "uart_printf.h"
-#include "module_test.h"
-
-#include "syslog.h"
-#include "debug_port_messages.h"
-#include "Tuareg_syslog_locations.h"
-#include "fault_log.h"
-
-#include "highspeed_loggers.h"
-
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
 //#define TUAREG_DEBUG_OUTPUT
 
@@ -55,7 +7,18 @@
 #warning debug outputs enabled
 #endif // TUAREG_DEBUG_OUTPUT
 
-const U32 cFuel_pump_priming_duration_s= 3;
+
+
+
+#ifdef DEBUG_TARGET
+#warning developer build
+#warning not to be installed on a production system!
+#endif
+
+
+
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.24 2022.07";
+
 
 /******************************************************************************************************************************
 INIT
@@ -106,9 +69,9 @@ void Tuareg_Init()
     /**
     vital modules
     */
+    init_Sensors();
     init_Ignition();
     init_Fueling();
-    Tuareg.pSensors= init_Sensors();
     Tuareg.pDecoder= init_Decoder();
 
     //provide initial process data
@@ -119,17 +82,27 @@ void Tuareg_Init()
     */
     Tuareg_init_console();
 
-    init_lowprio_scheduler();
+    #ifndef LOWPRIOSCHEDULER_WIP
+    init_Lowprio_Scheduler();
+    #endif // LOWPRIOSCHEDULER_WIP
+
     init_dash();
 
     #ifdef TUAREG_DEBUG_OUTPUT
-    Tuareg_print_init_message();
+    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
+    print_flash(DEBUG_PORT, Tuareg_Version);
     #endif // TUAREG_DEBUG_OUTPUT
 
     //begin fuel pump priming
-    Tuareg.fuel_pump_priming_remain_s= cFuel_pump_priming_duration_s;
-    Tuareg.flags.fuel_pump_priming= true;
-    Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+    if(Tuareg.errors.fatal_error == false)
+    {
+        if(Tuareg_Setup.fuel_pump_priming_duration > 0)
+        {
+            Tuareg.fuel_pump_priming_remain_s= Tuareg_Setup.fuel_pump_priming_duration;
+            Tuareg.flags.fuel_pump_priming= true;
+            Syslog_Info(TID_TUAREG_FUELING, TUAREG_LOC_BEGIN_FUEL_PUMP_PRIMING);
+        }
+    }
 
     //init_act_hw();
     //init_act_logic();
@@ -149,41 +122,20 @@ void Tuareg_load_config()
 {
     exec_result_t result;
 
-    //bring up eeprom
-    Eeprom_init();
-
-    //loading the config data is essential, failure forces "limp home mode"
-    result= load_Tuareg_Setup();
+    //load Tuareg main config data
+    result= load_Tuareg_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION))
     {
         //failed to load config
         Tuareg.errors.tuareg_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Tuareg_Setup();
 
-        Syslog_Error(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_FAIL);
-        Syslog_Warning(TID_TUAREG, TUAREG_LOC_ESSENTIALS_CONFIG_LOADED);
+        //no engine operation possible
+        Fatal(TID_TUAREG, TUAREG_LOC_CONFIG_ERROR);
 
         #ifdef TUAREG_DEBUG_OUTPUT
         DebugMsg_Error("Failed to load Tuareg config");
-        DebugMsg_Warning("Tuareg essential config has been loaded");
-        #endif // TUAREG_DEBUG_OUTPUT
-    }
-    else if(Tuareg_Setup.Version != TUAREG_REQUIRED_CONFIG_VERSION)
-    {
-        //loaded wrong config version
-        Tuareg.errors.tuareg_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Tuareg_Setup();
-
-        Syslog_Error(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_VERSION_FAIL);
-        Syslog_Warning(TID_TUAREG, TUAREG_LOC_ESSENTIALS_CONFIG_LOADED);
-
-        #ifdef TUAREG_DEBUG_OUTPUT
-        DebugMsg_Error("Tuareg config loaded version does not match");
-        DebugMsg_Warning("Tuareg essential config has been loaded");
         #endif // TUAREG_DEBUG_OUTPUT
     }
     else
@@ -193,18 +145,9 @@ void Tuareg_load_config()
 
         Syslog_Info(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_SUCCESS);
     }
+
 }
 
-
-void Tuareg_print_init_message()
-{
-    #ifdef TUAREG_MODULE_TEST
-    moduletest_initmsg_action();
-    #else
-    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    print(DEBUG_PORT, "V 0.7");
-    #endif
-}
 
 
 
@@ -212,13 +155,16 @@ void Tuareg_print_init_message()
 Update - periodic update function
 
 called every 10 ms from systick timer (100 Hz)
+
+this function will be executed in all system states and has to take care of all system errors
+
+
 ******************************************************************************************************************************/
 
-const U32 cInj_wd_thres_ms= 100;
+const U32 cInj_wd_thres_ms= 200;
 
 void Tuareg_update()
 {
-
     //injector watchdog check
     if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
     {
@@ -235,15 +181,18 @@ void Tuareg_update()
     //fuel pump
     Tuareg_update_fuel_pump_control();
 
-
     /**
+    vital actors control
+    (fuel pump is separated to allow fuel priming)
+
     while the system is in normal operating conditions the vital actors shall be deactivated in standby mode or when run inhibit is set
     in service mode vital actor control is given to the service functions
+    fuel pump priming normally takes place when the run switch is off
     */
     if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)))
     {
-        //keep vital actors deactivated, ignores fuel pump
-        Tuareg_deactivate_vital_actors();
+        //keep vital actors deactivated, allow fuel pump priming
+        Tuareg_deactivate_vital_actors(true);
     }
 
 }
@@ -266,7 +215,7 @@ const U32 cOverheat_hist_K= 20;
 
 void Tuareg_update_run_inhibit()
 {
-    //check precondition - no fatal error
+    //check precondition - no fatal error present
     if(Tuareg.errors.fatal_error == true)
     {
         Tuareg.flags.run_inhibit= true;
@@ -278,24 +227,25 @@ void Tuareg_update_run_inhibit()
     */
 
     //shut engine off if the RUN switch is DISENGAGED
-    Tuareg.flags.run_switch_deactivated= (getBit_BF8(DSENSOR_RUN, Tuareg.pSensors->dsensors) != Tuareg_Setup.flags.RunSwitch_trig_high) ? true : false;
+    Tuareg.flags.run_switch_deactivated= (Digital_Sensors.run == false);
 
     //shut engine off if the CRASH sensor is engaged
-    Tuareg.flags.crash_sensor_triggered= (getBit_BF8(DSENSOR_CRASH, Tuareg.pSensors->dsensors) == Tuareg_Setup.flags.CrashSensor_trig_high) ? true : false;
+    Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high);
 
-    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected
-    Tuareg.flags.sidestand_sensor_triggered= ((getBit_BF8(DSENSOR_SIDESTAND, Tuareg.pSensors->dsensors) == Tuareg_Setup.flags.SidestandSensor_trig_high)  && (Tuareg.process.Gear != GEAR_NEUTRAL)) ? true : false;
+    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected AND the indicated gear is trustworthy
+    Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL) && (Tuareg.errors.sensor_GEAR_error == false));
 
 
     /**
     check if the overheating protector indicates a HALT condition
-    a failed coolant sensor will show its default value and may never trigger this protector
+    a failed coolant sensor will never trigger this protector
     */
-    if(Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K)
+    if((Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K) && (Tuareg.errors.sensor_CLT_error == false))
     {
         Tuareg.flags.overheat_detected= true;
     }
-    else if((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_VU32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K)))
+    else if( ((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K))) ||
+             (Tuareg.errors.sensor_CLT_error == true) )
     {
         Tuareg.flags.overheat_detected= false;
     }
@@ -304,9 +254,9 @@ void Tuareg_update_run_inhibit()
     /**
     the run_inhibit flag indicates that engine operation is temporarily restricted
     */
-    Tuareg.flags.run_inhibit=(  (Tuareg.flags.run_switch_deactivated == true) ||
-                                (Tuareg.flags.crash_sensor_triggered == true) ||
-                                ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Halt_on_SidestandSensor == true)) ||
+    Tuareg.flags.run_inhibit=(  ((Tuareg.flags.run_switch_deactivated == true) && (Tuareg_Setup.flags.RunSwitch_override == false)) ||
+                                ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.CrashSensor_override == false)) ||
+                                ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Sidestand_override == false)) ||
                                 (Tuareg.flags.overheat_detected == true) ||
                                 (Tuareg.flags.service_mode == true) );
 }
@@ -323,7 +273,13 @@ const U32 cLoad_error_limp_thres= 100;
 
 void Tuareg_update_limited_op()
 {
+    //nothing to do if already in limp mode
     //limited_op can be cleared only only by reset
+    if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fatal_error == true))
+    {
+        return;
+    }
+
 
     /**
     limit_op is now set together with the error flags for
@@ -368,11 +324,11 @@ void Tuareg_update_rev_limiter()
     max_rpm= (Tuareg.flags.limited_op)? Tuareg_Setup.limp_max_rpm : Tuareg_Setup.max_rpm;
 
 
-    if((Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > max_rpm))
+    if((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > max_rpm))
     {
         Tuareg.flags.rev_limiter= true;
     }
-    else if((Tuareg.pDecoder->outputs.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_VU32(max_rpm, cRevlimiter_hist_rpm))))
+    else if((Tuareg.pDecoder->flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_U32(max_rpm, cRevlimiter_hist_rpm))))
     {
         Tuareg.flags.rev_limiter= false;
     }
@@ -403,17 +359,17 @@ void Tuareg_update_standby()
     if( (Tuareg.flags.run_inhibit == false) &&
         (Tuareg.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->outputs.standstill == false) &&
+        (Tuareg.pDecoder->flags.standstill == false) &&
         //(Tuareg.pDecoder->outputs.rpm_valid == true)  &&
         (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))
     {
         Tuareg.flags.cranking= true;
     }
 
-    if( ((Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.cranking_end_rpm)) ||
+    if( ((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.cranking_end_rpm)) ||
         (Tuareg.flags.run_inhibit == true) ||
         (Tuareg.flags.standby == true) ||
-        (Tuareg.pDecoder->outputs.standstill == true))
+        (Tuareg.pDecoder->flags.standstill == true))
     {
         Tuareg.flags.cranking= false;
     }
@@ -424,12 +380,12 @@ void Tuareg_update_standby()
     */
     if( (Tuareg.flags.run_inhibit == false) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->outputs.standstill == false) &&
+        (Tuareg.pDecoder->flags.standstill == false) &&
         (Tuareg.flags.cranking == false) &&
-        (Tuareg.pDecoder->outputs.rpm_valid == true))
+        (Tuareg.pDecoder->flags.rpm_valid == true))
     {
         //engine is running -> increment runtime counter
-        if(Tuareg.engine_runtime < 0xFFFFFFFF)
+        if(Tuareg.engine_runtime < cU32max)
         {
             Tuareg.engine_runtime += 1;
         }
@@ -450,11 +406,16 @@ pressure
 
 void Tuareg_update_fuel_pump_control()
 {
+    //check precondition -no fatal error present
+    if(Tuareg.errors.fatal_error == true)
+    {
+        set_fuel_pump(ACTOR_UNPOWERED);
+        return;
+    }
+
     /**
     fuel pump priming control
     */
-
-    //check if fuel pump priming shall be deactivated
     if((Tuareg.flags.fuel_pump_priming == true) && (Tuareg.fuel_pump_priming_remain_s == 0))
     {
         Tuareg.flags.fuel_pump_priming= false;
@@ -463,82 +424,75 @@ void Tuareg_update_fuel_pump_control()
 
     /**
     fuel pump control
-    - in service mode fuel pump control is given to the service functions
-    - under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
     */
 
-    //check preconditions
+    //in service mode fuel pump control is given to the service functions
     if(Tuareg.flags.service_mode == true)
     {
         return;
     }
 
-    if(((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)) && (Tuareg.flags.fuel_pump_priming == false))
+    //under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
+    if( ((Tuareg.flags.standby == false) && (Tuareg.flags.run_inhibit == false)) || (Tuareg.flags.fuel_pump_priming == true) )
     {
-        //fuel pump shall be deactivated
-        if(Tuareg.flags.fuel_pump == true)
-        {
-            set_fuel_pump(ACTOR_UNPOWERED);
-        }
+        //fuel pump shall be active
+        set_fuel_pump(ACTOR_POWERED);
     }
     else
     {
-        //fuel pump shall be active
-        if(Tuareg.flags.fuel_pump == false)
-        {
-            set_fuel_pump(ACTOR_POWERED);
-        }
+        //fuel pump shall be deactivated
+        set_fuel_pump(ACTOR_UNPOWERED);
     }
 }
 
 
 /******************************************************************************************************************************
-periodic helper function - keep vital actors deactivated
+keep vital actors deactivated
+
+if a fatal error is present, force all actors off
+in normal mode, ignoring the fuel pump is allowed
 ******************************************************************************************************************************/
-void Tuareg_deactivate_vital_actors()
+void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump)
 {
+    //turn off ignition system
+    set_ignition_ch1(ACTOR_UNPOWERED);
+    set_ignition_ch2(ACTOR_UNPOWERED);
+
+    //turn off fueling system
+    set_injector1(ACTOR_UNPOWERED);
+    set_injector2(ACTOR_UNPOWERED);
+
     //reset scheduler
     scheduler_reset_channel(SCHEDULER_CH_IGN1);
     scheduler_reset_channel(SCHEDULER_CH_IGN2);
     scheduler_reset_channel(SCHEDULER_CH_FUEL1);
     scheduler_reset_channel(SCHEDULER_CH_FUEL2);
 
-    //turn off ignition system
-    if(Tuareg.flags.ignition_coil_1 == true)
+
+    //the fuel pump is normally allowed to finish its priming stage
+    if((IgnoreFuelPump == false) || (Tuareg.errors.fatal_error == true))
     {
-        set_ignition_ch1(ACTOR_UNPOWERED);
+        set_fuel_pump(ACTOR_UNPOWERED);
     }
 
-    if(Tuareg.flags.ignition_coil_2 == true)
-    {
-        set_ignition_ch2(ACTOR_UNPOWERED);
-    }
-
-    //turn off fueling system
-    if(Tuareg.flags.fuel_injector_1 == true)
-    {
-        set_injector1(ACTOR_UNPOWERED);
-    }
-
-    if(Tuareg.flags.fuel_injector_2 == true)
-    {
-        set_injector2(ACTOR_UNPOWERED);
-    }
 }
 
 
 /******************************************************************************************************************************
-periodic helper function - update driven way based on the ground speed figure
+periodic helper function - integrate the trip based on the estimated ground speed
 called every 100 ms from systick timer (10 Hz)
 ******************************************************************************************************************************/
 void Tuareg_update_trip()
 {
-    U32 trip_increment_mm;
+    VU32 trip_increment_mm;
 
+    const F32 cConv= 100.0 / 3.6;
     //s := v * t
-    trip_increment_mm= Tuareg.process.ground_speed_mmps / 10;
+    //v_mps = v_kmh / 3.6
+    //v_mmps = 100* v_kmh / 3.6
+    trip_increment_mm= Tuareg.process.speed_kmh * cConv;
 
-    Tuareg.trip_mm += trip_increment_mm;
+    Tuareg.trip_integrator_1min_mm += trip_increment_mm;
 
 }
 
@@ -550,11 +504,54 @@ called every second from systick timer
 ******************************************************************************************************************************/
 void Tuareg_update_consumption_data()
 {
+    VF32 rate_gps, efficiency_mpg;
+    VU32 trip_mm, mass_ug;
+
+    /*
+    fuel flow rate
+    */
+
+    //read fueling data
+    mass_ug= Tuareg.fuel_mass_integrator_1s_ug;
+
+    //calculate fuel flow rate
+    rate_gps= divide_F32(mass_ug, 1000000);
+
+    //export fuel flow data
+    Tuareg.fuel_rate_gps= rate_gps;
+
+    //reset integrator
+    Tuareg.fuel_mass_integrator_1s_ug= 0;
+
+    /*
+    fuel efficiency calculation
+    */
+
+    //add 1s consumption data
+    Tuareg.fuel_mass_integrator_1min_mg += ((VF32) mass_ug) / 1000.0;
+
+    //count
+    Tuareg.consumption_counter += 1;
+
+    //check if 1 minute of sampling has expired
+    if(Tuareg.consumption_counter >= 60)
+    {
+        //read trip data
+        trip_mm= Tuareg.trip_integrator_1min_mm;
+
+        /*
+        calculate fuel efficiency
+        eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
+        */
+        efficiency_mpg= divide_float((VF32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
+
         //export data
-        Tuareg.fuel_consumpt_1s_ug= Tuareg.injected_mass_ug;
-        Tuareg.trip_1s_mm= Tuareg.trip_mm;
+        Tuareg.fuel_eff_mpg= efficiency_mpg;
 
         //reset counters
-        Tuareg.injected_mass_ug= 0;
-        Tuareg.trip_mm= 0;
+        Tuareg.fuel_mass_integrator_1min_mg= 0;
+        Tuareg.trip_integrator_1min_mm= 0;
+        Tuareg.consumption_counter= 0;
+    }
+
 }

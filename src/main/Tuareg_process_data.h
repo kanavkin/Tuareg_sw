@@ -11,30 +11,43 @@
 
 typedef struct _process_data_t {
 
-    VF32 MAP_kPa;
-    VF32 avg_MAP_kPa;
-    VF32 ddt_MAP;
-    VF32 Baro_kPa;
-    VF32 TPS_deg;
-    VF32 ddt_TPS;
-    VF32 IAT_K;
-    VF32 CLT_K;
-    VF32 VBAT_V;
-    VF32 O2_AFR;
-    VF32 Knock_level;
+    F32 MAP_kPa;
+    F32 ddt_MAP;
+    F32 Baro_kPa;
+    F32 TPS_deg;
+    F32 ddt_TPS;
+    F32 IAT_K;
+    F32 CLT_K;
+    F32 VBAT_V;
+    F32 O2_AFR;
+    F32 Knock_level;
 
     gears_t Gear;
 
-    VU32 ground_speed_mmps;
+    F32 speed_kmh;
 
-    VF32 load_pct;
+    F32 load_pct;
+    F32 IVT_K;
 
 } process_data_t;
+
+
+typedef struct _process_data_memory_t {
+
+    F32 last_MAP_kPa;
+    F32 last_ddt_MAP;
+
+    F32 last_TPS_deg;
+    F32 last_ddt_TPS;
+
+    F32 last_load_pct;
+
+} process_data_memory_t;
+
 
 
 void Tuareg_update_process_data();
 
 void Tuareg_update_load(volatile process_data_t * pProcess);
-
 
 #endif // TUAREGPDATA_H_INCLUDED

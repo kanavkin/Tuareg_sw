@@ -1,38 +1,14 @@
-#include "stm32_libs/stm32f4xx/cmsis/stm32f4xx.h"
-#include "stm32_libs/boctok_types.h"
+#include <Tuareg_platform.h>
+#include <Tuareg.h>
 
-#include "base_calc.h"
-
-#include "decoder_logic.h"
-
-#include "Tuareg_ignition.h"
-#include "Tuareg_ignition_controls.h"
-#include "ignition_hw.h"
-#include "ignition_config.h"
-
-#include "scheduler.h"
-#include "uart.h"
-#include "uart_printf.h"
-#include "conversion.h"
-#include "table.h"
-#include "eeprom.h"
-
-#include "syslog.h"
-#include "Ignition_syslog_locations.h"
-#include "debug_port_messages.h"
-#include "diagnostics.h"
-#include "ignition_diag.h"
-#include "Tuareg.h"
+#define IGNITION_REQUIRED_CONFIG_VERSION 5
 
 
-#define IGNITION_REQUIRED_CONFIG_VERSION 4
+//#define IGNITION_DEBUGMSG
 
-
-//#define IGNITION_DEBUG_OUTPUT
-
-#ifdef IGNITION_DEBUG_OUTPUT
+#ifdef IGNITION_DEBUGMSG
 #warning debug outputs enabled
-#endif // IGNITION_DEBUG_OUTPUT
+#endif // IGNITION_DEBUGMSG
 
 
 /**
@@ -68,40 +44,24 @@ void init_Ignition()
     result= load_Ignition_Config();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION))
     {
-        //failed to load Ignition Config
+        /**
+        failed to load Ignition Config
+        */
         Tuareg.errors.ignition_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Ignition_Config();
 
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_FAIL);
+        //no engine operation possible
+        Fatal(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_ERROR);
 
-        #ifdef IGNITION_DEBUG_OUTPUT
+        #ifdef IGNITION_DEBUGMSG
         DebugMsg_Error("Failed to load Ignition config!");
-        DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
-    }
-    else if(Ignition_Setup.Version != IGNITION_REQUIRED_CONFIG_VERSION)
-    {
-        //loaded wrong Ignition Config Version
-        Tuareg.errors.ignition_config_error= true;
-        Tuareg.flags.limited_op= true;
-        load_essential_Ignition_Config();
-
-        Syslog_Error(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_VERSION_MISMATCH);
-
-        #ifdef IGNITION_DEBUG_OUTPUT
-        DebugMsg_Error("Ignition config version does not match");
-        DebugMsg_Warning("Ignition essential config has been loaded");
-        #endif // IGNITION_DEBUG_OUTPUT
+        #endif // IGNITION_DEBUGMSG
     }
     else
     {
         //loaded Ignition config with correct Version
         Tuareg.errors.ignition_config_error= false;
-
-        Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_CONFIG_LOAD_SUCCESS);
     }
 
     //init hw part
@@ -112,6 +72,8 @@ void init_Ignition()
 
     //provide ignition controls for startup
     Tuareg_update_ignition_controls();
+
+    Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_READY);
 }
 
 
@@ -138,8 +100,8 @@ void Tuareg_ignition_update_crankpos_handler()
         ignition_diag_log_event(IGNDIAG_CRKPOSH_INHIBIT);
 
         //turn off all ignition actors
-        set_coil1_unpowered();
-        set_coil2_unpowered();
+        set_ignition_ch1(ACTOR_UNPOWERED);
+        set_ignition_ch2(ACTOR_UNPOWERED);
 
         //delete ignition controls
         Tuareg_update_ignition_controls();
@@ -191,11 +153,11 @@ void Tuareg_ignition_update_crankpos_handler()
             scheduler_parameters.flags.complete_cycle_realloc= true;
 
             scheduler_parameters.interval2_us= Tuareg.ignition_controls.dwell_timing_us;
-            scheduler_parameters.interval1_us= subtract_VU32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
+            scheduler_parameters.interval1_us= subtract_U32(Tuareg.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
 
 
             //check if sequential mode has been commanded
-            if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->outputs.phase_valid == false))
+            if((Tuareg.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->flags.phase_valid == false))
             {
                 //collect diagnostic information
                 ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);

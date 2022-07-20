@@ -1,11 +1,16 @@
 #ifndef TUAREG_SENSORS_H_INCLUDED
 #define TUAREG_SENSORS_H_INCLUDED
 
-#include "stm32_libs/boctok_types.h"
-#include "Tuareg_types.h"
-#include "sensors.h"
+#include <Tuareg_platform.h>
 
-#define SENSORS_REQUIRED_CALIBRATION_VERSION 3
+#include "analog_sensors.h"
+#include "digital_sensors.h"
+#include "knock_sensor.h"
+#include "sensor_calibration.h"
+#include "sensors_diag.h"
+#include "sensors_syslog_locations.h"
+
+#define SENSORS_REQUIRED_CALIBRATION_VERSION 4
 
 
 /*
@@ -13,8 +18,7 @@ ASENSOR_VALIDITY_THRES of consecutive valid captures an analog sensor has to pro
 
 the counter will be initialized with ASENSOR_VALIDITY_FASTINIT to provide sensor data for startup
 */
-#define ASENSOR_VALIDITY_THRES 150
-#define ASENSOR_VALIDITY_FASTINIT 100
+#define ASENSOR_VALIDITY_THRES 50
 
 
 /**
@@ -34,19 +38,16 @@ if an analog sensor is not available, use these defaults
 
 
 
-volatile sensor_interface_t * init_Sensors();
+void init_Sensors();
 
 
 VF32 Tuareg_update_MAP_sensor();
-VF32 Tuareg_update_avg_MAP();
-VF32 Tuareg_update_ddt_MAP();
 VF32 Tuareg_update_BARO_sensor();
 VF32 Tuareg_update_KNOCK_sensor();
 VF32 Tuareg_update_VBAT_sensor();
 VF32 Tuareg_update_CLT_sensor();
 VF32 Tuareg_update_IAT_sensor();
 VF32 Tuareg_update_TPS_sensor();
-VF32 Tuareg_update_ddt_TPS();
 VF32 Tuareg_update_O2_sensor();
 gears_t Tuareg_update_GEAR_sensor();
 

@@ -57,7 +57,7 @@ void ignition_diag_log_event(ignition_diag_t Event)
 {
     #ifdef USE_IGNITION_DIAG
 
-    Assert(Event < IGNDIAG_COUNT, 0, 0);
+    VitalAssert(Event < IGNDIAG_COUNT, 0, 0);
 
     ignition_diag[Event] += 1;
 
