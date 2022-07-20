@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Tue Jul 19 14:26:18 CEST 2022
-#Tue Jul 19 14:26:18 CEST 2022
+#Last Saved on: Wed Jul 20 12:07:55 CEST 2022
+#Wed Jul 20 12:07:55 CEST 2022
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -266,7 +266,7 @@ CommSettingMSCommDriver.controllerInterfaceId=RS232 Serial Interface
 CrankingFuelCurveCranking\ base\ fuel\ mass_height=562
 Tuareg.VeTable_MAP_std_xAxisMax=5000.0
 veGenerator_txtPkHp=84
-firmwareDescription=Tuareg V0.23.5 2022.07
+firmwareDescription=Tuareg V0.24 2022.07
 veGenerator_txtDisplacementCid=52
 TachCurveTachometer\ output_width=1273
 CommSettingMSCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil

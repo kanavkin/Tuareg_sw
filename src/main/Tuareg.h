@@ -188,7 +188,7 @@ typedef struct _Tuareg_t {
     volatile highspeedlog_flags_t * pHighspeedlog;
 
     /*
-
+    system watchdogs
     */
     VU32 decoder_watchdog;
     VU32 injector1_watchdog_ms;
@@ -198,13 +198,17 @@ typedef struct _Tuareg_t {
     /*
     fuel consumption data
     */
-    VU32 fuel_mass_integrator_ug;
-    VU32 trip_integrator_mm;
+    VU32 fuel_mass_integrator_1s_ug;
+    VF32 fuel_mass_integrator_1min_mg;
+    VU32 trip_integrator_1min_mm;
+    VU32 consumption_counter;
 
     VF32 fuel_rate_gps;
     VF32 fuel_eff_mpg;
 
-    //fuel pump priming
+    /*
+    fuel pump priming
+    */
     VU32 fuel_pump_priming_remain_s;
 
 } Tuareg_t;

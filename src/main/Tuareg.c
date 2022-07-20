@@ -17,7 +17,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.23.5 2022.07";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.24 2022.07";
 
 
 /******************************************************************************************************************************
@@ -484,13 +484,15 @@ called every 100 ms from systick timer (10 Hz)
 ******************************************************************************************************************************/
 void Tuareg_update_trip()
 {
-    U32 trip_increment_mm;
+    VU32 trip_increment_mm;
 
+    const F32 cConv= 100.0 / 3.6;
     //s := v * t
     //v_mps = v_kmh / 3.6
-    trip_increment_mm= Tuareg.process.speed_kmh / 36.0;
+    //v_mmps = 100* v_kmh / 3.6
+    trip_increment_mm= Tuareg.process.speed_kmh * cConv;
 
-    Tuareg.trip_integrator_mm += trip_increment_mm;
+    Tuareg.trip_integrator_1min_mm += trip_increment_mm;
 
 }
 
@@ -505,24 +507,51 @@ void Tuareg_update_consumption_data()
     VF32 rate_gps, efficiency_mpg;
     VU32 trip_mm, mass_ug;
 
-    //read data
-    trip_mm= Tuareg.trip_integrator_mm;
-    mass_ug= Tuareg.fuel_mass_integrator_ug;
-
     /*
-    calculate fuel efficiency
-    eff := s / m = m * 10⁻3 / g * 10⁻6 = 1000 * trip_mm / injected_mass_ug
+    fuel flow rate
     */
-    efficiency_mpg= divide_F32(1000 * trip_mm, mass_ug);
+
+    //read fueling data
+    mass_ug= Tuareg.fuel_mass_integrator_1s_ug;
 
     //calculate fuel flow rate
     rate_gps= divide_F32(mass_ug, 1000000);
 
-    //export data
+    //export fuel flow data
     Tuareg.fuel_rate_gps= rate_gps;
-    Tuareg.fuel_eff_mpg= efficiency_mpg;
 
-    //reset counters
-    Tuareg.fuel_mass_integrator_ug= 0;
-    Tuareg.trip_integrator_mm= 0;
+    //reset integrator
+    Tuareg.fuel_mass_integrator_1s_ug= 0;
+
+    /*
+    fuel efficiency calculation
+    */
+
+    //add 1s consumption data
+    Tuareg.fuel_mass_integrator_1min_mg += ((VF32) mass_ug) / 1000.0;
+
+    //count
+    Tuareg.consumption_counter += 1;
+
+    //check if 1 minute of sampling has expired
+    if(Tuareg.consumption_counter >= 60)
+    {
+        //read trip data
+        trip_mm= Tuareg.trip_integrator_1min_mm;
+
+        /*
+        calculate fuel efficiency
+        eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
+        */
+        efficiency_mpg= divide_float((VF32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
+
+        //export data
+        Tuareg.fuel_eff_mpg= efficiency_mpg;
+
+        //reset counters
+        Tuareg.fuel_mass_integrator_1min_mg= 0;
+        Tuareg.trip_integrator_1min_mm= 0;
+        Tuareg.consumption_counter= 0;
+    }
+
 }
