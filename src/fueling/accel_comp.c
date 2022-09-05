@@ -159,9 +159,19 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         return;
     }
 
-    //process triggers
-    trig_MAP_accel= (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP);
-    trig_TPS_accel= (Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS);
+    //process accel triggers according to the given rpm threshold
+    if(Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_thres_rpm)
+    {
+        trig_MAP_accel= (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP_high);
+        trig_TPS_accel= (Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS_high);
+    }
+    else
+    {
+        trig_MAP_accel= (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP_low);
+        trig_TPS_accel= (Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS_low);
+    }
+
+    //process decel triggers
     trig_MAP_decel= (Tuareg.process.ddt_MAP <= Fueling_Setup.decel_comp_thres_MAP);
     trig_TPS_decel= (Tuareg.process.ddt_TPS <= Fueling_Setup.decel_comp_thres_TPS);
 
@@ -207,7 +217,7 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         /**
         scale compensation value to engine speed
 
-        -> rpm scaling is considered active when thres rpm is smaller then max rpm
+        -> rpm scaling is considered active when threshold rpm is smaller then max rpm
         */
         if((Fueling_Setup.accel_comp_scaling_max_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm))
         {

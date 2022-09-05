@@ -57,6 +57,7 @@ void reset_internal_data()
     reset_timing_output();
 
     Decoder.last_crank_rpm= 0;
+    Decoder.last_crank_acceleration= 0;
 }
 
 
@@ -198,6 +199,7 @@ void update_timing_data()
 
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
+        Decoder.last_crank_acceleration= 0;
 
         //save debug information
         #ifdef DECODER_TIMING_DEBUG
@@ -220,6 +222,7 @@ void update_timing_data()
 
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
+        Decoder.last_crank_acceleration= 0;
 
         //save debug information
         #ifdef DECODER_TIMING_DEBUG
@@ -246,8 +249,10 @@ void update_timing_data()
     {
         accel= divide_float(1000000.0 * ((VF32) rpm - (VF32) Decoder.last_crank_rpm), (VF32) period_us);
 
-        //export to output
-        Decoder.out.crank_acceleration= accel;
+        //apply the ema filter
+        Decoder.out.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);
+
+        //mark output data valid
         Decoder.out.flags.accel_valid= true;
     }
 

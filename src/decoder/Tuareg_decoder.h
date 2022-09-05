@@ -5,7 +5,7 @@
 
 
 
-#define DECODER_REQUIRED_CONFIG_VERSION 3
+#define DECODER_REQUIRED_CONFIG_VERSION 4
 
 
 /*********************************************************************************************************************************

@@ -64,6 +64,11 @@ typedef struct __attribute__ ((__packed__)) _Decoder_Setup_t {
     //minimal amount of correctly detected cam cycles to consider the phase information valid
     U8 cis_sync_thres;
 
+    /*
+    crank acceleration EMA filter coefficient
+    */
+    F32 accel_filter_coeff;
+
 } Decoder_Setup_t;
 
 

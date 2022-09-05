@@ -228,6 +228,22 @@ F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y)
     */
 
     /**
+    check X axis integrity
+    */
+    for(i=0; i < T3D_DATA_DIMENSION -2; i++)
+    {
+        xMin = fromTable->data.axisX[i];
+        xMax = fromTable->data.axisX[i+1];
+
+        if(xMin >= xMax)
+        {
+            Limp(TID_TABLE, STORAGE_LOC_T3D_X_NOT_STEADY);
+            return 0;
+        }
+    }
+
+
+    /**
     clip the requested X to fit the interval covered by this table
     (borrowing xM variables)
     */
@@ -334,6 +350,21 @@ F32 getValue_t3D(volatile t3D_t * fromTable, U32 X, U32 Y)
     /**
     Y handling
     */
+
+    /**
+    check Y axis integrity
+    */
+    for(i=0; i < T3D_DATA_DIMENSION -2; i++)
+    {
+        yMin = fromTable->data.axisY[i];
+        yMax = fromTable->data.axisY[i+1];
+
+        if(yMin >= yMax)
+        {
+            Limp(TID_TABLE, STORAGE_LOC_T3D_Y_NOT_STEADY);
+            return 0;
+        }
+    }
 
     /**
     clip the requested Y to fit the interval covered by this table

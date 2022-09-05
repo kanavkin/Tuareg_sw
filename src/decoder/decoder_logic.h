@@ -43,6 +43,9 @@ typedef struct {
     //crankshaft
     U32 last_crank_rpm;
 
+    //crank acceleration EMA filter
+    F32 last_crank_acceleration;
+
     //cylinder identification sensor
     decoder_cis_t cis;
 

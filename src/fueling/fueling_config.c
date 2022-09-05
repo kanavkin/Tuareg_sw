@@ -129,13 +129,25 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     printf_U(Port, Fueling_Setup.max_injector_duty_cycle_pct, NO_PAD);
 
 
-    //F32 accel_comp_thres_TPS
-    print(Port, "\r\nacceleration compensation turn on TPS rate (deg/s):");
-    printf_F32(Port, Fueling_Setup.accel_comp_thres_TPS);
+    //F32 accel_comp_thres_MAP_low
+    print(Port, "\r\nacceleration compensation turn on MAP rate -low- (kPa/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_MAP_low);
 
-    //F32 accel_comp_thres_MAP
-    print(Port, "\r\nacceleration compensation turn on MAP rate (kPa/s):");
-    printf_F32(Port, Fueling_Setup.accel_comp_thres_MAP);
+    //F32 accel_comp_thres_MAP_high
+    print(Port, "\r\nacceleration compensation turn on MAP rate -high- (kPa/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_MAP_high);
+
+    //F32 accel_comp_thres_TPS_low
+    print(Port, "\r\nacceleration compensation turn on TPS rate -low- (deg/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_TPS_low);
+
+    //F32 accel_comp_thres_TPS_high
+    print(Port, "\r\nacceleration compensation turn on TPS rate -high- (deg/s):");
+    printf_F32(Port, Fueling_Setup.accel_comp_thres_TPS_high);
+
+    //U16 accel_comp_thres_rpm
+    print(Port, "\r\nMAP/TPS rate switching threshold (rpm):");
+    printf_U(Port, Fueling_Setup.accel_comp_thres_rpm, NO_PAD);
 
     //F32 decel_comp_thres_TPS
     print(Port, "\r\ndeceleration compensation turn on TPS rate (deg/s):");
@@ -254,8 +266,10 @@ void send_Fueling_Setup(USART_TypeDef * Port)
 *
 * x-Axis -> rpm (no offset, no scaling)
 * y-Axis -> TPS angle in ° (no offset, no scaling)
-* z-Axis -> VE in % (no offset, no scaling)
+* z-Axis -> VE in % (no offset, scaling * 0,5)
 ***************************************************************************************************************************************************/
+
+const F32 cVeTableDivider= 2.0;
 
 exec_result_t load_VeTable_TPS()
 {
@@ -297,7 +311,7 @@ returns the volumetric efficiency in percent
 */
 F32 getValue_VeTable_TPS(U32 Rpm, F32 Tps_deg)
 {
-    return getValue_t3D(&VeTable_TPS, Rpm, Tps_deg);
+    return divide_float( getValue_t3D(&VeTable_TPS, Rpm, Tps_deg) , cVeTableDivider );
 }
 
 
@@ -307,8 +321,9 @@ F32 getValue_VeTable_TPS(U32 Rpm, F32 Tps_deg)
 *
 * x-Axis -> rpm (no offset, no scaling)
 * y-Axis -> MAP in kPa (no offset, no scaling)
-* z-Axis -> VE in % (no offset, no scaling)
+* z-Axis -> VE in % (no offset, scaling * 0,5)
 ***************************************************************************************************************************************************/
+
 
 exec_result_t load_VeTable_MAP()
 {
@@ -350,7 +365,7 @@ returns the volumetric efficiency in percent
 */
 F32 getValue_VeTable_MAP(U32 Rpm, F32 Map_kPa)
 {
-    return getValue_t3D(&VeTable_MAP, Rpm, Map_kPa);
+    return divide_float( getValue_t3D(&VeTable_MAP, Rpm, Map_kPa) , cVeTableDivider );
 }
 
 

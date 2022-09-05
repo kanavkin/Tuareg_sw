@@ -7,7 +7,7 @@
 #include "fueling_config.h"
 #include "Tuareg_fueling_controls.h"
 
-#define FUELING_REQUIRED_CONFIG_VERSION 7
+#define FUELING_REQUIRED_CONFIG_VERSION 8
 
 
 void init_Fueling();

@@ -48,8 +48,11 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 max_injector_duty_cycle_pct;
 
     //legacy AE
-    F32 accel_comp_thres_TPS;
-    F32 accel_comp_thres_MAP;
+    F32 accel_comp_thres_TPS_low;
+    F32 accel_comp_thres_TPS_high;
+    F32 accel_comp_thres_MAP_low;
+    F32 accel_comp_thres_MAP_high;
+    U16 accel_comp_thres_rpm;
     F32 decel_comp_thres_TPS;
     F32 decel_comp_thres_MAP;
 
@@ -68,7 +71,7 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
 
     //after start compensation
     U8 afterstart_comp_pct;
-    U8 afterstart_comp_cycles;
+    U16 afterstart_comp_cycles;
     U16 afterstart_thres_K;
 
     //VE base lookup parameters

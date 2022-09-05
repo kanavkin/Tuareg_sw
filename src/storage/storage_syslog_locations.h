@@ -12,6 +12,9 @@ typedef enum {
     STORAGE_EEPROM_MIN_LENGTH,
     STORAGE_EEPROM_MAX_LENGTH,
 
+    STORAGE_LOC_T3D_X_NOT_STEADY,
+    STORAGE_LOC_T3D_Y_NOT_STEADY,
+
     STORAGE_LOC_COUNT
 
 } Storage_sysloc_locations_t;

@@ -323,6 +323,24 @@ F32 calc_ema(F32 Alpha, F32 Last_value, F32 New_value)
 
 
 /**
+simplifies access to the exponential moving average filter
+*/
+F32 update_ema_filter(F32 Coeff, VF32 * pFilter, F32 Input)
+{
+    F32 filter_new;
+
+    //apply the ema function
+    filter_new= calc_ema(Coeff, *pFilter, Input);
+
+    //store the new filter value
+    *pFilter= filter_new;
+
+    return filter_new;
+}
+
+
+
+/**
 calculates d/dt
 result is in #/s
 */

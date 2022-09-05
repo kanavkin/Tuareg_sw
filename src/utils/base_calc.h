@@ -43,6 +43,8 @@ U32 floor_boctok(F32 Argument);
 U32 ceiling_boctok(F32 Argument);
 
 F32 calc_ema(F32 Alpha, F32 Last_value, F32 New_value);
+F32 update_ema_filter(F32 Coeff, VF32 * pFilter, F32 Input);
+
 F32 calc_derivative_s(F32 Last_Value, F32 New_Value, U32 Interval_us);
 
 

@@ -16,10 +16,10 @@
 
 //built in defaults
 const F32 cDefault_AFR_target= 14.7;
-const F32 cMin_AFR_target= 6.0;
-const F32 cMax_AFR_target= 20.0;
-const F32 cMin_VE_val= 10.0;
-const F32 cMax_VE_val= 120.0;
+const F32 cMin_AFR_target= 3.0;
+const F32 cMax_AFR_target= 30.0;
+const F32 cMin_VE_val= 0.0;
+const F32 cMax_VE_val= 125.0;
 const F32 cMax_fuel_rel_comp_pct= 100.0;
 const F32 cMin_fuel_rel_comp_pct= -50.0;
 const F32 cMax_fuel_abs_comp_ug= 10000.0;

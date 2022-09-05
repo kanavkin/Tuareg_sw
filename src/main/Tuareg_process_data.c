@@ -32,7 +32,6 @@ void Tuareg_update_process_data()
 
     //apply the ema filter
     filter= calc_ema(Tuareg_Setup.MAP_alpha, Process_memory.last_MAP_kPa, raw);
-    //filter= calc_ema(0.3, Process_memory.last_MAP_kPa, raw);
 
     //calculate MAP change rate
     derive=((period_us > 0) && (Tuareg.errors.sensor_MAP_error == false))? calc_derivative_s(Process_memory.last_MAP_kPa, filter, period_us): 0.0;
