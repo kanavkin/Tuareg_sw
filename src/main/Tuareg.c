@@ -202,14 +202,6 @@ void Tuareg_update()
 periodic update helper function - run inhibit
 ******************************************************************************************************************************/
 
-/**
-static const bool cCrashSensorTrigger_on_high= true;
-static const bool cRunSensorTrigger_on_high= true;
-static const bool cSidestandSensorTrigger_on_high= true;
-static const bool cHaltOnSidestand= true;
-
-U16 overheat_thres_K= 390;
-*/
 const U32 cOverheat_hist_K= 20;
 
 
@@ -360,7 +352,6 @@ void Tuareg_update_standby()
         (Tuareg.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
         (Tuareg.pDecoder->flags.standstill == false) &&
-        //(Tuareg.pDecoder->outputs.rpm_valid == true)  &&
         (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))
     {
         Tuareg.flags.cranking= true;

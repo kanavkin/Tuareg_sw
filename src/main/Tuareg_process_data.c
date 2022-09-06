@@ -33,12 +33,13 @@ void Tuareg_update_process_data()
     //apply the ema filter
     filter= calc_ema(Tuareg_Setup.MAP_alpha, Process_memory.last_MAP_kPa, raw);
 
-    //calculate MAP change rate
+    //calculate MAP change rate based on the PREVIOUS MAP value
     derive=((period_us > 0) && (Tuareg.errors.sensor_MAP_error == false))? calc_derivative_s(Process_memory.last_MAP_kPa, filter, period_us): 0.0;
 
     //export
     Process_memory.last_MAP_kPa= filter;
     Process_memory.last_ddt_MAP= derive;
+
     Tuareg.process.MAP_kPa= filter;
     Tuareg.process.ddt_MAP= derive;
 
@@ -50,12 +51,13 @@ void Tuareg_update_process_data()
     //apply the ema filter
     filter= calc_ema(Tuareg_Setup.TPS_alpha, Process_memory.last_TPS_deg, raw);
 
-    //calculate MAP change rate
+    //calculate TPS change rate based on the PREVIOUS TPS value
     derive=((period_us > 0) && (Tuareg.errors.sensor_TPS_error == false))? calc_derivative_s(Process_memory.last_TPS_deg, filter, period_us): 0.0;
 
     //export
     Process_memory.last_TPS_deg= filter;
     Process_memory.last_ddt_TPS= derive;
+
     Tuareg.process.TPS_deg= filter;
     Tuareg.process.ddt_TPS= derive;
 
@@ -72,21 +74,7 @@ void Tuareg_update_process_data()
 
 
     #ifdef TUAREG_LOAD_CODE
-    /*
-    At least one method to determine engine load is required to operate the engine
-
-    Hints:
-    - while booting all errors will be present
-    - non-running modes are not affected
-    - while cranking a static ignition profile and fueling is used
-
-    if((Tuareg.flags.cranking == false) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
-    {
-        //LIMP
-        Tuareg.flags.limited_op= true;
-    }
-
-    //load figures
+    //load figure
     Tuareg_update_load(&(Tuareg.process));
     */
     #else
@@ -135,7 +123,7 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
 
 
     //check preconditions
-    if((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
+    if(Tuareg.flags.limited_op == true)
     {
         pProcess->load_pct= TUAREG_DEFAULT_LOAD_PCT;
         return;
