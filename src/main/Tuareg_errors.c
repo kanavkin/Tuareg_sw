@@ -40,8 +40,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     //disable decoder
     disable_Decoder();
 
-    Syslog_Error(Id, Location);
-    Syslog_Error(TID_TUAREG, TUAREG_LOC_FATAL_ERROR);
+    Syslog_Fatal(Id, Location);
     log_Fault(Id, Location);
 
     #ifdef ERRORS_DEBUGMSG

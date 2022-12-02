@@ -18,7 +18,6 @@ typedef union
 
         U16 MAP_nTPS :1;
         U16 AFR_fallback :1;
-        U16 injection_begin_valid :1;
 
         U16 dry_cranking :1;
         U16 sequential_mode :1;
@@ -79,11 +78,14 @@ typedef struct _fueling_control_t {
 
     U32 injector1_interval_us;
     U32 injector2_interval_us;
+
+    /*
     U32 injector1_timing_us;
     U32 injector2_timing_us;
     engine_phase_t seq_injector2_begin_phase;
     engine_phase_t seq_injector1_begin_phase;
     crank_position_t injection_begin_pos;
+    */
 
     //status data
     fueling_control_flags_t flags;

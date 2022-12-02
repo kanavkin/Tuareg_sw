@@ -221,7 +221,11 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         */
         if((Fueling_Setup.accel_comp_scaling_max_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm))
         {
-            scaling= 1.0 - divide_F32(subtract_U32(Tuareg.pDecoder->crank_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm), subtract_U32(Fueling_Setup.accel_comp_scaling_max_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm));
+            scaling= 1.0 - divide_F32(
+                                      subtract_U32(Tuareg.pDecoder->crank_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm),
+                                      //divisor validated by precondition check
+                                      subtract_U32(Fueling_Setup.accel_comp_scaling_max_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm)
+                                      );
 
             if(scaling > 1.0)
             {
@@ -251,10 +255,11 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
         engine is decelerating
 
         -> lean out mixture if system condition allows this
+        -> the engine shall not stall because of the deceleration feature
 
         (this is a feature to save fuel, choose a rich mixture when limit operation strategy is active)
         */
-        if(Tuareg.flags.limited_op == false)
+        if((Tuareg.flags.limited_op == false) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.decel_min_rpm))
         {
             pTarget->flags.legacy_AE_active= true;
             pTarget->flags.legacy_AE_trig_MAP_accel= false;
@@ -322,7 +327,18 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
             }
 
         }
+        else if(pTarget->legacy_AE_ug < 0.0)
+        {
+            //deceleration feature active
 
+            //check if the engine is about to stall
+            if(Tuareg.pDecoder->crank_rpm < Fueling_Setup.decel_min_rpm)
+            {
+                //end compensation
+                disable_legacy_AE(pTarget);
+                return;
+            }
+        }
 
         //one compensation cycle has been consumed
         pTarget->legacy_AE_cycles_left -= 1;

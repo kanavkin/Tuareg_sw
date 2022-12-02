@@ -534,11 +534,6 @@ void cli_showPage(U32 Page)
             show_InjectorTimingTable(TS_PORT);
             break;
 
-        case INJ_PHASE_TABLE:
-
-            show_InjectorPhaseTable(TS_PORT);
-            break;
-
         case CRANKINGFUEL_TABLE:
 
             show_CrankingFuelTable(TS_PORT);

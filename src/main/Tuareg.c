@@ -17,7 +17,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.25 2022.09";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2022.09";
 
 
 /******************************************************************************************************************************
@@ -273,18 +273,6 @@ void Tuareg_update_limited_op()
     }
 
 
-    /**
-    limit_op is now set together with the error flags for
-
-    -tuareg_config_error
-    -decoder_config_error
-    -ignition_config_error
-    -fueling_config_error
-    -sensor_calibration_error
-    */
-
-
-
     /*
     At least one method to determine engine load is required to operate the engine
 
@@ -294,9 +282,18 @@ void Tuareg_update_limited_op()
     */
     if((Tuareg.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
-        //LIMP
-        Limp(TID_TUAREG, TUAREG_LOC_LIMP_TPSMAP_ERROR);
+        Fatal(TID_TUAREG, TUAREG_LOC_LOAD_ESTIMATION_ERROR);
     }
+
+
+    //from fueling controls:
+    if((Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.sensor_IAT_error == true) || (Tuareg.errors.sensor_VBAT_error == true))
+    {
+        //limit engine speed
+        Limp(TID_FUELING_CONTROLS, TUAREG_LOC_LIMP_SENSOR_ERROR);
+    }
+
+
 }
 
 
@@ -493,10 +490,13 @@ void Tuareg_update_trip()
 periodic helper function - output update interval: 1s
 called every second from systick timer
 ******************************************************************************************************************************/
+
+const F32 cMinFuelMassIntValueMg= 100.0;
+
 void Tuareg_update_consumption_data()
 {
-    VF32 rate_gps, efficiency_mpg;
-    VU32 trip_mm, mass_ug;
+    F32 rate_gps, efficiency_mpg;
+    U32 trip_mm, mass_ug;
 
     /*
     fuel flow rate
@@ -519,7 +519,7 @@ void Tuareg_update_consumption_data()
     */
 
     //add 1s consumption data
-    Tuareg.fuel_mass_integrator_1min_mg += ((VF32) mass_ug) / 1000.0;
+    Tuareg.fuel_mass_integrator_1min_mg += ((F32) mass_ug) / 1000.0;
 
     //count
     Tuareg.consumption_counter += 1;
@@ -530,11 +530,19 @@ void Tuareg_update_consumption_data()
         //read trip data
         trip_mm= Tuareg.trip_integrator_1min_mm;
 
-        /*
-        calculate fuel efficiency
-        eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
-        */
-        efficiency_mpg= divide_float((VF32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
+        //validate fuel_mass_integrator_1min_mg
+        if(Tuareg.fuel_mass_integrator_1min_mg > cMinFuelMassIntValueMg)
+        {
+            /*
+            calculate fuel efficiency
+            eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
+            */
+            efficiency_mpg= divide_float((F32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
+        }
+        else
+        {
+            efficiency_mpg= 0.0;
+        }
 
         //export data
         Tuareg.fuel_eff_mpg= efficiency_mpg;

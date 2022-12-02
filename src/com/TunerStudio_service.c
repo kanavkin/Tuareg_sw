@@ -396,12 +396,6 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
     printf_F32(TS_PORT, pControls->injector2_interval_us);
     printf_F32(TS_PORT, pControls->injector_deadtime_us);
 
-    print(TS_PORT, "\r\ninjector begin pos, timing 1/2, phase 1/2: ");
-    printf_crkpos(TS_PORT, pControls->injection_begin_pos);
-    printf_F32(TS_PORT, pControls->injector1_timing_us);
-    printf_F32(TS_PORT, pControls->injector2_timing_us);
-    printf_phase(TS_PORT, pControls->seq_injector1_begin_phase);
-    printf_phase(TS_PORT, pControls->seq_injector2_begin_phase);
 
     //status data
     print(TS_PORT, "\r\nflags\r\nvalid MAP_nTPS AFR_fallback inj_beg_valid: ");
@@ -410,8 +404,6 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
     UART_Tx(TS_PORT, (pControls->flags.MAP_nTPS? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pControls->flags.AFR_fallback? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pControls->flags.injection_begin_valid? '1' :'0'));
 
     print(TS_PORT, "\r\ndry_cranking sequential_mode injector_dc_clip: ");
     UART_Tx(TS_PORT, (pControls->flags.dry_cranking? '1' :'0'));

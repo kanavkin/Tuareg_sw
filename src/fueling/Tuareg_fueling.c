@@ -30,7 +30,7 @@
 /**
 crank position when the fueling controls shall be updated
 */
-const crank_position_t fueling_controls_update_pos= CRK_POSITION_B1;
+const crank_position_t c_fueling_controls_update_pos= CRK_POSITION_A2;
 
 
 /**
@@ -87,131 +87,127 @@ test result: ~61 us delay from signal edge B2 to injection begin
 */
 void Tuareg_fueling_update_crankpos_handler()
 {
-    volatile scheduler_activation_parameters_t scheduler_parameters;
+    scheduler_activation_parameters_t scheduler_parameters;
+    bool trigger_injector1= false, trigger_injector2= false;
 
     //collect diagnostic information
     fueling_diag_log_event(FDIAG_CRKPOSH_CALLS);
 
+
     /**
-    check vital preconditions
+    check if the crank is at the injection reference position -> injection begin
     */
-    if((Tuareg.flags.run_inhibit == true) || (Tuareg.fueling_controls.flags.valid == false))
+    if(Tuareg.pDecoder->crank_position == Fueling_Setup.injection_reference_pos)
     {
         //collect diagnostic information
-        fueling_diag_log_event(FDIAG_CRKPOSH_VIT_PRECOND_FAIL);
+        fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_POS);
 
-        //turn off injectors
-        set_injector1(ACTOR_UNPOWERED);
-        set_injector2(ACTOR_UNPOWERED);
-        scheduler_reset_channel(SCHEDULER_CH_FUEL1);
-        scheduler_reset_channel(SCHEDULER_CH_FUEL2);
+        //check vital preconditions
+        if((Tuareg.flags.run_inhibit == false) && (Tuareg.fueling_controls.flags.valid == true))
+        {
+            //check the commanded mode
+            if(Tuareg.fueling_controls.flags.sequential_mode == true)
+            {
+                //check if phase information is available
+                if(Tuareg.pDecoder->flags.phase_valid == true)
+                {
+                    //trigger injector 1 when the first cylinder is at the exhaust stroke
+                    trigger_injector1= (Tuareg.pDecoder->phase == PHASE_CYL1_EX);
 
-        //delete fueling controls
-        //replace by invalid_fueling_controls?
-        Tuareg_update_fueling_controls();
+                    //trigger injector 2 when the second cylinder is at the exhaust stroke
+                    //in an 180° engine this happens when the first cylinder is at the compression stroke
+                    trigger_injector1= !trigger_injector1;
+                }
+                else
+                {
+                    //no injection - collect diagnostic information only
+                    fueling_diag_log_event(FDIAG_CRKPOSH_SEQ_ERROR);
+                }
 
-        //nothing to do
-        return;
+            }
+            else
+            {
+                //batch mode - trigger all injectors
+                trigger_injector1= true;
+                trigger_injector2= true;
+            }
+
+
+            /*
+            prepare scheduler activation parameters
+            - first action is injection end -> turn off injector
+            - second action is N/A
+            - use 1 interval
+            - no realloc completion
+            - interval 1 -> injection interval
+            - interval 2 -> N/A
+            */
+            scheduler_parameters.flags.action1_power= false;
+            scheduler_parameters.flags.interval2_enabled= false;
+            scheduler_parameters.interval2_us= 0;
+            scheduler_parameters.flags.action2_power= false;
+            scheduler_parameters.flags.complete_cycle_realloc= false;
+
+
+            /**
+            injector #1
+            */
+            if(trigger_injector1 == true)
+            {
+                //trigger scheduler
+                scheduler_reset_channel(SCHEDULER_CH_FUEL1);
+                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_interval_us;
+                scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
+
+                //trigger actor
+                set_injector1(ACTOR_POWERED);
+
+                //register fuel mass injected
+                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+
+                //collect diagnostic information
+                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_1);
+            }
+
+
+            /**
+            injector #2
+            */
+            if(trigger_injector2 == true)
+            {
+                //trigger scheduler
+                scheduler_reset_channel(SCHEDULER_CH_FUEL2);
+                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
+                scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
+
+                //trigger actor
+                set_injector2(ACTOR_POWERED);
+
+                //register fuel mass injected
+                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+
+                //collect diagnostic information
+                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_2);
+            }
+        }
+        else
+        {
+            //collect diagnostic information
+            fueling_diag_log_event(FDIAG_CRKPOSH_VIT_PRECOND_FAIL);
+        }
     }
 
 
-    //check if fueling controls shall be updated
-    if(Tuareg.pDecoder->crank_position == fueling_controls_update_pos)
+    /**
+    check if fueling controls shall be updated
+    */
+    if(Tuareg.pDecoder->crank_position == c_fueling_controls_update_pos)
     {
         //update fueling controls
         Tuareg_update_fueling_controls();
     }
 
 
-    //check if the crank is at the injection begin position
-    if(Tuareg.pDecoder->crank_position == Tuareg.fueling_controls.injection_begin_pos)
-    {
-        //collect diagnostic information
-        fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_POS);
-
-        //check if sequential mode has been requested
-        if(Tuareg.fueling_controls.flags.sequential_mode == true)
-        {
-            //check if sufficient information for this mode is available
-            if(Tuareg.pDecoder->flags.phase_valid == false)
-            {
-                //collect diagnostic information
-                fueling_diag_log_event(FDIAG_CRKPOSH_SEQ_ERROR);
-
-                //early exit
-                return;
-            }
-
-            /**
-            sequential mode
-            */
-            scheduler_parameters.flags.action1_power= true;
-            scheduler_parameters.flags.action2_power= false;
-            scheduler_parameters.flags.interval2_enabled= true;
-            scheduler_parameters.flags.complete_cycle_realloc= false;
-
-            //injector #1
-            if(Tuareg.fueling_controls.seq_injector1_begin_phase == Tuareg.pDecoder->phase)
-            {
-                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_timing_us;
-                scheduler_parameters.interval2_us= Tuareg.fueling_controls.injector1_interval_us;
-                scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
-
-                //register fuel mass injected
-                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
-
-                //collect diagnostic information
-                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG1_SEQ);
-            }
-
-            //injector #2
-            if(Tuareg.fueling_controls.seq_injector2_begin_phase == Tuareg.pDecoder->phase)
-            {
-                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_timing_us;
-                scheduler_parameters.interval2_us= Tuareg.fueling_controls.injector2_interval_us;
-                scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
-
-                //register fuel mass injected
-                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
-
-                //collect diagnostic information
-                fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG2_SEQ);
-            }
-
-        }
-        else
-        {
-            /**
-            batch mode
-            --> immediate injection begin, scheduler controls injection end
-            */
-            scheduler_parameters.flags.action1_power= false;
-            scheduler_parameters.flags.action2_power= false;
-            scheduler_parameters.flags.interval2_enabled= false;
-            scheduler_parameters.flags.complete_cycle_realloc= false;
-            scheduler_parameters.interval2_us= 0;
-
-            //injector #1
-            scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_interval_us;
-            set_injector1(ACTOR_POWERED);
-            scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
-
-            //injector #2
-            scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
-            set_injector2(ACTOR_POWERED);
-            scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
-
-            //collect diagnostic information
-            fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_BATCH);
-        }
-
-        /**
-        register fuel mass injected
-        in sequential mode either injector #1 or #2 injects the full target fuel mass
-        in batch mode each injector injects half of the target fuel mass
-        */
-        Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
-    }
 }
 
 

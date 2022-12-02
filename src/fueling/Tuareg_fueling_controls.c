@@ -153,10 +153,11 @@ void Tuareg_update_fueling_controls()
         determine on which sensor input VE and AFR calculation shall be based
         */
 
-        if((Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.sensor_IAT_error == true))
+        if((Tuareg.errors.sensor_TPS_error == true) && (Tuareg.errors.sensor_MAP_error == true))
         {
-            //limit engine speed
-            Limp(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_SENSORS);
+            //no engine operation without a load figure
+            Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_SENSORS);
+            return;
         }
 
         //select MAP sensor for lower engine speeds if possible and for higher speeds if TPS has failed (but higher engine speed will be rejected by rev limiter); TPS for higher
@@ -225,53 +226,21 @@ void Tuareg_update_fueling_controls()
     update_injector_deadtime(pTarget);
 
 
-    //check if sequential mode has been requested
-    if(pTarget->flags.sequential_mode == true)
-    {
-        /**
-        injector intervals calculation based on the calculated target fuel mass
-        */
-        update_injector_intervals_sequential(pTarget);
-
-        /**
-        injection begin positions
-        */
-        update_injection_begin_sequential(pTarget);
-
-
-        //check if the calculation has succeeded
-        if(pTarget->flags.injection_begin_valid == true)
-        {
-            //fueling controls are ready
-            pTarget->flags.valid= true;
-
-            /*** exit here ***/
-            return;
-        }
-
-        /**
-        calculation of sequential parameters has failed obviously -> proceed in batch mode
-        */
-        pTarget->flags.sequential_mode= false;
-
-        Syslog_Error(TID_TUAREG_FUELING, FUELING_LOC_SEQUENTIAL_CALC_FAIL);
-    }
-
-
     /**
     injector intervals calculation based on the calculated target fuel mass
     */
-    update_injector_intervals_batch(pTarget);
+    if(pTarget->flags.sequential_mode == true)
+    {
+        update_injector_intervals_sequential(pTarget);
+    }
+    else
+    {
+        update_injector_intervals_batch(pTarget);
+    }
 
 
-    /**
-    injection begin positions
-    */
-    update_injection_begin_batch(pTarget);
-
-    //batch fueling controls are always valid
+    //success
     pTarget->flags.valid= true;
-
 }
 
 
@@ -303,12 +272,6 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
 
     pTarget->injector1_interval_us= 0;
     pTarget->injector2_interval_us= 0;
-    pTarget->injector1_timing_us= 0;
-    pTarget->injector2_timing_us= 0;
-
-    pTarget->seq_injector1_begin_phase= PHASE_UNDEFINED;
-    pTarget->seq_injector2_begin_phase= PHASE_UNDEFINED;
-    pTarget->injection_begin_pos= CRK_POSITION_UNDEFINED;
 
     pTarget->flags.all_flags= 0;
 }
@@ -331,6 +294,9 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
 *   calculation has to rely on the MAP and IAT values reported in process data
 *
 ****************************************************************************************************************************************/
+
+const F32 cMinChargeTempK= 200.0;
+
 void update_air_flow(volatile fueling_control_t * pTarget)
 {
     F32 charge_temp_K, charge_density, air_mass_ug;
@@ -342,9 +308,21 @@ void update_air_flow(volatile fueling_control_t * pTarget)
 /// TODO (oli#3#): coolant temperature and throttle shall affect the effective charge temperature calculation
 /// TODO (oli#3#): altitude shall affect the effective charge density calculation
     charge_temp_K= getValue_ChargeTempTable(Tuareg.process.IAT_K, Tuareg.process.CLT_K);
+
+    //validate parameter (DIV/0 protection)
+    if(charge_temp_K < cMinChargeTempK)
+    {
+        //limit engine speed
+        Limp(TID_FUELING_CONTROLS, FUELING_LOC_UPDAIRFLOW_CHRGTEMP_INVALID);
+
+        //use a safe value
+        charge_temp_K= Tuareg.process.IAT_K;
+    }
+
+    //export to controls
     pTarget->charge_temp_K= charge_temp_K;
 
-    //division by charge_temp_K needs DIV/0 protection
+    //calculate air density
     pTarget->air_density= divide_float(charge_density, charge_temp_K);
 
     //copy from base fuel mass
@@ -352,6 +330,7 @@ void update_air_flow(volatile fueling_control_t * pTarget)
     air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
 
     //update air mass flow rate
+    //period_us has already been validated in precondition check
     pTarget->air_flowrate_gps= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us);
 }
 
@@ -459,6 +438,7 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget)
     air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
 
     //base fuel mass [µg] := air mass [ug] / AFR [1]
+    //AFR_target has already been validated in get_AFR_target()
     base_fuel_mass_ug= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target);
 
     //export base fuel mass

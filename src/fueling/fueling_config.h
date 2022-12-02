@@ -63,6 +63,7 @@ typedef struct __attribute__ ((__packed__)) _Fueling_Setup_t {
     U8 cold_accel_pct;
 
     U16 decel_comp_ug;
+    U16 decel_min_rpm;
 
     U8 accel_comp_cycles;
     U8 decel_comp_cycles;
@@ -177,13 +178,6 @@ exec_result_t modify_CrankingFuelTable(U32 Offset, U32 Value);
 void send_CrankingFuelTable(USART_TypeDef * Port);
 F32 getValue_CrankingFuelTable(F32 CLT_K);
 
-//Injector injection end timing table - InjectorPhaseTable
-exec_result_t load_InjectorPhaseTable();
-exec_result_t store_InjectorPhaseTable();
-void show_InjectorPhaseTable(USART_TypeDef * Port);
-exec_result_t modify_InjectorPhaseTable(U32 Offset, U32 Value);
-void send_InjectorPhaseTable(USART_TypeDef * Port);
-F32 getValue_InjectorPhaseTable(U32 Rpm);
 
 //Barometric pressure correction - BAROtable
 exec_result_t load_BAROtable();

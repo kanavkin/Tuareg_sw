@@ -55,10 +55,14 @@ typedef struct _syslog_mgr_t {
 
     syslog_mgr_flags_t flags;
 
+    bool fatal_lock;
+
 } syslog_mgr_t;
 
 
 volatile syslog_mgr_flags_t * Syslog_init();
+
+void Syslog_Fatal(Tuareg_ID Src, U8 Location);
 
 void Syslog_Error(Tuareg_ID Src, U8 Location);
 void Syslog_Error_Datalog(Tuareg_ID Src, U8 Location, volatile datalog_entry_t * pPayload);

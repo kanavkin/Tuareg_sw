@@ -34,8 +34,6 @@ volatile t2D_t InjectorTimingTable;
 
 volatile t2D_t CrankingFuelTable;
 
-volatile t2D_t InjectorPhaseTable;
-
 volatile t2D_t BAROtable;
 
 volatile t3D_t ChargeTempTable;
@@ -70,8 +68,6 @@ exec_result_t load_Fueling_Config()
     ASSERT_EXEC_OK( load_InjectorTimingTable() );
 
     ASSERT_EXEC_OK( load_CrankingFuelTable() );
-
-    ASSERT_EXEC_OK( load_InjectorPhaseTable() );
 
     ASSERT_EXEC_OK( load_BAROtable() );
 
@@ -737,56 +733,6 @@ F32 getValue_CrankingFuelTable(F32 CLT_K)
 }
 
 
-
-/***************************************************************************************************************************************************
-*   Injection end target advance relative to Intake valve opening - InjectorPhaseTable
-*
-* x-Axis -> rpm (no offset, no scaling)
-* y-Axis -> Injection end target advance (no offset, no scaling)
-***************************************************************************************************************************************************/
-
-exec_result_t load_InjectorPhaseTable()
-{
-    return load_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
-}
-
-exec_result_t store_InjectorPhaseTable()
-{
-    return store_t2D_data(&(InjectorPhaseTable.data), EEPROM_FUELING_INJECTORPHASE_BASE);
-}
-
-
-void show_InjectorPhaseTable(USART_TypeDef * Port)
-{
-    print(Port, "\r\n\r\nInjector phase table:\r\n");
-
-    show_t2D_data(TS_PORT, &(InjectorPhaseTable.data));
-}
-
-
-exec_result_t modify_InjectorPhaseTable(U32 Offset, U32 Value)
-{
-    //modify_t2D_data provides offset range check!
-    return modify_t2D_data(&(InjectorPhaseTable.data), Offset, Value);
-}
-
-
-/**
-this function implements the TS interface binary config page read command for InjectorPhaseTable
-*/
-void send_InjectorPhaseTable(USART_TypeDef * Port)
-{
-    send_t2D_data(Port, &(InjectorPhaseTable.data));
-}
-
-
-/**
-returns the Injection end target advance
-*/
-F32 getValue_InjectorPhaseTable(U32 Rpm)
-{
-    return getValue_t2D(&InjectorPhaseTable, Rpm);
-}
 
 
 /***************************************************************************************************************************************************

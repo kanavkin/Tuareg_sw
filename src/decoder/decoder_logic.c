@@ -154,8 +154,8 @@ const U32 cDecoder_max_valid_rpm= 10000;
 
 void update_timing_data()
 {
-    VU32 period_us, rpm;
-    VF32 accel;
+    U32 period_us, rpm;
+    F32 accel;
 
     //set invalid output data, but keep last_crank_rpm
     reset_timing_output();
@@ -181,22 +181,12 @@ void update_timing_data()
         return;
     }
 
-
-    /**
-    block other irqs while timing data is not stable
-    **/
-//    __disable_irq();
-
-
     //the timer value after an reset in continuous mode reflects T360
     period_us= Decoder_hw.current_timer_value * Decoder_hw.timer_period_us;
 
     //check if the timer value can be a valid crank period
     if(period_us < cDecoder_min_valid_period)
     {
-        //exit with invalid outputs
-  //      __enable_irq();
-
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
         Decoder.last_crank_acceleration= 0;
@@ -209,18 +199,14 @@ void update_timing_data()
         return;
     }
 
-    //export valid crank period figure
-    Decoder.out.crank_period_us= period_us;
-    Decoder.out.flags.period_valid= true;
-
-    //calculate crank rpm based on the valid period figure
+    //calculate crank rpm based on the validated period
     rpm= calc_rpm(period_us);
 
     if((rpm < cDecoder_min_valid_rpm) || (rpm > cDecoder_max_valid_rpm))
     {
- //       __enable_irq();
-
-        //in the next cycle there will be no valid last_crank_rpm
+        //why period was valid?
+        Decoder.out.crank_period_us= 0;
+        Decoder.out.flags.period_valid= false;
         Decoder.last_crank_rpm= 0;
         Decoder.last_crank_acceleration= 0;
 
@@ -229,14 +215,18 @@ void update_timing_data()
         decoder_update_timing_debug();
         #endif // DECODER_TIMING_DEBUG
 
+        //log
+        Syslog_Error(TID_DECODER_LOGIC, DECODER_LOC_UPDTIM_RPM_INVALID);
+
         return;
     }
 
-    //export valid rpm figure
+    //export validated data
+    Decoder.out.crank_period_us= period_us;
+    Decoder.out.flags.period_valid= true;
     Decoder.out.crank_rpm= rpm;
     Decoder.out.flags.rpm_valid= true;
 
- //   __enable_irq();
 
     /**
     calculate the difference in rpm based on the former valid rpm figure
@@ -247,7 +237,8 @@ void update_timing_data()
     */
     if((Decoder.last_crank_rpm > cDecoder_min_valid_rpm) && (Decoder.last_crank_rpm < cDecoder_max_valid_rpm))
     {
-        accel= divide_float(1000000.0 * ((VF32) rpm - (VF32) Decoder.last_crank_rpm), (VF32) period_us);
+        //period_us has already been validated in precondition check
+        accel= divide_float(1000000.0 * ((F32) rpm - (F32) Decoder.last_crank_rpm), (F32) period_us);
 
         //apply the ema filter
         Decoder.out.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);
@@ -438,6 +429,9 @@ void decoder_crank_handler()
 
                         //notify high speed logger about error condition
                         highspeedlog_register_error();
+
+                        //log
+                        Syslog_Warning(TID_DECODER_LOGIC, DECODER_LOC_LOST_SYNC);
                     }
 
                     break;

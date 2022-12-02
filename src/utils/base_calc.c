@@ -2,7 +2,11 @@
 
 subject to refactoring:
 
-"safe" calculation means, that an argument error will lead to FATAL state (rather than NMI Irq)
+"safe" calculation means, that an argument error will lead to (diagnose friendly) FATAL state (rather than NMI Irq)
+
+***   but a safe calculation shall not silently fail ***
+
+-> the application has to check its arguments for plausibility
 
 "clip" calculation means that there are some tolerances
 
@@ -31,7 +35,11 @@ a given interval at a given rpm
 */
 U32 calc_rot_angle_deg(U32 Interval_us, U32 Period_us)
 {
-    VitalAssert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
+    if(Period_us == 0)
+    {
+        Fatal(TID_BASE_CALC, BASECALC_LOC_CALC_ROT_ANGLE_DEG_DIV0);
+        return 0;
+    }
 
     return (360 * Interval_us) / Period_us;
 }
@@ -42,7 +50,11 @@ calculate the rpm figure from rotational period
 */
 U32 calc_rpm(U32 Period_us)
 {
-    VitalAssert(Period_us > 0, TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
+    if(Period_us == 0)
+    {
+        Fatal(TID_BASE_CALC, BASECALC_LOC_CALC_RPM_DIV0);
+        return 0;
+    }
 
     return (60000000UL) / Period_us;
 }
@@ -121,6 +133,7 @@ U32 abs_delta_U32(U32 Val1, U32 Val2)
 /***************************************************************************************************************
 *   safe division
 *   this division functions will prevent the DIV0 crash
+*
 ****************************************************************************************************************/
 
 /**
@@ -130,7 +143,7 @@ U32 divide_U32(U32 Dividend, U32 Divisor)
 {
     if(Divisor == 0)
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VU32_DIV0);
         return 0;
     }
 
@@ -146,7 +159,7 @@ F32 divide_F32(U32 Dividend, U32 Divisor)
 
     if(Divisor == 0)
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_DIVIDE_VF32_DIV0);
         return 0.0;
     }
 
@@ -155,7 +168,7 @@ F32 divide_F32(U32 Dividend, U32 Divisor)
 
 
 /**
-safe float division
+float -> float division
 */
 F32 divide_float(F32 Dividend, F32 Divisor)
 {
@@ -164,7 +177,7 @@ F32 divide_float(F32 Dividend, F32 Divisor)
 
     if(Divisor == 0.0)
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
         return 0.0;
     }
 
@@ -265,21 +278,17 @@ solves the linear equation y = mx + n
 */
 F32 solve_linear(F32 Y, F32 M, F32 N)
 {
-    VF32 inverse;
+    F32 inverse;
 
 
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
 
-    VitalAssert(M != 0.0, TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
-
-/*
     if(M == 0.0)
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_SOLVE_LINEAR_ARGS);
         return 0.0;
     }
-*/
 
     #pragma GCC diagnostic pop
 
@@ -298,20 +307,10 @@ F32 calc_ema(F32 Alpha, F32 Last_value, F32 New_value)
 {
     F32 ema;
 
-/*
-    using bogus arguments will not lead to hard fault
-    fatal state will prevent setting proper values through tuner studio
-    wrong values will lead to wrong results
-    sw shall be robust
-
-    Assert(Alpha >= 0.0, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
-    Assert(Alpha < 1.01, TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
-*/
-
     //check alpha range
     if((Alpha < 0) || (Alpha > 1.0))
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_EMA_ARGS);
         return New_value;
     }
 
@@ -348,20 +347,17 @@ F32 calc_derivative_s(F32 Last_Value, F32 New_Value, U32 Interval_us)
 {
     F32 diff, deriv;
 
-    VitalAssert(Interval_us > 0, TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
-
-/*
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
 
-    if(Interval_us <= 0.0)
+    if(Interval_us == 0)
     {
-        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
+        Fatal(TID_BASE_CALC, BASECALC_LOC_DERIVATIVE_ARGS);
         return 0.0;
     }
 
     #pragma GCC diagnostic pop
-*/
+
 
     //calculate the current change rate and scale to a one second interval
     diff= 1000000 * (New_Value - Last_Value);
@@ -500,10 +496,9 @@ U32 calc_pow_U32(U32 Base, U32 Exp)
 }
 
 
-/**********************
+/********************************************
 float absolute value as integer
-
-*/
+*********************************************/
 U32 abs_F32(F32 Arg)
 {
     if(Arg < 0.0)

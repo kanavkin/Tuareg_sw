@@ -89,10 +89,6 @@ void ts_readPage(U32 Page)
             send_InjectorTimingTable(TS_PORT);
             break;
 
-        case INJ_PHASE_TABLE:
-            send_InjectorPhaseTable(TS_PORT);
-            break;
-
         case CRANKINGFUEL_TABLE:
             send_CrankingFuelTable(TS_PORT);
             break;
@@ -388,20 +384,6 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_InjectorTimingTable(Offset, Value);
             break;
 
-        case INJ_PHASE_TABLE:
-
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
-            {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
-                #endif // TS_DEBUG
-                return result;
-            }
-
-            result= modify_InjectorPhaseTable(Offset, Value);
-            break;
 
         case CRANKINGFUEL_TABLE:
 
@@ -583,16 +565,6 @@ exec_result_t ts_burnPage(U32 Page)
         case INJ_TIMING_TABLE:
 
             result= store_InjectorTimingTable();
-            break;
-
-        case INJ_PHASE_TABLE:
-
-            result= store_InjectorPhaseTable();
-            break;
-
-        case CRANKINGFUEL_TABLE:
-
-            result= store_CrankingFuelTable();
             break;
 
         case BAROCORR_TABLE:

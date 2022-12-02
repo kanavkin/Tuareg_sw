@@ -20,6 +20,9 @@ const U32 cSyslog_size= sizeof(Syslog);
 
 volatile syslog_mgr_flags_t * Syslog_init()
 {
+    //reset fatal lock
+    Syslog_Mgr.fatal_lock= false;
+
     clear_syslog();
 
     return &(Syslog_Mgr.flags);
@@ -29,6 +32,14 @@ volatile syslog_mgr_flags_t * Syslog_init()
 void clear_syslog()
 {
     U32 i;
+
+    /**
+    keep system crash information
+    */
+    if(Syslog_Mgr.fatal_lock == true)
+    {
+        return;
+    }
 
     Syslog_Mgr.Msg_E_ptr= SYSLOG_LENGTH -1;
     Syslog_Mgr.Msg_ptr= 0;
@@ -72,6 +83,31 @@ void Syslog_Error(Tuareg_ID Src, U8 Location)
     Syslog_Mgr.Msg_E_ptr= subtract_U32(Syslog_Mgr.Msg_E_ptr, 1);
 
     Syslog_Mgr.flags.syslog_new_entry= true;
+}
+
+
+#define SYSLOG_FATAL_INDEX 0
+
+void Syslog_Fatal(Tuareg_ID Src, U8 Location)
+{
+    if(Syslog_Mgr.fatal_lock == false)
+    {
+        //get timestamp
+        Syslog[SYSLOG_FATAL_INDEX].timestamp= Tuareg.pTimer->system_time;
+
+        //save log message
+        Syslog[SYSLOG_FATAL_INDEX].src= Src;
+        Syslog[SYSLOG_FATAL_INDEX].location= Location | (1<< SYSLOG_LOC_BIT_E) | (1<< SYSLOG_LOC_BIT_W);
+
+        //no datalog entry
+        Syslog[SYSLOG_FATAL_INDEX].datalog= 0;
+
+        //notify
+        Syslog_Mgr.flags.syslog_new_entry= true;
+
+        //lock fatal entry
+        Syslog_Mgr.fatal_lock= true;
+    }
 }
 
 void Syslog_Error_Datalog(Tuareg_ID Src, U8 Location, volatile datalog_entry_t * pPayload)
@@ -300,7 +336,11 @@ void show_syslog(USART_TypeDef * Port)
             print(Port, "] ");
 
             //type
-            if( getBit_BF8(SYSLOG_LOC_BIT_E, Syslog[msg].location))
+            if( getBit_BF8(SYSLOG_LOC_BIT_E | SYSLOG_LOC_BIT_W, Syslog[msg].location))
+            {
+                print(Port, "FF");
+            }
+            else if( getBit_BF8(SYSLOG_LOC_BIT_E, Syslog[msg].location) )
             {
                 print(Port, "EE");
             }
