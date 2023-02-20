@@ -1,21 +1,38 @@
-
-
+/*
+#include "map.h"
 #include "table.h"
+#include "ctrlset.h"
 #include "eeprom.h"
 #include "eeprom_layout.h"
+*/
 
 #include "Tuareg.h"
 
+/*
 #include "uart.h"
 #include "uart_printf.h"
 #include "conversion.h"
+*/
 
 
-///Tuareg main configuration page
+
+/**
+Tuareg main configuration page
+*/
 volatile Tuareg_Setup_t Tuareg_Setup;
 
 volatile U8 * const pTuareg_Setup_data= (volatile U8 *) &Tuareg_Setup;
 const U32 cTuareg_Setup_size= sizeof(Tuareg_Setup);
+
+
+/**
+Tuareg main control sets
+*/
+volatile ctrlset_t Control_MAP;
+volatile ctrlset_t Control_TPS;
+//volatile ctrlset_t Control_TPS_LIMP;
+
+
 
 //tach table
 volatile t2D_t TachTable;

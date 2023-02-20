@@ -23,8 +23,12 @@
 #include "systick_timer.h"
 
 #include "eeprom.h"
+#include "eeprom_layout.h"
 #include "process_table.h"
 #include "table.h"
+#include "map.h"
+#include "mapset.h"
+#include "ctrlset.h"
 
 #include "highspeed_loggers.h"
 #include "syslog.h"

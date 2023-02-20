@@ -26,7 +26,6 @@ typedef struct __attribute__ ((__packed__)) _mapset_codomains_t {
 
 /**
 map set interpolation request transfer object
-- internal interface -
 */
 typedef struct _mapset_req_t {
 
@@ -43,45 +42,6 @@ typedef struct _mapset_req_t {
 
 
 
-/****************************************************************
-user API
-
-the user sees only the map object and performs the
-
-basic operations
-- map_get()
-- map_load()
-- map_store()
-- map_modify()
-
-to it
-****************************************************************/
-
-typedef struct _mapset_t {
-
-    //first part - to be stored in eeprom
-    volatile map_domain_t Dom;
-    volatile mapset_codomains_t Cods;
-
-    //second part - dynamic data
-    volatile map_cache_t Cache;
-
-} mapset_t;
-
-
-//maps
-exec_result_t map_get(volatile map_t *  pMap, F32 X, F32 Y, VF32 * pResult);
-
-exec_result_t map_load(volatile map_t * pMap, U32 BaseAddress);
-exec_result_t map_store(volatile map_t * pMap, U32 BaseAddress);
-
-exec_result_t map_modify(volatile map_t * pMap, U32 Offset, U32 Value);
-
-void send_map(USART_TypeDef * pPort, volatile map_t * pMap);
-void show_map(USART_TypeDef * pPort, volatile map_t * pMap);
-
-
-//map sets
 exec_result_t mapset_get(volatile mapset_t * pSet, volatile mapset_req_t * pReq);
 
 

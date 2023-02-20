@@ -414,7 +414,9 @@ exec_result_t map_modify(volatile map_t * pMap, U32 Offset, U32 Value)
 
 /****************************************************************************************************************************************************
 *
-* print 3D map in human readable form
+* print 3D map axes in human readable form
+*
+* worker function
 *
 * assuming that the title has already been printed
 * assuming fixed table dimension of cMap_dimension
@@ -425,7 +427,7 @@ exec_result_t map_modify(volatile map_t * pMap, U32 Offset, U32 Value)
 * orientation (order from low to high) of Y-axis: top to bottom
 * orientation (order from low to high) of X-axis: left to right
 ****************************************************************************************************************************************************/
-void show_map(USART_TypeDef * pPort, volatile map_t * pMap)
+void map_show_axes(USART_TypeDef * pPort, volatile map_domain_t * pDom, volatile map_codomain_t * pCod)
 {
     U32 row, column;
 
@@ -433,8 +435,7 @@ void show_map(USART_TypeDef * pPort, volatile map_t * pMap)
     for (row= 0; row < cMap_dimension; row++)
     {
         // Y value for this row
-        //printf_U(pPort, pTableData->axisY[cMap_dimension -1 - row], PAD_5);
-        printf_U(pPort, pMap.Dom->axisY[cMap_dimension -1 - row], PAD_5);
+        printf_U(pPort, pDom->axisY[cMap_dimension -1 - row], PAD_5);
 
         //separator
         print(pPort, " . ");
@@ -442,7 +443,7 @@ void show_map(USART_TypeDef * pPort, volatile map_t * pMap)
         // Z values of this row, printing from left to right Z[y][0..15]
         for (column = 0; column < cMap_dimension; column++)
         {
-            printf_U(pPort, pMap.Cod->axisZ[cMap_dimension -1 - row][column], PAD_3);
+            printf_U(pPort, pCod->axisZ[cMap_dimension -1 - row][column], PAD_3);
             print(pPort, "  ");
         }
 
@@ -456,11 +457,22 @@ void show_map(USART_TypeDef * pPort, volatile map_t * pMap)
     // X-axis
     for (column = 0; column < cMap_dimension; column++)
     {
-        printf_U(pPort, pMap.Dom->axisX[column], PAD_5);
+        printf_U(pPort, pDom->axisX[column], PAD_5);
     }
 
     print(pPort, "\r\n");
+}
 
+
+/****************************************************************************************************************************************************
+*
+* print 3D map in human readable form
+*
+* user access function
+****************************************************************************************************************************************************/
+void map_show(USART_TypeDef * pPort, volatile map_t * pMap)
+{
+    map_show_axes(pPort, pMap->Dom, pMap->Cod);
 }
 
 
@@ -471,7 +483,7 @@ void show_map(USART_TypeDef * pPort, volatile map_t * pMap)
 *
 * data will be sent "as is" (no scaling, offset, etc ...)
 ****************************************************************************************************************************************************/
-void send_map(USART_TypeDef * pPort, volatile map_t * pMap)
+void map_send(USART_TypeDef * pPort, volatile map_t * pMap)
 {
     volatile U8 * const pData= (volatile U8 *) pMap;
 
