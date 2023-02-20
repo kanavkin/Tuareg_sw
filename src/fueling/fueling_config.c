@@ -216,17 +216,17 @@ void show_Fueling_Setup(USART_TypeDef * Port)
     //features
     print(Port, "\r\nfeature enabled features: AE-legacyAE-sequential-WUE-ASE-seq-dry: ");
 
-    UART_Tx(TS_PORT, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.legacy_AE_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.WUE_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.ASE_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Fueling_Setup.features.dry_cranking_enabled? '1' :'0'));
+    UART_Tx(Port, (Fueling_Setup.features.load_transient_comp_enabled? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Fueling_Setup.features.legacy_AE_enabled? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Fueling_Setup.features.sequential_mode_enabled? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Fueling_Setup.features.WUE_enabled? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Fueling_Setup.features.ASE_enabled? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Fueling_Setup.features.dry_cranking_enabled? '1' :'0'));
 
 }
 
@@ -282,7 +282,7 @@ void show_VeTable_TPS(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling VE Table (TPS based):\r\n");
 
-    show_t3D_data(TS_PORT, &(VeTable_TPS.data));
+    show_t3D_data(Port, &(VeTable_TPS.data));
 }
 
 
@@ -336,7 +336,7 @@ void show_VeTable_MAP(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling VE Table (MAP based):\r\n");
 
-    show_t3D_data(TS_PORT, &(VeTable_MAP.data));
+    show_t3D_data(Port, &(VeTable_MAP.data));
 }
 
 
@@ -392,7 +392,7 @@ void show_AfrTable_MAP(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling AFR Table (MAP based):\r\n");
 
-    show_t3D_data(TS_PORT, &(AfrTable_MAP.data));
+    show_t3D_data(Port, &(AfrTable_MAP.data));
 }
 
 
@@ -446,7 +446,7 @@ void show_AfrTable_TPS(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling AFR target Table (TPS based) -  x10\r\n");
 
-    show_t3D_data(TS_PORT, &(AfrTable_TPS.data));
+    show_t3D_data(Port, &(AfrTable_TPS.data));
 }
 
 
@@ -498,7 +498,7 @@ void show_AccelCompTableTPS(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling acceleration compensation table (TPS):\r\n");
 
-    show_t2D_data(TS_PORT, &(AccelCompTableTPS.data));
+    show_t2D_data(Port, &(AccelCompTableTPS.data));
 }
 
 
@@ -549,7 +549,7 @@ void show_AccelCompTableMAP(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nFueling acceleration compensation table (MAP):\r\n");
 
-    show_t2D_data(TS_PORT, &(AccelCompTableMAP.data));
+    show_t2D_data(Port, &(AccelCompTableMAP.data));
 }
 
 
@@ -602,7 +602,7 @@ void show_WarmUpCompTable(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nWarm up Enrichment table (%):\r\n");
 
-    show_t2D_data(TS_PORT, &(WarmUpCompTable.data));
+    show_t2D_data(Port, &(WarmUpCompTable.data));
 }
 
 
@@ -653,7 +653,7 @@ void show_InjectorTimingTable(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nInjector timing table:\r\n");
 
-    show_t2D_data(TS_PORT, &(InjectorTimingTable.data));
+    show_t2D_data(Port, &(InjectorTimingTable.data));
 }
 
 
@@ -702,9 +702,9 @@ exec_result_t store_CrankingFuelTable()
 
 void show_CrankingFuelTable(USART_TypeDef * Port)
 {
-    print(Port, "\r\n\r\nWarm up Enrichment table (%):\r\n");
+    print(Port, "\r\n\r\nCranking fuel table (%):\r\n");
 
-    show_t2D_data(TS_PORT, &(CrankingFuelTable.data));
+    show_t2D_data(Port, &(CrankingFuelTable.data));
 }
 
 
@@ -760,7 +760,7 @@ void show_BAROtable(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nBARO correction table:\r\n");
 
-    show_t2D_data(TS_PORT, &(BAROtable.data));
+    show_t2D_data(Port, &(BAROtable.data));
 }
 
 
@@ -818,7 +818,7 @@ void show_ChargeTempTable(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\ncharge temperature table (K):\r\n");
 
-    show_t3D_data(TS_PORT, &(ChargeTempTable.data));
+    show_t3D_data(Port, &(ChargeTempTable.data));
 }
 
 

@@ -349,11 +349,23 @@
 		<Unit filename="../../src/stm32_libs/stm32f4xx/spl/stm32f4xx_usart.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../src/storage/ctrlset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/ctrlset.h" />
 		<Unit filename="../../src/storage/eeprom.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/storage/eeprom.h" />
 		<Unit filename="../../src/storage/eeprom_layout.h" />
+		<Unit filename="../../src/storage/map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/map.h" />
+		<Unit filename="../../src/storage/mapset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/storage/mapset.h" />
 		<Unit filename="../../src/storage/storage_syslog_locations.h" />
 		<Unit filename="../../src/storage/table.c">
 			<Option compilerVar="CC" />

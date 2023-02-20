@@ -501,11 +501,11 @@ float absolute value as integer
 *********************************************/
 U32 abs_F32(F32 Arg)
 {
-    if(Arg < 0.0)
+    if(Arg < 0.0001)
     {
         return (U32) -Arg;
     }
-    else if(Arg > 0.0)
+    else if(Arg > 0.0001)
     {
         return (U32) Arg;
     }
@@ -514,4 +514,11 @@ U32 abs_F32(F32 Arg)
         return 0;
     }
 }
+
+/*
+bool equal_F32(F32 A, F32 B, F32 Epsilon)
+{
+    return fabs(A - B) <= Epsilon;
+}
+*/
 

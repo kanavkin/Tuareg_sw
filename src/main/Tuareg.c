@@ -115,6 +115,62 @@ void Tuareg_Init()
 
     //last init action
     Tuareg.errors.init_not_completed= false;
+
+
+
+    #warning test action
+    F32 Arg_Min= 250.0f;
+    F32 Arg_Max= 350.0f;
+    F32 Arg= Arg_Min;
+    U32 Step, MaxSteps= 1200;
+    F32 Inc= 0.1f;
+
+    F32 Result;
+
+
+    show_CrankingFuelTable(DEBUG_PORT);
+
+    print(DEBUG_PORT, "\r\n\r\nBeginning Cranking fuel table lookup test\r\n");
+
+    DebugMsg_Info("Argument, Result:\r\n");
+
+    for(Step=0; Step < MaxSteps; Step++)
+    {
+
+        if(Step & 0x00000001)
+        {
+            Arg= Arg_Max - Step * Inc;
+        }
+        else
+        {
+            Arg= Arg_Min + Step * Inc;
+        }
+
+        Result= getValue_CrankingFuelTable(Arg);
+        //Arg += Inc;
+
+        printf_F32(DEBUG_PORT, Arg);
+        print(DEBUG_PORT, " -> ");
+        printf_F32(DEBUG_PORT, Result);
+        UART_Tx(DEBUG_PORT, '\r');
+        UART_Tx(DEBUG_PORT, '\n');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
