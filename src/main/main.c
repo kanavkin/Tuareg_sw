@@ -251,8 +251,10 @@ void EXTI2_IRQHandler(void)
     Tuareg.decoder_watchdog= 0;
 
 
-    //check if process data shall be updated
-    if(Tuareg.pDecoder->crank_position == PROCESS_DATA_UPDATE_POSITION)
+    /**
+    ignition and fueling controls calculation requires the process data to be updated
+    */
+    if(Tuareg.pDecoder->crank_position == cTuareg_controls_update_pos)
     {
         //update process table with data supplied by decoder
         update_process_table( (Tuareg.pDecoder->flags.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );

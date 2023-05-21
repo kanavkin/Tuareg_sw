@@ -51,16 +51,11 @@
 
 extern const char Tuareg_Version [];
 
-
 /**
 
 REQ_UNITS_DEF:
 every variable shall provide the name of the corresponding physical unit, if applicable
 e.g. timeout_us, map_kPa, ...
-
-REQ_CONFIGVALUE_DEF:
-every module that uses configuration in eeprom storage shall provide default values for all essential items
-to allow limp home operation if eeprom has been corrupted
 
 */
 
@@ -82,6 +77,15 @@ typedef struct _tuareg_flags_t {
     U32 rev_limiter :1;
     U32 standby :1;
     U32 cranking :1;
+    U32 idle :1;
+
+    //additional functions
+    U32 fuel_pump_priming :1;
+    U32 mil :1;
+
+    //control strategy
+    U32 MAP_nTPS_ctrl :1;
+    U32 sequential_ctrl :1;
 
     /*
     vital actor power state
@@ -92,14 +96,6 @@ typedef struct _tuareg_flags_t {
     U32 fuel_injector_2 :1;
     U32 fuel_pump :1;
 
-    U32 mil :1;
-
-    /*
-    ignition irq source flags
-    */
-    U32 ign1_irq_flag :1;
-    U32 ign2_irq_flag :1;
-
     /*
     logging state
     */
@@ -107,8 +103,6 @@ typedef struct _tuareg_flags_t {
     U32 datalog_update :1;
     U32 highspeedlog_update :1;
 
-    //additional functions
-    U32 fuel_pump_priming :1;
 
 } tuareg_flags_t;
 
@@ -153,62 +147,60 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    volatile decoder_output_t * pDecoder;
+    decoder_output_t * pDecoder;
 
     /**
     access to core components
     */
-    volatile systick_t * pTimer;
+    systick_t * pTimer;
+
+
+    /**
+    Tuareg global controls
+    */
+    Tuareg_controls_t Tuareg_controls;
+
+
 
     /**
     current ignition timing and alignment
     */
-    volatile ignition_controls_t ignition_controls;
+    ignition_controls_t ignition_controls;
 
     /**
     current fueling parameters
     */
-    volatile fueling_control_t fueling_controls;
+    fueling_control_t fueling_controls;
 
     /**
     state machine and health status
     */
-    volatile tuareg_flags_t flags;
-    volatile tuareg_errors_t errors;
+    tuareg_flags_t flags;
+    tuareg_errors_t errors;
 
     /**
     process data
     */
-    volatile process_data_t process;
+    process_data_t process;
 
     /**
     syslog
     */
-    volatile syslog_mgr_flags_t * pSyslog;
+    syslog_mgr_flags_t * pSyslog;
 
     /**
     high speed log
     */
-    volatile highspeedlog_flags_t * pHighspeedlog;
+    highspeedlog_flags_t * pHighspeedlog;
 
     /*
     system watchdogs
     */
-    VU32 decoder_watchdog;
-    VU32 injector1_watchdog_ms;
-    VU32 injector2_watchdog_ms;
-    VU32 engine_runtime;
+    U32 decoder_watchdog;
+    U32 injector1_watchdog_ms;
+    U32 injector2_watchdog_ms;
 
-    /*
-    fuel consumption data
-    */
-    VU32 fuel_mass_integrator_1s_ug;
-    VF32 fuel_mass_integrator_1min_mg;
-    VU32 trip_integrator_1min_mm;
-    VU32 consumption_counter;
 
-    VF32 fuel_rate_gps;
-    VF32 fuel_eff_mpg;
 
     /*
     fuel pump priming
@@ -228,13 +220,19 @@ void Tuareg_Init();
 void Tuareg_load_config();
 
 
-void Tuareg_update();
+void Tuareg_update_systick();
 void Tuareg_update_run_inhibit();
 void Tuareg_update_limited_op();
 void Tuareg_update_rev_limiter();
 void Tuareg_update_standby();
+void Tuareg_update_cranking();
+
+void Tuareg_update_runtime();
+
 void Tuareg_update_fuel_pump_control();
+
 void Tuareg_update_consumption_data();
+
 void Tuareg_update_trip();
 
 

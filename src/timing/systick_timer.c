@@ -139,7 +139,7 @@ void SysTick_Handler(void)
             }
 
             //update system state based on the data gathered
-            Tuareg_update();
+            Tuareg_update_systick();
         }
     }
 

@@ -256,6 +256,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_config.h" />
+		<Unit filename="../../src/main/Tuareg_controls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_controls.h" />
 		<Unit filename="../../src/main/Tuareg_diag.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -362,10 +366,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/storage/map.h" />
-		<Unit filename="../../src/storage/mapset.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/storage/mapset.h" />
 		<Unit filename="../../src/storage/storage_syslog_locations.h" />
 		<Unit filename="../../src/storage/table.c">
 			<Option compilerVar="CC" />

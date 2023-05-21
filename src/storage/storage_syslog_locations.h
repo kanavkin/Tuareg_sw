@@ -21,6 +21,8 @@ typedef enum {
     STORAGE_LOC_MAP_Z_DATA_ERROR,
     STORAGE_LOC_MAP_LOGIC_ERROR,
 
+    STORAGE_LOC_CTRLSET_GET_DESIGNATOR_ERROR,
+
     STORAGE_LOC_COUNT
 
 } Storage_sysloc_locations_t;

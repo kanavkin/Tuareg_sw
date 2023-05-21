@@ -104,6 +104,8 @@ void Tuareg_update_fueling_controls()
     //log diag data
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
+
+/// TODO (oli#1#02/28/23): move config check to end of config load
     //vital precondition: fueling config data available
     VitalAssert(Tuareg.errors.fueling_config_error == false, TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_VITAL_PRECOND);
 
@@ -114,9 +116,10 @@ void Tuareg_update_fueling_controls()
         -> no functional impact on ignition!
     */
     if( (Tuareg.errors.fatal_error == true) ||
-        (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) || (Tuareg.flags.rev_limiter == true) ||
+        (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) ||
         ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.engine_runtime == 0))) ||
-        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true)) )
+        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
+       )
     {
         //reset controls
         invalid_fueling_controls(pTarget);

@@ -18,9 +18,40 @@
 
 
 
-const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + sizeof(mapset_codomains_t);
+const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + MAPSET_COUNT * sizeof(mapset_codomains_t);
 
 
+
+/****************************************************************************************************************************************************
+*
+* load engine control data from the given map set of the control set
+*
+****************************************************************************************************************************************************/
+exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pReq);
+{
+    volatile map_domain_req_t DomainRequest;
+
+
+    //check if a valid map set has been commanded
+    VitalAssert(pReq->Set < MAPSET_COUNT, TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_DESIGNATOR_ERROR);
+
+
+    //look up X domain
+    ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pMap->Cache), &DomainRequest, pReq->X) );
+
+    //look up Y domain
+    ASSERT_EXEC_OK( map_get_domain_y(&(pSet->Dom), &(pMap->Cache), &DomainRequest, pReq->Y) );
+
+
+    //perform interpolation - ignition advance
+    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].IgnAdv), &(pReq->IgnAdv)) );
+
+    //perform interpolation - volumetric efficiency
+    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].VE), &(pReq->VE)) );
+
+    //perform interpolation - AFR target
+    return map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].AFRtgt), &(pReq->AFRtgt));
+}
 
 
 
@@ -80,12 +111,24 @@ exec_result_t ctrlset_modify(volatile ctrlset_t * pCtrl, U32 Offset, U32 Value)
 ****************************************************************************************************************************************************/
 void ctrlset_show(USART_TypeDef * pPort, volatile ctrlset_t * pCtrl)
 {
-    print(pPort, "\r\nIgnAdv:\r\n");
-    map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods->IgnAdv);
-    print(pPort, "\r\nVE:\r\n");
-    map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods->VE);
-    print(pPort, "\r\nAFR target:\r\n");
-    map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods->AFRtgt);
+    U32 i;
+
+    for(i=0; i < MAPSET_COUNT; i++)
+    {
+
+        print(pPort, "\r\nSet: ");
+        printf_U(pPort, i, NO_TRAIL);
+
+        print(pPort, "\r\nIgnAdv:\r\n");
+        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->IgnAdv);
+
+        print(pPort, "\r\nVE:\r\n");
+        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->VE);
+
+        print(pPort, "\r\nAFR target:\r\n");
+        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->AFRtgt);
+
+    }
 }
 
 

@@ -182,3 +182,119 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
 
 
 
+
+/******************************************************************************************************************************
+periodic helper function - output update interval: 1s
+called every second from systick timer
+******************************************************************************************************************************/
+
+const F32 cMinFuelMassIntValueMg= 100.0;
+
+void Tuareg_update_consumption_data()
+{
+    F32 rate_gps, efficiency_mpg;
+    U32 trip_mm, mass_ug;
+
+    /*
+    fuel flow rate
+    */
+
+    //read fueling data
+    mass_ug= Tuareg.fuel_mass_integrator_1s_ug;
+
+    //calculate fuel flow rate
+    rate_gps= divide_F32(mass_ug, 1000000);
+
+    //export fuel flow data
+    Tuareg.fuel_rate_gps= rate_gps;
+
+    //reset integrator
+    Tuareg.fuel_mass_integrator_1s_ug= 0;
+
+    /*
+    fuel efficiency calculation
+    */
+
+    //add 1s consumption data
+    Tuareg.fuel_mass_integrator_1min_mg += ((F32) mass_ug) / 1000.0;
+
+    //count
+    Tuareg.consumption_counter += 1;
+
+    //check if 1 minute of sampling has expired
+    if(Tuareg.consumption_counter >= 60)
+    {
+        //read trip data
+        trip_mm= Tuareg.trip_integrator_1min_mm;
+
+        //validate fuel_mass_integrator_1min_mg
+        if(Tuareg.fuel_mass_integrator_1min_mg > cMinFuelMassIntValueMg)
+        {
+            /*
+            calculate fuel efficiency
+            eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
+            */
+            efficiency_mpg= divide_float((F32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
+        }
+        else
+        {
+            efficiency_mpg= 0.0;
+        }
+
+        //export data
+        Tuareg.fuel_eff_mpg= efficiency_mpg;
+
+        //reset counters
+        Tuareg.fuel_mass_integrator_1min_mg= 0;
+        Tuareg.trip_integrator_1min_mm= 0;
+        Tuareg.consumption_counter= 0;
+    }
+
+}
+
+
+
+/******************************************************************************************************************************
+periodic helper function - integrate the trip based on the estimated ground speed
+called every 100 ms from systick timer (10 Hz)
+******************************************************************************************************************************/
+void Tuareg_update_trip()
+{
+    VU32 trip_increment_mm;
+
+    const F32 cConv= 100.0 / 3.6;
+    //s := v * t
+    //v_mps = v_kmh / 3.6
+    //v_mmps = 100* v_kmh / 3.6
+    trip_increment_mm= Tuareg.process.speed_kmh * cConv;
+
+    Tuareg.trip_integrator_1min_mm += trip_increment_mm;
+
+}
+
+
+void Tuareg_update_runtime()
+{
+    /**
+    the engine run time counter begins to count when leaving crank mode
+    */
+    if( (Tuareg.flags.run_inhibit == false) &&
+        (Tuareg.flags.standby == false) &&
+        (Tuareg.pDecoder->flags.standstill == false) &&
+        (Tuareg.flags.cranking == false) &&
+        (Tuareg.pDecoder->flags.rpm_valid == true))
+    {
+        //engine is running -> increment runtime counter
+        if(Tuareg.engine_runtime < cU32max)
+        {
+            Tuareg.engine_runtime += 1;
+        }
+    }
+    else
+    {
+        Tuareg.engine_runtime= 0;
+    }
+}
+
+
+

@@ -20,6 +20,14 @@
 const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2022.09";
 
 
+
+/**
+crank position when the process data and controls shall be updated
+*/
+const crank_position_t cTuareg_controls_update_pos= CRK_POSITION_B2;
+
+
+
 /******************************************************************************************************************************
 INIT
 ******************************************************************************************************************************/
@@ -116,61 +124,6 @@ void Tuareg_Init()
     //last init action
     Tuareg.errors.init_not_completed= false;
 
-
-
-    #warning test action
-    F32 Arg_Min= 250.0f;
-    F32 Arg_Max= 350.0f;
-    F32 Arg= Arg_Min;
-    U32 Step, MaxSteps= 1200;
-    F32 Inc= 0.1f;
-
-    F32 Result;
-
-
-    show_CrankingFuelTable(DEBUG_PORT);
-
-    print(DEBUG_PORT, "\r\n\r\nBeginning Cranking fuel table lookup test\r\n");
-
-    DebugMsg_Info("Argument, Result:\r\n");
-
-    for(Step=0; Step < MaxSteps; Step++)
-    {
-
-        if(Step & 0x00000001)
-        {
-            Arg= Arg_Max - Step * Inc;
-        }
-        else
-        {
-            Arg= Arg_Min + Step * Inc;
-        }
-
-        Result= getValue_CrankingFuelTable(Arg);
-        //Arg += Inc;
-
-        printf_F32(DEBUG_PORT, Arg);
-        print(DEBUG_PORT, " -> ");
-        printf_F32(DEBUG_PORT, Result);
-        UART_Tx(DEBUG_PORT, '\r');
-        UART_Tx(DEBUG_PORT, '\n');
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -219,7 +172,7 @@ this function will be executed in all system states and has to take care of all 
 
 const U32 cInj_wd_thres_ms= 200;
 
-void Tuareg_update()
+void Tuareg_update_systick()
 {
     //injector watchdog check
     if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
@@ -227,12 +180,13 @@ void Tuareg_update()
         Fatal(TID_MAIN, TUAREG_LOC_INJ_WATCHDOG);
     }
 
-
     //update control flags
-    Tuareg_update_run_inhibit();
     Tuareg_update_limited_op();
     Tuareg_update_rev_limiter();
+    Tuareg_update_run_inhibit();
     Tuareg_update_standby();
+    Tuareg_update_cranking();
+    Tuareg_update_runtime();
 
     //fuel pump
     Tuareg_update_fuel_pump_control();
@@ -306,6 +260,7 @@ void Tuareg_update_run_inhibit()
                                 ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.CrashSensor_override == false)) ||
                                 ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Sidestand_override == false)) ||
                                 (Tuareg.flags.overheat_detected == true) ||
+                                (Tuareg.flags.rev_limiter == true) ||
                                 (Tuareg.flags.service_mode == true) );
 }
 
@@ -396,7 +351,11 @@ void Tuareg_update_standby()
     will be set after decoder watchdog timeout and reset with the first decoder position update
     */
     Tuareg.flags.standby= ((Tuareg.decoder_watchdog > Tuareg_Setup.standby_timeout_s) && (Tuareg.flags.run_inhibit == false))? true : false;
+}
 
+
+void Tuareg_update_cranking()
+{
     /**
     cranking flag
     will be set only when the engine has not been running and the crank is moving slowly
@@ -417,28 +376,8 @@ void Tuareg_update_standby()
     {
         Tuareg.flags.cranking= false;
     }
-
-
-    /**
-    the engine run time counter begins to count when leaving crank mode
-    */
-    if( (Tuareg.flags.run_inhibit == false) &&
-        (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->flags.standstill == false) &&
-        (Tuareg.flags.cranking == false) &&
-        (Tuareg.pDecoder->flags.rpm_valid == true))
-    {
-        //engine is running -> increment runtime counter
-        if(Tuareg.engine_runtime < cU32max)
-        {
-            Tuareg.engine_runtime += 1;
-        }
-    }
-    else
-    {
-        Tuareg.engine_runtime= 0;
-    }
 }
+
 
 
 /******************************************************************************************************************************
@@ -490,6 +429,7 @@ void Tuareg_update_fuel_pump_control()
 }
 
 
+
 /******************************************************************************************************************************
 keep vital actors deactivated
 
@@ -522,91 +462,4 @@ void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump)
 }
 
 
-/******************************************************************************************************************************
-periodic helper function - integrate the trip based on the estimated ground speed
-called every 100 ms from systick timer (10 Hz)
-******************************************************************************************************************************/
-void Tuareg_update_trip()
-{
-    VU32 trip_increment_mm;
 
-    const F32 cConv= 100.0 / 3.6;
-    //s := v * t
-    //v_mps = v_kmh / 3.6
-    //v_mmps = 100* v_kmh / 3.6
-    trip_increment_mm= Tuareg.process.speed_kmh * cConv;
-
-    Tuareg.trip_integrator_1min_mm += trip_increment_mm;
-
-}
-
-
-
-/******************************************************************************************************************************
-periodic helper function - output update interval: 1s
-called every second from systick timer
-******************************************************************************************************************************/
-
-const F32 cMinFuelMassIntValueMg= 100.0;
-
-void Tuareg_update_consumption_data()
-{
-    F32 rate_gps, efficiency_mpg;
-    U32 trip_mm, mass_ug;
-
-    /*
-    fuel flow rate
-    */
-
-    //read fueling data
-    mass_ug= Tuareg.fuel_mass_integrator_1s_ug;
-
-    //calculate fuel flow rate
-    rate_gps= divide_F32(mass_ug, 1000000);
-
-    //export fuel flow data
-    Tuareg.fuel_rate_gps= rate_gps;
-
-    //reset integrator
-    Tuareg.fuel_mass_integrator_1s_ug= 0;
-
-    /*
-    fuel efficiency calculation
-    */
-
-    //add 1s consumption data
-    Tuareg.fuel_mass_integrator_1min_mg += ((F32) mass_ug) / 1000.0;
-
-    //count
-    Tuareg.consumption_counter += 1;
-
-    //check if 1 minute of sampling has expired
-    if(Tuareg.consumption_counter >= 60)
-    {
-        //read trip data
-        trip_mm= Tuareg.trip_integrator_1min_mm;
-
-        //validate fuel_mass_integrator_1min_mg
-        if(Tuareg.fuel_mass_integrator_1min_mg > cMinFuelMassIntValueMg)
-        {
-            /*
-            calculate fuel efficiency
-            eff := s / m = m * 10⁻3 / g * 10⁻3 = trip_mm / mass_mg
-            */
-            efficiency_mpg= divide_float((F32) trip_mm, Tuareg.fuel_mass_integrator_1min_mg);
-        }
-        else
-        {
-            efficiency_mpg= 0.0;
-        }
-
-        //export data
-        Tuareg.fuel_eff_mpg= efficiency_mpg;
-
-        //reset counters
-        Tuareg.fuel_mass_integrator_1min_mg= 0;
-        Tuareg.trip_integrator_1min_mm= 0;
-        Tuareg.consumption_counter= 0;
-    }
-
-}

@@ -29,6 +29,20 @@ typedef struct _process_data_t {
     F32 load_pct;
     F32 IVT_K;
 
+
+    U32 engine_runtime;
+
+    /*
+    fuel consumption data
+    */
+    U32 fuel_mass_integrator_1s_ug;
+    F32 fuel_mass_integrator_1min_mg;
+    U32 trip_integrator_1min_mm;
+    U32 consumption_counter;
+
+    F32 fuel_rate_gps;
+    F32 fuel_eff_mpg;
+
 } process_data_t;
 
 
