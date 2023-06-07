@@ -86,19 +86,21 @@ void decoder_stop_timer()
 }
 
 
-void update_crank_noisefilter()
+void update_crank_noisefilter(U32 timer_base)
 {
-    VU32 timer_buffer;
+    U32 compare;
 
-    //save timer value
-    timer_buffer= TIM9->CNT;
-    timer_buffer += Decoder_Setup.crank_noise_filter;
+    //calculate the compare value
+    compare= timer_base + Decoder_Setup.crank_noise_filter;
+
+    //check if this value can be reached in this timer cycle
+    VitalAssert( compare < 0xFFFF, TID_DECODER_HW, DECODER_LOC_HW_UPD_CRANK_NOISEF_ARG);
 
     //disable compare 1 event
     TIM9->DIER &= ~TIM_DIER_CC1IE;
 
     //enable output compare for exti
-    TIM9->CCR1= (U16) timer_buffer;
+    TIM9->CCR1= (U16) compare;
 
     //clear the pending flag
     TIM9->SR = (U16) ~TIM_FLAG_CC1;
@@ -108,19 +110,21 @@ void update_crank_noisefilter()
 }
 
 
-void update_cam_noisefilter()
+void update_cam_noisefilter(U32 timer_base)
 {
-    VU32 timer_buffer;
+    U32 compare;
 
-    //save timer value
-    timer_buffer= TIM9->CNT;
-    timer_buffer += Decoder_Setup.cam_noise_filter;
+    //calculate the compare value
+    compare= timer_base + Decoder_Setup.crank_noise_filter;
+
+    //check if this value can be reached in this timer cycle
+    VitalAssert( compare < 0xFFFF, TID_DECODER_HW, DECODER_LOC_HW_UPD_CAM_NOISEF_ARG);
 
     //disable compare 2 event
     TIM9->DIER &= ~TIM_DIER_CC2IE;
 
     //enable output compare for exti
-    TIM9->CCR2= (U16) timer_buffer;
+    TIM9->CCR2= (U16) compare;
 
     //clear the pending flag
     TIM9->SR = (U16) ~TIM_FLAG_CC2;
@@ -251,6 +255,7 @@ void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing)
                 {
                     //invalid usage
                     set_crank_pickup_sensing_disabled();
+                    Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CRANK_SENSING_INVERT);
                 }
 
                 break;
@@ -258,6 +263,7 @@ void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing)
     default:
                 //invalid usage
                 set_crank_pickup_sensing_disabled();
+                Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CRANK_SENSING_ARG);
                 break;
     }
 
@@ -294,14 +300,16 @@ void decoder_set_cis_sensing(decoder_sensing_t sensing)
                 else
                 {
                     //invalid usage
-                    set_crank_pickup_sensing_disabled();
+                    set_cis_sensing_disabled();
+                    Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CAM_SENSING_INVERT);
                 }
 
                 break;
 
     default:
                 //invalid usage
-                set_crank_pickup_sensing_disabled();
+                set_cis_sensing_disabled();
+                Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CAM_SENSING_ARG);
                 break;
     }
 
@@ -349,7 +357,7 @@ void init_decoder_hw()
     SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
     SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
 
-    //configure EXTI polaries, but keep irqs masked for now
+    //configure EXTI polarity, but keep irqs masked for now
     decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
     decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
 
@@ -392,6 +400,11 @@ U32 decoder_get_timestamp()
     return TIM9->CNT;
 }
 
+void decoder_reset_timestamp()
+{
+    TIM9->CNT= (U16) 0;
+}
+
 
 void decoder_set_timer_continuous_mode_on()
 {
@@ -432,6 +445,7 @@ void disable_decoder_hw()
     //disable cis irq
     NVIC_DisableIRQ(EXTI1_IRQn);
     decoder_mask_cis_irq();
+
     set_cis_sensing_disabled();
 
     //disable timer 9 compare 1 irq
@@ -456,7 +470,7 @@ void EXTI0_IRQHandler(void)
 //    __disable_irq();
 
     //save timer value
-    timer_buffer= TIM9->CNT;
+    timer_buffer= decoder_get_timestamp();
 
     //clear the pending flag after saving timer value to minimize measurement delay
     EXTI->PR= EXTI_Line0;
@@ -464,23 +478,32 @@ void EXTI0_IRQHandler(void)
     //reset decoder timer only if commanded
     if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
     {
-        TIM9->CNT= (U16) 0;
+        //reset timer
+        decoder_reset_timestamp();
+
+
         Decoder_hw.captured_positions_cont= 1;
+
+        //use the known timer value as the source for noise filter calculation to prevent race conditions
+        update_crank_noisefilter(0);
+
+        //request has been processed
+        Decoder_hw.state.timer_reset_req= false;
     }
     else
     {
         //counter continues counting
         Decoder_hw.captured_positions_cont += 1;
-    }
 
-    Decoder_hw.state.timer_reset_req= false;
+        //use the known timer value as the source for noise filter calculation to prevent race conditions
+        update_crank_noisefilter(timer_buffer);
+    }
 
     //update the continuous timer value
     Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
     Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
     Decoder_hw.current_timer_value= timer_buffer;
 
-    update_crank_noisefilter();
 
     //diagnostics
     decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);

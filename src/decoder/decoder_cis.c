@@ -151,6 +151,8 @@ called from decoder_hw module when the corresponding EXTI has been triggered
 ******************************************************************************************************************************/
 void decoder_cis_handler()
 {
+    U32 timestamp;
+
     //precondition check
     if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder.cis.flags.failure == true))
     {
@@ -162,10 +164,13 @@ void decoder_cis_handler()
         return;
     }
 
+    //get decoder timestamp
+    timestamp= decoder_get_timestamp();
+
     //save decoder timestamp with respect to cam sensing
     if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_begin_sensing)
     {
-        Decoder.cis.lobe_begin_timestamp= decoder_get_timestamp();
+        Decoder.cis.lobe_begin_timestamp= timestamp;
         Decoder.cis.flags.lobe_begin_detected= true;
 
         //invert cam sensing
@@ -180,7 +185,7 @@ void decoder_cis_handler()
     }
     else if(Decoder_hw.cis_sensing == Decoder_Setup.lobe_end_sensing)
     {
-        Decoder.cis.lobe_end_timestamp= decoder_get_timestamp();
+        Decoder.cis.lobe_end_timestamp= timestamp;
         Decoder.cis.flags.lobe_end_detected= true;
 
         /*
@@ -207,7 +212,8 @@ void decoder_cis_handler()
     }
 
 
-    update_cam_noisefilter();
+    //update cis noise filter
+    update_cam_noisefilter(timestamp);
 }
 
 
