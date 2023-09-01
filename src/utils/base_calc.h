@@ -13,7 +13,7 @@ U32 abs_delta_U32(U32 Val1, U32 Val2);
 
 U32 divide_U32(U32 Dividend, U32 Divisor);
 F32 divide_F32(U32 Dividend, U32 Divisor);
-F32 divide_float(F32 Dividend, F32 Divisor);
+exec_result_t divide_float(F32 Dividend, F32 Divisor, VF32 * pResult);
 
 crank_position_t crank_position_after(crank_position_t Position);
 engine_phase_t opposite_phase(engine_phase_t Phase_in);

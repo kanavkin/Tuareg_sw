@@ -70,6 +70,7 @@
 			<Add directory="../../src/dash" />
 			<Add directory="../../src/com" />
 			<Add directory="../../src" />
+			<Add directory="../../src/config" />
 		</Compiler>
 		<Linker>
 			<Add option="-T$(PROJECT_DIR)../../src/stm32_libs/stm32f4xx/linker_scripts/stm32f410_f128_r32.ld -specs=nano.specs" />
@@ -123,6 +124,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/com/uart_printf.h" />
+		<Unit filename="../../src/config/Tuareg_control_sets.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/config/Tuareg_control_sets.h" />
 		<Unit filename="../../src/dash/Tuareg_dash.c">
 			<Option compilerVar="CC" />
 		</Unit>

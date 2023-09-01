@@ -98,7 +98,7 @@ void ts_debug_features(U32 FeatureID)
 
         case 'fl':
 
-            if(Tuareg_console.cli_permissions.faultlog_permission == true)
+            if(Tuareg_console.cli_permissions.faultlog_clear == true)
             {
                 Erase_Fault_Log();
             }
@@ -398,10 +398,10 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
 
 
     //status data
-    print(TS_PORT, "\r\nflags\r\nvalid MAP_nTPS AFR_fallback inj_beg_valid: ");
+    print(TS_PORT, "\r\nflags\r\nvalid SPD AFR_fallback inj_beg_valid: ");
     UART_Tx(TS_PORT, (pControls->flags.valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pControls->flags.MAP_nTPS? '1' :'0'));
+    UART_Tx(TS_PORT, (pControls->flags.SPD? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pControls->flags.AFR_fallback? '1' :'0'));
 

@@ -17,6 +17,7 @@
 #include "Tuareg_console.h"
 #include "Tuareg_dash.h"
 #include "Tuareg_service_functions.h"
+#include "Tuareg_controls.h"
 
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
@@ -42,6 +43,9 @@
 
 #include "conversion.h"
 
+#include "ctrlset.h"
+#include "Tuareg_control_sets.h"
+
 
 #define TUAREG_REQUIRED_CONFIG_VERSION 6
 
@@ -50,6 +54,8 @@
 
 
 extern const char Tuareg_Version [];
+
+extern const crank_position_t cTuareg_controls_update_pos;
 
 /**
 
@@ -77,15 +83,10 @@ typedef struct _tuareg_flags_t {
     U32 rev_limiter :1;
     U32 standby :1;
     U32 cranking :1;
-    U32 idle :1;
 
     //additional functions
     U32 fuel_pump_priming :1;
     U32 mil :1;
-
-    //control strategy
-    U32 MAP_nTPS_ctrl :1;
-    U32 sequential_ctrl :1;
 
     /*
     vital actor power state
@@ -109,30 +110,30 @@ typedef struct _tuareg_flags_t {
 
 typedef struct _tuareg_errors_t {
 
-    VU32 fatal_error :1;
+    U32 fatal_error :1;
 
-    VU32 decoder_config_error :1;
-    VU32 ignition_config_error :1;
-    VU32 tuareg_config_error :1;
-    VU32 fueling_config_error :1;
-    VU32 sensor_calibration_error :1;
+    U32 decoder_config_error :1;
+    U32 ignition_config_error :1;
+    U32 tuareg_config_error :1;
+    U32 fueling_config_error :1;
+    U32 sensor_calibration_error :1;
 
-    VU32 sensor_O2_error :1;
-    VU32 sensor_TPS_error :1;
-    VU32 sensor_IAT_error :1;
-    VU32 sensor_CLT_error :1;
-    VU32 sensor_VBAT_error :1;
-    VU32 sensor_KNOCK_error :1;
-    VU32 sensor_BARO_error :1;
-    VU32 sensor_GEAR_error :1;
-    VU32 sensor_MAP_error :1;
-    VU32 sensor_CIS_error :1;
+    U32 sensor_O2_error :1;
+    U32 sensor_TPS_error :1;
+    U32 sensor_IAT_error :1;
+    U32 sensor_CLT_error :1;
+    U32 sensor_VBAT_error :1;
+    U32 sensor_KNOCK_error :1;
+    U32 sensor_BARO_error :1;
+    U32 sensor_GEAR_error :1;
+    U32 sensor_MAP_error :1;
+    U32 sensor_CIS_error :1;
 
     //init state
-    VU32 init_not_completed :1;
+    U32 init_not_completed :1;
 
     //fault log
-    VU32 fault_log_error :1;
+    U32 fault_log_error :1;
 
 } tuareg_errors_t;
 
@@ -156,11 +157,9 @@ typedef struct _Tuareg_t {
 
 
     /**
-    Tuareg global controls
+    Tuareg strategy control
     */
     Tuareg_controls_t Tuareg_controls;
-
-
 
     /**
     current ignition timing and alignment
@@ -200,12 +199,10 @@ typedef struct _Tuareg_t {
     U32 injector1_watchdog_ms;
     U32 injector2_watchdog_ms;
 
-
-
     /*
     fuel pump priming
     */
-    VU32 fuel_pump_priming_remain_s;
+    U32 fuel_pump_priming_remain_s;
 
 } Tuareg_t;
 

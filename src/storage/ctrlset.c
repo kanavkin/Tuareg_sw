@@ -18,7 +18,7 @@
 
 
 
-const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + MAPSET_COUNT * sizeof(mapset_codomains_t);
+const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + sizeof(mapset_codomains_t);
 
 
 
@@ -26,31 +26,62 @@ const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + MAPSET_COUNT * sizeof(ma
 *
 * load engine control data from the given map set of the control set
 *
+*  Ignition Advance Table
+** x-Axis -> rpm (no offset, no scaling)
+** y-Axis -> TPS angle in ° (no offset, no scaling)
+** z-Axis -> advance angle in ° BTDC (no offset, no scaling)
+*
+*  Fueling VE Table
+** x-Axis -> rpm (no offset, no scaling)
+** y-Axis -> TPS angle in ° (no offset, no scaling)
+** z-Axis -> VE in % (no offset, table values are multiplied by 2)
+*
+*  Fueling AFR Table
+*
+** x-Axis -> rpm (no offset, no scaling)
+** y-Axis -> MAP in kPa (no offset, no scaling)
+** z-Axis -> target AFR (no offset, table values are multiplied by 10)
+*
+*
 ****************************************************************************************************************************************************/
-exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pReq);
+exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pReq)
 {
     volatile map_domain_req_t DomainRequest;
 
+    const F32 cVeDivider= 2.0;
+    const F32 cAfrDivider= 10.0;
 
-    //check if a valid map set has been commanded
-    VitalAssert(pReq->Set < MAPSET_COUNT, TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_DESIGNATOR_ERROR);
+    F32 ADV_raw, VE_raw, AFR_raw;
 
+    //mark the outputs invalid first
+    pReq->valid= false;
 
     //look up X domain
-    ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pMap->Cache), &DomainRequest, pReq->X) );
+    ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->X) );
 
     //look up Y domain
-    ASSERT_EXEC_OK( map_get_domain_y(&(pSet->Dom), &(pMap->Cache), &DomainRequest, pReq->Y) );
+    ASSERT_EXEC_OK( map_get_domain_y(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->Y) );
 
 
     //perform interpolation - ignition advance
-    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].IgnAdv), &(pReq->IgnAdv)) );
+    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.IgnAdv), &ADV_raw) );
 
     //perform interpolation - volumetric efficiency
-    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].VE), &(pReq->VE)) );
+    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.VE), &VE_raw ) );
 
     //perform interpolation - AFR target
-    return map_interpolate(&DomainRequest, &(pSet.Cods[pReq->Set].AFRtgt), &(pReq->AFRtgt));
+    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.AFRtgt), &AFR_raw) );
+
+
+    //export outputs
+    /// review: division is safe for constant dividers defined here
+    pReq->IgnAdv= ADV_raw;
+    pReq->VE= VE_raw / cVeDivider;
+    pReq->AFRtgt= AFR_raw / cAfrDivider;
+    pReq->valid= true;
+
+
+    return EXEC_OK;
 }
 
 
@@ -58,14 +89,22 @@ exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pR
 
 /****************************************************************************************************************************************************
 *
-* Load control set static data from EEPROM
+* Load control set config data from EEPROM
+* reset table cache
 *
 ****************************************************************************************************************************************************/
 exec_result_t ctrlset_load(volatile ctrlset_t * pCtrl, U32 BaseAddress)
 {
     volatile U8 * const pData= (volatile U8 *) pCtrl;
 
-    return Eeprom_load_data(BaseAddress, pData, cCtrlSet_storage_size);
+    //load config data
+    ASSERT_EXEC_OK( Eeprom_load_data(BaseAddress, pData, cCtrlSet_storage_size) );
+
+    //reset cache
+    pCtrl->Cache.last_Xmax_index= 0;
+    pCtrl->Cache.last_Ymax_index= 0;
+
+    return EXEC_OK;
 }
 
 
@@ -111,24 +150,16 @@ exec_result_t ctrlset_modify(volatile ctrlset_t * pCtrl, U32 Offset, U32 Value)
 ****************************************************************************************************************************************************/
 void ctrlset_show(USART_TypeDef * pPort, volatile ctrlset_t * pCtrl)
 {
-    U32 i;
+    print(pPort, "\r\nIgnAdv:\r\n");
 
-    for(i=0; i < MAPSET_COUNT; i++)
-    {
+    map_show_axes(pPort, &(pCtrl->Dom), &(pCtrl->Cods.IgnAdv) );
 
-        print(pPort, "\r\nSet: ");
-        printf_U(pPort, i, NO_TRAIL);
+    print(pPort, "\r\nVE:\r\n");
+    map_show_axes(pPort, &(pCtrl->Dom), &(pCtrl->Cods.VE) );
 
-        print(pPort, "\r\nIgnAdv:\r\n");
-        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->IgnAdv);
+    print(pPort, "\r\nAFR target:\r\n");
+    map_show_axes(pPort, &(pCtrl->Dom), &(pCtrl->Cods.AFRtgt) );
 
-        print(pPort, "\r\nVE:\r\n");
-        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->VE);
-
-        print(pPort, "\r\nAFR target:\r\n");
-        map_show_axes(pPort, pCtrl->Dom, pCtrl.Cods[i]->AFRtgt);
-
-    }
 }
 
 

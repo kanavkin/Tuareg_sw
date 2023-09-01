@@ -65,13 +65,6 @@ void show_Ignition_Setup();
 exec_result_t modify_Ignition_Setup(U32 Offset, U32 Value);
 void send_Ignition_Setup(USART_TypeDef * Port);
 
-// Ignition Advance Table (TPS)
-exec_result_t store_ignAdvTable_TPS();
-void show_ignAdvTable_TPS(USART_TypeDef * Port);
-exec_result_t modify_ignAdvTable_TPS(U32 Offset, U32 Value);
-void send_ignAdvTable_TPS(USART_TypeDef * Port);
-U32 getValue_ignAdvTable_TPS(U32 Rpm, F32 TPS);
-
 
 //Ignition Dwell time table - ignDwellTable
 exec_result_t store_ignDwellTable();

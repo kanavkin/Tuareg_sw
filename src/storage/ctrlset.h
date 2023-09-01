@@ -9,6 +9,9 @@
 
 #include "map.h"
 
+//map storage size (axis X, Y, and 3* axis Z)
+#define CTRLSET_STORAGE_SIZE_B 2*MAP_DIM*MAP_DOM_CELL_SIZE_B + 3*MAP_DIM*MAP_DIM*MAP_CODOM_CELL_SIZE_B
+
 
 /*****************************************************************************************************************
 map set related data
@@ -16,10 +19,12 @@ map set related data
 
 typedef enum {
 
-    MAPSET_STD,
-    MAPSET_COUNT
+    CTRLSET_MAP_STD,
+    CTRLSET_TPS_STD,
+    CTRLSET_TPS_LIMP,
+    CTRLSET_COUNT
 
-} mapset_designator_t;
+} ctrlset_designator_t;
 
 
 /**
@@ -44,14 +49,12 @@ control set data
 /**
 A control set holds all data for engine operation in a certain control regime e.g. MAP control or TPS control:
 Ignition and fueling map data is stored efficiently for a common domain.
-
-In future versions a control set could hold more than one map set to allow for economy / full power setup switching
 */
 typedef struct _ctrlset_t {
 
     //first part - to be stored in eeprom
     volatile map_domain_t Dom;
-    volatile mapset_codomains_t Cods[MAPSET_COUNT];
+    volatile mapset_codomains_t Cods;
 
     //second part - dynamic data
     volatile map_cache_t Cache;
@@ -65,9 +68,6 @@ control set interpolation request transfer object
 */
 typedef struct _ctrlset_req_t {
 
-    //mapset
-    mapset_designator_t Set;
-
     //arguments
     F32 X;
     F32 Y;
@@ -76,6 +76,8 @@ typedef struct _ctrlset_req_t {
     F32 IgnAdv;
     F32 VE;
     F32 AFRtgt;
+
+    bool valid;
 
 } ctrlset_req_t;
 

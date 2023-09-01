@@ -482,7 +482,7 @@ void cli_showPage(U32 Page)
             break;
 
         case IGNITIONMAP_TPS:
-            show_ignAdvTable_TPS(TS_PORT);
+            //show_ignAdvTable_TPS(TS_PORT);
             break;
 
         case IGNITIONMAP_DWELL:
@@ -496,22 +496,22 @@ void cli_showPage(U32 Page)
 
         case VEMAP_TPS:
 
-            show_VeTable_TPS(TS_PORT);
+            //show_VeTable_TPS(TS_PORT);
             break;
 
         case VEMAP_MAP:
 
-            show_VeTable_MAP(TS_PORT);
+           // show_VeTable_MAP(TS_PORT);
             break;
 
         case AFRMAP_TPS:
 
-            show_AfrTable_TPS(TS_PORT);
+           // show_AfrTable_TPS(TS_PORT);
             break;
 
         case AFRMAP_MAP:
 
-            show_AfrTable_MAP(TS_PORT);
+            //show_AfrTable_MAP(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
@@ -546,7 +546,7 @@ void cli_showPage(U32 Page)
 
         case CHARGETEMP_TABLE:
 
-            show_ChargeTempTable(TS_PORT);
+            show_ChargeTempMap(TS_PORT);
             break;
 
 
@@ -583,7 +583,7 @@ void cli_setPermissions(U32 Value)
     switch(Value)
     {
     case 'cal#':
-        Tuareg_console.cli_permissions.calib_mod_permission = true;
+        Tuareg_console.cli_permissions.calib_mod= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_SENSORCALIB_MOD_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -593,7 +593,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'dec#':
-        Tuareg_console.cli_permissions.decoder_mod_permission = true;
+        Tuareg_console.cli_permissions.decoder_mod= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_DECODERCONF_MOD_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -602,7 +602,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'ign#':
-        Tuareg_console.cli_permissions.ignition_mod_permission = true;
+        Tuareg_console.cli_permissions.ignition_mod= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_IGNCONF_MOD_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -611,7 +611,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'fue#':
-        Tuareg_console.cli_permissions.fueling_mod_permission = true;
+        Tuareg_console.cli_permissions.fueling_mod= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_FUELCONF_MOD_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -620,7 +620,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'tua#':
-        Tuareg_console.cli_permissions.tsetup_mod_permission = true;
+        Tuareg_console.cli_permissions.tsetup_mod= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_TUAREGSETUP_MOD_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -628,8 +628,35 @@ void cli_setPermissions(U32 Value)
         #endif // CONSOLE_DEBUGMSG
         break;
 
+    case 'cmap':
+        Tuareg_console.cli_permissions.ctrlset_map_mod= true;
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_CTRLSET_MAP_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked control set MAP modification");
+        #endif // CONSOLE_DEBUGMSG
+        break;
+
+    case 'ctps':
+        Tuareg_console.cli_permissions.ctrlset_tps_mod= true;
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_CTRLSET_TPS_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked control set TPS modification");
+        #endif // CONSOLE_DEBUGMSG
+        break;
+
+    case 'ctpl':
+        Tuareg_console.cli_permissions.ctrlset_tps_limp_mod= true;
+        Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_CTRLSET_TPS_LIMP_MOD_PERM_GIVEN);
+
+        #ifdef CONSOLE_DEBUGMSG
+        DebugMsg_Info("unlocked control set TPS for limp mode modification");
+        #endif // CONSOLE_DEBUGMSG
+        break;
+
     case 'brn!':
-        Tuareg_console.cli_permissions.burn_permission = true;
+        Tuareg_console.cli_permissions.burn_permission= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_BURN_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG
@@ -638,13 +665,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'lock':
-        Tuareg_console.cli_permissions.burn_permission = false;
-        Tuareg_console.cli_permissions.calib_mod_permission = false;
-        Tuareg_console.cli_permissions.decoder_mod_permission = false;
-        Tuareg_console.cli_permissions.fueling_mod_permission = false;
-        Tuareg_console.cli_permissions.ignition_mod_permission = false;
-        Tuareg_console.cli_permissions.tsetup_mod_permission = false;
-        Tuareg_console.cli_permissions.faultlog_permission = false;
+        Tuareg_console.cli_permissions.all_flags= 0;
 
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_LOCK_CONFIG);
 
@@ -654,7 +675,7 @@ void cli_setPermissions(U32 Value)
         break;
 
     case 'faul':
-        Tuareg_console.cli_permissions.faultlog_permission = true;
+        Tuareg_console.cli_permissions.faultlog_clear= true;
         Syslog_Info(TID_TUAREG_CONSOLE, CONSOLE_LOC_FAULTLOG_PERM_GIVEN);
 
         #ifdef CONSOLE_DEBUGMSG

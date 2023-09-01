@@ -6,7 +6,8 @@
 #include "ignition_config.h"
 #include "sensor_calibration.h"
 
-
+#include "map.h"
+#include "table.h"
 
 /**
 this is the last permitted eeprom address
@@ -15,11 +16,6 @@ defining addresses beyond this address will lead to system error
 #define EEPROM_FINAL_ADDRESS 8000
 #define EEPROM_WARNING_LEVEL 6000
 
-//see ct3D_data_size for address calculation!!! 320
-#define TABLE3D_RESERVED_SPACE 320
-
-//see ct2D_data_size for address calculation!!!
-#define TABLE2D_RESERVED_SPACE 64
 
 
 /**
@@ -40,17 +36,23 @@ sensor calibration data
 
 /**
 CLT inverse transfer function - lookup Table - InvTableCLT
-2D
 */
 #define EEPROM_SENSOR_INVTABLECLT_BASE (EEPROM_SENSOR_CALIBRATION_BASE + EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE)
+
 
 /**
 decoder configuration
 */
-#define EEPROM_DECODER_CONFIG_BASE (EEPROM_SENSOR_INVTABLECLT_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_DECODER_CONFIG_BASE (EEPROM_SENSOR_INVTABLECLT_BASE + TABLE_STORAGE_SIZE_B)
 
 #define EEPROM_DECODER_CONFIG_RESERVED_SPACE 30
 
+
+/*******************************************************************************************
+*
+*   ignition
+*
+********************************************************************************************/
 
 /**
 ignition configuration
@@ -59,115 +61,105 @@ ignition configuration
 
 #define EEPROM_IGNITION_SETUP_RESERVED_SPACE 30
 
-
-/**
-Ignition advance table 3D (TPS based)
-*/
-#define EEPROM_IGNITION_ADVTPS_BASE (EEPROM_IGNITION_SETUP_BASE + EEPROM_IGNITION_SETUP_RESERVED_SPACE)
-
-/**
-Ignition advance table 3D (MAP based)
-*/
-//currently not implemented
-
-
 /**
 Ignition dwell table
-2D
 */
-#define EEPROM_IGNITION_DWELLTABLE_BASE (EEPROM_IGNITION_ADVTPS_BASE + TABLE3D_RESERVED_SPACE)
+#define EEPROM_IGNITION_DWELLTABLE_BASE (EEPROM_IGNITION_SETUP_BASE + EEPROM_IGNITION_SETUP_RESERVED_SPACE)
 
+/*******************************************************************************************
+*
+*   fueling
+*
+********************************************************************************************/
 
 /**
 Fueling configuration
 */
-#define EEPROM_FUELING_SETUP_BASE (EEPROM_IGNITION_DWELLTABLE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_SETUP_BASE (EEPROM_IGNITION_DWELLTABLE_BASE + TABLE_STORAGE_SIZE_B)
 
 #define EEPROM_FUELING_SETUP_RESERVED_SPACE 80
 
 /**
-Fueling VE Table (TPS based) - VeTable_TPS
-3D
-*/
-#define EEPROM_FUELING_VETPS_BASE (EEPROM_FUELING_SETUP_BASE + EEPROM_FUELING_SETUP_RESERVED_SPACE)
-
-/**
-Fueling VE Table (MAP based) - VeTable_MAP
-3D
-*/
-#define EEPROM_FUELING_VEMAP_BASE (EEPROM_FUELING_VETPS_BASE + TABLE3D_RESERVED_SPACE)
-
-/**
-Fueling AFR target Table (TPS based) - AfrTable_TPS
-3D
-*/
-#define EEPROM_FUELING_AFRTPS_BASE (EEPROM_FUELING_VEMAP_BASE + TABLE3D_RESERVED_SPACE)
-
-/**
-Fueling AFR target Table (MAP based) - AfrTable_MAP
-3D
-*/
-#define EEPROM_FUELING_AFRMAP_BASE (EEPROM_FUELING_AFRTPS_BASE + TABLE3D_RESERVED_SPACE)
-
-/**
 Fueling acceleration compensation table - AccelCompTableTPS
-2D
 */
-#define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_AFRMAP_BASE + TABLE3D_RESERVED_SPACE)
+#define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_SETUP_BASE + EEPROM_FUELING_SETUP_RESERVED_SPACE)
 
 /**
 Fueling acceleration compensation table - AccelCompTableMAP
-2D
 */
-#define EEPROM_FUELING_ACCELCOMPMAP_BASE (EEPROM_FUELING_ACCELCOMPTPS_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_ACCELCOMPMAP_BASE (EEPROM_FUELING_ACCELCOMPTPS_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Fueling Warm up enrichment compensation table - WarmUpCompTable
-2D
 */
-#define EEPROM_FUELING_WARMUPCOMP_BASE (EEPROM_FUELING_ACCELCOMPMAP_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_WARMUPCOMP_BASE (EEPROM_FUELING_ACCELCOMPMAP_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Injector dead time table - InjectorTimingTable
-2D
 */
-#define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Cranking base fuel mass table - CrankingFuelTable
-2D
 */
-#define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Injection end target advance - InjectorPhaseTable
-2D
 */
-#define EEPROM_FUELING_INJECTORPHASE_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_INJECTORPHASE_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Barometric pressure correction - BAROtable
-2D
 */
-#define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_INJECTORPHASE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_INJECTORPHASE_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
-charge temperature table - ChargeTempTable
-3D
+charge temperature table - ChargeTempMap
 */
-#define EEPROM_FUELING_CHARGETEMP_BASE (EEPROM_FUELING_BARO_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FUELING_CHARGETEMP_BASE (EEPROM_FUELING_BARO_BASE + TABLE_STORAGE_SIZE_B)
+
+/*******************************************************************************************
+*
+*   control sets
+*
+********************************************************************************************/
+
+/**
+MAP based Control Set
+*/
+#define EEPROM_CTRLSET_MAP_BASE (EEPROM_FUELING_CHARGETEMP_BASE + MAP_STORAGE_SIZE_B)
+
+/**
+TPS based Control Set
+*/
+#define EEPROM_CTRLSET_TPS_BASE (EEPROM_CTRLSET_MAP_BASE + CTRLSET_STORAGE_SIZE_B)
+
+/**
+TPS based Control Set (for LIMP mode)
+*/
+#define EEPROM_CTRLSET_TPS_LIMP_BASE (EEPROM_CTRLSET_TPS_BASE + CTRLSET_STORAGE_SIZE_B)
+
+
+/*************************************************/
+
 
 /**
 tachometer table - TachTable
 2D
 */
-#define EEPROM_TACHTABLE_BASE (EEPROM_FUELING_CHARGETEMP_BASE + TABLE3D_RESERVED_SPACE)
+#define EEPROM_TACHTABLE_BASE (EEPROM_CTRLSET_TPS_LIMP_BASE + CTRLSET_STORAGE_SIZE_B)
+
+
+
+
+/*************************************************/
 
 
 /**
 Fault Log - Fault_Log
 */
-#define EEPROM_FAULT_LOG_BASE (EEPROM_TACHTABLE_BASE + TABLE2D_RESERVED_SPACE)
+#define EEPROM_FAULT_LOG_BASE (EEPROM_TACHTABLE_BASE + TABLE_STORAGE_SIZE_B)
 
 
 /**

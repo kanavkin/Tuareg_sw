@@ -63,7 +63,7 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.Gear= Tuareg.process.Gear;
 
     Out.speed_kmh= Tuareg.process.speed_kmh;
-    Out.engine_runtime_ms= Tuareg.engine_runtime;
+    Out.engine_runtime_ms= Tuareg.process.engine_runtime;
 
     Out.ignition_bits= Tuareg.ignition_controls.flags.all_flags;
     Out.ignition_adv_deg= Tuareg.ignition_controls.ignition_advance_deg;
@@ -85,8 +85,8 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.inj_dc_pct= Tuareg.fueling_controls.injector_target_dc;
     Out.inj_delay_us= Tuareg.fueling_controls.injector_deadtime_us;
 
-    Out.fuel_rate_gps= Tuareg.fuel_rate_gps;
-    Out.fuel_eff_mpg= Tuareg.fuel_eff_mpg;
+    Out.fuel_rate_gps= Tuareg.process.fuel_rate_gps;
+    Out.fuel_eff_mpg= Tuareg.process.fuel_eff_mpg;
 
     /**
     send output channels

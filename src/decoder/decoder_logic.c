@@ -238,7 +238,7 @@ void update_timing_data()
     if((Decoder.last_crank_rpm > cDecoder_min_valid_rpm) && (Decoder.last_crank_rpm < cDecoder_max_valid_rpm))
     {
         //period_us has already been validated in precondition check
-        accel= divide_float(1000000.0 * ((F32) rpm - (F32) Decoder.last_crank_rpm), (F32) period_us);
+        divide_float(1000000.0 * ((F32) rpm - (F32) Decoder.last_crank_rpm), (F32) period_us, &accel);
 
         //apply the ema filter
         Decoder.out.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);

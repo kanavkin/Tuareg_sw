@@ -282,6 +282,7 @@ determined by the indicated intervals
 exec_result_t map_interpolate(volatile map_domain_req_t * pDomReq, volatile map_codomain_t * pCod, VF32 * pResult)
 {
     F32 A, B, C, D, Res, Area;
+    exec_result_t result;
 
 
     /**
@@ -331,9 +332,16 @@ exec_result_t map_interpolate(volatile map_domain_req_t * pDomReq, volatile map_
     C *= (pDomReq->xMax - pDomReq->X) * ( pDomReq->Y - pDomReq->yMin);
     D *= (pDomReq->X - pDomReq->xMin) * (pDomReq->Y - pDomReq->yMin);
 
-    Area= (xMax - xMin) * (yMax - yMin);
+    Area= (pDomReq->xMax - pDomReq->xMin) * (pDomReq->yMax - pDomReq->yMin);
 
-    Res= (A + B + C +D) / Area;
+    result= divide_float( A+B+C+D, Area, &Res);
+
+    if(result != EXEC_OK)
+    {
+        Fatal(TID_MAP, STORAGE_LOC_MAP_INTERPOL_DIV_ERROR);
+        *pResult= 0.0;
+        return EXEC_ERROR;
+    }
 
     //export result
     *pResult= Res;
@@ -348,7 +356,7 @@ exec_result_t map_interpolate(volatile map_domain_req_t * pDomReq, volatile map_
 * get an interpolated value from a map
 *
 ****************************************************************************************************************************************************/
-exec_result_t map_get(volatile map_t * pMap, F32 X, F32 Y, VF32 * pResult);
+exec_result_t map_get(volatile map_t * pMap, F32 X, F32 Y, VF32 * pResult)
 {
     volatile map_domain_req_t DomainRequest;
 
@@ -374,7 +382,7 @@ exec_result_t map_load(volatile map_t * pMap, U32 BaseAddress)
 {
     volatile U8 * const pData= (volatile U8 *) pMap;
 
-    return Eeprom_load_data(BaseAddress, pMap, cMap_storage_size);
+    return Eeprom_load_data(BaseAddress, pData, cMap_storage_size);
 }
 
 
@@ -472,7 +480,7 @@ void map_show_axes(USART_TypeDef * pPort, volatile map_domain_t * pDom, volatile
 ****************************************************************************************************************************************************/
 void map_show(USART_TypeDef * pPort, volatile map_t * pMap)
 {
-    map_show_axes(pPort, pMap->Dom, pMap->Cod);
+    map_show_axes(pPort, &(pMap->Dom), &(pMap->Cod) );
 }
 
 

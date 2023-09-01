@@ -6,17 +6,23 @@
 
 typedef union
 {
-     U8 all_flags;
+     U16 all_flags;
 
      struct
      {
-        U8 calib_mod_permission :1;
-        U8 ignition_mod_permission :1;
-        U8 fueling_mod_permission :1;
-        U8 decoder_mod_permission :1;
-        U8 tsetup_mod_permission :1;
-        U8 burn_permission :1;
-        U8 faultlog_permission :1;
+        U16 calib_mod :1;
+        U16 ignition_mod :1;
+        U16 fueling_mod :1;
+        U16 decoder_mod :1;
+        U16 tsetup_mod :1;
+
+        U16 ctrlset_map_mod :1;
+        U16 ctrlset_tps_mod :1;
+        U16 ctrlset_tps_limp_mod :1;
+
+        U16 faultlog_clear :1;
+
+        U16 burn_permission :1;
      };
 
 } cli_permission_flags_t;

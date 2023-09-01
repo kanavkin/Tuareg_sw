@@ -117,8 +117,9 @@ void Tuareg_update_fueling_controls()
     */
     if( (Tuareg.errors.fatal_error == true) ||
         (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) ||
-        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.engine_runtime == 0))) ||
-        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
+        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.process.engine_runtime == 0))) ||
+        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true)) ||
+        (Tuareg.Tuareg_controls.Flags.valid == false)
        )
     {
         //reset controls
@@ -152,9 +153,11 @@ void Tuareg_update_fueling_controls()
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_RUNNING);
 
+/// TODO (oli#1#09/01/23): adapt to control strategy
         /**
+
         determine on which sensor input VE and AFR calculation shall be based
-        */
+        already checked
 
         if((Tuareg.errors.sensor_TPS_error == true) && (Tuareg.errors.sensor_MAP_error == true))
         {
@@ -164,13 +167,14 @@ void Tuareg_update_fueling_controls()
         }
 
         //select MAP sensor for lower engine speeds if possible and for higher speeds if TPS has failed (but higher engine speed will be rejected by rev limiter); TPS for higher
-        pTarget->flags.MAP_nTPS= ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Fueling_Setup.spd_max_rpm)) || (Tuareg.errors.sensor_TPS_error == true);
+        pTarget->flags.SPD= ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Fueling_Setup.spd_max_rpm)) || (Tuareg.errors.sensor_TPS_error == true);
 
         //air density calculation relies on IAT sensor
         pTarget->flags.AFR_fallback= (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.sensor_IAT_error == true);
 
         //collect diagnostic data
         fueling_diag_log_event((pTarget->flags.MAP_nTPS == true)? FDIAG_UPD_CTRLS_MAP : FDIAG_UPD_CTRLS_TPS);
+        */
 
         /**
         select fueling mode
@@ -184,8 +188,12 @@ void Tuareg_update_fueling_controls()
 
         /**
         VE
-        */
+        /// TODO (oli#1#09/01/23): adapt to map set
+
         pTarget->VE_pct= (pTarget->flags.MAP_nTPS == true)? getValue_VeTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa) : getValue_VeTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+        */
+
+        pTarget->VE_pct= Tuareg.Tuareg_controls.VE;
 
         //range check
         if((pTarget->VE_pct < cMin_VE_val) || (pTarget->VE_pct > cMax_VE_val))
@@ -302,7 +310,8 @@ const F32 cMinChargeTempK= 200.0;
 
 void update_air_flow(volatile fueling_control_t * pTarget)
 {
-    F32 charge_temp_K, charge_density, air_mass_ug;
+    F32 charge_temp_K, charge_density, air_mass_ug, air_dens, air_rate;
+    exec_result_t result;
 
     //cR_gas is a constant -> DIV/0 not possible
     charge_density= (Tuareg.process.MAP_kPa * cM_air) / cR_gas;
@@ -310,7 +319,7 @@ void update_air_flow(volatile fueling_control_t * pTarget)
     //by now the charge temperature is assumed not to depend on engine state
 /// TODO (oli#3#): coolant temperature and throttle shall affect the effective charge temperature calculation
 /// TODO (oli#3#): altitude shall affect the effective charge density calculation
-    charge_temp_K= getValue_ChargeTempTable(Tuareg.process.IAT_K, Tuareg.process.CLT_K);
+    charge_temp_K= getValue_ChargeTempMap(Tuareg.process.IAT_K, Tuareg.process.CLT_K);
 
     //validate parameter (DIV/0 protection)
     if(charge_temp_K < cMinChargeTempK)
@@ -326,7 +335,16 @@ void update_air_flow(volatile fueling_control_t * pTarget)
     pTarget->charge_temp_K= charge_temp_K;
 
     //calculate air density
-    pTarget->air_density= divide_float(charge_density, charge_temp_K);
+    result= divide_float(charge_density, charge_temp_K, &air_dens);
+
+    if(result != EXEC_OK)
+    {
+        Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDAIRFLOW_DENS_ERR);
+        pTarget->air_density= 0.0;
+    }
+
+    //export air density
+    pTarget->air_density= air_dens;
 
     //copy from base fuel mass
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
@@ -334,7 +352,16 @@ void update_air_flow(volatile fueling_control_t * pTarget)
 
     //update air mass flow rate
     //period_us has already been validated in precondition check
-    pTarget->air_flowrate_gps= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us);
+    result= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us, &air_rate);
+
+    if(result != EXEC_OK)
+    {
+        Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDAIRFLOW_RATE_ERR);
+        pTarget->air_flowrate_gps= 0.0;
+    }
+
+    //export air density
+    pTarget->air_flowrate_gps= air_rate;
 }
 
 
@@ -359,6 +386,8 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
         return;
     }
 
+/// TODO (oli#1#09/01/23): adopt to mapset
+/*
     //check from which table to look up
     if(pTarget->flags.MAP_nTPS == true)
     {
@@ -368,6 +397,8 @@ void update_AFR_target(volatile fueling_control_t * pTarget)
     {
         AFR_value= getValue_AfrTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
     }
+*/
+    AFR_value= Tuareg.Tuareg_controls.AFRtgt;
 
     //do range check
     if((AFR_value > cMin_AFR_target) && (AFR_value < cMax_AFR_target))
@@ -436,13 +467,20 @@ void update_fuel_mass_cranking(volatile fueling_control_t * pTarget)
 void update_base_fuel_mass(volatile fueling_control_t * pTarget)
 {
     F32 base_fuel_mass_ug, air_mass_ug;
+    exec_result_t result;
 
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
     air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
 
     //base fuel mass [µg] := air mass [ug] / AFR [1]
     //AFR_target has already been validated in get_AFR_target()
-    base_fuel_mass_ug= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target);
+    result= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target, &base_fuel_mass_ug);
+
+    if(result != EXEC_OK)
+    {
+        Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDBASEFUEL_MASS_ERR);
+        pTarget->base_fuel_mass_ug= 0.0;
+    }
 
     //export base fuel mass
     pTarget->base_fuel_mass_ug= base_fuel_mass_ug;

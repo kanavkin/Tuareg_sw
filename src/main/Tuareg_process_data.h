@@ -29,7 +29,6 @@ typedef struct _process_data_t {
     F32 load_pct;
     F32 IVT_K;
 
-
     U32 engine_runtime;
 
     /*

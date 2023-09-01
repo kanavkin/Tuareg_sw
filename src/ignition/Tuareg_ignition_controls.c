@@ -200,9 +200,11 @@ void dynamic_ignition_controls(volatile ignition_controls_t * pTarget)
         {
             Limp(TID_IGNITION_CONFIG, IGNITION_LOC_TPS_ERROR);
         }
+/// TODO (oli#1#09/01/23): implement control set
 
         //get target ignition advance angle - TPS default value will be sufficient, in case
-        Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+        //Ign_advance_deg= getValue_ignAdvTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+        Ign_advance_deg= Tuareg.Tuareg_controls.IgnAdv;
 
         ///get dwell from table
         Dwell_target_us= getValue_ignDwellTable(Tuareg.pDecoder->crank_rpm);

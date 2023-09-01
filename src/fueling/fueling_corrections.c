@@ -79,7 +79,7 @@ void update_fuel_mass_afterstart_correction(volatile fueling_control_t * pTarget
     else
     {
         //check if the engine has just started and the coolant is still cold
-        if((Tuareg.engine_runtime > cAfterstart_begin_thres) && (Tuareg.engine_runtime < cAfterstart_thres) && (Tuareg.process.CLT_K < Fueling_Setup.afterstart_thres_K))
+        if((Tuareg.process.engine_runtime > cAfterstart_begin_thres) && (Tuareg.process.engine_runtime < cAfterstart_thres) && (Tuareg.process.CLT_K < Fueling_Setup.afterstart_thres_K))
         {
             //ase activated
             pTarget->flags.ASE_active= true;

@@ -45,7 +45,7 @@ void ts_readPage(U32 Page)
             break;
 
         case IGNITIONMAP_TPS:
-            send_ignAdvTable_TPS(TS_PORT);
+    //        send_ignAdvTable_TPS(TS_PORT);
             break;
 
         case IGNITIONMAP_DWELL:
@@ -58,19 +58,19 @@ void ts_readPage(U32 Page)
             break;
 
         case VEMAP_TPS:
-            send_VeTable_TPS(TS_PORT);
+     //       send_VeTable_TPS(TS_PORT);
             break;
 
         case VEMAP_MAP:
-            send_VeTable_MAP(TS_PORT);
+     //       send_VeTable_MAP(TS_PORT);
             break;
 
         case AFRMAP_TPS:
-            send_AfrTable_TPS(TS_PORT);
+    //        send_AfrTable_TPS(TS_PORT);
             break;
 
         case AFRMAP_MAP:
-            send_AfrTable_MAP(TS_PORT);
+   //         send_AfrTable_MAP(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
@@ -98,7 +98,7 @@ void ts_readPage(U32 Page)
             break;
 
         case CHARGETEMP_TABLE:
-            send_ChargeTempTable(TS_PORT);
+            send_ChargeTempMap(TS_PORT);
             break;
 
         case SYSLOG_PAGE:
@@ -127,7 +127,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
     {
         case DECODERPAGE:
 
-            if(Tuareg_console.cli_permissions.decoder_mod_permission == false)
+            if(Tuareg_console.cli_permissions.decoder_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -142,7 +142,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case TSETUP_PAGE:
 
-            if(Tuareg_console.cli_permissions.tsetup_mod_permission == false)
+            if(Tuareg_console.cli_permissions.tsetup_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -157,7 +157,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case TACH_TABLE:
 
-            if(Tuareg_console.cli_permissions.tsetup_mod_permission == false)
+            if(Tuareg_console.cli_permissions.tsetup_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -172,7 +172,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case IGNITIONPAGE:
 
-            if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
+            if(Tuareg_console.cli_permissions.ignition_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -187,7 +187,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case FUELINGPAGE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -202,7 +202,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case CALIBPAGE:
 
-            if(Tuareg_console.cli_permissions.calib_mod_permission == false)
+            if(Tuareg_console.cli_permissions.calib_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -218,7 +218,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case INVCLT_TABLE:
 
-            if(Tuareg_console.cli_permissions.calib_mod_permission == false)
+            if(Tuareg_console.cli_permissions.calib_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -234,7 +234,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case IGNITIONMAP_TPS:
 
-            if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
+            if(Tuareg_console.cli_permissions.ignition_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -244,13 +244,13 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_ignAdvTable_TPS(Offset, Value);
+       //     result= modify_ignAdvTable_TPS(Offset, Value);
             break;
 
 
         case IGNITIONMAP_DWELL:
 
-            if(Tuareg_console.cli_permissions.ignition_mod_permission == false)
+            if(Tuareg_console.cli_permissions.ignition_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -266,7 +266,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case VEMAP_TPS:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -276,12 +276,12 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_VeTable_TPS(Offset, Value);
+  //          result= modify_VeTable_TPS(Offset, Value);
             break;
 
         case VEMAP_MAP:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -291,12 +291,12 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_VeTable_MAP(Offset, Value);
+   //         result= modify_VeTable_MAP(Offset, Value);
             break;
 
         case AFRMAP_TPS:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -306,12 +306,12 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_AfrTable_TPS(Offset, Value);
+   //         result= modify_AfrTable_TPS(Offset, Value);
             break;
 
         case AFRMAP_MAP:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -321,12 +321,12 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_AfrTable_MAP(Offset, Value);
+    //        result= modify_AfrTable_MAP(Offset, Value);
             break;
 
         case ACCELCOMP_TPS:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -341,7 +341,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case ACCELCOMP_MAP:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -356,7 +356,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case WARMUPCOMP_TABLE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -371,7 +371,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case INJ_TIMING_TABLE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -387,7 +387,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case CRANKINGFUEL_TABLE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -402,7 +402,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case BAROCORR_TABLE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -417,7 +417,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
 
         case CHARGETEMP_TABLE:
 
-            if(Tuareg_console.cli_permissions.fueling_mod_permission == false)
+            if(Tuareg_console.cli_permissions.fueling_mod == false)
             {
                 Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
 
@@ -427,7 +427,7 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
                 return result;
             }
 
-            result= modify_ChargeTempTable(Offset, Value);
+            result= modify_ChargeTempMap(Offset, Value);
             break;
 
         default:
@@ -511,11 +511,13 @@ exec_result_t ts_burnPage(U32 Page)
 
             result= store_Ignition_Setup();
             break;
-
+/*
         case IGNITIONMAP_TPS:
 
             result= store_ignAdvTable_TPS();
             break;
+*/
+/// TODO (oli#2#09/01/23): implement ts ctrlset handling
 
         case IGNITIONMAP_DWELL:
 
@@ -526,7 +528,7 @@ exec_result_t ts_burnPage(U32 Page)
 
             result= store_Fueling_Setup();
             break;
-
+/*
         case VEMAP_TPS:
 
             result= store_VeTable_TPS();
@@ -546,7 +548,7 @@ exec_result_t ts_burnPage(U32 Page)
 
             result= store_AfrTable_MAP();
             break;
-
+*/
         case ACCELCOMP_TPS:
 
             result= store_AccelCompTableTPS();
@@ -574,7 +576,7 @@ exec_result_t ts_burnPage(U32 Page)
 
         case CHARGETEMP_TABLE:
 
-            result= store_ChargeTempTable();
+            result= store_ChargeTempMap();
             break;
 
 

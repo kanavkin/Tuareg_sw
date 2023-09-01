@@ -24,18 +24,8 @@ volatile Tuareg_Setup_t Tuareg_Setup;
 volatile U8 * const pTuareg_Setup_data= (volatile U8 *) &Tuareg_Setup;
 const U32 cTuareg_Setup_size= sizeof(Tuareg_Setup);
 
-
-/**
-Tuareg main control sets
-*/
-volatile ctrlset_t Control_MAP;
-volatile ctrlset_t Control_TPS;
-//volatile ctrlset_t Control_TPS_LIMP;
-
-
-
 //tach table
-volatile t2D_t TachTable;
+volatile table_t TachTable;
 
 
 
@@ -114,6 +104,15 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     print(Port, "\r\ncranking features turn off rpm: ");
     printf_U(Port, Tuareg_Setup.cranking_end_rpm, NO_PAD);
 
+    //U16 spd_min_rpm
+   // print(Port, "\r\nSpeed Density min (rpm):");
+    //printf_U(Port, Fueling_Setup.spd_min_rpm, NO_PAD);
+
+    //U16 spd_max_rpm
+    print(Port, "\r\nSpeed Density max rpm:");
+    printf_U(Port, Tuareg_Setup.spd_max_rpm, NO_PAD);
+
+
     /*
     gear_ratio[GEAR_COUNT]
     */
@@ -185,12 +184,12 @@ void send_Tuareg_Setup(USART_TypeDef * Port)
 
 exec_result_t load_TachTable()
 {
-    return load_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+    return load_table(&TachTable, EEPROM_TACHTABLE_BASE);
 }
 
 exec_result_t store_TachTable()
 {
-    return store_t2D_data(&(TachTable.data), EEPROM_TACHTABLE_BASE);
+    return store_table(&TachTable, EEPROM_TACHTABLE_BASE);
 }
 
 
@@ -198,14 +197,14 @@ void show_TachTable(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nTachometer output table:\r\n");
 
-    show_t2D_data(TS_PORT, &(TachTable.data));
+    show_table(TS_PORT, &TachTable);
 }
 
 
 exec_result_t modify_TachTable(U32 Offset, U32 Value)
 {
-    //modify_t2D_data provides offset range check!
-    return modify_t2D_data(&(TachTable.data), Offset, Value);
+    //modify_table provides offset range check!
+    return modify_table(&TachTable, Offset, Value);
 }
 
 
@@ -214,7 +213,7 @@ this function implements the TS interface binary config page read command for Ta
 */
 void send_TachTable(USART_TypeDef * Port)
 {
-    send_t2D_data(Port, &(TachTable.data));
+    send_table(Port, &TachTable);
 }
 
 
@@ -223,6 +222,6 @@ returns the timer compare value # that makes the tachometer display the commande
 */
 U32 getValue_TachTable(U32 Rpm)
 {
-    return getValue_t2D(&TachTable, Rpm);
+    return getValue_table(&TachTable, Rpm);
 }
 

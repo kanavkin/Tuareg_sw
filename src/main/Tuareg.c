@@ -291,7 +291,7 @@ void Tuareg_update_limited_op()
     -> non-running modes are not affected
     -> while cranking a static ignition profile and fueling is used
     */
-    if((Tuareg.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
+    if((Tuareg.process.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
     {
         Fatal(TID_TUAREG, TUAREG_LOC_LOAD_ESTIMATION_ERROR);
     }
@@ -361,7 +361,7 @@ void Tuareg_update_cranking()
     will be set only when the engine has not been running and the crank is moving slowly
     */
     if( (Tuareg.flags.run_inhibit == false) &&
-        (Tuareg.engine_runtime < cMaxCrankingEntry) &&
+        (Tuareg.process.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
         (Tuareg.pDecoder->flags.standstill == false) &&
         (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))

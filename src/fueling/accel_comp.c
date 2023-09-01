@@ -89,6 +89,7 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
 {
     F32 alpha, beta, tau;
     F32 cmd_fuel_mass_ug;
+    exec_result_t result;
 
 #ifndef WALL_FUEL_WIP
     //check preconditions
@@ -108,7 +109,14 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
     alpha= calc_alpha(Tuareg.pDecoder->crank_rpm, tau);
     beta= calc_beta(alpha);
 
-	cmd_fuel_mass_ug= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta));
+	//cmd_fuel_mass_ug= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta));
+	result= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta), &cmd_fuel_mass_ug);
+
+	if(result != EXEC_OK)
+    {
+        disable_load_transient_comp(pTarget);
+        return;
+    }
 
 	//clip fuel mass to positive values
 	if(cmd_fuel_mass_ug < 0.0)

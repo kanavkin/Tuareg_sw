@@ -9,15 +9,6 @@
 
 
 
-
-
-
-/**
-crank position when the process data and controls shall be updated
-*/
-const crank_position_t cTuareg_controls_update_pos= CRK_POSITION_B2;
-
-
 /******************************************************************************************************************************
 INIT
 ******************************************************************************************************************************/
@@ -52,11 +43,11 @@ exec_result_t Tuareg_update_control_strategy()
     -> non-running modes are not affected
     -> while cranking a static ignition profile and fueling is used
     */
-    if( (Tuareg.flags.run_inhibit == false) && (Tuareg.pDecoder.flags.standstill == false) && (Tuareg.flags.cranking == false) &&
+    if( (Tuareg.flags.run_inhibit == false) && (Tuareg.pDecoder->flags.standstill == false) && (Tuareg.flags.cranking == false) &&
        (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true) )
     {
         //engine operation is not allowed
-        Fatal(TID_TUAREG, TUAREG_LOC_LIMP_TPSMAP_ERROR);
+        Fatal(TID_TUAREG, TUAREG_LOC_UPDSTRGY_SRC_ERROR);
 
         return EXEC_ERROR;
     }
@@ -66,10 +57,11 @@ exec_result_t Tuareg_update_control_strategy()
     - select TPS for higher engine speed
     - higher engine speed will be rejected by the limp mode triggered rev limiter
     */
-    Tuareg.flags.MAP_nTPS_ctrl= ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.MAP_ctrl_max_rpm)) || (Tuareg.errors.sensor_TPS_error == true);
+    Tuareg.Tuareg_controls.Flags.SPD_ctrl= (   (Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.spd_max_rpm) && (Tuareg.flags.limited_op == false) ) ||
+                                                    (Tuareg.errors.sensor_TPS_error == true);
 
 
-    return EXEC_OK
+    return EXEC_OK;
 }
 
 
@@ -86,6 +78,9 @@ exec_result_t Tuareg_update_controls()
     ctrlset_req_t Request;
     exec_result_t Result;
 
+    //mark current controls as invalid
+    Tuareg.Tuareg_controls.Flags.valid= false;
+
 
     /******************************************
     select a proper control strategy
@@ -97,13 +92,25 @@ exec_result_t Tuareg_update_controls()
     get global control data from the commanded control set
     ******************************************************/
 
-    //currently only one map set is in use
-    Request.Set= MAPSET_STD;
-
     //X axis is always rpm
-    Request.X= Tuareg->pDecoder.crank_rpm;
+    Request.X= Tuareg.pDecoder->crank_rpm;
 
-    if(Tuareg.Tuareg_controls.flags.MAP_nTPS_ctrl == true)
+
+    if(Tuareg.flags.limited_op == true)
+    {
+        //LIMP TPS control
+        Request.Y= Tuareg.process.TPS_deg;
+
+        //perfom look up
+        Result= ctrlset_get(&Control_TPS_Limp, &Request);
+
+        VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPSLIMP_ERROR);
+
+        //export set designator
+        Tuareg.Tuareg_controls.Set= CTRLSET_TPS_LIMP;
+
+    }
+    if(Tuareg.Tuareg_controls.Flags.SPD_ctrl == true)
     {
         //MAP control
         Request.Y= Tuareg.process.MAP_kPa;
@@ -113,6 +120,8 @@ exec_result_t Tuareg_update_controls()
 
         VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_MAP_ERROR);
 
+        //export set designator
+        Tuareg.Tuareg_controls.Set= CTRLSET_MAP_STD;
     }
     else
     {
@@ -124,6 +133,9 @@ exec_result_t Tuareg_update_controls()
 
         VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPS_ERROR);
 
+        //export set designator
+        Tuareg.Tuareg_controls.Set= CTRLSET_TPS_STD;
+
     }
 
     //copy data over
@@ -131,7 +143,8 @@ exec_result_t Tuareg_update_controls()
     Tuareg.Tuareg_controls.VE= Request.VE;
     Tuareg.Tuareg_controls.IgnAdv= Request.IgnAdv;
 
-
+    //mark controls as valid
+    Tuareg.Tuareg_controls.Flags.valid= true;
 
 
     return Result;

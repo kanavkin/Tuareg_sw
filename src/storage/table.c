@@ -27,14 +27,12 @@ all use cases can be implemented via data scaling
 */
 
 
-const U32 ct2D_data_size= sizeof(t2D_data_t);
+const U32 cTable_data_size= sizeof(table_data_t);
+const U32 cTable_dimension= TABLE_DIM;
 
 
-const U32 cT2D_data_dimension= T2D_DATA_DIMENSION;
-
-
-const U32 cT2D_MinIndex =0, cT2D_MaxIndex= T2D_DATA_DIMENSION -1;
-const U32 cT2D_MinInterval =0, cT2D_MaxInterval= T2D_DATA_DIMENSION -2;
+const U32 cT2D_MinIndex =0, cT2D_MaxIndex= TABLE_DIM -1;
+const U32 cT2D_MinInterval =0, cT2D_MaxInterval= TABLE_DIM -2;
 
 
 
@@ -56,9 +54,10 @@ typedef struct _interpolation_t {
 interpolate the corresponding value to the given argument if
 the given argument lies within the commanded interval
 */
-compare_t interpolate_t2D(volatile t2D_t * pTable, interpolation_t * pData)
+compare_t interpolate_t2D(volatile table_t * pTable, interpolation_t * pData)
 {
     F32 xMin, xMax, yMin, yMax, m, y;
+    exec_result_t result;
 
     //post fence check
     if(pData->Interval > cT2D_MaxInterval)
@@ -90,7 +89,16 @@ compare_t interpolate_t2D(volatile t2D_t * pTable, interpolation_t * pData)
         y=  m * X + n
         y= ( (dY/dX) * (X - xMin) + yMin )
         */
-        m= divide_float( yMax - yMin,  xMax - xMin );
+        result= divide_float( yMax - yMin,  xMax - xMin, &m );
+
+        if(result != EXEC_OK)
+        {
+            Fatal(TID_TABLE, STORAGE_LOC_T2D_IPL_DIV_ERROR);
+            m= 0.0;
+
+            return WITHIN;
+        }
+
         y= m * (pData->Arg - xMin) + yMin;
 
         //update cache
@@ -118,7 +126,7 @@ Axis:       | 0 | 1 | 2 | 3 | ...
 Interval:   ---(0)-(1)-(2)-
 
 */
-F32 getValue_t2D(volatile t2D_t *pTable, F32 X)
+F32 getValue_table(volatile table_t *pTable, F32 X)
 {
     U32 Interval;
     compare_t compare;
@@ -220,25 +228,13 @@ F32 getValue_t2D(volatile t2D_t *pTable, F32 X)
 *
 * table data is always packed, we have to be careful with unaligned accesses when using pointers!
 ****************************************************************************************************************************************************/
-exec_result_t load_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
-{
-    exec_result_t load_result;
-
-    volatile U8 * const pData= (volatile U8 *) pTableData;
-
-    load_result= Eeprom_load_data(BaseAddress, pData, ct2D_data_size);
-
-    return load_result;
-}
-
-//more comfortable syntax
-exec_result_t load_t2D(volatile t2D_t * pTable, U32 BaseAddress)
+exec_result_t load_table(volatile table_t * pTable, U32 BaseAddress)
 {
     exec_result_t load_result;
 
     volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
-    load_result= Eeprom_load_data(BaseAddress, pData, ct2D_data_size);
+    load_result= Eeprom_load_data(BaseAddress, pData, cTable_data_size);
 
     return load_result;
 }
@@ -250,18 +246,11 @@ exec_result_t load_t2D(volatile t2D_t * pTable, U32 BaseAddress)
 * Save 2D table data to EEPROM
 *
 ****************************************************************************************************************************************************/
-exec_result_t store_t2D_data(volatile t2D_data_t * pTableData, U32 BaseAddress)
-{
-    volatile U8 * const pData= (volatile U8 *) pTableData;
-
-    return Eeprom_update_data(BaseAddress, pData, ct2D_data_size);
-}
-
-exec_result_t store_t2D(volatile t2D_t * pTable, U32 BaseAddress)
+exec_result_t store_table(volatile table_t * pTable, U32 BaseAddress)
 {
     volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
-    return Eeprom_update_data(BaseAddress, pData, ct2D_data_size);
+    return Eeprom_update_data(BaseAddress, pData, cTable_data_size);
 }
 
 
@@ -270,22 +259,22 @@ exec_result_t store_t2D(volatile t2D_t * pTable, U32 BaseAddress)
 * print 2D table in human readable form
 *
 * assuming that the title has already been printed
-* assuming fixed table dimension of T2D_DATA_DIMENSION
+* assuming fixed table dimension of TABLE_DIM
 * layout:
 * row below: X-Axis
 * data layout: y[x]
 * orientation (order from low to high) of X-axis: left to right
 ****************************************************************************************************************************************************/
-void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
+void show_table(USART_TypeDef * pPort, volatile table_t * pTable)
 {
     U32 column;
 
     print(pPort, "Y: ");
 
     // Y values, printing from left to right y[0..15]
-    for (column = 0; column < T2D_DATA_DIMENSION; column++)
+    for (column = 0; column < TABLE_DIM; column++)
     {
-        printf_U(pPort, pTableData->axisY[column], PAD_5);
+        printf_U(pPort, pTable->data.axisY[column], PAD_5);
         print(pPort, " | ");
     }
 
@@ -295,9 +284,9 @@ void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
     print(pPort, "\r\nX: ");
 
     // X-axis
-    for (column = 0; column < T2D_DATA_DIMENSION; column++)
+    for (column = 0; column < TABLE_DIM; column++)
     {
-        printf_U(pPort, pTableData->axisX[column], PAD_5);
+        printf_U(pPort, pTable->data.axisX[column], PAD_5);
         print(pPort, " | ");
     }
 
@@ -309,12 +298,12 @@ void show_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTableData)
 * replace one byte in 2D table
 *
 ****************************************************************************************************************************************************/
-exec_result_t modify_t2D_data(volatile t2D_data_t * pTableData, U32 Offset, U32 Value)
+exec_result_t modify_table(volatile table_t * pTable, U32 Offset, U32 Value)
 {
-    volatile U8 * const pData= (volatile U8 *) pTableData;
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
     //range check
-    if(Offset >= ct2D_data_size)
+    if(Offset >= cTable_data_size)
     {
         return EXEC_ERROR;
     }
@@ -332,11 +321,11 @@ exec_result_t modify_t2D_data(volatile t2D_data_t * pTableData, U32 Offset, U32 
 *
 * data will be sent "as is" (no scaling, offset, etc ...)
 ****************************************************************************************************************************************************/
-void send_t2D_data(USART_TypeDef * pPort, volatile t2D_data_t * pTable)
+void send_table(USART_TypeDef * pPort, volatile table_t * pTable)
 {
-    volatile U8 * const pData= (volatile U8 *) pTable;
+    volatile U8 * const pData= (volatile U8 *) &(pTable->data);
 
-    UART_send_data(pPort, pData, ct2D_data_size);
+    UART_send_data(pPort, pData, cTable_data_size);
 }
 
 

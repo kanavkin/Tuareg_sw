@@ -16,7 +16,7 @@ typedef union
      {
         U16 valid :1;
 
-        U16 MAP_nTPS :1;
+        U16 SPD :1;
         U16 AFR_fallback :1;
 
         U16 dry_cranking :1;

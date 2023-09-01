@@ -163,7 +163,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 set_injector1(ACTOR_POWERED);
 
                 //register fuel mass injected
-                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_1);
@@ -184,7 +184,7 @@ void Tuareg_fueling_update_crankpos_handler()
                 set_injector2(ACTOR_POWERED);
 
                 //register fuel mass injected
-                Tuareg.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_2);

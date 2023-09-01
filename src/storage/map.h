@@ -11,8 +11,16 @@
 /**
 common dimensions for all maps
 (X, Y, Z axis)
+
+data size (X, Y axis) in bytes
+data size (Z axis) in bytes
 */
 #define MAP_DIM 16
+
+#define MAP_DOM_CELL_SIZE_B 2
+#define MAP_CODOM_CELL_SIZE_B 1
+
+#define MAP_STORAGE_SIZE_B 2*MAP_DIM*MAP_DOM_CELL_SIZE_B + MAP_DIM*MAP_DIM*MAP_CODOM_CELL_SIZE_B
 
 
 /**

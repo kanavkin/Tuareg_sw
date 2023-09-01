@@ -20,7 +20,7 @@ volatile U8 * const pSensor_Calibration_data= (volatile U8 *) &Sensor_Calibratio
 const U32 cSensor_Calibration_size= sizeof(Sensor_Calibration);
 
 
-volatile t2D_t InvTableCLT;
+volatile table_t InvTableCLT;
 
 
 /**
@@ -39,8 +39,7 @@ exec_result_t load_Sensor_Calibration()
 
     ASSERT_EXEC_OK(load_result);
 
-    //load_result= load_t2D_data(&(InvTableCLT.data), EEPROM_SENSOR_INVTABLECLT_BASE);
-    load_result= load_t2D(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
+    load_result= load_table(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
 
     return load_result;
 }
@@ -108,8 +107,7 @@ void send_Sensor_Calibration(USART_TypeDef * Port)
 
 exec_result_t store_InvTableCLT()
 {
-    //return store_t2D_data(&(InvTableCLT.data), EEPROM_SENSOR_INVTABLECLT_BASE);
-    return store_t2D(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
+    return store_table(&InvTableCLT, EEPROM_SENSOR_INVTABLECLT_BASE);
 }
 
 
@@ -117,14 +115,13 @@ void show_InvTableCLT(USART_TypeDef * Port)
 {
     print(Port, "\r\n\r\nSensor Calibration CLT lookup Table (x2 K)\r\n");
 
-    show_t2D_data(TS_PORT, &(InvTableCLT.data));
+    show_table(TS_PORT, &InvTableCLT);
 }
 
 
 exec_result_t modify_InvTableCLT(U32 Offset, U32 Value)
 {
-    //modify_t2D_data provides offset range check!
-    return modify_t2D_data(&(InvTableCLT.data), Offset, Value);
+    return modify_table(&InvTableCLT, Offset, Value);
 }
 
 
@@ -133,7 +130,7 @@ this function implements the TS interface binary config page read command for In
 */
 void send_InvTableCLT(USART_TypeDef * Port)
 {
-    send_t2D_data(Port, &(InvTableCLT.data));
+    send_table(Port, &InvTableCLT);
 }
 
 
@@ -142,5 +139,5 @@ returns the coolant temperature in K
 */
 VF32 getValue_InvTableCLT(VU32 Raw)
 {
-    return getValue_t2D(&InvTableCLT, Raw);
+    return getValue_table(&InvTableCLT, Raw);
 }

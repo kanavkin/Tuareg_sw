@@ -168,9 +168,9 @@ F32 divide_F32(U32 Dividend, U32 Divisor)
 
 
 /**
-float -> float division
+safe float -> float division
 */
-F32 divide_float(F32 Dividend, F32 Divisor)
+exec_result_t divide_float(F32 Dividend, F32 Divisor, VF32 * pResult)
 {
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wfloat-equal"
@@ -178,12 +178,14 @@ F32 divide_float(F32 Dividend, F32 Divisor)
     if(Divisor == 0.0)
     {
         Fatal(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
-        return 0.0;
+        *pResult= 0.0;
+        return EXEC_ERROR;
     }
 
     #pragma GCC diagnostic pop
 
-    return (Dividend / Divisor);
+    *pResult= (Dividend / Divisor);
+    return EXEC_OK;
 }
 
 
@@ -411,8 +413,9 @@ E(x, a, N) := ( 1 + SUM_N( x_shift_pow / factorial ) * e^a
 */
 F32 calc_expf(F32 Arg, S32 Base, U32 MaxOrder)
 {
-    F32 x_shift= 0.0, x_shift_pow= 1.0, p_sum= 1.0;
+    F32 x_shift= 0.0, x_shift_pow= 1.0, p_sum= 1.0, exp;
     U32 factorial= 1, order= 0;
+    exec_result_t result;
 
 	/**
 	shifted argument x
@@ -446,11 +449,28 @@ F32 calc_expf(F32 Arg, S32 Base, U32 MaxOrder)
 
 	if(Base < 0)
 	{
-        return divide_float(p_sum, calc_pow_float(cEuler, -Base));
+        result= divide_float(p_sum, calc_pow_float(cEuler, -Base), &exp);
+
+        if(result != EXEC_OK)
+        {
+            Fatal(TID_BASE_CALC, BASECALC_LOC_EXPF_DIV_ERR);
+            return 0.0;
+        }
+
+        return exp;
+
 	}
     else
     {
-        return p_sum * calc_pow_float(cEuler, Base);
+        result= divide_float(p_sum, calc_pow_float(cEuler, Base), &exp);
+
+        if(result != EXEC_OK)
+        {
+            Fatal(TID_BASE_CALC, BASECALC_LOC_EXPF_DIV_ERR2);
+            return 0.0;
+        }
+
+        return exp;
     }
 
 }
