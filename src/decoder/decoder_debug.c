@@ -19,6 +19,155 @@
 #include "decoder_debug.h"
 
 
+
+/******************************************************************************************************************************
+decoder debug info - internal state
+******************************************************************************************************************************/
+void decoder_debug_show_internals(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\n*******************************\r\ndecoder interface:");
+
+    print(Port, "\r\ncrank period (us): ");
+    printf_U(Port, Decoder.out.crank_period_us, NO_PAD);
+
+    print(Port, "\r\ncrank rpm: ");
+    printf_U(Port, Decoder.out.crank_rpm, NO_PAD);
+
+    print(Port, "\r\ncrank acceleration: ");
+    printf_F32(Port, Decoder.out.crank_acceleration);
+
+    print(Port, "\r\ncrank position: ");
+    printf_crkpos(Port, Decoder.out.crank_position);
+
+    print(Port, "\r\nphase: ");
+    printf_phase(Port, Decoder.out.phase);
+
+    print(Port, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid standstill: ");
+    UART_Tx(Port, (Decoder.out.flags.position_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.phase_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.period_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.rpm_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.accel_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.standstill? '1' :'0'));
+
+
+    print(Port, "\r\n\r\ndecoder hw:");
+
+    print(Port, "\r\ntimer_prescaler: ");
+    printf_U(Port, Decoder_hw.timer_prescaler, NO_PAD);
+
+    print(Port, "\r\ntimer_period_us: ");
+    printf_U(Port, Decoder_hw.timer_period_us, NO_PAD);
+
+    print(Port, "\r\ntimer_overflow_ms: ");
+    printf_U(Port, Decoder_hw.timer_overflow_ms, NO_PAD);
+
+    print(Port, "\r\ncurrent_timer_value: ");
+    printf_U(Port, Decoder_hw.current_timer_value, NO_PAD);
+
+    print(Port, "\r\nprev1_timer_value: ");
+    printf_U(Port, Decoder_hw.prev1_timer_value, NO_PAD);
+
+    print(Port, "\r\nprev2_timer_value: ");
+    printf_U(Port, Decoder_hw.prev2_timer_value, NO_PAD);
+
+    print(Port, "\r\ncaptured_positions_cont: ");
+    printf_U(Port, Decoder_hw.captured_positions_cont, NO_PAD);
+
+    print(Port, "\r\ncrank_pickup_sensing: ");
+    printf_decoder_sensing(Port, Decoder_hw.crank_pickup_sensing);
+
+    print(Port, "\r\ncis_sensing: ");
+    printf_decoder_sensing(Port, Decoder_hw.cis_sensing);
+
+    print(Port, "\r\nhw state: timer_continuous_mode timer_reset_req: ");
+    UART_Tx(Port, (Decoder_hw.state.timer_continuous_mode? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder_hw.state.timer_reset_req? '1' :'0'));
+
+
+    print(Port, "\r\n\r\ndecoder logic");
+
+    print(Port, "\r\ninternal state: TIMEOUT INIT ASYNC KEY GAP SYNC: ");
+
+    if(Decoder.state == DSTATE_SYNC) print(Port, " *SYNC*");
+    else printf_U(Port, Decoder.state, NO_PAD);
+
+    print(Port, "\r\ntimeout_count: ");
+    printf_U(Port, Decoder.timeout_count, NO_PAD);
+
+    print(Port, "\r\nlast_crank_rpm: ");
+    printf_U(Port, Decoder.last_crank_rpm, NO_PAD);
+
+    print(Port, "\r\nlast_crank_acceleration: ");
+    printf_F32(Port, Decoder.last_crank_acceleration);
+
+
+    print(Port, "\r\n\r\nCIS");
+
+    print(Port, "\r\nlobe_begin_timestamp: ");
+    printf_U(Port, Decoder.cis.lobe_begin_timestamp, NO_PAD);
+
+    print(Port, "\r\nlobe_end_timestamp: ");
+    printf_U(Port, Decoder.cis.lobe_end_timestamp, NO_PAD);
+
+    print(Port, "\r\nsync_counter: ");
+    printf_U(Port, Decoder.cis.sync_counter, NO_PAD);
+
+    print(Port, "\r\ndetected_lobe_ends: ");
+    printf_U(Port, Decoder.cis.detected_lobe_ends, NO_PAD);
+
+    print(Port, "\r\npreconditions: period_valid failure preconditions_ok: ");
+    UART_Tx(Port, (Decoder.cis.flags.period_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.failure? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.preconditions_ok? '1' :'0'));
+
+    print(Port, "\r\ndetected: lobe_begin lobe_end: ");
+    UART_Tx(Port, (Decoder.cis.flags.lobe_begin_detected? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.lobe_end_detected? '1' :'0'));
+
+    print(Port, "\r\noutput: triggered phase_match phase_valid: ");
+    UART_Tx(Port, (Decoder.cis.flags.triggered? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.phase_match? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.phase_valid? '1' :'0'));
+
+    print(Port, "\r\n\r\nDecoder Timer 9");
+
+    print(Port, "\r\nDIER: C1 C2 UPD:");
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_CC1IE? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_CC2IE? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_UIE? '1' :'0'));
+
+    print(Port, "\r\nSR: CC1 CC2 UPD:");
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_CC1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_CC2? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_Update? '1' :'0'));
+
+    print(Port, "\r\ncompare 1 crk: ");
+    printf_U(Port, TIM9->CCR1, NO_PAD);
+
+    print(Port, "\r\ncompare 2 cis: ");
+    printf_U(Port, TIM9->CCR2, NO_PAD);
+
+    print(Port, "\r\ntimestamp: ");
+    printf_U(Port, TIM9->CNT, NO_PAD);
+
+}
+
 /******************************************************************************************************************************
 decoder helper functions - debug event messages
 ******************************************************************************************************************************/

@@ -105,7 +105,10 @@ void decoder_update_cis_debug(U32 Lobe_interval_us, U32 Lobe_angle_deg);
 void print_decoder_cis_debug_data(USART_TypeDef * Port);
 
 
-
+/******************************************************************************************************************************
+interface debugging
+******************************************************************************************************************************/
+void decoder_debug_show_internals(USART_TypeDef * Port);
 
 
 #endif // DECODER_DEBUG_H_INCLUDED

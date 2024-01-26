@@ -53,6 +53,26 @@ void ts_debug_features(U32 FeatureID)
 
     switch (FeatureID)
     {
+        /**
+        decoder reset commands, enabled to track down decoder errors
+
+        to be removed
+        */
+
+        case 'dh':
+
+            //init decoder hw part
+            init_decoder_hw();
+
+            break;
+
+        case 'dl':
+
+            //init decoder logic part
+            init_decoder_logic();
+
+            break;
+
 
         case 'ep':
 
@@ -445,37 +465,9 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
 
 
 
-void cli_show_decoder_interface(volatile decoder_output_t * pInterface)
+void cli_show_decoder_interface()
 {
-    print(TS_PORT, "\r\n\r\ndecoder interface:");
-
-    print(TS_PORT, "\r\ncrank position: ");
-    printf_crkpos(TS_PORT, pInterface->crank_position);
-
-    print(TS_PORT, "\r\nphase: ");
-    printf_phase(TS_PORT, pInterface->phase);
-
-    print(TS_PORT, "\r\ncrank period (us): ");
-    printf_U(TS_PORT, pInterface->crank_period_us, NO_PAD);
-
-    print(TS_PORT, "\r\ncrank rpm: ");
-    printf_U(TS_PORT, pInterface->crank_rpm, NO_PAD);
-
-    print(TS_PORT, "\r\ncrank acceleration: ");
-    printf_F32(TS_PORT, pInterface->crank_acceleration);
-
-    print(TS_PORT, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid standstill: ");
-    UART_Tx(TS_PORT, (pInterface->flags.position_valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->flags.phase_valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->flags.period_valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->flags.rpm_valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->flags.accel_valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pInterface->flags.standstill? '1' :'0'));
+    decoder_debug_show_internals(TS_PORT);
 }
 
 

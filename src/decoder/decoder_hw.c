@@ -115,7 +115,7 @@ void update_cam_noisefilter(U32 timer_base)
     U32 compare;
 
     //calculate the compare value
-    compare= timer_base + Decoder_Setup.crank_noise_filter;
+    compare= timer_base + Decoder_Setup.cam_noise_filter;
 
     //check if this value can be reached in this timer cycle
     VitalAssert( compare < 0xFFFF, TID_DECODER_HW, DECODER_LOC_HW_UPD_CAM_NOISEF_ARG);
@@ -445,7 +445,6 @@ void disable_decoder_hw()
     //disable cis irq
     NVIC_DisableIRQ(EXTI1_IRQn);
     decoder_mask_cis_irq();
-
     set_cis_sensing_disabled();
 
     //disable timer 9 compare 1 irq
@@ -480,7 +479,6 @@ void EXTI0_IRQHandler(void)
     {
         //reset timer
         decoder_reset_timestamp();
-
 
         Decoder_hw.captured_positions_cont= 1;
 

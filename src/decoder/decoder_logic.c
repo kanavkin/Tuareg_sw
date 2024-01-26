@@ -249,7 +249,7 @@ void update_timing_data()
     {
         accel= divide_float(1000000.0 * ((VF32) rpm - (VF32) Decoder.last_crank_rpm), (VF32) period_us);
 
-        //apply the ema filter
+        //calculates the ema filter value, updates _last value and copies to output
         Decoder.out.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);
 
         //mark output data valid
