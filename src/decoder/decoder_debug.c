@@ -90,7 +90,6 @@ void decoder_debug_show_internals(USART_TypeDef * Port)
     UART_Tx(Port, '-');
     UART_Tx(Port, (Decoder_hw.state.timer_reset_req? '1' :'0'));
 
-
     print(Port, "\r\n\r\ndecoder logic");
 
     print(Port, "\r\ninternal state: TIMEOUT INIT ASYNC KEY GAP SYNC: ");
@@ -165,6 +164,22 @@ void decoder_debug_show_internals(USART_TypeDef * Port)
 
     print(Port, "\r\ntimestamp: ");
     printf_U(Port, TIM9->CNT, NO_PAD);
+
+
+    print(Port, "\r\n\r\nEXTI irq masks: CRK_ena CIS_ena SW_ena");
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR2? '1' :'0'));
+
+    print(Port, "\r\nEXTI irq state: CRK_pnd CIS_pnd SW_pnd ");
+    UART_Tx(Port, (EXTI->PR & EXTI_Line0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->PR & EXTI_Line1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->PR & EXTI_Line2? '1' :'0'));
+
 
 }
 

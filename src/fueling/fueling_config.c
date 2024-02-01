@@ -311,7 +311,7 @@ returns the volumetric efficiency in percent
 */
 F32 getValue_VeTable_TPS(U32 Rpm, F32 Tps_deg)
 {
-    return divide_float( getValue_t3D(&VeTable_TPS, Rpm, Tps_deg) , cVeTableDivider );
+    return ( getValue_t3D(&VeTable_TPS, Rpm, Tps_deg) / cVeTableDivider );
 }
 
 
@@ -365,7 +365,7 @@ returns the volumetric efficiency in percent
 */
 F32 getValue_VeTable_MAP(U32 Rpm, F32 Map_kPa)
 {
-    return divide_float( getValue_t3D(&VeTable_MAP, Rpm, Map_kPa) , cVeTableDivider );
+    return ( getValue_t3D(&VeTable_MAP, Rpm, Map_kPa) / cVeTableDivider );
 }
 
 

@@ -345,17 +345,25 @@ void update_air_flow(volatile fueling_control_t * pTarget)
     pTarget->charge_temp_K= charge_temp_K;
 
     //division by charge_temp_K needs DIV/0 protection
-    pTarget->air_density= divide_float(charge_density, charge_temp_K);
+    if(charge_temp_K > 0)
+    {
+        //calculate air density
+        pTarget->air_density= divide_float(charge_density, charge_temp_K);
 
-    //copy from base fuel mass
-    //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
+        //copy from base fuel mass
+        //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
+        air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
 
-    //update air mass flow rate
-    pTarget->air_flowrate_gps= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us);
+        //update air mass flow rate
+        pTarget->air_flowrate_gps= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us);
+    }
+    else
+    {
+        pTarget->air_flowrate_gps= 0.0;
+        Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_CHTMP_INVALID);
+    }
+
 }
-
-
 
 
 
