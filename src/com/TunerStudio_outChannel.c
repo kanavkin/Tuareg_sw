@@ -65,25 +65,25 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     Out.speed_kmh= Tuareg.process.speed_kmh;
     Out.engine_runtime_ms= Tuareg.process.engine_runtime;
 
-    Out.ignition_bits= Tuareg.ignition_controls.flags.all_flags;
-    Out.ignition_adv_deg= Tuareg.ignition_controls.ignition_advance_deg;
-    Out.ignition_dwell_us= Tuareg.ignition_controls.dwell_us;
+    Out.ignition_bits= Tuareg.Tuareg_controls.ignition_controls.flags.all_flags;
+    Out.ignition_adv_deg= Tuareg.Tuareg_controls.ignition_controls.ignition_advance_deg;
+    Out.ignition_dwell_us= Tuareg.Tuareg_controls.ignition_controls.dwell_us;
 
-    Out.fueling_bits= Tuareg.fueling_controls.flags.all_flags;
-    Out.VE_pct= Tuareg.fueling_controls.VE_pct;
-    Out.AFR_target= Tuareg.fueling_controls.AFR_target;
-    Out.charge_temp_K= Tuareg.fueling_controls.charge_temp_K;
-    Out.air_rate_gps= Tuareg.fueling_controls.air_flowrate_gps;
+    Out.fueling_bits= Tuareg.Tuareg_controls.fueling_controls.flags.all_flags;
+    Out.VE_pct= Tuareg.Tuareg_controls.fueling_controls.VE_pct;
+    Out.AFR_target= Tuareg.Tuareg_controls.fueling_controls.AFR_target;
+    Out.charge_temp_K= Tuareg.Tuareg_controls.fueling_controls.charge_temp_K;
+    Out.air_rate_gps= Tuareg.Tuareg_controls.fueling_controls.air_flowrate_gps;
 
-    Out.base_fuel_mass_ug= Tuareg.fueling_controls.base_fuel_mass_ug;
-    Out.target_fuel_mass_ug= Tuareg.fueling_controls.target_fuel_mass_ug;
-    Out.cmd_fuel_mass_ug= Tuareg.fueling_controls.cmd_fuel_mass_ug;
-    Out.wall_fuel_mass_ug= Tuareg.fueling_controls.wall_fuel_mass_ug;
+    Out.base_fuel_mass_ug= Tuareg.Tuareg_controls.fueling_controls.base_fuel_mass_ug;
+    Out.target_fuel_mass_ug= Tuareg.Tuareg_controls.fueling_controls.target_fuel_mass_ug;
+    Out.cmd_fuel_mass_ug= Tuareg.Tuareg_controls.fueling_controls.cmd_fuel_mass_ug;
+    Out.wall_fuel_mass_ug= Tuareg.Tuareg_controls.fueling_controls.wall_fuel_mass_ug;
 
-    Out.inj1_interval_us= Tuareg.fueling_controls.injector1_interval_us;
-    Out.inj2_interval_us= Tuareg.fueling_controls.injector2_interval_us;
-    Out.inj_dc_pct= Tuareg.fueling_controls.injector_target_dc;
-    Out.inj_delay_us= Tuareg.fueling_controls.injector_deadtime_us;
+    Out.inj1_interval_us= Tuareg.Tuareg_controls.fueling_controls.injector1_interval_us;
+    Out.inj2_interval_us= Tuareg.Tuareg_controls.fueling_controls.injector2_interval_us;
+    Out.inj_dc_pct= Tuareg.Tuareg_controls.fueling_controls.injector_target_dc;
+    Out.inj_delay_us= Tuareg.Tuareg_controls.fueling_controls.injector_deadtime_us;
 
     Out.fuel_rate_gps= Tuareg.process.fuel_rate_gps;
     Out.fuel_eff_mpg= Tuareg.process.fuel_eff_mpg;
@@ -101,7 +101,7 @@ prepare OutputChannel "tuareg" field
 */
 void ts_tuareg_bits(ts_tuareg_bits_t * pTarget)
 {
-    pTarget->run_inhibit= Tuareg.flags.run_inhibit;
+    pTarget->run_allow= Tuareg.flags.run_allow;
     pTarget->crash_sensor_triggered= Tuareg.flags.crash_sensor_triggered;
     pTarget->run_switch_deactivated= Tuareg.flags.run_switch_deactivated;
     pTarget->sidestand_sensor_triggered= Tuareg.flags.sidestand_sensor_triggered;

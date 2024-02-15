@@ -101,8 +101,8 @@ void show_Tuareg_Setup(USART_TypeDef * Port)
     printf_U(Port, Tuareg_Setup.standby_timeout_s, NO_PAD);
 
     //rpm until cranking features are activated
-    print(Port, "\r\ncranking features turn off rpm: ");
-    printf_U(Port, Tuareg_Setup.cranking_end_rpm, NO_PAD);
+//    print(Port, "\r\ncranking features turn off rpm: ");
+//    printf_U(Port, Tuareg_Setup.cranking_end_rpm, NO_PAD);
 
     //U16 spd_min_rpm
    // print(Port, "\r\nSpeed Density min (rpm):");

@@ -226,6 +226,7 @@ void update_timing_data()
     Decoder.out.flags.period_valid= true;
     Decoder.out.crank_rpm= rpm;
     Decoder.out.flags.rpm_valid= true;
+    Decoder.out.flags.standstill= false;
 
 
     /**
@@ -476,7 +477,7 @@ void decoder_crank_handler()
             /**
             finally trigger the decoder update irq -> last action here
             */
-            if(Decoder.out.flags.rpm_valid == true)
+            if( (Decoder.out.flags.position_valid == true) && (Decoder.out.flags.period_valid == true) && (Decoder.out.flags.rpm_valid == true) )
             {
                 trigger_decoder_irq();
             }

@@ -106,12 +106,7 @@ void show_Ignition_Setup(USART_TypeDef * Port)
     printf_crkpos(Port, Ignition_Setup.cranking_dwell_position);
 
     //flags
-    print(Port, "\r\nfeature enabled flags: dynamic-cranking-cold_idle-sequential-2 coils: ");
-
-    UART_Tx(TS_PORT, (Ignition_Setup.flags.dynamic_controls_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (Ignition_Setup.flags.cranking_controls_enabled? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
+    print(Port, "\r\nfeature enabled flags: cold_idle-sequential-2 coils: ");
     UART_Tx(TS_PORT, (Ignition_Setup.flags.cold_idle_enabled? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (Ignition_Setup.flags.sequential_mode_enabled? '1' :'0'));
@@ -181,7 +176,7 @@ void send_ignDwellTable(USART_TypeDef * Port)
 /**
 returns the dwell time in us
 */
-U32 getValue_ignDwellTable(U32 Rpm)
+F32 getValue_ignDwellTable(U32 Rpm)
 {
     //ignDwellTable stores the Dwell time in 48 us increments
     return getValue_table(&ignDwellTable, Rpm);

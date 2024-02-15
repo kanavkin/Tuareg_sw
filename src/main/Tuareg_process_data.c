@@ -279,7 +279,7 @@ void Tuareg_update_runtime()
     /**
     the engine run time counter begins to count when leaving crank mode
     */
-    if( (Tuareg.flags.run_inhibit == false) &&
+    if( (Tuareg.flags.run_allow == true) &&
         (Tuareg.flags.standby == false) &&
         (Tuareg.pDecoder->flags.standstill == false) &&
         (Tuareg.flags.cranking == false) &&

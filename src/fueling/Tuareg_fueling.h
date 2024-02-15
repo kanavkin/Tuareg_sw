@@ -6,6 +6,7 @@
 #include "fueling_hw.h"
 #include "fueling_config.h"
 #include "Tuareg_fueling_controls.h"
+#include "Fueling_syslog_locations.h"
 
 #define FUELING_REQUIRED_CONFIG_VERSION 9
 

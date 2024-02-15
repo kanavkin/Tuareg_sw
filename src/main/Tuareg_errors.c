@@ -28,7 +28,7 @@ void Fatal(Tuareg_ID Id, U8 Location)
     Tuareg.errors.fatal_error= true;
 
     //these flags will be acknowledged by Tuareg_update() again
-    Tuareg.flags.run_inhibit= true;
+    Tuareg.flags.run_allow= false;
     Tuareg.flags.service_mode= false;
     Tuareg.flags.limited_op= false;
     Tuareg.flags.standby= false;

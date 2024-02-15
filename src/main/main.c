@@ -226,7 +226,7 @@ sw generated irq when decoder has updated crank_position based on crank pickup s
 as the ignition / fueling timing relies on this position update event, it shall be implemented stream lined
 
 
-The crank decoder will not provide any crank velocity information for the first 2..3 crank revolutions after getting sync
+The crank decoder will not trigger this irq if no valid rpm figure is available
 
 The irq can be entered in HALT Mode when the crank is still spinning but the RUN switch has not yet been evaluated.
 
@@ -238,6 +238,9 @@ void EXTI2_IRQHandler(void)
     //clear pending register
     EXTI->PR= EXTI_Line2;
 
+    //reset decoder watchdog
+    Tuareg.decoder_watchdog= 0;
+
     //no engine operation in Fatal state
     if(Tuareg.errors.fatal_error == true)
     {
@@ -247,8 +250,12 @@ void EXTI2_IRQHandler(void)
     //start MAP sensor conversion
     adc_start_injected_group(SENSOR_ADC);
 
-    //reset decoder watchdog
-    Tuareg.decoder_watchdog= 0;
+
+    //check if essential decoder data is valid
+    VitalAssert( Tuareg.pDecoder->flags.position_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_POSITION_ERROR);
+    VitalAssert( Tuareg.pDecoder->flags.period_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_PERIOD_ERROR);
+    VitalAssert( Tuareg.pDecoder->flags.rpm_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_RPM_ERROR);
+
 
 
     /**

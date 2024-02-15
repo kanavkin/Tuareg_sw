@@ -12,7 +12,7 @@ typedef union
 
     struct
     {
-        U32 run_inhibit :1;
+        U32 run_allow :1;
         U32 crash_sensor_triggered :1;
         U32 run_switch_deactivated :1;
         U32 sidestand_sensor_triggered :1;

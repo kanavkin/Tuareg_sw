@@ -185,7 +185,7 @@ void update_knock_sensor_parameters(knock_sensor_controls_t * pTarget)
     F32 a_target, a_param;
 
     //begin timing
-    pTarget->integration_begin_timing_us= calc_rot_duration_us(Tuareg.ignition_controls.ignition_advance_deg + cKnock_window_begin_aTDC, Tuareg.pDecoder->crank_period_us );
+    pTarget->integration_begin_timing_us= calc_rot_duration_us(Tuareg.Tuareg_controls.ignition_controls.ignition_advance_deg + cKnock_window_begin_aTDC, Tuareg.pDecoder->crank_period_us );
 
     //integration interval
     interval_us= calc_rot_duration_us(cKnock_window_width_deg, Tuareg.pDecoder->crank_period_us );

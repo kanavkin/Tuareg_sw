@@ -98,7 +98,7 @@ void update_mil()
         set_mil(MIL_PERMANENT);
         return;
     }
-    else if( (Tuareg.flags.run_inhibit == true) && (Tuareg.flags.run_switch_deactivated == false))
+    else if( (Tuareg.flags.run_allow == false) && (Tuareg.flags.run_switch_deactivated == false))
     {
         set_mil(MIL_BLINK_FAST);
     }

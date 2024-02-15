@@ -69,7 +69,7 @@ e.g. timeout_us, map_kPa, ...
 typedef struct _tuareg_flags_t {
 
     //is engine operation allowed?
-    U32 run_inhibit :1;
+    U32 run_allow :1;
 
     //some run_inhibit sources
     U32 crash_sensor_triggered :1;
@@ -155,21 +155,10 @@ typedef struct _Tuareg_t {
     */
     systick_t * pTimer;
 
-
     /**
-    Tuareg strategy control
+    Tuareg ignition ans fueling controls
     */
     Tuareg_controls_t Tuareg_controls;
-
-    /**
-    current ignition timing and alignment
-    */
-    ignition_controls_t ignition_controls;
-
-    /**
-    current fueling parameters
-    */
-    fueling_control_t fueling_controls;
 
     /**
     state machine and health status

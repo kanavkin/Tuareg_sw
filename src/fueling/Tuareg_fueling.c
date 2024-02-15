@@ -103,10 +103,10 @@ void Tuareg_fueling_update_crankpos_handler()
         fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_POS);
 
         //check vital preconditions
-        if((Tuareg.flags.run_inhibit == false) && (Tuareg.fueling_controls.flags.valid == true))
+        if((Tuareg.flags.run_allow == true) && (Tuareg.Tuareg_controls.fueling_controls.flags.valid == true))
         {
             //check the commanded mode
-            if(Tuareg.fueling_controls.flags.sequential_mode == true)
+            if(Tuareg.Tuareg_controls.fueling_controls.flags.sequential_mode == true)
             {
                 //check if phase information is available
                 if(Tuareg.pDecoder->flags.phase_valid == true)
@@ -156,14 +156,14 @@ void Tuareg_fueling_update_crankpos_handler()
             {
                 //trigger scheduler
                 scheduler_reset_channel(SCHEDULER_CH_FUEL1);
-                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector1_interval_us;
+                scheduler_parameters.interval1_us= Tuareg.Tuareg_controls.fueling_controls.injector1_interval_us;
                 scheduler_set_channel(SCHEDULER_CH_FUEL1, &scheduler_parameters);
 
                 //trigger actor
                 set_injector1(ACTOR_POWERED);
 
                 //register fuel mass injected
-                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.Tuareg_controls.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_1);
@@ -177,14 +177,14 @@ void Tuareg_fueling_update_crankpos_handler()
             {
                 //trigger scheduler
                 scheduler_reset_channel(SCHEDULER_CH_FUEL2);
-                scheduler_parameters.interval1_us= Tuareg.fueling_controls.injector2_interval_us;
+                scheduler_parameters.interval1_us= Tuareg.Tuareg_controls.fueling_controls.injector2_interval_us;
                 scheduler_set_channel(SCHEDULER_CH_FUEL2, &scheduler_parameters);
 
                 //trigger actor
                 set_injector2(ACTOR_POWERED);
 
                 //register fuel mass injected
-                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.fueling_controls.target_fuel_mass_ug;
+                Tuareg.process.fuel_mass_integrator_1s_ug += Tuareg.Tuareg_controls.fueling_controls.target_fuel_mass_ug;
 
                 //collect diagnostic information
                 fueling_diag_log_event(FDIAG_CRKPOSH_INJBEG_2);

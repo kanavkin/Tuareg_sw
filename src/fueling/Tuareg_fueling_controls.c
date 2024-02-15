@@ -15,11 +15,14 @@
 
 
 //built in defaults
+
+/*
 const F32 cDefault_AFR_target= 14.7;
 const F32 cMin_AFR_target= 3.0;
 const F32 cMax_AFR_target= 30.0;
 const F32 cMin_VE_val= 0.0;
 const F32 cMax_VE_val= 125.0;
+*/
 const F32 cMax_fuel_rel_comp_pct= 100.0;
 const F32 cMin_fuel_rel_comp_pct= -50.0;
 const F32 cMax_fuel_abs_comp_ug= 10000.0;
@@ -53,7 +56,7 @@ const F32 cMax_fuel_abs_comp_ug= 10000.0;
 *
 *   /// TODO (oli#1#03/31/22): harden fallback options
 *   TODO fix design flaw:
-*   If the MAP sensor is failing, fueling has to rely solely on TPS, calculated air density will be wrong! VE TPS table may not have
+*   If the MAP sensor has failed, fueling has to rely solely on TPS, calculated air density will be wrong! VE TPS table may not have
 *   information for the rpm range
 *
 *   operating strategy:
@@ -91,6 +94,8 @@ const F32 cMax_fuel_abs_comp_ug= 10000.0;
 *                                   -> limited operation!
 *
 *   CLT error                       -> warm up correction not available
+*                                   -> charge temperature calculation not available
+*                                   -> overheating protection not available
 *
 *   BARO error                      -> barometric pressure based correction not available
 *
@@ -99,7 +104,7 @@ const F32 cMax_fuel_abs_comp_ug= 10000.0;
 ****************************************************************************************************************************************/
 void Tuareg_update_fueling_controls()
 {
-    volatile fueling_control_t * pTarget= &(Tuareg.fueling_controls);
+    volatile fueling_control_t * pTarget= &(Tuareg.Tuareg_controls.fueling_controls);
 
     //log diag data
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
@@ -116,7 +121,7 @@ void Tuareg_update_fueling_controls()
         -> no functional impact on ignition!
     */
     if( (Tuareg.errors.fatal_error == true) ||
-        (Tuareg.flags.run_inhibit == true) || (Tuareg.flags.standby == true) ||
+        (Tuareg.flags.run_allow == false) || (Tuareg.flags.standby == true) ||
         ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.process.engine_runtime == 0))) ||
         ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true)) ||
         (Tuareg.Tuareg_controls.Flags.valid == false)
@@ -153,60 +158,24 @@ void Tuareg_update_fueling_controls()
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_RUNNING);
 
-/// TODO (oli#1#09/01/23): adapt to control strategy
-        /**
-
-        determine on which sensor input VE and AFR calculation shall be based
-        already checked
-
-        if((Tuareg.errors.sensor_TPS_error == true) && (Tuareg.errors.sensor_MAP_error == true))
-        {
-            //no engine operation without a load figure
-            Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_SENSORS);
-            return;
-        }
-
-        //select MAP sensor for lower engine speeds if possible and for higher speeds if TPS has failed (but higher engine speed will be rejected by rev limiter); TPS for higher
-        pTarget->flags.SPD= ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Fueling_Setup.spd_max_rpm)) || (Tuareg.errors.sensor_TPS_error == true);
-
-        //air density calculation relies on IAT sensor
-        pTarget->flags.AFR_fallback= (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.sensor_IAT_error == true);
-
-        //collect diagnostic data
-        fueling_diag_log_event((pTarget->flags.MAP_nTPS == true)? FDIAG_UPD_CTRLS_MAP : FDIAG_UPD_CTRLS_TPS);
-        */
 
         /**
-        select fueling mode
+        sequential mode
+        phase data from decoder is required
         */
-
-        //sequential mode requires phase data from decoder
         pTarget->flags.sequential_mode= (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->flags.phase_valid);
 
         //collect diagnostic data
         fueling_diag_log_event((pTarget->flags.sequential_mode == true)? FDIAG_UPD_CTRLS_SEQ : FDIAG_UPD_CTRLS_BATCH);
 
+
         /**
-        VE
-        /// TODO (oli#1#09/01/23): adapt to map set
-
-        pTarget->VE_pct= (pTarget->flags.MAP_nTPS == true)? getValue_VeTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa) : getValue_VeTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
+        valid AFR and VE data now provided by Tuareg_controls,
+        taking into account the commanded control strategy
         */
+        pTarget->VE_pct= Tuareg.Tuareg_controls.VE_pct;
+        pTarget->AFR_target= Tuareg.Tuareg_controls.AFRtgt;
 
-        pTarget->VE_pct= Tuareg.Tuareg_controls.VE;
-
-        //range check
-        if((pTarget->VE_pct < cMin_VE_val) || (pTarget->VE_pct > cMax_VE_val))
-        {
-            //no way to proceed without a valid VE
-            Fatal(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_VE_INVALID);
-
-            invalid_fueling_controls(pTarget);
-            return;
-        }
-
-        ///AFR
-        update_AFR_target(pTarget);
 
         ///air flow
         update_air_flow(pTarget);
@@ -263,7 +232,7 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
     pTarget->VE_pct= 0.0;
     pTarget->air_density= 0.0;
     pTarget->air_flowrate_gps= 0.0;
-    pTarget->AFR_target= cDefault_AFR_target;
+    pTarget->AFR_target= 0.0;
     pTarget->base_fuel_mass_ug= 0.0;
 
     pTarget->WUE_pct= 0.0;
@@ -348,7 +317,7 @@ void update_air_flow(volatile fueling_control_t * pTarget)
 
     //copy from base fuel mass
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
+    air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Tuareg_controls.fueling_controls.VE_pct) / 100.0;
 
     //update air mass flow rate
     //period_us has already been validated in precondition check
@@ -362,59 +331,6 @@ void update_air_flow(volatile fueling_control_t * pTarget)
 
     //export air density
     pTarget->air_flowrate_gps= air_rate;
-}
-
-
-
-
-
-/****************************************************************************************************************************************
-*   fueling controls update helper functions - AFR
-*
-*   decides from which table to look up the AFR target
-*   use a safe (default) AFR target if fuel mass calculation relates on defaults
-*
-*   AFR is expected in 7 .. 20 range
-****************************************************************************************************************************************/
-void update_AFR_target(volatile fueling_control_t * pTarget)
-{
-    F32 AFR_value;
-
-    if(pTarget->flags.AFR_fallback == true)
-    {
-        pTarget->AFR_target= cDefault_AFR_target;
-        return;
-    }
-
-/// TODO (oli#1#09/01/23): adopt to mapset
-/*
-    //check from which table to look up
-    if(pTarget->flags.MAP_nTPS == true)
-    {
-        AFR_value= getValue_AfrTable_MAP(Tuareg.pDecoder->crank_rpm, Tuareg.process.MAP_kPa);
-    }
-    else
-    {
-        AFR_value= getValue_AfrTable_TPS(Tuareg.pDecoder->crank_rpm, Tuareg.process.TPS_deg);
-    }
-*/
-    AFR_value= Tuareg.Tuareg_controls.AFRtgt;
-
-    //do range check
-    if((AFR_value > cMin_AFR_target) && (AFR_value < cMax_AFR_target))
-    {
-        //use value from config
-        pTarget->AFR_target= AFR_value;
-    }
-    else
-    {
-        //limit engine speed
-        Limp(TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_AFR_INVALID);
-
-        //use fallback value
-        pTarget->AFR_target= cDefault_AFR_target;
-        pTarget->flags.AFR_fallback= true;
-    }
 }
 
 
@@ -470,11 +386,11 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget)
     exec_result_t result;
 
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (Tuareg.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.fueling_controls.VE_pct) / 100.0;
+    air_mass_ug= (Tuareg.Tuareg_controls.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Tuareg_controls.fueling_controls.VE_pct) / 100.0;
 
     //base fuel mass [µg] := air mass [ug] / AFR [1]
     //AFR_target has already been validated in get_AFR_target()
-    result= divide_float(air_mass_ug, Tuareg.fueling_controls.AFR_target, &base_fuel_mass_ug);
+    result= divide_float(air_mass_ug, Tuareg.Tuareg_controls.fueling_controls.AFR_target, &base_fuel_mass_ug);
 
     if(result != EXEC_OK)
     {

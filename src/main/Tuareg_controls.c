@@ -10,21 +10,15 @@
 
 
 /******************************************************************************************************************************
-INIT
+built in defaults
 ******************************************************************************************************************************/
-
-
-
-
-/******************************************************************************************************************************
-Update - periodic update function
-
-called every 10 ms from systick timer (100 Hz)
-
-this function will be executed in all system states and has to take care of all system errors
-
-
-******************************************************************************************************************************/
+const F32 cDefault_AFR_target= 14.7;
+const F32 cMin_AFR_target= 3.0;
+const F32 cMax_AFR_target= 30.0;
+const F32 cMin_VE_val= 0.0;
+const F32 cMax_VE_val= 125.0;
+const F32 cMin_Adv_val= 0.0;
+const F32 cMax_Adv_val= 70.0;
 
 
 
@@ -32,60 +26,51 @@ this function will be executed in all system states and has to take care of all 
 /******************************************************************************************************************************
 
 ******************************************************************************************************************************/
-
-
-exec_result_t Tuareg_update_control_strategy()
+void Tuareg_update_control_strategy(volatile Tuareg_controls_t * pControls)
 {
-    /*
-    At least one method to determine engine load is required to operate the engine
+/// TODO (oli#1#10/20/23): check this logic
 
-    -> while booting all errors will be present
-    -> non-running modes are not affected
-    -> while cranking a static ignition profile and fueling is used
-    */
-    if( (Tuareg.flags.run_inhibit == false) && (Tuareg.pDecoder->flags.standstill == false) && (Tuareg.flags.cranking == false) &&
-       (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true) )
+    //if the MAP sensor is available
+    if(Tuareg.errors.sensor_MAP_error == false)
     {
-        //engine operation is not allowed
-        Fatal(TID_TUAREG, TUAREG_LOC_UPDSTRGY_SRC_ERROR);
-
-        return EXEC_ERROR;
+        //select MAP sensor for lower engine speed or if the TPS sensor has failed
+        pControls->Flags.SPD_ctrl= ((Tuareg.pDecoder->crank_rpm < Tuareg_Setup.spd_max_rpm) && (Tuareg.flags.cranking == false))  || (Tuareg.errors.sensor_TPS_error == true);
+    }
+    else
+    {
+        //run_allow will be reset within 200ms if the TPS sensor has failed, too
+        pControls->Flags.SPD_ctrl= false;
     }
 
-    /**
-    - select MAP sensor for lower engine speed if it has not failed - use TPS sensor instead
-    - select TPS for higher engine speed
-    - higher engine speed will be rejected by the limp mode triggered rev limiter
-    */
-    Tuareg.Tuareg_controls.Flags.SPD_ctrl= (   (Tuareg.errors.sensor_MAP_error == false) && (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.spd_max_rpm) && (Tuareg.flags.limited_op == false) ) ||
-                                                    (Tuareg.errors.sensor_TPS_error == true);
-
-
-    return EXEC_OK;
 }
 
 
 /******************************************************************************************************************************
-
 main function to be called
-
-
 ******************************************************************************************************************************/
-
-
-exec_result_t Tuareg_update_controls()
+void Tuareg_update_controls(volatile Tuareg_controls_t * pControls)
 {
     ctrlset_req_t Request;
     exec_result_t Result;
 
+
     //mark current controls as invalid
-    Tuareg.Tuareg_controls.Flags.valid= false;
+    pControls->Flags.valid= false;
+
+
+    /******************************************
+    exit if engine operation is not allowed
+    ******************************************/
+    if(Tuareg.flags.run_allow == false)
+    {
+        return;
+    }
 
 
     /******************************************
     select a proper control strategy
     ******************************************/
-    ASSERT_EXEC_OK( Tuareg_update_control_strategy() );
+    Tuareg_update_control_strategy(pControls);
 
 
     /******************************************************
@@ -96,21 +81,39 @@ exec_result_t Tuareg_update_controls()
     Request.X= Tuareg.pDecoder->crank_rpm;
 
 
-    if(Tuareg.flags.limited_op == true)
+    if(pControls->Flags.SPD_ctrl == false)
     {
-        //LIMP TPS control
-        Request.Y= Tuareg.process.TPS_deg;
+        //TPS based control requested
 
-        //perfom look up
-        Result= ctrlset_get(&Control_TPS_Limp, &Request);
+        //check if a degraded situation is present
+        if(Tuareg.flags.limited_op == true)
+        {
+            //LIMP TPS control
+            Request.Y= Tuareg.process.TPS_deg;
 
-        VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPSLIMP_ERROR);
+            //perfom look up
+            Result= ctrlset_get(&Control_TPS_Limp, &Request);
 
-        //export set designator
-        Tuareg.Tuareg_controls.Set= CTRLSET_TPS_LIMP;
+            VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPSLIMP_ERROR);
 
+            //export set designator
+            pControls->Set= CTRLSET_TPS_LIMP;
+        }
+        else
+        {
+            //regular TPS control
+            Request.Y= Tuareg.process.TPS_deg;
+
+            //perfom look up
+            Result= ctrlset_get(&Control_TPS, &Request);
+
+            VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPS_ERROR);
+
+            //export set designator
+            pControls->Set= CTRLSET_TPS_STD;
+        }
     }
-    if(Tuareg.Tuareg_controls.Flags.SPD_ctrl == true)
+    else
     {
         //MAP control
         Request.Y= Tuareg.process.MAP_kPa;
@@ -121,31 +124,89 @@ exec_result_t Tuareg_update_controls()
         VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_MAP_ERROR);
 
         //export set designator
-        Tuareg.Tuareg_controls.Set= CTRLSET_MAP_STD;
+        pControls->Set= CTRLSET_MAP_STD;
+    }
+
+    /**
+    VE range check
+    */
+    if(Request.VE < cMin_VE_val)
+    {
+        //clamp VE
+        pControls->VE_pct= cMin_VE_val;
+
+        //a robust but ugly strategy to proceed without a valid VE
+        Limp(TID_TUAREG_CONTROLS, TUAREG_LOC_UPDCTRL_VE_MIN_VAL);
+    }
+    else if(Request.VE > cMax_VE_val)
+    {
+        //clamp VE
+        pControls->VE_pct= cMax_VE_val;
+
+        //a robust but ugly strategy to proceed without a valid VE
+        Limp(TID_TUAREG_CONTROLS, TUAREG_LOC_UPDCTRL_VE_MAX_VAL);
     }
     else
     {
-        //TPS control
-        Request.Y= Tuareg.process.TPS_deg;
-
-        //perfom look up
-        Result= ctrlset_get(&Control_TPS, &Request);
-
-        VitalAssert(Result == EXEC_OK, TID_TUAREG_CONTROLS, TUAREG_LOC_CTRLS_UPDATE_TPS_ERROR);
-
-        //export set designator
-        Tuareg.Tuareg_controls.Set= CTRLSET_TPS_STD;
-
+        //use value from lookup
+        pControls->VE_pct= Request.VE;
     }
 
-    //copy data over
-    Tuareg.Tuareg_controls.AFRtgt= Request.AFRtgt;
-    Tuareg.Tuareg_controls.VE= Request.VE;
-    Tuareg.Tuareg_controls.IgnAdv= Request.IgnAdv;
 
-    //mark controls as valid
-    Tuareg.Tuareg_controls.Flags.valid= true;
+    /**
+    AFR range check and substitution logic
+    to avoid unsafe engine operation in a degraded situation, a default AFT target has to be applied
+    */
+    if((Request.AFRtgt < cMin_AFR_target) || (Request.AFRtgt > cMax_AFR_target))
+    {
+        //use fallback value
+        pControls->AFRtgt= cDefault_AFR_target;
+        pControls->Flags.AFR_fallback= true;
+
+        //a robust but ugly strategy to proceed without a valid AFR
+        Limp(TID_TUAREG_CONTROLS, TUAREG_LOC_UPDCTRL_AFR_INVALID);
+    }
+    else if(Tuareg.flags.limited_op == true)
+    {
+        //use fallback value, too
+        pControls->AFRtgt= cDefault_AFR_target;
+        pControls->Flags.AFR_fallback= true;
+    }
+    else
+    {
+        //use value from lookup
+        pControls->AFRtgt= Request.AFRtgt;
+    }
 
 
-    return Result;
+    /**
+    Ignition Advance Angle range check
+    */
+    if(Request.IgnAdv < cMin_Adv_val)
+    {
+        //clamp angle
+        pControls->IgnAdv_deg= cMin_Adv_val;
+
+        //a robust but ugly strategy to proceed without a valid angle
+        Limp(TID_TUAREG_CONTROLS, TUAREG_LOC_UPDCTRL_ADV_MIN_VAL);
+    }
+    else if(Request.IgnAdv > cMax_Adv_val)
+    {
+        //clamp angle
+        pControls->IgnAdv_deg= cMax_Adv_val;
+
+        //a robust but ugly strategy to proceed without a valid VE
+        Limp(TID_TUAREG_CONTROLS, TUAREG_LOC_UPDCTRL_ADV_MAX_VAL);
+    }
+    else
+    {
+        //use value from lookup
+        pControls->IgnAdv_deg= Request.IgnAdv;
+    }
+
+
+    /**
+    all good, mark controls as valid
+    */
+    pControls->Flags.valid= true;
 }

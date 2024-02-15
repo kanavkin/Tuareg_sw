@@ -168,12 +168,12 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
 
         case 'IC':
 
-            cli_show_ignition_controls(&(Tuareg.ignition_controls));
+            cli_show_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
             break;
 
         case 'FC':
 
-            cli_show_fueling_controls(&(Tuareg.fueling_controls));
+            cli_show_fueling_controls(&(Tuareg.Tuareg_controls.fueling_controls));
             break;
 
 
@@ -323,7 +323,7 @@ void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
     UART_Tx(TS_PORT, ' ');
     printf_U(TS_PORT, pTiming->dwell_us, NO_PAD);
 
-    print(TS_PORT, "\r\nflags: valid dyn seq_mode cold_idle a_map: ");
+    print(TS_PORT, "\r\nflags: valid dyn seq_mode cold_idle: ");
 
     UART_Tx(TS_PORT, (pTiming->flags.valid? '1' :'0'));
     UART_Tx(TS_PORT, '-');
@@ -332,9 +332,6 @@ void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
     UART_Tx(TS_PORT, (pTiming->flags.sequential_mode? '1' :'0'));
     UART_Tx(TS_PORT, '-');
     UART_Tx(TS_PORT, (pTiming->flags.cold_idle? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pTiming->flags.advance_map? '1' :'0'));
-
 }
 
 

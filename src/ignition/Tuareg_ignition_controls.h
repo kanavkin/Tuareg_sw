@@ -4,13 +4,7 @@
 #include <Tuareg_platform.h>
 
 
-/**
-default ignition controls
-*/
-#define DEFAULT_DWELL_POSITION CRK_POSITION_D2
-#define DEFAULT_IGNITION_POSITION CRK_POSITION_B1
-#define DEFAULT_IGNITION_ADVANCE_DEG 10
-#define DEFAULT_REPORTED_DWELL_US 10000
+
 
 
 /**
@@ -39,7 +33,6 @@ typedef union
         U8 dynamic_controls :1;
         U8 sequential_mode :1;
         U8 cold_idle :1;
-        U8 advance_map :1;
      };
 
 } ignition_logic_flags_t;
@@ -52,13 +45,13 @@ ignition controls
 typedef struct _ignition_control_t {
 
     //dynamic ignition
-    U32 ignition_advance_deg;
-    U32 ignition_timing_us;
+    F32 ignition_advance_deg;
+    F32 ignition_timing_us;
     crank_position_t ignition_pos;
 
     //dynamic dwell
-    U32 dwell_us;
-    U32 dwell_timing_us;
+    F32 dwell_us;
+    F32 dwell_timing_us;
     crank_position_t dwell_pos;
 
     //status data
@@ -69,7 +62,7 @@ typedef struct _ignition_control_t {
 
 
 
-void Tuareg_update_ignition_controls();
+void Tuareg_update_ignition_controls(volatile ignition_controls_t * pTarget);
 
 void default_ignition_controls(volatile ignition_controls_t * pTarget);
 void revlimiter_ignition_controls(volatile ignition_controls_t * pTarget);

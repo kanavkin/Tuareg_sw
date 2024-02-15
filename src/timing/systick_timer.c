@@ -134,7 +134,7 @@ void SysTick_Handler(void)
                 sensors_start_injected_group_conversion();
 
                 Tuareg_update_process_data();
-                Tuareg_update_ignition_controls();
+                Tuareg_update_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
                 Tuareg_update_fueling_controls();
             }
 

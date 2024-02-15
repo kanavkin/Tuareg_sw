@@ -43,7 +43,7 @@ void Tuareg_Init()
     Tuareg.errors.init_not_completed= true;
 
     //engine operation not permitted until end of initialization
-    Tuareg.flags.run_inhibit= true;
+    Tuareg.flags.run_allow= false;
     Tuareg.flags.cranking= false;
     Tuareg.flags.standby= true;
     Tuareg.decoder_watchdog= 0xFFFFFFFF;
@@ -158,69 +158,19 @@ void Tuareg_load_config()
 }
 
 
-
-
 /******************************************************************************************************************************
-Update - periodic update function
-
-called every 10 ms from systick timer (100 Hz)
-
-this function will be executed in all system states and has to take care of all system errors
-
-
-******************************************************************************************************************************/
-
-const U32 cInj_wd_thres_ms= 200;
-
-void Tuareg_update_systick()
-{
-    //injector watchdog check
-    if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
-    {
-        Fatal(TID_MAIN, TUAREG_LOC_INJ_WATCHDOG);
-    }
-
-    //update control flags
-    Tuareg_update_limited_op();
-    Tuareg_update_rev_limiter();
-    Tuareg_update_run_inhibit();
-    Tuareg_update_standby();
-    Tuareg_update_cranking();
-    Tuareg_update_runtime();
-
-    //fuel pump
-    Tuareg_update_fuel_pump_control();
-
-    /**
-    vital actors control
-    (fuel pump is separated to allow fuel priming)
-
-    while the system is in normal operating conditions the vital actors shall be deactivated in standby mode or when run inhibit is set
-    in service mode vital actor control is given to the service functions
-    fuel pump priming normally takes place when the run switch is off
-    */
-    if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_inhibit == true)))
-    {
-        //keep vital actors deactivated, allow fuel pump priming
-        Tuareg_deactivate_vital_actors(true);
-    }
-
-}
-
-
-/******************************************************************************************************************************
-periodic update helper function - run inhibit
+periodic update helper function - run allow
 ******************************************************************************************************************************/
 
 const U32 cOverheat_hist_K= 20;
 
 
-void Tuareg_update_run_inhibit()
+void Tuareg_update_run_allow()
 {
     //check precondition - no fatal error present
     if(Tuareg.errors.fatal_error == true)
     {
-        Tuareg.flags.run_inhibit= true;
+        Tuareg.flags.run_allow= false;
         return;
     }
 
@@ -234,34 +184,42 @@ void Tuareg_update_run_inhibit()
     //shut engine off if the CRASH sensor is engaged
     Tuareg.flags.crash_sensor_triggered= (Digital_Sensors.crash == Tuareg_Setup.flags.CrashSensor_trig_high);
 
-    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected AND the indicated gear is trustworthy
+    //shut engine off if the SIDESTAND sensor is engaged AND a gear has been selected AND the indicated gear is valid
     Tuareg.flags.sidestand_sensor_triggered= ((Digital_Sensors.sidestand == Tuareg_Setup.flags.SidestandSensor_trig_high) && (Tuareg.process.Gear != GEAR_NEUTRAL) && (Tuareg.errors.sensor_GEAR_error == false));
 
 
     /**
     check if the overheating protector indicates a HALT condition
-    a failed coolant sensor will never trigger this protector
     */
-    if((Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K) && (Tuareg.errors.sensor_CLT_error == false))
+    if(Tuareg.process.CLT_K > Tuareg_Setup.overheat_thres_K)
     {
         Tuareg.flags.overheat_detected= true;
     }
-    else if( ((Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K))) ||
-             (Tuareg.errors.sensor_CLT_error == true) )
+    else if( (Tuareg.flags.overheat_detected == true) && (Tuareg.process.CLT_K < subtract_U32(Tuareg_Setup.overheat_thres_K, cOverheat_hist_K)) )
     {
         Tuareg.flags.overheat_detected= false;
     }
 
-
     /**
-    the run_inhibit flag indicates that engine operation is temporarily restricted
+    At least one method to determine engine load is required to operate the engine
+    -> MAP/TPS sensor errors
     */
-    Tuareg.flags.run_inhibit=(  ((Tuareg.flags.run_switch_deactivated == true) && (Tuareg_Setup.flags.RunSwitch_override == false)) ||
-                                ((Tuareg.flags.crash_sensor_triggered == true) && (Tuareg_Setup.flags.CrashSensor_override == false)) ||
-                                ((Tuareg.flags.sidestand_sensor_triggered == true) && (Tuareg_Setup.flags.Sidestand_override == false)) ||
-                                (Tuareg.flags.overheat_detected == true) ||
-                                (Tuareg.flags.rev_limiter == true) ||
-                                (Tuareg.flags.service_mode == true) );
+
+
+    /******************************************************************************************************************
+    *** the run inhibit flag indicates that engine operation is temporarily restricted                              ***
+    ******************************************************************************************************************/
+    Tuareg.flags.run_allow=(
+
+        ((Tuareg.flags.run_switch_deactivated == false) || (Tuareg_Setup.flags.RunSwitch_override == true)) &&
+        ((Tuareg.flags.crash_sensor_triggered == false) || (Tuareg_Setup.flags.CrashSensor_override == true)) &&
+        ((Tuareg.flags.sidestand_sensor_triggered == false) || (Tuareg_Setup.flags.Sidestand_override == true)) &&
+        (Tuareg.flags.overheat_detected == false) &&
+        (Tuareg.flags.rev_limiter == false) &&
+        (Tuareg.flags.service_mode == false) &&
+        ((Tuareg.errors.sensor_MAP_error == false) || (Tuareg.errors.sensor_TPS_error == false))
+
+    );
 }
 
 
@@ -269,42 +227,30 @@ void Tuareg_update_run_inhibit()
 periodic update helper function - limited operation strategy
 
 the limited_op flag indicates that only essential functionality shall be executed
-once triggered limited_op will remain set until reboot
+limited_op can be cleared only by reset
 ******************************************************************************************************************************/
-
-const U32 cLoad_error_limp_thres= 100;
 
 void Tuareg_update_limited_op()
 {
     //nothing to do if already in limp mode
-    //limited_op can be cleared only only by reset
     if((Tuareg.flags.limited_op == true) || (Tuareg.errors.fatal_error == true))
     {
         return;
     }
 
-
-    /*
-    At least one method to determine engine load is required to operate the engine
-
-    -> while booting all errors will be present
-    -> non-running modes are not affected
-    -> while cranking a static ignition profile and fueling is used
+    /**
+    TPS, MAP, IAT, CLT, VBAT sensors are required for safe engine operation
     */
-    if((Tuareg.process.engine_runtime > cLoad_error_limp_thres) && (Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true))
-    {
-        Fatal(TID_TUAREG, TUAREG_LOC_LOAD_ESTIMATION_ERROR);
-    }
-
-
-    //from fueling controls:
-    if((Tuareg.errors.sensor_TPS_error == true) || (Tuareg.errors.sensor_MAP_error == true) || (Tuareg.errors.sensor_IAT_error == true) || (Tuareg.errors.sensor_VBAT_error == true))
+    if( (Tuareg.flags.run_allow == true) && (
+        (Tuareg.errors.sensor_TPS_error == true) ||
+        (Tuareg.errors.sensor_MAP_error == true) ||
+        (Tuareg.errors.sensor_IAT_error == true) ||
+        (Tuareg.errors.sensor_CLT_error == true) ||
+        (Tuareg.errors.sensor_VBAT_error == true) ))
     {
         //limit engine speed
         Limp(TID_FUELING_CONTROLS, TUAREG_LOC_LIMP_SENSOR_ERROR);
     }
-
-
 }
 
 
@@ -343,6 +289,7 @@ this function shall be called every 100 ms
 ******************************************************************************************************************************/
 
 const U32 cMaxCrankingEntry= 20;
+const U32 cCranking_End_rpm= 700;
 
 void Tuareg_update_standby()
 {
@@ -350,7 +297,7 @@ void Tuareg_update_standby()
     standby flag
     will be set after decoder watchdog timeout and reset with the first decoder position update
     */
-    Tuareg.flags.standby= ((Tuareg.decoder_watchdog > Tuareg_Setup.standby_timeout_s) && (Tuareg.flags.run_inhibit == false))? true : false;
+    Tuareg.flags.standby= ((Tuareg.decoder_watchdog > Tuareg_Setup.standby_timeout_s) && (Tuareg.flags.run_allow == true));
 }
 
 
@@ -360,17 +307,17 @@ void Tuareg_update_cranking()
     cranking flag
     will be set only when the engine has not been running and the crank is moving slowly
     */
-    if( (Tuareg.flags.run_inhibit == false) &&
+    if( (Tuareg.flags.run_allow == true) &&
         (Tuareg.process.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
         (Tuareg.pDecoder->flags.standstill == false) &&
-        (Tuareg.pDecoder->crank_rpm < Tuareg_Setup.cranking_end_rpm))
+        (Tuareg.pDecoder->crank_rpm < cCranking_End_rpm))
     {
         Tuareg.flags.cranking= true;
     }
 
-    if( ((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > Tuareg_Setup.cranking_end_rpm)) ||
-        (Tuareg.flags.run_inhibit == true) ||
+    if( ((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > cCranking_End_rpm)) ||
+        (Tuareg.flags.run_allow == false) ||
         (Tuareg.flags.standby == true) ||
         (Tuareg.pDecoder->flags.standstill == true))
     {
@@ -416,7 +363,7 @@ void Tuareg_update_fuel_pump_control()
     }
 
     //under normal operating conditions the fuel pump shall be deactivated in standby mode or when run inhibit is set and no priming is commanded
-    if( ((Tuareg.flags.standby == false) && (Tuareg.flags.run_inhibit == false)) || (Tuareg.flags.fuel_pump_priming == true) )
+    if( ((Tuareg.flags.standby == false) && (Tuareg.flags.run_allow == true)) || (Tuareg.flags.fuel_pump_priming == true) )
     {
         //fuel pump shall be active
         set_fuel_pump(ACTOR_POWERED);
@@ -461,5 +408,52 @@ void Tuareg_deactivate_vital_actors(bool IgnoreFuelPump)
 
 }
 
+
+/******************************************************************************************************************************
+Update - periodic update function
+
+called every 10 ms from systick timer (100 Hz)
+
+this function will be executed in all system states and has to take care of all system errors
+
+
+******************************************************************************************************************************/
+
+const U32 cInj_wd_thres_ms= 200;
+
+void Tuareg_update_systick()
+{
+    //injector watchdog check
+    if(((Tuareg.injector1_watchdog_ms > cInj_wd_thres_ms) || (Tuareg.injector2_watchdog_ms > cInj_wd_thres_ms)) && (Tuareg.flags.service_mode == false))
+    {
+        Fatal(TID_MAIN, TUAREG_LOC_INJ_WATCHDOG);
+    }
+
+    //update control flags
+    Tuareg_update_limited_op();
+    Tuareg_update_rev_limiter();
+    Tuareg_update_run_allow();
+    Tuareg_update_standby();
+    Tuareg_update_cranking();
+    Tuareg_update_runtime();
+
+    //fuel pump
+    Tuareg_update_fuel_pump_control();
+
+    /**
+    vital actors control
+    (fuel pump is separated to allow fuel priming)
+
+    while the system is in normal operating conditions the vital actors shall be deactivated in standby mode or when run allow is not set
+    in service mode vital actor control is given to the service functions
+    fuel pump priming normally takes place when the run switch is off
+    */
+    if((Tuareg.flags.service_mode == false) && ((Tuareg.flags.standby == true) || (Tuareg.flags.run_allow == false)))
+    {
+        //keep vital actors deactivated, allow fuel pump priming
+        Tuareg_deactivate_vital_actors(true);
+    }
+
+}
 
 

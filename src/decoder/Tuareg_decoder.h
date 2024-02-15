@@ -22,6 +22,8 @@ typedef struct {
 
     U8 standstill :1;
 
+    U8 updated :1;
+
 } decoder_output_flags_t;
 
 
