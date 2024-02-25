@@ -47,11 +47,7 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
     //standby timeout
     U8 standby_timeout_s;
 
-    //rpm until cranking features are activated
-    //U16 cranking_end_rpm;
-
     //control strategy parameters
-    //U16 spd_min_rpm;
     U16 spd_max_rpm;
 
     //conversion factors for ground speed calculation

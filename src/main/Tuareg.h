@@ -30,6 +30,8 @@
 #include "map.h"
 #include "mapset.h"
 #include "ctrlset.h"
+#include "Tuareg_control_sets.h"
+#include "storage_syslog_locations.h"
 
 #include "highspeed_loggers.h"
 #include "syslog.h"
@@ -43,11 +45,8 @@
 
 #include "conversion.h"
 
-#include "ctrlset.h"
-#include "Tuareg_control_sets.h"
 
-
-#define TUAREG_REQUIRED_CONFIG_VERSION 6
+#define TUAREG_REQUIRED_CONFIG_VERSION 7
 
 
 #define LOWPRIOSCHEDULER_WIP

@@ -17,7 +17,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2022.09";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2024.02";
 
 
 
@@ -73,6 +73,7 @@ void Tuareg_Init()
 
     //load main config
     Tuareg_load_config();
+    load_Control_Sets();
 
     /**
     vital modules
@@ -154,7 +155,6 @@ void Tuareg_load_config()
 
         Syslog_Info(TID_TUAREG, TUAREG_LOC_LOAD_CONFIG_SUCCESS);
     }
-
 }
 
 

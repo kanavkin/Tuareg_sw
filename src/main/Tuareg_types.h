@@ -7,14 +7,11 @@
 /**
 basic types to handle a return value safely on a 32 bit platform
 */
-//typedef U32 exec_result_t;
-
 typedef enum {
 
     EXEC_ERROR,
     EXEC_OK
 
-//} exec_result_codes_t;
 } exec_result_t;
 
 #define ASSERT_EXEC_OK(result) if((result) != EXEC_OK) return (result)

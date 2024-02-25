@@ -9,8 +9,8 @@
 
 #include "map.h"
 
-//map storage size (axis X, Y, and 3* axis Z)
-#define CTRLSET_STORAGE_SIZE_B 2*MAP_DIM*MAP_DOM_CELL_SIZE_B + 3*MAP_DIM*MAP_DIM*MAP_CODOM_CELL_SIZE_B
+//map storage size (axis X, Y, and 3* axis Z + validity data)
+#define CTRLSET_STORAGE_SIZE_B MAP_DOMAIN_STORAGE_SIZE_B + 3* MAP_CODOMAIN_STORAGE_SIZE_B
 
 
 /*****************************************************************************************************************
@@ -58,6 +58,7 @@ typedef struct _ctrlset_t {
 
     //second part - dynamic data
     volatile map_cache_t Cache;
+    volatile exec_result_t load_result;
 
 } ctrlset_t;
 

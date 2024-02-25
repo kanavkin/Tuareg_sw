@@ -1,6 +1,8 @@
 #ifndef TUNERSTUDIO_H_INCLUDED
 #define TUNERSTUDIO_H_INCLUDED
 
+#include "TunerStudio_syslog_locations.h"
+
 /*
 TS pages
 */
@@ -13,15 +15,15 @@ typedef enum {
 
     DECODERPAGE,
 
+    TSETUP_PAGE,
+    CTRLSET_MAP_PAGE,
+    CTRLSET_TPS_PAGE,
+    CTRLSET_TPSLIMP_PAGE,
+
     IGNITIONPAGE,
-    IGNITIONMAP_TPS,
     IGNITIONMAP_DWELL,
 
     FUELINGPAGE,
-    VEMAP_TPS,
-    VEMAP_MAP,
-    AFRMAP_TPS,
-    AFRMAP_MAP,
     ACCELCOMP_TPS,
     ACCELCOMP_MAP,
     WARMUPCOMP_TABLE,
@@ -30,7 +32,6 @@ typedef enum {
     BAROCORR_TABLE,
     CHARGETEMP_TABLE,
 
-    TSETUP_PAGE,
     TACH_TABLE,
 
     SYSLOG_PAGE,

@@ -15,8 +15,6 @@ indicates which features of the ignition module are enabled
 */
 typedef struct _ignition_setup_flags_t
 {
-    //U8 dynamic_controls_enabled :1;
-    //U8 cranking_controls_enabled :1;
     U8 cold_idle_enabled :1;
     U8 sequential_mode_enabled :1;
     U8 second_coil_installed :1;

@@ -8,7 +8,7 @@
 #include "TunerStudio.h"
 #include "TunerStudio_outChannel.h"
 #include "TunerStudio_service.h"
-#include "TunerStudio_syslog_locations.h"
+
 
 
 //#define CONSOLE_DEBUG
@@ -462,30 +462,26 @@ void cli_showPage(U32 Page)
     {
         case CALIBPAGE:
 
-                show_Sensor_Calibration(TS_PORT);
-                break;
+            show_Sensor_Calibration(TS_PORT);
+            break;
 
         case INVCLT_TABLE:
 
-                show_InvTableCLT(TS_PORT);
-                break;
+            show_InvTableCLT(TS_PORT);
+            break;
 
         case DECODERPAGE:
 
-                show_Decoder_Setup(TS_PORT);
-                break;
-
+            show_Decoder_Setup(TS_PORT);
+            break;
 
         case IGNITIONPAGE:
 
             show_Ignition_Setup(TS_PORT);
             break;
 
-        case IGNITIONMAP_TPS:
-            //show_ignAdvTable_TPS(TS_PORT);
-            break;
-
         case IGNITIONMAP_DWELL:
+
             show_ignDwellTable(TS_PORT);
             break;
 
@@ -493,25 +489,19 @@ void cli_showPage(U32 Page)
             show_Fueling_Setup(TS_PORT);
             break;
 
+        case CTRLSET_MAP_PAGE:
 
-        case VEMAP_TPS:
-
-            //show_VeTable_TPS(TS_PORT);
+            show_Control_MAP(TS_PORT);
             break;
 
-        case VEMAP_MAP:
+        case CTRLSET_TPS_PAGE:
 
-           // show_VeTable_MAP(TS_PORT);
+            show_Control_TPS(TS_PORT);
             break;
 
-        case AFRMAP_TPS:
+        case CTRLSET_TPSLIMP_PAGE:
 
-           // show_AfrTable_TPS(TS_PORT);
-            break;
-
-        case AFRMAP_MAP:
-
-            //show_AfrTable_MAP(TS_PORT);
+            show_Control_TPS_Limp(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
@@ -725,22 +715,9 @@ void cli_cyclic_update()
 {
     sub_VU32(&(Tuareg_console.ts_cmd_watchdog), 1);
 
-    /**
-    the connection timer is allowed to roll over since 2010
-
-    if(Tuareg_console.secl < 255)
-    {
-        Tuareg_console.secl++;
-    }
-    else
-    {
-        Tuareg_console.secl= 1;
-    }
-    */
+    //the connection timer is allowed to roll over since 2010
     Tuareg_console.ts_secl++;
 }
-
-
 
 
 void Tuareg_init_console()

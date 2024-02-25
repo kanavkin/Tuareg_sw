@@ -20,7 +20,11 @@ data size (Z axis) in bytes
 #define MAP_DOM_CELL_SIZE_B 2
 #define MAP_CODOM_CELL_SIZE_B 1
 
-#define MAP_STORAGE_SIZE_B 2*MAP_DIM*MAP_DOM_CELL_SIZE_B + MAP_DIM*MAP_DIM*MAP_CODOM_CELL_SIZE_B
+#define MAP_DOMAIN_STORAGE_SIZE_B (2* MAP_DIM +4) * MAP_DOM_CELL_SIZE_B
+#define MAP_CODOMAIN_STORAGE_SIZE_B (MAP_DIM * MAP_DIM +2) * MAP_CODOM_CELL_SIZE_B
+
+
+#define MAP_STORAGE_SIZE_B MAP_DOMAIN_STORAGE_SIZE_B + MAP_CODOMAIN_STORAGE_SIZE_B
 
 
 /**
@@ -48,8 +52,8 @@ typedef struct __attribute__ ((__packed__)) _map_codomain_t {
 
     U8 axisZ [MAP_DIM] [MAP_DIM];
 
-    U16 Z_min_valid;
-    U16 Z_max_valid;
+    U8 Z_min_valid;
+    U8 Z_max_valid;
 
 } map_codomain_t;
 

@@ -1,7 +1,7 @@
 #Project Attributes.
 #TunerStudio by EFI Analytics, Inc
-#Last Saved on: Mon Aug 29 23:56:45 CEST 2022
-#Mon Aug 29 23:56:45 CEST 2022
+#Last Saved on: Sat Oct 21 21:16:19 CEST 2023
+#Sat Oct 21 21:16:19 CEST 2023
 dwellSettingsDwell\ Settings_X=769
 faultlogView\ Fault\ Log_Y=352
 faultlogView\ Fault\ Log_X=597
@@ -43,7 +43,7 @@ engine_constantsEngine\ Constants_width=651
 serial3IOSerial3\ IO\ interface_width=403
 dwellSettingsDwell\ Settings_Y=309
 VeAnalyzeConsole.VeTable_TPS_verticalSplitPos=411
-decoder_setupDecoder\ Setup_width=433
+decoder_setupDecoder\ Setup_width=415
 tuareg_setupTuareg\ Setup_Y=0
 tuareg_setupTuareg\ Setup_X=84
 VeAnalyzePanel_VeTable_TPS_maxPercentChange=2.0
@@ -75,7 +75,7 @@ afrTable1TblAFR\ Table_Y=316
 afrTable1TblAFR\ Table_X=684
 sparkSettingsSpark\ Settings_Y=386
 fuelpumpFuel\ pump_X=777
-decoder_setupDecoder\ Setup_height=565
+decoder_setupDecoder\ Setup_height=612
 serviceService_width=372
 InjectorTimingCurveInjector\ dead\ time_height=738
 veGenerator_txtPkHpRpm=7500
@@ -113,7 +113,7 @@ dwellSettingsDwell\ Settings_width=388
 ignAdvTable_TPSIgnition\ Advance\ vs.\ TPS_height=738
 Tuareg.VeTable_MAP_minRPMFilter=1000.0
 DwellCurveDwell_X=0
-syslogView\ Syslog_width=1199
+syslogView\ Syslog_width=1174
 DwellCurveDwell_Y=42
 AccelCompCurveMAPAE\ MAP_Y=23
 AccelCompCurveMAPAE\ MAP_X=147
@@ -131,7 +131,7 @@ service_ignitionService\ Tools\ -\ Ignition_X=777
 service_ignitionService\ Tools\ -\ Ignition_Y=358
 fueling_setup_ae_legacylegacy\ AE_width=444
 tuareg_setupTuareg\ Setup_width=472
-projectName=Tuareg_XTZ850_TS
+projectName=TS_XTZ_850
 invCLT_CurveCLT\ Characteristics_X=-927
 invCLT_CurveCLT\ Characteristics_Y=36
 afrTable1TblAFR\ Table_height=430
@@ -149,7 +149,7 @@ AfrTable_TPSAFR\ vs.\ TPS_X=0
 veGenerator_txtPkTqMap=100
 DwellCurveDwell_width=1296
 AccelCompCurveTPSAE\ TPS_Y=65
-syslogView\ Syslog_height=738
+syslogView\ Syslog_height=1050
 tuneFileDir=/home/oli/Tuareg/Tuareg_XTZ850_TS
 fueling_setupFueling\ Setup_X=32
 fueling_setupFueling\ Setup_Y=0
@@ -266,7 +266,7 @@ CommSettingMSCommDriver.controllerInterfaceId=RS232 Serial Interface
 CrankingFuelCurveCranking\ base\ fuel\ mass_height=562
 Tuareg.VeTable_MAP_std_xAxisMax=5000.0
 veGenerator_txtPkHp=84
-firmwareDescription=Tuareg V0.24 2022.07
+firmwareDescription=Tuareg V0.25 2022.09
 veGenerator_txtDisplacementCid=52
 TachCurveTachometer\ output_width=1273
 CommSettingMSCommDriver.RS232\ Serial\ Interface2nd\ Com\ Port=/dev/tuareg_hil

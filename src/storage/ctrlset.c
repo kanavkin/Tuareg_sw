@@ -56,6 +56,13 @@ exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pR
     //mark the outputs invalid first
     pReq->valid= false;
 
+    //Check if the ctrlset has been loaded properly
+    if(pSet->load_result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_GET_LOADSTATE_ERROR);
+        return EXEC_ERROR;
+    }
+
     //look up X domain
     ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->X) );
 
@@ -99,6 +106,7 @@ exec_result_t ctrlset_load(volatile ctrlset_t * pCtrl, U32 BaseAddress)
 
     //load config data
     ASSERT_EXEC_OK( Eeprom_load_data(BaseAddress, pData, cCtrlSet_storage_size) );
+    pCtrl->load_result= EXEC_OK;
 
     //reset cache
     pCtrl->Cache.last_Xmax_index= 0;
@@ -117,6 +125,13 @@ exec_result_t ctrlset_store(volatile ctrlset_t * pCtrl, U32 BaseAddress)
 {
     volatile U8 * const pData= (volatile U8 *) pCtrl;
 
+    //Check if the ctrlset has been loaded properly
+    if(pCtrl->load_result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_STORE_LOADSTATE_ERROR);
+        return EXEC_ERROR;
+    }
+
     return Eeprom_update_data(BaseAddress, pData, cCtrlSet_storage_size);
 }
 
@@ -133,6 +148,14 @@ exec_result_t ctrlset_modify(volatile ctrlset_t * pCtrl, U32 Offset, U32 Value)
     //range check
     if(Offset >= cCtrlSet_storage_size)
     {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_MOD_OFFSET_INVALID);
+        return EXEC_ERROR;
+    }
+
+    //Check if the ctrlset has been loaded properly
+    if(pCtrl->load_result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_MOD_LOADSTATE_ERROR);
         return EXEC_ERROR;
     }
 
@@ -150,6 +173,13 @@ exec_result_t ctrlset_modify(volatile ctrlset_t * pCtrl, U32 Offset, U32 Value)
 ****************************************************************************************************************************************************/
 void ctrlset_show(USART_TypeDef * pPort, volatile ctrlset_t * pCtrl)
 {
+    //Check if the ctrlset has been loaded properly
+    if(pCtrl->load_result != EXEC_OK)
+    {
+        print(pPort, "\r\ncontrol set has not been loaded yet\r\n");
+        return;
+    }
+
     print(pPort, "\r\nIgnAdv:\r\n");
 
     map_show_axes(pPort, &(pCtrl->Dom), &(pCtrl->Cods.IgnAdv) );
@@ -168,11 +198,19 @@ void ctrlset_show(USART_TypeDef * pPort, volatile ctrlset_t * pCtrl)
 *
 * send control set static data to Tuner Studio
 *
+* cache, etc. will not be visible to TS
 * data will be sent "as is" (no scaling, offset, etc ...)
 ****************************************************************************************************************************************************/
 void ctrlset_send(USART_TypeDef * pPort, volatile ctrlset_t * pCtrl)
 {
     volatile U8 * const pData= (volatile U8 *) pCtrl;
+
+    //Check if the ctrlset has been loaded properly
+    if(pCtrl->load_result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_SEND_LOADSTATE_ERROR);
+        return;
+    }
 
     UART_send_data(pPort, pData, cCtrlSet_storage_size);
 }

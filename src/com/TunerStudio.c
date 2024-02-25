@@ -1,7 +1,7 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
-#include "TunerStudio_syslog_locations.h"
+
 #include "TunerStudio.h"
 
 
@@ -44,33 +44,27 @@ void ts_readPage(U32 Page)
             send_Ignition_Setup(TS_PORT);
             break;
 
-        case IGNITIONMAP_TPS:
-    //        send_ignAdvTable_TPS(TS_PORT);
-            break;
-
         case IGNITIONMAP_DWELL:
             send_ignDwellTable(TS_PORT);
             break;
-
 
         case FUELINGPAGE:
             send_Fueling_Setup(TS_PORT);
             break;
 
-        case VEMAP_TPS:
-     //       send_VeTable_TPS(TS_PORT);
+        case CTRLSET_MAP_PAGE:
+
+            send_Control_MAP(TS_PORT);
             break;
 
-        case VEMAP_MAP:
-     //       send_VeTable_MAP(TS_PORT);
+        case CTRLSET_TPS_PAGE:
+
+            send_Control_TPS(TS_PORT);
             break;
 
-        case AFRMAP_TPS:
-    //        send_AfrTable_TPS(TS_PORT);
-            break;
+        case CTRLSET_TPSLIMP_PAGE:
 
-        case AFRMAP_MAP:
-   //         send_AfrTable_MAP(TS_PORT);
+            send_Control_TPS_Limp(TS_PORT);
             break;
 
         case ACCELCOMP_TPS:
@@ -185,6 +179,21 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             result= modify_Ignition_Setup(Offset, Value);
             break;
 
+        case IGNITIONMAP_DWELL:
+
+            if(Tuareg_console.cli_permissions.ignition_mod == false)
+            {
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
+
+                #ifdef TS_DEBUG
+                DebugMsg_Warning("*** ignition setup modification rejected (permission) ***");
+                #endif // TS_DEBUG
+                return result;
+            }
+
+            result= modify_ignDwellTable(Offset, Value);
+            break;
+
         case FUELINGPAGE:
 
             if(Tuareg_console.cli_permissions.fueling_mod == false)
@@ -232,97 +241,39 @@ exec_result_t ts_valueWrite(U32 Page, U32 Offset, U32 Value)
             break;
 
 
-        case IGNITIONMAP_TPS:
+        case CTRLSET_MAP_PAGE:
 
-            if(Tuareg_console.cli_permissions.ignition_mod == false)
+            if(Tuareg_console.cli_permissions.ctrlset_map_mod == false)
             {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** ignition config modification rejected (permission) ***");
-                #endif // TS_DEBUG
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM_CTRLSET_MAP);
                 return result;
             }
 
-       //     result= modify_ignAdvTable_TPS(Offset, Value);
+            result= modify_Control_MAP(Offset, Value);
             break;
 
+        case CTRLSET_TPS_PAGE:
 
-        case IGNITIONMAP_DWELL:
-
-            if(Tuareg_console.cli_permissions.ignition_mod == false)
+            if(Tuareg_console.cli_permissions.ctrlset_tps_mod == false)
             {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** ignition config modification rejected (permission) ***");
-                #endif // TS_DEBUG
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM_CTRLSET_TPS);
                 return result;
             }
 
-            result= modify_ignDwellTable(Offset, Value);
+            result= modify_Control_TPS(Offset, Value);
             break;
 
+        case CTRLSET_TPSLIMP_PAGE:
 
-        case VEMAP_TPS:
-
-            if(Tuareg_console.cli_permissions.fueling_mod == false)
+            if(Tuareg_console.cli_permissions.ctrlset_tps_limp_mod == false)
             {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
-                #endif // TS_DEBUG
+                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM_CTRLSET_TPSLIMP);
                 return result;
             }
 
-  //          result= modify_VeTable_TPS(Offset, Value);
+            result= modify_Control_TPS_Limp(Offset, Value);
             break;
 
-        case VEMAP_MAP:
-
-            if(Tuareg_console.cli_permissions.fueling_mod == false)
-            {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
-                #endif // TS_DEBUG
-                return result;
-            }
-
-   //         result= modify_VeTable_MAP(Offset, Value);
-            break;
-
-        case AFRMAP_TPS:
-
-            if(Tuareg_console.cli_permissions.fueling_mod == false)
-            {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
-                #endif // TS_DEBUG
-                return result;
-            }
-
-   //         result= modify_AfrTable_TPS(Offset, Value);
-            break;
-
-        case AFRMAP_MAP:
-
-            if(Tuareg_console.cli_permissions.fueling_mod == false)
-            {
-                Syslog_Warning(TID_TUNERSTUDIO, TS_LOC_NOMODPERM);
-
-                #ifdef TS_DEBUG
-                DebugMsg_Warning("*** fueling config modification rejected (permission) ***");
-                #endif // TS_DEBUG
-                return result;
-            }
-
-    //        result= modify_AfrTable_MAP(Offset, Value);
-            break;
 
         case ACCELCOMP_TPS:
 
@@ -511,13 +462,6 @@ exec_result_t ts_burnPage(U32 Page)
 
             result= store_Ignition_Setup();
             break;
-/*
-        case IGNITIONMAP_TPS:
-
-            result= store_ignAdvTable_TPS();
-            break;
-*/
-/// TODO (oli#2#09/01/23): implement ts ctrlset handling
 
         case IGNITIONMAP_DWELL:
 
@@ -528,27 +472,22 @@ exec_result_t ts_burnPage(U32 Page)
 
             result= store_Fueling_Setup();
             break;
-/*
-        case VEMAP_TPS:
 
-            result= store_VeTable_TPS();
+        case CTRLSET_MAP_PAGE:
+
+            result= store_Control_MAP();
             break;
 
-        case VEMAP_MAP:
+        case CTRLSET_TPS_PAGE:
 
-            result= store_VeTable_MAP();
+            result= store_Control_TPS();
             break;
 
-        case AFRMAP_TPS:
+        case CTRLSET_TPSLIMP_PAGE:
 
-            result= store_AfrTable_TPS();
+            result= store_Control_TPS_Limp();
             break;
 
-        case AFRMAP_MAP:
-
-            result= store_AfrTable_MAP();
-            break;
-*/
         case ACCELCOMP_TPS:
 
             result= store_AccelCompTableTPS();

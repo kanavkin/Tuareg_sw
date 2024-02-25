@@ -5,6 +5,50 @@ volatile ctrlset_t Control_TPS;
 volatile ctrlset_t Control_TPS_Limp;
 
 
+
+/***************************************************************************************************************************************************
+*   Control Sets access functions
+***************************************************************************************************************************************************/
+void load_Control_Sets()
+{
+    exec_result_t result= EXEC_ERROR;
+
+    result= load_Control_MAP();
+
+    if(result == EXEC_OK)
+    {
+        Syslog_Info(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_MAP_SUCCESS);
+    }
+    else
+    {
+        Fatal(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_MAP_ERROR);
+    }
+
+    result= load_Control_TPS();
+
+    if(result == EXEC_OK)
+    {
+        Syslog_Info(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_TPS_SUCCESS);
+    }
+    else
+    {
+        Fatal(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_TPS_ERROR);
+    }
+
+    result= load_Control_TPS_Limp();
+
+    if(result == EXEC_OK)
+    {
+        Syslog_Info(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_TPSLIMP_SUCCESS);
+    }
+    else
+    {
+        Fatal(TID_CTRLSET, STORAGE_LOC_CTRLSET_LOAD_CTRLSET_TPSLIMP_ERROR);
+    }
+
+}
+
+
 /***************************************************************************************************************************************************
 *   Control Set MAP
 ***************************************************************************************************************************************************/
