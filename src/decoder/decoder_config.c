@@ -29,38 +29,7 @@ exec_result_t load_Decoder_Setup()
 }
 
 
-/**
-*
-* provides sane defaults if config data from eeprom is not available (limp home mode)
-*
-*/
-void load_essential_Decoder_Setup()
-{
-    Decoder_Setup.Version= DECODER_CONFIG_DEFAULT_VERSION;
-    Decoder_Setup.timeout_s= DECODER_CONFIG_DEFAULT_TIMEOUT;
 
-    Decoder_Setup.crank_noise_filter= DECODER_CONFIG_DEFAULT_CRANK_NOISE_FILTER;
-
-    Decoder_Setup.key_begin_sensing= DECODER_CONFIG_DEFAULT_KEY_BEGIN_SENSING;
-    Decoder_Setup.key_end_sensing= DECODER_CONFIG_DEFAULT_KEY_END_SENSING;
-
-    Decoder_Setup.sync_ratio_min_pct= DECODER_CONFIG_DEFAULT_SYNC_RATIO_MIN;
-    Decoder_Setup.sync_ratio_max_pct= DECODER_CONFIG_DEFAULT_SYNC_RATIO_MAX;
-
-    Decoder_Setup.cam_noise_filter= DECODER_CONFIG_DEFAULT_CAM_NOISE_FILTER;
-
-    Decoder_Setup.lobe_begin_sensing= DECODER_CONFIG_DEFAULT_LOBE_BEGIN_SENSING;
-    Decoder_Setup.lobe_end_sensing= DECODER_CONFIG_DEFAULT_LOBE_END_SENSING;
-
-    Decoder_Setup.cis_enable_pos= DECODER_CONFIG_DEFAULT_CIS_ENABLE_POS;
-    Decoder_Setup.cis_disable_pos= DECODER_CONFIG_DEFAULT_CIS_DISABLE_POS;
-
-    Decoder_Setup.cis_triggered_phase= DECODER_CONFIG_DEFAULT_CIS_TRIGGERED_PHASE;
-
-    Decoder_Setup.cis_min_angle_deg= DECODER_CONFIG_DEFAULT_CIS_MIN_ANGLE_DEG;
-    Decoder_Setup.cis_sync_thres= DECODER_CONFIG_DEFAULT_CIS_SYNC_THRES;
-
-}
 
 /**
 *

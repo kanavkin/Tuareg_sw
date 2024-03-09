@@ -22,7 +22,7 @@ void Tuareg_update_process_data()
 
 
     //get the interval since the last update
-    period_us= (Tuareg.pDecoder->flags.period_valid == true)? Tuareg.pDecoder->crank_period_us: 0;
+    period_us= (Tuareg.Decoder.flags.period_valid == true)? Tuareg.Decoder.crank_period_us: 0;
 
 
     /**
@@ -85,9 +85,9 @@ void Tuareg_update_process_data()
     /**
     calculate ground speed
     */
-    if((Tuareg.pDecoder->flags.rpm_valid) && (Tuareg.process.Gear > GEAR_NEUTRAL) && (Tuareg.process.Gear < GEAR_COUNT))
+    if((Tuareg.Decoder.flags.rpm_valid) && (Tuareg.process.Gear > GEAR_NEUTRAL) && (Tuareg.process.Gear < GEAR_COUNT))
     {
-        Tuareg.process.speed_kmh= divide_F32(Tuareg.pDecoder->crank_rpm, Tuareg_Setup.gear_ratio[Tuareg.process.Gear -1]);
+        Tuareg.process.speed_kmh= divide_F32(Tuareg.Decoder.crank_rpm, Tuareg_Setup.gear_ratio[Tuareg.process.Gear -1]);
     }
     else
     {
@@ -163,7 +163,7 @@ void Tuareg_update_load(volatile process_data_t * pProcess)
     */
     if(
        ((Tuareg.errors.sensor_MAP_error == false) && (Tuareg.errors.sensor_BARO_error == false) &&
-       (Tuareg.pDecoder->outputs.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm >= load_from_map_min_rpm) && (Tuareg.pDecoder->crank_rpm <= load_from_map_max_rpm))
+       (Tuareg.Decoder.outputs.rpm_valid == true) && (Tuareg.Decoder.crank_rpm >= load_from_map_min_rpm) && (Tuareg.Decoder.crank_rpm <= load_from_map_max_rpm))
        ||
        (Tuareg.errors.sensor_TPS_error == true)
     )
@@ -281,9 +281,9 @@ void Tuareg_update_runtime()
     */
     if( (Tuareg.flags.run_allow == true) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->flags.standstill == false) &&
+        (Tuareg.Decoder.flags.standstill == false) &&
         (Tuareg.flags.cranking == false) &&
-        (Tuareg.pDecoder->flags.rpm_valid == true))
+        (Tuareg.Decoder.flags.rpm_valid == true))
     {
         //engine is running -> increment runtime counter
         if(Tuareg.process.engine_runtime < cU32max)

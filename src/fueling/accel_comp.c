@@ -95,7 +95,7 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
     //check preconditions
     if( (Tuareg.flags.limited_op == true) || (Tuareg.errors.fueling_config_error == true) ||
         ((Tuareg.errors.sensor_TPS_error == true) && (Tuareg.errors.sensor_MAP_error == true)) ||
-        (Fueling_Setup.features.load_transient_comp_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm) )
+        (Fueling_Setup.features.load_transient_comp_enabled == false) || (Tuareg.Decoder.crank_rpm < cAccelCompMinRpm) )
 #else
     if(true)
 #endif
@@ -106,7 +106,7 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
 
 
     tau= calc_tau();
-    alpha= calc_alpha(Tuareg.pDecoder->crank_rpm, tau);
+    alpha= calc_alpha(Tuareg.Decoder.crank_rpm, tau);
     beta= calc_beta(alpha);
 
 	//cmd_fuel_mass_ug= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta));
@@ -161,14 +161,14 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
     bool trig_MAP_accel, trig_TPS_accel, trig_MAP_decel, trig_TPS_decel;
 
     //check preconditions
-    if((Fueling_Setup.features.legacy_AE_enabled == false) || (Tuareg.pDecoder->crank_rpm < cAccelCompMinRpm))
+    if((Fueling_Setup.features.legacy_AE_enabled == false) || (Tuareg.Decoder.crank_rpm < cAccelCompMinRpm))
     {
         disable_legacy_AE(pTarget);
         return;
     }
 
     //process accel triggers according to the given rpm threshold
-    if(Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_thres_rpm)
+    if(Tuareg.Decoder.crank_rpm > Fueling_Setup.accel_comp_thres_rpm)
     {
         trig_MAP_accel= (Tuareg.process.ddt_MAP >= Fueling_Setup.accel_comp_thres_MAP_high);
         trig_TPS_accel= (Tuareg.process.ddt_TPS >= Fueling_Setup.accel_comp_thres_TPS_high);
@@ -227,10 +227,10 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
 
         -> rpm scaling is considered active when threshold rpm is smaller then max rpm
         */
-        if((Fueling_Setup.accel_comp_scaling_max_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm))
+        if((Fueling_Setup.accel_comp_scaling_max_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm) && (Tuareg.Decoder.crank_rpm > Fueling_Setup.accel_comp_scaling_thres_rpm))
         {
             scaling= 1.0 - divide_F32(
-                                      subtract_U32(Tuareg.pDecoder->crank_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm),
+                                      subtract_U32(Tuareg.Decoder.crank_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm),
                                       //divisor validated by precondition check
                                       subtract_U32(Fueling_Setup.accel_comp_scaling_max_rpm, Fueling_Setup.accel_comp_scaling_thres_rpm)
                                       );
@@ -267,7 +267,7 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
 
         (this is a feature to save fuel, choose a rich mixture when limit operation strategy is active)
         */
-        if((Tuareg.flags.limited_op == false) && (Tuareg.pDecoder->crank_rpm > Fueling_Setup.decel_min_rpm))
+        if((Tuareg.flags.limited_op == false) && (Tuareg.Decoder.crank_rpm > Fueling_Setup.decel_min_rpm))
         {
             pTarget->flags.legacy_AE_active= true;
             pTarget->flags.legacy_AE_trig_MAP_accel= false;
@@ -340,7 +340,7 @@ void update_legacy_AE(volatile fueling_control_t * pTarget)
             //deceleration feature active
 
             //check if the engine is about to stall
-            if(Tuareg.pDecoder->crank_rpm < Fueling_Setup.decel_min_rpm)
+            if(Tuareg.Decoder.crank_rpm < Fueling_Setup.decel_min_rpm)
             {
                 //end compensation
                 disable_legacy_AE(pTarget);

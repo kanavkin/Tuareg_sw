@@ -27,6 +27,16 @@ crank position when the process data and controls shall be updated
 const crank_position_t cTuareg_controls_update_pos= CRK_POSITION_B2;
 
 
+/**
+globally defined cranking end rpm
+taking into account the capabilities of the fueling and ignition module
+    -> a transition from cranking to dynamic ignition and XXXX shall be possible
+preset with a default
+*/
+
+U32 Cranking_End_rpm= 700;
+
+
 
 /******************************************************************************************************************************
 INIT
@@ -54,6 +64,9 @@ void Tuareg_Init()
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_ENTER_INIT);
 
+    //check if the cranking end rpm has been configured properly
+    if(cIgnition_min_dyn_rpm > Cranking_End_rpm) Cranking_End_rpm= cIgnition_min_dyn_rpm;
+    //if(cIgnition_min_dyn_rpm > Cranking_End_rpm) Cranking_End_rpm= cIgnition_min_dyn_rpm;
 
 
     /******************************************************
@@ -81,7 +94,7 @@ void Tuareg_Init()
     init_Sensors();
     init_Ignition();
     init_Fueling();
-    Tuareg.pDecoder= init_Decoder();
+    Init_Decoder();
 
     //provide initial process data
     Tuareg_update_process_data();
@@ -207,7 +220,7 @@ void Tuareg_update_run_allow()
 
 
     /******************************************************************************************************************
-    *** the run inhibit flag indicates that engine operation is temporarily restricted                              ***
+    *** the run allow flag indicates that engine operation is temporarily permitted                                 ***
     ******************************************************************************************************************/
     Tuareg.flags.run_allow=(
 
@@ -264,17 +277,35 @@ const U32 cRevlimiter_hist_rpm= 200;
 
 void Tuareg_update_rev_limiter()
 {
-    U32 max_rpm;
+    U32 max_rpm= Tuareg_Setup.max_rpm;
 
-    //check which rpm limit applies
-    max_rpm= (Tuareg.flags.limited_op)? Tuareg_Setup.limp_max_rpm : Tuareg_Setup.max_rpm;
+    /**
+    check which rpm restrictions apply
+    */
+    if(Tuareg.flags.limited_op == true)
+    {
+        //preselect the default max rpm for limp mode
+        max_rpm= Tuareg_Setup.limp_max_rpm;
 
+        /**
+        The MAP control set usually provides control data up to the spd_max_rpm
+        to prevent running out of if, a more restrictive value can be applied
+        */
+        if(Tuareg_Setup.limp_max_rpm > Tuareg_Setup.spd_max_rpm)
+        {
+            //replace with a more restrictive value
+            max_rpm= Tuareg_Setup.spd_max_rpm;
+        }
+    }
 
-    if((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > max_rpm))
+    /**
+    check if the rev limiter shall apply
+    */
+    if((Tuareg.Decoder.flags.rpm_valid == true) && (Tuareg.Decoder.crank_rpm > max_rpm))
     {
         Tuareg.flags.rev_limiter= true;
     }
-    else if((Tuareg.pDecoder->flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.pDecoder->crank_rpm < subtract_U32(max_rpm, cRevlimiter_hist_rpm))))
+    else if((Tuareg.Decoder.flags.rpm_valid == false) || ((Tuareg.flags.rev_limiter == true) && (Tuareg.Decoder.crank_rpm < subtract_U32(max_rpm, cRevlimiter_hist_rpm))))
     {
         Tuareg.flags.rev_limiter= false;
     }
@@ -288,9 +319,6 @@ periodic update helper function - decoder watchdog and run time parameters
 this function shall be called every 100 ms
 ******************************************************************************************************************************/
 
-const U32 cMaxCrankingEntry= 20;
-const U32 cCranking_End_rpm= 700;
-
 void Tuareg_update_standby()
 {
     /**
@@ -300,6 +328,7 @@ void Tuareg_update_standby()
     Tuareg.flags.standby= ((Tuareg.decoder_watchdog > Tuareg_Setup.standby_timeout_s) && (Tuareg.flags.run_allow == true));
 }
 
+const U32 cMaxCrankingEntry= 20;
 
 void Tuareg_update_cranking()
 {
@@ -310,16 +339,16 @@ void Tuareg_update_cranking()
     if( (Tuareg.flags.run_allow == true) &&
         (Tuareg.process.engine_runtime < cMaxCrankingEntry) &&
         (Tuareg.flags.standby == false) &&
-        (Tuareg.pDecoder->flags.standstill == false) &&
-        (Tuareg.pDecoder->crank_rpm < cCranking_End_rpm))
+        (Tuareg.Decoder.flags.standstill == false) &&
+        (Tuareg.Decoder.crank_rpm < Cranking_End_rpm))
     {
         Tuareg.flags.cranking= true;
     }
 
-    if( ((Tuareg.pDecoder->flags.rpm_valid == true) && (Tuareg.pDecoder->crank_rpm > cCranking_End_rpm)) ||
+    if( ((Tuareg.Decoder.flags.rpm_valid == true) && (Tuareg.Decoder.crank_rpm > Cranking_End_rpm)) ||
         (Tuareg.flags.run_allow == false) ||
         (Tuareg.flags.standby == true) ||
-        (Tuareg.pDecoder->flags.standstill == true))
+        (Tuareg.Decoder.flags.standstill == true))
     {
         Tuareg.flags.cranking= false;
     }

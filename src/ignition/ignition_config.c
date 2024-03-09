@@ -68,10 +68,6 @@ void show_Ignition_Setup(USART_TypeDef * Port)
     print(Port, "\r\nVersion: ");
     printf_U(Port, Ignition_Setup.Version, NO_PAD);
 
-    //dynamic_min_rpm
-    print(Port, "\r\ndynamic ignition function minimum rpm: ");
-    printf_U(Port, Ignition_Setup.dynamic_min_rpm, NO_PAD);
-
     //dynamic_ignition_base_position
     print(Port, "\r\ndynamic ignition base position: ");
     printf_crkpos(Port, Ignition_Setup.dynamic_ignition_base_position);

@@ -147,17 +147,12 @@ typedef struct _Tuareg_t {
     the decoder interface is the primary source for crank position and engine phase
     its data can be considered valid at all time
     */
-    decoder_output_t * pDecoder;
+    decoder_output_t Decoder;
 
     /**
     access to core components
     */
     systick_t * pTimer;
-
-    /**
-    Tuareg ignition ans fueling controls
-    */
-    Tuareg_controls_t Tuareg_controls;
 
     /**
     state machine and health status
@@ -169,6 +164,12 @@ typedef struct _Tuareg_t {
     process data
     */
     process_data_t process;
+
+    /**
+    Tuareg ignition and fueling controls
+    */
+    Tuareg_controls_t Controls;
+
 
     /**
     syslog

@@ -22,30 +22,30 @@ helper functions
 
  void reset_timeout_counter()
 {
-    Decoder.out.flags.standstill= false;
+    Tuareg.Decoder.flags.standstill= false;
     Decoder.timeout_count= 0;
 }
 
 
 void reset_timing_output()
 {
-    Decoder.out.flags.period_valid= false;
-    Decoder.out.flags.rpm_valid= false;
-    Decoder.out.flags.accel_valid= false;
+    Tuareg.Decoder.flags.period_valid= false;
+    Tuareg.Decoder.flags.rpm_valid= false;
+    Tuareg.Decoder.flags.accel_valid= false;
 
-    Decoder.out.crank_period_us= 0;
-    Decoder.out.crank_rpm= 0;
-    Decoder.out.crank_acceleration= 0;
+    Tuareg.Decoder.crank_period_us= 0;
+    Tuareg.Decoder.crank_rpm= 0;
+    Tuareg.Decoder.crank_acceleration= 0;
 }
 
 
 void reset_position_data()
 {
-    Decoder.out.crank_position= CRK_POSITION_UNDEFINED;
-    Decoder.out.phase= PHASE_UNDEFINED;
+    Tuareg.Decoder.crank_position= CRK_POSITION_UNDEFINED;
+    Tuareg.Decoder.phase= PHASE_UNDEFINED;
 
-    Decoder.out.flags.phase_valid= false;
-    Decoder.out.flags.position_valid= false;
+    Tuareg.Decoder.flags.phase_valid= false;
+    Tuareg.Decoder.flags.position_valid= false;
 
     Tuareg.errors.sensor_CIS_error= true;
 }
@@ -205,8 +205,8 @@ void update_timing_data()
     if((rpm < cDecoder_min_valid_rpm) || (rpm > cDecoder_max_valid_rpm))
     {
         //why period was valid?
-        Decoder.out.crank_period_us= 0;
-        Decoder.out.flags.period_valid= false;
+        Tuareg.Decoder.crank_period_us= 0;
+        Tuareg.Decoder.flags.period_valid= false;
         Decoder.last_crank_rpm= 0;
         Decoder.last_crank_acceleration= 0;
 
@@ -222,11 +222,11 @@ void update_timing_data()
     }
 
     //export validated data
-    Decoder.out.crank_period_us= period_us;
-    Decoder.out.flags.period_valid= true;
-    Decoder.out.crank_rpm= rpm;
-    Decoder.out.flags.rpm_valid= true;
-    Decoder.out.flags.standstill= false;
+    Tuareg.Decoder.crank_period_us= period_us;
+    Tuareg.Decoder.flags.period_valid= true;
+    Tuareg.Decoder.crank_rpm= rpm;
+    Tuareg.Decoder.flags.rpm_valid= true;
+    Tuareg.Decoder.flags.standstill= false;
 
 
     /**
@@ -242,10 +242,10 @@ void update_timing_data()
         divide_float(1000000.0 * ((F32) rpm - (F32) Decoder.last_crank_rpm), (F32) period_us, &accel);
 
         //apply the ema filter
-        Decoder.out.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);
+        Tuareg.Decoder.crank_acceleration= update_ema_filter(Decoder_Setup.accel_filter_coeff, &(Decoder.last_crank_acceleration), accel);
 
         //mark output data valid
-        Decoder.out.flags.accel_valid= true;
+        Tuareg.Decoder.flags.accel_valid= true;
     }
 
     //store last current engine speed for the calculation from next cycle
@@ -273,7 +273,7 @@ void init_decoder_logic()
     the first crank sensor event will clear the standstill flag
     Without a crank sensor event the timeout logic would not trigger.
     */
-    Decoder.out.flags.standstill= true;
+    Tuareg.Decoder.flags.standstill= true;
 
     //enable crank irq
     decoder_unmask_crank_irq();
@@ -286,7 +286,7 @@ void disable_decoder_logic()
     reset_internal_data();
 
     //assume that the engine will come to standstill quickly
-    Decoder.out.flags.standstill= true;
+    Tuareg.Decoder.flags.standstill= true;
 }
 
 /******************************************************************************************************************************
@@ -365,7 +365,7 @@ void decoder_crank_handler()
             {
                 /// got SYNC
                 decoder_set_state(DSTATE_SYNC);
-                Decoder.out.crank_position= CRK_POSITION_B1;
+                Tuareg.Decoder.crank_position= CRK_POSITION_B1;
 
                 //switch decoder timer mode to continuous
                 decoder_request_timer_reset();
@@ -396,7 +396,7 @@ void decoder_crank_handler()
         case DSTATE_SYNC:
 
             // update crank_position
-            Decoder.out.crank_position= crank_position_after(Decoder.out.crank_position);
+            Tuareg.Decoder.crank_position= crank_position_after(Tuareg.Decoder.crank_position);
 
             // update crank sensing
             decoder_set_crank_pickup_sensing(SENSING_INVERT);
@@ -408,14 +408,14 @@ void decoder_crank_handler()
             per-position decoder housekeeping actions:
             crank_position is the crank position that has been reached at the beginning of this interrupt
             */
-            switch(Decoder.out.crank_position)
+            switch(Tuareg.Decoder.crank_position)
             {
                 case CRK_POSITION_B1:
 
                     //do sync check
                     if( check_sync_ratio() == true )
                     {
-                        Decoder.out.flags.position_valid= true;
+                        Tuareg.Decoder.flags.position_valid= true;
 
                         //reset the decoder timer when position B2 will be reached
                         decoder_request_timer_reset();
@@ -448,36 +448,36 @@ void decoder_crank_handler()
                 case CRK_POSITION_C1:
 
                     //update engine phase right at the next crank position after TDC
-                    Decoder.out.phase= opposite_phase(Decoder.out.phase);
+                    Tuareg.Decoder.phase= opposite_phase(Tuareg.Decoder.phase);
                     break;
 
                 default:
                     break;
 
-            } //switch(Decoder.out.crank_position)
+            } //switch(Tuareg.Decoder.crank_position)
 
 
             /**
             CIS control
             */
-            if(Decoder.out.crank_position == Decoder_Setup.cis_enable_pos)
+            if(Tuareg.Decoder.crank_position == Decoder_Setup.cis_enable_pos)
             {
                 //activate the cis to collect cam information
                 enable_cis();
             }
-            else if(Decoder.out.crank_position == Decoder_Setup.cis_disable_pos)
+            else if(Tuareg.Decoder.crank_position == Decoder_Setup.cis_disable_pos)
             {
                 //evaluate the collected cam information
                 disable_cis();
             }
 
             //notify high speed logger about new crank position
-            highspeedlog_register_crankpos(Decoder.out.crank_position);
+            highspeedlog_register_crankpos(Tuareg.Decoder.crank_position);
 
             /**
             finally trigger the decoder update irq -> last action here
             */
-            if( (Decoder.out.flags.position_valid == true) && (Decoder.out.flags.period_valid == true) && (Decoder.out.flags.rpm_valid == true) )
+            if( (Tuareg.Decoder.flags.position_valid == true) && (Tuareg.Decoder.flags.period_valid == true) && (Tuareg.Decoder.flags.rpm_valid == true) )
             {
                 trigger_decoder_irq();
             }
@@ -529,7 +529,7 @@ void decoder_crank_timeout_handler()
     reset_internal_data();
 
     //report to interface
-    Decoder.out.flags.standstill= true;
+    Tuareg.Decoder.flags.standstill= true;
 
     //collect debug information
     #ifdef DECODER_EVENT_DEBUG

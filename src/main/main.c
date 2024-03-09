@@ -226,7 +226,7 @@ sw generated irq when decoder has updated crank_position based on crank pickup s
 as the ignition / fueling timing relies on this position update event, it shall be implemented stream lined
 
 
-The crank decoder will not trigger this irq if no valid rpm figure is available
+The crank decoder will not trigger this irq if no valid rpm figure is available, especially on timeout
 
 The irq can be entered in HALT Mode when the crank is still spinning but the RUN switch has not yet been evaluated.
 
@@ -252,22 +252,18 @@ void EXTI2_IRQHandler(void)
 
 
     //check if essential decoder data is valid
-    VitalAssert( Tuareg.pDecoder->flags.position_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_POSITION_ERROR);
-    VitalAssert( Tuareg.pDecoder->flags.period_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_PERIOD_ERROR);
-    VitalAssert( Tuareg.pDecoder->flags.rpm_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_RPM_ERROR);
-
+    VitalAssert( Tuareg.Decoder.flags.position_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_POSITION_ERROR);
+    VitalAssert( Tuareg.Decoder.flags.period_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_PERIOD_ERROR);
+    VitalAssert( Tuareg.Decoder.flags.rpm_valid == true, TID_MAIN, TUAREG_LOC_DECODER_INT_RPM_ERROR);
 
 
     /**
     ignition and fueling controls calculation requires the process data to be updated
     */
-    if(Tuareg.pDecoder->crank_position == cTuareg_controls_update_pos)
+    if(Tuareg.Decoder.crank_position == cTuareg_controls_update_pos)
     {
-        //update process table with data supplied by decoder
-        update_process_table( (Tuareg.pDecoder->flags.period_valid == true)? (Tuareg.pDecoder->crank_period_us) : 0 );
-
-        //update process data
-        Tuareg_update_process_data();
+        //updates process data and ignition, fueling controls
+        Tuareg_update_controls();
     }
 
     //trigger the ignition module

@@ -62,6 +62,7 @@ exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pR
         Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_GET_LOADSTATE_ERROR);
         return EXEC_ERROR;
     }
+/// TODO (oli#6#03/09/24): add syslog entries for every error -> make it easier to find the broken map
 
     //look up X domain
     ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->X) );

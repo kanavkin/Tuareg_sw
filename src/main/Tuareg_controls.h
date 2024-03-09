@@ -25,12 +25,12 @@ typedef union
      {
         //control strategy
         U16 SPD_ctrl :1;
+        U16 smooth_transition :1;
         U16 AFR_fallback :1;
 
         //data health state
         U16 valid :1;
 
-        //transient control flags
      };
 
 } Tuareg_control_flags_t;
@@ -51,10 +51,10 @@ typedef struct _Tuareg_controls_t {
     ctrlset_designator_t Set;
 
     //ignition timing and alignment
-    ignition_controls_t ignition_controls;
+    ignition_controls_t Ignition;
 
     //fueling parameters
-    fueling_control_t fueling_controls;
+    fueling_control_t Fueling;
 
     //control flags
     volatile Tuareg_control_flags_t Flags;
@@ -63,9 +63,7 @@ typedef struct _Tuareg_controls_t {
 } Tuareg_controls_t;
 
 
-
-void Tuareg_update_control_strategy(volatile Tuareg_controls_t * pControls);
-void Tuareg_update_controls(volatile Tuareg_controls_t * pControls);
+void Tuareg_update_controls();
 
 
 

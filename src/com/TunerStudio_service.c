@@ -135,7 +135,7 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
 
         case 'DI':
 
-            cli_show_decoder_interface(Tuareg.pDecoder);
+            //cli_show_decoder_interface(Tuareg.Decoder);
 
             break;
 
@@ -168,12 +168,12 @@ void ts_debug_info(U32 InfoID, USART_TypeDef * Port)
 
         case 'IC':
 
-            cli_show_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
+            cli_show_ignition_controls(&(Tuareg.Controls.Ignition));
             break;
 
         case 'FC':
 
-            cli_show_fueling_controls(&(Tuareg.Tuareg_controls.fueling_controls));
+            cli_show_fueling_controls(&(Tuareg.Controls.Fueling));
             break;
 
 
@@ -310,8 +310,8 @@ void cli_show_ignition_controls(volatile ignition_controls_t * pTiming)
 {
     print(TS_PORT, "\r\n\r\nignition setup:");
 
-    print(TS_PORT, "\r\nadvance (deg), base pos, timing (us): ");
-    printf_U(TS_PORT, pTiming->ignition_advance_deg, NO_PAD);
+    print(TS_PORT, "\r\nbase pos, timing (us): ");
+//    printf_U(TS_PORT, pTiming->ignition_advance_deg, NO_PAD);
     printf_crkpos(TS_PORT, pTiming->ignition_pos);
     UART_Tx(TS_PORT, ' ');
     printf_U(TS_PORT, pTiming->ignition_timing_us, NO_PAD);
@@ -340,8 +340,8 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
     print(TS_PORT, "\r\n\r\ncurrent fueling controls:");
 
     //basic parameters
-    print(TS_PORT, "\r\nVE (%): ");
-    printf_F32(TS_PORT, pControls->VE_pct);
+//    print(TS_PORT, "\r\nVE (%): ");
+//    printf_F32(TS_PORT, pControls->VE_pct);
 
     print(TS_PORT, "\r\ncharge temperature (°C): ");
     printf_F32(TS_PORT, pControls->charge_temp_K - cKelvin_offset);
@@ -352,8 +352,8 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
     print(TS_PORT, "\r\nair flow rate (g/s): ");
     printf_F32(TS_PORT, pControls->air_flowrate_gps);
 
-    print(TS_PORT, "\r\nAFR target: ");
-    printf_F32(TS_PORT, pControls->AFR_target);
+//    print(TS_PORT, "\r\nAFR target: ");
+//    printf_F32(TS_PORT, pControls->AFR_target);
 
 
     //WUE
@@ -395,12 +395,8 @@ void cli_show_fueling_controls(volatile fueling_control_t * pControls)
 
 
     //status data
-    print(TS_PORT, "\r\nflags\r\nvalid SPD AFR_fallback inj_beg_valid: ");
+    print(TS_PORT, "\r\nflags\r\nvalid  inj_beg_valid: ");
     UART_Tx(TS_PORT, (pControls->flags.valid? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pControls->flags.SPD? '1' :'0'));
-    UART_Tx(TS_PORT, '-');
-    UART_Tx(TS_PORT, (pControls->flags.AFR_fallback? '1' :'0'));
 
     print(TS_PORT, "\r\ndry_cranking sequential_mode injector_dc_clip: ");
     UART_Tx(TS_PORT, (pControls->flags.dry_cranking? '1' :'0'));

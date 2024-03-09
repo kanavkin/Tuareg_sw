@@ -19,6 +19,7 @@ typedef union
         U8 Sidestand_override :1;
         U8 CrashSensor_override :1;
         U8 QuietDash :1;
+        U8 SmoothTrans_ena :1;
      };
 
 } Tuareg_Setup_flags_t;
@@ -49,6 +50,7 @@ typedef struct __attribute__ ((__packed__)) _Tuareg_Setup_t {
 
     //control strategy parameters
     U16 spd_max_rpm;
+    U16 smooth_transition_radius_rpm;
 
     //conversion factors for ground speed calculation
     F32 gear_ratio[GEAR_COUNT -1];

@@ -15,14 +15,6 @@
 
 
 //built in defaults
-
-/*
-const F32 cDefault_AFR_target= 14.7;
-const F32 cMin_AFR_target= 3.0;
-const F32 cMax_AFR_target= 30.0;
-const F32 cMin_VE_val= 0.0;
-const F32 cMax_VE_val= 125.0;
-*/
 const F32 cMax_fuel_rel_comp_pct= 100.0;
 const F32 cMin_fuel_rel_comp_pct= -50.0;
 const F32 cMax_fuel_abs_comp_ug= 10000.0;
@@ -104,31 +96,18 @@ const F32 cMax_fuel_abs_comp_ug= 10000.0;
 ****************************************************************************************************************************************/
 void Tuareg_update_fueling_controls()
 {
-    volatile fueling_control_t * pTarget= &(Tuareg.Tuareg_controls.fueling_controls);
+    volatile fueling_control_t * pTarget= &(Tuareg.Controls.Fueling);
 
     //log diag data
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
-
-/// TODO (oli#1#02/28/23): move config check to end of config load
-    //vital precondition: fueling config data available
-    VitalAssert(Tuareg.errors.fueling_config_error == false, TID_FUELING_CONTROLS, FUELING_LOC_UPDCTRL_VITAL_PRECOND);
-
     /**
-    functional preconditions:
-        - at least one sensor to determine engine load is available
-        without a load estimation, fueling the engine shall not be possible
-        -> no functional impact on ignition!
+    functional precondition check
     */
-    if( (Tuareg.errors.fatal_error == true) ||
-        (Tuareg.flags.run_allow == false) || (Tuareg.flags.standby == true) ||
-        ((Tuareg.flags.cranking == false) && ((Tuareg.pDecoder->flags.rpm_valid == false) || (Tuareg.pDecoder->flags.period_valid == false) || (Tuareg.process.engine_runtime == 0))) ||
-        ((Tuareg.errors.sensor_MAP_error == true) && (Tuareg.errors.sensor_TPS_error == true)) ||
-        (Tuareg.Tuareg_controls.Flags.valid == false)
-       )
+    if(Tuareg.Controls.Flags.valid == false)
     {
         //reset controls
-        invalid_fueling_controls(pTarget);
+        clear_fueling_controls();
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_OP_PRECOND_FAIL);
@@ -153,7 +132,7 @@ void Tuareg_update_fueling_controls()
     else
     {
         //dry cranking disabled
-        pTarget->flags.dry_cranking= false;
+        Tuareg.Controls.Fueling.flags.dry_cranking= false;
 
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_RUNNING);
@@ -163,19 +142,16 @@ void Tuareg_update_fueling_controls()
         sequential mode
         phase data from decoder is required
         */
-        pTarget->flags.sequential_mode= (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.pDecoder->flags.phase_valid);
+        Tuareg.Controls.Fueling.flags.sequential_mode= (Fueling_Setup.features.sequential_mode_enabled == true) && (Tuareg.Decoder.flags.phase_valid);
 
         //collect diagnostic data
-        fueling_diag_log_event((pTarget->flags.sequential_mode == true)? FDIAG_UPD_CTRLS_SEQ : FDIAG_UPD_CTRLS_BATCH);
+        fueling_diag_log_event((Tuareg.Controls.Fueling.flags.sequential_mode == true)? FDIAG_UPD_CTRLS_SEQ : FDIAG_UPD_CTRLS_BATCH);
 
 
         /**
         valid AFR and VE data now provided by Tuareg_controls,
         taking into account the commanded control strategy
         */
-        pTarget->VE_pct= Tuareg.Tuareg_controls.VE_pct;
-        pTarget->AFR_target= Tuareg.Tuareg_controls.AFRtgt;
-
 
         ///air flow
         update_air_flow(pTarget);
@@ -209,7 +185,7 @@ void Tuareg_update_fueling_controls()
     /**
     injector intervals calculation based on the calculated target fuel mass
     */
-    if(pTarget->flags.sequential_mode == true)
+    if(Tuareg.Controls.Fueling.flags.sequential_mode == true)
     {
         update_injector_intervals_sequential(pTarget);
     }
@@ -220,19 +196,21 @@ void Tuareg_update_fueling_controls()
 
 
     //success
-    pTarget->flags.valid= true;
+    Tuareg.Controls.Fueling.flags.valid= true;
 }
 
 
 /****************************************************************************************************************************************
 *   fueling controls update helper functions - clear controls
 ****************************************************************************************************************************************/
-void invalid_fueling_controls(volatile fueling_control_t * pTarget)
+void clear_fueling_controls(volatile fueling_control_t * pTarget)
 {
-    pTarget->VE_pct= 0.0;
+    //test
+    memclr_boctok((void *) &(Tuareg.Controls.Fueling), sizeof(fueling_control_t));
+
+    /*
     pTarget->air_density= 0.0;
     pTarget->air_flowrate_gps= 0.0;
-    pTarget->AFR_target= 0.0;
     pTarget->base_fuel_mass_ug= 0.0;
 
     pTarget->WUE_pct= 0.0;
@@ -254,6 +232,7 @@ void invalid_fueling_controls(volatile fueling_control_t * pTarget)
     pTarget->injector2_interval_us= 0;
 
     pTarget->flags.all_flags= 0;
+    */
 }
 
 
@@ -317,11 +296,11 @@ void update_air_flow(volatile fueling_control_t * pTarget)
 
     //copy from base fuel mass
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Tuareg_controls.fueling_controls.VE_pct) / 100.0;
+    air_mass_ug= (pTarget->air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Controls.VE_pct) / 100.0;
 
     //update air mass flow rate
     //period_us has already been validated in precondition check
-    result= divide_float(air_mass_ug, Tuareg.pDecoder->crank_period_us, &air_rate);
+    result= divide_float(air_mass_ug, Tuareg.Decoder.crank_period_us, &air_rate);
 
     if(result != EXEC_OK)
     {
@@ -347,7 +326,7 @@ void update_fuel_mass_cranking(volatile fueling_control_t * pTarget)
     /**
     begin with clean controls -> this will disable all corrections and compensations, too
     */
-    invalid_fueling_controls(pTarget);
+    clear_fueling_controls(pTarget);
 
     //check if dry cranking conditions are present
     if((Tuareg.errors.sensor_TPS_error == false) && (Tuareg.process.TPS_deg > Fueling_Setup.dry_cranking_TPS_thres) && (Fueling_Setup.features.dry_cranking_enabled == true))
@@ -368,7 +347,7 @@ void update_fuel_mass_cranking(volatile fueling_control_t * pTarget)
         pTarget->target_fuel_mass_ug= fuel_mass_ug;
         pTarget->cmd_fuel_mass_ug= fuel_mass_ug;
 
-        //dummy valuee to produce a nice TunerStudio image
+        //dummy value to produce a nice TunerStudio image
         pTarget->charge_temp_K= Tuareg.process.IAT_K;
     }
 }
@@ -386,11 +365,11 @@ void update_base_fuel_mass(volatile fueling_control_t * pTarget)
     exec_result_t result;
 
     //air mass [µg] := air_density [µg/cm³] * cylinder volume [cm³] * VE [%] / 100
-    air_mass_ug= (Tuareg.Tuareg_controls.fueling_controls.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Tuareg_controls.fueling_controls.VE_pct) / 100.0;
+    air_mass_ug= (Tuareg.Controls.Fueling.air_density * Fueling_Setup.cylinder_volume_ccm * Tuareg.Controls.VE_pct) / 100.0;
 
     //base fuel mass [µg] := air mass [ug] / AFR [1]
     //AFR_target has already been validated in get_AFR_target()
-    result= divide_float(air_mass_ug, Tuareg.Tuareg_controls.fueling_controls.AFR_target, &base_fuel_mass_ug);
+    result= divide_float(air_mass_ug, Tuareg.Controls.AFRtgt, &base_fuel_mass_ug);
 
     if(result != EXEC_OK)
     {

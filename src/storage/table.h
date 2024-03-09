@@ -15,11 +15,9 @@ data size (X axis) in bytes
 data size (Y axis) in bytes
 */
 #define TABLE_DIM 16
+#define TABLE_CELL_SIZE_B 2
 
-#define TABLE_DOM_CELL_SIZE_B 2
-#define TABLE_CODOM_CELL_SIZE_B 1
-
-#define TABLE_STORAGE_SIZE_B TABLE_DIM*(MAP_DOM_CELL_SIZE_B + MAP_CODOM_CELL_SIZE_B)
+#define TABLE_STORAGE_SIZE_B 2*TABLE_DIM*TABLE_CELL_SIZE_B
 
 
 

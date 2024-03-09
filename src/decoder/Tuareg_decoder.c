@@ -12,7 +12,7 @@
 /******************************************************************************************************************************
 Decoder initialization
  ******************************************************************************************************************************/
-volatile decoder_output_t * init_Decoder()
+void Init_Decoder()
 {
     exec_result_t result;
 
@@ -20,7 +20,7 @@ volatile decoder_output_t * init_Decoder()
     result= load_Decoder_Setup();
 
     //check if config has been loaded
-    if(result != EXEC_OK)
+    if((result != EXEC_OK) || (Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION))
     {
         /**
         failed to load Decoder Config
@@ -28,33 +28,14 @@ volatile decoder_output_t * init_Decoder()
         Tuareg.errors.decoder_config_error= true;
 
         //enter limp mode
-        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
-
-        //load built in defaults
-        load_essential_Decoder_Setup();
+        Fatal(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
 
         #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Failed to load Decoder Config!");
         DebugMsg_Warning("Decoder essential Config has been loaded");
         #endif // DECODER_DEBUGMSG
-    }
-    else if(Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION)
-    {
-        /**
-        loaded wrong Decoder Config Version
-        */
-        Tuareg.errors.decoder_config_error= true;
 
-        //enter limp mode
-        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGVERSION_ERROR);
-
-        //load built in defaults
-        load_essential_Decoder_Setup();
-
-        #ifdef DECODER_DEBUGMSG
-        DebugMsg_Error("Decoder Config version does not match");
-        DebugMsg_Warning("Decoder essential Config has been loaded");
-        #endif // DECODER_DEBUGMSG
+        return;
     }
     else
     {
@@ -62,7 +43,6 @@ volatile decoder_output_t * init_Decoder()
         loaded Decoder Config with correct Version
         */
         Tuareg.errors.decoder_config_error= false;
-
 
         #ifdef DECODER_DEBUGMSG
         print(DEBUG_PORT, "\r\nDecoder Config has been loaded");
@@ -78,8 +58,6 @@ volatile decoder_output_t * init_Decoder()
 
     //report to syslog
     Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_READY);
-
-    return &(Decoder.out);
 }
 
 
@@ -93,8 +71,6 @@ void disable_Decoder()
 
     //disable logic
     disable_decoder_logic();
-
-    Tuareg.errors.decoder_config_error= true;
 
     //report to syslog
     Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_HALTED);

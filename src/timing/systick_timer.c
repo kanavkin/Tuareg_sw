@@ -128,14 +128,12 @@ void SysTick_Handler(void)
             at engine standstill no decoder irq can trigger any function
             do this timer based
             */
-            if(Tuareg.pDecoder->flags.standstill == true)
+            if(Tuareg.Decoder.flags.standstill == true)
             {
                 //provide MAP value for the stalled engine
                 sensors_start_injected_group_conversion();
 
-                Tuareg_update_process_data();
-                Tuareg_update_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
-                Tuareg_update_fueling_controls();
+                Tuareg_update_controls();
             }
 
             //update system state based on the data gathered

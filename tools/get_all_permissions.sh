@@ -18,4 +18,8 @@ printf "Jtua#" > $DEV
 printf "Jign#" > $DEV
 printf "Jfue#" > $DEV
 
+printf "Jcmap" > $DEV
+printf "Jctps" > $DEV
+printf "Jctpl" > $DEV
+
 printf "Jbrn!" > $DEV

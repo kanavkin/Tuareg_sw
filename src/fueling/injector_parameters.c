@@ -94,13 +94,13 @@ void update_injector_intervals_sequential(volatile fueling_control_t * pTarget)
     /*
     dc threshold calculation relies on crank speed information
     */
-    if(Tuareg.pDecoder->flags.period_valid == true)
+    if(Tuareg.Decoder.flags.period_valid == true)
     {
         //calculate the maximum powered interval based on 720° engine cycle
-        max_powered_interval_us= (2 * Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
+        max_powered_interval_us= (2 * Tuareg.Decoder.crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
 
         //calculate the injector duty cycle based on 720° engine cycle
-        target_duty_cycle= divide_F32(100 * inj1_target_interval_us, 2 * Tuareg.pDecoder->crank_period_us);
+        target_duty_cycle= divide_F32(100 * inj1_target_interval_us, 2 * Tuareg.Decoder.crank_period_us);
 
         //check if the required fuel amount can be delivered in this mode
         if(inj1_target_interval_us > max_powered_interval_us)
@@ -174,13 +174,13 @@ void update_injector_intervals_batch(volatile fueling_control_t * pTarget)
     /*
     dc threshold calculation relies on crank speed information
     */
-    if(Tuareg.pDecoder->flags.period_valid == true)
+    if(Tuareg.Decoder.flags.period_valid == true)
     {
         //calculate the maximum powered interval based on 360° crank cycle
-        max_powered_interval_us= (Tuareg.pDecoder->crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
+        max_powered_interval_us= (Tuareg.Decoder.crank_period_us * Fueling_Setup.max_injector_duty_cycle_pct) / 100;
 
         //calculate the injector duty cycle based on 360° engine cycle
-        target_duty_cycle= divide_F32(100 * inj1_target_interval_us, Tuareg.pDecoder->crank_period_us);
+        target_duty_cycle= divide_F32(100 * inj1_target_interval_us, Tuareg.Decoder.crank_period_us);
 
 
         //check if the required fuel amount can be delivered in this mode

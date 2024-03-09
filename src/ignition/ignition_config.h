@@ -27,7 +27,7 @@ typedef struct __attribute__ ((__packed__)) _Ignition_Setup_t_ {
     U8 Version;
 
     //dynamic ignition function
-    U16 dynamic_min_rpm;
+//    U16 dynamic_min_rpm;
     crank_position_t dynamic_ignition_base_position;
 
     //cold idle ignition advance function

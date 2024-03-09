@@ -1,7 +1,7 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
-#define IGNITION_REQUIRED_CONFIG_VERSION 5
+#define IGNITION_REQUIRED_CONFIG_VERSION 6
 
 
 //#define IGNITION_DEBUGMSG
@@ -40,6 +40,9 @@ void init_Ignition()
 {
     exec_result_t result;
 
+    //init interface
+    clear_ignition_controls(&(Tuareg.Controls.Ignition));
+
     //setup shall be loaded first
     result= load_Ignition_Config();
 
@@ -70,20 +73,22 @@ void init_Ignition()
     //bring up vital scheduler
     init_Vital_Scheduler();
 
-    //provide ignition controls for startup
-    Tuareg_update_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
-
+    //diagnostics
     Syslog_Info(TID_TUAREG_IGNITION, IGNITION_LOC_READY);
 }
 
 
-/**
-emits the control events to actor (scheduler / coil) layer
 
-precondition:
-Tuareg.pDecoder->outputs.timeout == false
-Tuareg.pDecoder->outputs.position_valid == true
-*/
+/************************************************************************
+* Tuareg ignition update
+* called from main() on crank position update
+*
+* emits the control events to actor (scheduler / coil) layer
+*
+* precondition:
+* Tuareg.Decoder.outputs.timeout == false
+* Tuareg.Decoder.outputs.position_valid == true
+************************************************************************/
 void Tuareg_ignition_update_crankpos_handler()
 {
     volatile scheduler_activation_parameters_t scheduler_parameters;
@@ -102,24 +107,30 @@ void Tuareg_ignition_update_crankpos_handler()
         //turn off all ignition actors
         set_ignition_ch1(ACTOR_UNPOWERED);
         set_ignition_ch2(ACTOR_UNPOWERED);
+        scheduler_reset_channel(SCHEDULER_CH_IGN1);
+        scheduler_reset_channel(SCHEDULER_CH_IGN2);
 
         //delete ignition controls
-        Tuareg_update_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
+        clear_ignition_controls(&(Tuareg.Controls.Ignition));
 
         //nothing to do
         return;
     }
 
-    //check if ignition controls shall be updated
-    if(Tuareg.pDecoder->crank_position == ignition_controls_update_pos)
+    /**
+    check if ignition controls shall be updated
+    if(Tuareg.Decoder.crank_position == ignition_controls_update_pos)
     {
         //update ignition controls
-        Tuareg_update_ignition_controls(&(Tuareg.Tuareg_controls.ignition_controls));
+        Tuareg_update_ignition_controls(&(Tuareg.Controls.Ignition));
     }
+    */
 
 
-    //check if ignition controls are valid
-    if(Tuareg.Tuareg_controls.ignition_controls.flags.valid == false)
+    /**
+    check if valid ignition controls are available
+    */
+    if(Tuareg.Controls.Ignition.flags.valid == false)
     {
         //collect diagnostic information
         ignition_diag_log_event(IGNDIAG_CRKPOSH_CTRLS_INVALID);
@@ -130,10 +141,10 @@ void Tuareg_ignition_update_crankpos_handler()
 
 
     //check if dynamic mode is active - this is the main operation scenario
-    if(Tuareg.Tuareg_controls.ignition_controls.flags.dynamic_controls == true)
+    if(Tuareg.Controls.Ignition.flags.dynamic_controls == true)
     {
         //check if the crank is at the ignition base position
-        if(Tuareg.pDecoder->crank_position == Tuareg.Tuareg_controls.ignition_controls.ignition_pos)
+        if(Tuareg.Decoder.crank_position == Tuareg.Controls.Ignition.ignition_pos)
         {
             //collect diagnostic information
             ignition_diag_log_event(IGNDIAG_CRKPOSH_IGNPOS);
@@ -152,25 +163,22 @@ void Tuareg_ignition_update_crankpos_handler()
             scheduler_parameters.flags.interval2_enabled= true;
             scheduler_parameters.flags.complete_cycle_realloc= true;
 
-            scheduler_parameters.interval2_us= Tuareg.Tuareg_controls.ignition_controls.dwell_timing_us;
-            scheduler_parameters.interval1_us= subtract_U32(Tuareg.Tuareg_controls.ignition_controls.ignition_timing_us, decoder_get_position_data_age_us());
+            scheduler_parameters.interval2_us= Tuareg.Controls.Ignition.dwell_timing_us;
+            scheduler_parameters.interval1_us= subtract_U32(Tuareg.Controls.Ignition.ignition_timing_us, decoder_get_position_data_age_us());
 
 
-            //check if sequential mode has been commanded
-            if((Tuareg.Tuareg_controls.ignition_controls.flags.sequential_mode == true) && (Tuareg.pDecoder->flags.phase_valid == false))
+            /**
+            check if sequential mode has been commanded and the phase information has been invalidated -> no action
+            */
+            if((Tuareg.Controls.Ignition.flags.sequential_mode == true) && (Tuareg.Decoder.flags.phase_valid == false))
             {
                 //collect diagnostic information
                 ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
-
-                /**
-                downgrade to batch mode is not possible because of specific interval calculation
-                earlyexit
-                */
-                return;
             }
 
+
             //coil #1
-            if((Tuareg.pDecoder->phase == PHASE_CYL1_COMP) || (Tuareg.Tuareg_controls.ignition_controls.flags.sequential_mode == false))
+            if((Tuareg.Decoder.phase == PHASE_CYL1_COMP) || (Tuareg.Controls.Ignition.flags.sequential_mode == false))
             {
                 scheduler_set_channel(SCHEDULER_CH_IGN1, &scheduler_parameters);
 
@@ -179,7 +187,7 @@ void Tuareg_ignition_update_crankpos_handler()
             }
 
             //coil #2
-            if( (Ignition_Setup.flags.second_coil_installed == true) && ((Tuareg.pDecoder->phase == PHASE_CYL1_EX) || (Tuareg.Tuareg_controls.ignition_controls.flags.sequential_mode == false)))
+            if( (Ignition_Setup.flags.second_coil_installed == true) && ((Tuareg.Decoder.phase == PHASE_CYL1_EX) || (Tuareg.Controls.Ignition.flags.sequential_mode == false)))
             {
                 scheduler_set_channel(SCHEDULER_CH_IGN2, &scheduler_parameters);
 
@@ -193,11 +201,11 @@ void Tuareg_ignition_update_crankpos_handler()
     {
         /**
         Everything other than dynamic mode is fallback -> batch style
-        use cases: cranking, default ignition controls
+        main use case: cranking
         operating scheme: immediate spark/dwell triggering on position update
         no scheduler allocation
         */
-        if(Tuareg.pDecoder->crank_position == Tuareg.Tuareg_controls.ignition_controls.ignition_pos)
+        if(Tuareg.Decoder.crank_position == Tuareg.Controls.Ignition.ignition_pos)
         {
             scheduler_reset_channel(SCHEDULER_CH_IGN1);
             scheduler_reset_channel(SCHEDULER_CH_IGN2);
@@ -211,7 +219,7 @@ void Tuareg_ignition_update_crankpos_handler()
             ignition_diag_log_event(IGNDIAG_CRKPOSH_IGN2_UNPOWER);
 
         }
-        else if(Tuareg.pDecoder->crank_position == Tuareg.Tuareg_controls.ignition_controls.dwell_pos)
+        else if(Tuareg.Decoder.crank_position == Tuareg.Controls.Ignition.dwell_pos)
         {
             scheduler_reset_channel(SCHEDULER_CH_IGN1);
             scheduler_reset_channel(SCHEDULER_CH_IGN2);

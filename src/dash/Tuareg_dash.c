@@ -27,7 +27,7 @@ void update_tachometer()
     */
 
     //look up the timer compare value to command
-    compare= getValue_TachTable(Tuareg.pDecoder->crank_rpm);
+    compare= getValue_TachTable(Tuareg.Decoder.crank_rpm);
 
     //the tachometer output parameter is user input data
     if(compare > TACH_PWM_RESOLUTION) compare=0;

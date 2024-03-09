@@ -2,6 +2,7 @@
 
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
+/// TODO (oli#1#03/09/24): battery voltage changes when clt changes???
 
 
 /**

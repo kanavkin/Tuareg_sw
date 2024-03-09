@@ -54,6 +54,50 @@ typedef union
 } ts_tuareg_bits_t;
 
 
+/**
+ts_control_bits_t
+*/
+typedef union
+{
+     U32 all_flags;
+
+    struct
+    {
+        //control strategy
+        U32 ctrl_SPD :1;
+        U32 ctrl_trans :1;
+        U32 ctrl_AFR_fb :1;
+        U32 ctrl_val :1;
+
+        //ignition
+        U32 ign_val :1;
+        U32 ign_dyn :1;
+        U32 ign_seq :1;
+        U32 ign_cld_idl :1;
+
+        //fueling
+        U32 fue_val :1;
+        U32 fue_dry_crk :1;
+        U32 fue_seq :1;
+        U32 fue_dc_clip :1;
+
+        U32 fue_WUE :1;
+        U32 fue_ASE :1;
+        U32 fue_BARO :1;
+        U32 fue_AE :1;
+        U32 fue_AE_MAP_acc :1;
+        U32 fue_AE_MAP_dec :1;
+        U32 fue_AE_TPS_acc :1;
+        U32 fue_AE_TPS_dec :1;
+        U32 fue_load_trans :1;
+
+        U32 ctrl_set :2;
+
+     };
+
+} ts_control_bits_t;
+
+
 
 
 typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
@@ -61,7 +105,7 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     U8 secl;
 
     ts_tuareg_bits_t tuareg_bits;
-    U8 com_bits;
+    cli_permission_flags_t com_bits;
 
     U16 rpm;
     F32 ddt_rpm;
@@ -82,13 +126,17 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     U8 speed_kmh;
     U32 engine_runtime_ms;
 
-    U8 ignition_bits;
-    U16 ignition_adv_deg;
-    U16 ignition_dwell_us;
+    ts_control_bits_t control_bits;
 
-    U16 fueling_bits;
+    //control set data
+    F32 IgnAdv_deg;
     F32 VE_pct;
-    F32 AFR_target;
+    F32 AFRtgt;
+
+    //ignition
+    F32 dwell_us;
+
+    //fueling
     F32 charge_temp_K;
     F32 air_rate_gps;
 
@@ -102,6 +150,7 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
     U32 inj_delay_us;
     F32 inj_dc_pct;
 
+
     F32 fuel_rate_gps;
     F32 fuel_eff_mpg;
 
@@ -110,8 +159,6 @@ typedef struct __attribute__ ((__packed__)) _Output_Channels_t {
 
 
 void ts_sendOutputChannels(USART_TypeDef * Port);
-
-void ts_tuareg_bits(ts_tuareg_bits_t * pTarget);
 
 
 #endif // TUNERSTUDIO_OUTCHANNEL_H_INCLUDED

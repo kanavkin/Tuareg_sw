@@ -103,12 +103,12 @@ void highspeedlog_write(highspeedlog_event_t Event)
     pTarget->flags.injector2= Tuareg.flags.fuel_injector_2;
 
     //position
-    pTarget->crank_position= Tuareg.pDecoder->crank_position;
+    pTarget->crank_position= Tuareg.Decoder.crank_position;
 
     //phasing
     pTarget->flags.cam_lobe= Highspeedlog_Mgr.cam_lobe_begin_triggered;
-    pTarget->flags.phase_comp= (Tuareg.pDecoder->phase == PHASE_CYL1_COMP) ? true : false;
-    pTarget->flags.phase_valid= Tuareg.pDecoder->flags.phase_valid;
+    pTarget->flags.phase_comp= (Tuareg.Decoder.phase == PHASE_CYL1_COMP) ? true : false;
+    pTarget->flags.phase_valid= Tuareg.Decoder.flags.phase_valid;
 
     __enable_irq();
 

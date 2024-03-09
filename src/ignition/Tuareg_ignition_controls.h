@@ -6,20 +6,6 @@
 
 
 
-
-/**
-cranking ignition controls reported values
-*/
-#define CRANKING_REPORTED_IGNITION_ADVANCE_DEG 3
-#define CRANKING_REPORTED_DWELL_US 10000
-
-/**
-rev limiter ignition controls reported values
-*/
-#define REVLIMITER_REPORTED_IGNITION_ADVANCE_DEG 0
-#define REVLIMITER_REPORTED_DWELL_US 0
-
-
 /**
 ignition_logic_state_t
 */
@@ -45,7 +31,6 @@ ignition controls
 typedef struct _ignition_control_t {
 
     //dynamic ignition
-    F32 ignition_advance_deg;
     F32 ignition_timing_us;
     crank_position_t ignition_pos;
 
@@ -62,14 +47,14 @@ typedef struct _ignition_control_t {
 
 
 
-void Tuareg_update_ignition_controls(volatile ignition_controls_t * pTarget);
 
-void default_ignition_controls(volatile ignition_controls_t * pTarget);
-void revlimiter_ignition_controls(volatile ignition_controls_t * pTarget);
-void cranking_ignition_controls(volatile ignition_controls_t * pTarget);
-
-void dynamic_ignition_controls(volatile ignition_controls_t * pTarget);
+/**
+export rpm requirements for dynamic ignition
+*/
+extern const U32 cIgnition_min_dyn_rpm;
 
 
+void Tuareg_update_ignition_controls();
+void clear_ignition_controls();
 
 #endif // TUAREG_IGNITION_CONTROLS_H_INCLUDED
