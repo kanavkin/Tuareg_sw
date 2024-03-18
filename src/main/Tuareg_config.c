@@ -222,6 +222,19 @@ returns the timer compare value # that makes the tachometer display the commande
 */
 U32 getValue_TachTable(U32 Rpm)
 {
-    return getValue_table(&TachTable, Rpm);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&TachTable, Rpm, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_TUAREG_CONFIG, TUAREG_LOC_CONFIG_TACHTAB_ERROR);
+        return 0.0;
+    }
 }
 

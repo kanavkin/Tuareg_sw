@@ -52,7 +52,7 @@ typedef struct _table_t {
 
 
 
-F32 getValue_table(volatile table_t *fromTable, F32 X);
+exec_result_t getValue_table(volatile table_t *pTable, F32 X, F32 * pResult);
 exec_result_t load_table(volatile table_t * pTable, U32 BaseAddress);
 exec_result_t store_table(volatile table_t * pTable, U32 BaseAddress);
 exec_result_t modify_table(volatile table_t * pTable, U32 Offset, U32 Value);

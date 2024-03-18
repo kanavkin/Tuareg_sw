@@ -177,7 +177,7 @@ exec_result_t divide_float(F32 Dividend, F32 Divisor, VF32 * pResult)
 
     if(Divisor == 0.0)
     {
-        Fatal(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
+        Syslog_Error(TID_BASE_CALC, BASECALC_LOC_DIVIDE_FLOAT_DIV0);
         *pResult= 0.0;
         return EXEC_ERROR;
     }

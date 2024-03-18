@@ -118,16 +118,6 @@ void Tuareg_ignition_update_crankpos_handler()
     }
 
     /**
-    check if ignition controls shall be updated
-    if(Tuareg.Decoder.crank_position == ignition_controls_update_pos)
-    {
-        //update ignition controls
-        Tuareg_update_ignition_controls(&(Tuareg.Controls.Ignition));
-    }
-    */
-
-
-    /**
     check if valid ignition controls are available
     */
     if(Tuareg.Controls.Ignition.flags.valid == false)

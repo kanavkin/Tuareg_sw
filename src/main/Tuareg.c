@@ -66,8 +66,6 @@ void Tuareg_Init()
 
     //check if the cranking end rpm has been configured properly
     if(cIgnition_min_dyn_rpm > Cranking_End_rpm) Cranking_End_rpm= cIgnition_min_dyn_rpm;
-    //if(cIgnition_min_dyn_rpm > Cranking_End_rpm) Cranking_End_rpm= cIgnition_min_dyn_rpm;
-
 
     /******************************************************
     initialize core components
@@ -328,33 +326,6 @@ void Tuareg_update_standby()
     Tuareg.flags.standby= ((Tuareg.decoder_watchdog > Tuareg_Setup.standby_timeout_s) && (Tuareg.flags.run_allow == true));
 }
 
-const U32 cMaxCrankingEntry= 20;
-
-void Tuareg_update_cranking()
-{
-    /**
-    cranking flag
-    will be set only when the engine has not been running and the crank is moving slowly
-    */
-    if( (Tuareg.flags.run_allow == true) &&
-        (Tuareg.process.engine_runtime < cMaxCrankingEntry) &&
-        (Tuareg.flags.standby == false) &&
-        (Tuareg.Decoder.flags.standstill == false) &&
-        (Tuareg.Decoder.crank_rpm < Cranking_End_rpm))
-    {
-        Tuareg.flags.cranking= true;
-    }
-
-    if( ((Tuareg.Decoder.flags.rpm_valid == true) && (Tuareg.Decoder.crank_rpm > Cranking_End_rpm)) ||
-        (Tuareg.flags.run_allow == false) ||
-        (Tuareg.flags.standby == true) ||
-        (Tuareg.Decoder.flags.standstill == true))
-    {
-        Tuareg.flags.cranking= false;
-    }
-}
-
-
 
 /******************************************************************************************************************************
 periodic update helper function - fuel pump control
@@ -463,7 +434,6 @@ void Tuareg_update_systick()
     Tuareg_update_rev_limiter();
     Tuareg_update_run_allow();
     Tuareg_update_standby();
-    Tuareg_update_cranking();
     Tuareg_update_runtime();
 
     //fuel pump

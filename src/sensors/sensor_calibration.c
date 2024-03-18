@@ -137,7 +137,20 @@ void send_InvTableCLT(USART_TypeDef * Port)
 /**
 returns the coolant temperature in K
 */
-VF32 getValue_InvTableCLT(VU32 Raw)
+F32 getValue_InvTableCLT(VU32 Raw)
 {
-    return getValue_table(&InvTableCLT, Raw);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&InvTableCLT, Raw, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, SENSORS_LOC_CALIB_INVCLTTAB_ERROR);
+        return 0.0;
+    }
 }

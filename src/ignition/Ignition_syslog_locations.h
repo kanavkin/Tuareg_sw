@@ -16,6 +16,8 @@ typedef enum {
 
     IGNITION_LOC_TPS_ERROR,
 
+    IGNITION_LOC_CONF_DWELLTAB_ERROR,
+
 
 
 

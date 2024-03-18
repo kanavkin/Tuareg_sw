@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <msq xmlns="http://www.msefi.com/:msq">
-    <bibliography author="TunerStudio MS Ultra 3.1.08 - EFI Analytics, Inc." tuneComment="" writeDate="Sat Mar 09 22:24:26 CET 2024"/>
+    <bibliography author="TunerStudio MS Ultra 3.1.08 - EFI Analytics, Inc." tuneComment="" writeDate="Mon Mar 18 16:29:37 CET 2024"/>
     <versionInfo fileFormat="5.0" firmwareInfo="Tuareg+V0.26+2024.02" nPages="20" signature="rusEFI v1.04"/>
     <page>
         <pcVariable name="tsCanId">"0"</pcVariable>
@@ -185,10 +185,10 @@
          96.0 
          98.0 
       </constant>
-        <constant digits="0" name="Control_MAP_x_min" units="Rpm">44204.0</constant>
-        <constant digits="0" name="Control_MAP_x_max" units="Rpm">44972.0</constant>
-        <constant digits="0" name="Control_MAP_y_min" units="MAP">46256.0</constant>
-        <constant digits="0" name="Control_MAP_y_max" units="MAP">900.0</constant>
+        <constant digits="0" name="Control_MAP_x_min" units="Rpm">100.0</constant>
+        <constant digits="0" name="Control_MAP_x_max" units="Rpm">10000.0</constant>
+        <constant digits="0" name="Control_MAP_y_min" units="MAP">30.0</constant>
+        <constant digits="0" name="Control_MAP_y_max" units="MAP">100.0</constant>
         <constant cols="16" digits="0" name="Control_MAP_ign" rows="16" units="deg">
          15.0 20.0 20.0 20.0 23.0 26.0 28.0 30.0 31.0 32.0 34.0 36.0 40.0 40.0 40.0 40.0 
          15.0 12.0 15.0 15.0 19.0 25.0 29.0 30.0 31.0 32.0 33.0 33.0 34.0 35.0 36.0 37.0 
@@ -207,8 +207,8 @@
          12.0 13.0 14.0 15.0 19.0 24.0 28.0 30.0 31.0 32.0 33.0 33.0 34.0 35.0 36.0 37.0 
          12.0 13.0 14.0 15.0 19.0 24.0 28.0 30.0 31.0 32.0 33.0 33.0 34.0 35.0 36.0 37.0 
       </constant>
-        <constant digits="0" name="Control_MAP_ign_min" units="deg">158.0</constant>
-        <constant digits="0" name="Control_MAP_ign_max" units="deg">150.0</constant>
+        <constant digits="0" name="Control_MAP_ign_min" units="deg">1.0</constant>
+        <constant digits="0" name="Control_MAP_ign_max" units="deg">50.0</constant>
         <constant cols="16" digits="1" name="Control_MAP_ve" rows="16" units="prc">
          25.0 20.0 15.0 15.0 10.0 10.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
          27.5 27.5 28.0 26.0 24.0 19.5 21.0 18.5 17.5 20.5 20.5 17.0 15.0 12.5 11.5 18.0 
@@ -227,8 +227,8 @@
          85.0 87.5 92.0 103.5 120.5 110.0 99.5 97.5 86.0 85.5 78.0 75.5 75.0 77.0 75.5 81.0 
          85.0 90.5 98.0 102.0 109.5 102.0 92.5 91.5 85.0 79.0 75.0 75.5 83.0 80.0 76.5 86.0 
       </constant>
-        <constant digits="1" name="Control_MAP_ve_min" units="prc">6.0</constant>
-        <constant digits="1" name="Control_MAP_ve_max" units="prc">36.0</constant>
+        <constant digits="1" name="Control_MAP_ve_min" units="prc">0.0</constant>
+        <constant digits="1" name="Control_MAP_ve_max" units="prc">100.0</constant>
         <constant cols="16" digits="1" name="Control_MAP_afr" rows="16" units="AFR">
          15.5 15.5 15.5 16.3 17.8 20.0 20.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 25.0 
          15.1 15.0 15.0 15.6 16.2 16.4 16.4 16.9 16.9 16.9 16.9 16.9 22.3 25.0 25.0 25.0 
@@ -247,8 +247,8 @@
          12.8 12.3 11.4 11.0 11.0 11.0 11.0 11.0 11.6 11.8 12.1 12.4 12.4 12.4 12.4 12.4 
          14.5 13.6 11.9 11.0 11.0 11.0 11.0 11.0 11.6 12.0 12.0 12.0 12.0 12.0 12.0 12.0 
       </constant>
-        <constant digits="1" name="Control_MAP_afr_min" units="AFR">15.0</constant>
-        <constant digits="1" name="Control_MAP_afr_max" units="AFR">13.1</constant>
+        <constant digits="1" name="Control_MAP_afr_min" units="AFR">10.0</constant>
+        <constant digits="1" name="Control_MAP_afr_max" units="AFR">20.0</constant>
     </page>
     <page number="5" size="846">
         <constant cols="1" digits="0" name="Control_TPS_x" rows="16" units="Rpm">
@@ -694,40 +694,40 @@
     </page>
     <page number="14" size="64">
         <constant cols="1" digits="0" name="CrankFuel_x" rows="16" units="°C">
-         -20.15 
-         -10.15 
-         -5.15 
-         -0.15 
-         5.85 
-         11.85 
-         17.85 
-         22.85 
-         28.85 
-         34.85 
-         40.85 
-         46.85 
-         52.85 
-         57.85 
-         63.85 
-         69.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
+         149.85 
       </constant>
         <constant cols="1" digits="0" name="CrankFuel_y" rows="16" units="ug">
-         45056.0 
-         45056.0 
-         45056.0 
-         40960.0 
-         40960.0 
-         25088.0 
-         25088.0 
-         25088.0 
-         25088.0 
-         18944.0 
-         18944.0 
-         18944.0 
-         17920.0 
-         17920.0 
-         17920.0 
-         16896.0 
+         25695.0 
+         28265.0 
+         30835.0 
+         33405.0 
+         34695.0 
+         35980.0 
+         35980.0 
+         23125.0 
+         25695.0 
+         28265.0 
+         30835.0 
+         33405.0 
+         34695.0 
+         35980.0 
+         35980.0 
+         37264.0 
       </constant>
     </page>
     <page number="15" size="64">
@@ -869,10 +869,10 @@
       </constant>
     </page>
     <page number="18" size="210">
-        <constant digits="0" name="Syslog_00_ts" units="Timestamp">1.0</constant>
-        <constant name="Syslog_00_type">"II"</constant>
-        <constant name="Syslog_00_loc">"1"</constant>
-        <constant digits="0" name="Syslog_00_src" units="Module-ID">19.0</constant>
+        <constant digits="0" name="Syslog_00_ts" units="Timestamp">1633.0</constant>
+        <constant name="Syslog_00_type">"FF"</constant>
+        <constant name="Syslog_00_loc">"3"</constant>
+        <constant digits="0" name="Syslog_00_src" units="Module-ID">46.0</constant>
         <constant name="Syslog_00_d">"Off"</constant>
         <constant name="Syslog_00_dlog">"0"</constant>
         <constant digits="0" name="Syslog_01_ts" units="Timestamp">26.0</constant>
@@ -883,19 +883,19 @@
         <constant name="Syslog_01_dlog">"0"</constant>
         <constant digits="0" name="Syslog_02_ts" units="Timestamp">194.0</constant>
         <constant name="Syslog_02_type">"II"</constant>
-        <constant name="Syslog_02_loc">"21"</constant>
+        <constant name="Syslog_02_loc">"22"</constant>
         <constant digits="0" name="Syslog_02_src" units="Module-ID">48.0</constant>
         <constant name="Syslog_02_d">"Off"</constant>
         <constant name="Syslog_02_dlog">"0"</constant>
         <constant digits="0" name="Syslog_03_ts" units="Timestamp">362.0</constant>
         <constant name="Syslog_03_type">"II"</constant>
-        <constant name="Syslog_03_loc">"23"</constant>
+        <constant name="Syslog_03_loc">"24"</constant>
         <constant digits="0" name="Syslog_03_src" units="Module-ID">48.0</constant>
         <constant name="Syslog_03_d">"Off"</constant>
         <constant name="Syslog_03_dlog">"0"</constant>
         <constant digits="0" name="Syslog_04_ts" units="Timestamp">530.0</constant>
         <constant name="Syslog_04_type">"II"</constant>
-        <constant name="Syslog_04_loc">"25"</constant>
+        <constant name="Syslog_04_loc">"26"</constant>
         <constant digits="0" name="Syslog_04_src" units="Module-ID">48.0</constant>
         <constant name="Syslog_04_d">"Off"</constant>
         <constant name="Syslog_04_dlog">"0"</constant>
@@ -977,22 +977,22 @@
         <constant digits="0" name="Syslog_17_src" units="Module-ID">26.0</constant>
         <constant name="Syslog_17_d">"Off"</constant>
         <constant name="Syslog_17_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_18_ts" units="Timestamp">2750.0</constant>
+        <constant digits="0" name="Syslog_18_ts" units="Timestamp">1633.0</constant>
         <constant name="Syslog_18_type">"II"</constant>
-        <constant name="Syslog_18_loc">"18"</constant>
-        <constant digits="0" name="Syslog_18_src" units="Module-ID">26.0</constant>
+        <constant name="Syslog_18_loc">"3"</constant>
+        <constant digits="0" name="Syslog_18_src" units="Module-ID">17.0</constant>
         <constant name="Syslog_18_d">"Off"</constant>
         <constant name="Syslog_18_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_19_ts" units="Timestamp">31410.0</constant>
+        <constant digits="0" name="Syslog_19_ts" units="Timestamp">0.0</constant>
         <constant name="Syslog_19_type">"II"</constant>
-        <constant name="Syslog_19_loc">"2"</constant>
-        <constant digits="0" name="Syslog_19_src" units="Module-ID">4.0</constant>
+        <constant name="Syslog_19_loc">"0"</constant>
+        <constant digits="0" name="Syslog_19_src" units="Module-ID">0.0</constant>
         <constant name="Syslog_19_d">"Off"</constant>
         <constant name="Syslog_19_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_20_ts" units="Timestamp">32270.0</constant>
+        <constant digits="0" name="Syslog_20_ts" units="Timestamp">0.0</constant>
         <constant name="Syslog_20_type">"II"</constant>
-        <constant name="Syslog_20_loc">"8"</constant>
-        <constant digits="0" name="Syslog_20_src" units="Module-ID">4.0</constant>
+        <constant name="Syslog_20_loc">"0"</constant>
+        <constant digits="0" name="Syslog_20_src" units="Module-ID">0.0</constant>
         <constant name="Syslog_20_d">"Off"</constant>
         <constant name="Syslog_20_dlog">"0"</constant>
         <constant digits="0" name="Syslog_21_ts" units="Timestamp">0.0</constant>
@@ -1043,21 +1043,21 @@
         <constant digits="0" name="Syslog_28_src" units="Module-ID">0.0</constant>
         <constant name="Syslog_28_d">"Off"</constant>
         <constant name="Syslog_28_dlog">"0"</constant>
-        <constant digits="0" name="Syslog_29_ts" units="Timestamp">284710.0</constant>
-        <constant name="Syslog_29_type">"EE"</constant>
-        <constant name="Syslog_29_loc">"6"</constant>
-        <constant digits="0" name="Syslog_29_src" units="Module-ID">5.0</constant>
+        <constant digits="0" name="Syslog_29_ts" units="Timestamp">0.0</constant>
+        <constant name="Syslog_29_type">"II"</constant>
+        <constant name="Syslog_29_loc">"0"</constant>
+        <constant digits="0" name="Syslog_29_src" units="Module-ID">0.0</constant>
         <constant name="Syslog_29_d">"Off"</constant>
         <constant name="Syslog_29_dlog">"0"</constant>
     </page>
     <page number="19" size="7">
-        <constant digits="0" name="Faultlog_count" units="Entries">141.0</constant>
+        <constant digits="0" name="Faultlog_count" units="Entries">17.0</constant>
         <constant digits="0" name="Faultlog_00_loc" units="Location">3.0</constant>
         <constant digits="0" name="Faultlog_00_src" units="Module-ID">46.0</constant>
         <constant digits="0" name="Faultlog_01_loc" units="Location">3.0</constant>
-        <constant digits="0" name="Faultlog_01_src" units="Module-ID">46.0</constant>
+        <constant digits="0" name="Faultlog_01_src" units="Module-ID">50.0</constant>
         <constant digits="0" name="Faultlog_02_loc" units="Location">3.0</constant>
-        <constant digits="0" name="Faultlog_02_src" units="Module-ID">46.0</constant>
+        <constant digits="0" name="Faultlog_02_src" units="Module-ID">50.0</constant>
     </page>
     <settings Comment="These setting are only used if this msq is opened without a project.">
         <setting name="enablehardware_test_OFF" value="enablehardware_test_OFF"/>

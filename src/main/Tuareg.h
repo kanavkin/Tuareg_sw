@@ -55,6 +55,7 @@
 extern const char Tuareg_Version [];
 
 extern const crank_position_t cTuareg_controls_update_pos;
+extern U32 Cranking_End_rpm;
 
 /**
 

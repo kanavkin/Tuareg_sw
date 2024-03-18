@@ -27,6 +27,7 @@ typedef union
         U16 SPD_ctrl :1;
         U16 smooth_transition :1;
         U16 AFR_fallback :1;
+        U16 cranking :1;
 
         //data health state
         U16 valid :1;
@@ -64,7 +65,7 @@ typedef struct _Tuareg_controls_t {
 
 
 void Tuareg_update_controls();
-
+void Tuareg_clear_controls();
 
 
 #endif // TUAREG_CTRL_H_INCLUDED

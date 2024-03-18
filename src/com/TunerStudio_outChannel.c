@@ -44,7 +44,8 @@ void ts_tuareg_bits()
     Out.tuareg_bits.limited_op= Tuareg.flags.limited_op;
     Out.tuareg_bits.rev_limiter= Tuareg.flags.rev_limiter;
     Out.tuareg_bits.standby= Tuareg.flags.standby;
-    Out.tuareg_bits.cranking= Tuareg.flags.cranking;
+/// TODO (oli#7#03/18/24): remove flag from tuareg bits
+    Out.tuareg_bits.cranking= Tuareg.Controls.Flags.cranking;
     Out.tuareg_bits.fuel_pump= Tuareg.flags.fuel_pump;
     Out.tuareg_bits.mil= Tuareg.flags.mil;
     Out.tuareg_bits.syslog_update= Tuareg.flags.syslog_update;

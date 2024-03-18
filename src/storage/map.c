@@ -411,6 +411,7 @@ exec_result_t map_modify(volatile map_t * pMap, U32 Offset, U32 Value)
     //range check
     if(Offset >= cMap_storage_size)
     {
+        Syslog_Error(TID_MAP, STORAGE_LOC_MAP_MOD_OFFSET_INVALID);
         return EXEC_ERROR;
     }
 

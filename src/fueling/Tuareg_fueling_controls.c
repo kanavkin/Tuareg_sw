@@ -93,6 +93,8 @@ const F32 cMax_fuel_abs_comp_ug= 10000.0;
 *
 *
 *
+*   THE CALLING FUNCTION HAS TO PERFORM A VITAL PRECONDITION CHECK !!!
+*
 ****************************************************************************************************************************************/
 void Tuareg_update_fueling_controls()
 {
@@ -102,26 +104,11 @@ void Tuareg_update_fueling_controls()
     fueling_diag_log_event(FDIAG_UPD_CTRLS_CALLS);
 
     /**
-    functional precondition check
-    */
-    if(Tuareg.Controls.Flags.valid == false)
-    {
-        //reset controls
-        clear_fueling_controls();
-
-        //log diag data
-        fueling_diag_log_event(FDIAG_UPD_CTRLS_OP_PRECOND_FAIL);
-
-        //early exit
-        return;
-    }
-
-    /**
     calculate the fuel mass to be commanded
     */
 
     //check if the engine is cranking
-    if(Tuareg.flags.cranking == true)
+    if(Tuareg.Controls.Flags.cranking == true)
     {
         //use fuel mass from cranking table for base, target, cmd fuel mass
         update_fuel_mass_cranking(pTarget);
@@ -207,32 +194,6 @@ void clear_fueling_controls(volatile fueling_control_t * pTarget)
 {
     //test
     memclr_boctok((void *) &(Tuareg.Controls.Fueling), sizeof(fueling_control_t));
-
-    /*
-    pTarget->air_density= 0.0;
-    pTarget->air_flowrate_gps= 0.0;
-    pTarget->base_fuel_mass_ug= 0.0;
-
-    pTarget->WUE_pct= 0.0;
-    pTarget->ASE_pct= 0.0;
-    pTarget->ASE_cycles_left= 0;
-    pTarget->BARO_pct= 0.0;
-
-    pTarget->legacy_AE_ug= 0.0;
-    pTarget->legacy_AE_cycles_left= 0;
-
-    pTarget->target_fuel_mass_ug= 0.0;
-    pTarget->cmd_fuel_mass_ug= 0.0;
-    pTarget->wall_fuel_mass_ug= 0.0;
-
-    pTarget->injector_deadtime_us= 0.0;
-    pTarget->injector_target_dc= 0.0;
-
-    pTarget->injector1_interval_us= 0;
-    pTarget->injector2_interval_us= 0;
-
-    pTarget->flags.all_flags= 0;
-    */
 }
 
 

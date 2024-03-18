@@ -278,7 +278,20 @@ returns the acceleration compensation value in ug
 */
 F32 getValue_AccelCompTableTPS(F32 Ddt_TPS)
 {
-    return getValue_table(&AccelCompTableTPS, Ddt_TPS);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&AccelCompTableTPS, Ddt_TPS, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_ACCCOMP_TPS_ERROR);
+        return 0.0;
+    }
 }
 
 
@@ -328,7 +341,20 @@ returns the acceleration compensation value in ug
 */
 F32 getValue_AccelCompTableMAP(F32 Ddt_MAP)
 {
-    return getValue_table(&AccelCompTableMAP, Ddt_MAP);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&AccelCompTableMAP, Ddt_MAP, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_ACCCOMP_MAP_ERROR);
+        return 0.0;
+    }
 }
 
 
@@ -381,7 +407,20 @@ returns the Warm up Enrichment compensation in percent
 */
 F32 getValue_WarmUpCompTable(F32 CLT_K)
 {
-    return getValue_table(&WarmUpCompTable, CLT_K) / cWarmUpDivider;
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&WarmUpCompTable, CLT_K, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf / cWarmUpDivider;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_WARMUPCOMP_ERROR);
+        return 0.0;
+    }
 }
 
 
@@ -431,8 +470,20 @@ void send_InjectorTimingTable(USART_TypeDef * Port)
 returns the injector dead time in its intervals
 */
 F32 getValue_InjectorTimingTable(F32 Bat_V)
-{
-    return getValue_table(&InjectorTimingTable, 1000.0 * Bat_V);
+{exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&InjectorTimingTable, 1000.0 * Bat_V, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_INJTIMTAB_ERROR);
+        return 0.0;
+    }
 }
 
 
@@ -440,7 +491,7 @@ F32 getValue_InjectorTimingTable(F32 Bat_V)
 *   Cranking base fuel mass table - CrankingFuelTable
 *
 * x-Axis -> CLT in K (no offset, no scaling)
-* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 256 ug increments)
+* y-Axis -> Cranking base fuel amount in ug (no offset, table values are in 256 ug increments)?
 ***************************************************************************************************************************************************/
 
 exec_result_t load_CrankingFuelTable()
@@ -482,7 +533,20 @@ returns the Cranking base fuel mass in its increments
 */
 F32 getValue_CrankingFuelTable(F32 CLT_K)
 {
-    return getValue_table(&CrankingFuelTable, CLT_K);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&CrankingFuelTable, CLT_K, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_CRKFUELTAB_ERROR);
+        return 0.0;
+    }
 }
 
 
@@ -537,10 +601,20 @@ returns the Barometric pressure correction factor in %
 */
 F32 getValue_BAROtable(F32 BARO_kPa)
 {
-    VF32 raw;
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
 
-    raw= getValue_table(&BAROtable, 10.0 * BARO_kPa);
-    return raw - cBAROtableOffset_pct;
+    Res= getValue_table(&BAROtable, 10.0 * BARO_kPa, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf - cBAROtableOffset_pct;
+    }
+    else
+    {
+        Fatal(TID_FUELING_CONFIG, FUELING_LOC_CONF_BAROCOMP_ERROR);
+        return 0.0;
+    }
 }
 
 

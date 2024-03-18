@@ -99,20 +99,23 @@ Injector dead time table - InjectorTimingTable
 */
 #define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE_STORAGE_SIZE_B)
 
-/**
-Cranking base fuel mass table - CrankingFuelTable
-*/
-#define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Barometric pressure correction - BAROtable
 */
-#define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE_STORAGE_SIZE_B)
+#define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 charge temperature table - ChargeTempMap
 */
 #define EEPROM_FUELING_CHARGETEMP_BASE (EEPROM_FUELING_BARO_BASE + TABLE_STORAGE_SIZE_B)
+
+/**
+Cranking base fuel mass table - CrankingFuelTable
+/// TODO (oli#1#03/18/24): debug info: table relocated here from after InjectorTimingTable, invalid readout after reset continues
+
+*/
+#define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_CHARGETEMP_BASE + MAP_STORAGE_SIZE_B)
 
 /*******************************************************************************************
 *
@@ -123,7 +126,7 @@ charge temperature table - ChargeTempMap
 /**
 MAP based Control Set
 */
-#define EEPROM_CTRLSET_MAP_BASE (EEPROM_FUELING_CHARGETEMP_BASE + MAP_STORAGE_SIZE_B)
+#define EEPROM_CTRLSET_MAP_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 TPS based Control Set

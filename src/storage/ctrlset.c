@@ -47,6 +47,7 @@ const U32 cCtrlSet_storage_size= sizeof(map_domain_t) + sizeof(mapset_codomains_
 exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pReq)
 {
     volatile map_domain_req_t DomainRequest;
+    exec_result_t result= EXEC_ERROR;
 
     const F32 cVeDivider= 2.0;
     const F32 cAfrDivider= 10.0;
@@ -62,23 +63,51 @@ exec_result_t ctrlset_get(volatile ctrlset_t * pSet, volatile ctrlset_req_t * pR
         Syslog_Error(TID_CTRLSET,STORAGE_LOC_CTRLSET_GET_LOADSTATE_ERROR);
         return EXEC_ERROR;
     }
-/// TODO (oli#6#03/09/24): add syslog entries for every error -> make it easier to find the broken map
 
     //look up X domain
-    ASSERT_EXEC_OK( map_get_domain_x(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->X) );
+    result= map_get_domain_x(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->X);
+
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_DOMAIN_X_ERROR);
+        return EXEC_ERROR;
+    }
 
     //look up Y domain
-    ASSERT_EXEC_OK( map_get_domain_y(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->Y) );
+    result= map_get_domain_y(&(pSet->Dom), &(pSet->Cache), &DomainRequest, pReq->Y);
 
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_DOMAIN_Y_ERROR);
+        return EXEC_ERROR;
+    }
 
     //perform interpolation - ignition advance
-    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.IgnAdv), &ADV_raw) );
+    result= map_interpolate(&DomainRequest, &(pSet->Cods.IgnAdv), &ADV_raw);
+
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_CODOMAIN_IGN_ERROR);
+        return EXEC_ERROR;
+    }
 
     //perform interpolation - volumetric efficiency
-    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.VE), &VE_raw ) );
+    result= map_interpolate(&DomainRequest, &(pSet->Cods.VE), &VE_raw);
+
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_CODOMAIN_VE_ERROR);
+        return EXEC_ERROR;
+    }
 
     //perform interpolation - AFR target
-    ASSERT_EXEC_OK( map_interpolate(&DomainRequest, &(pSet->Cods.AFRtgt), &AFR_raw) );
+    result= map_interpolate(&DomainRequest, &(pSet->Cods.AFRtgt), &AFR_raw);
+
+    if(result != EXEC_OK)
+    {
+        Syslog_Error(TID_CTRLSET, STORAGE_LOC_CTRLSET_GET_CODOMAIN_AFR_ERROR);
+        return EXEC_ERROR;
+    }
 
 
     //export outputs

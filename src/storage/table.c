@@ -126,7 +126,7 @@ Axis:       | 0 | 1 | 2 | 3 | ...
 Interval:   ---(0)-(1)-(2)-
 
 */
-F32 getValue_table(volatile table_t *pTable, F32 X)
+exec_result_t getValue_table(volatile table_t *pTable, F32 X, F32 * pResult)
 {
     U32 Interval;
     compare_t compare;
@@ -143,7 +143,7 @@ F32 getValue_table(volatile table_t *pTable, F32 X)
         if(pTable->data.axisX[Interval] >= pTable->data.axisX[Interval +1])
         {
             Fatal(TID_TABLE, STORAGE_LOC_T2D_X_DATA_ERROR);
-            return 0.0f;
+            return EXEC_ERROR;
         }
     }
 
@@ -160,7 +160,8 @@ F32 getValue_table(volatile table_t *pTable, F32 X)
 
     if( compare == WITHIN )
     {
-        return iData.Res;
+        *pResult= iData.Res;
+        return EXEC_OK;
     }
     else if ( compare == GREATER )
     {
@@ -178,13 +179,15 @@ F32 getValue_table(volatile table_t *pTable, F32 X)
 
             if(compare == WITHIN)
             {
-                return iData.Res;
+                *pResult= iData.Res;
+                return EXEC_OK;
             }
         }
 
         //X lies outside of the axis range
         pTable->last_index= cT2D_MaxIndex;
-        return pTable->data.axisY[cT2D_MaxIndex];
+        *pResult= pTable->data.axisY[cT2D_MaxIndex];
+        return EXEC_OK;
 
     }
     else if ( compare == SMALLER )
@@ -203,20 +206,22 @@ F32 getValue_table(volatile table_t *pTable, F32 X)
 
             if(compare == WITHIN)
             {
-                return iData.Res;
+                *pResult= iData.Res;
+                return EXEC_OK;
             }
         }
 
         //X lies outside of the axis range
         pTable->last_index= cT2D_MinIndex;
-        return pTable->data.axisY[cT2D_MinIndex];
+        *pResult= pTable->data.axisY[cT2D_MinIndex];
+        return EXEC_OK;
 
     }
     else
     {
         //error
         Fatal(TID_TABLE, STORAGE_LOC_T2D_LOGIC_ERROR);
-        return 0.0f;
+        return EXEC_ERROR;
     }
 
 }
@@ -305,6 +310,7 @@ exec_result_t modify_table(volatile table_t * pTable, U32 Offset, U32 Value)
     //range check
     if(Offset >= cTable_data_size)
     {
+        Syslog_Error(TID_TABLE, STORAGE_LOC_TABLE_MOD_OFFSET_INVALID);
         return EXEC_ERROR;
     }
 

@@ -43,7 +43,7 @@ exec_result_t store_InvTableCLT();
 void show_InvTableCLT(USART_TypeDef * Port);
 exec_result_t modify_InvTableCLT(U32 Offset, U32 Value);
 void send_InvTableCLT(USART_TypeDef * Port);
-VF32 getValue_InvTableCLT(VU32 Raw);
+F32 getValue_InvTableCLT(VU32 Raw);
 
 
 

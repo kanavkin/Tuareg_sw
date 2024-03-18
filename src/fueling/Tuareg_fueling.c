@@ -118,15 +118,6 @@ void Tuareg_fueling_update_crankpos_handler()
     }
 
     /**
-    check if fueling controls shall be updated
-    if(Tuareg.Decoder.crank_position == c_fueling_controls_update_pos)
-    {
-        //update fueling controls
-        Tuareg_update_fueling_controls(&(Tuareg.Controls.Fueling));
-    }
-    */
-
-    /**
     check if valid fueling controls are available
     */
     if(Tuareg.Controls.Fueling.flags.valid == false)
@@ -148,16 +139,13 @@ void Tuareg_fueling_update_crankpos_handler()
 
 
         /**
-            check if sequential mode has been commanded and the phase information has been invalidated -> no action
-            */
-            if((Tuareg.Controls.Ignition.flags.sequential_mode == true) && (Tuareg.Decoder.flags.phase_valid == false))
-            {
-                //collect diagnostic information
-                ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
-            }
-
-
-
+        check if sequential mode has been commanded and the phase information has been invalidated -> no action
+        */
+        if((Tuareg.Controls.Ignition.flags.sequential_mode == true) && (Tuareg.Decoder.flags.phase_valid == false))
+        {
+            //collect diagnostic information
+            ignition_diag_log_event(IGNITION_LOC_SEQUENTIAL_FAIL);
+        }
 
         //check the commanded mode
         if(Tuareg.Controls.Fueling.flags.sequential_mode == true)

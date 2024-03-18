@@ -57,7 +57,7 @@ F32 calc_alpha(U32 Rpm, F32 Tau)
 	return alpha;
 }
 
-
+//beta shall never be 1.0
 F32 calc_beta(F32 Alpha)
 {
     F32 beta= 1.0;
@@ -109,11 +109,13 @@ void update_load_transient_comp(volatile fueling_control_t * pTarget)
     alpha= calc_alpha(Tuareg.Decoder.crank_rpm, tau);
     beta= calc_beta(alpha);
 
-	//cmd_fuel_mass_ug= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta));
+    //beta must be between 0 .. 0.99
 	result= divide_float( (pTarget->target_fuel_mass_ug - (1.0 - alpha) * pTarget->wall_fuel_mass_ug), (1.0 - beta), &cmd_fuel_mass_ug);
 
 	if(result != EXEC_OK)
     {
+        //revealing the programming error
+        Fatal(TID_FUELING_ACCELCOMP, FUELING_LOC_ACCELCOMP_LOAD_TRANS_UPD_DIV_ERROR);
         disable_load_transient_comp(pTarget);
         return;
     }

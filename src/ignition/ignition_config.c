@@ -174,6 +174,18 @@ returns the dwell time in us
 */
 F32 getValue_ignDwellTable(U32 Rpm)
 {
-    //ignDwellTable stores the Dwell time in 48 us increments
-    return getValue_table(&ignDwellTable, Rpm);
+    exec_result_t Res = EXEC_ERROR;
+    F32 Buf;
+
+    Res= getValue_table(&ignDwellTable, Rpm, &Buf);
+
+    if(Res == EXEC_OK)
+    {
+        return Buf;
+    }
+    else
+    {
+        Fatal(TID_IGNITION_CONFIG, IGNITION_LOC_CONF_DWELLTAB_ERROR);
+        return 0.0;
+    }
 }

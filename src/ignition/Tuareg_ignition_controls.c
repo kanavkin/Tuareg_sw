@@ -18,20 +18,6 @@ void clear_ignition_controls()
 {
     //test
     memclr_boctok((void *) &(Tuareg.Controls.Ignition), sizeof(ignition_controls_t));
-
-    /*
-    //suspend ignition
-    pTarget->ignition_timing_us= 0;
-    pTarget->ignition_pos= CRK_POSITION_UNDEFINED;
-
-    //dwell
-    pTarget->dwell_timing_us =0;
-    pTarget->dwell_us= 0;
-    pTarget->dwell_pos= CRK_POSITION_UNDEFINED;
-
-    //status data
-    pTarget->flags.all_flags= 0;
-    */
 }
 
 
@@ -227,6 +213,11 @@ void dynamic_ignition_controls()
 /****************************************************************************************************************************************
 * Ignition controls update
 * calculates the ignition timing according to the current system state and run mode
+*
+*
+*   THE CALLING FUNCTION HAS TO PERFORM A VITAL PRECONDITION CHECK !!!
+*
+*
 ****************************************************************************************************************************************/
 
 void Tuareg_update_ignition_controls()
@@ -237,15 +228,8 @@ void Tuareg_update_ignition_controls()
     //collect diagnostic information
     ignition_diag_log_event(IGNDIAG_UPDIGNCTRL_CALLS);
 
-    //check controls
-    if(Tuareg.Controls.Flags.valid == false)
-    {
-        //invalid ignition controls
-        return;
-    }
-
     //check if engine is cranking
-    if(Tuareg.flags.cranking == true)
+    if(Tuareg.Controls.Flags.cranking == true)
     {
         cranking_ignition_controls();
         return;
