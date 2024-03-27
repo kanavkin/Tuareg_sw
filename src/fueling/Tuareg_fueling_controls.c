@@ -113,6 +113,12 @@ void Tuareg_update_fueling_controls()
         //use fuel mass from cranking table for base, target, cmd fuel mass
         update_fuel_mass_cranking(pTarget);
 
+        //exit if dry cranking has been commanded
+        if(pTarget->flags.dry_cranking == true)
+        {
+            return;
+        }
+
         //log diag data
         fueling_diag_log_event(FDIAG_UPD_CTRLS_CRANKING);
     }

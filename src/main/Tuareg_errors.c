@@ -27,6 +27,10 @@ void Fatal(Tuareg_ID Id, U8 Location)
 {
     Tuareg.errors.fatal_error= true;
 
+    //clear process data and controls
+    Tuareg_clear_controls();
+    memclr_boctok(&(Tuareg.process), sizeof(process_data_t));
+
     //these flags will be acknowledged by Tuareg_update() again
     Tuareg.flags.run_allow= false;
     Tuareg.flags.service_mode= false;

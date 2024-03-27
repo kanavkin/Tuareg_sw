@@ -173,7 +173,7 @@ void Tuareg_load_config()
 periodic update helper function - run allow
 ******************************************************************************************************************************/
 
-const U32 cOverheat_hist_K= 20;
+const U32 cOverheat_hist_K= 5;
 
 
 void Tuareg_update_run_allow()

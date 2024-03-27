@@ -36,6 +36,7 @@ sensor calibration data
 
 /**
 CLT inverse transfer function - lookup Table - InvTableCLT
+271
 */
 #define EEPROM_SENSOR_INVTABLECLT_BASE (EEPROM_SENSOR_CALIBRATION_BASE + EEPROM_SENSOR_CALIBRATION_RESERVED_SPACE)
 
@@ -63,6 +64,7 @@ ignition configuration
 
 /**
 Ignition dwell table
+395
 */
 #define EEPROM_IGNITION_DWELLTABLE_BASE (EEPROM_IGNITION_SETUP_BASE + EEPROM_IGNITION_SETUP_RESERVED_SPACE)
 
@@ -81,39 +83,44 @@ Fueling configuration
 
 /**
 Fueling acceleration compensation table - AccelCompTableTPS
+539
 */
 #define EEPROM_FUELING_ACCELCOMPTPS_BASE (EEPROM_FUELING_SETUP_BASE + EEPROM_FUELING_SETUP_RESERVED_SPACE)
 
 /**
 Fueling acceleration compensation table - AccelCompTableMAP
+603
 */
 #define EEPROM_FUELING_ACCELCOMPMAP_BASE (EEPROM_FUELING_ACCELCOMPTPS_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Fueling Warm up enrichment compensation table - WarmUpCompTable
+667
 */
 #define EEPROM_FUELING_WARMUPCOMP_BASE (EEPROM_FUELING_ACCELCOMPMAP_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Injector dead time table - InjectorTimingTable
+731
 */
 #define EEPROM_FUELING_INJECTORTIMING_BASE (EEPROM_FUELING_WARMUPCOMP_BASE + TABLE_STORAGE_SIZE_B)
 
 
 /**
 Barometric pressure correction - BAROtable
+795
 */
 #define EEPROM_FUELING_BARO_BASE (EEPROM_FUELING_INJECTORTIMING_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 charge temperature table - ChargeTempMap
+859
 */
 #define EEPROM_FUELING_CHARGETEMP_BASE (EEPROM_FUELING_BARO_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 Cranking base fuel mass table - CrankingFuelTable
-/// TODO (oli#1#03/18/24): debug info: table relocated here from after InjectorTimingTable, invalid readout after reset continues
-
+1189
 */
 #define EEPROM_FUELING_CRANKINGTABLE_BASE (EEPROM_FUELING_CHARGETEMP_BASE + MAP_STORAGE_SIZE_B)
 
@@ -125,16 +132,19 @@ Cranking base fuel mass table - CrankingFuelTable
 
 /**
 MAP based Control Set
+1253
 */
 #define EEPROM_CTRLSET_MAP_BASE (EEPROM_FUELING_CRANKINGTABLE_BASE + TABLE_STORAGE_SIZE_B)
 
 /**
 TPS based Control Set
+2099
 */
 #define EEPROM_CTRLSET_TPS_BASE (EEPROM_CTRLSET_MAP_BASE + CTRLSET_STORAGE_SIZE_B)
 
 /**
 TPS based Control Set (for LIMP mode)
+2945
 */
 #define EEPROM_CTRLSET_TPS_LIMP_BASE (EEPROM_CTRLSET_TPS_BASE + CTRLSET_STORAGE_SIZE_B)
 
@@ -145,6 +155,7 @@ TPS based Control Set (for LIMP mode)
 /**
 tachometer table - TachTable
 2D
+3791
 */
 #define EEPROM_TACHTABLE_BASE (EEPROM_CTRLSET_TPS_LIMP_BASE + CTRLSET_STORAGE_SIZE_B)
 

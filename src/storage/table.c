@@ -313,7 +313,7 @@ exec_result_t modify_table(volatile table_t * pTable, U32 Offset, U32 Value)
         Syslog_Error(TID_TABLE, STORAGE_LOC_TABLE_MOD_OFFSET_INVALID);
         return EXEC_ERROR;
     }
-
+/// TODO (oli#5#03/25/24): add warning for value > 255?
     *(pData + Offset)= (U8) Value;
 
     return EXEC_OK;

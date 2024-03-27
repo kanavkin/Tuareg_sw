@@ -508,6 +508,11 @@ exec_result_t ts_burnPage(U32 Page)
             result= store_InjectorTimingTable();
             break;
 
+        case CRANKINGFUEL_TABLE:
+
+            result= store_CrankingFuelTable();
+            break;
+
         case BAROCORR_TABLE:
 
             result= store_BAROtable();

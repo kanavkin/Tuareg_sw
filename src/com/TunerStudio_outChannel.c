@@ -110,6 +110,9 @@ send Output channels to TunerStudio
 *****************************************************/
 void ts_sendOutputChannels(USART_TypeDef * Port)
 {
+    //start with clean outputs
+    memclr_boctok(pOut_data, cOut_size);
+
     /**
     the TS connection timer ts_secl shall be zero right after connection establishment
     */
@@ -124,53 +127,56 @@ void ts_sendOutputChannels(USART_TypeDef * Port)
     ts_tuareg_bits();
     Out.com_bits.all_flags= Tuareg_console.cli_permissions.all_flags;
 
-    Out.rpm= Tuareg.Decoder.crank_rpm;
-    Out.ddt_rpm= Tuareg.Decoder.crank_acceleration;
+    //do not export invalid data if the system has crashed
+    if(Tuareg.errors.fatal_error == false)
+    {
+        Out.rpm= Tuareg.Decoder.crank_rpm;
+        Out.ddt_rpm= Tuareg.Decoder.crank_acceleration;
 
-    Out.MAP_kPa= Tuareg.process.MAP_kPa;
-    Out.ddt_MAP= Tuareg.process.ddt_MAP;
-    Out.BARO_kPa= Tuareg.process.Baro_kPa;
-    Out.TPS_deg= Tuareg.process.TPS_deg;
-    Out.ddt_TPS= Tuareg.process.ddt_TPS;
-    Out.IAT_K= Tuareg.process.IAT_K;
-    Out.CLT_K= Tuareg.process.CLT_K;
-    Out.BAT_V= Tuareg.process.VBAT_V;
-    Out.AFR= Tuareg.process.O2_AFR;
-    Out.Knock= Tuareg.process.Knock_level;
-    Out.IVT_K= Tuareg.process.IVT_K;
-    Out.Gear= Tuareg.process.Gear;
+        Out.MAP_kPa= Tuareg.process.MAP_kPa;
+        Out.ddt_MAP= Tuareg.process.ddt_MAP;
+        Out.BARO_kPa= Tuareg.process.Baro_kPa;
+        Out.TPS_deg= Tuareg.process.TPS_deg;
+        Out.ddt_TPS= Tuareg.process.ddt_TPS;
+        Out.IAT_K= Tuareg.process.IAT_K;
+        Out.CLT_K= Tuareg.process.CLT_K;
+        Out.BAT_V= Tuareg.process.VBAT_V;
+        Out.AFR= Tuareg.process.O2_AFR;
+        Out.Knock= Tuareg.process.Knock_level;
+        Out.IVT_K= Tuareg.process.IVT_K;
+        Out.Gear= Tuareg.process.Gear;
 
-    Out.speed_kmh= Tuareg.process.speed_kmh;
-    Out.engine_runtime_ms= Tuareg.process.engine_runtime;
+        Out.speed_kmh= Tuareg.process.speed_kmh;
+        Out.engine_runtime_ms= Tuareg.process.engine_runtime;
 
-    ts_control_bits();
+        ts_control_bits();
 
-    //control set data
-    Out.IgnAdv_deg= Tuareg.Controls.IgnAdv_deg;
-    Out.VE_pct= Tuareg.Controls.VE_pct;
-    Out.AFRtgt= Tuareg.Controls.AFRtgt;
+        //control set data
+        Out.IgnAdv_deg= Tuareg.Controls.IgnAdv_deg;
+        Out.VE_pct= Tuareg.Controls.VE_pct;
+        Out.AFRtgt= Tuareg.Controls.AFRtgt;
 
-    //ignition
-    Out.dwell_us= Tuareg.Controls.Ignition.dwell_us;
+        //ignition
+        Out.dwell_us= Tuareg.Controls.Ignition.dwell_us;
 
-    //fueling
-    Out.charge_temp_K= Tuareg.Controls.Fueling.charge_temp_K;
-    Out.air_rate_gps= Tuareg.Controls.Fueling.air_flowrate_gps;
+        //fueling
+        Out.charge_temp_K= Tuareg.Controls.Fueling.charge_temp_K;
+        Out.air_rate_gps= Tuareg.Controls.Fueling.air_flowrate_gps;
 
-    Out.base_fuel_mass_ug= Tuareg.Controls.Fueling.base_fuel_mass_ug;
-    Out.target_fuel_mass_ug= Tuareg.Controls.Fueling.target_fuel_mass_ug;
-    Out.cmd_fuel_mass_ug= Tuareg.Controls.Fueling.cmd_fuel_mass_ug;
-    Out.wall_fuel_mass_ug= Tuareg.Controls.Fueling.wall_fuel_mass_ug;
+        Out.base_fuel_mass_ug= Tuareg.Controls.Fueling.base_fuel_mass_ug;
+        Out.target_fuel_mass_ug= Tuareg.Controls.Fueling.target_fuel_mass_ug;
+        Out.cmd_fuel_mass_ug= Tuareg.Controls.Fueling.cmd_fuel_mass_ug;
+        Out.wall_fuel_mass_ug= Tuareg.Controls.Fueling.wall_fuel_mass_ug;
 
-    Out.inj1_interval_us= Tuareg.Controls.Fueling.injector1_interval_us;
-    Out.inj2_interval_us= Tuareg.Controls.Fueling.injector2_interval_us;
-    Out.inj_delay_us= Tuareg.Controls.Fueling.injector_deadtime_us;
-    Out.inj_dc_pct= Tuareg.Controls.Fueling.injector_target_dc;
+        Out.inj1_interval_us= Tuareg.Controls.Fueling.injector1_interval_us;
+        Out.inj2_interval_us= Tuareg.Controls.Fueling.injector2_interval_us;
+        Out.inj_delay_us= Tuareg.Controls.Fueling.injector_deadtime_us;
+        Out.inj_dc_pct= Tuareg.Controls.Fueling.injector_target_dc;
 
-    //eficiency
-    Out.fuel_rate_gps= Tuareg.process.fuel_rate_gps;
-    Out.fuel_eff_mpg= Tuareg.process.fuel_eff_mpg;
-
+        //eficiency
+        Out.fuel_rate_gps= Tuareg.process.fuel_rate_gps;
+        Out.fuel_eff_mpg= Tuareg.process.fuel_eff_mpg;
+    }
 
     /**
     send output channels

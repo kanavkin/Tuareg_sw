@@ -78,6 +78,8 @@ void Tuareg_update_controls()
 
     /******************************************
     exit if engine operation is not allowed
+    or
+    engine speed has not been decoded
     ******************************************/
     if((Tuareg.flags.run_allow == false) || (Tuareg.Decoder.flags.period_valid == false))
     {

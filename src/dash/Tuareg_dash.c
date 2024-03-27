@@ -93,7 +93,7 @@ void update_mil()
     /**
     calculate new mil state
     */
-    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true) || (Tuareg.flags.rev_limiter == true))
+    if((Tuareg.errors.fatal_error == true) || (Tuareg.flags.service_mode == true))
     {
         set_mil(MIL_PERMANENT);
         return;

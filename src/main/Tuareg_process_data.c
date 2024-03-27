@@ -9,21 +9,16 @@ volatile process_data_memory_t Process_memory;
 *   Process data controls update
 ****************************************************************************************************************************************/
 
-const F32 cMAP_alpha= 0.85;
-const F32 cTPS_alpha= 0.85;
+//const F32 cMAP_alpha= 0.85;
+//const F32 cTPS_alpha= 0.85;
 
 void Tuareg_update_process_data()
 {
     VF32 raw, filter, derive;
     VU32 period_us= 0;
 
-    //collect diagnostic information
-    //tuareg_diag_log_event(TDIAG_PROCESSDATA_CALLS);
-
-
     //get the interval since the last update
     period_us= (Tuareg.Decoder.flags.period_valid == true)? Tuareg.Decoder.crank_period_us: 0;
-
 
     /**
     process MAP sensor
@@ -192,6 +187,20 @@ void Tuareg_update_consumption_data()
 {
     VF32 fuel_mass_1s_ug, trip_1min_mm;
 
+    if((Tuareg.Decoder.flags.period_valid == false) || (Tuareg.Controls.Flags.cranking == true))
+    {
+        //invalid calculation
+        Tuareg.process.consumption_counter= 0;
+        Tuareg.process.fuel_mass_integrator_1min_mg= 0.0;
+        Tuareg.process.fuel_mass_integrator_1s_ug= 0;
+        Tuareg.process.fuel_eff_mpg= 0.0;
+        Tuareg.process.fuel_rate_gps= 0.0;
+
+        //exit here
+        return;
+    }
+
+
     //read in the amount of fuel injected in the last second, converted to VF32!!!
     fuel_mass_1s_ug= Tuareg.process.fuel_mass_integrator_1s_ug;
 
@@ -255,13 +264,20 @@ void Tuareg_update_trip()
     VU32 trip_increment_mm;
 
     const F32 cConv= 100.0 / 3.6;
+
+    if((Tuareg.Decoder.flags.period_valid == false) || (Tuareg.Controls.Flags.cranking == true))
+    {
+        //invalid calculation
+        Tuareg.process.trip_integrator_1min_mm= 0;
+        return;
+    }
+
     //s := v * t
     //v_mps = v_kmh / 3.6
     //v_mmps = 100* v_kmh / 3.6
     trip_increment_mm= Tuareg.process.speed_kmh * cConv;
 
     Tuareg.process.trip_integrator_1min_mm += trip_increment_mm;
-
 }
 
 

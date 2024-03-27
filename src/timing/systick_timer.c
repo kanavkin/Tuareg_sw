@@ -142,39 +142,6 @@ void SysTick_Handler(void)
     }
 
 
-/*
-    //20 ms cycle - 50 Hz
-    if (Systick_Mgr.counter_20_ms == 20)
-    {
-        Systick_Mgr.counter_20_ms = 0;
-        Systick_Mgr.out.flags.cycle_20_ms= true;
-
-        //actions to be taken in irq scope
-    }
-
-    //33 ms cycle - 30 Hz
-    if (Systick_Mgr.counter_33_ms == 33)
-    {
-        Systick_Mgr.counter_33_ms = 0;
-        Systick_Mgr.out.flags.cycle_33_ms= true;
-
-        //actions to be taken in irq scope
-
-
-    }
-
-    //66 ms cycle - 15 Hz
-    if (Systick_Mgr.counter_66_ms == 66)
-    {
-        Systick_Mgr.counter_66_ms = 0;
-        Systick_Mgr.out.flags.cycle_66_ms= true;
-
-        //actions to be taken in irq scope
-
-    }
-*/
-
-
     //100 ms cycle - 10 Hz
     if (Systick_Mgr.counter_100_ms == 100)
     {
@@ -185,17 +152,6 @@ void SysTick_Handler(void)
         update_dash();
     }
 
-/*
-    //250 ms cycle - 4 Hz
-    if (Systick_Mgr.counter_250_ms == 250)
-    {
-        Systick_Mgr.counter_250_ms = 0;
-        Systick_Mgr.out.flags.cycle_250_ms= true;
-
-        //actions to be taken in irq scope
-
-    }
-*/
 
     //1000 ms cycle - 1 Hz
     if (Systick_Mgr.counter_1000_ms == 1000)

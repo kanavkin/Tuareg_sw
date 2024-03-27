@@ -61,6 +61,6 @@ typedef struct _process_data_memory_t {
 
 void Tuareg_update_process_data();
 
-void Tuareg_update_load(volatile process_data_t * pProcess);
+//void Tuareg_update_load(volatile process_data_t * pProcess);
 
 #endif // TUAREGPDATA_H_INCLUDED
