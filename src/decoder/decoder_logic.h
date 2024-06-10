@@ -64,7 +64,9 @@ void decoder_crank_noisefilter_handler();
 void decoder_crank_timeout_handler();
 
 
-
+//temporary export
+void reset_internal_data();
+void decoder_set_state(decoder_internal_state_t NewState);
 
 
 

@@ -361,12 +361,18 @@ void init_decoder_hw()
     decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
     decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
 
+
+
     //reset timer values until TDC has been detected
     Decoder_hw.state.timer_continuous_mode= false;
     Decoder_hw.current_timer_value= 0;
     Decoder_hw.prev1_timer_value= 0;
     Decoder_hw.prev2_timer_value= 0;
     Decoder_hw.captured_positions_cont= 0;
+
+    /**
+    IRQ part
+    */
 
     //enable sw irq on exti line 2
     EXTI->IMR |= EXTI_IMR_MR2;

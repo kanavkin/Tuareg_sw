@@ -59,18 +59,36 @@ void ts_debug_features(U32 FeatureID)
         to be removed
         */
 
-        case 'dh':
-
-            //init decoder hw part
-            init_decoder_hw();
-
+        case 'da':
+            init_decoder_debug(DECINITDBG_HW_INPUTS);
             break;
 
-        case 'dl':
+        case 'db':
+            init_decoder_debug(DECINITDBG_HW_SENSING);
+            break;
 
-            //init decoder logic part
-            init_decoder_logic();
+        case 'dc':
+            init_decoder_debug(DECINITDBG_HW_TIMER);
+            break;
 
+        case 'dd':
+            init_decoder_debug(DECINITDBG_HW_IRQ);
+            break;
+
+        case 'de':
+            init_decoder_debug(DECINITDBG_LOGIC_INTERNALS);
+            break;
+
+        case 'df':
+            init_decoder_debug(DECINITDBG_LOGIC_STATE_INIT);
+            break;
+
+        case 'dg':
+            init_decoder_debug(DECINITDBG_LOGIC_STANDSTILL);
+            break;
+
+        case 'dh':
+            init_decoder_debug(DECINITDBG_LOGIC_UNMASK_CRK);
             break;
 
 

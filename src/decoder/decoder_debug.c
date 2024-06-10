@@ -430,18 +430,115 @@ void decoder_update_timing_debug()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // DECODER_TIMING_DEBUG
+
+
+/******************************************************************************************************************************
+decoder init debugging
+******************************************************************************************************************************/
+
+//#ifdef DECODER_INIT_DEBUG
+#warning decoder init debug enabled
+
+void init_decoder_debug(decoder_init_debug_t Action)
+{
+    switch(Action)
+    {
+    case DECINITDBG_HW_INPUTS:
+
+        //clock tree setup
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+        RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
+
+        //set input mode for crank pickup and cylinder identification sensor
+        GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_MID, GPIO_PULL_UP);
+        GPIO_configure(GPIOB, 1, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
+
+        //map GPIOB0 to EXTI line 0 (crank) and GPIOB1 to EXTI line 1 (cam)
+        SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
+        SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
+
+        break;
+
+    case DECINITDBG_HW_SENSING:
+
+        //configure EXTI polarity, but keep irqs masked for now
+        decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
+        decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
+
+        break;
+
+    case DECINITDBG_HW_TIMER:
+
+        //reset timer values until TDC has been detected
+        Decoder_hw.state.timer_continuous_mode= false;
+        Decoder_hw.current_timer_value= 0;
+        Decoder_hw.prev1_timer_value= 0;
+        Decoder_hw.prev2_timer_value= 0;
+        Decoder_hw.captured_positions_cont= 0;
+
+        break;
+
+    case DECINITDBG_HW_IRQ:
+
+        //enable sw irq on exti line 2
+        EXTI->IMR |= EXTI_IMR_MR2;
+
+        //enable crank pickup irq (prio 1)
+        NVIC_SetPriority(EXTI0_IRQn, 1UL);
+        NVIC_ClearPendingIRQ(EXTI0_IRQn);
+        NVIC_EnableIRQ(EXTI0_IRQn);
+
+        //enable cis irq (prio 3)
+        NVIC_SetPriority(EXTI1_IRQn, 3UL);
+        NVIC_ClearPendingIRQ(EXTI1_IRQn);
+        NVIC_EnableIRQ(EXTI1_IRQn);
+
+        //enable timer 9 compare 1 irq (prio 1)
+        NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, 1UL );
+        NVIC_ClearPendingIRQ(TIM1_BRK_TIM9_IRQn);
+        NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
+
+        //enable sw exti irq (prio 4)
+        NVIC_SetPriority(EXTI2_IRQn, 4UL);
+        NVIC_ClearPendingIRQ(EXTI2_IRQn);
+        NVIC_EnableIRQ(EXTI2_IRQn);
+
+        break;
+
+    case DECINITDBG_LOGIC_INTERNALS:
+
+        //start with clean data
+        reset_internal_data();
+        break;
+
+    case DECINITDBG_LOGIC_STATE_INIT:
+
+        decoder_set_state(DSTATE_INIT);
+        break;
+
+    case DECINITDBG_LOGIC_STANDSTILL:
+
+        Decoder.out.flags.standstill= true;
+        break;
+
+    case DECINITDBG_LOGIC_UNMASK_CRK:
+
+        //enable crank irq
+        decoder_unmask_crank_irq();
+        break;
+
+    }
+
+}
+
+//#endif
+
+
+
+
+
+
+
+
 

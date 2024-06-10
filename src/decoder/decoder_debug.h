@@ -22,6 +22,33 @@ decoder debugging functions - compiler switches
 //decoder timing debugging?
 //#define DECODER_TIMING_DEBUG
 
+//decoder init debugging?
+#define DECODER_INIT_DEBUG
+
+
+
+
+/*********************************************************************************************************************************
+decoder init debugging
+*********************************************************************************************************************************/
+
+typedef enum {
+
+    DECINITDBG_HW_INPUTS,
+    DECINITDBG_HW_SENSING,
+    DECINITDBG_HW_TIMER,
+    DECINITDBG_HW_IRQ,
+    DECINITDBG_LOGIC_INTERNALS,
+    DECINITDBG_LOGIC_STATE_INIT,
+    DECINITDBG_LOGIC_STANDSTILL,
+    DECINITDBG_LOGIC_UNMASK_CRK,
+    DECINITDBG_COUNT
+
+} decoder_init_debug_t;
+
+
+void init_decoder_debug(decoder_init_debug_t Action);
+
 
 /*********************************************************************************************************************************
 timing debugging
