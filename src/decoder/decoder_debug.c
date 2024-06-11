@@ -166,7 +166,7 @@ void decoder_debug_show_internals(USART_TypeDef * Port)
     printf_U(Port, TIM9->CNT, NO_PAD);
 
 
-    print(Port, "\r\n\r\nEXTI irq masks: CRK_ena CIS_ena SW_ena");
+    print(Port, "\r\n\r\nEXTI irq masks: CRK_ena CIS_ena SW_ena ");
     UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR0? '1' :'0'));
     UART_Tx(Port, '-');
     UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR1? '1' :'0'));
@@ -534,6 +534,21 @@ void init_decoder_debug(decoder_init_debug_t Action)
 
 //#endif
 
+
+
+/******************************************************************************************************************************
+decoder event debugging
+******************************************************************************************************************************/
+
+void trigger_crk_irq_debug()
+{
+    EXTI->SWIER= EXTI_SWIER_SWIER0;
+}
+
+void trigger_cam_irq_debug()
+{
+    EXTI->SWIER= EXTI_SWIER_SWIER1;
+}
 
 
 

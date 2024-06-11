@@ -17,7 +17,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.25.5 2024.06";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.25.6 2024.06";
 
 
 /******************************************************************************************************************************

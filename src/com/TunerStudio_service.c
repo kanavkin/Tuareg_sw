@@ -91,6 +91,18 @@ void ts_debug_features(U32 FeatureID)
             init_decoder_debug(DECINITDBG_LOGIC_UNMASK_CRK);
             break;
 
+        case 'dx':
+            trigger_crk_irq_debug();
+            break;
+
+        case 'dy':
+            trigger_cam_irq_debug();
+            break;
+
+        case 'dz':
+            trigger_decoder_irq();
+            break;
+
 
         case 'ep':
 
