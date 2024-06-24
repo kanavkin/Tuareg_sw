@@ -181,22 +181,12 @@ void update_timing_data()
         return;
     }
 
-
-    /**
-    block other irqs while timing data is not stable
-    **/
-//    __disable_irq();
-
-
     //the timer value after an reset in continuous mode reflects T360
     period_us= Decoder_hw.current_timer_value * Decoder_hw.timer_period_us;
 
     //check if the timer value can be a valid crank period
     if(period_us < cDecoder_min_valid_period)
     {
-        //exit with invalid outputs
-  //      __enable_irq();
-
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
         Decoder.last_crank_acceleration= 0;
@@ -218,8 +208,6 @@ void update_timing_data()
 
     if((rpm < cDecoder_min_valid_rpm) || (rpm > cDecoder_max_valid_rpm))
     {
- //       __enable_irq();
-
         //in the next cycle there will be no valid last_crank_rpm
         Decoder.last_crank_rpm= 0;
         Decoder.last_crank_acceleration= 0;
@@ -235,8 +223,6 @@ void update_timing_data()
     //export valid rpm figure
     Decoder.out.crank_rpm= rpm;
     Decoder.out.flags.rpm_valid= true;
-
- //   __enable_irq();
 
     /**
     calculate the difference in rpm based on the former valid rpm figure
@@ -403,64 +389,75 @@ void decoder_crank_handler()
 
         case DSTATE_SYNC:
 
-            // update crank_position
-            Decoder.out.crank_position= crank_position_after(Decoder.out.crank_position);
+            /**
+            Internal calculation inside an
+            Atomic Section
+            */
+            Atomic_Begin();
 
-            // update crank sensing
-            decoder_set_crank_pickup_sensing(SENSING_INVERT);
+                // update crank_position
+                Decoder.out.crank_position= crank_position_after(Decoder.out.crank_position);
 
-            //collect diagnostic data
-            decoder_diag_log_event(DDIAG_CRKPOS_SYNC);
+                // update crank sensing
+                decoder_set_crank_pickup_sensing(SENSING_INVERT);
+
+                //collect diagnostic data
+                decoder_diag_log_event(DDIAG_CRKPOS_SYNC);
+
+                /**
+                per-position decoder housekeeping actions:
+                crank_position is the crank position that has been reached at the beginning of this interrupt
+                */
+                switch(Decoder.out.crank_position)
+                {
+                    case CRK_POSITION_B1:
+
+                        //do sync check
+                        if( check_sync_ratio() == true )
+                        {
+                            Decoder.out.flags.position_valid= true;
+
+                            //reset the decoder timer when position B2 will be reached
+                            decoder_request_timer_reset();
+                        }
+                        else
+                        {
+                            //sync check failed!
+                            reset_internal_data();
+
+                            //prepare for the next trigger condition
+                            decoder_set_state(DSTATE_INIT);
+
+                            //notify high speed logger about error condition
+                            highspeedlog_register_error();
+                        }
+
+                        break;
+
+
+                    case CRK_POSITION_B2:
+
+                        //update engine rotational speed calculation
+                        update_timing_data();
+                        break;
+
+
+                    case CRK_POSITION_C1:
+
+                        //update engine phase right at the next crank position after TDC
+                        Decoder.out.phase= opposite_phase(Decoder.out.phase);
+                        break;
+
+                    default:
+                        break;
+
+                } //switch(Decoder.out.crank_position)
+
 
             /**
-            per-position decoder housekeeping actions:
-            crank_position is the crank position that has been reached at the beginning of this interrupt
+            Atomic Section End
             */
-            switch(Decoder.out.crank_position)
-            {
-                case CRK_POSITION_B1:
-
-                    //do sync check
-                    if( check_sync_ratio() == true )
-                    {
-                        Decoder.out.flags.position_valid= true;
-
-                        //reset the decoder timer when position B2 will be reached
-                        decoder_request_timer_reset();
-                    }
-                    else
-                    {
-                        //sync check failed!
-                        reset_internal_data();
-
-                        //prepare for the next trigger condition
-                        decoder_set_state(DSTATE_INIT);
-
-                        //notify high speed logger about error condition
-                        highspeedlog_register_error();
-                    }
-
-                    break;
-
-
-                case CRK_POSITION_B2:
-
-                    //update engine rotational speed calculation
-                    update_timing_data();
-                    break;
-
-
-                case CRK_POSITION_C1:
-
-                    //update engine phase right at the next crank position after TDC
-                    Decoder.out.phase= opposite_phase(Decoder.out.phase);
-                    break;
-
-                default:
-                    break;
-
-            } //switch(Decoder.out.crank_position)
-
+            Atomic_End();
 
             /**
             CIS control
@@ -486,6 +483,7 @@ void decoder_crank_handler()
             {
                 trigger_decoder_irq();
             }
+
             break; //SYNC
 
 

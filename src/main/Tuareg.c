@@ -17,7 +17,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.25.6 2024.06";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.25.7 2024.06";
 
 
 /******************************************************************************************************************************
@@ -33,6 +33,7 @@ void Tuareg_Init()
 
     //first action: set init state
     Tuareg.errors.init_not_completed= true;
+    Tuareg.Atomic_depth= 0;
 
     //engine operation not permitted until end of initialization
     Tuareg.flags.run_inhibit= true;
@@ -547,3 +548,4 @@ void Tuareg_update_consumption_data()
     }
 
 }
+

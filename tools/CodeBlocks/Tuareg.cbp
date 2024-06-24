@@ -252,6 +252,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/main/Tuareg_ID.h" />
+		<Unit filename="../../src/main/Tuareg_atomic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/main/Tuareg_atomic.h" />
 		<Unit filename="../../src/main/Tuareg_config.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -319,6 +323,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_adc_boctok.h" />
+		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_bitband_boctok.h" />
 		<Unit filename="../../src/stm32_libs/stm32f4xx/boctok/stm32f4xx_fault_handler_boctok.c">
 			<Option compilerVar="CC" />
 		</Unit>

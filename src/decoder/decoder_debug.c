@@ -180,6 +180,14 @@ void decoder_debug_show_internals(USART_TypeDef * Port)
     UART_Tx(Port, '-');
     UART_Tx(Port, (EXTI->PR & EXTI_Line2? '1' :'0'));
 
+    print(Port, "\r\nEXTI trigger selection: RT1 RT0 FT1 FT0 ");
+    UART_Tx(Port, (EXTI->RTSR & EXTI_RTSR_TR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->RTSR & EXTI_RTSR_TR0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->FTSR & EXTI_FTSR_TR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->FTSR & EXTI_FTSR_TR0? '1' :'0'));
 
 }
 
