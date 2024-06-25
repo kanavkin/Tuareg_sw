@@ -3,6 +3,8 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
+#include "../stm32_libs/stm32f4xx/boctok/stm32f4xx_bitband_boctok.h"
+
 
 /**
 use the lookup table for CLT sensor
@@ -23,14 +25,10 @@ with the configured update rate (currently 100 Hz) a timeout of 3 second results
 */
 const U32 cASensorErrorThres= 300;
 
-
 const U32 cASensorInitCycles= 10;
-
-
 
 VU32 Regular_Group_Init_counter= 0;
 VU32 Injected_Group_Init_counter= 0;
-
 
 
 /**
@@ -215,12 +213,16 @@ void init_analog_sensors()
 
 void sensors_start_regular_group_conversion()
 {
-    adc_start_regular_group(SENSOR_ADC);
+    //adc_start_regular_group(SENSOR_ADC);
+    //adc->CR2 |= ADC_CR2_SWSTART;
+    BBPeriphMask(SENSOR_ADC->CR2, ADC_CR2_SWSTART)= 1;
 }
 
 void sensors_start_injected_group_conversion()
 {
-    adc_start_injected_group(SENSOR_ADC);
+    //adc_start_injected_group(SENSOR_ADC);
+    //adc->CR2 |= ADC_CR2_JSWSTART;
+    BBPeriphMask(SENSOR_ADC->CR2, ADC_CR2_JSWSTART)= 1;
 }
 
 
@@ -336,7 +338,8 @@ void ADC_IRQHandler()
         sensors_diag_log_event(SNDIAG_ADCIRQ_INJECTEDGR_CALLS);
 
         //clear JEOC by write 0
-        ADC1->SR &= ~(U32) ADC_SR_JEOC;
+        //ADC1->SR &= ~(U32) ADC_SR_JEOC;
+        BBPeriphMask(ADC1->SR, ADC_SR_JEOC)= 0;
 
         //read ADC value
         sample= ADC1->JDR1;
@@ -345,7 +348,7 @@ void ADC_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-/// TODO (oli#1#): handle this case: LIMP
+            Fatal(TID_SENSORS, SENSORS_LOC_ADC_HANDL_CALIB_ERROR);
             return;
         }
 
@@ -365,6 +368,7 @@ void ADC_IRQHandler()
             sensors_start_injected_group_conversion();
         }
     }
+
 }
 
 
@@ -392,7 +396,7 @@ void DMA2_Stream0_IRQHandler()
         if(Tuareg.errors.sensor_calibration_error == true)
         {
             //error
-            /// TODO (oli#1#): handle this case?
+            Fatal(TID_SENSORS, SENSORS_LOC_DMA_HANDL_CALIB_ERROR);
             return;
         }
 
@@ -427,10 +431,6 @@ void DMA2_Stream0_IRQHandler()
             //start the next conversion right now
             sensors_start_regular_group_conversion();
         }
-
-
-
-
 
     }
 }
