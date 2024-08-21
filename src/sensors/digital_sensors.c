@@ -56,10 +56,10 @@ digital sensor sampling
 *********************************************************************************************************************************/
 void read_dsensors()
 {
-    //DSENSOR_SPARE2
+    //DSENSOR_USER
     if(GPIOB->IDR & GPIO_IDR_IDR4)
     {
-        DSensor_Intergrator[DSENSOR_SPARE2] += 1;
+        DSensor_Intergrator[DSENSOR_USER] += 1;
     }
 
     //DSENSOR_SIDESTAND
@@ -136,6 +136,7 @@ void update_digital_sensors()
             //check which logical level applies
             if(DSensor_Intergrator[sensor] >= cHighThres)
             {
+                /// TODO (oli#5#): convert to bit banding operation
                 Digital_Sensors.all_sensors |= (1 << sensor);
             }
             else

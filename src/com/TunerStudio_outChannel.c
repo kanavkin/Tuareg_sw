@@ -110,7 +110,8 @@ void ts_tuareg_bits(ts_tuareg_bits_t * pTarget)
     pTarget->limited_op= Tuareg.flags.limited_op;
     pTarget->rev_limiter= Tuareg.flags.rev_limiter;
     pTarget->standby= Tuareg.flags.standby;
-    pTarget->cranking= Tuareg.flags.cranking;
+    //until v26 the former cranking bit will reflect the user switch state
+    pTarget->user= Digital_Sensors.user;
     pTarget->fuel_pump= Tuareg.flags.fuel_pump;
     pTarget->mil= Tuareg.flags.mil;
     pTarget->syslog_update= Tuareg.flags.syslog_update;

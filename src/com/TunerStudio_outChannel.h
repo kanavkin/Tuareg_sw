@@ -22,7 +22,7 @@ typedef union
         U32 limited_op :1;
         U32 rev_limiter :1;
         U32 standby :1;
-        U32 cranking :1;
+        U32 user :1;
 
         U32 fuel_pump :1;
         U32 mil :1;
