@@ -454,24 +454,25 @@ void decoder_crank_handler()
                 } //switch(Decoder.out.crank_position)
 
 
+                /**
+                CIS control
+                */
+                if(Decoder.out.crank_position == Decoder_Setup.cis_enable_pos)
+                {
+                    //activate the cis to collect cam information
+                    enable_cis();
+                }
+                else if(Decoder.out.crank_position == Decoder_Setup.cis_disable_pos)
+                {
+                    //evaluate the collected cam information
+                    disable_cis();
+                }
+
+
             /**
             Atomic Section End
             */
             Atomic_End();
-
-            /**
-            CIS control
-            */
-            if(Decoder.out.crank_position == Decoder_Setup.cis_enable_pos)
-            {
-                //activate the cis to collect cam information
-                enable_cis();
-            }
-            else if(Decoder.out.crank_position == Decoder_Setup.cis_disable_pos)
-            {
-                //evaluate the collected cam information
-                disable_cis();
-            }
 
             //notify high speed logger about new crank position
             highspeedlog_register_crankpos(Decoder.out.crank_position);

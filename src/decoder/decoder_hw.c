@@ -484,47 +484,54 @@ void EXTI0_IRQHandler(void)
 {
     VU32 timer_buffer;
 
-//    __disable_irq();
+    /**********************************************
+    begin atomic section -> disable irqs
+    **********************************************/
+    Atomic_Begin();
 
-    //save timer value
-    timer_buffer= decoder_get_timestamp();
+        //save timer value
+        timer_buffer= decoder_get_timestamp();
 
-    //clear the pending flag after saving timer value to minimize measurement delay
-    EXTI->PR= EXTI_Line0;
+        //clear the pending flag after saving timer value to minimize measurement delay
+        EXTI->PR= EXTI_Line0;
 
-    //reset decoder timer only if commanded
-    if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
-    {
-        //reset timer
-        decoder_reset_timestamp();
+        //reset decoder timer only if commanded
+        if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
+        {
+            //reset timer
+            decoder_reset_timestamp();
 
-        Decoder_hw.captured_positions_cont= 1;
+            Decoder_hw.captured_positions_cont= 1;
 
-        //use the known timer value as the source for noise filter calculation to prevent race conditions
-        update_crank_noisefilter(0);
+            //use the known timer value as the source for noise filter calculation to prevent race conditions
+            update_crank_noisefilter(0);
 
-        //request has been processed
-        Decoder_hw.state.timer_reset_req= false;
-    }
-    else
-    {
-        //counter continues counting
-        Decoder_hw.captured_positions_cont += 1;
+            //request has been processed
+            Decoder_hw.state.timer_reset_req= false;
+        }
+        else
+        {
+            //counter continues counting
+            Decoder_hw.captured_positions_cont += 1;
 
-        //use the known timer value as the source for noise filter calculation to prevent race conditions
-        update_crank_noisefilter(timer_buffer);
-    }
+            //use the known timer value as the source for noise filter calculation to prevent race conditions
+            update_crank_noisefilter(timer_buffer);
+        }
 
-    //update the continuous timer value
-    Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
-    Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
-    Decoder_hw.current_timer_value= timer_buffer;
+        //update the continuous timer value
+        Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
+        Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
+        Decoder_hw.current_timer_value= timer_buffer;
 
 
-    //diagnostics
-    decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
 
- //   __enable_irq();
+
+    /**********************************************
+    finish atomic section -> enable irqs
+    **********************************************/
+    Atomic_End();
 
 
     //call the logic handler
@@ -537,7 +544,7 @@ void EXTI0_IRQHandler(void)
 Timer 9 - decoder control:
     -timer 9 compare event 1 --> enable external interrupt for pickup sensor
     -timer 9 compare event 2 --> enable external interrupt for cis
-    -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
+    -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 655ms
  ******************************************************************************************************************************/
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
@@ -603,11 +610,21 @@ void EXTI1_IRQHandler(void)
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
 
-    //diagnostics
-    decoder_diag_log_event(DDIAG_CAM_EXTI_EVENTS);
+    /**
+    Atomic Section
+    */
+    Atomic_Begin();
 
-    //call the logic handler
-    decoder_cis_handler();
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CAM_EXTI_EVENTS);
+
+        //call the logic handler
+        decoder_cis_handler();
+
+    /**
+    Atomic Section End
+    */
+    Atomic_End();
 }
 
 
