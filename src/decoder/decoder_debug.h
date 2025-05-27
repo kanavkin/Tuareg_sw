@@ -22,6 +22,33 @@ decoder debugging functions - compiler switches
 //decoder timing debugging?
 //#define DECODER_TIMING_DEBUG
 
+//decoder init debugging?
+//#define DECODER_INIT_DEBUG
+
+
+
+
+/*********************************************************************************************************************************
+decoder init debugging
+*********************************************************************************************************************************/
+
+typedef enum {
+
+    DECINITDBG_HW_INPUTS,
+    DECINITDBG_HW_SENSING,
+    DECINITDBG_HW_TIMER,
+    DECINITDBG_HW_IRQ,
+    DECINITDBG_LOGIC_INTERNALS,
+    DECINITDBG_LOGIC_STATE_INIT,
+    DECINITDBG_LOGIC_STANDSTILL,
+    DECINITDBG_LOGIC_UNMASK_CRK,
+    DECINITDBG_COUNT
+
+} decoder_init_debug_t;
+
+
+void init_decoder_debug(decoder_init_debug_t Action);
+
 
 /*********************************************************************************************************************************
 timing debugging
@@ -104,6 +131,22 @@ void decoder_cis_debug_next_cycle();
 void decoder_update_cis_debug(U32 Lobe_interval_us, U32 Lobe_angle_deg);
 void print_decoder_cis_debug_data(USART_TypeDef * Port);
 
+
+/******************************************************************************************************************************
+interface debugging
+******************************************************************************************************************************/
+void decoder_debug_show_internals(USART_TypeDef * Port);
+
+
+
+
+/******************************************************************************************************************************
+decoder event debugging
+******************************************************************************************************************************/
+
+void trigger_crk_irq_debug();
+
+void trigger_cam_irq_debug();
 
 
 

@@ -20,6 +20,176 @@
 
 
 /******************************************************************************************************************************
+decoder debug info - internal state
+******************************************************************************************************************************/
+void decoder_debug_show_internals(USART_TypeDef * Port)
+{
+    print(Port, "\r\n\r\n*******************************\r\ndecoder interface:");
+
+    print(Port, "\r\ncrank period (us): ");
+    printf_U(Port, Decoder.out.crank_period_us, NO_PAD);
+
+    print(Port, "\r\ncrank rpm: ");
+    printf_U(Port, Decoder.out.crank_rpm, NO_PAD);
+
+    print(Port, "\r\ncrank acceleration: ");
+    printf_F32(Port, Decoder.out.crank_acceleration);
+
+    print(Port, "\r\ncrank position: ");
+    printf_crkpos(Port, Decoder.out.crank_position);
+
+    print(Port, "\r\nphase: ");
+    printf_phase(Port, Decoder.out.phase);
+
+    print(Port, "\r\nstate: pos_valid phase_valid period_valid rpm_valid accel_valid standstill: ");
+    UART_Tx(Port, (Decoder.out.flags.position_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.phase_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.period_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.rpm_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.accel_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.out.flags.standstill? '1' :'0'));
+
+
+    print(Port, "\r\n\r\ndecoder hw:");
+
+    print(Port, "\r\ntimer_prescaler: ");
+    printf_U(Port, Decoder_hw.timer_prescaler, NO_PAD);
+
+    print(Port, "\r\ntimer_period_us: ");
+    printf_U(Port, Decoder_hw.timer_period_us, NO_PAD);
+
+    print(Port, "\r\ntimer_overflow_ms: ");
+    printf_U(Port, Decoder_hw.timer_overflow_ms, NO_PAD);
+
+    print(Port, "\r\ncurrent_timer_value: ");
+    printf_U(Port, Decoder_hw.current_timer_value, NO_PAD);
+
+    print(Port, "\r\nprev1_timer_value: ");
+    printf_U(Port, Decoder_hw.prev1_timer_value, NO_PAD);
+
+    print(Port, "\r\nprev2_timer_value: ");
+    printf_U(Port, Decoder_hw.prev2_timer_value, NO_PAD);
+
+    print(Port, "\r\ncaptured_positions_cont: ");
+    printf_U(Port, Decoder_hw.captured_positions_cont, NO_PAD);
+
+    print(Port, "\r\ncrank_pickup_sensing: ");
+    printf_decoder_sensing(Port, Decoder_hw.crank_pickup_sensing);
+
+    print(Port, "\r\ncis_sensing: ");
+    printf_decoder_sensing(Port, Decoder_hw.cis_sensing);
+
+    print(Port, "\r\nhw state: timer_continuous_mode timer_reset_req: ");
+    UART_Tx(Port, (Decoder_hw.state.timer_continuous_mode? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder_hw.state.timer_reset_req? '1' :'0'));
+
+    print(Port, "\r\n\r\ndecoder logic");
+
+    print(Port, "\r\ninternal state: TIMEOUT INIT ASYNC KEY GAP SYNC: ");
+
+    if(Decoder.state == DSTATE_SYNC) print(Port, " *SYNC*");
+    else printf_U(Port, Decoder.state, NO_PAD);
+
+    print(Port, "\r\ntimeout_count: ");
+    printf_U(Port, Decoder.timeout_count, NO_PAD);
+
+    print(Port, "\r\nlast_crank_rpm: ");
+    printf_U(Port, Decoder.last_crank_rpm, NO_PAD);
+
+    print(Port, "\r\nlast_crank_acceleration: ");
+    printf_F32(Port, Decoder.last_crank_acceleration);
+
+
+    print(Port, "\r\n\r\nCIS");
+
+    print(Port, "\r\nlobe_begin_timestamp: ");
+    printf_U(Port, Decoder.cis.lobe_begin_timestamp, NO_PAD);
+
+    print(Port, "\r\nlobe_end_timestamp: ");
+    printf_U(Port, Decoder.cis.lobe_end_timestamp, NO_PAD);
+
+    print(Port, "\r\nsync_counter: ");
+    printf_U(Port, Decoder.cis.sync_counter, NO_PAD);
+
+    print(Port, "\r\ndetected_lobe_ends: ");
+    printf_U(Port, Decoder.cis.detected_lobe_ends, NO_PAD);
+
+    print(Port, "\r\npreconditions: period_valid failure preconditions_ok: ");
+    UART_Tx(Port, (Decoder.cis.flags.period_valid? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.failure? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.preconditions_ok? '1' :'0'));
+
+    print(Port, "\r\ndetected: lobe_begin lobe_end: ");
+    UART_Tx(Port, (Decoder.cis.flags.lobe_begin_detected? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.lobe_end_detected? '1' :'0'));
+
+    print(Port, "\r\noutput: triggered phase_match phase_valid: ");
+    UART_Tx(Port, (Decoder.cis.flags.triggered? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.phase_match? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (Decoder.cis.flags.phase_valid? '1' :'0'));
+
+    print(Port, "\r\n\r\nDecoder Timer 9");
+
+    print(Port, "\r\nDIER: C1 C2 UPD:");
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_CC1IE? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_CC2IE? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->DIER & TIM_DIER_UIE? '1' :'0'));
+
+    print(Port, "\r\nSR: CC1 CC2 UPD:");
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_CC1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_CC2? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (TIM9->SR & TIM_FLAG_Update? '1' :'0'));
+
+    print(Port, "\r\ncompare 1 crk: ");
+    printf_U(Port, TIM9->CCR1, NO_PAD);
+
+    print(Port, "\r\ncompare 2 cis: ");
+    printf_U(Port, TIM9->CCR2, NO_PAD);
+
+    print(Port, "\r\ntimestamp: ");
+    printf_U(Port, TIM9->CNT, NO_PAD);
+
+
+    print(Port, "\r\n\r\nEXTI irq masks: CRK_ena CIS_ena SW_ena ");
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->IMR & EXTI_IMR_MR2? '1' :'0'));
+
+    print(Port, "\r\nEXTI irq state: CRK_pnd CIS_pnd SW_pnd ");
+    UART_Tx(Port, (EXTI->PR & EXTI_Line0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->PR & EXTI_Line1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->PR & EXTI_Line2? '1' :'0'));
+
+    print(Port, "\r\nEXTI trigger selection: RT1 RT0 FT1 FT0 ");
+    UART_Tx(Port, (EXTI->RTSR & EXTI_RTSR_TR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->RTSR & EXTI_RTSR_TR0? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->FTSR & EXTI_FTSR_TR1? '1' :'0'));
+    UART_Tx(Port, '-');
+    UART_Tx(Port, (EXTI->FTSR & EXTI_FTSR_TR0? '1' :'0'));
+
+}
+/******************************************************************************************************************************
 decoder helper functions - debug event messages
 ******************************************************************************************************************************/
 #ifdef DECODER_EVENT_DEBUG
@@ -265,19 +435,123 @@ void decoder_update_timing_debug()
     Decoder_timing_debug[decoder_timing_debug_cnt].out= Decoder.out;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // DECODER_TIMING_DEBUG
+
+
+/******************************************************************************************************************************
+decoder init debugging
+******************************************************************************************************************************/
+
+#ifdef DECODER_INIT_DEBUG
+#warning decoder init debug enabled
+
+void init_decoder_debug(decoder_init_debug_t Action)
+{
+    switch(Action)
+    {
+    case DECINITDBG_HW_INPUTS:
+
+        //clock tree setup
+        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+        RCC->APB2ENR |= RCC_APB2ENR_EXTIEN | RCC_APB2ENR_SYSCFGEN| RCC_APB2ENR_TIM9EN;
+
+        //set input mode for crank pickup and cylinder identification sensor
+        GPIO_configure(GPIOB, 0, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_MID, GPIO_PULL_UP);
+        GPIO_configure(GPIOB, 1, GPIO_MODE_IN, GPIO_OUT_OD, GPIO_SPEED_LOW, GPIO_PULL_DOWN);
+
+        //map GPIOB0 to EXTI line 0 (crank) and GPIOB1 to EXTI line 1 (cam)
+        SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
+        SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
+
+        break;
+
+    case DECINITDBG_HW_SENSING:
+
+        //configure EXTI polarity, but keep irqs masked for now
+        decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
+        decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
+
+        break;
+
+    case DECINITDBG_HW_TIMER:
+
+        //reset timer values until TDC has been detected
+        Decoder_hw.state.timer_continuous_mode= false;
+        Decoder_hw.current_timer_value= 0;
+        Decoder_hw.prev1_timer_value= 0;
+        Decoder_hw.prev2_timer_value= 0;
+        Decoder_hw.captured_positions_cont= 0;
+
+        break;
+
+    case DECINITDBG_HW_IRQ:
+
+        //enable sw irq on exti line 2
+        EXTI->IMR |= EXTI_IMR_MR2;
+
+        //enable crank pickup irq (prio 1)
+        NVIC_SetPriority(EXTI0_IRQn, 1UL);
+        NVIC_ClearPendingIRQ(EXTI0_IRQn);
+        NVIC_EnableIRQ(EXTI0_IRQn);
+
+        //enable cis irq (prio 3)
+        NVIC_SetPriority(EXTI1_IRQn, 3UL);
+        NVIC_ClearPendingIRQ(EXTI1_IRQn);
+        NVIC_EnableIRQ(EXTI1_IRQn);
+
+        //enable timer 9 compare 1 irq (prio 1)
+        NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, 1UL );
+        NVIC_ClearPendingIRQ(TIM1_BRK_TIM9_IRQn);
+        NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
+
+        //enable sw exti irq (prio 4)
+        NVIC_SetPriority(EXTI2_IRQn, 4UL);
+        NVIC_ClearPendingIRQ(EXTI2_IRQn);
+        NVIC_EnableIRQ(EXTI2_IRQn);
+
+        break;
+
+    case DECINITDBG_LOGIC_INTERNALS:
+
+        //start with clean data
+        reset_internal_data();
+        break;
+
+    case DECINITDBG_LOGIC_STATE_INIT:
+
+        decoder_set_state(DSTATE_INIT);
+        break;
+
+    case DECINITDBG_LOGIC_STANDSTILL:
+
+        Decoder.out.flags.standstill= true;
+        break;
+
+    case DECINITDBG_LOGIC_UNMASK_CRK:
+
+        //enable crank irq
+        decoder_unmask_crank_irq();
+        break;
+
+    }
+
+}
+
+#endif
+
+
+
+/******************************************************************************************************************************
+decoder event debugging
+******************************************************************************************************************************/
+
+void trigger_crk_irq_debug()
+{
+    EXTI->SWIER= EXTI_SWIER_SWIER0;
+}
+
+void trigger_cam_irq_debug()
+{
+    EXTI->SWIER= EXTI_SWIER_SWIER1;
+}
 

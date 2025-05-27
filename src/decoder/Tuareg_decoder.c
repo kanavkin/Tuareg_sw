@@ -20,7 +20,7 @@ void Init_Decoder()
     result= load_Decoder_Setup();
 
     //check if config has been loaded
-    if((result != EXEC_OK) || (Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION))
+    if ((result != EXEC_OK) || (Decoder_Setup.Version != DECODER_REQUIRED_CONFIG_VERSION))
     {
         /**
         failed to load Decoder Config
@@ -28,14 +28,12 @@ void Init_Decoder()
         Tuareg.errors.decoder_config_error= true;
 
         //enter limp mode
-        Fatal(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
+        Limp(TID_TUAREG_DECODER, DECODER_LOC_CONFIGLOAD_ERROR);
 
         #ifdef DECODER_DEBUGMSG
         DebugMsg_Error("Failed to load Decoder Config!");
-        DebugMsg_Warning("Decoder essential Config has been loaded");
         #endif // DECODER_DEBUGMSG
 
-        return;
     }
     else
     {
@@ -71,6 +69,8 @@ void disable_Decoder()
 
     //disable logic
     disable_decoder_logic();
+
+    Tuareg.errors.decoder_config_error= true;
 
     //report to syslog
     Syslog_Info(TID_TUAREG_DECODER, DECODER_LOC_HALTED);

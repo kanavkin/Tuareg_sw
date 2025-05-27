@@ -1,6 +1,7 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
+//to be defined by IDE for build target "Debug"
 //#define TUAREG_DEBUG_OUTPUT
 
 #ifdef TUAREG_DEBUG_OUTPUT
@@ -17,7 +18,7 @@
 
 
 
-const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2024.02";
+const char Tuareg_Version [] __attribute__((__section__(".rodata"))) = "Tuareg V0.26 2025.05";
 
 
 
@@ -51,6 +52,7 @@ void Tuareg_Init()
 
     //first action: set init state
     Tuareg.errors.init_not_completed= true;
+    Tuareg.Atomic_depth= 0;
 
     //engine operation not permitted until end of initialization
     Tuareg.flags.run_allow= false;
@@ -63,6 +65,7 @@ void Tuareg_Init()
 
     //collect diagnostic information
     tuareg_diag_log_event(TDIAG_ENTER_INIT);
+    ///TODO (oli#1#05/16/25): check that adiag log commands are conditional
 
     //check if the cranking end rpm has been configured properly
     if(cIgnition_min_dyn_rpm > Cranking_End_rpm) Cranking_End_rpm= cIgnition_min_dyn_rpm;
@@ -71,8 +74,22 @@ void Tuareg_Init()
     initialize core components
     ******************************************************/
 
-    //debug port
-    UART_DEBUG_PORT_Init();
+    //debug port outputs
+    #ifdef TUAREG_DEBUG_OUTPUT
+
+        #warning debug outputs enabled
+
+        UART_DEBUG_PORT_Init();
+        print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
+        print_flash(DEBUG_PORT, Tuareg_Version);
+
+        #ifdef TUAREG_DEBUG
+        print(DEBUG_PORT, "\r\n*** development build ***\r\n");
+        #endif // TUAREG_DEBUG
+
+        ///TODO (oli#1#05/16/25): check that all debug output commands are conditional
+    #endif // TUAREG_DEBUG_OUTPUT
+
 
     //initialize systick timer to provide system timestamp
     Tuareg.pTimer= init_systick_timer();
@@ -82,13 +99,38 @@ void Tuareg_Init()
     Tuareg.pHighspeedlog= highspeedlog_init();
     init_Fault_Log();
 
-    //load main config
-    Tuareg_load_config();
-    load_Control_Sets();
 
     /**
-    vital modules
+    In case of invalid configuration data, the console is necessary to update it
     */
+    Tuareg_init_console();
+
+
+
+
+    ////DEBUG
+    UART_Tx(TS_PORT, 'a');
+    UART_Tx(TS_PORT, 'b');
+    UART_Tx(TS_PORT, 'c');
+    UART_Tx(TS_PORT, 'd');
+    UART_Tx(TS_PORT, 'e');
+    UART_Tx(TS_PORT, 'f');
+    UART_Tx(TS_PORT, 'g');
+    UART_Tx(TS_PORT, 'h');
+    UART_Tx(TS_PORT, 'i');
+    UART_Tx(TS_PORT, 'j');
+    UART_Tx(TS_PORT, 'k');
+    UART_Tx(TS_PORT, 'l');
+
+
+
+
+
+    /**
+    vital data and modules
+    */
+    Tuareg_load_config();
+    load_Control_Sets();
     init_Sensors();
     init_Ignition();
     init_Fueling();
@@ -98,20 +140,13 @@ void Tuareg_Init()
     Tuareg_update_process_data();
 
     /**
-    hmi
+    dash could be used to provide debug information, but the tach-portion depends on Tuareg_config
     */
-    Tuareg_init_console();
+    init_dash();
 
     #ifndef LOWPRIOSCHEDULER_WIP
     init_Lowprio_Scheduler();
     #endif // LOWPRIOSCHEDULER_WIP
-
-    init_dash();
-
-    #ifdef TUAREG_DEBUG_OUTPUT
-    print(DEBUG_PORT, "\r \n \r \n . \r \n . \r \n . \r \n \r \n *** This is Tuareg, lord of the Sahara *** \r \n");
-    print_flash(DEBUG_PORT, Tuareg_Version);
-    #endif // TUAREG_DEBUG_OUTPUT
 
     //begin fuel pump priming
     if(Tuareg.errors.fatal_error == false)
@@ -132,10 +167,8 @@ void Tuareg_Init()
     //set_debug_pin(PIN_ON);
     //dwt_init();
 
-
     //last init action
     Tuareg.errors.init_not_completed= false;
-
 }
 
 

@@ -57,6 +57,11 @@ void UART_TS_PORT_Init()
     */
     //usart_conf.USART_BaudRate = 115200;
     usart_conf.USART_BaudRate = 230400;
+    //usart_conf.USART_BaudRate = 460800;
+    //usart_conf.USART_BaudRate = 576000;
+    //usart_conf.USART_BaudRate = 921600;
+    //usart_conf.USART_BaudRate = 1152000;
+
     usart_conf.USART_WordLength = USART_WordLength_8b;
     usart_conf.USART_StopBits = USART_StopBits_1;
     usart_conf.USART_Parity = USART_Parity_No ;
@@ -130,8 +135,8 @@ void UART_Tx(USART_TypeDef * Port, char msg)
     //loop until the end of transmission
     while( !(Port->SR & USART_FLAG_TXE) )
     {
+        #warning TODO (oli#4#05/16/25): this can block the whole program flow
     }
-
     Port->DR= msg;
 
     #ifdef SERIAL_MONITOR

@@ -1,5 +1,6 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
+#include "../stm32_libs/stm32f4xx/boctok/stm32f4xx_bitband_boctok.h"
 
 volatile decoder_hw_t Decoder_hw;
 
@@ -52,13 +53,16 @@ void decoder_start_timer()
 
 
     //enable overflow interrupt
-    TIM9->DIER |= TIM_DIER_UIE;
+    //TIM9->DIER |= TIM_DIER_UIE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_UIE)= 1;
 
     //enable compare 1 event
-    TIM9->DIER |= TIM_DIER_CC1IE;
+    //TIM9->DIER |= TIM_DIER_CC1IE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_CC1IE)= 1;
 
     //start timer counter
-    TIM9->CR1 |= TIM_CR1_CEN;
+    //TIM9->CR1 |= TIM_CR1_CEN;
+    BBPeriphMask(TIM9->CR1, TIM_CR1_CEN)= 1;
 }
 
 
@@ -76,7 +80,8 @@ void decoder_set_timer_prescaler(U32 Prescaler, U32 Period_us, U32 Overflow_ms)
 
 void decoder_stop_timer()
 {
-    TIM9->CR1 &= ~TIM_CR1_CEN;
+    //TIM9->CR1 &= ~TIM_CR1_CEN;
+    BBPeriphMask(TIM9->CR1, TIM_CR1_CEN)= 0;
 
     //disable timer interrupts
     TIM9->DIER= (U16) 0;
@@ -86,47 +91,57 @@ void decoder_stop_timer()
 }
 
 
-void update_crank_noisefilter()
+void update_crank_noisefilter(U32 timer_base)
 {
-    VU32 timer_buffer;
+    U32 compare;
 
-    //save timer value
-    timer_buffer= TIM9->CNT;
-    timer_buffer += Decoder_Setup.crank_noise_filter;
+    //calculate the compare value
+    compare= timer_base + Decoder_Setup.crank_noise_filter;
+
+    //check if this value can be reached in this timer cycle
+    VitalAssert( compare < 0xFFFF, TID_DECODER_HW, DECODER_LOC_HW_UPD_CRANK_NOISEF_ARG);
 
     //disable compare 1 event
-    TIM9->DIER &= ~TIM_DIER_CC1IE;
+    //TIM9->DIER &= ~TIM_DIER_CC1IE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_CC1IE)= 0;
 
     //enable output compare for exti
-    TIM9->CCR1= (U16) timer_buffer;
+    TIM9->CCR1= (U16) compare;
 
     //clear the pending flag
-    TIM9->SR = (U16) ~TIM_FLAG_CC1;
+    //TIM9->SR = (U16) ~TIM_FLAG_CC1;
+    BBPeriphMask(TIM9->SR, TIM_FLAG_CC1)= 0;
 
     //enable compare 1 event
-    TIM9->DIER |= TIM_DIER_CC1IE;
+    //TIM9->DIER |= TIM_DIER_CC1IE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_CC1IE)= 1;
 }
 
 
-void update_cam_noisefilter()
+void update_cam_noisefilter(U32 timer_base)
 {
-    VU32 timer_buffer;
+    U32 compare;
 
-    //save timer value
-    timer_buffer= TIM9->CNT;
-    timer_buffer += Decoder_Setup.cam_noise_filter;
+    //calculate the compare value
+    compare= timer_base + Decoder_Setup.cam_noise_filter;
+
+    //check if this value can be reached in this timer cycle
+    VitalAssert( compare < 0xFFFF, TID_DECODER_HW, DECODER_LOC_HW_UPD_CAM_NOISEF_ARG);
 
     //disable compare 2 event
-    TIM9->DIER &= ~TIM_DIER_CC2IE;
+    //TIM9->DIER &= ~TIM_DIER_CC2IE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_CC2IE)= 0;
 
     //enable output compare for exti
-    TIM9->CCR2= (U16) timer_buffer;
+    TIM9->CCR2= (U16) compare;
 
     //clear the pending flag
-    TIM9->SR = (U16) ~TIM_FLAG_CC2;
+    //TIM9->SR = (U16) ~TIM_FLAG_CC2;
+    BBPeriphMask(TIM9->SR, TIM_FLAG_CC2)= 0;
 
     //enable compare 1 event
-    TIM9->DIER |= TIM_DIER_CC2IE;
+    //TIM9->DIER |= TIM_DIER_CC2IE;
+    BBPeriphMask(TIM9->DIER, TIM_DIER_CC2IE)= 1;
 }
 
 
@@ -138,7 +153,8 @@ crank pickup irq helper functions
 void decoder_mask_crank_irq()
 {
     //Bit in IMR reset -> masked (disabled!)
-    EXTI->IMR &= ~EXTI_IMR_MR0;
+    //EXTI->IMR &= ~EXTI_IMR_MR0;
+    BBPeriphMask(EXTI->IMR, EXTI_IMR_MR0)= 0;
 }
 
 void decoder_unmask_crank_irq()
@@ -146,7 +162,8 @@ void decoder_unmask_crank_irq()
     //clear the pending flag
     EXTI->PR= EXTI_Line0;
 
-    EXTI->IMR |= EXTI_IMR_MR0;
+    //EXTI->IMR |= EXTI_IMR_MR0;
+    BBPeriphMask(EXTI->IMR, EXTI_IMR_MR0)= 1;
 }
 
 
@@ -156,7 +173,8 @@ cylinder sensor irq helper functions
 */
 void decoder_mask_cis_irq()
 {
-    EXTI->IMR &= ~EXTI_IMR_MR1;
+    //EXTI->IMR &= ~EXTI_IMR_MR1;
+    BBPeriphMask(EXTI->IMR, EXTI_IMR_MR1)= 0;
 }
 
 void decoder_unmask_cis_irq()
@@ -164,7 +182,8 @@ void decoder_unmask_cis_irq()
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
 
-    EXTI->IMR |= EXTI_IMR_MR1;
+    //EXTI->IMR |= EXTI_IMR_MR1;
+    BBPeriphMask(EXTI->IMR, EXTI_IMR_MR1)= 1;
 }
 
 
@@ -174,22 +193,22 @@ pickup sensing helper functions
 */
 void set_crank_pickup_sensing_rise()
 {
-    EXTI->RTSR |= EXTI_RTSR_TR0;
-    EXTI->FTSR &= ~EXTI_FTSR_TR0;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR0)= 1;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR0)= 0;
     Decoder_hw.crank_pickup_sensing= SENSING_RISE;
 }
 
 void set_crank_pickup_sensing_fall()
 {
-    EXTI->FTSR |= EXTI_FTSR_TR0;
-    EXTI->RTSR &= ~EXTI_RTSR_TR0;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR0)= 1;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR0)= 0;
     Decoder_hw.crank_pickup_sensing= SENSING_FALL;
 }
 
 void set_crank_pickup_sensing_disabled()
 {
-    EXTI->RTSR &= ~EXTI_RTSR_TR0;
-    EXTI->FTSR &= ~EXTI_FTSR_TR0;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR0)= 0;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR0)= 0;
     Decoder_hw.crank_pickup_sensing= SENSING_DISABLED;
 }
 
@@ -199,22 +218,22 @@ cis sensing helper functions
 */
 void set_cis_sensing_rise()
 {
-    EXTI->RTSR |= EXTI_RTSR_TR1;
-    EXTI->FTSR &= ~EXTI_FTSR_TR1;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR1)= 1;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR1)= 0;
     Decoder_hw.cis_sensing= SENSING_RISE;
 }
 
 void set_cis_sensing_fall()
 {
-    EXTI->FTSR |= EXTI_FTSR_TR1;
-    EXTI->RTSR &= ~EXTI_RTSR_TR1;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR1)= 1;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR1)= 0;
     Decoder_hw.cis_sensing= SENSING_FALL;
 }
 
 void set_cis_sensing_disabled()
 {
-    EXTI->RTSR &= ~EXTI_RTSR_TR1;
-    EXTI->FTSR &= ~EXTI_FTSR_TR1;
+    BBPeriphMask(EXTI->RTSR, EXTI_RTSR_TR1)= 0;
+    BBPeriphMask(EXTI->FTSR, EXTI_FTSR_TR1)= 0;
     Decoder_hw.cis_sensing= SENSING_DISABLED;
 }
 
@@ -251,6 +270,7 @@ void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing)
                 {
                     //invalid usage
                     set_crank_pickup_sensing_disabled();
+                    Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CRANK_SENSING_INVERT);
                 }
 
                 break;
@@ -258,6 +278,7 @@ void decoder_set_crank_pickup_sensing(decoder_sensing_t sensing)
     default:
                 //invalid usage
                 set_crank_pickup_sensing_disabled();
+                Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CRANK_SENSING_ARG);
                 break;
     }
 
@@ -294,14 +315,16 @@ void decoder_set_cis_sensing(decoder_sensing_t sensing)
                 else
                 {
                     //invalid usage
-                    set_crank_pickup_sensing_disabled();
+                    set_cis_sensing_disabled();
+                    Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CAM_SENSING_INVERT);
                 }
 
                 break;
 
     default:
                 //invalid usage
-                set_crank_pickup_sensing_disabled();
+                set_cis_sensing_disabled();
+                Fatal(TID_DECODER_HW, DECODER_LOC_HW_SET_CAM_SENSING_ARG);
                 break;
     }
 
@@ -349,7 +372,7 @@ void init_decoder_hw()
     SYSCFG_map_EXTI(0, EXTI_MAP_GPIOB);
     SYSCFG_map_EXTI(1, EXTI_MAP_GPIOB);
 
-    //configure EXTI polaries, but keep irqs masked for now
+    //configure EXTI polarity, but keep irqs masked for now
     decoder_set_crank_pickup_sensing(Decoder_Setup.key_begin_sensing);
     decoder_set_cis_sensing(Decoder_Setup.lobe_begin_sensing);
 
@@ -359,6 +382,10 @@ void init_decoder_hw()
     Decoder_hw.prev1_timer_value= 0;
     Decoder_hw.prev2_timer_value= 0;
     Decoder_hw.captured_positions_cont= 0;
+
+    /**
+    IRQ part
+    */
 
     //enable sw irq on exti line 2
     EXTI->IMR |= EXTI_IMR_MR2;
@@ -390,6 +417,11 @@ void init_decoder_hw()
 U32 decoder_get_timestamp()
 {
     return TIM9->CNT;
+}
+
+void decoder_reset_timestamp()
+{
+    TIM9->CNT= (U16) 0;
 }
 
 
@@ -453,39 +485,54 @@ void EXTI0_IRQHandler(void)
 {
     VU32 timer_buffer;
 
-//    __disable_irq();
+    /**********************************************
+    begin atomic section -> disable irqs
+    **********************************************/
+    Atomic_Begin();
 
-    //save timer value
-    timer_buffer= TIM9->CNT;
+        //save timer value
+        timer_buffer= decoder_get_timestamp();
 
-    //clear the pending flag after saving timer value to minimize measurement delay
-    EXTI->PR= EXTI_Line0;
+        //clear the pending flag after saving timer value to minimize measurement delay
+        EXTI->PR= EXTI_Line0;
 
-    //reset decoder timer only if commanded
-    if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
-    {
-        TIM9->CNT= (U16) 0;
-        Decoder_hw.captured_positions_cont= 1;
-    }
-    else
-    {
-        //counter continues counting
-        Decoder_hw.captured_positions_cont += 1;
-    }
+        //reset decoder timer only if commanded
+        if((Decoder_hw.state.timer_continuous_mode == false) || (Decoder_hw.state.timer_reset_req == true))
+        {
+            //reset timer
+            decoder_reset_timestamp();
 
-    Decoder_hw.state.timer_reset_req= false;
+            Decoder_hw.captured_positions_cont= 1;
 
-    //update the continuous timer value
-    Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
-    Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
-    Decoder_hw.current_timer_value= timer_buffer;
+            //use the known timer value as the source for noise filter calculation to prevent race conditions
+            update_crank_noisefilter(0);
 
-    update_crank_noisefilter();
+            //request has been processed
+            Decoder_hw.state.timer_reset_req= false;
+        }
+        else
+        {
+            //counter continues counting
+            Decoder_hw.captured_positions_cont += 1;
 
-    //diagnostics
-    decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
+            //use the known timer value as the source for noise filter calculation to prevent race conditions
+            update_crank_noisefilter(timer_buffer);
+        }
 
- //   __enable_irq();
+        //update the continuous timer value
+        Decoder_hw.prev2_timer_value= Decoder_hw.prev1_timer_value;
+        Decoder_hw.prev1_timer_value= Decoder_hw.current_timer_value;
+        Decoder_hw.current_timer_value= timer_buffer;
+
+
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CRK_EXTI_EVENTS);
+
+
+    /**********************************************
+    finish atomic section -> enable irqs
+    **********************************************/
+    Atomic_End();
 
 
     //call the logic handler
@@ -498,7 +545,7 @@ void EXTI0_IRQHandler(void)
 Timer 9 - decoder control:
     -timer 9 compare event 1 --> enable external interrupt for pickup sensor
     -timer 9 compare event 2 --> enable external interrupt for cis
-    -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 4s
+    -timer 9 update event --> overflow interrupt occurs when no signal from crankshaft pickup has been received for more then 655ms
  ******************************************************************************************************************************/
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
@@ -506,7 +553,8 @@ void TIM1_BRK_TIM9_IRQHandler(void)
     if((TIM9->DIER & TIM_DIER_CC1IE) && (TIM9->SR & TIM_FLAG_CC1))
     {
         //clear the pending flag
-        TIM9->SR = (U16) ~TIM_FLAG_CC1;
+        //TIM9->SR = (U16) ~TIM_FLAG_CC1;
+        BBPeriphMask(TIM9->SR, TIM_FLAG_CC1)= 0;
 
         //diagnostics
         decoder_diag_log_event(DDIAG_CRK_NOISEF_EVENTS);
@@ -520,7 +568,8 @@ void TIM1_BRK_TIM9_IRQHandler(void)
     if((TIM9->DIER & TIM_DIER_CC2IE) && (TIM9->SR & TIM_FLAG_CC2))
     {
         //clear the pending flag
-        TIM9->SR = (U16) ~TIM_FLAG_CC2;
+        //TIM9->SR = (U16) ~TIM_FLAG_CC2;
+        BBPeriphMask(TIM9->SR, TIM_FLAG_CC2)= 0;
 
         //diagnostics
         decoder_diag_log_event(DDIAG_CAM_NOISEF_EVENTS);
@@ -534,7 +583,8 @@ void TIM1_BRK_TIM9_IRQHandler(void)
     if((TIM9->DIER & TIM_DIER_UIE) && (TIM9->SR & TIM_FLAG_Update))
     {
         //clear the pending flag
-        TIM9->SR = (U16) ~TIM_FLAG_Update;
+        //TIM9->SR = (U16) ~TIM_FLAG_Update;
+        BBPeriphMask(TIM9->SR, TIM_FLAG_Update)= 0;
 
         //timing destroyed
         Decoder_hw.prev2_timer_value= 0;
@@ -561,11 +611,21 @@ void EXTI1_IRQHandler(void)
     //clear the pending flag
     EXTI->PR= EXTI_Line1;
 
-    //diagnostics
-    decoder_diag_log_event(DDIAG_CAM_EXTI_EVENTS);
+    /**
+    Atomic Section
+    */
+    Atomic_Begin();
 
-    //call the logic handler
-    decoder_cis_handler();
+        //diagnostics
+        decoder_diag_log_event(DDIAG_CAM_EXTI_EVENTS);
+
+        //call the logic handler
+        decoder_cis_handler();
+
+    /**
+    Atomic Section End
+    */
+    Atomic_End();
 }
 
 

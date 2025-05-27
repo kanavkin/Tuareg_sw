@@ -75,13 +75,14 @@ void decoder_set_cis_sensing(decoder_sensing_t sensing);
 void trigger_decoder_irq();
 
 U32 decoder_get_timestamp();
+void decoder_reset_timestamp();
 
 void decoder_set_timer_continuous_mode_on();
 void decoder_set_timer_continuous_mode_off();
 void decoder_request_timer_reset();
 
-void update_crank_noisefilter();
-void update_cam_noisefilter();
+void update_crank_noisefilter(U32 timer_base);
+void update_cam_noisefilter(U32 timer_base);
 
 
 #endif // DECODERHW_H_INCLUDED

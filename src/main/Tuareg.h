@@ -18,6 +18,7 @@
 #include "Tuareg_dash.h"
 #include "Tuareg_service_functions.h"
 #include "Tuareg_controls.h"
+#include "Tuareg_atomic.h"
 
 #include "scheduler.h"
 #include "lowprio_scheduler.h"
@@ -193,6 +194,9 @@ typedef struct _Tuareg_t {
     fuel pump priming
     */
     U32 fuel_pump_priming_remain_s;
+
+    //Atomic Section counter
+    U32 Atomic_depth;
 
 } Tuareg_t;
 

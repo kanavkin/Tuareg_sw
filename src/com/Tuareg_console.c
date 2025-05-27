@@ -723,7 +723,6 @@ void cli_cyclic_update()
 void Tuareg_init_console()
 {
     UART_TS_PORT_Init();
-    UART_DEBUG_PORT_Init();
 
     Tuareg_console.ts_connected= false;
 }

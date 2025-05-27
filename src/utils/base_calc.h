@@ -21,14 +21,6 @@ engine_phase_t opposite_phase(engine_phase_t Phase_in);
 
 F32 solve_linear(F32 Y, F32 M, F32 N);
 
-/*
-
-//Handy bitsetting macros
-#define BIT_SET(a,b) ((a) |= (1<<(b)))
-#define BIT_CLEAR(a,b) ((a) &= ~(1<<(b)))
-#define BIT_CHECK(var,pos) !!((var) & (1<<(pos)))
-*/
-
 U16 word(U8 high, U8 low);
 U8 lowByte(U16);
 U8 highByte(U16);

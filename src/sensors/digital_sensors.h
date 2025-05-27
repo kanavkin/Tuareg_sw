@@ -8,7 +8,7 @@
 /**
 digital sensor channels:
 
-PORTB4 -> DSENSOR_SPARE2
+PORTB4 -> DSENSOR_USER
 PORTC0 -> DSENSOR_SIDESTAND
 PORTC2 -> DSENSOR_RUN
 PORTC3 -> DSENSOR_CRASH
@@ -21,7 +21,7 @@ this is to assign integrator cells to sensors
 typedef enum {
 
     //digital sensors
-    DSENSOR_SPARE2,
+    DSENSOR_USER,
     DSENSOR_SIDESTAND,
     DSENSOR_RUN,
     DSENSOR_CRASH,
@@ -42,7 +42,7 @@ typedef union
 
     struct
     {
-        VU32 spare2 :1;
+        VU32 user :1;
         VU32 sidestand :1;
         VU32 run :1;
         VU32 crash :1;

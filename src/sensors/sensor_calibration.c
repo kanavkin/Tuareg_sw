@@ -150,7 +150,7 @@ F32 getValue_InvTableCLT(VU32 Raw)
     }
     else
     {
-        Fatal(TID_FUELING_CONFIG, SENSORS_LOC_CALIB_INVCLTTAB_ERROR);
+        Fatal(TID_SENSOR_CALIBRATION, SENSORS_LOC_CALIB_INVCLTTAB_ERROR);
         return 0.0;
     }
 }

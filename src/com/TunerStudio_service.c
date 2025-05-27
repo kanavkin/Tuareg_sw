@@ -53,6 +53,58 @@ void ts_debug_features(U32 FeatureID)
 
     switch (FeatureID)
     {
+        /**
+        decoder reset commands, enabled to track down decoder errors
+
+        to be removed
+
+        case 'da':
+            init_decoder_debug(DECINITDBG_HW_INPUTS);
+            break;
+
+        case 'db':
+            init_decoder_debug(DECINITDBG_HW_SENSING);
+            break;
+
+        case 'dc':
+            init_decoder_debug(DECINITDBG_HW_TIMER);
+            break;
+
+        case 'dd':
+            init_decoder_debug(DECINITDBG_HW_IRQ);
+            break;
+
+        case 'de':
+            init_decoder_debug(DECINITDBG_LOGIC_INTERNALS);
+            break;
+
+        case 'df':
+            init_decoder_debug(DECINITDBG_LOGIC_STATE_INIT);
+            break;
+
+        case 'dg':
+            init_decoder_debug(DECINITDBG_LOGIC_STANDSTILL);
+            break;
+
+        case 'dh':
+            init_decoder_debug(DECINITDBG_LOGIC_UNMASK_CRK);
+            break;
+
+        case 'dx':
+            trigger_crk_irq_debug();
+            break;
+
+        case 'dy':
+            trigger_cam_irq_debug();
+            break;
+
+        case 'dz':
+            trigger_decoder_irq();
+            break;
+
+        #ifdef DECODER_INIT_DEBUG
+            #endif // DECODER_INIT_DEBUG
+        */
 
         case 'ep':
 

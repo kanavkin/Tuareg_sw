@@ -47,8 +47,8 @@ void serial_buffer_reset(volatile serial_buffer_t * buffer);
 */
 
 //buffered serial communication
-U32 UART_transmit(USART_TypeDef * Port, char data);
-U32 UART_write(USART_TypeDef * Port, char * msg);
+//U32 UART_transmit(USART_TypeDef * Port, char data);
+//U32 UART_write(USART_TypeDef * Port, char * msg);
 
 //init functions
 void UART_TS_PORT_Init();
@@ -68,7 +68,7 @@ void UART_send_data(USART_TypeDef * pPort, volatile U8 * const pData, U32 Length
 
 
 //void UART_periodic();
-
+void UART_nolisten(USART_TypeDef * Port);
 
 void UART_TS_PORT_reset_char_count();
 VU32 UART_TS_PORT_get_char_count();

@@ -204,7 +204,7 @@ void update_timing_data()
 
     if((rpm < cDecoder_min_valid_rpm) || (rpm > cDecoder_max_valid_rpm))
     {
-        //why period was valid?
+        //why period was invalid?
         Tuareg.Decoder.crank_period_us= 0;
         Tuareg.Decoder.flags.period_valid= false;
         Decoder.last_crank_rpm= 0;
@@ -238,7 +238,6 @@ void update_timing_data()
     */
     if((Decoder.last_crank_rpm > cDecoder_min_valid_rpm) && (Decoder.last_crank_rpm < cDecoder_max_valid_rpm))
     {
-        //period_us has already been validated in precondition check here
         divide_float(1000000.0 * ((F32) rpm - (F32) Decoder.last_crank_rpm), (F32) period_us, &accel);
 
         //apply the ema filter
@@ -395,14 +394,21 @@ void decoder_crank_handler()
 
         case DSTATE_SYNC:
 
+
+            /**
+            Internal calculation inside an
+            Atomic Section
+            */
+            Atomic_Begin();
+
             // update crank_position
             Tuareg.Decoder.crank_position= crank_position_after(Tuareg.Decoder.crank_position);
 
-            // update crank sensing
-            decoder_set_crank_pickup_sensing(SENSING_INVERT);
+                // update crank sensing
+                decoder_set_crank_pickup_sensing(SENSING_INVERT);
 
-            //collect diagnostic data
-            decoder_diag_log_event(DDIAG_CRKPOS_SYNC);
+                //collect diagnostic data
+                decoder_diag_log_event(DDIAG_CRKPOS_SYNC);
 
             /**
             per-position decoder housekeeping actions:
@@ -470,6 +476,11 @@ void decoder_crank_handler()
                 //evaluate the collected cam information
                 disable_cis();
             }
+
+            /**
+            Atomic Section End
+            */
+            Atomic_End();
 
             //notify high speed logger about new crank position
             highspeedlog_register_crankpos(Tuareg.Decoder.crank_position);

@@ -1,13 +1,6 @@
 #include <Tuareg_platform.h>
 #include <Tuareg.h>
 
-//#define TUAREG_DEBUG_OUTPUT
-
-#ifdef TUAREG_DEBUG_OUTPUT
-#warning debug outputs enabled
-#endif // TUAREG_DEBUG_OUTPUT
-
-
 
 /******************************************************************************************************************************
 built in defaults
